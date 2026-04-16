@@ -1,185 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropertySG — Sell & Rent Smarter</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropertySG — Sell & Rent Smarter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
 
-    /* ── Nav ── */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(0,0,0,0.06);
-      padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;
-    }
-    nav .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
-    nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:#666}
-    nav .nav-links a:hover{color:#111}
-    nav .nav-cta{
-      background:#111;color:#fff;padding:10px 24px;border-radius:100px;
-      font-size:0.82rem;font-weight:600;transition:all .25s;
-    }
-    nav .nav-cta:hover{background:#333;transform:scale(1.02)}
+/* ── Progress Bar ── */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:#111;z-index:200;width:0;transition:width .1s linear}
 
-    /* ── Hero ── */
-    .hero{
-      min-height:100vh;display:flex;align-items:center;justify-content:center;
-      background:#000;padding:120px 24px 80px;position:relative;overflow:hidden;
-    }
-    .hero-video{
-      position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;
-      width:auto;height:auto;transform:translate(-50%,-50%);object-fit:cover;z-index:0;
-      opacity:0.6;
-    }
-    .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.35) 100%)}
-    .hero-inner{max-width:720px;text-align:center;position:relative;z-index:2}
-    .hero-tag{
-      display:inline-flex;align-items:center;gap:8px;
-      background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
-      color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;
-      font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-      margin-bottom:32px;backdrop-filter:blur(8px);
-    }
-    .hero h1{
-      font-family:'Space Grotesk',sans-serif;
-      font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;color:#fff;
-      line-height:1.05;letter-spacing:-2px;margin-bottom:24px;
-    }
-    .hero p{
-      font-size:clamp(1rem,2vw,1.25rem);color:rgba(255,255,255,0.6);
-      max-width:520px;margin:0 auto 40px;line-height:1.6;
-    }
-    .cta-primary{
-      display:inline-flex;align-items:center;gap:8px;
-      background:#fff;color:#111;padding:16px 36px;border-radius:100px;
-      font-weight:600;font-size:0.95rem;transition:all .25s;
-      box-shadow:0 4px 24px rgba(0,0,0,0.15);
-    }
-    .cta-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,0.25)}
-    .cta-primary .arrow{transition:transform .25s}
-    .cta-primary:hover .arrow{transform:translateX(4px)}
-    .hero-sub{color:rgba(255,255,255,0.35);font-size:0.75rem;margin-top:20px;letter-spacing:0.5px}
+/* ── Nav ── */
+nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
+nav .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
+nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:#666}
+nav .nav-links a:hover{color:#111}
+nav .nav-cta{background:#111;color:#fff;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:600;transition:all .25s}
+nav .nav-cta:hover{background:#333;transform:scale(1.02)}
 
-    /* ── Sections ── */
-    .section{padding:120px 24px}
-    .container{max-width:1100px;margin:0 auto}
-    .section-eyebrow{
-      font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;
-      color:#999;margin-bottom:16px;
-    }
-    .section h2{
-      font-family:'Space Grotesk',sans-serif;
-      font-size:clamp(2rem,4.5vw,3.25rem);font-weight:700;
-      letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px;
-    }
-    .section .lead{color:#666;font-size:1.1rem;max-width:500px;line-height:1.7}
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero-video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;transform:translate(-50%,-50%);object-fit:cover;z-index:0;opacity:0.6}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0.05),rgba(0,0,0,0.35))}
+.hero-inner{max-width:720px;text-align:center;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;backdrop-filter:blur(8px)}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-2px;margin-bottom:24px}
+.hero .hero-desc{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.6);max-width:480px;margin:0 auto 36px;line-height:1.6}
 
-    /* ── Problem ── */
-    .problem{background:#fafafa;border-top:1px solid #eee;border-bottom:1px solid #eee}
-    .problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:64px}
-    .problem-card{
-      background:#fff;padding:40px 32px;transition:all .3s;
-    }
-    .problem-card:hover{background:#f5f5f5}
-    .problem-num{
-      font-family:'Space Grotesk',sans-serif;font-size:0.75rem;
-      color:#ccc;font-weight:600;margin-bottom:24px;letter-spacing:1px;
-    }
-    .problem-card h3{font-size:1.15rem;font-weight:600;margin-bottom:12px;letter-spacing:-0.3px}
-    .problem-card p{font-size:0.9rem;color:#888;line-height:1.65}
+/* Hero Form */
+.hero-form{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:12px;max-width:440px;margin:0 auto}
+.hero-form-row{display:flex;gap:12px}
+.hero-form input,.hero-form select{width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-family:inherit;font-size:0.9rem;outline:none;transition:border .2s}
+.hero-form input::placeholder{color:rgba(255,255,255,0.35)}
+.hero-form select{appearance:none;cursor:pointer}
+.hero-form select option{background:#222;color:#fff}
+.hero-form input:focus,.hero-form select:focus{border-color:rgba(255,255,255,0.4)}
+.hero-form .cta-submit{width:100%;padding:14px;border-radius:10px;background:#fff;color:#111;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+.hero-form .cta-submit:hover{background:#eee;transform:translateY(-1px)}
+.hero-form .arrow{transition:transform .25s}
+.hero-form .cta-submit:hover .arrow{transform:translateX(4px)}
+.hero-form-note{color:rgba(255,255,255,0.3);font-size:0.7rem;text-align:center}
 
-    /* ── Solution ── */
-    .solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:64px;align-items:start}
-    .benefit-item{padding:32px 0;border-bottom:1px solid #eee}
-    .benefit-item:first-child{border-top:1px solid #eee}
-    .benefit-label{
-      font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
-      color:#999;margin-bottom:8px;
-    }
-    .benefit-item h3{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-0.5px;margin-bottom:10px}
-    .benefit-item p{font-size:0.9rem;color:#777;line-height:1.7;max-width:380px}
+/* ── Logo Bar ── */
+.logo-bar{padding:48px 24px;text-align:center;border-bottom:1px solid #eee;background:#fafafa}
+.logo-bar p{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:#bbb;margin-bottom:24px}
+.logo-bar .logos{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;opacity:0.35}
+.logo-bar .logos span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.5px}
 
-    /* ── Testimonials ── */
-    .testimonials{background:#111;color:#fff;overflow:hidden}
-    .testimonials .section-eyebrow{color:rgba(255,255,255,0.3)}
-    .testimonials h2{color:#fff}
-    .testimonials .lead{color:rgba(255,255,255,0.4)}
-    .testi-list{margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:rgba(255,255,255,0.06)}
-    .testi-card{background:#111;padding:48px 36px;transition:background .3s}
-    .testi-card:hover{background:#1a1a1a}
-    .testi-stars{color:#555;font-size:0.7rem;letter-spacing:4px;margin-bottom:24px}
-    .testi-card blockquote{
-      font-size:1.1rem;line-height:1.7;color:rgba(255,255,255,0.65);
-      margin-bottom:32px;font-style:normal;
-    }
-    .testi-meta{display:flex;align-items:center;gap:16px}
-    .testi-avatar{
-      width:40px;height:40px;border-radius:50%;
-      background:linear-gradient(135deg,#333,#555);
-      display:flex;align-items:center;justify-content:center;
-      font-size:0.8rem;font-weight:700;color:#888;
-    }
-    .testi-author{font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.8)}
-    .testi-role{font-size:0.75rem;color:rgba(255,255,255,0.3);margin-top:2px}
+/* ── Sections ── */
+.section{padding:120px 24px}
+.container{max-width:1100px;margin:0 auto}
+.section-eyebrow{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:#999;margin-bottom:16px}
+.section h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.25rem);font-weight:700;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px}
+.section .lead{color:#666;font-size:1.1rem;max-width:500px;line-height:1.7}
 
-    /* ── Final CTA ── */
-    .final-cta{text-align:center;position:relative}
-    .final-cta h2{max-width:600px;margin-left:auto;margin-right:auto}
-    .final-cta .lead{max-width:440px;margin-left:auto;margin-right:auto}
-    .cta-secondary{
-      display:inline-flex;align-items:center;gap:8px;
-      background:#111;color:#fff;padding:18px 40px;border-radius:100px;
-      font-weight:600;font-size:0.95rem;transition:all .25s;margin-top:40px;
-    }
-    .cta-secondary:hover{background:#333;transform:translateY(-2px)}
-    .cta-secondary .arrow{transition:transform .25s}
-    .cta-secondary:hover .arrow{transform:translateX(4px)}
-    .trust-line{color:#bbb;font-size:0.75rem;margin-top:20px;letter-spacing:0.5px}
+/* ── Problem ── */
+.problem{background:#fafafa;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:64px}
+.problem-card{background:#fff;padding:40px 32px;transition:all .3s}
+.problem-card:hover{background:#f5f5f5}
+.problem-num{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:#ccc;font-weight:600;margin-bottom:24px;letter-spacing:1px}
+.problem-card h3{font-size:1.15rem;font-weight:600;margin-bottom:12px;letter-spacing:-0.3px}
+.problem-card p{font-size:0.9rem;color:#888;line-height:1.65}
 
-    /* ── Footer ── */
-    footer{
-      background:#fafafa;border-top:1px solid #eee;
-      padding:40px 48px;display:flex;justify-content:space-between;align-items:center;
-      font-size:0.75rem;color:#999;
-    }
+/* ── Solution ── */
+.solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:64px;align-items:start}
+.benefit-item{padding:32px 0;border-bottom:1px solid #eee}
+.benefit-item:first-child{border-top:1px solid #eee}
+.benefit-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#999;margin-bottom:8px}
+.benefit-item h3{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-0.5px;margin-bottom:10px}
+.benefit-item p{font-size:0.9rem;color:#777;line-height:1.7;max-width:380px}
 
-    /* ── WhatsApp ── */
-    .wa-float{
-      position:fixed;bottom:24px;right:24px;z-index:200;
-      width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;
-      display:flex;align-items:center;justify-content:center;
-      font-size:1.5rem;box-shadow:0 4px 20px rgba(37,211,102,0.3);transition:transform .2s;
-    }
-    .wa-float:hover{transform:scale(1.1)}
+/* ── Stats ── */
+.stats{padding:80px 24px;background:#111;color:#fff}
+.stats .container{display:flex;justify-content:center;gap:80px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-number{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:700;letter-spacing:-2px;line-height:1}
+.stat-label{font-size:0.75rem;font-weight:500;color:rgba(255,255,255,0.35);margin-top:8px;text-transform:uppercase;letter-spacing:1.5px}
 
-    /* ── Mobile ── */
-    @media(max-width:768px){
-      nav{padding:0 20px}
-      nav .nav-links{display:none}
-      .hero{padding:100px 20px 60px;min-height:100svh}
-      .hero h1{letter-spacing:-1px}
-      .section{padding:72px 20px}
-      .problem-grid{grid-template-columns:1fr;gap:0}
-      .solution-grid{grid-template-columns:1fr;gap:0}
-      .testi-list{grid-template-columns:1fr}
-      footer{flex-direction:column;gap:12px;text-align:center;padding:32px 20px}
-    }
-    @media(max-width:480px){
-      .hero h1{font-size:2rem}
-      .section h2{font-size:1.75rem}
-      .cta-primary,.cta-secondary{width:100%;justify-content:center}
-    }
-  </style>
+/* ── Testimonials ── */
+.testimonials{background:#fafafa;border-top:1px solid #eee;border-bottom:1px solid #eee;color:#111}
+.testimonials .section-eyebrow{color:#999}
+.testi-list{margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.testi-card{background:#fff;padding:48px 36px;border:1px solid #eee;border-radius:16px;transition:all .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.06)}
+.testi-stars{color:#f5c518;font-size:0.85rem;letter-spacing:3px;margin-bottom:20px}
+.testi-card blockquote{font-size:1.05rem;line-height:1.7;color:#444;margin-bottom:28px;font-style:normal}
+.testi-meta{display:flex;align-items:center;gap:14px}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:#fff}
+.testi-author{font-size:0.85rem;font-weight:600;color:#111}
+.testi-role{font-size:0.75rem;color:#999;margin-top:2px}
+
+/* ── FAQ ── */
+.faq{background:#fff}
+.faq-list{max-width:700px;margin:64px auto 0}
+.faq-item{border-bottom:1px solid #eee}
+.faq-question{width:100%;display:flex;justify-content:space-between;align-items:center;padding:28px 0;background:none;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;text-align:left;color:#111;letter-spacing:-0.3px}
+.faq-question .faq-icon{font-size:1.5rem;transition:transform .3s;color:#999;font-weight:300}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.faq-item.open .faq-answer{max-height:200px;padding-bottom:28px}
+.faq-answer p{font-size:0.9rem;color:#777;line-height:1.7}
+
+/* ── Final CTA ── */
+.final-cta{text-align:center;background:#fafafa;border-top:1px solid #eee}
+.final-cta h2{max-width:600px;margin-left:auto;margin-right:auto}
+.final-cta .lead{max-width:440px;margin-left:auto;margin-right:auto}
+.cta-secondary{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;padding:18px 40px;border-radius:100px;font-weight:600;font-size:0.95rem;transition:all .25s;margin-top:40px}
+.cta-secondary:hover{background:#333;transform:translateY(-2px)}
+.cta-secondary .arrow{transition:transform .25s}
+.cta-secondary:hover .arrow{transform:translateX(4px)}
+.trust-line{color:#bbb;font-size:0.75rem;margin-top:20px;letter-spacing:0.5px}
+
+/* ── Footer ── */
+footer{background:#fafafa;border-top:1px solid #eee;padding:40px 48px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#999}
+
+/* ── WhatsApp ── */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 20px rgba(37,211,102,0.3);transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ── Scroll Animations ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  nav{padding:0 20px}
+  nav .nav-links{display:none}
+  .hero{padding:100px 20px 60px;min-height:100svh}
+  .hero h1{letter-spacing:-1px}
+  .hero-form{padding:20px}
+  .hero-form-row{flex-direction:column}
+  .section{padding:72px 20px}
+  .problem-grid{grid-template-columns:1fr;gap:0}
+  .solution-grid{grid-template-columns:1fr;gap:0}
+  .testi-list{grid-template-columns:1fr}
+  .stats .container{gap:40px}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:32px 20px}
+  .logo-bar .logos{gap:24px}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2rem}
+  .section h2{font-size:1.75rem}
+  .cta-primary,.cta-secondary{width:100%;justify-content:center}
+}
+</style>
 </head>
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <nav>
   <div class="logo">PropertySG</div>
@@ -187,6 +164,7 @@
     <a href="#problem">Why Us</a>
     <a href="#solution">How It Works</a>
     <a href="#testimonials">Reviews</a>
+    <a href="#faq">FAQ</a>
   </div>
   <a href="#cta-final" class="nav-cta">Get Consultation</a>
 </nav>
@@ -200,37 +178,69 @@
   <div class="hero-inner">
     <div class="hero-tag">🇸🇬 Singapore Property Advisory</div>
     <h1>Sell or rent your property. Faster, smarter, zero stress.</h1>
-    <p>Expert guidance, precision pricing, and a dedicated advisor from listing to closing.</p>
-    <a href="#cta-final" class="cta-primary">
-      Get Free Consultation <span class="arrow">→</span>
-    </a>
-    <p class="hero-sub">No obligations · No hidden fees · Just results</p>
+    <p class="hero-desc">Expert guidance, precision pricing, and a dedicated advisor from listing to closing.</p>
+    <form class="hero-form" onsubmit="event.preventDefault();alert('Thank you! Our team will contact you shortly.')">
+      <div class="hero-form-row">
+        <input type="text" placeholder="Your name" required>
+        <input type="tel" placeholder="Phone number" required>
+      </div>
+      <div class="hero-form-row">
+        <select required>
+          <option value="" disabled selected>Property type</option>
+          <option>HDB</option>
+          <option>Condo</option>
+          <option>Landed</option>
+          <option>Commercial</option>
+        </select>
+        <select>
+          <option value="" disabled selected>I want to...</option>
+          <option>Sell</option>
+          <option>Rent</option>
+          <option>Buy</option>
+          <option>Get valuation</option>
+        </select>
+      </div>
+      <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
+    </form>
+    <p class="hero-form-note">No spam · No obligations · Response within 24hrs</p>
+  </div>
+</section>
+
+<!-- Logo Bar -->
+<section class="logo-bar reveal">
+  <p>Featured on</p>
+  <div class="logos">
+    <span>PropertyGuru</span>
+    <span>99.co</span>
+    <span>SRX</span>
+    <span>The Business Times</span>
+    <span>EdgeProp</span>
   </div>
 </section>
 
 <!-- Problem -->
 <section class="section problem" id="problem">
   <div class="container">
-    <div class="section-eyebrow">The problem</div>
-    <h2>Selling or renting shouldn't feel this hard.</h2>
-    <p class="lead">You deserve better than crossing your fingers and hoping for the best.</p>
+    <div class="section-eyebrow reveal">The problem</div>
+    <h2 class="reveal">Selling or renting shouldn't feel this hard.</h2>
+    <p class="lead reveal">You deserve better than crossing your fingers and hoping for the best.</p>
     <div class="problem-grid">
-      <div class="problem-card">
+      <div class="problem-card reveal">
         <div class="problem-num">01</div>
         <h3>Crickets after listing</h3>
         <p>You list your property and hear nothing. No enquiries, no viewings, just radio silence.</p>
       </div>
-      <div class="problem-card">
+      <div class="problem-card reveal reveal-delay-1">
         <div class="problem-num">02</div>
         <h3>Overpriced commissions</h3>
         <p>Agents overpromise and underdeliver — yet still charge a fortune regardless of results.</p>
       </div>
-      <div class="problem-card">
+      <div class="problem-card reveal reveal-delay-2">
         <div class="problem-num">03</div>
         <h3>Pricing guesswork</h3>
         <p>Left wondering if your asking price attracts buyers or scares them off entirely.</p>
       </div>
-      <div class="problem-card">
+      <div class="problem-card reveal reveal-delay-3">
         <div class="problem-num">04</div>
         <h3>Paperwork overload</h3>
         <p>Viewings, negotiations, legal docs — it piles up endlessly with no end in sight.</p>
@@ -242,28 +252,28 @@
 <!-- Solution -->
 <section class="section" id="solution">
   <div class="container">
-    <div class="section-eyebrow">The solution</div>
-    <h2>Everything you need.<br>Nothing you don't.</h2>
+    <div class="section-eyebrow reveal">The solution</div>
+    <h2 class="reveal">Everything you need.<br>Nothing you don't.</h2>
     <div class="solution-grid">
       <div>
-        <div class="benefit-item">
+        <div class="benefit-item reveal">
           <div class="benefit-label">Pricing</div>
           <h3>Precision pricing</h3>
           <p>Data-driven valuations so you list at the price that actually moves — not just what sounds good.</p>
         </div>
-        <div class="benefit-item">
+        <div class="benefit-item reveal">
           <div class="benefit-label">Exposure</div>
           <h3>Premium listing reach</h3>
           <p>Your property across PropertyGuru, 99.co, SRX and our own exclusive buyer & tenant network.</p>
         </div>
       </div>
       <div>
-        <div class="benefit-item">
+        <div class="benefit-item reveal">
           <div class="benefit-label">Service</div>
           <h3>Dedicated advisor</h3>
           <p>One experienced agent handles everything — photos to closing. No handoffs, no excuses.</p>
         </div>
-        <div class="benefit-item">
+        <div class="benefit-item reveal">
           <div class="benefit-label">Transparency</div>
           <h3>No hidden fees</h3>
           <p>You know exactly what you're paying and why. No surprises, no last-minute add-ons.</p>
@@ -273,14 +283,36 @@
   </div>
 </section>
 
+<!-- Stats -->
+<section class="stats">
+  <div class="container">
+    <div class="stat-item reveal">
+      <div class="stat-number" data-target="2000">0</div>
+      <div class="stat-label">Properties Sold & Rented</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-number" data-target="2" data-prefix="$" data-suffix="B+">0</div>
+      <div class="stat-label">In Transactions</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-number" data-target="4.9" data-suffix="★" data-decimal="true">0</div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-number" data-target="10" data-suffix=" days">0</div>
+      <div class="stat-label">Avg. Time to Tenant</div>
+    </div>
+  </div>
+</section>
+
 <!-- Testimonials -->
 <section class="section testimonials" id="testimonials">
   <div class="container">
-    <div class="section-eyebrow">Reviews</div>
-    <h2>Don't take our word for it.</h2>
-    <p class="lead">Real results from real homeowners across Singapore.</p>
+    <div class="section-eyebrow reveal">Reviews</div>
+    <h2 class="reveal">Don't take our word for it.</h2>
+    <p class="lead reveal">Real results from real homeowners across Singapore.</p>
     <div class="testi-list">
-      <div class="testi-card">
+      <div class="testi-card reveal">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"Sold my condo in Clementi in 3 weeks at above asking. They handled everything — I just showed up for the viewing."</blockquote>
         <div class="testi-meta">
@@ -288,7 +320,7 @@
           <div><div class="testi-author">Mr. Tan</div><div class="testi-role">Clementi Condo Seller</div></div>
         </div>
       </div>
-      <div class="testi-card">
+      <div class="testi-card reveal reveal-delay-1">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"Found a tenant for my HDB flat within 10 days. Professional, responsive, and zero drama throughout."</blockquote>
         <div class="testi-meta">
@@ -296,7 +328,7 @@
           <div><div class="testi-author">Ms. Lim</div><div class="testi-role">HDB Landlord</div></div>
         </div>
       </div>
-      <div class="testi-card">
+      <div class="testi-card reveal reveal-delay-2">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"As first-time sellers, we had no idea where to start. They guided us through the entire process seamlessly."</blockquote>
         <div class="testi-meta">
@@ -308,16 +340,46 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="section faq" id="faq">
+  <div class="container">
+    <div class="section-eyebrow reveal">FAQ</div>
+    <h2 class="reveal">Common questions.</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question">What are your commission rates?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Our rates are competitive and transparent — typically 1-2% for sales and half a month's rent for tenant placement. No hidden fees, no surprises. We'll discuss exact numbers upfront before you commit.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">How long does it take to sell or rent?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>On average, our clients secure a buyer within 3-4 weeks and a tenant within 10 days. Timeline depends on property type, location, and pricing — we'll give you a realistic estimate during consultation.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Do you handle both HDB and private properties?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Yes — HDB flats, condos, landed properties, and commercial spaces. Our team is experienced across all property types in Singapore and understands the specific regulations for each.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">What's included in the free consultation?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>A 30-minute session with a dedicated advisor covering property valuation, market analysis, pricing strategy, and a recommended action plan. Absolutely no obligation to proceed.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">Do I need to prepare anything before listing?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>We handle professional photography, staging advice, and listing copy. Just provide access to the property — we take care of the rest to make your listing stand out from day one.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Final CTA -->
 <section class="section final-cta" id="cta-final">
   <div class="container">
-    <div class="section-eyebrow">Ready?</div>
-    <h2>Stop waiting. Start moving.</h2>
-    <p class="lead">The right advice changes everything. Talk to our team today.</p>
-    <a href="#" class="cta-secondary">
+    <div class="section-eyebrow reveal">Ready?</div>
+    <h2 class="reveal">Stop waiting. Start moving.</h2>
+    <p class="lead reveal" style="margin-left:auto;margin-right:auto">The right advice changes everything. Talk to our team today.</p>
+    <a href="#" class="cta-secondary reveal">
       Get Your Free Consultation <span class="arrow">→</span>
     </a>
-    <p class="trust-line">🔒 Trusted by 2,000+ homeowners across Singapore</p>
+    <p class="trust-line reveal">🔒 Trusted by 2,000+ homeowners across Singapore</p>
   </div>
 </section>
 
@@ -328,5 +390,64 @@
 
 <a href="https://wa.me/65XXXXXXXX" class="wa-float" target="_blank" title="Chat on WhatsApp">💬</a>
 
+<script>
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%';
+});
+
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.15});
+reveals.forEach(el=>observer.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+// Animated counters
+function animateCounters(){
+  document.querySelectorAll('.stat-number').forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    const prefix=el.dataset.prefix||'';
+    const suffix=el.dataset.suffix||'';
+    const isDecimal=el.dataset.decimal==='true';
+    const duration=1500;
+    const start=performance.now();
+    function update(now){
+      const progress=Math.min((now-start)/duration,1);
+      const eased=1-Math.pow(1-progress,3);
+      const current=target*eased;
+      if(isDecimal){
+        el.textContent=prefix+current.toFixed(1)+suffix;
+      }else{
+        el.textContent=prefix+Math.floor(current).toLocaleString()+'+'+suffix.replace(/^\+/,'');
+        if(!suffix.startsWith('+'))el.textContent=prefix+Math.floor(current)+suffix;
+      }
+      if(progress<1)requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+const statsObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      animateCounters();
+      statsObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+const statsSection=document.querySelector('.stats');
+if(statsSection)statsObserver.observe(statsSection);
+</script>
 </body>
 </html>
