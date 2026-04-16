@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Singapore Property — Sell & Rent Smarter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #fafafa;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15, 15, 30, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 16px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    nav .logo { font-weight: 800; font-size: 1.25rem; color: #fff; letter-spacing: -0.5px; }
+    nav .logo span { color: #6c63ff; }
+    nav .nav-cta {
+      background: linear-gradient(135deg, #6c63ff, #48c6ef);
+      color: #fff; padding: 10px 24px; border-radius: 8px;
+      font-weight: 600; font-size: 0.875rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    nav .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: #0f0f1e;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-video {
+      position: absolute; top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      width: auto; height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba(15,15,30,0.75) 0%,
+        rgba(15,15,30,0.55) 40%,
+        rgba(15,15,30,0.8) 100%
+      );
+    }
+    .hero-inner { max-width: 800px; text-align: center; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(108,99,255,0.15); color: #a5a0ff;
+      padding: 6px 16px; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px;
+      margin-bottom: 24px; border: 1px solid rgba(108,99,255,0.25);
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.15; letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #6c63ff, #48c6ef);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.65); max-width: 600px; margin: 0 auto 40px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #6c63ff, #48c6ef);
+      color: #fff; padding: 16px 40px; border-radius: 12px;
+      font-weight: 700; font-size: 1.05rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.3);
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(108,99,255,0.45); }
+    .hero-subtext { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 16px; }
+
+    /* ── Problem Section ── */
+    .section { padding: 100px 24px; }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #6c63ff; margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800; letter-spacing: -0.5px; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section > .section-inner > p {
+      color: #555; font-size: 1.05rem; max-width: 600px;
+    }
+    .pain-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .pain-card {
+      background: #fff; border-radius: 16px; padding: 32px 24px;
+      border: 1px solid #eee; transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .pain-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.06); }
+    .pain-icon { font-size: 2rem; margin-bottom: 16px; }
+    .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .pain-card p { font-size: 0.9rem; color: #666; }
+
+    /* ── Solution Section ── */
+    .solution { background: #fff; }
+    .benefit-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px; margin-top: 48px;
+    }
+    .benefit-card {
+      background: linear-gradient(165deg, #f8f8ff, #f0f4ff);
+      border-radius: 16px; padding: 36px 28px;
+      border: 1px solid #e8e8f8;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .benefit-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(108,99,255,0.08); }
+    .benefit-icon { font-size: 2.25rem; margin-bottom: 16px; }
+    .benefit-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .benefit-card p { font-size: 0.9rem; color: #555; }
+
+    /* ── Social Proof ── */
+    .proof { background: linear-gradient(165deg, #0f0f1e, #1a1a3e); color: #fff; }
+    .proof .section-label { color: #48c6ef; }
+    .proof h2 { color: #fff; }
+    .proof > .section-inner > p { color: rgba(255,255,255,0.5); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .testi-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 32px 24px;
+      transition: transform 0.25s;
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .testi-stars { color: #fbbf24; font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testi-card blockquote {
+      font-size: 0.95rem; line-height: 1.65;
+      color: rgba(255,255,255,0.75); font-style: italic;
+      margin-bottom: 20px;
+    }
+    .testi-author { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.9); }
+    .testi-role { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+    /* ── Final CTA ── */
+    .final-cta {
+      background: linear-gradient(165deg, #6c63ff, #4834d4);
+      text-align: center; color: #fff;
+    }
+    .final-cta h2 { color: #fff; font-size: clamp(1.75rem, 4vw, 2.75rem); }
+    .final-cta p { color: rgba(255,255,255,0.7); }
+    .final-cta .cta-btn {
+      background: #fff; color: #6c63ff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      margin-top: 32px;
+    }
+    .final-cta .cta-btn:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+    .trust-line { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 20px; }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f0f1e; color: rgba(255,255,255,0.3);
+      text-align: center; padding: 32px 24px; font-size: 0.8rem;
+    }
+
+    /* ── WhatsApp Float ── */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25d366; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+      transition: transform 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      nav { padding: 12px 16px; }
+      nav .logo { font-size: 1.1rem; }
+      nav .nav-cta { padding: 8px 16px; font-size: 0.75rem; }
+      .hero { padding: 100px 20px 60px; min-height: 100svh; }
+      .hero-badge { font-size: 0.7rem; padding: 5px 12px; margin-bottom: 18px; }
+      .hero h1 { font-size: 1.85rem; letter-spacing: -0.5px; margin-bottom: 14px; }
+      .hero p { font-size: 0.95rem; margin-bottom: 28px; }
+      .cta-btn { padding: 14px 28px; font-size: 0.95rem; width: 100%; text-align: center; border-radius: 10px; }
+      .hero-subtext { font-size: 0.75rem; }
+      .section { padding: 60px 16px; }
+      .section h2 { font-size: 1.5rem; }
+      .section > .section-inner > p { font-size: 0.95rem; }
+      .pain-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+      .pain-card { padding: 24px 20px; }
+      .benefit-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+      .benefit-card { padding: 28px 20px; }
+      .testi-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+      .testi-card { padding: 24px 20px; }
+      .final-cta p br { display: none; }
+      .wa-float { width: 50px; height: 50px; font-size: 1.5rem; bottom: 16px; right: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.55rem; }
+      .hero p { font-size: 0.88rem; }
+      .section { padding: 48px 14px; }
+      .section h2 { font-size: 1.3rem; }
+      .section-label { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="logo">Property<span>SG</span></div>
+    <a href="#cta-final" class="nav-cta">Get Free Consultation</a>
+  </nav>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline poster="">
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">🇸🇬 Singapore's Trusted Property Advisory</div>
+      <h1>Sell or Rent Your Property <span class="gradient">Faster — Without the Guesswork.</span></h1>
+      <p>Expert guidance, the right price, and zero hassle — whether you're selling, buying, or renting.</p>
+      <a href="#cta-final" class="cta-btn">Get Free Property Consultation →</a>
+      <p class="hero-subtext">No obligations. No hidden fees. Just results.</p>
+    </div>
+  </section>
+
+  <!-- ═══ Problem / Agitation ═══ -->
+  <section class="section" id="problem">
+    <div class="section-inner">
+      <div class="section-label">The Problem</div>
+      <h2>Selling or renting in Singapore shouldn't feel this stressful.</h2>
+      <p>You deserve better than crossing your fingers and hoping for the best.</p>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon">🦗</div>
+          <h3>Crickets After Listing</h3>
+          <p>You list your property and… nothing. No enquiries, no viewings, just silence.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">💸</div>
+          <h3>Sky-High Commissions</h3>
+          <p>Agents overpromise, underdeliver, and still charge a fortune regardless of results.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🤷</div>
+          <h3>Am I Pricing This Right?</h3>
+          <p>Left guessing whether your asking price attracts buyers or scares them off.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">📋</div>
+          <h3>Paperwork Overload</h3>
+          <p>Viewings, negotiations, legal docs — it piles up with no end in sight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Solution / Benefits ═══ -->
+  <section class="section solution" id="solution">
+    <div class="section-inner">
+      <div class="section-label">The Solution</div>
+      <h2>Here's how we make it effortless.</h2>
+      <p>Everything you need — nothing you don't.</p>
+      <div class="benefit-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">🎯</div>
+          <h3>Precision Pricing</h3>
+          <p>Data-driven valuations so you list at the price that actually moves — not just what sounds good.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">📢</div>
+          <h3>Premium Exposure</h3>
+          <p>Your property across PropertyGuru, 99.co, SRX and our own exclusive buyer & tenant network.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">🤝</div>
+          <h3>Dedicated Advisor</h3>
+          <p>One experienced agent who handles everything — photos to closing. No handoffs, no excuses.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">💰</div>
+          <h3>Transparent Fees</h3>
+          <p>No hidden costs, no surprises. You know exactly what you're paying and why.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Social Proof ═══ -->
+  <section class="section proof" id="testimonials">
+    <div class="section-inner">
+      <div class="section-label">Trusted by Homeowners</div>
+      <h2>Don't take our word for it.</h2>
+      <p>Real results from real people across Singapore.</p>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"Sold my condo in Clementi in 3 weeks at above asking. The team handled everything — I just showed up for the viewing."</blockquote>
+          <div class="testi-author">Mr. Tan</div>
+          <div class="testi-role">Clementi Condo Seller</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"Found a tenant for my HDB flat within 10 days. Professional, responsive, and zero drama."</blockquote>
+          <div class="testi-author">Ms. Lim</div>
+          <div class="testi-role">HDB Landlord</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"As first-time sellers, we had no idea where to start. They guided us through the entire process from start to finish."</blockquote>
+          <div class="testi-author">Mr. &amp; Mrs. Koh</div>
+          <div class="testi-role">BTO Upgraders</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Final CTA ═══ -->
+  <section class="section final-cta" id="cta-final">
+    <div class="section-inner">
+      <div class="section-label">Ready?</div>
+      <h2>Stop Waiting. Start Moving.</h2>
+      <p>Whether you're selling, buying, or renting — the right advice changes everything.<br>Talk to our team today. No obligations, no pressure.</p>
+      <a href="#" class="cta-btn">Get Your Free Consultation Now →</a>
+      <p class="trust-line">🔒 Trusted by 2,000+ homeowners across Singapore</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 PropertySG. All rights reserved. | CEA License No. XXXXX</p>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/65XXXXXXXX" class="wa-float" target="_blank" title="Chat on WhatsApp">💬</a>
+
+</body>
+</html>

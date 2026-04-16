@@ -1,0 +1,26 @@
+plugins = []
+headers = []
+redirects = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/andylau/.openclaw/workspace/hermes/landing-page"
+publishOrigin = "default"
+base = "/Users/andylau/.openclaw/workspace/hermes/landing-page"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
