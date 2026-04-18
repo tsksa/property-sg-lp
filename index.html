@@ -271,14 +271,27 @@ body.dark-mode .compare-lede{color:rgba(255,255,255,0.65)}
 .advisor-content h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:600;letter-spacing:-0.5px;line-height:1.15;margin-bottom:8px;color:var(--navy)}
 .advisor-title{color:var(--emerald);font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:24px}
 .advisor-bio{color:#555;font-size:1rem;line-height:1.75;margin-bottom:20px}
-.advisor-quote{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--navy);line-height:1.6;padding:16px 0 20px;border-top:1px solid #eee;border-bottom:1px solid #eee;margin:24px 0}
+.advisor-creds{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+.advisor-cred{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;background:rgba(16,185,129,0.08);color:var(--navy);border:1px solid rgba(16,185,129,0.2);border-radius:100px;font-size:0.74rem;font-weight:600;letter-spacing:0.2px}
+.advisor-cred svg{width:13px;height:13px;fill:none;stroke:var(--emerald);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.advisor-cred span{color:#666;font-weight:500;margin-left:2px}
+.advisor-quote{position:relative;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.08rem;color:var(--navy);line-height:1.55;padding:26px 28px;background:linear-gradient(135deg,rgba(16,185,129,0.045),rgba(16,185,129,0.015));border-left:3px solid var(--emerald);border-radius:0 14px 14px 0;margin:28px 0}
+.advisor-quote::before{content:"\201C";position:absolute;top:-14px;left:14px;font-family:'Fraunces',Georgia,serif;font-size:3.2rem;color:var(--emerald);line-height:1;font-style:normal;opacity:0.35}
+.advisor-quote cite{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin-top:14px;font-style:normal;font-size:0.82rem;color:#666;letter-spacing:0.2px;font-family:'DM Sans',sans-serif;font-weight:500}
+.advisor-quote cite strong{color:var(--navy);font-weight:600}
+.advisor-quote cite .verified{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--emerald);font-weight:700;letter-spacing:0.6px;text-transform:uppercase;background:rgba(16,185,129,0.1);padding:3px 8px;border-radius:100px}
+.advisor-quote cite .verified svg{width:10px;height:10px;fill:none;stroke:var(--emerald);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .advisor-meta{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:0.82rem;color:#666}
 .advisor-meta span{display:inline-flex;align-items:center;gap:6px}
 .advisor-meta strong{color:var(--navy);font-weight:600}
 body.dark-mode .advisor{background:#030a1a;border-top-color:rgba(255,255,255,0.05)}
 body.dark-mode .advisor-content h2{color:#fff}
 body.dark-mode .advisor-bio{color:rgba(232,236,243,0.75)}
-body.dark-mode .advisor-quote{color:#fff;border-color:rgba(255,255,255,0.08)}
+body.dark-mode .advisor-quote{color:#fff;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(16,185,129,0.02));border-left-color:var(--emerald)}
+body.dark-mode .advisor-quote cite{color:rgba(255,255,255,0.55)}
+body.dark-mode .advisor-quote cite strong{color:#fff}
+body.dark-mode .advisor-cred{background:rgba(16,185,129,0.1);color:#fff;border-color:rgba(16,185,129,0.25)}
+body.dark-mode .advisor-cred span{color:rgba(255,255,255,0.55)}
 body.dark-mode .advisor-meta{color:rgba(232,236,243,0.6)}
 body.dark-mode .advisor-meta strong{color:#fff}
 body.dark-mode .advisor-badge-item{background:rgba(19,41,77,0.92);color:#fff}
@@ -988,8 +1001,16 @@ body.dark-mode .logo-bar .logos span{color:#fff}
       <div class="section-eyebrow">Meet your advisor</div>
       <h2>A dedicated advisor. Not a call centre.</h2>
       <div class="advisor-title">HDB &amp; Condo Advisor</div>
+      <div class="advisor-creds">
+        <span class="advisor-cred"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>CEA Licensed <span>· R009618D</span></span>
+        <span class="advisor-cred"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>16+ yrs <span>Singapore property</span></span>
+        <span class="advisor-cred"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>PDPA Compliant</span>
+      </div>
       <p class="advisor-bio">When you work with PropertySG, you get one experienced advisor — from first valuation to closing. No handoffs, no scripts, no rotating agents. Just clear strategy, honest numbers, and a point of contact you can reach on WhatsApp.</p>
-      <blockquote class="advisor-quote">"My job isn't to sell the most properties — it's to get you the right outcome, on the right timeline, at the right price."</blockquote>
+      <blockquote class="advisor-quote">
+        Sold my 4-room Tampines flat in 19 days — $38k above my own estimate. Joe actually answered WhatsApp at 10pm when I panicked over an offer.
+        <cite><strong>Mr Lim</strong> · HDB seller, Tampines<span class="verified"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Verified</span></cite>
+      </blockquote>
       <div class="advisor-meta">
         <span>🏠 <strong>HDB, Condo, Landed, Commercial</strong></span>
         <span>🗣️ <strong>English · Mandarin</strong></span>

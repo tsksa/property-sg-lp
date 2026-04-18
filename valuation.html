@@ -89,7 +89,7 @@ main{flex:1;display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0
 /* Progress */
 .val-progress{margin-bottom:32px}
 .val-progress-bar{height:4px;background:#eee;border-radius:100px;overflow:hidden;margin-bottom:10px}
-.val-progress-fill{height:100%;background:var(--emerald);width:16.67%;transition:width .3s ease;border-radius:100px}
+.val-progress-fill{height:100%;background:var(--emerald);width:33.33%;transition:width .3s ease;border-radius:100px}
 .val-progress-text{font-size:0.78rem;color:#999;font-weight:500;letter-spacing:0.5px}
 .val-progress-text span{color:var(--navy);font-weight:600}
 
@@ -107,7 +107,7 @@ main{flex:1;display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0
 .val-step input::placeholder{color:#bbb}
 .val-step label:not(.sr-only):not(.val-radio):not(.val-consent){display:block;font-size:0.82rem;font-weight:600;color:var(--navy);margin-top:16px;letter-spacing:0.2px}
 
-/* Radios */
+/* Radios (full-tile, used for property type) */
 .val-radios{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
 @media(max-width:500px){.val-radios{grid-template-columns:1fr}}
 .val-radio{display:flex;align-items:center;gap:12px;padding:16px 18px;border:1.5px solid #e5e7eb;border-radius:12px;cursor:pointer;transition:all .2s;font-weight:500;color:#444;font-size:0.95rem}
@@ -116,6 +116,33 @@ main{flex:1;display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0
 .val-radio input:checked{border-color:var(--emerald);background:var(--emerald)}
 .val-radio input:checked::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff}
 .val-radio:has(input:checked){border-color:var(--emerald);background:rgba(16,185,129,0.06);color:var(--navy)}
+
+/* Chip-pill radios (compact, tap-friendly) */
+.val-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.val-chip{display:inline-flex;align-items:center;padding:10px 16px;border:1.5px solid #e5e7eb;border-radius:100px;cursor:pointer;transition:all .2s;font-weight:500;color:#555;font-size:0.88rem;background:#fff;user-select:none}
+.val-chip:hover{border-color:var(--emerald);color:var(--navy);background:rgba(16,185,129,0.03)}
+.val-chip input{position:absolute;opacity:0;pointer-events:none}
+.val-chip:has(input:checked){border-color:var(--emerald);background:var(--emerald);color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(16,185,129,0.25)}
+
+/* Chapter structure */
+.val-chapter-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #f0f0f0}
+.val-chapter-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,rgba(16,185,129,0.14),rgba(16,185,129,0.04));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.val-chapter-icon svg{width:20px;height:20px;stroke:var(--emerald);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.val-chapter-title{flex:1;min-width:0}
+.val-chapter-title .num{font-size:0.7rem;color:#999;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:2px;display:block}
+.val-chapter-title h2{margin:0 !important;font-size:clamp(1.3rem,2.5vw,1.55rem) !important}
+
+.val-group{margin-bottom:22px}
+.val-group:last-child{margin-bottom:0}
+.val-group-label{display:block !important;font-size:0.8rem !important;font-weight:600 !important;color:var(--navy) !important;margin:0 0 8px !important;letter-spacing:0.2px;text-transform:none}
+
+.val-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0}
+@media(max-width:480px){.val-row{grid-template-columns:1fr}}
+.val-row .val-group{margin-bottom:0}
+
+.val-unit-suffix{position:relative}
+.val-unit-suffix::after{content:attr(data-suffix);position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#999;font-size:0.88rem;pointer-events:none;font-weight:500}
+.val-unit-suffix input{padding-right:54px !important}
 
 /* Detected address */
 .val-address-detected{margin-top:12px;padding:14px 16px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;font-size:0.9rem;color:var(--navy);line-height:1.5}
@@ -178,7 +205,7 @@ footer a{color:rgba(255,255,255,0.8)}
   <div class="val-intro">
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>
-    <p class="val-lede">Answer 6 quick questions. Our CEA-registered advisor will WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
+    <p class="val-lede">Answer 3 short sections (~2 min). Our CEA-registered advisor will WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
     <ul class="val-benefits">
       <li>Based on actual recent transactions in your block/estate</li>
       <li>Reply within 24 hours via WhatsApp</li>
@@ -195,100 +222,153 @@ footer a{color:rgba(255,255,255,0.8)}
     <form id="valForm" novalidate aria-label="Free property valuation form">
       <div class="val-progress">
         <div class="val-progress-bar"><div class="val-progress-fill" id="progFill"></div></div>
-        <div class="val-progress-text">Step <span id="stepNum">1</span> of 6</div>
+        <div class="val-progress-text">Section <span id="stepNum">1</span> of 3</div>
       </div>
 
-      <!-- Step 1: Property type -->
+      <!-- Chapter 1: Your property -->
       <div class="val-step active" data-step="1">
-        <h2>What type of property is this?</h2>
-        <p class="val-sub">Pick the one that applies.</p>
-        <div class="val-radios" role="radiogroup">
-          <label class="val-radio"><input type="radio" name="propType" value="HDB" required><span>HDB</span></label>
-          <label class="val-radio"><input type="radio" name="propType" value="Condo / Apartment"><span>Condo / Apartment</span></label>
-          <label class="val-radio"><input type="radio" name="propType" value="Landed"><span>Landed</span></label>
-          <label class="val-radio"><input type="radio" name="propType" value="Commercial"><span>Commercial</span></label>
+        <div class="val-chapter-head">
+          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="val-chapter-title"><span class="num">Section 1 of 3</span><h2>Your property</h2></div>
         </div>
-        <p class="val-error-msg" data-error-for="propType">Please select a property type.</p>
-        <div class="val-nav">
-          <button type="button" class="val-next" data-next>Next →</button>
-        </div>
-      </div>
 
-      <!-- Step 2: Postal code -->
-      <div class="val-step" data-step="2">
-        <h2>What's the postal code?</h2>
-        <p class="val-sub">6-digit Singapore postal code. We'll auto-detect your address.</p>
-        <label for="postalCode" class="sr-only">Postal code</label>
-        <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="e.g. 238859" maxlength="6" autocomplete="postal-code" required>
+        <div class="val-group">
+          <label class="val-group-label">Property type</label>
+          <div class="val-chips" role="radiogroup">
+            <label class="val-chip"><input type="radio" name="propType" value="HDB" required><span>HDB</span></label>
+            <label class="val-chip"><input type="radio" name="propType" value="Condo / Apartment"><span>Condo / Apartment</span></label>
+            <label class="val-chip"><input type="radio" name="propType" value="Landed"><span>Landed</span></label>
+            <label class="val-chip"><input type="radio" name="propType" value="Commercial"><span>Commercial</span></label>
+          </div>
+          <p class="val-error-msg" data-error-for="propType">Please select a property type.</p>
+        </div>
+
+        <div class="val-row">
+          <div class="val-group">
+            <label class="val-group-label" for="postalCode">Postal code</label>
+            <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="e.g. 238859" maxlength="6" autocomplete="postal-code" required>
+          </div>
+          <div class="val-group">
+            <label class="val-group-label" for="unitNumber">Unit no. <span class="val-optional">(optional)</span></label>
+            <input id="unitNumber" name="unitNumber" type="text" placeholder="e.g. #12-34">
+          </div>
+        </div>
         <div class="val-address-detected" id="addrDetected" style="display:none"></div>
         <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
+
+        <div class="val-row" style="margin-top:22px">
+          <div class="val-group">
+            <label class="val-group-label" for="floorArea">Floor area</label>
+            <div class="val-unit-suffix" data-suffix="sqft">
+              <input id="floorArea" name="floorArea" type="number" inputmode="numeric" min="200" max="20000" placeholder="e.g. 1,076" required>
+            </div>
+            <p class="val-error-msg" data-error-for="floorArea">Please enter floor area.</p>
+          </div>
+          <div class="val-group">
+            <label class="val-group-label" for="yearBuilt">Year purchased / TOP <span class="val-optional">(optional)</span></label>
+            <input id="yearBuilt" name="yearBuilt" type="number" inputmode="numeric" min="1960" max="2030" placeholder="e.g. 2015">
+          </div>
+        </div>
+
+        <div class="val-group" style="margin-top:22px">
+          <label class="val-group-label" id="layoutLabel">Layout</label>
+          <div class="val-chips" role="radiogroup" id="layoutChips">
+            <!-- Injected by JS once propType chosen -->
+            <span style="color:#aaa;font-size:0.85rem;padding:8px 2px">Pick a property type above to see layout options.</span>
+          </div>
+          <p class="val-error-msg" data-error-for="layout">Please select a layout.</p>
+        </div>
+
+        <div class="val-group">
+          <label class="val-group-label">Current condition</label>
+          <div class="val-chips" role="radiogroup">
+            <label class="val-chip"><input type="radio" name="condition" value="Original / as built" required><span>Original / as built</span></label>
+            <label class="val-chip"><input type="radio" name="condition" value="Partially renovated"><span>Partially renovated</span></label>
+            <label class="val-chip"><input type="radio" name="condition" value="Recently renovated (≤ 5 yrs)"><span>Recently renovated</span></label>
+            <label class="val-chip"><input type="radio" name="condition" value="Fully renovated"><span>Fully renovated</span></label>
+          </div>
+          <p class="val-error-msg" data-error-for="condition">Please select current condition.</p>
+        </div>
+
+        <div class="val-nav">
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Chapter 2: Why & when -->
+      <div class="val-step" data-step="2">
+        <div class="val-chapter-head">
+          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="val-chapter-title"><span class="num">Section 2 of 3</span><h2>Why &amp; when</h2></div>
+        </div>
+
+        <div class="val-group">
+          <label class="val-group-label">Reason for valuation</label>
+          <div class="val-chips" role="radiogroup">
+            <label class="val-chip"><input type="radio" name="reason" value="Selling" required><span>Selling</span></label>
+            <label class="val-chip"><input type="radio" name="reason" value="Renting out"><span>Renting out</span></label>
+            <label class="val-chip"><input type="radio" name="reason" value="Refinancing"><span>Refinancing</span></label>
+            <label class="val-chip"><input type="radio" name="reason" value="Estate / divorce"><span>Estate / divorce</span></label>
+            <label class="val-chip"><input type="radio" name="reason" value="Just curious"><span>Just curious</span></label>
+          </div>
+          <p class="val-error-msg" data-error-for="reason">Please select a reason.</p>
+        </div>
+
+        <div class="val-group">
+          <label class="val-group-label">Timeline</label>
+          <div class="val-chips" role="radiogroup">
+            <label class="val-chip"><input type="radio" name="timeline" value="Just exploring" required><span>Just exploring</span></label>
+            <label class="val-chip"><input type="radio" name="timeline" value="Within 3 months"><span>Within 3 months</span></label>
+            <label class="val-chip"><input type="radio" name="timeline" value="Within 6 months"><span>Within 6 months</span></label>
+            <label class="val-chip"><input type="radio" name="timeline" value="Within 12 months"><span>Within 12 months</span></label>
+          </div>
+          <p class="val-error-msg" data-error-for="timeline">Please select a timeline.</p>
+        </div>
+
+        <div class="val-group">
+          <label class="val-group-label" for="targetPrice">Target price <span class="val-optional">(optional)</span></label>
+          <input id="targetPrice" name="targetPrice" type="text" inputmode="numeric" placeholder="e.g. S$1,250,000" autocomplete="off">
+        </div>
+
         <div class="val-nav">
           <button type="button" class="val-prev" data-prev>← Back</button>
           <button type="button" class="val-next" data-next>Next →</button>
         </div>
       </div>
 
-      <!-- Step 3: Unit number -->
+      <!-- Chapter 3: Your details -->
       <div class="val-step" data-step="3">
-        <h2>Unit number? <span class="val-optional">(optional)</span></h2>
-        <p class="val-sub">Floor level affects price — helps us give a sharper valuation.</p>
-        <label for="unitNumber" class="sr-only">Unit number</label>
-        <input id="unitNumber" name="unitNumber" type="text" placeholder="e.g. #12-34">
-        <div class="val-nav">
-          <button type="button" class="val-prev" data-prev>← Back</button>
-          <button type="button" class="val-next" data-next>Next →</button>
+        <div class="val-chapter-head">
+          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div class="val-chapter-title"><span class="num">Section 3 of 3</span><h2>How to reach you</h2></div>
         </div>
-      </div>
 
-      <!-- Step 4: Full name -->
-      <div class="val-step" data-step="4">
-        <h2>What's your name?</h2>
-        <p class="val-sub">So we know who to address the valuation to.</p>
-        <label for="fullName" class="sr-only">Full name</label>
-        <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required>
-        <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
-        <div class="val-nav">
-          <button type="button" class="val-prev" data-prev>← Back</button>
-          <button type="button" class="val-next" data-next>Next →</button>
+        <div class="val-group">
+          <label class="val-group-label" for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required>
+          <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
         </div>
-      </div>
 
-      <!-- Step 5: Mobile -->
-      <div class="val-step" data-step="5">
-        <h2>Your mobile number?</h2>
-        <p class="val-sub">We'll WhatsApp you the valuation. No cold calls.</p>
-        <label for="mobile" class="sr-only">Mobile number</label>
-        <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
-        <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
-        <div class="val-nav">
-          <button type="button" class="val-prev" data-prev>← Back</button>
-          <button type="button" class="val-next" data-next>Next →</button>
+        <div class="val-group">
+          <label class="val-group-label" for="mobile">Mobile number</label>
+          <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
+          <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
         </div>
-      </div>
 
-      <!-- Step 6: Email + Timeline + Consent -->
-      <div class="val-step" data-step="6">
-        <h2>Almost done.</h2>
-        <p class="val-sub">One more detail and you're set.</p>
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-        <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
-        <label for="timeline">When are you planning to sell?</label>
-        <select id="timeline" name="timeline" required>
-          <option value="" disabled selected>Select timeline</option>
-          <option value="Just exploring">Just exploring</option>
-          <option value="Within 3 months">Within 3 months</option>
-          <option value="Within 6 months">Within 6 months</option>
-          <option value="Within 12 months">Within 12 months</option>
-        </select>
-        <p class="val-error-msg" data-error-for="timeline">Please select a timeline.</p>
+        <div class="val-group">
+          <label class="val-group-label" for="email">Email address</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
+        </div>
+
         <label class="val-consent">
           <input type="checkbox" name="consent" required>
           <span>By submitting, I agree to be contacted regarding my valuation request and to PropertySG's <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</span>
         </label>
         <p class="val-error-msg" data-error-for="consent">Please confirm consent to proceed.</p>
-        <!-- Honeypot: bots fill this, humans don't -->
+
         <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
         <div class="val-nav">
           <button type="button" class="val-prev" data-prev>← Back</button>
           <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
@@ -342,6 +422,29 @@ UTM_KEYS.forEach(k=>{ utm[k] = params.get(k) || ''; });
 const steps = [...document.querySelectorAll('.val-step[data-step]')].filter(s=>s.dataset.step!=='success');
 const totalSteps = steps.length;
 let current = 0;
+
+// ── Conditional layout chips based on property type ──
+const LAYOUT_OPTIONS = {
+  'HDB': {label:'Flat type', opts:['2-room','3-room','4-room','5-room','Executive']},
+  'Condo / Apartment': {label:'Bedrooms', opts:['1 BR','2 BR','3 BR','4 BR','5+ BR']},
+  'Landed': {label:'Bedrooms', opts:['2','3','4','5','6+']},
+  'Commercial': {label:'Sub-type', opts:['Office','Retail','F&B','Shophouse','Industrial']}
+};
+function renderLayoutChips(){
+  const propType = document.querySelector('[name="propType"]:checked')?.value;
+  if(!propType) return;
+  const cfg = LAYOUT_OPTIONS[propType];
+  if(!cfg) return;
+  document.getElementById('layoutLabel').textContent = cfg.label;
+  const container = document.getElementById('layoutChips');
+  container.innerHTML = cfg.opts.map(o=>
+    `<label class="val-chip"><input type="radio" name="layout" value="${o}" required><span>${o}</span></label>`
+  ).join('');
+}
+document.querySelectorAll('[name="propType"]').forEach(r=>{
+  r.addEventListener('change', renderLayoutChips);
+});
+renderLayoutChips();
 
 function showStep(i){
   steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
@@ -462,10 +565,16 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
     postal_code: f.postalCode.value.trim(),
     detected_address: detectedAddress,
     unit_number: f.unitNumber.value.trim(),
+    floor_area_sqft: f.floorArea.value.trim(),
+    year_built_or_purchased: f.yearBuilt.value.trim(),
+    layout: f.layout.value,
+    condition: f.condition.value,
+    reason: f.reason.value,
+    selling_timeline: f.timeline.value,
+    target_price: f.targetPrice.value.trim(),
     full_name: f.fullName.value.trim(),
     mobile_number: f.mobile.value.trim(),
     email: f.email.value.trim(),
-    selling_timeline: f.timeline.value,
     source_site: 'PropertySG',
     submitted_at: new Date().toISOString(),
     ...utm
