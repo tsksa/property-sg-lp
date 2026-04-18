@@ -267,10 +267,9 @@ body.dark-mode .advisor-photo-wrap{box-shadow:24px 24px 0 rgba(16,185,129,0.14),
 .consult-form select option{color:var(--navy)}
 .consult-form input:focus,.consult-form select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.10)}
 
-.consult-phone{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:stretch}
-.consult-cc{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #d7dae0;border-radius:8px;padding:0 12px;font-size:0.95rem;color:var(--navy);background:#fff;user-select:none}
-.consult-cc .sg-flag{font-size:1.25rem;line-height:1}
-.consult-cc .cc-num{font-weight:500;color:#555;font-size:0.92rem}
+.consult-phone{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:stretch}
+.consult-cc{appearance:none;-webkit-appearance:none;border:1.5px solid #d7dae0;border-radius:8px;padding:0 32px 0 14px;font-size:0.95rem;font-family:inherit;color:var(--navy);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23333' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;cursor:pointer;height:100%}
+.consult-cc:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.10)}
 
 .consult-form button{width:100%;background:var(--navy);color:#fff;padding:20px;border:none;border-radius:8px;font-size:1.02rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:10px;font-family:inherit;letter-spacing:0.1px}
 .consult-form button:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 10px 28px rgba(16,185,129,0.32)}
@@ -279,7 +278,7 @@ body.dark-mode .advisor-photo-wrap{box-shadow:24px 24px 0 rgba(16,185,129,0.14),
 
 @media(max-width:560px){
   .consult-row{grid-template-columns:1fr}
-  .consult-phone{grid-template-columns:96px 1fr}
+  .consult-phone{grid-template-columns:112px 1fr}
   .consult-form input,.consult-form select{padding:16px 18px}
   .consult-form button{padding:18px}
 }
@@ -332,7 +331,8 @@ body.dark-mode .consult-form input::placeholder{color:rgba(232,236,243,0.45)}
 body.dark-mode .consult-form select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center;color:rgba(232,236,243,0.5)}
 body.dark-mode .consult-form select:valid{color:#fff}
 body.dark-mode .consult-form input:focus,body.dark-mode .consult-form select:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
-body.dark-mode .consult-cc .cc-num{color:rgba(232,236,243,0.7)}
+body.dark-mode .consult-cc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+body.dark-mode .consult-cc option{background:var(--navy);color:#fff}
 body.dark-mode .consult-form button{background:var(--emerald)}
 body.dark-mode .consult-form button:hover{background:#0ea371}
 body.dark-mode .consult-note{color:rgba(232,236,243,0.55)}
@@ -937,7 +937,25 @@ body.dark-mode .logo-bar .logos span{color:#fff}
         </div>
       </div>
       <div class="consult-phone">
-        <div class="consult-cc" aria-hidden="true"><span class="sg-flag">🇸🇬</span><span class="cc-num">+65</span></div>
+        <label for="final-cc" class="sr-only">Country code</label>
+        <select id="final-cc" class="consult-cc" name="country_code" aria-label="Country code">
+          <option value="+65" selected>🇸🇬 +65</option>
+          <option value="+60">🇲🇾 +60</option>
+          <option value="+86">🇨🇳 +86</option>
+          <option value="+852">🇭🇰 +852</option>
+          <option value="+62">🇮🇩 +62</option>
+          <option value="+91">🇮🇳 +91</option>
+          <option value="+66">🇹🇭 +66</option>
+          <option value="+63">🇵🇭 +63</option>
+          <option value="+84">🇻🇳 +84</option>
+          <option value="+61">🇦🇺 +61</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+1">🇺🇸 +1</option>
+          <option value="+81">🇯🇵 +81</option>
+          <option value="+82">🇰🇷 +82</option>
+          <option value="+886">🇹🇼 +886</option>
+          <option value="+971">🇦🇪 +971</option>
+        </select>
         <label for="final-phone" class="sr-only">Phone number</label>
         <input id="final-phone" type="tel" name="phone" placeholder="Phone number *" autocomplete="tel" required pattern="[0-9\s]{7,}">
       </div>
@@ -1090,7 +1108,7 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
     full_name:(first+' '+last).trim(),
     first_name:first,
     last_name:last,
-    mobile_number:'+65 '+f.phone.value.trim(),
+    mobile_number:f.country_code.value+' '+f.phone.value.trim(),
     intent:f.intent.value
   },
   "Thanks — your consultation is booked.",
