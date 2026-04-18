@@ -466,6 +466,66 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 .section-eyebrow::before{content:"";width:24px;height:1px;background:currentColor;opacity:0.5}
 .hero-tag::before{display:none}
 
+/* ═══════════════════════════════════════════════════════
+   LEAD-GEN ENHANCEMENTS
+   ═══════════════════════════════════════════════════════ */
+
+/* Hero inline trust row */
+.hero-trust{display:inline-flex;align-items:center;gap:16px;margin:-6px auto 28px;padding:9px 20px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);border-radius:100px;backdrop-filter:blur(10px);font-size:0.82rem;color:rgba(255,255,255,0.9);flex-wrap:wrap;justify-content:center}
+.hero-trust .stars{color:#f5c518;letter-spacing:1.5px;font-size:0.78rem}
+.hero-trust .trust-divider{width:1px;height:12px;background:rgba(255,255,255,0.24)}
+.hero-trust strong{color:#fff;font-weight:700}
+@media(max-width:560px){.hero-trust{gap:10px;padding:7px 14px;font-size:0.73rem}.hero-trust .trust-divider{display:none}}
+
+/* Hero response-time badge (below CTA) */
+.hero-response{display:inline-flex;align-items:center;gap:7px;color:rgba(16,230,166,0.95);font-size:0.74rem;font-weight:600;margin-top:4px;letter-spacing:0.3px}
+.hero-response::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.22);animation:dotPulse 1.6s ease-in-out infinite}
+
+/* Hero mini testimonial */
+.hero-testimonial{display:flex;align-items:flex-start;gap:10px;max-width:440px;margin:24px auto 0;color:rgba(255,255,255,0.78);font-size:0.82rem;line-height:1.5}
+.hero-testimonial-mark{font-family:'Fraunces',Georgia,serif;font-size:2.2rem;line-height:0.6;color:rgba(16,185,129,0.75);flex-shrink:0}
+.hero-testimonial em{font-style:italic;color:rgba(255,255,255,0.9)}
+.hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.55);font-size:0.72rem;margin-top:4px;letter-spacing:0.2px}
+
+/* Nav — phone + CTA group */
+.nav-right{display:flex;align-items:center;gap:18px}
+.nav-phone{display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;color:#111;transition:color .2s;letter-spacing:-0.1px}
+.nav-phone:hover{color:var(--emerald)}
+.nav-phone svg{width:13px;height:13px;fill:var(--emerald);flex-shrink:0}
+body.dark-mode .nav-phone{color:#fff}
+body.dark-mode .nav-phone:hover{color:var(--emerald)}
+@media(max-width:900px){.nav-phone{display:none}}
+
+/* Mobile sticky bar — show phone number */
+.mobile-bar .mb-call{flex-direction:row;gap:10px;align-items:center;text-align:left}
+.mobile-bar .mb-call .mb-stack{display:flex;flex-direction:column;line-height:1.1}
+.mobile-bar .mb-call .mb-label{font-size:0.64rem;opacity:0.7;font-weight:500;letter-spacing:0.5px;text-transform:uppercase}
+.mobile-bar .mb-call .mb-number{font-size:0.92rem;font-weight:700;letter-spacing:0.1px}
+
+/* Advisor section — Calendly CTA button */
+.advisor-cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:26px;padding-top:26px;border-top:1px solid #eee}
+.advisor-cta{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:#fff;padding:14px 24px;border-radius:100px;font-size:0.92rem;font-weight:600;transition:all .25s;box-shadow:0 8px 24px -8px rgba(11,30,63,0.4);white-space:nowrap}
+.advisor-cta:hover{background:var(--emerald);transform:translateY(-2px);box-shadow:0 12px 32px -8px rgba(16,185,129,0.45);color:#fff}
+.advisor-cta svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+.advisor-cta-note{font-size:0.78rem;color:#888}
+.advisor-cta-note strong{color:var(--navy);font-weight:600}
+body.dark-mode .advisor-cta-row{border-top-color:rgba(255,255,255,0.08)}
+body.dark-mode .advisor-cta{background:var(--emerald)}
+body.dark-mode .advisor-cta:hover{background:#0ea371}
+body.dark-mode .advisor-cta-note{color:rgba(232,236,243,0.6)}
+body.dark-mode .advisor-cta-note strong{color:#fff}
+
+/* Logo bar — more prominent, trust-building */
+.logo-bar{padding:56px 24px;background:var(--cream)}
+.logo-bar p{color:#555;font-size:0.72rem;margin-bottom:22px}
+.logo-bar .logos{opacity:0.75;gap:40px}
+.logo-bar .logos span{color:#333;font-size:1.15rem;transition:color .25s,transform .25s}
+.logo-bar .logos span:hover{color:var(--navy);transform:translateY(-2px)}
+body.dark-mode .logo-bar{background:var(--navy)}
+body.dark-mode .logo-bar p{color:rgba(232,236,243,0.6)}
+body.dark-mode .logo-bar .logos{opacity:0.9}
+body.dark-mode .logo-bar .logos span{color:#fff}
+
 </style>
 </head>
 <body>
@@ -481,7 +541,13 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
     <a href="#testimonials">Reviews</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a href="https://calendly.com/joetsk/30min" class="nav-cta">Book a Call</a>
+  <div class="nav-right">
+    <a href="tel:+6581881488" class="nav-phone" aria-label="Call us">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
+      +65 8188 1488
+    </a>
+    <a href="https://calendly.com/joetsk/30min" class="nav-cta">Book a Call</a>
+  </div>
 </nav>
 
 <!-- Hero -->
@@ -493,6 +559,14 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
     <div class="hero-tag">HDB & Condo Advisor</div>
     <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
     <p class="hero-desc">Expert guidance, precision pricing, and a dedicated advisor from listing to closing.</p>
+    <div class="hero-trust" aria-label="Trust indicators">
+      <span class="stars" aria-hidden="true">★★★★★</span>
+      <span><strong>4.9</strong>/5 rating</span>
+      <span class="trust-divider" aria-hidden="true"></span>
+      <span><strong>500+</strong> homeowners served</span>
+      <span class="trust-divider" aria-hidden="true"></span>
+      <span><strong>15 days</strong> avg. to tenant</span>
+    </div>
     <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
       <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
       <div class="hero-form-row">
@@ -520,8 +594,16 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
         </select>
       </div>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
+      <span class="hero-response">Typically replies within 10 minutes</span>
     </form>
-    <p class="hero-form-note">No spam · No obligations · Response within 24hrs · By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a></p>
+    <p class="hero-form-note">No spam · No obligations · By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a></p>
+    <div class="hero-testimonial" aria-label="Customer testimonial">
+      <span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>
+      <div>
+        <em>Sold my HDB in 3 weeks — no stress, no surprises.</em>
+        <cite>Mr. Ng · Serangoon North</cite>
+      </div>
+    </div>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
     <span>Scroll</span>
@@ -542,7 +624,7 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 
 <!-- Logo Bar -->
 <section class="logo-bar reveal">
-  <p>We list on</p>
+  <p>Your listing goes live on</p>
   <div class="logos">
     <span>PropertyGuru</span>
     <span>99.co</span>
@@ -662,6 +744,13 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
         <span>🏠 <strong>HDB, Condo, Landed, Commercial</strong></span>
         <span>🗣️ <strong>English · Mandarin</strong></span>
         <span>📞 <strong>Reply within 1 hour</strong></span>
+      </div>
+      <div class="advisor-cta-row">
+        <a href="https://calendly.com/joetsk/30min" class="advisor-cta" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+          Book a 15-min Discovery Call
+        </a>
+        <span class="advisor-cta-note"><strong>Free</strong> · No obligation · Straight answers</span>
       </div>
     </div>
   </div>
@@ -791,7 +880,10 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 <div class="mobile-bar" role="navigation" aria-label="Quick contact">
   <a href="tel:+6581881488" class="mb-call" aria-label="Call us">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
-    Call Now
+    <span class="mb-stack">
+      <span class="mb-label">Call Us</span>
+      <span class="mb-number">+65 8188 1488</span>
+    </span>
   </a>
   <a href="https://wa.me/6581881488" target="_blank" class="mb-wa" aria-label="Chat on WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
