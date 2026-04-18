@@ -260,9 +260,9 @@ body.dark-mode .compare-lede{color:rgba(255,255,255,0.65)}
 /* ── Meet Your Advisor ── */
 .advisor{background:#fff;padding:120px 24px;border-top:1px solid #eee}
 .advisor .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(280px,1fr) 1.4fr;gap:80px;align-items:center}
-.advisor-photo-wrap{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#e8edf4,#d6dde8);box-shadow:24px 24px 0 var(--cream),0 40px 90px -30px rgba(11,30,63,0.28)}
-.advisor-photo{width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;filter:saturate(0.95) contrast(1.02)}
-.advisor-photo-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,30,63,0.28));pointer-events:none}
+.advisor-photo-wrap{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,var(--cream),#ede6d4);box-shadow:24px 24px 0 var(--cream),0 40px 90px -30px rgba(11,30,63,0.28)}
+.advisor-photo{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block;transform:scale(1.08);transform-origin:center 38%;filter:saturate(0.95) contrast(1.02)}
+.advisor-photo-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(250,246,236,0.32) 0%,transparent 18%,transparent 55%,rgba(11,30,63,0.28) 82%,rgba(11,30,63,0.55) 100%),radial-gradient(ellipse at 50% 108%,rgba(11,30,63,0.38),transparent 65%);pointer-events:none}
 .advisor-photo-wrap::before{content:"";position:absolute;top:16px;left:16px;width:32px;height:32px;border-top:2px solid var(--emerald);border-left:2px solid var(--emerald);z-index:2;opacity:0.9}
 .advisor-badge{position:absolute;bottom:20px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:2}
 .advisor-badge-item{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);padding:10px 14px;border-radius:10px;font-size:0.72rem;font-weight:600;color:var(--navy);letter-spacing:0.2px;box-shadow:0 4px 20px rgba(11,30,63,0.08)}
@@ -295,7 +295,7 @@ body.dark-mode .advisor-cred span{color:rgba(255,255,255,0.55)}
 body.dark-mode .advisor-meta{color:rgba(232,236,243,0.6)}
 body.dark-mode .advisor-meta strong{color:#fff}
 body.dark-mode .advisor-badge-item{background:rgba(19,41,77,0.92);color:#fff}
-body.dark-mode .advisor-photo-wrap{box-shadow:24px 24px 0 rgba(16,185,129,0.14),0 40px 90px -30px rgba(0,0,0,0.55)}
+body.dark-mode .advisor-photo-wrap{background:linear-gradient(135deg,#0a1736,#061430);box-shadow:24px 24px 0 rgba(16,185,129,0.14),0 40px 90px -30px rgba(0,0,0,0.55)}
 @media(max-width:860px){
   .advisor{padding:80px 20px}
   .advisor .container{grid-template-columns:1fr;gap:48px}
@@ -707,6 +707,38 @@ body.dark-mode .logo-bar p{color:rgba(232,236,243,0.6)}
 body.dark-mode .logo-bar .logos{opacity:0.9}
 body.dark-mode .logo-bar .logos span{color:#fff}
 
+/* ── Floating WhatsApp CTA (desktop) ── */
+.wa-float{position:fixed;bottom:28px;right:28px;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.4);z-index:98;transition:transform .25s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:32px;height:32px;fill:#fff;position:relative;z-index:2}
+.wa-float::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25d366;opacity:0.45;animation:waPulse 2.2s ease-out infinite;z-index:1}
+@keyframes waPulse{0%{transform:scale(1);opacity:0.45}100%{transform:scale(1.85);opacity:0}}
+.wa-float-tip{position:absolute;right:72px;background:var(--navy);color:#fff;padding:8px 14px;border-radius:8px;font-size:0.82rem;font-weight:600;white-space:nowrap;opacity:0;transform:translateX(8px);pointer-events:none;transition:all .25s;box-shadow:0 4px 14px rgba(0,0,0,0.18)}
+.wa-float-tip::after{content:"";position:absolute;left:100%;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--navy)}
+.wa-float:hover .wa-float-tip{opacity:1;transform:translateX(0)}
+@media(max-width:720px){.wa-float{display:none}}
+@media(prefers-reduced-motion:reduce){.wa-float::before{animation:none;opacity:0}}
+
+/* ── Testimonial polish ── */
+.testi-stars{font-size:1.05rem !important;letter-spacing:2px !important}
+.testi-rating{color:var(--navy);font-family:'DM Sans',sans-serif;font-weight:700;margin-left:8px;font-size:0.78rem;letter-spacing:0}
+body.dark-mode .testi-rating{color:#fff}
+.testi-result{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;background:rgba(16,185,129,0.08);color:var(--navy);border:1px solid rgba(16,185,129,0.22);border-radius:100px;font-size:0.76rem;font-weight:600;margin-bottom:22px;letter-spacing:0.2px}
+.testi-result::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--emerald);flex-shrink:0;box-shadow:0 0 0 3px rgba(16,185,129,0.2)}
+body.dark-mode .testi-result{background:rgba(16,185,129,0.12);color:#fff;border-color:rgba(16,185,129,0.3)}
+.testi-verified{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:0.64rem;color:var(--emerald);font-weight:700;letter-spacing:0.7px;text-transform:uppercase;background:rgba(16,185,129,0.1);padding:3px 8px;border-radius:100px;vertical-align:middle}
+.testi-verified::before{content:"✓";font-size:0.72rem}
+body.dark-mode .testi-verified{background:rgba(16,185,129,0.18);color:#3edfa0}
+
+/* ── FAQ polish ── */
+.faq-item{position:relative;transition:background-color .25s}
+.faq-item::before{content:"";position:absolute;left:-16px;top:16px;bottom:16px;width:3px;background:var(--emerald);border-radius:100px;transform:scaleY(0);transform-origin:center;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.faq-item.open::before{transform:scaleY(1)}
+.faq-item:hover{background:rgba(16,185,129,0.02)}
+.faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.04),transparent 60%)}
+body.dark-mode .faq-item:hover{background:rgba(16,185,129,0.04)}
+body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.06),transparent 60%)}
+
 </style>
 </head>
 <body>
@@ -1048,34 +1080,37 @@ body.dark-mode .logo-bar .logos span{color:#fff}
     <p class="lead reveal">Real results from real homeowners across Singapore.</p>
     <div class="testi-list">
       <div class="testi-card reveal">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars">★★★★★<span class="testi-rating">5.0</span></div>
         <blockquote>"Sold my HDB 4-Room flat at Serangoon North Ave 1 in just 3 weeks. They handled everything — I just showed up for the viewing."</blockquote>
+        <div class="testi-result">Sold in 3 weeks · 4-Room HDB</div>
         <div class="testi-meta">
           <div class="testi-avatar" aria-hidden="true">N</div>
           <div class="testi-meta-text">
-            <div class="testi-author">Mr. Ng</div>
+            <div class="testi-author">Mr. Ng <span class="testi-verified">Verified</span></div>
             <div class="testi-role">Serangoon North HDB Seller</div>
           </div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-1">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars">★★★★★<span class="testi-rating">5.0</span></div>
         <blockquote>"Found a tenant for my HDB flat within 15 days. Professional, responsive, and zero drama throughout."</blockquote>
+        <div class="testi-result">Tenant placed in 15 days</div>
         <div class="testi-meta">
           <div class="testi-avatar" aria-hidden="true">L</div>
           <div class="testi-meta-text">
-            <div class="testi-author">Ms. Lim</div>
+            <div class="testi-author">Ms. Lim <span class="testi-verified">Verified</span></div>
             <div class="testi-role">HDB Landlord</div>
           </div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-2">
-        <div class="testi-stars">★★★★★</div>
+        <div class="testi-stars">★★★★★<span class="testi-rating">5.0</span></div>
         <blockquote>"As first-time sellers, we had no idea where to start. They guided us through the entire process seamlessly."</blockquote>
+        <div class="testi-result">BTO upgrade · end-to-end guidance</div>
         <div class="testi-meta">
           <div class="testi-avatar" aria-hidden="true">K</div>
           <div class="testi-meta-text">
-            <div class="testi-author">Mr. & Mrs. Koh</div>
+            <div class="testi-author">Mr. &amp; Mrs. Koh <span class="testi-verified">Verified</span></div>
             <div class="testi-role">BTO Upgraders</div>
           </div>
         </div>
@@ -1208,6 +1243,12 @@ body.dark-mode .logo-bar .logos span{color:#fff}
     WhatsApp
   </a>
 </div>
+
+<!-- Floating WhatsApp CTA (desktop only) -->
+<a href="https://wa.me/6581881488" target="_blank" rel="noopener" class="wa-float" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  <span class="wa-float-tip">Chat with us</span>
+</a>
 
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
