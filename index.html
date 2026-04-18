@@ -381,6 +381,83 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
   .section h2{font-size:1.75rem}
   .cta-primary,.cta-secondary{width:100%;justify-content:center}
 }
+
+/* ═══════════════════════════════════════════════════════
+   UI POLISH — world-class touches
+   ═══════════════════════════════════════════════════════ */
+
+/* — Gradient keyword accent (hero & section headlines) — */
+.accent{background:linear-gradient(120deg,var(--emerald) 0%,#34d399 50%,var(--emerald) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:accentShimmer 6s ease-in-out infinite;font-weight:700}
+@keyframes accentShimmer{0%,100%{background-position:0% center}50%{background-position:100% center}}
+
+/* — Hero noise / grain texture — */
+.hero-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.15;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+
+/* — Hero scroll indicator — */
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,0.5);font-size:0.68rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:scrollBounce 2.4s ease-in-out infinite}
+.scroll-hint svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:0.45}50%{transform:translateX(-50%) translateY(6px);opacity:0.85}}
+@media(max-width:768px){.scroll-hint{display:none}}
+
+/* — Nav logomark dot + scroll intensify — */
+nav .logo{display:inline-flex;align-items:center;gap:10px}
+nav .logo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5);animation:logoPulse 2.6s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5)}50%{box-shadow:0 0 0 5px rgba(16,185,129,0.10),0 0 20px rgba(16,185,129,0.75)}}
+nav.scrolled{background:rgba(255,255,255,0.96);box-shadow:0 1px 20px rgba(11,30,63,0.08);height:60px}
+body.dark-mode nav.scrolled{background:rgba(6,20,48,0.96);box-shadow:0 1px 20px rgba(0,0,0,0.4)}
+
+/* — Trust strip: pulsing dots — */
+.trust-dot{animation:dotPulse 2s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+
+/* — Problem card icons + refined hover — */
+.problem-card{position:relative;border-top:3px solid transparent;transition:all .35s cubic-bezier(.2,.8,.2,1)}
+.problem-card:hover{background:#fff;border-top-color:var(--emerald);transform:translateY(-4px);box-shadow:0 24px 60px -20px rgba(11,30,63,0.18)}
+.problem-icon{width:40px;height:40px;border-radius:10px;background:rgba(16,185,129,0.08);display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--emerald);transition:all .3s}
+.problem-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.problem-card:hover .problem-icon{background:var(--emerald);color:#fff;transform:rotate(-6deg) scale(1.05)}
+.problem-card .problem-num{position:absolute;top:28px;right:32px;margin:0}
+body.dark-mode .problem-icon{background:rgba(16,185,129,0.12)}
+body.dark-mode .problem-card:hover{background:#1a345f}
+
+/* — Stats: dotted pattern + underline accent — */
+.stats{position:relative;overflow:hidden}
+.stats::before{content:"";position:absolute;inset:0;opacity:0.12;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.6) 1px,transparent 0);background-size:28px 28px;pointer-events:none}
+.stats .container{position:relative;z-index:1}
+.stat-number{position:relative;display:inline-block}
+.stat-number::after{content:"";position:absolute;left:50%;bottom:-10px;width:36px;height:2px;background:linear-gradient(90deg,transparent,var(--emerald),transparent);transform:translateX(-50%);opacity:0;transition:opacity .5s .2s}
+.reveal.visible .stat-number::after{opacity:1}
+
+/* — Testimonials: avatar circles + quote mark — */
+.testi-card{position:relative;overflow:hidden}
+.testi-card::before{content:"\201C";position:absolute;top:-28px;right:16px;font-family:'Fraunces',Georgia,serif;font-size:8rem;line-height:1;color:rgba(16,185,129,0.10);font-weight:700;pointer-events:none;transition:color .3s}
+.testi-card:hover::before{color:rgba(16,185,129,0.18)}
+.testi-meta{display:flex;align-items:center;gap:14px}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--emerald));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:0.95rem;flex-shrink:0;box-shadow:0 4px 12px rgba(11,30,63,0.12)}
+.testi-meta-text{flex:1;min-width:0}
+.testi-meta-text .testi-author,.testi-meta-text .testi-role{margin:0}
+
+/* — Buttons: shine sweep on hover — */
+.hero-form .cta-submit,.final-cta-form button,.exit-popup-form button{position:relative;overflow:hidden}
+.hero-form .cta-submit::after,.final-cta-form button::after,.exit-popup-form button::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent);transform:skewX(-20deg);transition:left .7s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.hero-form .cta-submit:hover::after,.final-cta-form button:hover::after,.exit-popup-form button:hover::after{left:130%}
+
+/* — Smooth section fade-in dividers — */
+.problem{position:relative}
+.problem::before,.testimonials::before,.final-cta::before{content:"";position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,var(--cream) 100%);pointer-events:none;z-index:1}
+body.dark-mode .problem::before,body.dark-mode .testimonials::before,body.dark-mode .final-cta::before{background:linear-gradient(180deg,rgba(3,10,26,0) 0%,var(--navy) 100%)}
+.problem .container,.testimonials .container,.final-cta .container{position:relative;z-index:2}
+
+/* — Floating advisor photo — */
+.advisor-photo-wrap{animation:floatY 8s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){.advisor-photo-wrap,.accent,.logo::before,.trust-dot,.scroll-hint{animation:none !important}}
+
+/* — Section eyebrow with leading line — */
+.section-eyebrow{display:inline-flex;align-items:center;gap:10px}
+.section-eyebrow::before{content:"";width:24px;height:1px;background:currentColor;opacity:0.5}
+.hero-tag::before{display:none}
+
 </style>
 </head>
 <body>
@@ -403,9 +480,10 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
 <section class="hero">
   <div class="hero-bg" role="img" aria-label="Singapore Marina Bay skyline at dusk"></div>
   <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
   <div class="hero-inner">
-    <div class="hero-tag">Top 1% Agent · HDB & Condo Advisor</div>
-    <h1>Sell above valuation. Rent in under 2 weeks.</h1>
+    <div class="hero-tag">CEA R009618D · HDB & Condo Advisor</div>
+    <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
     <p class="hero-desc">Expert guidance, precision pricing, and a dedicated advisor from listing to closing.</p>
     <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
       <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
@@ -437,6 +515,10 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
     </form>
     <p class="hero-form-note">No spam · No obligations · Response within 24hrs · By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a></p>
   </div>
+  <a href="#problem" class="scroll-hint" aria-label="Scroll down">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
 </section>
 
 <!-- Trust Strip -->
@@ -470,21 +552,25 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
     <div class="problem-grid">
       <div class="problem-card reveal">
         <div class="problem-num">01</div>
+        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h3l3-9 4 18 3-9h5"/></svg></div>
         <h3>Crickets after listing</h3>
         <p>You list your property and hear nothing. No enquiries, no viewings, just radio silence.</p>
       </div>
       <div class="problem-card reveal reveal-delay-1">
         <div class="problem-num">02</div>
+        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <h3>Overpriced commissions</h3>
         <p>Agents overpromise and underdeliver — yet still charge a fortune regardless of results.</p>
       </div>
       <div class="problem-card reveal reveal-delay-2">
         <div class="problem-num">03</div>
+        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></div>
         <h3>Pricing guesswork</h3>
         <p>Left wondering if your asking price attracts buyers or scares them off entirely.</p>
       </div>
       <div class="problem-card reveal reveal-delay-3">
         <div class="problem-num">04</div>
+        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
         <h3>Paperwork overload</h3>
         <p>Viewings, negotiations, legal docs — it piles up endlessly with no end in sight.</p>
       </div>
@@ -584,24 +670,33 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
         <div class="testi-stars">★★★★★</div>
         <blockquote>"Sold my HDB 4-Room flat at Serangoon North Ave 1 in just 3 weeks. They handled everything — I just showed up for the viewing."</blockquote>
         <div class="testi-meta">
-          <div class="testi-author">Mr. Ng</div>
-          <div class="testi-role">Serangoon North HDB Seller</div>
+          <div class="testi-avatar" aria-hidden="true">N</div>
+          <div class="testi-meta-text">
+            <div class="testi-author">Mr. Ng</div>
+            <div class="testi-role">Serangoon North HDB Seller</div>
+          </div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-1">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"Found a tenant for my HDB flat within 15 days. Professional, responsive, and zero drama throughout."</blockquote>
         <div class="testi-meta">
-          <div class="testi-author">Ms. Lim</div>
-          <div class="testi-role">HDB Landlord</div>
+          <div class="testi-avatar" aria-hidden="true">L</div>
+          <div class="testi-meta-text">
+            <div class="testi-author">Ms. Lim</div>
+            <div class="testi-role">HDB Landlord</div>
+          </div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-2">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"As first-time sellers, we had no idea where to start. They guided us through the entire process seamlessly."</blockquote>
         <div class="testi-meta">
-          <div class="testi-author">Mr. & Mrs. Koh</div>
-          <div class="testi-role">BTO Upgraders</div>
+          <div class="testi-avatar" aria-hidden="true">K</div>
+          <div class="testi-meta-text">
+            <div class="testi-author">Mr. & Mrs. Koh</div>
+            <div class="testi-role">BTO Upgraders</div>
+          </div>
         </div>
       </div>
     </div>
@@ -802,11 +897,13 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
   "We'll WhatsApp you a free property valuation within 24 hours.");
 });
 
-// Progress bar
+// Progress bar + nav intensify
+const _nav=document.querySelector('nav');
 window.addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-window.innerHeight;
   document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%';
-});
+  if(_nav) _nav.classList.toggle('scrolled',window.scrollY>24);
+},{passive:true});
 
 // Scroll reveal
 const reveals=document.querySelectorAll('.reveal');
