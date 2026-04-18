@@ -339,6 +339,43 @@ body.dark-mode .consult-note{color:rgba(232,236,243,0.55)}
 body.dark-mode .consult-note a{color:rgba(232,236,243,0.75)}
 body.dark-mode footer{background:var(--navy);border-color:rgba(255,255,255,0.05);color:rgba(232,236,243,0.5)}
 body.dark-mode footer a{color:rgba(232,236,243,0.75)}
+
+/* ── Newsletter opt-in checkbox (on consultation forms) ── */
+.newsletter-optin{display:flex;align-items:flex-start;gap:9px;font-size:0.78rem;line-height:1.45;color:#777;cursor:pointer;user-select:none;margin-top:2px}
+.newsletter-optin input[type=checkbox]{width:16px;height:16px;margin-top:2px;cursor:pointer;accent-color:var(--emerald);flex-shrink:0}
+.hero-form .newsletter-optin{color:rgba(255,255,255,0.65)}
+body.dark-mode .newsletter-optin{color:rgba(255,255,255,0.6)}
+
+/* ── Footer newsletter signup ── */
+footer{padding:48px 24px 28px}
+.footer-inner{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.footer-newsletter{display:flex;align-items:center;justify-content:space-between;gap:28px;padding-bottom:28px;border-bottom:1px solid rgba(11,30,63,0.08)}
+.footer-newsletter-text{max-width:420px}
+.footer-newsletter-text strong{display:block;color:var(--navy);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1.08rem;letter-spacing:-0.3px;margin-bottom:4px}
+.footer-newsletter-text span{color:#777;font-size:0.84rem;line-height:1.55;display:block}
+.footer-newsletter-form{display:flex;gap:8px;flex-shrink:0}
+.footer-newsletter-form input[type=email]{padding:12px 14px;border:1px solid rgba(11,30,63,0.14);border-radius:8px;font-family:inherit;font-size:0.88rem;min-width:260px;background:#fff;color:var(--navy);outline:none;transition:border-color .2s,box-shadow .2s}
+.footer-newsletter-form input[type=email]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.08)}
+.footer-newsletter-form button{padding:12px 20px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;transition:background .2s,transform .2s}
+.footer-newsletter-form button:hover{background:var(--emerald);transform:translateY(-1px)}
+.footer-newsletter-status{font-size:0.78rem;color:var(--emerald);margin-top:4px;min-height:1em;display:block}
+.footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:#999}
+body.dark-mode .footer-newsletter{border-bottom-color:rgba(255,255,255,0.1)}
+body.dark-mode .footer-newsletter-text strong{color:#fff}
+body.dark-mode .footer-newsletter-text span{color:rgba(255,255,255,0.65)}
+body.dark-mode .footer-newsletter-form input[type=email]{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
+body.dark-mode .footer-newsletter-form input[type=email]::placeholder{color:rgba(255,255,255,0.4)}
+body.dark-mode .footer-newsletter-form input[type=email]:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
+body.dark-mode .footer-newsletter-form button{background:var(--emerald)}
+body.dark-mode .footer-newsletter-form button:hover{background:#0ea371}
+@media(max-width:720px){
+  footer{padding:36px 20px 24px}
+  .footer-newsletter{flex-direction:column;align-items:flex-start;gap:16px;padding-bottom:22px}
+  .footer-newsletter-form{width:100%;flex-direction:column}
+  .footer-newsletter-form input[type=email]{min-width:0;width:100%}
+  .footer-newsletter-form button{width:100%;padding:14px}
+  .footer-bottom{flex-direction:column;gap:6px;font-size:0.74rem}
+}
 body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 
 /* ── Dark Mode Toggle ── */
@@ -362,6 +399,10 @@ body.dark-mode .dark-toggle{background:#13294d;border-color:rgba(16,185,129,0.25
 .hero-form .form-success p{color:rgba(255,255,255,0.75)}
 body.dark-mode .form-success h3{color:#fff}
 body.dark-mode .form-success p{color:rgba(232,236,243,0.72)}
+.footer-newsletter-form .form-success{padding:4px 0;text-align:left;animation:none}
+.footer-newsletter-form .form-success-icon{width:32px;height:32px;font-size:1.05rem;margin:0 0 6px;box-shadow:none}
+.footer-newsletter-form .form-success h3{font-size:0.98rem;margin-bottom:2px}
+.footer-newsletter-form .form-success p{font-size:0.82rem;max-width:none;margin:0}
 
 /* ── Exit Intent Popup ── */
 .exit-popup{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);opacity:0;transition:opacity .3s}
@@ -636,6 +677,7 @@ body.dark-mode .logo-bar .logos span{color:#fff}
           <option>Get valuation</option>
         </select>
       </div>
+      <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <span class="hero-response">Typically replies within 10 minutes</span>
     </form>
@@ -964,6 +1006,7 @@ body.dark-mode .logo-bar .logos span{color:#fff}
         <option>I'm looking to rent</option>
         <option>I'm looking to rent out</option>
       </select>
+      <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit">Get a Free Consultation</button>
       <p class="consult-note">By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p>
     </form>
@@ -971,8 +1014,23 @@ body.dark-mode .logo-bar .logos span{color:#fff}
 </section>
 
 <footer>
-  <span>&copy; 2026 PropertySG. All rights reserved.</span>
-  <span><a href="privacy-policy.html" style="color:#666;text-decoration:underline">Privacy Policy</a> · CEA Reg. No. 009618D</span>
+  <div class="footer-inner">
+    <div class="footer-newsletter">
+      <div class="footer-newsletter-text">
+        <strong>Stay ahead of the Singapore market</strong>
+        <span>Monthly insights on URA price movements, new launches, and cooling-measure changes. One email a month. Unsubscribe anytime.</span>
+      </div>
+      <form class="footer-newsletter-form" id="footerNewsletter" aria-label="Newsletter signup">
+        <label for="footer-email" class="sr-only">Email address</label>
+        <input id="footer-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 PropertySG. All rights reserved.</span>
+      <span><a href="privacy-policy.html" style="color:inherit;text-decoration:underline">Privacy Policy</a> · CEA Reg. No. 009618D</span>
+    </div>
+  </div>
 </footer>
 
 <a href="https://wa.me/6581881488" class="wa-float" target="_blank" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
@@ -997,18 +1055,18 @@ body.dark-mode .logo-bar .logos span{color:#fff}
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
 
-<!-- Exit Intent Popup -->
+<!-- Exit Intent Popup: newsletter signup (desktop-only, once per visitor) -->
 <div class="exit-popup" id="exitPopup">
   <div class="exit-popup-inner">
     <button class="exit-popup-close" id="exitClose">✕</button>
-    <h3 id="exitFormTitle">Wait — get a free valuation!</h3>
-    <p>Before you go, let us tell you what your property is really worth. No strings attached. By submitting you agree to our <a href="privacy-policy.html" style="color:#888;text-decoration:underline">Privacy Policy</a>.</p>
+    <h3 id="exitFormTitle">Before you go — stay ahead of the market</h3>
+    <p>Free monthly Singapore property insights. URA price movements, new launches, and cooling-measure changes. One email a month. Unsubscribe anytime.</p>
     <form class="exit-popup-form" id="exitForm" aria-labelledby="exitFormTitle">
       <label for="exit-name" class="sr-only">Your name</label>
       <input id="exit-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-      <label for="exit-phone" class="sr-only">Phone number</label>
-      <input id="exit-phone" type="tel" name="phone" placeholder="Phone number" autocomplete="tel" required pattern="[0-9+\s]{7,}">
-      <button type="submit">Get My Free Valuation →</button>
+      <label for="exit-email" class="sr-only">Email address</label>
+      <input id="exit-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
+      <button type="submit">Subscribe (It's Free)</button>
     </form>
   </div>
 </div>
@@ -1074,24 +1132,40 @@ document.getElementById('heroForm').addEventListener('submit',e=>{
     full_name:f.name.value.trim(),
     mobile_number:f.phone.value.trim(),
     property_type:f.propType.value,
-    intent:f.intent.value
+    intent:f.intent.value,
+    newsletter_opt_in:f.newsletter_opt_in?.checked?1:0
   },
   "You're in — we'll be in touch.",
   "A PropertySG advisor will WhatsApp you within 24 hours. No spam, no cold calls.");
 });
 
-// ── Exit popup form ──
+// ── Exit popup: newsletter signup ──
 document.getElementById('exitForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   handleFormSubmit(f,{
-    lead_type:'exit_valuation',
+    lead_type:'newsletter_signup',
+    source_widget:'exit_popup',
     full_name:f.name.value.trim(),
-    mobile_number:f.phone.value.trim(),
-    intent:'Get valuation'
+    email_address:f.email.value.trim(),
+    newsletter_opt_in:1
   },
-  "Thanks — your valuation is on the way.",
-  "We'll WhatsApp you a free property valuation within 24 hours.");
+  "You're on the list.",
+  "The next Singapore property market update lands in your inbox soon.");
+});
+
+// ── Footer newsletter signup ──
+document.getElementById('footerNewsletter').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  handleFormSubmit(f,{
+    lead_type:'newsletter_signup',
+    source_widget:'footer',
+    email_address:f.email.value.trim(),
+    newsletter_opt_in:1
+  },
+  "Subscribed — thanks.",
+  "The next Singapore property market update lands in your inbox soon.");
 });
 
 // ── Final CTA consultation form ──
@@ -1106,7 +1180,8 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
     first_name:first,
     last_name:last,
     mobile_number:f.country_code.value+' '+f.phone.value.trim(),
-    intent:f.intent.value
+    intent:f.intent.value,
+    newsletter_opt_in:f.newsletter_opt_in?.checked?1:0
   },
   "Thanks — your consultation is booked.",
   "A dedicated advisor will call you back shortly.");
