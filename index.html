@@ -12,6 +12,8 @@
 <link rel="preload" as="image" href="hero-bg-1280.webp" type="image/webp" fetchpriority="high" media="(min-width:641px) and (max-width:1280px)">
 <link rel="preload" as="image" href="hero-bg-1920.webp" type="image/webp" fetchpriority="high" media="(min-width:1281px)">
 <link rel="preload" as="image" href="hero-bg-640.webp" type="image/webp" fetchpriority="high" media="(max-width:640px)">
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -340,6 +342,27 @@ body.dark-mode .consult-note a{color:rgba(232,236,243,0.75)}
 body.dark-mode footer{background:var(--navy);border-color:rgba(255,255,255,0.05);color:rgba(232,236,243,0.5)}
 body.dark-mode footer a{color:rgba(232,236,243,0.75)}
 
+/* ── Inline Calendly book section ── */
+.book-section{padding:96px 24px;background:var(--cream);text-align:center;position:relative}
+.book-section h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.2vw,2.6rem);font-weight:600;letter-spacing:-0.5px;color:var(--navy);margin:10px 0}
+.book-section .book-lead{color:#666;max-width:540px;margin:0 auto 36px;font-size:1rem;line-height:1.6}
+.calendly-frame{max-width:960px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(11,30,63,0.18),0 1px 0 rgba(11,30,63,0.04);position:relative;min-height:720px}
+.calendly-frame::before{content:"Loading calendar…";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:0.88rem;pointer-events:none;z-index:0}
+.calendly-inline-widget{min-width:320px;height:720px;position:relative;z-index:1}
+.book-fallback{margin-top:24px;font-size:0.85rem;color:#777}
+.book-fallback a{color:var(--navy);font-weight:600;text-decoration:underline}
+body.dark-mode .book-section{background:#061330}
+body.dark-mode .book-section h2{color:#fff}
+body.dark-mode .book-section .book-lead{color:rgba(255,255,255,0.65)}
+body.dark-mode .calendly-frame{background:#fff;box-shadow:0 24px 60px -20px rgba(0,0,0,0.6)}
+body.dark-mode .book-fallback{color:rgba(255,255,255,0.65)}
+body.dark-mode .book-fallback a{color:var(--emerald)}
+@media(max-width:720px){
+  .book-section{padding:64px 16px}
+  .calendly-frame{min-height:1020px;border-radius:12px}
+  .calendly-inline-widget{height:1020px}
+}
+
 /* ── Newsletter opt-in checkbox (on consultation forms) ── */
 .newsletter-optin{display:flex;align-items:flex-start;gap:9px;font-size:0.78rem;line-height:1.45;color:#777;cursor:pointer;user-select:none;margin-top:2px}
 .newsletter-optin input[type=checkbox]{width:16px;height:16px;margin-top:2px;cursor:pointer;accent-color:var(--emerald);flex-shrink:0}
@@ -630,7 +653,7 @@ body.dark-mode .logo-bar .logos span{color:#fff}
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
       +65 8188 1488
     </a>
-    <a href="https://calendly.com/joetsk/30min" class="nav-cta">Book a Call</a>
+    <a href="#book" class="nav-cta">Book a Call</a>
   </div>
 </nav>
 
@@ -873,13 +896,26 @@ body.dark-mode .logo-bar .logos span{color:#fff}
         <span>📞 <strong>Reply within 1 hour</strong></span>
       </div>
       <div class="advisor-cta-row">
-        <a href="https://calendly.com/joetsk/30min" class="advisor-cta" target="_blank" rel="noopener">
+        <a href="#book" class="advisor-cta">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
           Book a 15-min Discovery Call
         </a>
         <span class="advisor-cta-note"><strong>Free</strong> · No obligation · Straight answers</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Inline booking -->
+<section class="book-section" id="book">
+  <div class="container">
+    <div class="section-eyebrow reveal">Book direct</div>
+    <h2 class="reveal">Pick a time that works.</h2>
+    <p class="book-lead reveal">A free 15-minute call with Joe. No obligation, no pitch — just a straight answer on your property question.</p>
+    <div class="calendly-frame reveal reveal-delay-1">
+      <div class="calendly-inline-widget" data-url="https://calendly.com/joetsk/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981"></div>
+    </div>
+    <p class="book-fallback reveal">Prefer to talk? Call <a href="tel:+6581881488">+65 8188 1488</a> or <a href="https://wa.me/6581881488" target="_blank" rel="noopener">WhatsApp us</a>.</p>
   </div>
 </section>
 
