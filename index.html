@@ -525,11 +525,10 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 .hero-response::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.22);animation:dotPulse 1.6s ease-in-out infinite}
 
 /* Hero mini testimonial */
-.hero-testimonial{display:flex;align-items:flex-start;gap:10px;max-width:440px;margin:24px auto 0;color:rgba(255,255,255,0.78);font-size:0.82rem;line-height:1.5}
-.hero-testimonial-mark{font-family:'Fraunces',Georgia,serif;font-size:2.2rem;line-height:0.6;color:rgba(16,185,129,0.75);flex-shrink:0}
-.hero-testimonial-mark-close{font-size:1.05rem;line-height:1;margin-left:3px;vertical-align:baseline;display:inline}
-.hero-testimonial em{font-style:italic;color:rgba(255,255,255,0.9)}
-.hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.55);font-size:0.72rem;margin-top:4px;letter-spacing:0.2px}
+.hero-testimonial{max-width:460px;margin:24px auto 0;color:rgba(255,255,255,0.78);font-size:0.82rem;line-height:1.5;text-align:center}
+.hero-testimonial-mark{font-family:'Fraunces',Georgia,serif;color:rgba(16,185,129,0.9);font-weight:600;font-size:1.05rem;line-height:1;margin:0 2px;display:inline-block;vertical-align:baseline}
+.hero-testimonial em{font-style:italic;color:rgba(255,255,255,0.9);display:block}
+.hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.55);font-size:0.72rem;margin-top:6px;letter-spacing:0.2px}
 
 /* Nav — phone + CTA group */
 .nav-right{display:flex;align-items:center;gap:18px}
@@ -642,11 +641,8 @@ body.dark-mode .logo-bar .logos span{color:#fff}
     </form>
     <p class="hero-form-note">No spam · No obligations · By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a></p>
     <div class="hero-testimonial" aria-label="Customer testimonial">
-      <span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>
-      <div>
-        <em>Sold my HDB in 3 weeks — no stress, no surprises.<span class="hero-testimonial-mark hero-testimonial-mark-close" aria-hidden="true">&rdquo;</span></em>
-        <cite>Mr. Ng · Serangoon North</cite>
-      </div>
+      <em><span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>Sold my HDB in 3 weeks — no stress, no surprises.<span class="hero-testimonial-mark" aria-hidden="true">&rdquo;</span></em>
+      <cite>Mr. Ng · Serangoon North</cite>
     </div>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
