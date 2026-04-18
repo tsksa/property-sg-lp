@@ -9,6 +9,9 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="canonical" href="https://property-sg-lp.netlify.app/">
+<link rel="preload" as="image" href="hero-bg-1280.webp" type="image/webp" fetchpriority="high" media="(min-width:641px) and (max-width:1280px)">
+<link rel="preload" as="image" href="hero-bg-1920.webp" type="image/webp" fetchpriority="high" media="(min-width:1281px)">
+<link rel="preload" as="image" href="hero-bg-640.webp" type="image/webp" fetchpriority="high" media="(max-width:640px)">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -81,7 +84,9 @@ nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 
 /* ── Hero ── */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:120px 24px 80px;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0;background-image:url('hero-bg.jpg');background-size:cover;background-position:center;transform:scale(1.05);animation:heroZoom 20s ease-out forwards}
+.hero-bg{position:absolute;inset:0;z-index:0;background-image:url('hero-bg-640.webp'),url('hero-bg.jpg');background-size:cover;background-position:center;transform:scale(1.05);animation:heroZoom 20s ease-out forwards}
+@media(min-width:641px){.hero-bg{background-image:url('hero-bg-1280.webp'),url('hero-bg.jpg')}}
+@media(min-width:1281px){.hero-bg{background-image:url('hero-bg-1920.webp'),url('hero-bg.jpg')}}
 @keyframes heroZoom{from{transform:scale(1.12)}to{transform:scale(1.02)}}
 .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,10,25,0.55) 0%,rgba(5,10,25,0.35) 38%,rgba(5,10,25,0.78) 100%),radial-gradient(ellipse at 70% 30%,rgba(30,80,140,0.22),transparent 60%)}
 .hero-inner{max-width:720px;text-align:center;position:relative;z-index:2}
@@ -728,7 +733,11 @@ body.dark-mode .logo-bar .logos span{color:#fff}
 <section class="advisor" id="advisor">
   <div class="container">
     <div class="advisor-photo-wrap reveal">
-      <img src="advisor-photo.jpg" alt="Your PropertySG advisor" class="advisor-photo" loading="lazy" width="800" height="1000">
+      <picture>
+        <source type="image/webp" srcset="advisor-photo-400.webp 400w, advisor-photo.webp 800w" sizes="(max-width:860px) 360px, 460px">
+        <source type="image/jpeg" srcset="advisor-photo-400.jpg 400w, advisor-photo.jpg 800w" sizes="(max-width:860px) 360px, 460px">
+        <img src="advisor-photo.jpg" alt="Your PropertySG advisor" class="advisor-photo" loading="lazy" width="800" height="1000">
+      </picture>
       <div class="advisor-badge">
         <div class="advisor-badge-item"><strong>16+</strong>Years Experience</div>
         <div class="advisor-badge-item"><strong>4.9★</strong>Rated</div>
