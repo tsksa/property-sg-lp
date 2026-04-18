@@ -1192,27 +1192,26 @@ if(testiSection){
 }
 
 // ── Exit Intent / Scroll-Depth Popup ──
+// Exit-intent popup — desktop only, once per visitor (localStorage), genuine exit only
 let exitShown=false;
+const isDesktop=window.matchMedia('(hover:hover) and (pointer:fine)').matches&&window.innerWidth>=900;
 function triggerExitPopup(){
-  if(exitShown||sessionStorage.getItem('exitShown'))return;
+  if(exitShown||localStorage.getItem('exitShown'))return;
   exitShown=true;
-  sessionStorage.setItem('exitShown','true');
+  localStorage.setItem('exitShown','true');
   document.getElementById('exitPopup').classList.add('show');
 }
-// Desktop: mouse leaves top of viewport
-document.addEventListener('mouseleave',e=>{if(e.clientY<5)triggerExitPopup();});
-// Mobile/Tablet: fire once user scrolls 65% of page (indicates intent but about to leave)
-const scrollTrigger=()=>{
-  const d=document.documentElement;
-  const pct=(window.scrollY+window.innerHeight)/d.scrollHeight;
-  if(pct>0.65)triggerExitPopup();
-};
-window.addEventListener('scroll',scrollTrigger,{passive:true});
+if(isDesktop){
+  document.addEventListener('mouseleave',e=>{if(e.clientY<=0)triggerExitPopup();});
+}
 document.getElementById('exitClose').addEventListener('click',()=>{
   document.getElementById('exitPopup').classList.remove('show');
 });
 document.getElementById('exitPopup').addEventListener('click',e=>{
   if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')document.getElementById('exitPopup').classList.remove('show');
 });
 </script>
 </body>
