@@ -148,6 +148,44 @@ nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 .benefit-item h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;letter-spacing:-0.5px;margin-bottom:10px}
 .benefit-item p{font-size:0.9rem;color:#777;line-height:1.7;max-width:380px}
 
+/* ── Compare table ── */
+.compare{padding:96px 24px;background:#fbfaf7}
+.compare .eyebrow{text-align:center}
+.compare h2{text-align:center;margin-bottom:14px}
+.compare .compare-lede{text-align:center;color:#666;font-size:1rem;max-width:560px;margin:0 auto 48px}
+.compare-table{max-width:960px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px -32px rgba(11,30,63,0.18),0 1px 0 rgba(11,30,63,0.04)}
+.compare-header{display:grid;grid-template-columns:1.3fr 1fr 1fr;background:linear-gradient(135deg,var(--navy) 0%,#061430 100%);color:#fff}
+.compare-header > div{padding:22px 24px;font-size:0.78rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.compare-header .col-brand{color:var(--emerald);position:relative}
+.compare-header .col-brand::before{content:"★";margin-right:6px;color:var(--emerald)}
+.compare-row{display:grid;grid-template-columns:1.3fr 1fr 1fr;border-bottom:1px solid #f0ece3;transition:background .2s}
+.compare-row:last-child{border-bottom:0}
+.compare-row:hover{background:#fdfcf8}
+.compare-row > div{padding:22px 24px;font-size:0.94rem;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.compare-row .dim{font-weight:600;color:var(--navy);font-size:0.92rem}
+.compare-row .typical{color:#888}
+.compare-row .brand{color:#1a1a1a;background:linear-gradient(180deg,rgba(16,185,129,0.04),rgba(16,185,129,0.01));font-weight:500}
+.compare-row .icon{flex-shrink:0;width:18px;height:18px;margin-top:2px}
+.compare-row .icon.x{color:#c96a6a}
+.compare-row .icon.check{color:var(--emerald)}
+body.dark-mode .compare{background:#071328}
+body.dark-mode .compare-table{background:rgba(255,255,255,0.03);box-shadow:0 24px 60px -20px rgba(0,0,0,0.6),inset 0 0 0 1px rgba(255,255,255,0.06)}
+body.dark-mode .compare-row{border-bottom-color:rgba(255,255,255,0.06)}
+body.dark-mode .compare-row:hover{background:rgba(255,255,255,0.02)}
+body.dark-mode .compare-row .dim{color:#fff}
+body.dark-mode .compare-row .typical{color:rgba(255,255,255,0.5)}
+body.dark-mode .compare-row .brand{color:rgba(255,255,255,0.92);background:linear-gradient(180deg,rgba(16,185,129,0.08),rgba(16,185,129,0.02))}
+body.dark-mode .compare-lede{color:rgba(255,255,255,0.65)}
+@media(max-width:720px){
+  .compare{padding:64px 20px}
+  .compare-header{grid-template-columns:1fr 1fr;font-size:0.72rem}
+  .compare-header .col-dim{display:none}
+  .compare-row{grid-template-columns:1fr 1fr;padding:4px 0}
+  .compare-row .dim{grid-column:1 / -1;padding:16px 20px 4px;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:#999;font-weight:600}
+  body.dark-mode .compare-row .dim{color:rgba(255,255,255,0.5)}
+  .compare-row > div{padding:10px 20px 18px;font-size:0.88rem}
+}
+
 /* ── Stats ── */
 .stats{padding:80px 24px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff}
 .stats .stat-number{color:var(--emerald);text-shadow:0 2px 24px rgba(16,185,129,0.2)}
@@ -665,9 +703,9 @@ body.dark-mode .logo-bar .logos span{color:#fff}
       </div>
       <div class="problem-card reveal reveal-delay-3">
         <div class="problem-num">04</div>
-        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
-        <h3>Paperwork overload</h3>
-        <p>Viewings, negotiations, legal docs — it piles up endlessly with no end in sight.</p>
+        <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="3 7 9 13 13 9 21 17"/><polyline points="21 11 21 17 15 17"/></svg></div>
+        <h3>Low-ball offers</h3>
+        <p>Buyers sense an unsure seller and anchor 10-15% below fair value — you leave real money on the table.</p>
       </div>
     </div>
   </div>
@@ -707,6 +745,47 @@ body.dark-mode .logo-bar .logos span{color:#fff}
   </div>
 </section>
 
+<!-- Compare: Typical agent vs PropertySG -->
+<section class="compare" id="compare">
+  <div class="container">
+    <div class="section-eyebrow eyebrow reveal">Why sellers switch</div>
+    <h2 class="reveal">Typical agent vs <span class="accent">PropertySG</span></h2>
+    <p class="compare-lede reveal">The same listing, two very different outcomes. See where the difference comes from.</p>
+    <div class="compare-table reveal">
+      <div class="compare-header">
+        <div class="col-dim">What matters</div>
+        <div>Typical Agent</div>
+        <div class="col-brand">PropertySG</div>
+      </div>
+      <div class="compare-row">
+        <div class="dim">Time to close</div>
+        <div class="typical"><svg class="icon x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>4–8 weeks average</div>
+        <div class="brand"><svg class="icon check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>Under 2 weeks</div>
+      </div>
+      <div class="compare-row">
+        <div class="dim">Commission model</div>
+        <div class="typical"><svg class="icon x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Flat 2% regardless of result</div>
+        <div class="brand"><svg class="icon check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>Performance-tied, aligned with you</div>
+      </div>
+      <div class="compare-row">
+        <div class="dim">Pricing method</div>
+        <div class="typical"><svg class="icon x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Gut feel & surface comps</div>
+        <div class="brand"><svg class="icon check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>Live data, demand signals, URA trends</div>
+      </div>
+      <div class="compare-row">
+        <div class="dim">Buyer screening</div>
+        <div class="typical"><svg class="icon x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Anyone who asks gets a viewing</div>
+        <div class="brand"><svg class="icon check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>Financing-verified buyers only</div>
+      </div>
+      <div class="compare-row">
+        <div class="dim">After OTP signed</div>
+        <div class="typical"><svg class="icon x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>Radio silence, you chase updates</div>
+        <div class="brand"><svg class="icon check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>One advisor, through to completion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Stats -->
 <section class="stats">
   <div class="container">
@@ -719,8 +798,8 @@ body.dark-mode .logo-bar .logos span{color:#fff}
       <div class="stat-label">In Transactions</div>
     </div>
     <div class="stat-item reveal reveal-delay-2">
-      <div class="stat-number" data-target="4.9" data-suffix="★" data-decimal="true">0</div>
-      <div class="stat-label">Average Rating</div>
+      <div class="stat-number" data-target="8" data-prefix="$" data-suffix="M+">0</div>
+      <div class="stat-label">Above Valuation Returned</div>
     </div>
     <div class="stat-item reveal reveal-delay-3">
       <div class="stat-number" data-target="15" data-suffix=" days">0</div>
