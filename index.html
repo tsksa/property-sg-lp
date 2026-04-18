@@ -207,31 +207,38 @@ body.dark-mode .advisor-photo-wrap{box-shadow:24px 24px 0 rgba(16,185,129,0.14),
 .faq-item.open .faq-answer{max-height:200px;padding-bottom:28px}
 .faq-answer p{font-size:0.9rem;color:#777;line-height:1.7}
 
-/* ── Final CTA ── */
-.final-cta{background:var(--cream);border-top:1px solid #eee}
-.final-cta-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:72px;align-items:center;max-width:1100px;margin:0 auto}
-.final-cta-copy h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,3.8vw,2.7rem);font-weight:600;letter-spacing:-0.5px;line-height:1.15;margin-bottom:16px;color:var(--navy)}
-.final-cta-copy .lead{font-size:1rem;line-height:1.7;color:#555;margin-bottom:24px;max-width:480px}
-.final-cta-benefits{list-style:none;margin:0 0 28px;padding:0}
-.final-cta-benefits li{display:flex;align-items:center;gap:10px;font-size:0.95rem;color:#333;padding:6px 0}
-.final-cta-benefits li::before{content:"";flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--emerald);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
-.final-cta-form-wrap{background:#fff;border-radius:18px;padding:40px 36px;box-shadow:0 30px 80px -20px rgba(11,30,63,0.18),0 4px 12px rgba(11,30,63,0.04);border:1px solid rgba(11,30,63,0.06)}
-.final-cta-form h3{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px}
-.final-form-sub{font-size:0.88rem;color:#888;margin-bottom:24px}
-.final-cta-form input,.final-cta-form select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.95rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-bottom:12px}
-.final-cta-form input:focus,.final-cta-form select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.12)}
-.final-cta-form input::placeholder{color:#aaa}
-.final-cta-form button{width:100%;background:var(--navy);color:#fff;padding:16px;border:none;border-radius:10px;font-size:0.98rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:6px;font-family:inherit}
-.final-cta-form button:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,0.3)}
-.final-form-note{font-size:0.75rem;color:#999;margin-top:14px;text-align:center;line-height:1.5}
-.final-form-note a{color:#666;text-decoration:underline}
-.trust-line{color:#888;font-size:0.82rem;margin-top:20px;letter-spacing:0.3px}
-@media(max-width:860px){
-  .final-cta-grid{grid-template-columns:1fr;gap:40px}
-  .final-cta-copy{text-align:center}
-  .final-cta-copy .lead{margin-left:auto;margin-right:auto}
-  .final-cta-benefits{max-width:320px;margin-left:auto;margin-right:auto;text-align:left}
-  .final-cta-form-wrap{padding:32px 24px}
+/* ── Final CTA (centered consultation form) ── */
+.final-cta{background:#fff;border-top:1px solid #eee}
+.final-cta-centered{max-width:720px;margin:0 auto;text-align:center}
+.final-cta-centered h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.25rem,5.2vw,3.5rem);font-weight:600;letter-spacing:-0.5px;line-height:1.1;margin-bottom:20px;color:var(--navy)}
+.final-cta-sub{font-size:1.05rem;line-height:1.55;color:#555;margin-bottom:40px;max-width:560px;margin-left:auto;margin-right:auto}
+
+.consult-form{display:flex;flex-direction:column;gap:14px;text-align:left}
+.consult-form .honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.consult-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.consult-field{display:flex;flex-direction:column}
+.consult-form input,.consult-form select{width:100%;padding:18px 20px;border:1.5px solid #d7dae0;border-radius:8px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s}
+.consult-form input::placeholder{color:#9aa0a6}
+.consult-form select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23333' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center;padding-right:48px;cursor:pointer;color:#9aa0a6}
+.consult-form select:valid{color:var(--navy)}
+.consult-form select option{color:var(--navy)}
+.consult-form input:focus,.consult-form select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.10)}
+
+.consult-phone{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:stretch}
+.consult-cc{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #d7dae0;border-radius:8px;padding:0 12px;font-size:0.95rem;color:var(--navy);background:#fff;user-select:none}
+.consult-cc .sg-flag{font-size:1.25rem;line-height:1}
+.consult-cc .cc-num{font-weight:500;color:#555;font-size:0.92rem}
+
+.consult-form button{width:100%;background:var(--navy);color:#fff;padding:20px;border:none;border-radius:8px;font-size:1.02rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:10px;font-family:inherit;letter-spacing:0.1px}
+.consult-form button:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 10px 28px rgba(16,185,129,0.32)}
+.consult-note{font-size:0.78rem;color:#999;margin-top:6px;text-align:center;line-height:1.5}
+.consult-note a{color:#666;text-decoration:underline}
+
+@media(max-width:560px){
+  .consult-row{grid-template-columns:1fr}
+  .consult-phone{grid-template-columns:96px 1fr}
+  .consult-form input,.consult-form select{padding:16px 18px}
+  .consult-form button{padding:18px}
 }
 
 /* ── Footer ── */
@@ -275,19 +282,18 @@ body.dark-mode .faq-question{color:#fff}
 body.dark-mode .faq-question .faq-icon{color:var(--emerald)}
 body.dark-mode .faq-answer p{color:rgba(232,236,243,0.7)}
 body.dark-mode .final-cta{background:var(--navy);border-color:rgba(255,255,255,0.05)}
-body.dark-mode .final-cta-copy h2{color:#fff}
-body.dark-mode .final-cta-copy .lead{color:rgba(232,236,243,0.75)}
-body.dark-mode .final-cta-benefits li{color:rgba(232,236,243,0.85)}
-body.dark-mode .final-cta-form-wrap{background:#13294d;border-color:rgba(16,185,129,0.15);box-shadow:0 30px 80px -20px rgba(0,0,0,0.5)}
-body.dark-mode .final-cta-form h3{color:#fff}
-body.dark-mode .final-form-sub{color:rgba(232,236,243,0.6)}
-body.dark-mode .final-cta-form input,body.dark-mode .final-cta-form select{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:#fff}
-body.dark-mode .final-cta-form input::placeholder{color:rgba(232,236,243,0.45)}
-body.dark-mode .final-cta-form button{background:var(--emerald)}
-body.dark-mode .final-cta-form button:hover{background:#0ea371}
-body.dark-mode .final-form-note{color:rgba(232,236,243,0.55)}
-body.dark-mode .final-form-note a{color:rgba(232,236,243,0.75)}
-body.dark-mode .trust-line{color:rgba(232,236,243,0.55)}
+body.dark-mode .final-cta-centered h2{color:#fff}
+body.dark-mode .final-cta-sub{color:rgba(232,236,243,0.72)}
+body.dark-mode .consult-form input,body.dark-mode .consult-form select,body.dark-mode .consult-cc{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
+body.dark-mode .consult-form input::placeholder{color:rgba(232,236,243,0.45)}
+body.dark-mode .consult-form select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");color:rgba(232,236,243,0.5)}
+body.dark-mode .consult-form select:valid{color:#fff}
+body.dark-mode .consult-form input:focus,body.dark-mode .consult-form select:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
+body.dark-mode .consult-cc .cc-num{color:rgba(232,236,243,0.7)}
+body.dark-mode .consult-form button{background:var(--emerald)}
+body.dark-mode .consult-form button:hover{background:#0ea371}
+body.dark-mode .consult-note{color:rgba(232,236,243,0.55)}
+body.dark-mode .consult-note a{color:rgba(232,236,243,0.75)}
 body.dark-mode footer{background:var(--navy);border-color:rgba(255,255,255,0.05);color:rgba(232,236,243,0.5)}
 body.dark-mode footer a{color:rgba(232,236,243,0.75)}
 body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
@@ -438,15 +444,17 @@ body.dark-mode .problem-card:hover{background:#1a345f}
 .testi-meta-text .testi-author,.testi-meta-text .testi-role{margin:0}
 
 /* — Buttons: shine sweep on hover — */
-.hero-form .cta-submit,.final-cta-form button,.exit-popup-form button{position:relative;overflow:hidden}
-.hero-form .cta-submit::after,.final-cta-form button::after,.exit-popup-form button::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent);transform:skewX(-20deg);transition:left .7s cubic-bezier(.2,.8,.2,1);pointer-events:none}
-.hero-form .cta-submit:hover::after,.final-cta-form button:hover::after,.exit-popup-form button:hover::after{left:130%}
+.hero-form .cta-submit,.consult-form button,.exit-popup-form button{position:relative;overflow:hidden}
+.hero-form .cta-submit::after,.consult-form button::after,.exit-popup-form button::after{content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent);transform:skewX(-20deg);transition:left .7s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.hero-form .cta-submit:hover::after,.consult-form button:hover::after,.exit-popup-form button:hover::after{left:130%}
 
 /* — Smooth section fade-in dividers — */
 .problem{position:relative}
-.problem::before,.testimonials::before,.final-cta::before{content:"";position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,var(--cream) 100%);pointer-events:none;z-index:1}
-body.dark-mode .problem::before,body.dark-mode .testimonials::before,body.dark-mode .final-cta::before{background:linear-gradient(180deg,rgba(3,10,26,0) 0%,var(--navy) 100%)}
-.problem .container,.testimonials .container,.final-cta .container{position:relative;z-index:2}
+.problem::before,.testimonials::before{content:"";position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,var(--cream) 100%);pointer-events:none;z-index:1}
+body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:linear-gradient(180deg,rgba(3,10,26,0) 0%,var(--navy) 100%)}
+.problem .container,.testimonials .container{position:relative;z-index:2}
+.final-cta{position:relative}
+.final-cta .final-cta-centered{position:relative;z-index:2}
 
 /* — Floating advisor photo — */
 .advisor-photo-wrap{animation:floatY 8s ease-in-out infinite}
@@ -735,30 +743,38 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before,body.dark-m
 
 <!-- Final CTA -->
 <section class="section final-cta" id="cta-final">
-  <div class="final-cta-grid">
-    <div class="final-cta-copy">
-      <div class="section-eyebrow reveal">Free consultation</div>
-      <h2 class="reveal">Not ready to chat? Get a free valuation first.</h2>
-      <p class="lead reveal">Share your details and we'll reply on WhatsApp within 24 hours — with a realistic price range and what the market is doing in your area.</p>
-      <ul class="final-cta-benefits reveal">
-        <li>Free, no-obligation property valuation</li>
-        <li>Straight answer from a dedicated advisor</li>
-        <li>We'll never spam or pass your data on</li>
-      </ul>
-      <p class="trust-line reveal">📞 +65 8188 1488 · 💬 WhatsApp anytime</p>
-    </div>
-    <div class="final-cta-form-wrap reveal reveal-delay-1">
-      <form id="finalForm" class="final-cta-form" aria-labelledby="finalFormTitle">
-        <h3 id="finalFormTitle">Get your free valuation</h3>
-        <p class="final-form-sub">Takes 30 seconds. We'll WhatsApp you back.</p>
-        <label for="final-name" class="sr-only">Your name</label>
-        <input id="final-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-        <label for="final-phone" class="sr-only">Mobile number</label>
-        <input id="final-phone" type="tel" name="phone" placeholder="Mobile number" autocomplete="tel" required pattern="[0-9+\s]{7,}">
-        <button type="submit">Get My Free Valuation →</button>
-        <p class="final-form-note">By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p>
-      </form>
-    </div>
+  <div class="final-cta-centered">
+    <h2 class="reveal">Get a Free Consultation</h2>
+    <p class="final-cta-sub reveal">Have questions? Leave your details below and get a call back.</p>
+    <form id="finalForm" class="consult-form reveal reveal-delay-1" aria-labelledby="finalFormTitle">
+      <h3 id="finalFormTitle" class="sr-only">Get a free consultation</h3>
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true">
+      <div class="consult-row">
+        <div class="consult-field">
+          <label for="final-first" class="sr-only">First name</label>
+          <input id="final-first" type="text" name="first_name" placeholder="First name*" autocomplete="given-name" required>
+        </div>
+        <div class="consult-field">
+          <label for="final-last" class="sr-only">Last name</label>
+          <input id="final-last" type="text" name="last_name" placeholder="Last name*" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="consult-phone">
+        <div class="consult-cc" aria-hidden="true"><span class="sg-flag">🇸🇬</span><span class="cc-num">+65</span></div>
+        <label for="final-phone" class="sr-only">Phone number</label>
+        <input id="final-phone" type="tel" name="phone" placeholder="Phone number *" autocomplete="tel" required pattern="[0-9\s]{7,}">
+      </div>
+      <label for="final-intent" class="sr-only">What are you looking to do</label>
+      <select id="final-intent" name="intent" required>
+        <option value="" disabled selected>Please select*</option>
+        <option>I'm looking to sell</option>
+        <option>I'm looking to buy</option>
+        <option>I'm looking to rent</option>
+        <option>I'm looking to rent out</option>
+      </select>
+      <button type="submit">Get a Free Consultation</button>
+      <p class="consult-note">By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+    </form>
   </div>
 </section>
 
@@ -883,18 +899,22 @@ document.getElementById('exitForm').addEventListener('submit',e=>{
   "We'll WhatsApp you a free property valuation within 24 hours.");
 });
 
-// ── Final CTA form ──
+// ── Final CTA consultation form ──
 document.getElementById('finalForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
+  const first=f.first_name.value.trim();
+  const last=f.last_name.value.trim();
   handleFormSubmit(f,{
-    lead_type:'final_cta_valuation',
-    full_name:f.name.value.trim(),
-    mobile_number:f.phone.value.trim(),
-    intent:'Get valuation'
+    lead_type:'final_cta_consultation',
+    full_name:(first+' '+last).trim(),
+    first_name:first,
+    last_name:last,
+    mobile_number:'+65 '+f.phone.value.trim(),
+    intent:f.intent.value
   },
-  "Thanks — your valuation is on the way.",
-  "We'll WhatsApp you a free property valuation within 24 hours.");
+  "Thanks — your consultation is booked.",
+  "A dedicated advisor will call you back shortly.");
 });
 
 // Progress bar + nav intensify
