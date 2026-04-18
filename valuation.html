@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Property Valuation — PropertySG</title>
+<meta name="description" content="Get a free, no-obligation property valuation from a CEA-registered Singapore advisor. Takes 2 minutes. Backed by real market data.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Free Property Valuation — PropertySG">
+<meta property="og:description" content="Free, no-obligation property valuation from a CEA-registered advisor. HDB, Condo, Landed, Commercial.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--cream:#faf6ec}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:#111;background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--emerald);text-decoration:none}
+a:hover{text-decoration:underline}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Top bar */
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:20px 24px;position:sticky;top:0;z-index:10;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.topbar-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.topbar .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.2rem;letter-spacing:-0.5px;color:#fff}
+.topbar .logo:hover{text-decoration:none;color:#fff}
+.topbar .back{font-size:0.85rem;color:rgba(255,255,255,0.78);font-weight:500}
+.topbar .back:hover{color:#fff;text-decoration:none}
+
+/* Main layout */
+main{flex:1;display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0 auto;padding:48px 24px;gap:64px;align-items:start;width:100%}
+@media(max-width:900px){main{grid-template-columns:1fr;gap:32px;padding:32px 20px}}
+
+/* Intro column */
+.val-intro{position:sticky;top:96px}
+.val-eyebrow{display:inline-block;background:rgba(16,185,129,0.12);color:var(--emerald);padding:6px 14px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.val-intro h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,3rem);font-weight:600;letter-spacing:-0.5px;line-height:1.1;margin-bottom:16px;color:var(--navy)}
+.val-lede{font-size:1.05rem;color:#555;line-height:1.65;margin-bottom:28px;max-width:460px}
+.val-benefits{list-style:none;padding:0;margin:0 0 32px;max-width:460px}
+.val-benefits li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;font-size:0.95rem;color:#333;border-bottom:1px solid rgba(11,30,63,0.08)}
+.val-benefits li::before{content:"";flex-shrink:0;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--emerald) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/60% no-repeat}
+.val-cea{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid rgba(11,30,63,0.08);max-width:460px;font-size:0.85rem;color:#666}
+.val-cea strong{color:var(--navy);font-weight:600;display:block;margin-bottom:2px}
+@media(max-width:900px){.val-intro{position:static}}
+
+/* Form card */
+.val-card{background:#fff;border-radius:20px;padding:44px 40px;box-shadow:0 30px 80px -20px rgba(11,30,63,0.2),0 4px 12px rgba(11,30,63,0.04);border:1px solid rgba(11,30,63,0.06)}
+@media(max-width:500px){.val-card{padding:32px 24px}}
+
+/* Progress */
+.val-progress{margin-bottom:32px}
+.val-progress-bar{height:4px;background:#eee;border-radius:100px;overflow:hidden;margin-bottom:10px}
+.val-progress-fill{height:100%;background:var(--emerald);width:16.67%;transition:width .3s ease;border-radius:100px}
+.val-progress-text{font-size:0.78rem;color:#999;font-weight:500;letter-spacing:0.5px}
+.val-progress-text span{color:var(--navy);font-weight:600}
+
+/* Steps */
+.val-step{display:none}
+.val-step.active{display:block;animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+.val-step h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,2.8vw,1.75rem);font-weight:600;letter-spacing:-0.3px;line-height:1.25;color:var(--navy);margin-bottom:8px}
+.val-optional{font-size:0.85rem;color:#aaa;font-weight:400;font-family:'DM Sans',sans-serif;letter-spacing:0}
+.val-sub{font-size:0.85rem;color:#888;margin:-2px 0 20px;line-height:1.55}
+
+/* Fields */
+.val-step input[type=text],.val-step input[type=tel],.val-step input[type=email],.val-step select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-top:8px}
+.val-step input:focus,.val-step select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
+.val-step input::placeholder{color:#bbb}
+.val-step label:not(.sr-only):not(.val-radio):not(.val-consent){display:block;font-size:0.82rem;font-weight:600;color:var(--navy);margin-top:16px;letter-spacing:0.2px}
+
+/* Radios */
+.val-radios{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+@media(max-width:500px){.val-radios{grid-template-columns:1fr}}
+.val-radio{display:flex;align-items:center;gap:12px;padding:16px 18px;border:1.5px solid #e5e7eb;border-radius:12px;cursor:pointer;transition:all .2s;font-weight:500;color:#444;font-size:0.95rem}
+.val-radio:hover{border-color:var(--emerald);background:rgba(16,185,129,0.03)}
+.val-radio input{appearance:none;width:20px;height:20px;border:2px solid #ccc;border-radius:50%;flex-shrink:0;position:relative;transition:all .2s;cursor:pointer}
+.val-radio input:checked{border-color:var(--emerald);background:var(--emerald)}
+.val-radio input:checked::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff}
+.val-radio:has(input:checked){border-color:var(--emerald);background:rgba(16,185,129,0.06);color:var(--navy)}
+
+/* Detected address */
+.val-address-detected{margin-top:12px;padding:14px 16px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.25);border-radius:10px;font-size:0.9rem;color:var(--navy);line-height:1.5}
+.val-address-detected strong{color:var(--emerald);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;font-weight:600}
+.val-address-error{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.3);color:#991b1b}
+.val-address-error strong{color:#dc2626}
+
+/* Consent */
+.val-consent{display:flex;align-items:flex-start;gap:12px;padding:14px;background:#fafafa;border-radius:10px;margin-top:20px;cursor:pointer;font-size:0.85rem;color:#555;line-height:1.55}
+.val-consent input{margin-top:3px;flex-shrink:0;accent-color:var(--emerald);width:16px;height:16px;cursor:pointer}
+.val-consent a{color:var(--navy);text-decoration:underline}
+
+/* Navigation */
+.val-nav{display:flex;justify-content:space-between;gap:12px;margin-top:32px}
+.val-nav:has(.val-prev){justify-content:space-between}
+.val-nav:not(:has(.val-prev)){justify-content:flex-end}
+.val-prev,.val-next,.val-submit{padding:14px 28px;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s}
+.val-prev{background:transparent;color:#888;padding-left:4px;padding-right:4px}
+.val-prev:hover{color:var(--navy)}
+.val-next{background:var(--navy);color:#fff;box-shadow:0 4px 16px rgba(11,30,63,0.15)}
+.val-next:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,0.3)}
+.val-submit{background:var(--emerald);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,0.25);padding:16px 32px}
+.val-submit:hover{background:#0ea371;transform:translateY(-1px);box-shadow:0 8px 28px rgba(16,185,129,0.4)}
+.val-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+/* Error state */
+.val-error-msg{color:#dc2626;font-size:0.85rem;margin-top:8px;display:none}
+.val-error-msg.show{display:block}
+
+/* Success */
+.val-success{text-align:center;padding:16px 0}
+.val-success-icon{width:64px;height:64px;background:var(--emerald);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.val-success h2{text-align:center;margin-bottom:12px}
+.val-success p{color:#555;font-size:1rem;max-width:380px;margin:0 auto 24px;line-height:1.65}
+.val-back-home{display:inline-block;padding:12px 24px;border-radius:100px;background:var(--navy);color:#fff;font-weight:600;font-size:0.9rem;transition:all .25s}
+.val-back-home:hover{background:var(--emerald);text-decoration:none;transform:translateY(-1px)}
+
+/* Honeypot */
+.val-honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* Focus */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.val-radio:has(input:focus-visible){outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+
+/* Footer */
+footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:24px;text-align:center;font-size:0.8rem;margin-top:48px}
+footer a{color:rgba(255,255,255,0.8)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="logo">PropertySG</a>
+    <a href="index.html" class="back">← Back to home</a>
+  </div>
+</div>
+
+<main>
+  <div class="val-intro">
+    <div class="val-eyebrow">Free · No obligation · 2 min</div>
+    <h1>What's your property really worth?</h1>
+    <p class="val-lede">Answer 6 quick questions. Our CEA-registered advisor will WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
+    <ul class="val-benefits">
+      <li>Based on actual recent transactions in your block/estate</li>
+      <li>Reply within 24 hours via WhatsApp</li>
+      <li>Zero obligation, zero spam</li>
+      <li>Works for HDB, Condo, Landed &amp; Commercial</li>
+    </ul>
+    <div class="val-cea">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div><strong>CEA Reg. No. 009618D</strong>Licensed by Singapore's Council for Estate Agencies</div>
+    </div>
+  </div>
+
+  <div class="val-card">
+    <form id="valForm" novalidate aria-label="Free property valuation form">
+      <div class="val-progress">
+        <div class="val-progress-bar"><div class="val-progress-fill" id="progFill"></div></div>
+        <div class="val-progress-text">Step <span id="stepNum">1</span> of 6</div>
+      </div>
+
+      <!-- Step 1: Property type -->
+      <div class="val-step active" data-step="1">
+        <h2>What type of property is this?</h2>
+        <p class="val-sub">Pick the one that applies.</p>
+        <div class="val-radios" role="radiogroup">
+          <label class="val-radio"><input type="radio" name="propType" value="HDB" required><span>HDB</span></label>
+          <label class="val-radio"><input type="radio" name="propType" value="Condo / Apartment"><span>Condo / Apartment</span></label>
+          <label class="val-radio"><input type="radio" name="propType" value="Landed"><span>Landed</span></label>
+          <label class="val-radio"><input type="radio" name="propType" value="Commercial"><span>Commercial</span></label>
+        </div>
+        <p class="val-error-msg" data-error-for="propType">Please select a property type.</p>
+        <div class="val-nav">
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Postal code -->
+      <div class="val-step" data-step="2">
+        <h2>What's the postal code?</h2>
+        <p class="val-sub">6-digit Singapore postal code. We'll auto-detect your address.</p>
+        <label for="postalCode" class="sr-only">Postal code</label>
+        <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="e.g. 238859" maxlength="6" autocomplete="postal-code" required>
+        <div class="val-address-detected" id="addrDetected" style="display:none"></div>
+        <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Back</button>
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Unit number -->
+      <div class="val-step" data-step="3">
+        <h2>Unit number? <span class="val-optional">(optional)</span></h2>
+        <p class="val-sub">Floor level affects price — helps us give a sharper valuation.</p>
+        <label for="unitNumber" class="sr-only">Unit number</label>
+        <input id="unitNumber" name="unitNumber" type="text" placeholder="e.g. #12-34">
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Back</button>
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Full name -->
+      <div class="val-step" data-step="4">
+        <h2>What's your name?</h2>
+        <p class="val-sub">So we know who to address the valuation to.</p>
+        <label for="fullName" class="sr-only">Full name</label>
+        <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required>
+        <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Back</button>
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Mobile -->
+      <div class="val-step" data-step="5">
+        <h2>Your mobile number?</h2>
+        <p class="val-sub">We'll WhatsApp you the valuation. No cold calls.</p>
+        <label for="mobile" class="sr-only">Mobile number</label>
+        <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
+        <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Back</button>
+          <button type="button" class="val-next" data-next>Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 6: Email + Timeline + Consent -->
+      <div class="val-step" data-step="6">
+        <h2>Almost done.</h2>
+        <p class="val-sub">One more detail and you're set.</p>
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+        <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
+        <label for="timeline">When are you planning to sell?</label>
+        <select id="timeline" name="timeline" required>
+          <option value="" disabled selected>Select timeline</option>
+          <option value="Just exploring">Just exploring</option>
+          <option value="Within 3 months">Within 3 months</option>
+          <option value="Within 6 months">Within 6 months</option>
+          <option value="Within 12 months">Within 12 months</option>
+        </select>
+        <p class="val-error-msg" data-error-for="timeline">Please select a timeline.</p>
+        <label class="val-consent">
+          <input type="checkbox" name="consent" required>
+          <span>By submitting, I agree to be contacted regarding my valuation request and to PropertySG's <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</span>
+        </label>
+        <p class="val-error-msg" data-error-for="consent">Please confirm consent to proceed.</p>
+        <!-- Honeypot: bots fill this, humans don't -->
+        <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Back</button>
+          <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="val-step val-success" data-step="success">
+        <div class="val-success-icon">✓</div>
+        <h2>We're on it.</h2>
+        <p>Your valuation request is in. We'll WhatsApp you within 24 hours with a detailed valuation and a summary of recent transactions in your area.</p>
+        <a href="index.html" class="val-back-home">← Back to home</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <span>&copy; 2026 PropertySG. All rights reserved. · <a href="privacy-policy.html">Privacy Policy</a> · CEA Reg. No. 009618D</span>
+</footer>
+
+<script>
+// ── Config ─────────────────────────────────────────────
+// POSTs to the Netlify Function at /.netlify/functions/submit-lead.
+// The function handles team notifications (Twilio WhatsApp / Sheets / email).
+// User stays on the success screen — no client-side WhatsApp redirect.
+const FORM_ENDPOINT = '/.netlify/functions/submit-lead';
+
+// ── Pre-fill from URL params (e.g. redirected from hero form) ──
+const params = new URLSearchParams(location.search);
+['fullName','mobile','email','propType'].forEach(key=>{
+  const val = params.get(key);
+  if(!val) return;
+  const el = document.querySelector(`[name="${key}"]`);
+  if(!el) return;
+  if(el.type === 'radio' || el.tagName === 'SELECT'){
+    const match = document.querySelector(`[name="${key}"][value="${val}"]`) ||
+                  [...document.querySelectorAll(`[name="${key}"] option`)].find(o=>o.value===val);
+    if(match) match.checked ? match.checked=true : match.selected=true;
+  } else {
+    el.value = val;
+  }
+});
+
+// ── Capture UTM params (survives the redirect chain) ──
+const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+const utm = {};
+UTM_KEYS.forEach(k=>{ utm[k] = params.get(k) || ''; });
+
+// ── Step navigation ─────────────────────────────────────
+const steps = [...document.querySelectorAll('.val-step[data-step]')].filter(s=>s.dataset.step!=='success');
+const totalSteps = steps.length;
+let current = 0;
+
+function showStep(i){
+  steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
+  document.getElementById('stepNum').textContent = i+1;
+  document.getElementById('progFill').style.width = ((i+1)/totalSteps*100) + '%';
+  // Focus first input in the new step
+  const firstInput = steps[i].querySelector('input:not([type=hidden]),select');
+  if(firstInput) setTimeout(()=>firstInput.focus(),320);
+}
+
+function showSuccess(){
+  steps.forEach(s=>s.classList.remove('active'));
+  document.querySelector('[data-step="success"]').classList.add('active');
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('stepNum').textContent = totalSteps;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function clearErrors(step){
+  step.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
+}
+
+function validateStep(i){
+  const step = steps[i];
+  clearErrors(step);
+  const required = step.querySelectorAll('[required]');
+  for(const field of required){
+    if(field.type === 'radio'){
+      const group = step.querySelectorAll(`[name="${field.name}"]`);
+      if(![...group].some(r=>r.checked)){
+        step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        return false;
+      }
+    } else if(field.type === 'checkbox'){
+      if(!field.checked){
+        step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        return false;
+      }
+    } else if(!field.value.trim() || !field.checkValidity()){
+      step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+      field.focus();
+      return false;
+    }
+  }
+  return true;
+}
+
+document.querySelectorAll('[data-next]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(!validateStep(current)) return;
+    if(current < totalSteps-1){ current++; showStep(current); }
+  });
+});
+document.querySelectorAll('[data-prev]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(current > 0){ current--; showStep(current); }
+  });
+});
+
+// Enter key advances (except final step where it submits)
+document.getElementById('valForm').addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.tagName!=='TEXTAREA' && e.target.type!=='submit'){
+    e.preventDefault();
+    if(current < totalSteps-1){
+      if(validateStep(current)){ current++; showStep(current); }
+    }
+  }
+});
+
+// ── OneMap postal code lookup (Singapore) ─────────────
+let detectedAddress = '';
+const postalEl = document.getElementById('postalCode');
+const addrBox = document.getElementById('addrDetected');
+
+postalEl.addEventListener('input', debounce(async ()=>{
+  const code = postalEl.value.trim();
+  if(code.length !== 6 || !/^\d{6}$/.test(code)){
+    addrBox.style.display='none';
+    detectedAddress='';
+    return;
+  }
+  try {
+    const res = await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${code}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
+    const data = await res.json();
+    if(data.results && data.results.length > 0){
+      const r = data.results[0];
+      detectedAddress = `${r.BLK_NO ? r.BLK_NO + ' ' : ''}${r.ROAD_NAME}, Singapore ${r.POSTAL}`.trim();
+      addrBox.className = 'val-address-detected';
+      addrBox.innerHTML = `<strong>Detected Address</strong>${detectedAddress}`;
+      addrBox.style.display = 'block';
+    } else {
+      addrBox.className = 'val-address-detected val-address-error';
+      addrBox.innerHTML = `<strong>Not found</strong>We couldn't detect this postal code. You can still continue — we'll confirm when we reply.`;
+      addrBox.style.display = 'block';
+      detectedAddress = '';
+    }
+  } catch(err){
+    addrBox.style.display='none';
+    detectedAddress='';
+  }
+}, 400));
+
+function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+
+// ── Submit ──────────────────────────────────────────────
+document.getElementById('valForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  if(!validateStep(current)) return;
+  const f = e.target;
+
+  // Honeypot check
+  if(f._honeypot.value) return;
+
+  // Field names match freevaluation.sg so the same submit-lead function handles both
+  const data = {
+    lead_type: 'valuation',
+    property_type: f.propType.value,
+    postal_code: f.postalCode.value.trim(),
+    detected_address: detectedAddress,
+    unit_number: f.unitNumber.value.trim(),
+    full_name: f.fullName.value.trim(),
+    mobile_number: f.mobile.value.trim(),
+    email: f.email.value.trim(),
+    selling_timeline: f.timeline.value,
+    source_site: 'PropertySG',
+    submitted_at: new Date().toISOString(),
+    ...utm
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  // Submit to Netlify Function. The function handles notifications (Twilio WhatsApp
+  // to team, Google Sheets append, email). The user is NOT redirected anywhere —
+  // they land on the success screen and we're done.
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: {'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const result = await res.json().catch(()=>({ok:res.ok}));
+    if(!result.ok) throw new Error('submit failed');
+    showSuccess();
+  } catch(err){
+    btn.disabled = false;
+    btn.textContent = 'Get My Free Valuation →';
+    alert("Sorry, something went wrong submitting your request. Please try again or WhatsApp us at +65 8188 1488.");
+  }
+});
+</script>
+
+</body>
+</html>

@@ -3,34 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropertySG — Sell & Rent Smarter</title>
+<title>PropertySG — Sell & Rent Smarter in Singapore</title>
+<meta name="description" content="Singapore property advisory. Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing — for HDB, condo, landed and commercial.">
+<meta name="theme-color" content="#0b1e3f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  "name": "PropertySG",
+  "url": "https://tsksa.github.io/property-sg-lp/",
+  "image": "https://tsksa.github.io/property-sg-lp/hero-bg.jpg",
+  "logo": "https://tsksa.github.io/property-sg-lp/apple-touch-icon.png",
+  "description": "Singapore HDB & Condo advisory — precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.",
+  "telephone": "+65-8188-1488",
+  "priceRange": "$$",
+  "areaServed": {"@type": "Country", "name": "Singapore"},
+  "address": {"@type": "PostalAddress", "addressCountry": "SG"},
+  "sameAs": ["https://wa.me/6581881488"],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "3",
+    "bestRating": "5"
+  },
+  "review": [
+    {"@type": "Review", "author": {"@type": "Person", "name": "Mr. Ng"}, "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "Sold my HDB 4-Room flat at Serangoon North Ave 1 in just 3 weeks. They handled everything — I just showed up for the viewing."},
+    {"@type": "Review", "author": {"@type": "Person", "name": "Ms. Lim"}, "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "Found a tenant for my HDB flat within 15 days. Professional, responsive, and zero drama throughout."},
+    {"@type": "Review", "author": {"@type": "Person", "name": "Mr. & Mrs. Koh"}, "reviewRating": {"@type": "Rating", "ratingValue": "5"}, "reviewBody": "As first-time sellers, we had no idea where to start. They guided us through the entire process seamlessly."}
+  ]
+}
+</script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="PropertySG — Sell & Rent Smarter in Singapore">
+<meta property="og:description" content="Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.">
+<meta property="og:image" content="hero-bg.jpg">
+<meta property="og:url" content="https://tsksa.github.io/property-sg-lp/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PropertySG — Sell & Rent Smarter in Singapore">
+<meta name="twitter:description" content="Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.">
+<meta name="twitter:image" content="hero-bg.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+:root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf}
 body{font-family:'DM Sans',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Focus states — keyboard accessibility */
+*:focus{outline:none}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+.hero-form input:focus-visible,.hero-form select:focus-visible,.exit-popup-form input:focus-visible{outline:2px solid var(--emerald);outline-offset:0;border-color:var(--emerald)}
+.faq-question:focus-visible{outline-offset:4px}
 
 /* ── Progress Bar ── */
-.progress-bar{position:fixed;top:0;left:0;height:3px;background:#111;z-index:200;width:0;transition:width .1s linear}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--emerald),var(--navy));z-index:200;width:0;transition:width .1s linear}
 
 /* ── Nav ── */
 nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
-nav .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
+nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
 nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:#666}
 nav .nav-links a:hover{color:#111}
-nav .nav-cta{background:#111;color:#fff;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:600;transition:all .25s}
-nav .nav-cta:hover{background:#333;transform:scale(1.02)}
+nav .nav-cta{background:var(--navy);color:#fff;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:600;transition:all .25s}
+nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 
 /* ── Hero ── */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;padding:120px 24px 80px;position:relative;overflow:hidden}
-.hero-video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;width:auto;height:auto;transform:translate(-50%,-50%);object-fit:cover;z-index:0;opacity:0.6}
-.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,0.05),rgba(0,0,0,0.35))}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background-image:url('hero-bg.jpg');background-size:cover;background-position:center;transform:scale(1.05);animation:heroZoom 20s ease-out forwards}
+@keyframes heroZoom{from{transform:scale(1.12)}to{transform:scale(1.02)}}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,10,25,0.55) 0%,rgba(5,10,25,0.35) 38%,rgba(5,10,25,0.78) 100%),radial-gradient(ellipse at 70% 30%,rgba(30,80,140,0.22),transparent 60%)}
 .hero-inner{max-width:720px;text-align:center;position:relative;z-index:2}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;backdrop-filter:blur(8px)}
-.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-2px;margin-bottom:24px}
-.hero .hero-desc{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.6);max-width:480px;margin:0 auto 36px;line-height:1.6}
+.hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:600;color:#fff;line-height:1.08;letter-spacing:-0.5px;margin-bottom:24px;font-variation-settings:"opsz" 144,"SOFT" 50}
+.hero .hero-desc{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.82);max-width:480px;margin:0 auto 36px;line-height:1.6}
 
 /* Hero Form */
 .hero-form{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:12px;max-width:440px;margin:0 auto}
@@ -40,31 +89,41 @@ nav .nav-cta:hover{background:#333;transform:scale(1.02)}
 .hero-form select{appearance:none;cursor:pointer}
 .hero-form select option{background:#222;color:#fff}
 .hero-form input:focus,.hero-form select:focus{border-color:rgba(255,255,255,0.4)}
-.hero-form .cta-submit{width:100%;padding:14px;border-radius:10px;background:#fff;color:#111;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
-.hero-form .cta-submit:hover{background:#eee;transform:translateY(-1px)}
+.hero-form .cta-submit{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(16,185,129,0.35)}
+.hero-form .cta-submit:hover{background:var(--emerald-dark);transform:translateY(-1px);box-shadow:0 6px 24px rgba(16,185,129,0.45)}
 .hero-form .arrow{transition:transform .25s}
 .hero-form .cta-submit:hover .arrow{transform:translateX(4px)}
-.hero-form-note{color:rgba(255,255,255,0.3);font-size:0.7rem;text-align:center}
+.hero-form-note{color:rgba(255,255,255,0.68);font-size:0.72rem;text-align:center;margin-top:4px}
+.hero-form-note a{color:rgba(255,255,255,0.85);text-decoration:underline}
+
+/* ── Trust Strip ── */
+.trust-strip{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:28px 24px;position:relative;overflow:hidden}
+.trust-strip::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(16,185,129,0.18),transparent 55%);pointer-events:none}
+.trust-strip-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px 40px;position:relative;z-index:1}
+.trust-badge{display:inline-flex;align-items:center;gap:10px;font-size:0.82rem;font-weight:600;letter-spacing:0.3px;color:rgba(255,255,255,0.92)}
+.trust-badge .trust-num{font-family:'Fraunces',Georgia,serif;color:var(--emerald);font-weight:700;font-size:1rem;letter-spacing:-0.3px}
+.trust-dot{width:5px;height:5px;border-radius:50%;background:var(--emerald);opacity:0.8;box-shadow:0 0 10px rgba(16,185,129,0.6)}
+@media(max-width:640px){.trust-strip{padding:22px 20px}.trust-strip-inner{gap:14px 24px}.trust-badge{font-size:0.78rem}.trust-dot{display:none}}
 
 /* ── Logo Bar ── */
-.logo-bar{padding:48px 24px;text-align:center;border-bottom:1px solid #eee;background:#fafafa}
+.logo-bar{padding:48px 24px;text-align:center;border-bottom:1px solid #eee;background:var(--cream)}
 .logo-bar p{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:#bbb;margin-bottom:24px}
 .logo-bar .logos{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;opacity:0.35}
-.logo-bar .logos span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.5px}
+.logo-bar .logos span{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.5px}
 
 /* ── Sections ── */
 .section{padding:120px 24px}
 .container{max-width:1100px;margin:0 auto}
 .section-eyebrow{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:#999;margin-bottom:16px}
-.section h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.25rem);font-weight:700;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px}
+.section h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,3.25rem);font-weight:600;letter-spacing:-0.5px;line-height:1.1;margin-bottom:20px;font-variation-settings:"opsz" 144}
 .section .lead{color:#666;font-size:1.1rem;max-width:500px;line-height:1.7}
 
 /* ── Problem ── */
-.problem{background:#fafafa;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.problem{background:var(--cream);border-top:1px solid #eee;border-bottom:1px solid #eee}
 .problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;margin-top:64px}
 .problem-card{background:#fff;padding:40px 32px;transition:all .3s}
 .problem-card:hover{background:#f5f5f5}
-.problem-num{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;color:#ccc;font-weight:600;margin-bottom:24px;letter-spacing:1px}
+.problem-num{font-family:'Fraunces',Georgia,serif;font-size:0.75rem;color:#ccc;font-weight:600;margin-bottom:24px;letter-spacing:1px}
 .problem-card h3{font-size:1.15rem;font-weight:600;margin-bottom:12px;letter-spacing:-0.3px}
 .problem-card p{font-size:0.9rem;color:#888;line-height:1.65}
 
@@ -73,34 +132,67 @@ nav .nav-cta:hover{background:#333;transform:scale(1.02)}
 .benefit-item{padding:32px 0;border-bottom:1px solid #eee}
 .benefit-item:first-child{border-top:1px solid #eee}
 .benefit-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#999;margin-bottom:8px}
-.benefit-item h3{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-0.5px;margin-bottom:10px}
+.benefit-item h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;letter-spacing:-0.5px;margin-bottom:10px}
 .benefit-item p{font-size:0.9rem;color:#777;line-height:1.7;max-width:380px}
 
 /* ── Stats ── */
-.stats{padding:80px 24px;background:#111;color:#fff}
+.stats{padding:80px 24px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff}
+.stats .stat-number{color:var(--emerald);text-shadow:0 2px 24px rgba(16,185,129,0.2)}
 .stats .container{display:flex;justify-content:center;gap:80px;flex-wrap:wrap}
 .stat-item{text-align:center}
-.stat-number{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:700;letter-spacing:-2px;line-height:1}
-.stat-label{font-size:0.75rem;font-weight:500;color:rgba(255,255,255,0.35);margin-top:8px;text-transform:uppercase;letter-spacing:1.5px}
+.stat-number{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.5rem,5vw,3.5rem);font-weight:700;letter-spacing:-2px;line-height:1}
+.stat-label{font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.72);margin-top:10px;text-transform:uppercase;letter-spacing:1.5px}
+
+/* ── Meet Your Advisor ── */
+.advisor{background:#fff;padding:120px 24px;border-top:1px solid #eee}
+.advisor .container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(280px,1fr) 1.4fr;gap:80px;align-items:center}
+.advisor-photo-wrap{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#e8edf4,#d6dde8);box-shadow:24px 24px 0 var(--cream),0 40px 90px -30px rgba(11,30,63,0.28)}
+.advisor-photo{width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;filter:saturate(0.95) contrast(1.02)}
+.advisor-photo-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,30,63,0.28));pointer-events:none}
+.advisor-photo-wrap::before{content:"";position:absolute;top:16px;left:16px;width:32px;height:32px;border-top:2px solid var(--emerald);border-left:2px solid var(--emerald);z-index:2;opacity:0.9}
+.advisor-badge{position:absolute;bottom:20px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:2}
+.advisor-badge-item{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);padding:10px 14px;border-radius:10px;font-size:0.72rem;font-weight:600;color:var(--navy);letter-spacing:0.2px;box-shadow:0 4px 20px rgba(11,30,63,0.08)}
+.advisor-badge-item strong{color:var(--emerald);font-family:'Fraunces',Georgia,serif;font-size:1rem;margin-right:4px}
+.advisor-content .section-eyebrow{margin-bottom:12px}
+.advisor-content h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:600;letter-spacing:-0.5px;line-height:1.15;margin-bottom:8px;color:var(--navy)}
+.advisor-title{color:var(--emerald);font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:24px}
+.advisor-bio{color:#555;font-size:1rem;line-height:1.75;margin-bottom:20px}
+.advisor-quote{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.1rem;color:var(--navy);line-height:1.6;padding:16px 0 20px;border-top:1px solid #eee;border-bottom:1px solid #eee;margin:24px 0}
+.advisor-meta{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:0.82rem;color:#666}
+.advisor-meta span{display:inline-flex;align-items:center;gap:6px}
+.advisor-meta strong{color:var(--navy);font-weight:600}
+body.dark-mode .advisor{background:#030a1a;border-top-color:rgba(255,255,255,0.05)}
+body.dark-mode .advisor-content h2{color:#fff}
+body.dark-mode .advisor-bio{color:rgba(232,236,243,0.75)}
+body.dark-mode .advisor-quote{color:#fff;border-color:rgba(255,255,255,0.08)}
+body.dark-mode .advisor-meta{color:rgba(232,236,243,0.6)}
+body.dark-mode .advisor-meta strong{color:#fff}
+body.dark-mode .advisor-badge-item{background:rgba(19,41,77,0.92);color:#fff}
+body.dark-mode .advisor-photo-wrap{box-shadow:24px 24px 0 rgba(16,185,129,0.14),0 40px 90px -30px rgba(0,0,0,0.55)}
+@media(max-width:860px){
+  .advisor{padding:80px 20px}
+  .advisor .container{grid-template-columns:1fr;gap:48px}
+  .advisor-photo-wrap{max-width:360px;margin:0 auto;box-shadow:16px 16px 0 var(--cream),0 20px 60px -20px rgba(11,30,63,0.2)}
+  body.dark-mode .advisor-photo-wrap{box-shadow:16px 16px 0 rgba(16,185,129,0.12),0 20px 60px -20px rgba(0,0,0,0.5)}
+}
 
 /* ── Testimonials ── */
-.testimonials{background:#fafafa;border-top:1px solid #eee;border-bottom:1px solid #eee;color:#111}
+.testimonials{background:var(--cream);border-top:1px solid #eee;border-bottom:1px solid #eee;color:#111}
 .testimonials .section-eyebrow{color:#999}
 .testi-list{margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
 .testi-card{background:#fff;padding:48px 36px;border:1px solid #eee;border-radius:16px;transition:all .3s}
 .testi-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.06)}
 .testi-stars{color:#f5c518;font-size:0.85rem;letter-spacing:3px;margin-bottom:20px}
 .testi-card blockquote{font-size:1.05rem;line-height:1.7;color:#444;margin-bottom:28px;font-style:normal}
-.testi-meta{display:flex;align-items:center;gap:14px}
-.testi-avatar{width:42px;height:42px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:#fff}
-.testi-author{font-size:0.85rem;font-weight:600;color:#111}
-.testi-role{font-size:0.75rem;color:#999;margin-top:2px}
+.testi-meta{padding-top:18px;border-top:1px solid #eee}
+.testi-author{font-size:0.9rem;font-weight:600;color:var(--navy);letter-spacing:-0.2px}
+.testi-role{font-size:0.75rem;color:#999;margin-top:3px;text-transform:uppercase;letter-spacing:0.8px}
 
 /* ── FAQ ── */
 .faq{background:#fff}
 .faq-list{max-width:700px;margin:64px auto 0}
 .faq-item{border-bottom:1px solid #eee}
-.faq-question{width:100%;display:flex;justify-content:space-between;align-items:center;padding:28px 0;background:none;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600;text-align:left;color:#111;letter-spacing:-0.3px}
+.faq-question{width:100%;display:flex;justify-content:space-between;align-items:center;padding:28px 0;background:none;border:none;cursor:pointer;font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:600;text-align:left;color:#111;letter-spacing:-0.3px}
 .faq-question .faq-icon{font-size:1.5rem;transition:transform .3s;color:#999;font-weight:300}
 .faq-item.open .faq-icon{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
@@ -108,86 +200,150 @@ nav .nav-cta:hover{background:#333;transform:scale(1.02)}
 .faq-answer p{font-size:0.9rem;color:#777;line-height:1.7}
 
 /* ── Final CTA ── */
-.final-cta{text-align:center;background:#fafafa;border-top:1px solid #eee}
-.final-cta h2{max-width:600px;margin-left:auto;margin-right:auto}
-.final-cta .lead{max-width:440px;margin-left:auto;margin-right:auto}
-.cta-secondary{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;padding:18px 40px;border-radius:100px;font-weight:600;font-size:0.95rem;transition:all .25s;margin-top:40px}
-.cta-secondary:hover{background:#333;transform:translateY(-2px)}
-.cta-secondary .arrow{transition:transform .25s}
-.cta-secondary:hover .arrow{transform:translateX(4px)}
-.trust-line{color:#bbb;font-size:0.75rem;margin-top:20px;letter-spacing:0.5px}
+.final-cta{background:var(--cream);border-top:1px solid #eee}
+.final-cta-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:72px;align-items:center;max-width:1100px;margin:0 auto}
+.final-cta-copy h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,3.8vw,2.7rem);font-weight:600;letter-spacing:-0.5px;line-height:1.15;margin-bottom:16px;color:var(--navy)}
+.final-cta-copy .lead{font-size:1rem;line-height:1.7;color:#555;margin-bottom:24px;max-width:480px}
+.final-cta-benefits{list-style:none;margin:0 0 28px;padding:0}
+.final-cta-benefits li{display:flex;align-items:center;gap:10px;font-size:0.95rem;color:#333;padding:6px 0}
+.final-cta-benefits li::before{content:"";flex-shrink:0;width:18px;height:18px;border-radius:50%;background:var(--emerald);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.final-cta-form-wrap{background:#fff;border-radius:18px;padding:40px 36px;box-shadow:0 30px 80px -20px rgba(11,30,63,0.18),0 4px 12px rgba(11,30,63,0.04);border:1px solid rgba(11,30,63,0.06)}
+.final-cta-form h3{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px}
+.final-form-sub{font-size:0.88rem;color:#888;margin-bottom:24px}
+.final-cta-form input,.final-cta-form select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.95rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-bottom:12px}
+.final-cta-form input:focus,.final-cta-form select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.12)}
+.final-cta-form input::placeholder{color:#aaa}
+.final-cta-form button{width:100%;background:var(--navy);color:#fff;padding:16px;border:none;border-radius:10px;font-size:0.98rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:6px;font-family:inherit}
+.final-cta-form button:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,0.3)}
+.final-form-note{font-size:0.75rem;color:#999;margin-top:14px;text-align:center;line-height:1.5}
+.final-form-note a{color:#666;text-decoration:underline}
+.trust-line{color:#888;font-size:0.82rem;margin-top:20px;letter-spacing:0.3px}
+@media(max-width:860px){
+  .final-cta-grid{grid-template-columns:1fr;gap:40px}
+  .final-cta-copy{text-align:center}
+  .final-cta-copy .lead{margin-left:auto;margin-right:auto}
+  .final-cta-benefits{max-width:320px;margin-left:auto;margin-right:auto;text-align:left}
+  .final-cta-form-wrap{padding:32px 24px}
+}
 
 /* ── Footer ── */
-footer{background:#fafafa;border-top:1px solid #eee;padding:40px 48px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#999}
+footer{background:var(--cream);border-top:1px solid #eee;padding:40px 48px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#999}
 
-/* ── Dark Mode ── */
-body.dark-mode{background:#0a0a0a;color:#eee}
-body.dark-mode nav{background:rgba(10,10,10,0.92);border-bottom-color:rgba(255,255,255,0.06)}
-body.dark-mode .progress-bar{background:#6c63ff}
-body.dark-mode .logo-bar{background:#111;border-bottom-color:#222}
+/* ── Dark Mode (brand-aligned navy + emerald) ── */
+body.dark-mode{background:#030a1a;color:#e8ecf3}
+body.dark-mode nav{background:rgba(6,20,48,0.88);border-bottom-color:rgba(16,185,129,0.14)}
+body.dark-mode nav .logo{color:#fff}
+body.dark-mode nav .nav-links{color:rgba(232,236,243,0.7)}
+body.dark-mode nav .nav-links a:hover{color:var(--emerald)}
+body.dark-mode .logo-bar{background:var(--navy);border-bottom-color:rgba(255,255,255,0.05)}
+body.dark-mode .logo-bar p{color:rgba(232,236,243,0.45)}
 body.dark-mode .logo-bar .logos span{color:#fff}
-body.dark-mode .problem{background:#111;border-color:#222}
-body.dark-mode .problem-card{background:#1a1a1a}
-body.dark-mode .problem-card:hover{background:#222}
-body.dark-mode .problem-card h3{color:#eee}
-body.dark-mode .problem-card p{color:#888}
-body.dark-mode .section{background:#0a0a0a}
+body.dark-mode .problem{background:var(--navy);border-color:rgba(255,255,255,0.05)}
+body.dark-mode .problem-card{background:#13294d}
+body.dark-mode .problem-card:hover{background:#1a345f}
+body.dark-mode .problem-card h3{color:#fff}
+body.dark-mode .problem-card p{color:rgba(232,236,243,0.7)}
+body.dark-mode .problem-num{color:rgba(16,185,129,0.7)}
+body.dark-mode .section{background:#030a1a}
 body.dark-mode .section h2{color:#fff}
-body.dark-mode .benefit-item{border-color:#222}
-body.dark-mode .benefit-item h3{color:#eee}
-body.dark-mode .testimonials{background:#111;border-color:#222}
-body.dark-mode .testi-card{background:#1a1a1a;border-color:#222}
-body.dark-mode .testi-card blockquote{color:#bbb}
-body.dark-mode .testi-author{color:#eee}
-body.dark-mode .faq{background:#0a0a0a}
-body.dark-mode .faq-item{border-color:#222}
-body.dark-mode .faq-question{color:#eee}
-body.dark-mode .final-cta{background:#111;border-color:#222}
-body.dark-mode footer{background:#111;border-color:#222;color:#666}
-body.dark-mode .hero-form{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1)}
-body.dark-mode .hero-form input,body.dark-mode .hero-form select{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1)}
-body.dark-mode .hero-form .cta-submit{background:#fff;color:#111}
-body.dark-mode .hero-form .cta-submit:hover{background:#eee}
+body.dark-mode .section .lead{color:rgba(232,236,243,0.7)}
+body.dark-mode .section-eyebrow{color:var(--emerald);opacity:0.9}
+body.dark-mode .benefit-item{border-color:rgba(255,255,255,0.08)}
+body.dark-mode .benefit-item:first-child{border-top-color:rgba(255,255,255,0.08)}
+body.dark-mode .benefit-item h3{color:#fff}
+body.dark-mode .benefit-item p{color:rgba(232,236,243,0.7)}
+body.dark-mode .benefit-label{color:var(--emerald)}
+body.dark-mode .testimonials{background:var(--navy);border-color:rgba(255,255,255,0.05)}
+body.dark-mode .testimonials .section-eyebrow{color:var(--emerald)}
+body.dark-mode .testi-card{background:#13294d;border-color:rgba(255,255,255,0.05)}
+body.dark-mode .testi-card:hover{box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+body.dark-mode .testi-card blockquote{color:rgba(232,236,243,0.9)}
+body.dark-mode .testi-author{color:#fff}
+body.dark-mode .testi-role{color:rgba(232,236,243,0.55)}
+body.dark-mode .testi-meta{border-top-color:rgba(255,255,255,0.08)}
+body.dark-mode .faq{background:#030a1a}
+body.dark-mode .faq-item{border-color:rgba(255,255,255,0.08)}
+body.dark-mode .faq-question{color:#fff}
+body.dark-mode .faq-question .faq-icon{color:var(--emerald)}
+body.dark-mode .faq-answer p{color:rgba(232,236,243,0.7)}
+body.dark-mode .final-cta{background:var(--navy);border-color:rgba(255,255,255,0.05)}
+body.dark-mode .final-cta-copy h2{color:#fff}
+body.dark-mode .final-cta-copy .lead{color:rgba(232,236,243,0.75)}
+body.dark-mode .final-cta-benefits li{color:rgba(232,236,243,0.85)}
+body.dark-mode .final-cta-form-wrap{background:#13294d;border-color:rgba(16,185,129,0.15);box-shadow:0 30px 80px -20px rgba(0,0,0,0.5)}
+body.dark-mode .final-cta-form h3{color:#fff}
+body.dark-mode .final-form-sub{color:rgba(232,236,243,0.6)}
+body.dark-mode .final-cta-form input,body.dark-mode .final-cta-form select{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:#fff}
+body.dark-mode .final-cta-form input::placeholder{color:rgba(232,236,243,0.45)}
+body.dark-mode .final-cta-form button{background:var(--emerald)}
+body.dark-mode .final-cta-form button:hover{background:#0ea371}
+body.dark-mode .final-form-note{color:rgba(232,236,243,0.55)}
+body.dark-mode .final-form-note a{color:rgba(232,236,243,0.75)}
+body.dark-mode .trust-line{color:rgba(232,236,243,0.55)}
+body.dark-mode footer{background:var(--navy);border-color:rgba(255,255,255,0.05);color:rgba(232,236,243,0.5)}
+body.dark-mode footer a{color:rgba(232,236,243,0.75)}
+body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 
 /* ── Dark Mode Toggle ── */
 .dark-toggle{position:fixed;bottom:24px;left:24px;z-index:200;width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all .25s}
 .dark-toggle:hover{transform:scale(1.1)}
-body.dark-mode .dark-toggle{background:#1a1a1a;border-color:#333}
-
-/* ── Custom Cursor ── */
-@media(pointer:fine){
-  .cursor-dot{position:fixed;width:8px;height:8px;background:#111;border-radius:50%;pointer-events:none;z-index:9999;transition:transform .1s}
-  .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(17,17,17,0.3);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .15s,width .2s,height .2s,border-color .2s}
-  body.dark-mode .cursor-dot{background:#fff}
-  body.dark-mode .cursor-ring{border-color:rgba(255,255,255,0.3)}
-  a:hover~.cursor-ring,button:hover~.cursor-ring{width:50px;height:50px;border-color:rgba(108,99,255,0.5)}
-}
+body.dark-mode .dark-toggle{background:#13294d;border-color:rgba(16,185,129,0.25);color:#fff}
 
 /* ── Micro-interactions ── */
 .micro-bounce{transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
 .micro-bounce:hover{transform:scale(1.03)}
 .micro-bounce:active{transform:scale(0.97)}
 
+/* ── Inline form success state (shared across hero / final CTA / exit popup) ── */
+.form-success{text-align:center;padding:28px 16px;animation:formPop .35s cubic-bezier(.34,1.56,.64,1)}
+.form-success-icon{width:56px;height:56px;background:var(--emerald);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 16px;box-shadow:0 8px 24px rgba(16,185,129,0.32)}
+.form-success h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;letter-spacing:-0.3px;color:var(--navy);margin-bottom:8px;line-height:1.25}
+.form-success p{font-size:0.92rem;color:#555;line-height:1.6;max-width:320px;margin:0 auto}
+@keyframes formPop{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+/* Dark/glass hero form — flip text colours */
+.hero-form .form-success h3{color:#fff}
+.hero-form .form-success p{color:rgba(255,255,255,0.75)}
+body.dark-mode .form-success h3{color:#fff}
+body.dark-mode .form-success p{color:rgba(232,236,243,0.72)}
+
 /* ── Exit Intent Popup ── */
 .exit-popup{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);opacity:0;transition:opacity .3s}
 .exit-popup.show{display:flex;opacity:1}
 .exit-popup-inner{background:#fff;border-radius:20px;padding:48px 40px;max-width:440px;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.15)}
-body.dark-mode .exit-popup-inner{background:#1a1a1a;color:#eee}
+body.dark-mode .exit-popup-inner{background:#13294d;color:#e8ecf3;box-shadow:0 24px 80px rgba(0,0,0,0.5)}
 .exit-popup-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:#999}
-body.dark-mode .exit-popup-close{background:#222;color:#666}
-.exit-popup h3{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px}
+body.dark-mode .exit-popup-close{background:rgba(255,255,255,0.08);color:rgba(232,236,243,0.7)}
+.exit-popup h3{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px}
 .exit-popup p{font-size:0.9rem;color:#888;margin-bottom:24px;line-height:1.6}
-body.dark-mode .exit-popup p{color:#999}
+body.dark-mode .exit-popup p{color:rgba(232,236,243,0.7)}
+body.dark-mode .exit-popup p a{color:var(--emerald)}
 .exit-popup-form{display:flex;flex-direction:column;gap:10px}
 .exit-popup-form input{width:100%;padding:12px 16px;border-radius:10px;border:1px solid #ddd;font-family:inherit;font-size:0.9rem;outline:none;transition:border .2s}
 .exit-popup-form input:focus{border-color:#111}
-body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#fff}
-.exit-popup-form button{width:100%;padding:14px;border-radius:10px;background:#111;color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s}
-.exit-popup-form button:hover{background:#333}
+body.dark-mode .exit-popup-form input{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12);color:#fff}
+body.dark-mode .exit-popup-form input::placeholder{color:rgba(232,236,243,0.4)}
+body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
+.exit-popup-form button{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s}
+.exit-popup-form button:hover{background:var(--emerald-dark)}
 
-/* ── WhatsApp ── */
-.wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:52px;height:52px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 20px rgba(37,211,102,0.3);transition:transform .2s}
-.wa-float:hover{transform:scale(1.1)}
+/* ── WhatsApp Float ── */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,0.4);transition:transform .2s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+
+/* ── Mobile Sticky CTA Bar ── */
+.mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid #eee;box-shadow:0 -4px 20px rgba(0,0,0,0.06);padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:10px}
+.mobile-bar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;border-radius:12px;font-weight:600;font-size:0.92rem;transition:transform .15s,opacity .2s}
+.mobile-bar a:active{transform:scale(0.97)}
+.mobile-bar .mb-call{background:var(--navy);color:#fff}
+.mobile-bar .mb-wa{background:#25d366;color:#fff}
+.mobile-bar svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+@media(max-width:768px){
+  .mobile-bar{display:flex}
+  .wa-float{display:none}
+  .dark-toggle{bottom:80px}
+  body{padding-bottom:76px}
+}
 
 /* ── Scroll Animations ── */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
@@ -228,6 +384,7 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
   <div class="nav-links">
     <a href="#problem">Why Us</a>
     <a href="#solution">How It Works</a>
+    <a href="#advisor">Advisor</a>
     <a href="#testimonials">Reviews</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -236,28 +393,31 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
 
 <!-- Hero -->
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="hero-video.mp4" type="video/mp4">
-  </video>
+  <div class="hero-bg" role="img" aria-label="Singapore Marina Bay skyline at dusk"></div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <div class="hero-tag">🇸🇬 Singapore Property Advisory</div>
-    <h1>Sell or rent your property. Faster, smarter, zero stress.</h1>
+    <div class="hero-tag">Top 1% Agent · HDB & Condo Advisor</div>
+    <h1>Sell above valuation. Rent in under 2 weeks.</h1>
     <p class="hero-desc">Expert guidance, precision pricing, and a dedicated advisor from listing to closing.</p>
-    <form class="hero-form" onsubmit="event.preventDefault();alert('Thank you! Our team will contact you shortly.')">
+    <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
+      <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
       <div class="hero-form-row">
-        <input type="text" placeholder="Your name" required>
-        <input type="tel" placeholder="Phone number" required>
+        <label for="hero-name" class="sr-only">Your name</label>
+        <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <label for="hero-phone" class="sr-only">Phone number</label>
+        <input id="hero-phone" type="tel" name="phone" placeholder="Phone number" autocomplete="tel" required pattern="[0-9+\s]{7,}">
       </div>
       <div class="hero-form-row">
-        <select required>
+        <label for="hero-proptype" class="sr-only">Property type</label>
+        <select id="hero-proptype" name="propType" required>
           <option value="" disabled selected>Property type</option>
           <option>HDB</option>
           <option>Condo</option>
           <option>Landed</option>
           <option>Commercial</option>
         </select>
-        <select>
+        <label for="hero-intent" class="sr-only">What do you want to do</label>
+        <select id="hero-intent" name="intent" required>
           <option value="" disabled selected>I want to...</option>
           <option>Sell</option>
           <option>Rent</option>
@@ -267,18 +427,28 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
       </div>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
     </form>
-    <p class="hero-form-note">No spam · No obligations · Response within 24hrs</p>
+    <p class="hero-form-note">No spam · No obligations · Response within 24hrs · By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a></p>
+  </div>
+</section>
+
+<!-- Trust Strip -->
+<section class="trust-strip">
+  <div class="trust-strip-inner">
+    <div class="trust-badge"><span class="trust-num">500+</span> Properties Sold & Rented</div>
+    <span class="trust-dot"></span>
+    <div class="trust-badge"><span class="trust-num">$200M+</span> Transacted</div>
+    <span class="trust-dot"></span>
+    <div class="trust-badge"><span class="trust-num">4.9★</span> Average Rating</div>
   </div>
 </section>
 
 <!-- Logo Bar -->
 <section class="logo-bar reveal">
-  <p>Featured on</p>
+  <p>We list on</p>
   <div class="logos">
     <span>PropertyGuru</span>
     <span>99.co</span>
     <span>SRX</span>
-    <span>The Business Times</span>
     <span>EdgeProp</span>
   </div>
 </section>
@@ -352,11 +522,11 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
 <section class="stats">
   <div class="container">
     <div class="stat-item reveal">
-      <div class="stat-number" data-target="2000">0</div>
+      <div class="stat-number" data-target="500">0</div>
       <div class="stat-label">Properties Sold & Rented</div>
     </div>
     <div class="stat-item reveal reveal-delay-1">
-      <div class="stat-number" data-target="2" data-prefix="$" data-suffix="B+">0</div>
+      <div class="stat-number" data-target="200" data-prefix="$" data-suffix="M+">0</div>
       <div class="stat-label">In Transactions</div>
     </div>
     <div class="stat-item reveal reveal-delay-2">
@@ -364,8 +534,33 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
       <div class="stat-label">Average Rating</div>
     </div>
     <div class="stat-item reveal reveal-delay-3">
-      <div class="stat-number" data-target="10" data-suffix=" days">0</div>
+      <div class="stat-number" data-target="15" data-suffix=" days">0</div>
       <div class="stat-label">Avg. Time to Tenant</div>
+    </div>
+  </div>
+</section>
+
+<!-- Meet Your Advisor -->
+<section class="advisor" id="advisor">
+  <div class="container">
+    <div class="advisor-photo-wrap reveal">
+      <img src="advisor-photo.jpg" alt="Your PropertySG advisor" class="advisor-photo" loading="lazy" width="800" height="1000">
+      <div class="advisor-badge">
+        <div class="advisor-badge-item"><strong>10+</strong>Years Experience</div>
+        <div class="advisor-badge-item"><strong>4.9★</strong>Rated</div>
+      </div>
+    </div>
+    <div class="advisor-content reveal reveal-delay-1">
+      <div class="section-eyebrow">Meet your advisor</div>
+      <h2>A dedicated advisor. Not a call centre.</h2>
+      <div class="advisor-title">HDB &amp; Condo Advisor · CEA Reg. 009618D</div>
+      <p class="advisor-bio">When you work with PropertySG, you get one experienced advisor — from first valuation to closing. No handoffs, no scripts, no rotating agents. Just clear strategy, honest numbers, and a point of contact you can reach on WhatsApp.</p>
+      <blockquote class="advisor-quote">"My job isn't to sell the most properties — it's to get you the right outcome, on the right timeline, at the right price."</blockquote>
+      <div class="advisor-meta">
+        <span>🏠 <strong>HDB, Condo, Landed, Commercial</strong></span>
+        <span>🗣️ <strong>English · Mandarin</strong></span>
+        <span>📞 <strong>Reply within 1 hour</strong></span>
+      </div>
     </div>
   </div>
 </section>
@@ -379,26 +574,26 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
     <div class="testi-list">
       <div class="testi-card reveal">
         <div class="testi-stars">★★★★★</div>
-        <blockquote>"Sold my condo in Clementi in 3 weeks at above asking. They handled everything — I just showed up for the viewing."</blockquote>
+        <blockquote>"Sold my HDB 4-Room flat at Serangoon North Ave 1 in just 3 weeks. They handled everything — I just showed up for the viewing."</blockquote>
         <div class="testi-meta">
-          <div class="testi-avatar">T</div>
-          <div><div class="testi-author">Mr. Tan</div><div class="testi-role">Clementi Condo Seller</div></div>
+          <div class="testi-author">Mr. Ng</div>
+          <div class="testi-role">Serangoon North HDB Seller</div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-1">
         <div class="testi-stars">★★★★★</div>
-        <blockquote>"Found a tenant for my HDB flat within 10 days. Professional, responsive, and zero drama throughout."</blockquote>
+        <blockquote>"Found a tenant for my HDB flat within 15 days. Professional, responsive, and zero drama throughout."</blockquote>
         <div class="testi-meta">
-          <div class="testi-avatar">L</div>
-          <div><div class="testi-author">Ms. Lim</div><div class="testi-role">HDB Landlord</div></div>
+          <div class="testi-author">Ms. Lim</div>
+          <div class="testi-role">HDB Landlord</div>
         </div>
       </div>
       <div class="testi-card reveal reveal-delay-2">
         <div class="testi-stars">★★★★★</div>
         <blockquote>"As first-time sellers, we had no idea where to start. They guided us through the entire process seamlessly."</blockquote>
         <div class="testi-meta">
-          <div class="testi-avatar">K</div>
-          <div><div class="testi-author">Mr. & Mrs. Koh</div><div class="testi-role">BTO Upgraders</div></div>
+          <div class="testi-author">Mr. & Mrs. Koh</div>
+          <div class="testi-role">BTO Upgraders</div>
         </div>
       </div>
     </div>
@@ -412,23 +607,23 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
     <h2 class="reveal">Common questions.</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-question">What are your commission rates?<span class="faq-icon">+</span></button>
-        <div class="faq-answer"><p>Our rates are competitive and transparent — typically 1-2% for sales and half a month's rent for tenant placement. No hidden fees, no surprises. We'll discuss exact numbers upfront before you commit.</p></div>
+        <button class="faq-question" aria-expanded="false">What are your commission rates?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Our rates are competitive and transparent — 2% for sales, and half a month's rent (from the tenant) for tenant placement on a 1-year lease. No hidden fees, no surprises. We'll discuss exact numbers upfront before you commit.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">How long does it take to sell or rent?<span class="faq-icon">+</span></button>
-        <div class="faq-answer"><p>On average, our clients secure a buyer within 3-4 weeks and a tenant within 10 days. Timeline depends on property type, location, and pricing — we'll give you a realistic estimate during consultation.</p></div>
+        <button class="faq-question" aria-expanded="false">How long does it take to sell or rent?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>On average, our clients secure a buyer within 4-8 weeks and a tenant within 15 days. Timeline depends on property type, location, and pricing — we'll give you a realistic estimate during consultation.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Do you handle both HDB and private properties?<span class="faq-icon">+</span></button>
+        <button class="faq-question" aria-expanded="false">Do you handle both HDB and private properties?<span class="faq-icon">+</span></button>
         <div class="faq-answer"><p>Yes — HDB flats, condos, landed properties, and commercial spaces. Our team is experienced across all property types in Singapore and understands the specific regulations for each.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">What's included in the free consultation?<span class="faq-icon">+</span></button>
+        <button class="faq-question" aria-expanded="false">What's included in the free consultation?<span class="faq-icon">+</span></button>
         <div class="faq-answer"><p>A 30-minute session with a dedicated advisor covering property valuation, market analysis, pricing strategy, and a recommended action plan. Absolutely no obligation to proceed.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-question">Do I need to prepare anything before listing?<span class="faq-icon">+</span></button>
+        <button class="faq-question" aria-expanded="false">Do I need to prepare anything before listing?<span class="faq-icon">+</span></button>
         <div class="faq-answer"><p>We handle professional photography, staging advice, and listing copy. Just provide access to the property — we take care of the rest to make your listing stand out from day one.</p></div>
       </div>
     </div>
@@ -437,24 +632,53 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
 
 <!-- Final CTA -->
 <section class="section final-cta" id="cta-final">
-  <div class="container">
-    <div class="section-eyebrow reveal">Ready?</div>
-    <h2 class="reveal">Stop waiting. Start moving.</h2>
-    <p class="lead reveal" style="margin-left:auto;margin-right:auto">The right advice changes everything. Talk to our team today.</p>
-    <a href="https://calendly.com/joetsk/30min" class="cta-secondary reveal">
-      📅 Book a 30-Min Call <span class="arrow">→</span>
-    </a>
-    <p class="trust-line reveal">📞 +65 8188 1488 · 💬 WhatsApp anytime</p>
-    <p class="trust-line reveal" style="margin-top:4px;font-style:italic">✅ Let's find your ideal property — Joe Tay, Property Advisor</p>
+  <div class="final-cta-grid">
+    <div class="final-cta-copy">
+      <div class="section-eyebrow reveal">Free consultation</div>
+      <h2 class="reveal">Not ready to chat? Get a free valuation first.</h2>
+      <p class="lead reveal">Share your details and we'll reply on WhatsApp within 24 hours — with a realistic price range and what the market is doing in your area.</p>
+      <ul class="final-cta-benefits reveal">
+        <li>Free, no-obligation property valuation</li>
+        <li>Straight answer from a dedicated advisor</li>
+        <li>We'll never spam or pass your data on</li>
+      </ul>
+      <p class="trust-line reveal">📞 +65 8188 1488 · 💬 WhatsApp anytime</p>
+    </div>
+    <div class="final-cta-form-wrap reveal reveal-delay-1">
+      <form id="finalForm" class="final-cta-form" aria-labelledby="finalFormTitle">
+        <h3 id="finalFormTitle">Get your free valuation</h3>
+        <p class="final-form-sub">Takes 30 seconds. We'll WhatsApp you back.</p>
+        <label for="final-name" class="sr-only">Your name</label>
+        <input id="final-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <label for="final-phone" class="sr-only">Mobile number</label>
+        <input id="final-phone" type="tel" name="phone" placeholder="Mobile number" autocomplete="tel" required pattern="[0-9+\s]{7,}">
+        <button type="submit">Get My Free Valuation →</button>
+        <p class="final-form-note">By submitting you agree to our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+      </form>
+    </div>
   </div>
 </section>
 
 <footer>
   <span>&copy; 2026 PropertySG. All rights reserved.</span>
-  <span>CEA License No. XXXXX</span>
+  <span><a href="privacy-policy.html" style="color:#666;text-decoration:underline">Privacy Policy</a> · CEA Reg. No. 009618D</span>
 </footer>
 
-<a href="https://wa.me/6581881488" class="wa-float" target="_blank" title="Chat on WhatsApp">💬</a>
+<a href="https://wa.me/6581881488" class="wa-float" target="_blank" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<!-- Mobile Sticky Bar -->
+<div class="mobile-bar" role="navigation" aria-label="Quick contact">
+  <a href="tel:+6581881488" class="mb-call" aria-label="Call us">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
+    Call Now
+  </a>
+  <a href="https://wa.me/6581881488" target="_blank" class="mb-wa" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    WhatsApp
+  </a>
+</div>
 
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
@@ -463,17 +687,113 @@ body.dark-mode .exit-popup-form input{background:#222;border-color:#333;color:#f
 <div class="exit-popup" id="exitPopup">
   <div class="exit-popup-inner">
     <button class="exit-popup-close" id="exitClose">✕</button>
-    <h3>Wait — get a free valuation!</h3>
-    <p>Before you go, let us tell you what your property is really worth. No strings attached.</p>
-    <form class="exit-popup-form" onsubmit="event.preventDefault();document.getElementById('exitPopup').classList.remove('show');alert('Thanks! We\'ll be in touch.')">
-      <input type="text" placeholder="Your name" required>
-      <input type="tel" placeholder="Phone number" required>
+    <h3 id="exitFormTitle">Wait — get a free valuation!</h3>
+    <p>Before you go, let us tell you what your property is really worth. No strings attached. By submitting you agree to our <a href="privacy-policy.html" style="color:#888;text-decoration:underline">Privacy Policy</a>.</p>
+    <form class="exit-popup-form" id="exitForm" aria-labelledby="exitFormTitle">
+      <label for="exit-name" class="sr-only">Your name</label>
+      <input id="exit-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+      <label for="exit-phone" class="sr-only">Phone number</label>
+      <input id="exit-phone" type="tel" name="phone" placeholder="Phone number" autocomplete="tel" required pattern="[0-9+\s]{7,}">
       <button type="submit">Get My Free Valuation →</button>
     </form>
   </div>
 </div>
 
 <script>
+// All forms POST to the Netlify Function, which runs Twilio + Google Sheets + email
+// server-side. No wa.me redirect — user stays on the page and sees a success message.
+const FORM_ENDPOINT='/.netlify/functions/submit-lead';
+const _utm=(()=>{const p=new URLSearchParams(location.search),k=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],o={};k.forEach(x=>o[x]=p.get(x)||'');return o;})();
+
+async function submitLead(data){
+  const res=await fetch(FORM_ENDPOINT,{
+    method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify({...data,..._utm,source_site:'PropertySG',submitted_at:new Date().toISOString()})
+  });
+  const result=await res.json().catch(()=>({ok:res.ok}));
+  if(!result.ok) throw new Error('submit failed');
+  return result;
+}
+
+function showFormSuccess(form,title,body){
+  form.innerHTML=`<div class="form-success"><div class="form-success-icon">✓</div><h3>${title}</h3><p>${body}</p></div>`;
+  if(typeof gtag==='function') gtag('event','generate_lead',{method:'website_form'});
+  if(typeof fbq==='function') fbq('track','Lead');
+}
+
+function showFormError(btn,originalHTML){
+  btn.disabled=false;
+  btn.innerHTML=originalHTML;
+  alert("Sorry, something went wrong. Please try again or call us at +65 8188 1488.");
+}
+
+async function handleFormSubmit(form,data,successTitle,successBody){
+  const btn=form.querySelector('button[type=submit]');
+  const originalHTML=btn.innerHTML;
+  btn.disabled=true;
+  btn.textContent='Submitting...';
+  try{
+    await submitLead(data);
+    showFormSuccess(form,successTitle,successBody);
+  }catch(err){
+    showFormError(btn,originalHTML);
+  }
+}
+
+// ── Hero form ──
+document.getElementById('heroForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  // "Get valuation" routes to the dedicated 6-step wizard with pre-filled info
+  if(f.intent.value==='Get valuation'){
+    const qs=new URLSearchParams({
+      fullName:f.name.value.trim(),
+      mobile:f.phone.value.trim(),
+      propType:f.propType.value==='Condo'?'Condo / Apartment':f.propType.value
+    }).toString();
+    window.location.href='valuation.html?'+qs;
+    return;
+  }
+  handleFormSubmit(f,{
+    lead_type:'consultation',
+    full_name:f.name.value.trim(),
+    mobile_number:f.phone.value.trim(),
+    property_type:f.propType.value,
+    intent:f.intent.value
+  },
+  "You're in — we'll be in touch.",
+  "A PropertySG advisor will WhatsApp you within 24 hours. No spam, no cold calls.");
+});
+
+// ── Exit popup form ──
+document.getElementById('exitForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  handleFormSubmit(f,{
+    lead_type:'exit_valuation',
+    full_name:f.name.value.trim(),
+    mobile_number:f.phone.value.trim(),
+    intent:'Get valuation'
+  },
+  "Thanks — your valuation is on the way.",
+  "We'll WhatsApp you a free property valuation within 24 hours.");
+});
+
+// ── Final CTA form ──
+document.getElementById('finalForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  handleFormSubmit(f,{
+    lead_type:'final_cta_valuation',
+    full_name:f.name.value.trim(),
+    mobile_number:f.phone.value.trim(),
+    intent:'Get valuation'
+  },
+  "Thanks — your valuation is on the way.",
+  "We'll WhatsApp you a free property valuation within 24 hours.");
+});
+
 // Progress bar
 window.addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-window.innerHeight;
@@ -492,8 +812,11 @@ document.querySelectorAll('.faq-question').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const item=btn.parentElement;
     const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-    if(!wasOpen)item.classList.add('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{
+      i.classList.remove('open');
+      i.querySelector('.faq-question').setAttribute('aria-expanded','false');
+    });
+    if(!wasOpen){item.classList.add('open');btn.setAttribute('aria-expanded','true');}
   });
 });
 
@@ -530,26 +853,9 @@ function updateToggleIcon(){dt.textContent=document.body.classList.contains('dar
 updateToggleIcon();
 dt.addEventListener('click',()=>{
   document.body.classList.toggle('dark-mode');
-  localStorage.setItem('dark-mode',document.body.classList.contains('dark-mode'));
+  localStorage.setItem('darkMode',document.body.classList.contains('dark-mode'));
   updateToggleIcon();
 });
-
-// ── Custom Cursor ──
-if(window.matchMedia('(pointer:fine)').matches){
-  const dot=document.createElement('div');dot.className='cursor-dot';
-  const ring=document.createElement('div');ring.className='cursor-ring';
-  document.body.appendChild(dot);document.body.appendChild(ring);
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px';});
-  function animRing(){rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(animRing);}
-  animRing();
-  document.querySelectorAll('a,button,.problem-card,.benefit-item,.testi-card,.faq-question,.cta-submit,.cta-secondary,.wa-float,.dark-toggle').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(108,99,255,0.5)';});
-    el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='';});
-  });
-  document.body.style.cursor='none';
-  document.querySelectorAll('*').forEach(el=>el.style.cursor='none');
-}
 
 // ── Parallax on Testimonials ──
 const testiSection=document.querySelector('.testimonials');
@@ -565,15 +871,23 @@ if(testiSection){
   });
 }
 
-// ── Exit Intent Popup ──
+// ── Exit Intent / Scroll-Depth Popup ──
 let exitShown=false;
-document.addEventListener('mouseleave',e=>{
-  if(e.clientY<5&&!exitShown&&!sessionStorage.getItem('exitShown')){
-    exitShown=true;
-    sessionStorage.setItem('exitShown','true');
-    document.getElementById('exitPopup').classList.add('show');
-  }
-});
+function triggerExitPopup(){
+  if(exitShown||sessionStorage.getItem('exitShown'))return;
+  exitShown=true;
+  sessionStorage.setItem('exitShown','true');
+  document.getElementById('exitPopup').classList.add('show');
+}
+// Desktop: mouse leaves top of viewport
+document.addEventListener('mouseleave',e=>{if(e.clientY<5)triggerExitPopup();});
+// Mobile/Tablet: fire once user scrolls 65% of page (indicates intent but about to leave)
+const scrollTrigger=()=>{
+  const d=document.documentElement;
+  const pct=(window.scrollY+window.innerHeight)/d.scrollHeight;
+  if(pct>0.65)triggerExitPopup();
+};
+window.addEventListener('scroll',scrollTrigger,{passive:true});
 document.getElementById('exitClose').addEventListener('click',()=>{
   document.getElementById('exitPopup').classList.remove('show');
 });
