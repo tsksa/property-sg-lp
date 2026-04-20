@@ -3,4 +3,4 @@ Allow: /
 Disallow: /.netlify/
 Disallow: /netlify/
 
-Sitemap: https://propertysg78.netlify.app/sitemap.xml
+Sitemap: https://joetay.com/sitemap.xml
