@@ -127,6 +127,7 @@ exports.handler = async (event) => {
 
   const results = await Promise.all(tasks);
   const webhookResult = process.env.LEAD_WEBHOOK_URL ? results[0] : null;
+  const twilioResult = process.env.LEAD_WEBHOOK_URL ? results[1] : results[0];
 
   // Log for Netlify function logs (visible in Netlify dashboard)
   console.log('Lead submission:', {
@@ -136,6 +137,9 @@ exports.handler = async (event) => {
     source_site: enriched.source_site,
     webhook_ok: webhookResult?.ok,
     webhook_status: webhookResult?.status,
+    twilio_ok: twilioResult?.ok ?? 'skipped',
+    twilio_status: twilioResult?.status ?? null,
+    twilio_body: twilioResult?.body ? String(twilioResult.body).slice(0, 500) : null,
     tasks: results.length,
   });
 
