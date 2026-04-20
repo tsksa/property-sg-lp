@@ -75,7 +75,10 @@ exports.handler = async (event) => {
     );
   }
 
-  // 2. Twilio WhatsApp notification to Joe — skip for newsletter-only signups
+  // 2. Twilio WhatsApp via Meta-approved Content Template (same SID as freevaluation.sg)
+  //    Template variables:
+  //      {{1}} = source · name        {{2}} = mobile / email        {{3}} = property
+  //      {{4}} = location or intent   {{5}} = timeline or intent
   if (
     !isNewsletterOnly &&
     process.env.TWILIO_ACCOUNT_SID &&
@@ -83,41 +86,51 @@ exports.handler = async (event) => {
     process.env.TWILIO_WHATSAPP_FROM &&
     process.env.TWILIO_WHATSAPP_TO
   ) {
-    const lines = [
-      `*New lead — ${enriched.source_site}*`,
-      `Type: ${enriched.lead_type || 'consultation'}`,
-      `Name: ${enriched.full_name || '—'}`,
-      `Mobile: ${enriched.mobile_number || '—'}`,
-      enriched.email_address || enriched.email ? `Email: ${enriched.email_address || enriched.email}` : null,
-      enriched.property_type ? `Property: ${enriched.property_type}` : null,
-      enriched.postal_code ? `Postal: ${enriched.postal_code}` : null,
-      enriched.detected_address ? `Address: ${enriched.detected_address}` : null,
-      enriched.unit_number ? `Unit: ${enriched.unit_number}` : null,
-      enriched.intent ? `Intent: ${enriched.intent}` : null,
-      enriched.selling_timeline ? `Timeline: ${enriched.selling_timeline}` : null,
-      enriched.utm_source ? `UTM: ${enriched.utm_source}/${enriched.utm_medium || ''}/${enriched.utm_campaign || ''}` : null,
-    ].filter(Boolean);
+    const contentSid = 'HX591bf3c8cd3b596691067cda70b9b6b1';
 
-    const body = lines.join('\n');
+    const propertyDetail = [
+      enriched.property_type,
+      enriched.hdb_type,
+      enriched.year_built ? '(built ' + enriched.year_built + ')' : null,
+    ].filter(Boolean).join(' ') || 'Not specified';
+
+    const addressParts = [enriched.postal_code, enriched.detected_address, enriched.unit_number]
+      .filter(Boolean).join(' ').trim();
+    const locationOrIntent = addressParts
+      || (enriched.intent ? 'Intent: ' + enriched.intent : 'Not specified');
+
+    const mobileAndEmail = [enriched.mobile_number, enriched.email || enriched.email_address]
+      .filter(Boolean).join(' / ');
+
+    const contentVariables = JSON.stringify({
+      '1': (enriched.source_site || 'joetay.com') + ' · ' + (enriched.full_name || 'Unknown'),
+      '2': mobileAndEmail || 'Not provided',
+      '3': propertyDetail,
+      '4': locationOrIntent,
+      '5': enriched.selling_timeline || enriched.intent || 'Not specified',
+    });
+
     const auth = Buffer.from(
-      `${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`
+      process.env.TWILIO_ACCOUNT_SID + ':' + process.env.TWILIO_AUTH_TOKEN
     ).toString('base64');
-    const form = new URLSearchParams({
-      From: `whatsapp:${process.env.TWILIO_WHATSAPP_FROM}`,
-      To: `whatsapp:${process.env.TWILIO_WHATSAPP_TO}`,
-      Body: body,
+
+    const twilioBody = new URLSearchParams({
+      From: process.env.TWILIO_WHATSAPP_FROM,
+      To: process.env.TWILIO_WHATSAPP_TO,
+      ContentSid: contentSid,
+      ContentVariables: contentVariables,
     });
 
     tasks.push(
       fetch(
-        `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`,
+        'https://api.twilio.com/2010-04-01/Accounts/' + process.env.TWILIO_ACCOUNT_SID + '/Messages.json',
         {
           method: 'POST',
           headers: {
-            Authorization: `Basic ${auth}`,
+            Authorization: 'Basic ' + auth,
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: form.toString(),
+          body: twilioBody.toString(),
         }
       )
         .then((r) => r.text().then((t) => ({ ok: r.ok, status: r.status, body: t })))
