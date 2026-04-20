@@ -534,6 +534,39 @@ body.dark-mode .exit-popup-form input:focus{border-color:var(--emerald)}
 .exit-popup-form button{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s}
 .exit-popup-form button:hover{background:var(--emerald-dark)}
 
+/* ── Valuation Popup (from hero form "Get valuation" intent) ── */
+.val-popup{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);opacity:0;transition:opacity .3s;padding:20px;overflow-y:auto}
+.val-popup.show{display:flex;opacity:1}
+.val-popup-inner{background:#fff;border-radius:20px;padding:40px 36px;max-width:520px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.15);max-height:92vh;overflow-y:auto}
+body.dark-mode .val-popup-inner{background:#13294d;color:#e8ecf3;box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+.val-popup-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:#999;z-index:1}
+body.dark-mode .val-popup-close{background:rgba(255,255,255,0.08);color:rgba(232,236,243,0.7)}
+.val-popup h3{font-family:'Fraunces',Georgia,serif;font-size:1.6rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;color:var(--navy)}
+body.dark-mode .val-popup h3{color:#fff}
+.val-popup-sub{font-size:0.9rem;color:#888;margin-bottom:22px;line-height:1.55}
+body.dark-mode .val-popup-sub{color:rgba(232,236,243,0.7)}
+.val-popup-form{display:flex;flex-direction:column;gap:14px}
+.val-popup-form label{display:flex;flex-direction:column;gap:6px;font-size:0.78rem;font-weight:600;color:#555;letter-spacing:0.2px}
+body.dark-mode .val-popup-form label{color:rgba(232,236,243,0.85)}
+.val-popup-form input,.val-popup-form select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #ddd;font-family:inherit;font-size:0.95rem;font-weight:400;outline:none;transition:border .2s;color:#111;background:#fff}
+body.dark-mode .val-popup-form input,body.dark-mode .val-popup-form select{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.12);color:#fff}
+.val-popup-form input:focus,.val-popup-form select:focus{border-color:var(--emerald)}
+.val-popup-form input::placeholder{color:#aaa}
+body.dark-mode .val-popup-form input::placeholder{color:rgba(232,236,243,0.4)}
+.val-popup-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.val-popup-addr{background:var(--cream);border-left:3px solid var(--emerald);padding:10px 14px;border-radius:0 8px 8px 0;font-size:0.85rem;line-height:1.5;color:#333}
+.val-popup-addr.error{border-left-color:#e67e22;background:#fff8f0;color:#8a4a00}
+.val-popup-addr strong{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;color:#666;font-weight:700}
+body.dark-mode .val-popup-addr{background:rgba(16,185,129,0.12);color:rgba(232,236,243,0.9)}
+body.dark-mode .val-popup-addr strong{color:rgba(232,236,243,0.6)}
+.val-popup-form button[type="submit"]{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;margin-top:6px}
+.val-popup-form button[type="submit"]:hover:not(:disabled){background:var(--emerald-dark)}
+.val-popup-form button[type="submit"]:disabled{opacity:0.6;cursor:not-allowed}
+.val-popup-note{font-size:0.75rem;color:#999;text-align:center;margin-top:8px;line-height:1.5}
+body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
+.val-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+@media(max-width:520px){.val-popup-row{grid-template-columns:1fr}.val-popup-inner{padding:32px 22px}}
+
 /* ── WhatsApp Float ── */
 .wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,0.4);transition:transform .2s}
 .wa-float:hover{transform:scale(1.08)}
@@ -1285,6 +1318,56 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
 
+<!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
+<div class="val-popup" id="valPopup" role="dialog" aria-labelledby="valPopupTitle" aria-modal="true">
+  <div class="val-popup-inner">
+    <button class="val-popup-close" id="valPopupClose" aria-label="Close">✕</button>
+    <h3 id="valPopupTitle">Get your free valuation</h3>
+    <p class="val-popup-sub">Quick one — postal code, unit number, and your email. I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
+    <form class="val-popup-form" id="valPopupForm" novalidate>
+      <div class="val-popup-row">
+        <label>
+          <span>Postal code</span>
+          <input type="text" name="postal_code" id="valPostalCode" inputmode="numeric" pattern="\d{6}" maxlength="6" placeholder="e.g. 520123" required autocomplete="postal-code">
+        </label>
+        <label>
+          <span>Unit number</span>
+          <input type="text" name="unit_number" id="valUnitNumber" placeholder="e.g. #12-34" required>
+        </label>
+      </div>
+      <div class="val-popup-addr" id="valAddrDetected" style="display:none" aria-live="polite"></div>
+
+      <label id="valHdbTypeWrap" style="display:none">
+        <span>HDB flat type</span>
+        <select name="hdb_type" id="valHdbType">
+          <option value="" disabled selected>Select flat type</option>
+          <option>2-room</option>
+          <option>3-room</option>
+          <option>4-room</option>
+          <option>5-room</option>
+          <option>Executive</option>
+          <option>Jumbo</option>
+        </select>
+      </label>
+
+      <label id="valYearBuiltWrap" style="display:none">
+        <span>Year built</span>
+        <input type="number" name="year_built" id="valYearBuilt" min="1900" max="2030" placeholder="e.g. 1995">
+      </label>
+
+      <label>
+        <span>Email address</span>
+        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email">
+      </label>
+
+      <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+
+      <button type="submit">Get Free Valuation</button>
+      <p class="val-popup-note">Free · No obligation · Reply within 24 hours</p>
+    </form>
+  </div>
+</div>
+
 <!-- Exit Intent Popup: newsletter signup (desktop-only, once per visitor) -->
 <div class="exit-popup" id="exitPopup">
   <div class="exit-popup-inner">
@@ -1347,14 +1430,9 @@ async function handleFormSubmit(form,data,successTitle,successBody){
 document.getElementById('heroForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
-  // "Get valuation" routes to the dedicated 6-step wizard with pre-filled info
+  // "Get valuation" opens the inline valuation popup with pre-filled info
   if(f.intent.value==='Get valuation'){
-    const qs=new URLSearchParams({
-      fullName:f.name.value.trim(),
-      mobile:f.phone.value.trim(),
-      propType:f.propType.value==='Condo'?'Condo / Apartment':f.propType.value
-    }).toString();
-    window.location.href='valuation.html?'+qs;
+    openValPopup(f.name.value.trim(),f.phone.value.trim(),f.propType.value,f.newsletter_opt_in?.checked?1:0);
     return;
   }
   handleFormSubmit(f,{
@@ -1367,6 +1445,90 @@ document.getElementById('heroForm').addEventListener('submit',e=>{
   },
   "You're in — I'll be in touch.",
   "I'll WhatsApp you within 24 hours. No spam, no cold calls.");
+});
+
+// ── Valuation Popup (from hero form "Get valuation") ──
+const valPopup=document.getElementById('valPopup');
+const valPopupForm=document.getElementById('valPopupForm');
+const valPostalInput=document.getElementById('valPostalCode');
+const valAddrBox=document.getElementById('valAddrDetected');
+const valHdbTypeWrap=document.getElementById('valHdbTypeWrap');
+const valYearBuiltWrap=document.getElementById('valYearBuiltWrap');
+let valDetectedAddress='';
+let valContext={fullName:'',mobile:'',propType:'',newsletter_opt_in:0};
+
+function openValPopup(fullName,mobile,propType,newsletter){
+  valContext={fullName,mobile,propType,newsletter_opt_in:newsletter||0};
+  valPopupForm.reset();
+  valDetectedAddress='';
+  valAddrBox.style.display='none';
+  valHdbTypeWrap.style.display=propType==='HDB'?'flex':'none';
+  valYearBuiltWrap.style.display=propType==='Landed'?'flex':'none';
+  document.getElementById('valHdbType').required=propType==='HDB';
+  document.getElementById('valYearBuilt').required=propType==='Landed';
+  // Reset submit button state
+  const btn=valPopupForm.querySelector('button[type=submit]');
+  btn.disabled=false;btn.textContent='Get Free Valuation';
+  valPopup.classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>valPostalInput.focus(),120);
+}
+function closeValPopup(){
+  valPopup.classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('valPopupClose').addEventListener('click',closeValPopup);
+valPopup.addEventListener('click',e=>{if(e.target===valPopup) closeValPopup();});
+
+function _valDebounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+valPostalInput.addEventListener('input',_valDebounce(async()=>{
+  const code=valPostalInput.value.replace(/\D/g,'').slice(0,6);
+  if(code!==valPostalInput.value) valPostalInput.value=code;
+  if(code.length!==6){valAddrBox.style.display='none';valDetectedAddress='';return;}
+  try{
+    const res=await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${code}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
+    const data=await res.json();
+    if(data.results&&data.results.length>0){
+      const r=data.results[0];
+      valDetectedAddress=`${r.BLK_NO?r.BLK_NO+' ':''}${r.ROAD_NAME||''}, Singapore ${r.POSTAL||code}`.trim().replace(/\s+/g,' ');
+      valAddrBox.className='val-popup-addr';
+      valAddrBox.innerHTML=`<strong>Detected address</strong>${valDetectedAddress}`;
+      valAddrBox.style.display='block';
+    } else {
+      valAddrBox.className='val-popup-addr error';
+      valAddrBox.innerHTML=`<strong>Postal code not found</strong>You can still continue — I'll confirm when I reply.`;
+      valAddrBox.style.display='block';
+      valDetectedAddress='';
+    }
+  }catch(err){valAddrBox.style.display='none';valDetectedAddress='';}
+},400));
+
+valPopupForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(f.company_website.value) return; // honeypot
+  const postal=f.postal_code.value.trim();
+  const unit=f.unit_number.value.trim();
+  const email=f.email.value.trim();
+  if(!/^\d{6}$/.test(postal)){alert('Please enter a valid 6-digit postal code.');valPostalInput.focus();return;}
+  if(!unit){alert('Please enter your unit number.');f.unit_number.focus();return;}
+  if(!email||!f.email.checkValidity()){alert('Please enter a valid email address.');f.email.focus();return;}
+  const data={
+    lead_type:'valuation',
+    property_type:valContext.propType,
+    postal_code:postal,
+    detected_address:valDetectedAddress,
+    unit_number:unit,
+    full_name:valContext.fullName,
+    mobile_number:valContext.mobile,
+    email:email,
+    newsletter_opt_in:valContext.newsletter_opt_in
+  };
+  if(valContext.propType==='HDB'&&f.hdb_type) data.hdb_type=f.hdb_type.value;
+  if(valContext.propType==='Landed'&&f.year_built) data.year_built=f.year_built.value.trim();
+  handleFormSubmit(f,data,
+    "Thanks — your valuation request is in.",
+    "I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.");
 });
 
 // ── Exit popup: newsletter signup ──
@@ -1523,7 +1685,10 @@ document.getElementById('exitPopup').addEventListener('click',e=>{
   if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')document.getElementById('exitPopup').classList.remove('show');
+  if(e.key==='Escape'){
+    document.getElementById('exitPopup').classList.remove('show');
+    if(valPopup.classList.contains('show')) closeValPopup();
+  }
 });
 </script>
 </body>
