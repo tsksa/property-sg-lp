@@ -1,0 +1,103 @@
+/* ── Blog shared styles — loaded by /insights/ pages ── */
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--ink:#111}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fff;line-height:1.7;-webkit-font-smoothing:antialiased;font-size:17px}
+a{color:var(--emerald);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── Topbar ── */
+.blog-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.blog-topbar-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.blog-logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.18rem;letter-spacing:-0.5px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.blog-logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
+.blog-nav{display:flex;gap:24px;align-items:center}
+.blog-nav a{color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;text-decoration:none;transition:color .15s}
+.blog-nav a:hover{color:#fff;text-decoration:none}
+.blog-nav .blog-nav-cta{background:var(--emerald);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem;transition:background .2s}
+.blog-nav .blog-nav-cta:hover{background:var(--emerald-dark)}
+@media(max-width:720px){.blog-nav a:not(.blog-nav-cta){display:none}}
+
+/* ── Page layout ── */
+.blog-main{max-width:780px;margin:0 auto;padding:56px 24px 96px}
+.blog-main-wide{max-width:1080px}
+
+/* ── Index page hero ── */
+.blog-hero{padding:64px 24px 40px;text-align:center;background:linear-gradient(180deg,var(--cream) 0%,#fff 100%);border-bottom:1px solid #eee}
+.blog-hero-inner{max-width:780px;margin:0 auto}
+.blog-hero .eyebrow{font-size:0.78rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.blog-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,5vw,3rem);font-weight:600;letter-spacing:-1px;line-height:1.1;margin-bottom:18px;color:var(--navy)}
+.blog-hero p{font-size:1.08rem;color:#555;line-height:1.55;max-width:580px;margin:0 auto}
+
+/* ── Post grid ── */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-top:48px}
+.blog-card{background:#fff;border:1px solid #eee;border-radius:14px;padding:32px 28px;transition:transform .2s,box-shadow .2s,border-color .2s;text-decoration:none;display:flex;flex-direction:column;color:inherit}
+.blog-card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(11,30,63,0.08);border-color:rgba(16,185,129,0.3);text-decoration:none}
+.blog-card-meta{display:flex;gap:10px;font-size:0.72rem;font-weight:600;color:#888;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:14px;align-items:center}
+.blog-card-meta .cat{color:var(--emerald)}
+.blog-card-meta .dot{color:#ccc}
+.blog-card h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);letter-spacing:-0.3px;line-height:1.25;margin-bottom:12px}
+.blog-card p{color:#555;font-size:0.93rem;line-height:1.55;margin-bottom:20px;flex:1}
+.blog-card .read-more{color:var(--emerald);font-size:0.85rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-top:auto}
+.blog-card .read-more .arrow{transition:transform .2s;display:inline-block}
+.blog-card:hover .read-more .arrow{transform:translateX(3px)}
+
+/* ── Article page ── */
+.article-header{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid #eee}
+.article-breadcrumb{font-size:0.78rem;color:#999;margin-bottom:24px}
+.article-breadcrumb a{color:#666;text-decoration:none}
+.article-breadcrumb a:hover{color:var(--emerald);text-decoration:none}
+.article-breadcrumb .sep{margin:0 8px;color:#ccc}
+.article-meta-top{display:flex;gap:10px;font-size:0.74rem;font-weight:600;color:#888;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;align-items:center}
+.article-meta-top .cat{color:var(--emerald)}
+.article-meta-top .dot{color:#ccc}
+.article h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;color:var(--navy);letter-spacing:-0.8px;line-height:1.15;margin-bottom:20px}
+.article-lede{font-size:1.16rem;color:#333;line-height:1.55;margin-bottom:28px;font-family:'Fraunces',Georgia,serif;font-weight:400}
+.article-byline{display:flex;align-items:center;gap:12px;font-size:0.88rem;color:#666}
+.article-byline img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.article-byline strong{color:var(--navy);font-weight:600}
+
+/* ── Article body ── */
+.article-body{font-size:1.02rem;line-height:1.72;color:#2a2a2a}
+.article-body h2{font-family:'Fraunces',Georgia,serif;font-size:1.55rem;font-weight:600;color:var(--navy);letter-spacing:-0.3px;margin:48px 0 16px;line-height:1.2}
+.article-body h3{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--navy);margin:36px 0 12px;letter-spacing:-0.2px}
+.article-body p{margin-bottom:22px}
+.article-body ul,.article-body ol{margin:0 0 22px 24px}
+.article-body li{margin-bottom:8px}
+.article-body strong{color:var(--navy);font-weight:600}
+.article-body a{color:var(--emerald);border-bottom:1px solid rgba(16,185,129,0.3);transition:border-color .15s}
+.article-body a:hover{border-bottom-color:var(--emerald);text-decoration:none}
+.article-body blockquote{border-left:3px solid var(--emerald);padding:10px 0 10px 24px;margin:28px 0;color:#555;font-style:italic;font-family:'Fraunces',Georgia,serif;font-size:1.08rem}
+.article-body .callout{background:var(--cream);border-left:3px solid var(--emerald);padding:18px 22px;border-radius:0 10px 10px 0;margin:28px 0;font-size:0.95rem;color:#333}
+.article-body .callout strong{display:block;margin-bottom:6px;color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:700}
+.article-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.94rem}
+.article-body th,.article-body td{text-align:left;padding:11px 14px;border-bottom:1px solid #eee}
+.article-body th{background:var(--cream);font-weight:700;color:var(--navy);font-size:0.82rem;letter-spacing:0.3px;text-transform:uppercase}
+
+/* ── Article CTA ── */
+.article-cta{margin:56px 0 0;padding:40px 36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border-radius:16px;color:#fff;text-align:center}
+.article-cta h3{font-family:'Fraunces',Georgia,serif;font-size:1.55rem;font-weight:600;letter-spacing:-0.3px;margin-bottom:10px;color:#fff}
+.article-cta p{color:rgba(255,255,255,0.78);font-size:0.97rem;margin-bottom:22px;max-width:480px;margin-left:auto;margin-right:auto}
+.article-cta a{display:inline-block;background:var(--emerald);color:#fff;padding:13px 28px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background .2s}
+.article-cta a:hover{background:var(--emerald-dark);text-decoration:none}
+
+/* ── Article footer / related ── */
+.article-footer{margin-top:56px;padding-top:32px;border-top:1px solid #eee}
+.article-footer h4{font-size:0.78rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
+.related-posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.related-posts a{padding:18px 22px;background:#fafafa;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.93rem;font-weight:500;transition:background .2s,border-color .2s;line-height:1.4}
+.related-posts a:hover{background:#fff;border-color:rgba(16,185,129,0.3);text-decoration:none}
+
+/* ── Blog footer ── */
+.blog-footer{background:var(--cream);border-top:1px solid #eee;padding:36px 24px;text-align:center;font-size:0.82rem;color:#888;line-height:1.6}
+.blog-footer a{color:#555}
+.blog-footer-inner{max-width:1080px;margin:0 auto}
+.blog-footer .creds{font-size:0.76rem;color:#aaa;margin-top:8px}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .blog-main{padding:40px 20px 64px}
+  .article-cta{padding:32px 22px}
+  .article-body{font-size:0.98rem}
+}
