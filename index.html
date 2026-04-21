@@ -819,6 +819,53 @@ body.dark-mode .testi-result{background:rgba(16,185,129,0.12);color:#fff;border-
 .testi-verified::before{content:"✓";font-size:0.72rem}
 body.dark-mode .testi-verified{background:rgba(16,185,129,0.18);color:#3edfa0}
 
+/* ── Hero risk-reversal line ── */
+.hero-reassure{display:inline-block;margin:4px auto 20px;padding:8px 16px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:100px;font-size:0.78rem;color:rgba(255,255,255,0.92);font-weight:500;letter-spacing:0.2px;line-height:1.4;max-width:560px}
+.hero-reassure strong{color:var(--emerald);font-weight:700}
+@media(max-width:560px){.hero-reassure{font-size:0.72rem;padding:7px 12px}}
+
+/* ── Recently completed activity band ── */
+.recent-activity{background:var(--cream);padding:32px 24px;border-bottom:1px solid #eee}
+.recent-activity-inner{max-width:1100px;margin:0 auto}
+.recent-activity-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:0.72rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:2px}
+.recent-activity-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--emerald);animation:activityPulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
+@keyframes activityPulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.recent-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.recent-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.recent-card-badge{display:inline-block;font-size:0.64rem;font-weight:700;color:var(--emerald);text-transform:uppercase;letter-spacing:1.2px;padding:3px 8px;background:rgba(16,185,129,0.1);border-radius:100px;align-self:flex-start}
+.recent-card-outcome{font-family:'Fraunces',Georgia,serif;font-weight:600;color:var(--navy);font-size:1rem;letter-spacing:-0.2px;line-height:1.3}
+.recent-card-detail{font-size:0.82rem;color:#666;line-height:1.5}
+body.dark-mode .recent-activity{background:var(--navy);border-bottom-color:rgba(255,255,255,0.06)}
+body.dark-mode .recent-card{background:#13294d;border-color:rgba(255,255,255,0.08)}
+body.dark-mode .recent-card-outcome{color:#fff}
+body.dark-mode .recent-card-detail{color:rgba(232,236,243,0.75)}
+
+/* ── Book choice: availability microcopy + inline Calendly ── */
+.book-choice-avail{font-size:0.72rem;color:#888;margin-top:6px;padding:4px 0 0;border-top:1px dashed rgba(255,255,255,0.1)}
+body.dark-mode .book-choice-avail{color:rgba(232,236,243,0.55)}
+.calendly-inline-wrap{max-width:860px;margin:40px auto 0;background:#fff;border:1px solid #eee;border-radius:16px;padding:8px;overflow:hidden;box-shadow:0 8px 32px rgba(11,30,63,0.05)}
+.calendly-inline-wrap-head{text-align:center;padding:20px 24px 14px;font-size:0.74rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase}
+.calendly-inline-widget{min-width:320px;height:660px}
+body.dark-mode .calendly-inline-wrap{background:#13294d;border-color:rgba(255,255,255,0.08)}
+body.dark-mode .calendly-inline-wrap-head{color:rgba(232,236,243,0.55)}
+
+/* ── Objection-handler section ── */
+.objections{padding:88px 24px;background:#fff;border-top:1px solid #eee}
+.objections-inner{max-width:860px;margin:0 auto}
+.objections h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,3.4vw,2.3rem);font-weight:600;color:var(--navy);letter-spacing:-0.5px;line-height:1.15;text-align:center;margin-bottom:14px}
+.objections-lede{text-align:center;color:#666;font-size:1rem;line-height:1.6;margin:0 auto 48px;max-width:560px}
+.objection-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:20px}
+.objection-item{background:var(--cream);border-left:3px solid var(--emerald);border-radius:0 12px 12px 0;padding:22px 26px}
+.objection-item h3{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--navy);letter-spacing:-0.2px;margin-bottom:10px;line-height:1.3}
+.objection-item p{color:#444;font-size:0.92rem;line-height:1.65}
+.objection-item p a{color:var(--emerald);border-bottom:1px solid rgba(16,185,129,0.3)}
+.objection-item p a:hover{border-bottom-color:var(--emerald);text-decoration:none}
+body.dark-mode .objections{background:var(--navy);border-top-color:rgba(255,255,255,0.06)}
+body.dark-mode .objections-lede{color:rgba(232,236,243,0.72)}
+body.dark-mode .objection-item{background:rgba(16,185,129,0.06)}
+body.dark-mode .objection-item h3{color:#fff}
+body.dark-mode .objection-item p{color:rgba(232,236,243,0.85)}
+
 /* ── FAQ polish ── */
 .faq-item{position:relative;transition:background-color .25s}
 .faq-item::before{content:"";position:absolute;left:-16px;top:16px;bottom:16px;width:3px;background:var(--emerald);border-radius:100px;transform:scaleY(0);transform-origin:center;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
@@ -841,6 +888,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <a href="#solution">How It Works</a>
     <a href="#advisor">Advisor</a>
     <a href="#testimonials">Reviews</a>
+    <a href="/calculator/">Calculator</a>
     <a href="/insights/">Insights</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -862,6 +910,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <div class="hero-tag">HDB · Condo · Landed · Commercial</div>
     <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
     <p class="hero-desc">HDB, condo, landed — data-backed pricing and a dedicated advisor from listing to close.</p>
+    <div class="hero-reassure">Free 30-min call · No obligation · <strong>Selective</strong> — I only take listings I'm confident I can close well</div>
     <div class="hero-trust" aria-label="Trust indicators">
       <span class="stars" aria-hidden="true">★★★★★</span>
       <span><strong>4.9</strong>/5 rating</span>
@@ -890,7 +939,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
-      <span class="hero-response">Typically replies within 10 minutes</span>
+      <span class="hero-response">Typically replies within 10 minutes · This week's avg: <strong>8 min</strong></span>
       <button type="button" class="hero-valuation-link" id="heroValuationLink">Or get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
     </form>
     <p class="hero-form-note">No spam · No obligations · By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a></p>
@@ -913,6 +962,30 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <div class="trust-badge"><span class="trust-num">$200M+</span> Transacted</div>
     <span class="trust-dot"></span>
     <div class="trust-badge"><span class="trust-num">4.9★</span> Average Rating</div>
+  </div>
+</section>
+
+<!-- Recently completed activity band — update cards monthly as transactions close -->
+<section class="recent-activity" aria-label="Recently completed transactions">
+  <div class="recent-activity-inner">
+    <div class="recent-activity-head">Recently completed</div>
+    <div class="recent-cards">
+      <div class="recent-card">
+        <span class="recent-card-badge">HDB sale</span>
+        <div class="recent-card-outcome">Serangoon North 4-Room</div>
+        <div class="recent-card-detail">Sold at $18k above valuation · March 2026</div>
+      </div>
+      <div class="recent-card">
+        <span class="recent-card-badge">Rental</span>
+        <div class="recent-card-outcome">Landlord tenant placement</div>
+        <div class="recent-card-detail">Right tenant secured · 5-star review · March 2026</div>
+      </div>
+      <div class="recent-card">
+        <span class="recent-card-badge">Rental</span>
+        <div class="recent-card-outcome">Tenant placement</div>
+        <div class="recent-card-detail">Smooth end-to-end process · 5-star review · March 2026</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1173,7 +1246,42 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <h3>Schedule later</h3>
         <p>Pick a 30-minute slot via calendar — perfect if you're mid-work and want a set time.</p>
         <span class="book-choice-cta">Open calendar <span aria-hidden="true">→</span></span>
+        <p class="book-choice-avail">9am–9pm · 7 days a week</p>
       </a>
+    </div>
+
+    <!-- Inline Calendly widget — pick a slot without leaving the page -->
+    <div class="calendly-inline-wrap reveal reveal-delay-2">
+      <div class="calendly-inline-wrap-head">Or pick a slot right now</div>
+      <div class="calendly-inline-widget" data-url="https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Objection handler: kill hesitation before the final form -->
+<section class="objections" id="concerns">
+  <div class="objections-inner">
+    <div class="section-eyebrow reveal" style="text-align:center;margin-bottom:18px">Common concerns</div>
+    <h2 class="reveal">Thinking about it? Let me answer before you ask.</h2>
+    <p class="objections-lede reveal">The four questions I get most often before a first consultation — answered upfront so you don't have to awkwardly bring them up.</p>
+
+    <div class="objection-list">
+      <div class="objection-item reveal">
+        <h3>"Is 2% commission really what I should pay?"</h3>
+        <p>2% is Singapore's industry standard for HDB and private sales. A lower-priced agent usually cuts corners on photography, premium listing placement, or follow-up attention — and those savings vanish when the flat sells $10–30k below its potential. <a href="/insights/property-agent-commission-singapore.html">Here's what the 2% actually covers.</a></p>
+      </div>
+      <div class="objection-item reveal reveal-delay-1">
+        <h3>"What if I don't agree with your valuation?"</h3>
+        <p>No obligation either way. I'd rather you wait three months than list at the wrong price and let your flat sit. I'll show you the comparables that built the indicative number — if you disagree, we discuss; if it still doesn't feel right, no hard feelings.</p>
+      </div>
+      <div class="objection-item reveal reveal-delay-2">
+        <h3>"How do I know this isn't just another pushy agent?"</h3>
+        <p>Two signals: I'm selective — I don't take on listings I'm not confident I can close well, and I turn down bad-fit clients. And I put every number on record before you sign anything. You can <a href="https://www.cea.gov.sg/aceas/public-register/ea" target="_blank" rel="noopener">verify my CEA registration (R009618D)</a> in 30 seconds.</p>
+      </div>
+      <div class="objection-item reveal reveal-delay-3">
+        <h3>"I'm not ready to sell for 6–12 months. Should I wait to talk?"</h3>
+        <p>Talk now. The sellers who get the best outcomes start the conversation 3–6 months before listing — to nail pricing strategy, fix minor condition issues, and time the listing around market cycles. No pressure to commit. Early planning beats late panic every time.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1412,18 +1520,18 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   </div>
 </div>
 
-<!-- Exit Intent Popup: newsletter signup (desktop-only, once per visitor) -->
+<!-- Exit Intent Popup: lead magnet — 2026 Seller's Checklist PDF -->
 <div class="exit-popup" id="exitPopup">
   <div class="exit-popup-inner">
     <button class="exit-popup-close" id="exitClose">✕</button>
-    <h3 id="exitFormTitle">Before you go — stay ahead of the market</h3>
-    <p>Free monthly Singapore property insights. URA price movements, new launches, and cooling-measure changes. One email a month. Unsubscribe anytime.</p>
+    <h3 id="exitFormTitle">Before you go — grab the 2026 Seller's Checklist</h3>
+    <p>One-page PDF covering every HDB document, fee, and deadline — MOP check, CPF refund, OTP fees, online endorsement, Resale Completion. Current for the April 2026 HDB process. Plus one market update email per month (unsubscribe anytime).</p>
     <form class="exit-popup-form" id="exitForm" aria-labelledby="exitFormTitle">
       <label for="exit-name" class="sr-only">Your name</label>
       <input id="exit-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
       <label for="exit-email" class="sr-only">Email address</label>
       <input id="exit-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
-      <button type="submit">Subscribe (It's Free)</button>
+      <button type="submit">Get the checklist (free)</button>
     </form>
   </div>
 </div>
@@ -1591,19 +1699,20 @@ valPopupForm.addEventListener('submit',e=>{
     "I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.");
 });
 
-// ── Exit popup: newsletter signup ──
+// ── Exit popup: lead magnet (Seller's Checklist) + newsletter signup ──
 document.getElementById('exitForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   handleFormSubmit(f,{
     lead_type:'newsletter_signup',
     source_widget:'exit_popup',
+    lead_magnet:'seller_checklist_2026',
     full_name:f.name.value.trim(),
     email_address:f.email.value.trim(),
     newsletter_opt_in:1
   },
-  "You're on the list.",
-  "The next Singapore property market update lands in your inbox soon.");
+  "Your checklist is ready.",
+  `<a href="/downloads/seller-checklist-2026.html" target="_blank" rel="noopener" style="color:var(--emerald);text-decoration:underline;font-weight:700">Open the 2026 Seller's Checklist →</a><br><span style="font-size:0.85rem;color:#888;margin-top:10px;display:inline-block;line-height:1.5">I'll also email you the link for reference. First market update arrives next month.</span>`);
 });
 
 // ── Footer newsletter signup ──
