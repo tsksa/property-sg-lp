@@ -819,10 +819,11 @@ body.dark-mode .testi-result{background:rgba(16,185,129,0.12);color:#fff;border-
 .testi-verified::before{content:"✓";font-size:0.72rem}
 body.dark-mode .testi-verified{background:rgba(16,185,129,0.18);color:#3edfa0}
 
-/* ── Hero risk-reversal line ── */
-.hero-reassure{display:inline-block;margin:4px auto 20px;padding:8px 16px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:100px;font-size:0.78rem;color:rgba(255,255,255,0.92);font-weight:500;letter-spacing:0.2px;line-height:1.4;max-width:560px}
-.hero-reassure strong{color:var(--emerald);font-weight:700}
-@media(max-width:560px){.hero-reassure{font-size:0.72rem;padding:7px 12px}}
+/* ── Hero testimonial: add stars + cleaner spacing ── */
+.hero-stars{display:block;color:#f5c518;letter-spacing:2px;font-size:0.8rem;margin-bottom:6px}
+.hero-fineprint{font-size:0.7rem;color:rgba(255,255,255,0.45);margin-top:16px;letter-spacing:0.1px;text-align:center}
+.hero-fineprint a{color:rgba(255,255,255,0.7);text-decoration:underline}
+.hero-fineprint a:hover{color:#fff}
 
 /* ── Recently completed activity band ── */
 .recent-activity{background:var(--cream);padding:32px 24px;border-bottom:1px solid #eee}
@@ -909,16 +910,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <div class="hero-inner">
     <div class="hero-tag">HDB · Condo · Landed · Commercial</div>
     <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
-    <p class="hero-desc">HDB, condo, landed — data-backed pricing and a dedicated advisor from listing to close.</p>
-    <div class="hero-reassure">Free 30-min call · No obligation · <strong>Selective</strong> — I only take listings I'm confident I can close well</div>
-    <div class="hero-trust" aria-label="Trust indicators">
-      <span class="stars" aria-hidden="true">★★★★★</span>
-      <span><strong>4.9</strong>/5 rating</span>
-      <span class="trust-divider" aria-hidden="true"></span>
-      <span><strong>500+</strong> homeowners served</span>
-      <span class="trust-divider" aria-hidden="true"></span>
-      <span><strong>15 days</strong> avg. to tenant</span>
-    </div>
     <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
       <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
       <div class="hero-form-row">
@@ -939,14 +930,15 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
-      <span class="hero-response">Typically replies within 10 minutes · This week's avg: <strong>8 min</strong></span>
+      <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
       <button type="button" class="hero-valuation-link" id="heroValuationLink">Or get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
     </form>
-    <p class="hero-form-note">No spam · No obligations · By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a></p>
     <div class="hero-testimonial" aria-label="Customer testimonial">
+      <span class="hero-stars" aria-hidden="true">★★★★★</span>
       <em><span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>Joe priced my 4-room right from day one — sold at $18k above valuation.<span class="hero-testimonial-mark" aria-hidden="true">&rdquo;</span></em>
-      <cite>Mr Ng · HDB Seller, Serangoon North · March 2026</cite>
+      <cite>Mr Ng · HDB Seller, Serangoon North · Verified</cite>
     </div>
+    <p class="hero-fineprint">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
     <span>Scroll</span>
