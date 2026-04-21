@@ -567,6 +567,21 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 .val-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
 @media(max-width:520px){.val-popup-row{grid-template-columns:1fr}.val-popup-inner{padding:32px 22px}}
 
+/* ── PDPA Cookie Consent Banner ── */
+.cookie-banner{position:fixed;bottom:24px;left:24px;right:96px;max-width:520px;background:var(--navy);color:#fff;padding:16px 20px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.28);display:none;z-index:9999;gap:14px;align-items:center;font-size:0.82rem;line-height:1.5}
+.cookie-banner.show{display:flex}
+.cookie-banner p{margin:0;flex:1;color:rgba(255,255,255,0.92)}
+.cookie-banner a{color:var(--emerald);text-decoration:underline}
+.cookie-banner button{flex-shrink:0;background:var(--emerald);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:background .2s}
+.cookie-banner button:hover{background:var(--emerald-dark)}
+@media(max-width:640px){.cookie-banner{bottom:88px;left:12px;right:12px;max-width:none;flex-direction:column;text-align:center;padding:14px 16px}.cookie-banner button{width:100%}}
+
+/* ── Hero: secondary valuation CTA link ── */
+.hero-valuation-link{display:inline-flex;align-items:center;gap:4px;margin-top:10px;color:rgba(255,255,255,0.85);font-size:0.82rem;font-weight:500;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,0.4);padding-bottom:1px;transition:color .2s,border-color .2s;background:transparent;border-left:none;border-right:none;border-top:none;cursor:pointer;font-family:inherit}
+.hero-valuation-link:hover{color:#fff;border-bottom-color:rgba(255,255,255,0.9)}
+.hero-valuation-link .arrow-sm{transition:transform .2s;display:inline-block}
+.hero-valuation-link:hover .arrow-sm{transform:translateX(3px)}
+
 /* ── WhatsApp Float ── */
 .wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,0.4);transition:transform .2s}
 .wa-float:hover{transform:scale(1.08)}
@@ -843,18 +858,11 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <option>Landed</option>
           <option>Commercial</option>
         </select>
-        <label for="hero-intent" class="sr-only">What do you want to do</label>
-        <select id="hero-intent" name="intent" required>
-          <option value="" disabled selected>I want to...</option>
-          <option>Sell</option>
-          <option>Rent</option>
-          <option>Buy</option>
-          <option>Get valuation</option>
-        </select>
       </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <span class="hero-response">Typically replies within 10 minutes</span>
+      <button type="button" class="hero-valuation-link" id="heroValuationLink">Or get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
     </form>
     <p class="hero-form-note">No spam · No obligations · By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a></p>
     <div class="hero-testimonial" aria-label="Customer testimonial">
@@ -1318,6 +1326,12 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <!-- Dark Mode Toggle -->
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
 
+<!-- PDPA Cookie Consent Banner -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-labelledby="cookieBannerText">
+  <p id="cookieBannerText">This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
+  <button type="button" id="cookieAccept">Got it</button>
+</div>
+
 <!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
 <div class="val-popup" id="valPopup" role="dialog" aria-labelledby="valPopupTitle" aria-modal="true">
   <div class="val-popup-inner">
@@ -1430,21 +1444,27 @@ async function handleFormSubmit(form,data,successTitle,successBody){
 document.getElementById('heroForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
-  // "Get valuation" opens the inline valuation popup with pre-filled info
-  if(f.intent.value==='Get valuation'){
-    openValPopup(f.name.value.trim(),f.phone.value.trim(),f.propType.value,f.newsletter_opt_in?.checked?1:0);
-    return;
-  }
   handleFormSubmit(f,{
     lead_type:'consultation',
     full_name:f.name.value.trim(),
     mobile_number:f.phone.value.trim(),
     property_type:f.propType.value,
-    intent:f.intent.value,
     newsletter_opt_in:f.newsletter_opt_in?.checked?1:0
   },
   "You're in — I'll be in touch.",
   "I'll WhatsApp you within 24 hours. No spam, no cold calls.");
+});
+
+// Secondary hero CTA: "Or get an instant valuation →" — opens the valuation popup
+document.getElementById('heroValuationLink').addEventListener('click',()=>{
+  const f=document.getElementById('heroForm');
+  const name=f.name.value.trim();
+  const phone=f.phone.value.trim();
+  const propType=f.propType.value;
+  if(!name){alert('Please enter your name first.');f.name.focus();return;}
+  if(!phone){alert('Please enter your phone number first.');f.phone.focus();return;}
+  if(!propType){alert('Please select your property type first.');f.propType.focus();return;}
+  openValPopup(name,phone,propType,f.newsletter_opt_in?.checked?1:0);
 });
 
 // ── Valuation Popup (from hero form "Get valuation") ──
@@ -1690,6 +1710,19 @@ document.addEventListener('keydown',e=>{
     if(valPopup.classList.contains('show')) closeValPopup();
   }
 });
+
+// ── PDPA Cookie Consent Banner ──
+(function initCookieBanner(){
+  const banner=document.getElementById('cookieBanner');
+  const btn=document.getElementById('cookieAccept');
+  if(!banner||!btn) return;
+  try{if(localStorage.getItem('pdpa_consent')==='accepted') return;}catch(e){}
+  setTimeout(()=>banner.classList.add('show'),1200);
+  btn.addEventListener('click',()=>{
+    try{localStorage.setItem('pdpa_consent','accepted');}catch(e){}
+    banner.classList.remove('show');
+  });
+})();
 </script>
 </body>
 </html>
