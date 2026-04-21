@@ -31,9 +31,26 @@
   "telephone": "+65-8188-1488",
   "email": "joe@joetay.com",
   "priceRange": "$$",
-  "areaServed": {"@type": "Country", "name": "Singapore"},
+  "areaServed": [
+    {"@type": "Country", "name": "Singapore"},
+    {"@type": "Place", "name": "Serangoon"},
+    {"@type": "Place", "name": "Tampines"},
+    {"@type": "Place", "name": "Bishan"},
+    {"@type": "Place", "name": "Punggol"},
+    {"@type": "Place", "name": "Bukit Timah"},
+    {"@type": "Place", "name": "District 10"},
+    {"@type": "Place", "name": "District 15"}
+  ],
   "address": {"@type": "PostalAddress", "addressCountry": "SG"},
-  "sameAs": ["https://wa.me/6581881488"],
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "09:00",
+    "closes": "21:00"
+  },
+  "sameAs": [
+    "https://wa.me/6581881488"
+  ],
   "memberOf": {"@type": "RealEstateAgent", "name": "ERA Realty Network Pte Ltd", "identifier": "L3002382K"},
   "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "reviewCount": "3", "bestRating": "5", "worstRating": "1"}
 }
@@ -63,7 +80,13 @@
     {"@type": "Question", "name": "How long does it take to sell or rent?", "acceptedAnswer": {"@type": "Answer", "text": "On average, my clients secure a buyer within 4-8 weeks and a tenant within 15 days. Timeline depends on property type, location, and pricing — I'll give you a realistic estimate during consultation."}},
     {"@type": "Question", "name": "Do you handle both HDB and private properties?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — HDB flats, condos, landed properties, and commercial spaces. I'm experienced across all property types in Singapore and understand the specific regulations for each."}},
     {"@type": "Question", "name": "What's included in the free consultation?", "acceptedAnswer": {"@type": "Answer", "text": "A 30-minute session with a dedicated advisor covering property valuation, market analysis, pricing strategy, and a recommended action plan. Absolutely no obligation to proceed."}},
-    {"@type": "Question", "name": "Do I need to prepare anything before listing?", "acceptedAnswer": {"@type": "Answer", "text": "I handle professional photography, staging advice, and listing copy. Just provide access to the property — I take care of the rest to make your listing stand out from day one."}}
+    {"@type": "Question", "name": "Do I need to prepare anything before listing?", "acceptedAnswer": {"@type": "Answer", "text": "I handle professional photography, staging advice, and listing copy. Just provide access to the property — I take care of the rest to make your listing stand out from day one."}},
+    {"@type": "Question", "name": "How do I sell my HDB in Singapore?", "acceptedAnswer": {"@type": "Answer", "text": "After confirming MOP has cleared, the sequence is: get an indicative valuation, list across PropertyGuru/99.co/SRX/EdgeProp, conduct viewings, negotiate an Option to Purchase (OTP), then 10 weeks of HDB resale paperwork through the single Resale Completion Appointment. End-to-end typically takes 3-4 months."}},
+    {"@type": "Question", "name": "When can I sell my HDB after MOP?", "acceptedAnswer": {"@type": "Answer", "text": "The Minimum Occupation Period (MOP) for HDB flats is 5 years from the date you collected the keys — not from booking or signing. Check your exact MOP end date via HDB website → My HDBPage → Flat Details. Once past MOP, you can list immediately."}},
+    {"@type": "Question", "name": "What is Cash Over Valuation (COV) in HDB resale?", "acceptedAnswer": {"@type": "Answer", "text": "COV is the amount a buyer pays above HDB's formal valuation. Since HDB loan and CPF only cover up to the valuation, any amount above must be paid in cash. For example, if you sell at $580k and HDB values it at $570k, the buyer pays $10k COV in cash."}},
+    {"@type": "Question", "name": "Do I need a property agent to sell my HDB?", "acceptedAnswer": {"@type": "Answer", "text": "No — HDB allows direct sale between buyer and seller via the DIY route. But an experienced agent typically closes 5-10% higher after commission because of better pricing, wider reach, pre-screened buyers, and proper negotiation. Most HDB sellers conclude an agent pays for themselves."}},
+    {"@type": "Question", "name": "How much deposit do I need for HDB Option to Purchase?", "acceptedAnswer": {"@type": "Answer", "text": "The Option Fee is negotiable between S$1 and S$1,000. The Option Exercise Fee (when the buyer exercises within 21 days) is also negotiable, but the combined total of Option Fee + Exercise Fee cannot exceed S$5,000. This is flat-capped regardless of property price — very different from private property where deposits are percentage-based."}},
+    {"@type": "Question", "name": "How long do you take to reply?", "acceptedAnswer": {"@type": "Answer", "text": "Typically within 10 minutes during operating hours (9am-9pm daily). This week's average response time is 8 minutes. Direct WhatsApp to me — not routed through an office line."}}
   ]
 }
 </script>
@@ -891,6 +914,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <a href="#testimonials">Reviews</a>
     <a href="/calculator/">Calculator</a>
     <a href="/insights/">Insights</a>
+    <a href="/glossary/">Glossary</a>
     <a href="#faq">FAQ</a>
   </div>
   <div class="nav-right">
@@ -1015,7 +1039,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <div class="problem-num">03</div>
         <div class="problem-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></div>
         <h3>Pricing guesswork</h3>
-        <p>Left wondering if your asking price attracts buyers or scares them off entirely.</p>
+        <p>Left wondering if your asking price attracts buyers or scares them off entirely. <a href="/insights/hdb-valuation-explained.html" style="color:var(--emerald);font-weight:600">See how valuation actually works →</a></p>
       </div>
       <div class="problem-card reveal reveal-delay-3">
         <div class="problem-num">04</div>
@@ -1037,7 +1061,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <div class="benefit-item reveal">
           <div class="benefit-label">Pricing</div>
           <h3>Precision pricing</h3>
-          <p>Data-driven valuations so you list at the price that actually moves — not just what sounds good.</p>
+          <p>Data-driven valuations so you list at the price that actually moves — not just what sounds good. <a href="/insights/hdb-valuation-explained.html" style="color:var(--emerald);font-weight:600">See how I price HDBs →</a></p>
         </div>
         <div class="benefit-item reveal">
           <div class="benefit-label">Exposure</div>
@@ -1066,7 +1090,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <div class="container">
     <div class="section-eyebrow reveal">How I work</div>
     <h2 class="reveal">From valuation to closing — a process built for Singapore homeowners.</h2>
-    <p class="process-lede reveal">Whether you're selling your HDB flat in Tampines, renting out a condo in District 10, or pricing a landed home in Bukit Timah, I follow the same four-step process — transparent, dedicated, and built around real Singapore market data (URA, SRX, HDB resale index).</p>
+    <p class="process-lede reveal">Whether you're selling your HDB flat in Tampines, renting out a condo in District 10, or pricing a landed home in Bukit Timah, I follow the same four-step process — transparent, dedicated, and built around real Singapore market data (URA, SRX, HDB resale index). <a href="/insights/how-long-to-sell-hdb-singapore-2026.html" style="color:var(--emerald);font-weight:600">See the full week-by-week HDB sale timeline →</a></p>
     <div class="process-timeline">
       <div class="process-step reveal">
         <span class="process-num">01</span>
@@ -1352,7 +1376,32 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <button class="faq-question" aria-expanded="false">Do I need to prepare anything before listing?<span class="faq-icon">+</span></button>
         <div class="faq-answer"><p>I handle professional photography, staging advice, and listing copy. Just provide access to the property — I take care of the rest to make your listing stand out from day one.</p></div>
       </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">How do I sell my HDB in Singapore?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>After confirming MOP, the sequence is: indicative valuation → listing across PropertyGuru/99.co/SRX/EdgeProp → viewings → Option to Purchase → 10 weeks of HDB paperwork ending at the Resale Completion Appointment. <a href="/insights/how-long-to-sell-hdb-singapore-2026.html">Full week-by-week breakdown →</a></p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">When can I sell my HDB after MOP?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>MOP is 5 years from <strong>key collection date</strong> — not booking or signing. Check yours via HDB website → My HDBPage → Flat Details. <a href="/insights/selling-hdb-after-mop-singapore.html">Full post-MOP selling guide →</a></p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">What is Cash Over Valuation (COV)?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>The amount a buyer pays above HDB's formal valuation — paid in cash since loan and CPF only cover up to the valuation figure. <a href="/insights/hdb-valuation-explained.html">How valuation works in detail →</a></p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">Do I need an agent to sell my HDB?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>No, HDB allows direct DIY sales. But an experienced agent typically closes 5–10% higher after commission — better pricing, wider reach, pre-screened buyers, proper negotiation. <a href="/insights/property-agent-commission-singapore.html">What the 2% actually covers →</a></p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">How much deposit do I need for OTP?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Option Fee: S$1–S$1,000. Option Exercise Fee: also negotiable. Combined total cannot exceed S$5,000 (flat cap, regardless of property price). Completely different from private property.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">How fast do you reply?<span class="faq-icon">+</span></button>
+        <div class="faq-answer"><p>Typically within 10 minutes during 9am–9pm. Direct WhatsApp to me — not routed through an office line. See <a href="/glossary/">property terms glossary →</a> while you wait.</p></div>
+      </div>
     </div>
+    <p class="faq-footer reveal" style="text-align:center;margin-top:32px;font-size:0.9rem;color:#888">Still have questions? <a href="#book" style="color:var(--emerald);font-weight:600">Book a free 30-min call →</a></p>
   </div>
 </section>
 
