@@ -132,9 +132,9 @@ a:hover{text-decoration:underline}
 
     <div class="calc-loan-type">
       <input type="radio" id="loanHDB" name="loanType" value="HDB" checked>
-      <label for="loanHDB">HDB loan<span class="type-sub">Concessionary, 2.6%</span></label>
+      <label for="loanHDB">HDB loan<span class="type-sub">Concessionary · 2.6%</span></label>
       <input type="radio" id="loanBank" name="loanType" value="Bank">
-      <label for="loanBank">Bank loan<span class="type-sub">Private / HDB, ~3.5%</span></label>
+      <label for="loanBank">Bank loan<span class="type-sub">Stressed at 4% · Actual ~2.5%</span></label>
     </div>
 
     <div class="calc-field">
@@ -206,7 +206,7 @@ a:hover{text-decoration:underline}
 </main>
 
 <div class="calc-disclaimer">
-  <p><strong>Estimates only.</strong> Numbers above are based on simplified HDB MSR (30% of gross income) and TDSR (55% of gross income, for bank loans) rules, standard LTV limits (75% for HDB loans, 75% for bank loans), and assumed interest rates (HDB 2.6%, Bank 3.5% stress-test rate per MAS TDSR calculation). Your actual approval depends on the bank's/HDB's own credit assessment, property valuation, HFE letter, and current cooling measures. Use as a starting point — speak to me for a detailed budget plan.</p>
+  <p><strong>Estimates only.</strong> Based on simplified HDB MSR (30% of gross income), TDSR (55% for bank loans, per MAS rules), and LTV 75% cap. Bank loan calculations use <strong>4% MAS stress rate</strong> — the minimum banks must use to assess loan eligibility. Your <strong>actual monthly payment</strong> at today's market rate (~2.5% for a typical fixed package) is shown separately and will be meaningfully lower. HDB concessionary loan rate is 2.6%. Final approval depends on credit assessment, property valuation, HFE letter, and current cooling measures. Speak to me for a detailed budget plan for your specific situation.</p>
 </div>
 
 <footer class="calc-footer">
@@ -218,11 +218,17 @@ a:hover{text-decoration:underline}
 // ─────────────────────────────────────────────────────────
 // HDB / Bank loan affordability calculator
 // Everything runs client-side.
-// Calculations:
-//   - HDB loan: MSR 30% of gross income, LTV 75%, rate 2.6%
-//   - Bank loan: MSR 30% (for HDB flats), TDSR 55% (both), stress-test rate 3.5%
-//     (MAS uses 3.5% stress rate for HDB, 4.0% for private, but we use 3.5%
-//      as conservative reference for new buyers — actual bank rate may be lower)
+//
+// Rates (verified April 2026):
+//   - HDB loan: 2.6% concessionary rate (CPF OA + 0.1%). No stress test.
+//   - Bank loan: 4.0% MAS stress rate (what banks approve against).
+//     Actual 2026 market rates are ~2.5% (fixed) / 2.2-2.5% (SORA floating),
+//     so users' real monthly payment will be ~25% lower than shown.
+//
+// Regulatory rules:
+//   - HDB loan: MSR 30%, LTV 75%, no TDSR required
+//   - Bank loan (for HDB): MSR 30%, TDSR 55%, LTV 75%
+//     (private property: TDSR 55% only, no MSR — calculator assumes HDB)
 // ─────────────────────────────────────────────────────────
 
 const fmt = (n) => {
@@ -261,8 +267,10 @@ function recalc(){
   const maxTenure = loanType === 'HDB' ? Math.min(25, ageCapTenure) : Math.min(30, ageCapTenure);
   if(tenure > maxTenure) tenure = maxTenure;
 
-  // Rates (stress-test for bank)
-  const annualRate = loanType === 'HDB' ? 0.026 : 0.035;
+  // Rates: HDB concessionary (no stress test) / Bank MAS stress rate (4% floor)
+  const annualRate = loanType === 'HDB' ? 0.026 : 0.040;
+  // Actual market rate for 'real' monthly payment display
+  const marketRate = loanType === 'HDB' ? 0.026 : 0.025;
 
   // MSR = 30% of gross income goes to mortgage
   const msrMax = income * 0.30;
@@ -298,6 +306,7 @@ function recalc(){
   const maxPrice = Math.min(priceFromLoan, priceFromDownpayment, priceFromMinCash);
   const actualLoan = Math.min(maxLoan, maxPrice * ltv);
   const actualMonthly = calcMonthlyPayment(actualLoan, annualRate, tenure);
+  const marketMonthly = calcMonthlyPayment(actualLoan, marketRate, tenure);
   const downpayment = Math.max(0, maxPrice - actualLoan);
 
   // Render
@@ -307,13 +316,15 @@ function recalc(){
   document.getElementById('downpayment').textContent = fmt(downpayment);
 
   document.getElementById('maxPriceDetail').textContent = income > 0
-    ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.`
+    ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.${loanType==='Bank' ? ' (MAS stress rate)' : ''}`
     : 'Enter your monthly income to calculate';
   document.getElementById('maxLoanDetail').textContent = income > 0
     ? `75% LTV cap · MSR ${fmt(msrMax)}/mo max${loanType==='Bank' ? ` · TDSR ${fmt(Math.max(0,(income*0.55)-otherDebt))}/mo` : ''}`
     : '';
   document.getElementById('monthlyDetail').textContent = actualMonthly > 0
-    ? `${(actualMonthly / income * 100).toFixed(1)}% of your gross income`
+    ? loanType === 'Bank'
+        ? `At 4% stress rate · At today's ~2.5% market: ${fmt(marketMonthly)}/mo (${(marketMonthly / income * 100).toFixed(1)}% of income)`
+        : `${(actualMonthly / income * 100).toFixed(1)}% of your gross income`
     : '';
   document.getElementById('downpaymentDetail').textContent = income > 0
     ? loanType === 'HDB'
