@@ -80,6 +80,24 @@
 <meta name="twitter:title" content="PropertySG — Sell & Rent Smarter in Singapore">
 <meta name="twitter:description" content="Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.">
 <meta name="twitter:image" content="https://joetay.com/singapore-property-marina-bay.jpg">
+
+<!-- GA4 — shared with freevaluation.sg, auto-segments by hostname -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6N7CKZQNR"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-Z6N7CKZQNR',{'send_page_view':true});
+</script>
+
+<!-- Meta Pixel — shared pixel, events tagged with hostname -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','3279494272146114');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3279494272146114&ev=PageView&noscript=1" alt=""></noscript>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap">
@@ -1425,10 +1443,20 @@ async function submitLead(data){
   return result;
 }
 
-function showFormSuccess(form,title,body){
+function showFormSuccess(form,title,body,data){
   form.innerHTML=`<div class="form-success"><div class="form-success-icon">✓</div><h3>${title}</h3><p>${body}</p></div>`;
-  if(typeof gtag==='function') gtag('event','generate_lead',{method:'website_form'});
-  if(typeof fbq==='function') fbq('track','Lead');
+  const leadType=data?.lead_type||'consultation';
+  const propType=data?.property_type||'';
+  if(typeof gtag==='function') gtag('event','generate_lead',{
+    method:'website_form',
+    lead_type:leadType,
+    property_type:propType,
+    source_site:'joetay.com'
+  });
+  if(typeof fbq==='function') fbq('track','Lead',{
+    content_category:leadType,
+    content_name:propType||leadType
+  });
 }
 
 function showFormError(btn,originalHTML){
@@ -1444,7 +1472,7 @@ async function handleFormSubmit(form,data,successTitle,successBody){
   btn.textContent='Submitting...';
   try{
     await submitLead(data);
-    showFormSuccess(form,successTitle,successBody);
+    showFormSuccess(form,successTitle,successBody,data);
   }catch(err){
     showFormError(btn,originalHTML);
   }
