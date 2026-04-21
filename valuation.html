@@ -222,17 +222,8 @@ footer a{color:rgba(255,255,255,0.8)}
 
   <div class="val-card">
     <form id="valForm" novalidate aria-label="Free property valuation form">
-      <div class="val-progress">
-        <div class="val-progress-bar"><div class="val-progress-fill" id="progFill"></div></div>
-        <div class="val-progress-text">Section <span id="stepNum">1</span> of 3</div>
-      </div>
-
-      <!-- Chapter 1: Your property -->
+      <!-- Single-step form: property, contact, go. Matches the hero popup for consistency. -->
       <div class="val-step active" data-step="1">
-        <div class="val-chapter-head">
-          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z"/></svg></div>
-          <div class="val-chapter-title"><span class="num">Section 1 of 3</span><h2>Your property</h2></div>
-        </div>
 
         <div class="val-group">
           <label class="val-group-label">Property type</label>
@@ -258,91 +249,23 @@ footer a{color:rgba(255,255,255,0.8)}
         <div class="val-address-detected" id="addrDetected" style="display:none"></div>
         <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
 
-        <div class="val-row" style="margin-top:22px">
-          <div class="val-group">
-            <label class="val-group-label" for="floorArea">Floor area</label>
-            <div class="val-unit-suffix" data-suffix="sqft">
-              <input id="floorArea" name="floorArea" type="number" inputmode="numeric" min="200" max="20000" placeholder="e.g. 1,076" required>
-            </div>
-            <p class="val-error-msg" data-error-for="floorArea">Please enter floor area.</p>
-          </div>
-          <div class="val-group">
-            <label class="val-group-label" for="yearBuilt">Year purchased / TOP <span class="val-optional">(optional)</span></label>
-            <input id="yearBuilt" name="yearBuilt" type="number" inputmode="numeric" min="1960" max="2030" placeholder="e.g. 2015">
-          </div>
-        </div>
-
-        <div class="val-group" style="margin-top:22px">
-          <label class="val-group-label" id="layoutLabel">Layout</label>
-          <div class="val-chips" role="radiogroup" id="layoutChips">
-            <!-- Injected by JS once propType chosen -->
-            <span style="color:#aaa;font-size:0.85rem;padding:8px 2px">Pick a property type above to see layout options.</span>
-          </div>
-          <p class="val-error-msg" data-error-for="layout">Please select a layout.</p>
-        </div>
-
-        <div class="val-group">
-          <label class="val-group-label">Current condition</label>
+        <!-- Conditional: HDB flat type -->
+        <div class="val-group" id="hdbTypeGroup" style="display:none">
+          <label class="val-group-label">HDB flat type</label>
           <div class="val-chips" role="radiogroup">
-            <label class="val-chip"><input type="radio" name="condition" value="Original / as built" required><span>Original / as built</span></label>
-            <label class="val-chip"><input type="radio" name="condition" value="Partially renovated"><span>Partially renovated</span></label>
-            <label class="val-chip"><input type="radio" name="condition" value="Recently renovated (≤ 5 yrs)"><span>Recently renovated</span></label>
-            <label class="val-chip"><input type="radio" name="condition" value="Fully renovated"><span>Fully renovated</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="2-room"><span>2-room</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="3-room"><span>3-room</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="4-room"><span>4-room</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="5-room"><span>5-room</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="Executive"><span>Executive</span></label>
+            <label class="val-chip"><input type="radio" name="hdbType" value="Jumbo"><span>Jumbo</span></label>
           </div>
-          <p class="val-error-msg" data-error-for="condition">Please select current condition.</p>
         </div>
 
-        <div class="val-nav">
-          <button type="button" class="val-next" data-next>Next →</button>
-        </div>
-      </div>
-
-      <!-- Chapter 2: Why & when -->
-      <div class="val-step" data-step="2">
-        <div class="val-chapter-head">
-          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div class="val-chapter-title"><span class="num">Section 2 of 3</span><h2>Why &amp; when</h2></div>
-        </div>
-
-        <div class="val-group">
-          <label class="val-group-label">Reason for valuation</label>
-          <div class="val-chips" role="radiogroup">
-            <label class="val-chip"><input type="radio" name="reason" value="Selling" required><span>Selling</span></label>
-            <label class="val-chip"><input type="radio" name="reason" value="Renting out"><span>Renting out</span></label>
-            <label class="val-chip"><input type="radio" name="reason" value="Refinancing"><span>Refinancing</span></label>
-            <label class="val-chip"><input type="radio" name="reason" value="Estate / divorce"><span>Estate / divorce</span></label>
-            <label class="val-chip"><input type="radio" name="reason" value="Just curious"><span>Just curious</span></label>
-          </div>
-          <p class="val-error-msg" data-error-for="reason">Please select a reason.</p>
-        </div>
-
-        <div class="val-group">
-          <label class="val-group-label">Timeline</label>
-          <div class="val-chips" role="radiogroup">
-            <label class="val-chip"><input type="radio" name="timeline" value="Just exploring" required><span>Just exploring</span></label>
-            <label class="val-chip"><input type="radio" name="timeline" value="Within 3 months"><span>Within 3 months</span></label>
-            <label class="val-chip"><input type="radio" name="timeline" value="Within 6 months"><span>Within 6 months</span></label>
-            <label class="val-chip"><input type="radio" name="timeline" value="Within 12 months"><span>Within 12 months</span></label>
-          </div>
-          <p class="val-error-msg" data-error-for="timeline">Please select a timeline.</p>
-        </div>
-
-        <div class="val-group">
-          <label class="val-group-label" for="targetPrice">Target price <span class="val-optional">(optional)</span></label>
-          <input id="targetPrice" name="targetPrice" type="text" inputmode="numeric" placeholder="e.g. S$1,250,000" autocomplete="off">
-        </div>
-
-        <div class="val-nav">
-          <button type="button" class="val-prev" data-prev>← Back</button>
-          <button type="button" class="val-next" data-next>Next →</button>
-        </div>
-      </div>
-
-      <!-- Chapter 3: Your details -->
-      <div class="val-step" data-step="3">
-        <div class="val-chapter-head">
-          <div class="val-chapter-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div class="val-chapter-title"><span class="num">Section 3 of 3</span><h2>How to reach you</h2></div>
+        <!-- Conditional: Year built (Landed) -->
+        <div class="val-group" id="yearBuiltGroup" style="display:none">
+          <label class="val-group-label" for="yearBuilt">Year built</label>
+          <input id="yearBuilt" name="yearBuilt" type="number" inputmode="numeric" min="1900" max="2030" placeholder="e.g. 1995">
         </div>
 
         <div class="val-group">
@@ -351,16 +274,17 @@ footer a{color:rgba(255,255,255,0.8)}
           <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
         </div>
 
-        <div class="val-group">
-          <label class="val-group-label" for="mobile">Mobile number</label>
-          <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
-          <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
-        </div>
-
-        <div class="val-group">
-          <label class="val-group-label" for="email">Email address</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-          <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
+        <div class="val-row">
+          <div class="val-group">
+            <label class="val-group-label" for="mobile">Mobile</label>
+            <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
+            <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
+          </div>
+          <div class="val-group">
+            <label class="val-group-label" for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
+          </div>
         </div>
 
         <label class="val-consent">
@@ -371,10 +295,7 @@ footer a{color:rgba(255,255,255,0.8)}
 
         <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <div class="val-nav">
-          <button type="button" class="val-prev" data-prev>← Back</button>
-          <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
-        </div>
+        <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
       </div>
 
       <!-- Success -->
@@ -394,9 +315,6 @@ footer a{color:rgba(255,255,255,0.8)}
 
 <script>
 // ── Config ─────────────────────────────────────────────
-// POSTs to the Netlify Function at /.netlify/functions/submit-lead.
-// The function handles team notifications (Twilio WhatsApp / Sheets / email).
-// User stays on the success screen — no client-side WhatsApp redirect.
 const FORM_ENDPOINT = '/.netlify/functions/submit-lead';
 
 // ── Pre-fill from URL params (e.g. redirected from hero form) ──
@@ -406,117 +324,36 @@ const params = new URLSearchParams(location.search);
   if(!val) return;
   const el = document.querySelector(`[name="${key}"]`);
   if(!el) return;
-  if(el.type === 'radio' || el.tagName === 'SELECT'){
-    const match = document.querySelector(`[name="${key}"][value="${val}"]`) ||
-                  [...document.querySelectorAll(`[name="${key}"] option`)].find(o=>o.value===val);
-    if(match) match.checked ? match.checked=true : match.selected=true;
+  if(el.type === 'radio'){
+    const match = document.querySelector(`[name="${key}"][value="${val}"]`);
+    if(match){ match.checked = true; match.dispatchEvent(new Event('change')); }
   } else {
     el.value = val;
   }
 });
 
-// ── Capture UTM params (survives the redirect chain) ──
+// ── UTM capture ──
 const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
 const utm = {};
 UTM_KEYS.forEach(k=>{ utm[k] = params.get(k) || ''; });
 
-// ── Step navigation ─────────────────────────────────────
-const steps = [...document.querySelectorAll('.val-step[data-step]')].filter(s=>s.dataset.step!=='success');
-const totalSteps = steps.length;
-let current = 0;
-
-// ── Conditional layout chips based on property type ──
-const LAYOUT_OPTIONS = {
-  'HDB': {label:'Flat type', opts:['2-room','3-room','4-room','5-room','Executive']},
-  'Condo / Apartment': {label:'Bedrooms', opts:['1 BR','2 BR','3 BR','4 BR','5+ BR']},
-  'Landed': {label:'Bedrooms', opts:['2','3','4','5','6+']},
-  'Commercial': {label:'Sub-type', opts:['Office','Retail','F&B','Shophouse','Industrial']}
-};
-function renderLayoutChips(){
-  const propType = document.querySelector('[name="propType"]:checked')?.value;
-  if(!propType) return;
-  const cfg = LAYOUT_OPTIONS[propType];
-  if(!cfg) return;
-  document.getElementById('layoutLabel').textContent = cfg.label;
-  const container = document.getElementById('layoutChips');
-  container.innerHTML = cfg.opts.map(o=>
-    `<label class="val-chip"><input type="radio" name="layout" value="${o}" required><span>${o}</span></label>`
-  ).join('');
+// ── Conditional field visibility (HDB flat type / Landed year built) ──
+const hdbTypeGroup = document.getElementById('hdbTypeGroup');
+const yearBuiltGroup = document.getElementById('yearBuiltGroup');
+function updateConditionalFields(){
+  const checked = document.querySelector('[name="propType"]:checked');
+  const v = checked?.value;
+  hdbTypeGroup.style.display = v === 'HDB' ? 'block' : 'none';
+  yearBuiltGroup.style.display = v === 'Landed' ? 'block' : 'none';
 }
 document.querySelectorAll('[name="propType"]').forEach(r=>{
-  r.addEventListener('change', renderLayoutChips);
+  r.addEventListener('change', updateConditionalFields);
 });
-renderLayoutChips();
-
-function showStep(i){
-  steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
-  document.getElementById('stepNum').textContent = i+1;
-  document.getElementById('progFill').style.width = ((i+1)/totalSteps*100) + '%';
-  // Focus first input in the new step
-  const firstInput = steps[i].querySelector('input:not([type=hidden]),select');
-  if(firstInput) setTimeout(()=>firstInput.focus(),320);
-}
-
-function showSuccess(){
-  steps.forEach(s=>s.classList.remove('active'));
-  document.querySelector('[data-step="success"]').classList.add('active');
-  document.getElementById('progFill').style.width = '100%';
-  document.getElementById('stepNum').textContent = totalSteps;
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function clearErrors(step){
-  step.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
-}
-
-function validateStep(i){
-  const step = steps[i];
-  clearErrors(step);
-  const required = step.querySelectorAll('[required]');
-  for(const field of required){
-    if(field.type === 'radio'){
-      const group = step.querySelectorAll(`[name="${field.name}"]`);
-      if(![...group].some(r=>r.checked)){
-        step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
-        return false;
-      }
-    } else if(field.type === 'checkbox'){
-      if(!field.checked){
-        step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
-        return false;
-      }
-    } else if(!field.value.trim() || !field.checkValidity()){
-      step.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
-      field.focus();
-      return false;
-    }
-  }
-  return true;
-}
-
-document.querySelectorAll('[data-next]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    if(!validateStep(current)) return;
-    if(current < totalSteps-1){ current++; showStep(current); }
-  });
-});
-document.querySelectorAll('[data-prev]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    if(current > 0){ current--; showStep(current); }
-  });
-});
-
-// Enter key advances (except final step where it submits)
-document.getElementById('valForm').addEventListener('keydown',e=>{
-  if(e.key==='Enter' && e.target.tagName!=='TEXTAREA' && e.target.type!=='submit'){
-    e.preventDefault();
-    if(current < totalSteps-1){
-      if(validateStep(current)){ current++; showStep(current); }
-    }
-  }
-});
+updateConditionalFields(); // run once for pre-filled state
 
 // ── OneMap postal code lookup (Singapore) ─────────────
+function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+
 let detectedAddress = '';
 const postalEl = document.getElementById('postalCode');
 const addrBox = document.getElementById('addrDetected');
@@ -549,31 +386,55 @@ postalEl.addEventListener('input', debounce(async ()=>{
   }
 }, 400));
 
-function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+// ── Validation ──
+function clearErrors(){
+  document.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
+}
+function validate(){
+  clearErrors();
+  const form = document.getElementById('valForm');
+  const required = form.querySelectorAll('[required]');
+  for(const field of required){
+    if(field.type === 'radio'){
+      const group = form.querySelectorAll(`[name="${field.name}"]`);
+      if(![...group].some(r=>r.checked)){
+        form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        return false;
+      }
+    } else if(field.type === 'checkbox'){
+      if(!field.checked){
+        form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        return false;
+      }
+    } else if(!field.value.trim() || !field.checkValidity()){
+      form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+      field.focus();
+      return false;
+    }
+  }
+  return true;
+}
 
-// ── Submit ──────────────────────────────────────────────
+function showSuccess(){
+  document.querySelector('[data-step="1"]').classList.remove('active');
+  document.querySelector('[data-step="success"]').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Submit ──
 document.getElementById('valForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  if(!validateStep(current)) return;
+  if(!validate()) return;
   const f = e.target;
+  if(f._honeypot.value) return; // honeypot
 
-  // Honeypot check
-  if(f._honeypot.value) return;
-
-  // Field names match freevaluation.sg so the same submit-lead function handles both
+  const propType = f.propType.value;
   const data = {
     lead_type: 'valuation',
-    property_type: f.propType.value,
+    property_type: propType,
     postal_code: f.postalCode.value.trim(),
     detected_address: detectedAddress,
     unit_number: f.unitNumber.value.trim(),
-    floor_area_sqft: f.floorArea.value.trim(),
-    year_built_or_purchased: f.yearBuilt.value.trim(),
-    layout: f.layout.value,
-    condition: f.condition.value,
-    reason: f.reason.value,
-    selling_timeline: f.timeline.value,
-    target_price: f.targetPrice.value.trim(),
     full_name: f.fullName.value.trim(),
     mobile_number: f.mobile.value.trim(),
     email: f.email.value.trim(),
@@ -581,14 +442,19 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
     submitted_at: new Date().toISOString(),
     ...utm
   };
+  if(propType === 'HDB'){
+    const hdbType = document.querySelector('[name="hdbType"]:checked')?.value;
+    if(hdbType) data.hdb_type = hdbType;
+  }
+  if(propType === 'Landed'){
+    const yb = document.getElementById('yearBuilt').value.trim();
+    if(yb) data.year_built = yb;
+  }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
-  // Submit to Netlify Function. The function handles notifications (Twilio WhatsApp
-  // to team, Google Sheets append, email). The user is NOT redirected anywhere —
-  // they land on the success screen and we're done.
   try {
     const res = await fetch(FORM_ENDPOINT, {
       method: 'POST',
