@@ -143,19 +143,19 @@
     <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,1.9rem);font-weight:600;color:var(--navy);margin-bottom:18px;letter-spacing:-0.4px">Walk through the show units.</h2>
     <p style="color:#555;line-height:1.6;margin-bottom:28px;max-width:760px">A Matterport virtual tour of the show unit types. No appointment needed — explore the layouts, finishes, and views before you commit to a physical showflat visit.</p>
     <div class="project-tour-frame">
-      <!-- TODO: Replace the placeholder below with the actual ERA Projects virtual tour iframe
-           for Newport Residences. Get the iframe embed code from the corresponding page
-           on eraprojects.sg — typically an <iframe src="https://my.matterport.com/show/?m=..."></iframe>
-           Example:
-           <iframe src="https://my.matterport.com/show/?m=XXXXXXX" allow="xr-spatial-tracking" allowfullscreen></iframe>
-      -->
-      <div class="project-tour-placeholder">
-        <div class="icon">▶</div>
-        <h3>Virtual tour ready on request</h3>
-        <p>Register below and I'll send you the direct Matterport virtual tour link for Newport Residences — typically within the same WhatsApp reply.</p>
-        <a href="#projectForm">Get tour link →</a>
-      </div>
+      <!-- Pano2VR tour hosted by VMW Group (production company for CDL).
+           Other available tours in the same folder (swap path segment):
+             /l23/   level 23 unit
+             /l28/   level 28 unit
+             /l34/   level 34 unit (current default)
+             /3br-cp1/   3BR type CP1
+             /3br-cps1/  3BR type CPS1
+             /aerial/    aerial overview
+             /aerial_dev/ development aerial
+           Parent dir: https://vmwgrp.synology.me/CDL_FujiXerox/export/ -->
+      <iframe src="https://vmwgrp.synology.me/CDL_FujiXerox/export/l34/" title="Newport Residences 360° virtual tour — Level 34 unit" loading="lazy" allowfullscreen allow="accelerometer; gyroscope; fullscreen; xr-spatial-tracking"></iframe>
     </div>
+    <p style="margin-top:16px;font-size:0.82rem;color:#888;text-align:center">360° Pano2VR tour of a Level 34 unit. Other unit types and aerial views available on request — <a href="#projectForm" style="color:var(--emerald);font-weight:600">register</a> to receive links to specific stack tours.</p>
   </div>
 </section>
 
