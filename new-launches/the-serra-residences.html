@@ -412,6 +412,7 @@ async function handleSubmit(form){
   btn.textContent = 'Submitting...';
   const data = {
     lead_type:'new_launch_registration',
+    request_type: form.request_type ? form.request_type.value : 'vvip',
     project:PROJECT_NAME,
     full_name:form.name.value.trim(),
     mobile_number:form.phone.value.trim(),

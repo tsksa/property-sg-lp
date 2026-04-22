@@ -492,7 +492,7 @@ async function handleSubmit(form){
   const original = btn.innerHTML;
   btn.disabled = true;
   btn.textContent = 'Submitting...';
-  const data = {lead_type:'new_launch_registration',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),...utm};
+  const data = {lead_type:'new_launch_registration',request_type:form.request_type?form.request_type.value:'vvip',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),...utm};
   try {
     const res = await fetch(ENDPOINT, {method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});
     const result = await res.json().catch(() => ({ok:res.ok}));

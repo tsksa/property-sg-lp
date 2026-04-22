@@ -122,8 +122,13 @@
     </div>
 
     <div class="project-form-card">
-      <h3>Register for VIP preview</h3>
-      <p class="sub">Early-bird pricing before public launch. Reply in under 10 minutes.</p>
+      <h3>Register for VVIP preview &amp; e-brochure</h3>
+      <p class="sub">Leave your details — I'll WhatsApp you within 10 minutes with indicative pricing, unit availability, and the full developer e-brochure.</p>
+      <div class="project-form-trust">
+        <span class="project-form-trust-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Reply &lt;10 min</span>
+        <span class="project-form-trust-item"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Kept private</span>
+        <span class="project-form-trust-item"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Free · No obligation</span>
+      </div>
       <form id="projectForm" class="pf" novalidate>
         <div class="pf-row">
           <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
@@ -143,8 +148,8 @@
           </select>
         </div>
         <div class="pf-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit">Register my interest →</button>
-        <p class="pf-micro">Free · No obligation · I'll share pricing + units available</p>
+        <button type="submit">Send me the e-brochure →</button>
+        <p class="pf-micro">CEA R009618D · ERA District Director · WhatsApp: +65 8188 1488</p>
       </form>
     </div>
   </div>
@@ -544,6 +549,7 @@ async function handleSubmit(form){
 
   const data = {
     lead_type:'new_launch_registration',
+    request_type: form.request_type ? form.request_type.value : 'vvip',
     project:'Newport Residences',
     full_name:form.name.value.trim(),
     mobile_number:form.phone.value.trim(),

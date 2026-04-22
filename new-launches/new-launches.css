@@ -137,10 +137,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:640px){.project-dev-meta{gap:22px 28px}.project-dev-item{min-width:100px}.project-dev-item-value{font-size:0.95rem}}
 
 /* ── Form card ── */
-.project-form-card{background:#fff;border-radius:18px;padding:30px 28px;box-shadow:0 32px 72px -16px rgba(0,0,0,0.4),0 0 0 1px rgba(11,30,63,0.04);position:relative;overflow:hidden}
+.project-form-card{background:#fff;border-radius:18px;padding:28px 28px 24px;box-shadow:0 32px 72px -16px rgba(0,0,0,0.4),0 0 0 1px rgba(11,30,63,0.04);position:relative;overflow:hidden}
 .project-form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold))}
-.project-form-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.25rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px}
-.project-form-card .sub{font-size:0.82rem;color:var(--ink-soft);margin-bottom:20px;line-height:1.5}
+.project-form-card .pf-intent{display:inline-block;font-size:0.66rem;font-weight:700;color:var(--emerald);letter-spacing:1.4px;text-transform:uppercase;padding:4px 10px;background:rgba(16,185,129,0.1);border-radius:100px;margin-bottom:10px}
+.project-form-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;line-height:1.25}
+.project-form-card .sub{font-size:0.84rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.5}
+.project-form-trust{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:10px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.project-form-trust-item{display:inline-flex;align-items:center;gap:5px;font-size:0.68rem;font-weight:600;color:var(--ink-soft);letter-spacing:0.3px}
+.project-form-trust-item svg{width:13px;height:13px;stroke:var(--emerald);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .pf-row{display:flex;gap:10px;margin-bottom:10px}
 .pf-row>*{flex:1}
 .pf input,.pf select{width:100%;padding:13px 14px;border-radius:10px;border:1.5px solid #e1e3e8;font-family:inherit;font-size:0.92rem;outline:none;transition:border .15s,box-shadow .15s;background:#fff;color:#111}
@@ -294,6 +298,38 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .project-take-sig-line{font-style:italic}
 .project-take-sig strong{font-weight:600;color:var(--navy);font-style:normal}
 
+/* ── Location & Connectivity (distance chips with icons) ── */
+.project-location{padding:64px 24px;background:var(--cream);border-bottom:1px solid var(--line)}
+.project-location-inner{max-width:1080px;margin:0 auto}
+.project-location-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
+.project-location-group{background:#fff;border:1px solid rgba(11,30,63,0.06);border-radius:14px;padding:22px 22px 18px;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s}
+.project-location-group:hover{transform:translateY(-3px);box-shadow:0 18px 40px -20px rgba(11,30,63,0.22);border-color:rgba(16,185,129,0.25)}
+.project-location-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed rgba(11,30,63,0.08)}
+.project-location-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,rgba(16,185,129,0.14),rgba(16,185,129,0.04));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.project-location-icon svg{width:20px;height:20px;stroke:var(--emerald);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.project-location-title{font-family:'Fraunces',Georgia,serif;font-size:0.98rem;font-weight:600;color:var(--navy);letter-spacing:-0.2px}
+.project-location-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.project-location-list li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:0.86rem;color:var(--ink-soft);padding:3px 0}
+.project-location-list li .name{color:#333;font-weight:500}
+.project-location-list li .dist{font-family:'Fraunces',Georgia,serif;font-size:0.82rem;font-weight:600;color:var(--emerald);white-space:nowrap;letter-spacing:-0.1px}
+
+/* ── Related projects cross-sell ── */
+.project-related{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
+.project-related-inner{max-width:1180px;margin:0 auto}
+.project-related-head{margin-bottom:28px;text-align:center}
+.project-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.project-related-card{position:relative;display:block;overflow:hidden;border-radius:14px;aspect-ratio:4/3;text-decoration:none;color:#fff;box-shadow:0 10px 32px -16px rgba(11,30,63,0.3);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.project-related-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px rgba(11,30,63,0.35);text-decoration:none;color:#fff}
+.project-related-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.project-related-card:hover img{transform:scale(1.06)}
+.project-related-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(11,30,63,0.35) 50%,rgba(11,30,63,0.85) 100%)}
+.project-related-card-body{position:absolute;bottom:0;left:0;right:0;padding:18px 20px;z-index:1}
+.project-related-card-meta{font-size:0.66rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:4px}
+.project-related-card-title{font-family:'Fraunces',Georgia,serif;font-size:1.08rem;font-weight:600;letter-spacing:-0.2px;line-height:1.2}
+.project-related-card-cta{font-size:0.78rem;font-weight:600;color:var(--emerald);margin-top:6px;display:inline-flex;align-items:center;gap:4px;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.project-related-card:hover .project-related-card-cta{opacity:1;transform:none}
+.project-related-card-cta::after{content:"→"}
+
 /* ── Site plan ── */
 .project-siteplan{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
 .project-siteplan-inner{max-width:1080px;margin:0 auto}
@@ -302,6 +338,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .project-siteplan-wrap:hover img{transform:scale(1.015)}
 .project-siteplan-note{margin-top:16px;font-size:0.84rem;color:var(--ink-muted);text-align:center;line-height:1.6}
 .project-siteplan-note a{color:var(--emerald);font-weight:600}
+
+/* ── Lead modal (opens on CTA click when no inline form is on the page) ── */
+.nl-modal{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 20px;overflow-y:auto}
+.nl-modal[hidden]{display:none}
+.nl-modal-overlay{position:absolute;inset:0;background:rgba(6,20,48,0.58);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:nlFadeIn .25s ease-out}
+.nl-modal-card{position:relative;background:#fff;border-radius:18px;padding:32px 30px 26px;max-width:480px;width:100%;box-shadow:0 40px 120px -24px rgba(0,0,0,0.45);z-index:1;animation:nlModalIn .3s cubic-bezier(.2,.8,.2,1)}
+.nl-modal-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold));border-radius:18px 18px 0 0}
+.nl-modal-close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
+.nl-modal-close:hover{background:rgba(0,0,0,0.06);color:var(--navy)}
+.nl-modal-eyebrow{font-size:0.7rem;font-weight:700;color:var(--emerald);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px}
+.nl-modal-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.3px;line-height:1.25}
+.nl-modal-card .nl-modal-sub{font-size:0.88rem;color:var(--ink-soft);margin-bottom:20px;line-height:1.55}
+.nl-modal-card .pf input,.nl-modal-card .pf select{width:100%}
+.nl-modal-card .pf-row{display:flex;gap:10px;margin-bottom:10px}
+.nl-modal-card .pf-row > *{flex:1}
+@media(max-width:480px){.nl-modal-card{padding:26px 22px}.nl-modal-card .pf-row{flex-direction:column}}
+body.nl-modal-open{overflow:hidden}
+@keyframes nlFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes nlModalIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.nl-modal-overlay,.nl-modal-card{animation:none}}
 
 /* ── Legal / provisional disclaimer block ── */
 .project-disclaimer{background:var(--cream);border-top:1px solid rgba(201,166,97,0.18);padding:48px 24px;font-size:0.82rem;color:var(--ink-muted);line-height:1.7}

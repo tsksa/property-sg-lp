@@ -75,10 +75,12 @@ exports.handler = async (event) => {
     );
   }
 
-  // 2. Twilio WhatsApp via Meta-approved Content Template (same SID as freevaluation.sg)
-  //    Template variables:
-  //      {{1}} = source · name        {{2}} = mobile / email        {{3}} = property
-  //      {{4}} = location or intent   {{5}} = timeline or intent
+  // 2. Twilio WhatsApp notification
+  //    - Valuation / generic leads → Meta-approved Content Template
+  //      (titled "New property valuation request")
+  //    - New-launch leads → plain-text message so Joe sees the correct context
+  //      (project name, request type, bedroom pref) instead of being mislabeled
+  //      as a valuation request
   if (
     !isNewsletterOnly &&
     process.env.TWILIO_ACCOUNT_SID &&
@@ -86,40 +88,72 @@ exports.handler = async (event) => {
     process.env.TWILIO_WHATSAPP_FROM &&
     process.env.TWILIO_WHATSAPP_TO
   ) {
-    const contentSid = 'HX591bf3c8cd3b596691067cda70b9b6b1';
-
-    const propertyDetail = [
-      enriched.property_type,
-      enriched.hdb_type,
-      enriched.year_built ? '(built ' + enriched.year_built + ')' : null,
-    ].filter(Boolean).join(' ') || 'Not specified';
-
-    const addressParts = [enriched.postal_code, enriched.detected_address, enriched.unit_number]
-      .filter(Boolean).join(' ').trim();
-    const locationOrIntent = addressParts
-      || (enriched.intent ? 'Intent: ' + enriched.intent : 'Not specified');
+    const isNewLaunchLead = enriched.lead_type === 'new_launch_registration';
 
     const mobileAndEmail = [enriched.mobile_number, enriched.email || enriched.email_address]
       .filter(Boolean).join(' / ');
-
-    const contentVariables = JSON.stringify({
-      '1': (enriched.source_site || 'joetay.com') + ' · ' + (enriched.full_name || 'Unknown'),
-      '2': mobileAndEmail || 'Not provided',
-      '3': propertyDetail,
-      '4': locationOrIntent,
-      '5': enriched.selling_timeline || enriched.intent || 'Not specified',
-    });
 
     const auth = Buffer.from(
       process.env.TWILIO_ACCOUNT_SID + ':' + process.env.TWILIO_AUTH_TOKEN
     ).toString('base64');
 
-    const twilioBody = new URLSearchParams({
-      From: process.env.TWILIO_WHATSAPP_FROM,
-      To: process.env.TWILIO_WHATSAPP_TO,
-      ContentSid: contentSid,
-      ContentVariables: contentVariables,
-    });
+    let twilioBody;
+
+    if (isNewLaunchLead) {
+      // Map request_type → human-readable label
+      const reqLabel = {
+        vvip: 'VVIP Preview registration',
+        ebrochure: 'E-Brochure request',
+        interest: 'Register interest',
+      }[enriched.request_type] || 'New-launch registration';
+
+      const lines = [
+        '🏢 NEW LAUNCH LEAD',
+        '',
+        'Project: ' + (enriched.project || 'Not specified'),
+        'Request: ' + reqLabel,
+        'Name: ' + (enriched.full_name || 'Unknown'),
+        'Contact: ' + (mobileAndEmail || 'Not provided'),
+        'Bedroom: ' + (enriched.interest || 'Not specified'),
+        'Page: ' + (enriched.landing_page || enriched.source_site || 'joetay.com'),
+      ];
+      if (enriched.utm_source) lines.push('UTM: ' + [enriched.utm_source, enriched.utm_medium, enriched.utm_campaign].filter(Boolean).join(' / '));
+
+      twilioBody = new URLSearchParams({
+        From: process.env.TWILIO_WHATSAPP_FROM,
+        To: process.env.TWILIO_WHATSAPP_TO,
+        Body: lines.join('\n'),
+      });
+    } else {
+      // Valuation / other lead types → approved template
+      const contentSid = 'HX591bf3c8cd3b596691067cda70b9b6b1';
+
+      const propertyDetail = [
+        enriched.property_type,
+        enriched.hdb_type,
+        enriched.year_built ? '(built ' + enriched.year_built + ')' : null,
+      ].filter(Boolean).join(' ') || 'Not specified';
+
+      const addressParts = [enriched.postal_code, enriched.detected_address, enriched.unit_number]
+        .filter(Boolean).join(' ').trim();
+      const locationOrIntent = addressParts
+        || (enriched.intent ? 'Intent: ' + enriched.intent : 'Not specified');
+
+      const contentVariables = JSON.stringify({
+        '1': (enriched.source_site || 'joetay.com') + ' · ' + (enriched.full_name || 'Unknown'),
+        '2': mobileAndEmail || 'Not provided',
+        '3': propertyDetail,
+        '4': locationOrIntent,
+        '5': enriched.selling_timeline || enriched.intent || 'Not specified',
+      });
+
+      twilioBody = new URLSearchParams({
+        From: process.env.TWILIO_WHATSAPP_FROM,
+        To: process.env.TWILIO_WHATSAPP_TO,
+        ContentSid: contentSid,
+        ContentVariables: contentVariables,
+      });
+    }
 
     tasks.push(
       fetch(
