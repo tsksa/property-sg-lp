@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
 <link rel="stylesheet" href="new-launches.css">
+<script defer src="new-launches.js"></script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6N7CKZQNR"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Z6N7CKZQNR');</script>
@@ -36,16 +37,29 @@
 </head>
 <body>
 
+<div class="nl-progress"></div>
+
 <header class="nl-topbar"><div class="nl-topbar-inner"><a href="/" class="nl-logo">PropertySG</a><nav class="nl-nav" aria-label="Primary"><a href="/">Home</a><a href="/new-launches/">All Launches</a><a href="/insights/">Insights</a><a href="/#book" class="nl-nav-cta">Book a Call</a></nav></div></header>
 
 <nav class="nl-breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span>Narra Residences</span></nav>
 
-<section class="project-hero">
+<section class="project-hero project-hero-image" style="--bg-image:url('https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251129/Narra_Residences_Image_1.jpg')">
   <div class="project-hero-inner">
     <div>
       <div class="district-tag">D23 · Dairy Farm Walk · 99-year</div>
       <h1>Narra Residences <span style="font-weight:500;opacity:0.9">翠岚轩</span></h1>
       <p class="project-hero-desc">Dairy Farm Walk JV's 544-unit development in D23, adjacent to the Hillview Nature corridor and Dairy Farm Nature Park. Diverse unit mix spanning 1BR+Study through 3BR+Study layouts, with generous 2BR options (Compact, Premium, HS variants). Family-friendly OCR positioning with green-belt proximity rare at this price tier. TOP Q1 2029.</p>
+      <div class="project-hero-price"><strong>VIP preview</strong><span class="dot"></span>Hillview nature · 10 unit types · register for PSF</div>
+      <div class="project-hero-ctas">
+        <a href="#projectForm" class="project-hero-cta primary">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Register for VVIP Preview
+        </a>
+        <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20Narra%20Residences%20e-brochure%20and%20latest%20price%20list." target="_blank" rel="noopener" class="project-hero-cta gold">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Get E-Brochure
+        </a>
+      </div>
       <div class="project-stats">
         <div class="project-stat"><div class="project-stat-label">District</div><div class="project-stat-value">D23</div></div>
         <div class="project-stat"><div class="project-stat-label">Tenure</div><div class="project-stat-value">99-year</div></div>
@@ -68,24 +82,54 @@
   </div>
 </section>
 
-<section class="project-tour-wrap">
+<section class="project-dev-strip reveal">
+  <div class="project-dev-strip-inner">
+    <div class="project-dev-meta">
+      <div class="project-dev-item"><span class="project-dev-item-label">Developer</span><span class="project-dev-item-value">Dairy Farm Walk JV</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">Tenure</span><span class="project-dev-item-value">99-Year Leasehold</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">Total Units</span><span class="project-dev-item-value">544</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">TOP</span><span class="project-dev-item-value">Mar 2029</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">MRT</span><span class="project-dev-item-value">Hillview · DT3</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="project-tour-wrap reveal">
   <div class="project-tour-inner">
     <div class="project-eyebrow">Virtual showroom</div>
-    <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,1.9rem);font-weight:600;color:var(--navy);margin-bottom:18px;letter-spacing:-0.4px">Explore 4 unit tours + 3D model.</h2>
-    <p style="color:#555;line-height:1.6;margin-bottom:28px;max-width:760px">Narra Residences offers 4 different 360° tours plus a full Tubear 3D model. Open in new tab to explore.</p>
-    <div class="project-tour-frame" style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%)">
-      <div class="project-tour-placeholder" style="position:static;padding:40px">
-        <div class="icon">▶</div>
-        <h3>4 tours + full 3D model available</h3>
-        <p>Walk through different unit layouts or explore the full development in 3D.</p>
-        <a href="https://tubear.co/3d-model/narra-residences/fullscreen/" target="_blank" rel="noopener">Open full 3D model →</a>
-      </div>
+    <h2 class="project-section-title">Walk through every unit tour + full 3D model.</h2>
+    <p class="project-tour-intro">Explore the full Tubear 3D development model plus 4 dedicated 360° unit tours. The embedded 3D model lets you fly around the entire estate. The Theasys unit-tour links open in a new tab (vendor embedding restriction).</p>
+
+    <div class="project-tour-frame" style="margin-bottom:18px">
+      <iframe src="https://tubear.co/3d-model/narra-residences/fullscreen/" title="Narra Residences — Full 3D Development Model" loading="lazy" allowfullscreen allow="accelerometer; gyroscope; fullscreen; xr-spatial-tracking"></iframe>
     </div>
-    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;max-width:760px">
-      <a href="https://ths.li/OMtAXWa" target="_blank" rel="noopener" style="padding:12px 16px;background:#fff;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.88rem;font-weight:600;text-align:center">Unit Tour 1 →</a>
-      <a href="https://ths.li/UDykIVJ" target="_blank" rel="noopener" style="padding:12px 16px;background:#fff;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.88rem;font-weight:600;text-align:center">Unit Tour 2 →</a>
-      <a href="https://ths.li/VpYhxKQ" target="_blank" rel="noopener" style="padding:12px 16px;background:#fff;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.88rem;font-weight:600;text-align:center">Unit Tour 3 →</a>
-      <a href="https://ths.li/piMd9Di" target="_blank" rel="noopener" style="padding:12px 16px;background:#fff;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.88rem;font-weight:600;text-align:center">Unit Tour 4 →</a>
+    <p class="project-tour-caption" style="margin-bottom:28px">Tubear 3D development model — drag to orbit, scroll to zoom, click hotspots to enter units. <a href="https://tubear.co/3d-model/narra-residences/fullscreen/" target="_blank" rel="noopener">Open fullscreen in new tab →</a></p>
+
+    <div class="project-tour-grid reveal-stagger">
+      <div class="project-tour-link-card">
+        <div class="meta">360° Tour · New tab</div>
+        <h4>Unit Tour 1</h4>
+        <p>Walk through a featured show unit layout — typical 2BR Compact / Premium configuration.</p>
+        <a href="https://ths.li/OMtAXWa" target="_blank" rel="noopener">Launch Tour 1 →</a>
+      </div>
+      <div class="project-tour-link-card">
+        <div class="meta">360° Tour · New tab</div>
+        <h4>Unit Tour 2</h4>
+        <p>Alternate unit layout — 2BR with HS / HS + Study configuration.</p>
+        <a href="https://ths.li/UDykIVJ" target="_blank" rel="noopener">Launch Tour 2 →</a>
+      </div>
+      <div class="project-tour-link-card">
+        <div class="meta">360° Tour · New tab</div>
+        <h4>Unit Tour 3</h4>
+        <p>Family-sized layout — 3BR Compact / Flexi stack configuration.</p>
+        <a href="https://ths.li/VpYhxKQ" target="_blank" rel="noopener">Launch Tour 3 →</a>
+      </div>
+      <div class="project-tour-link-card">
+        <div class="meta">360° Tour · New tab</div>
+        <h4>Unit Tour 4</h4>
+        <p>Premium family unit — 3BR Premium / Study configuration.</p>
+        <a href="https://ths.li/piMd9Di" target="_blank" rel="noopener">Launch Tour 4 →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -129,11 +173,57 @@
   </div>
 </section>
 
-<section class="project-section">
+<section class="project-factsheet reveal">
+  <div class="project-factsheet-inner">
+    <div class="project-factsheet-head">
+      <div class="project-factsheet-head-left">
+        <div class="project-eyebrow">Fact sheet</div>
+        <h2 class="project-section-title">Narra Residences at a glance.</h2>
+        <p class="project-section-lede" style="margin-bottom:0">Developer-preview details summarised for easy reference. Print or save as PDF to share with your household before VIP preview.</p>
+      </div>
+      <div class="project-factsheet-actions">
+        <button class="project-factsheet-btn primary" onclick="printFactSheet()">
+          <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save PDF
+        </button>
+        <a class="project-factsheet-btn ghost" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20full%20Narra%20Residences%20fact%20sheet%20%2B%20latest%20price%20list." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Full e-brochure
+        </a>
+      </div>
+    </div>
+
+    <div class="project-factsheet-panel">
+      <div class="project-factsheet-grid">
+        <div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Project</div><div class="project-factsheet-val">Narra Residences 翠岚轩</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Address</div><div class="project-factsheet-val">Dairy Farm Walk <span class="muted">(D23)</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Developer</div><div class="project-factsheet-val">Dairy Farm Walk JV Development</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Tenure</div><div class="project-factsheet-val">99-year leasehold</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Total units</div><div class="project-factsheet-val">544 units</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">TOP</div><div class="project-factsheet-val">30 March 2029</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">District tier</div><div class="project-factsheet-val">D23 · OCR (Bukit Batok / Bukit Panjang)</div></div>
+        </div>
+        <div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">MRT</div><div class="project-factsheet-val">Hillview (DT3) <span class="muted">· walking</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Unit types</div><div class="project-factsheet-val">10 layouts · 1 BR+Study to 3 BR+Study</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Unit sizes</div><div class="project-factsheet-val">517 – 1,050+ sqft</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Pricing</div><div class="project-factsheet-val">VIP preview <span class="muted">· register for indicative PSF</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Virtual tours</div><div class="project-factsheet-val">Full 3D model + 4 360° tours</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Nature</div><div class="project-factsheet-val">Dairy Farm Park · Bukit Timah Reserve</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Positioning</div><div class="project-factsheet-val">Nature-adjacent family OCR play</div></div>
+        </div>
+      </div>
+      <p class="project-factsheet-note">Indicative numbers; final specifications subject to developer confirmation. Prices and availability change at each VIP preview release — register at the top of the page for the most current numbers, unit availability, and my honest read on which stack fits your goals.</p>
+    </div>
+  </div>
+</section>
+
+<section class="project-section reveal">
   <div class="project-section-inner">
     <div class="project-eyebrow">Why Narra Residences</div>
     <h2>The Hillview positioning case.</h2>
-    <div class="usp-grid">
+    <div class="usp-grid reveal-stagger">
       <div class="usp-item"><h4>Hillview Nature corridor</h4><p>Adjacent to Dairy Farm Nature Park, Bukit Timah Nature Reserve, and the Rail Corridor. Permanent green-belt protection means no future high-density development on your horizon.</p></div>
       <div class="usp-item"><h4>Hillview MRT (DT3)</h4><p>Downtown Line direct to Bugis, Bayfront, and Marina Bay. Walking distance means no bus transfer — a meaningful daily-commute differentiator at OCR pricing.</p></div>
       <div class="usp-item"><h4>Established estate</h4><p>D23 Bukit Batok / Bukit Panjang is a mature estate with schools, hawker centres, and shopping (HillV2, Rail Mall, Bukit Panjang Plaza) already in place. Not a construction-site neighbourhood.</p></div>
@@ -142,22 +232,82 @@
   </div>
 </section>
 
-<section class="project-section" style="background:var(--cream)">
-  <div class="project-section-inner">
+<section class="project-take reveal">
+  <div class="project-take-inner">
+    <div class="project-take-quote">&ldquo;</div>
     <div class="project-eyebrow">Honest take</div>
-    <h2>My read on this one.</h2>
-    <p style="font-size:1rem;color:#333;line-height:1.75;max-width:780px">Narra Residences is a nature-premium OCR play. D23 Hillview is one of the few mature estates in Singapore with genuine nature adjacency — Dairy Farm, Bukit Timah Nature Reserve, Rail Corridor all permanent. For buyers who value that lifestyle, OCR pricing for a nature-adjacent unit is compelling. 2BR Premium (646sqft) and 3BR Compact (818sqft) are the best-value layouts. 3BR Premium at 990+ works for families prioritising Hillview estate over central locations. Not the right fit for buyers who prioritise city connectivity — Hillview is 20 minutes to town, suburbia lifestyle.</p>
-    <p style="font-size:0.88rem;color:#777;font-style:italic;margin-top:16px">— Joe Tay, District Director at ERA Realty Network</p>
+    <h2 class="project-section-title">My read on this one.</h2>
+    <div class="project-take-body">
+      <p>Narra Residences is a nature-premium OCR play. D23 Hillview is one of the few mature estates in Singapore with genuine nature adjacency — Dairy Farm, Bukit Timah Nature Reserve, Rail Corridor all permanent. For buyers who value that lifestyle, OCR pricing for a nature-adjacent unit is compelling.</p>
+      <p>2BR Premium (646sqft) and 3BR Compact (818sqft) are the best-value layouts. 3BR Premium at 990+ works for families prioritising Hillview estate over central locations. Not the right fit for buyers who prioritise city connectivity — Hillview is 20 minutes to town, suburbia lifestyle.</p>
+    </div>
+    <div class="project-take-sig">
+      <span class="project-take-sig-line">— <strong>Joe Tay</strong>, District Director at ERA Realty Network · CEA R009618D</span>
+    </div>
   </div>
 </section>
 
-<section class="nl-register-band" id="register">
+<section class="project-gallery-wrap">
+  <div class="project-gallery-inner">
+    <div class="project-gallery-head"><div class="project-gallery-head-left"><div class="project-eyebrow">Gallery</div><h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,1.9rem);font-weight:600;color:var(--navy);margin-bottom:4px;letter-spacing:-0.4px">Narra Residences in pictures.</h2><p style="color:#666;font-size:0.92rem">Architectural renders + site views.</p></div></div>
+    <div class="project-gallery-grid">
+      <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251129/C13_10000px.jpg" target="_blank" class="project-gallery-item project-gallery-item-featured"><img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251129/C13_10000px.jpg" alt="Narra Residences hero render" loading="lazy"></a>
+      <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251023/Narra_Residences.jpg" target="_blank" class="project-gallery-item"><img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251023/Narra_Residences.jpg" alt="Narra Residences exterior" loading="lazy"></a>
+      <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/WhatsApp_Image_2025-11-07_at_11.18.07_230ac57b.jpg" target="_blank" class="project-gallery-item"><img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/WhatsApp_Image_2025-11-07_at_11.18.07_230ac57b.jpg" alt="Narra Residences facility" loading="lazy"></a>
+      <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/b37acf572d39452a9f1761bfb6cfb2db.jpg" target="_blank" class="project-gallery-item"><img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/b37acf572d39452a9f1761bfb6cfb2db.jpg" alt="Narra Residences landscape" loading="lazy"></a>
+      <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/nr-site.png" target="_blank" class="project-gallery-item"><img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/nr-site.png" alt="Narra Residences site plan" loading="lazy"></a>
+    </div>
+  </div>
+</section>
+
+<section class="project-siteplan reveal">
+  <div class="project-siteplan-inner">
+    <div class="project-eyebrow">Site plan</div>
+    <h2 class="project-section-title">Dairy Farm Walk site layout.</h2>
+    <p class="project-section-lede">Development plan showing unit-block positioning, central landscaping, and Hillview Nature Corridor adjacency. Click for full-size.</p>
+    <a href="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/nr-site.png" target="_blank" class="project-siteplan-wrap">
+      <img src="https://img.singmap.com/upload/broke/c16b84966acc46c6ba69dc2a6291d711/030fee210b074a86a512f1f6cfaf62b6/imgs/20251108/nr-site.png" alt="Narra Residences site plan at Dairy Farm Walk" loading="lazy">
+    </a>
+    <p class="project-siteplan-note">Detailed block plans, stack chart, and unit layouts available on request — <a href="#projectForm">register</a> to receive the full site and floor plan set.</p>
+  </div>
+</section>
+
+<section class="nl-register-band reveal" id="register">
   <div class="nl-register-band-inner">
-    <h3>Get VIP preview for Narra Residences</h3>
-    <p>Fill the form above. Within 10 minutes I'll reply with current pricing, unit availability, all 4 virtual tour links, and the full 3D model URL. No obligation.</p>
+    <h3>Register for VVIP preview &amp; full e-brochure.</h3>
+    <p>Fill the form above. Within 10 minutes I'll reply with current pricing, unit availability, the full developer e-brochure, all 4 virtual tour links, and the full 3D model URL. No obligation.</p>
     <a href="#projectForm">Register my interest →</a>
   </div>
 </section>
+
+<section class="project-disclaimer">
+  <div class="project-disclaimer-inner">
+    <h4>Provisional property information</h4>
+    <p>Project names and specifications used on this page are drawn from Government Land Sales (GLS), en-bloc announcements, and developer previews. Provisional names and details are provided for reference and may differ from the final, developer-issued versions.</p>
+    <p>All pricing, figures, and calculations on this page are illustrative only and do not represent actual or final selling prices. While we strive for accuracy, information may not be complete, current, or error-free. Nothing on this page constitutes an offer, representation, or guarantee.</p>
+    <p>Renderings, floor plans, and virtual tours are artistic interpretations or developer-issued materials and may not form part of the final sale contract. Forward-looking statements involve assumptions, risks, and uncertainties. You are strongly encouraged to verify details through direct enquiry and consult professional agents, bankers, and/or legal advisors before any decision.</p>
+    <p>Marketed by Joe Tay, District Director at ERA Realty Network Pte Ltd (L3002382K) · CEA Reg. R009618D. Developer: Dairy Farm Walk JV Development.</p>
+  </div>
+</section>
+
+<button class="nl-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<nav class="nl-mobile-cta" aria-label="Quick actions">
+  <a class="primary" href="#projectForm">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    VVIP Preview
+  </a>
+  <a class="secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20Narra%20Residences%20e-brochure%20and%20latest%20price%20list." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+    E-Brochure
+  </a>
+  <a class="tertiary" href="tel:+6581881488" aria-label="Call Joe">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Call
+  </a>
+</nav>
 
 <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20more%20information%20on%20Narra%20Residences." target="_blank" rel="noopener" class="nl-wa-float" aria-label="WhatsApp Joe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
 

@@ -52,12 +52,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
 <link rel="stylesheet" href="new-launches.css">
+<script defer src="new-launches.js"></script>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z6N7CKZQNR"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Z6N7CKZQNR');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3279494272146114');fbq('track','PageView');</script>
 </head>
 <body>
+
+<div class="nl-progress"></div>
 
 <header class="nl-topbar">
   <div class="nl-topbar-inner">
@@ -77,12 +80,23 @@
   <span>Dunearn House</span>
 </nav>
 
-<section class="project-hero">
+<section class="project-hero project-hero-image" style="--bg-image:url('https://img.singmap.com/upload/broke/6533cd747aa945afba657c83e2ed2d9b/700527d89a91474a8887269b36cb1642/imgs/20251030/517511b4c7644f179b9030a30ced449c.jpg')">
   <div class="project-hero-inner">
     <div>
       <div class="district-tag">D10 · Bukit Timah · Freehold Boutique</div>
       <h1>Dunearn House</h1>
       <p class="project-hero-desc">Freehold boutique development in the established Bukit Timah corridor. Top school catchments within minutes, Botanic Gardens UNESCO heritage zone a short drive away, and the Downtown Line within walking distance. A school-priority family play with genuine long-term resale protection.</p>
+      <div class="project-hero-price"><strong>Freehold D10</strong><span class="dot"></span>Top school zones · register for indicative PSF</div>
+      <div class="project-hero-ctas">
+        <a href="#projectForm" class="project-hero-cta primary">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Register for VVIP Preview
+        </a>
+        <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20Dunearn%20House%20e-brochure%20and%20latest%20price%20list." target="_blank" rel="noopener" class="project-hero-cta gold">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          Get E-Brochure
+        </a>
+      </div>
       <div class="project-stats">
         <div class="project-stat">
           <div class="project-stat-label">District</div>
@@ -132,17 +146,28 @@
   </div>
 </section>
 
-<section class="project-tour-wrap">
+<section class="project-dev-strip reveal">
+  <div class="project-dev-strip-inner">
+    <div class="project-dev-meta">
+      <div class="project-dev-item"><span class="project-dev-item-label">Location</span><span class="project-dev-item-value">Bukit Timah</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">Tenure</span><span class="project-dev-item-value">Freehold</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">District</span><span class="project-dev-item-value">D10 · CCR</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">MRT</span><span class="project-dev-item-value">Tan Kah Kee / Sixth Av</span></div>
+      <div class="project-dev-item"><span class="project-dev-item-label">Schools</span><span class="project-dev-item-value">Nanyang / ACS 1km</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="project-tour-wrap reveal">
   <div class="project-tour-inner">
     <div class="project-eyebrow">Virtual showroom</div>
-    <h2 style="font-family:'Fraunces',Georgia,serif;font-size:clamp(1.5rem,3vw,1.9rem);font-weight:600;color:var(--navy);margin-bottom:18px;letter-spacing:-0.4px">See the layout before you commit.</h2>
-    <p style="color:#555;line-height:1.6;margin-bottom:28px;max-width:760px">Matterport virtual tour of the show unit. Explore the layout and finishes before booking a physical viewing.</p>
+    <h2 class="project-section-title">Show-unit tour on request.</h2>
+    <p class="project-tour-intro">Developer-produced virtual tour materials for Dunearn House are released to registered VIP preview guests. Register below — I'll share the walkthrough link, full e-brochure, and unit availability in the same WhatsApp reply.</p>
     <div class="project-tour-frame">
-      <!-- TODO: Paste the ERA Projects virtual tour iframe for Dunearn House here -->
       <div class="project-tour-placeholder">
         <div class="icon">▶</div>
         <h3>Virtual tour ready on request</h3>
-        <p>Register and I'll send the direct tour link for Dunearn House — usually in the same WhatsApp reply.</p>
+        <p>Register and I'll send the direct tour link plus the full developer e-brochure — usually in the same WhatsApp reply within 10 minutes.</p>
         <a href="#projectForm">Get tour link →</a>
       </div>
     </div>
@@ -223,12 +248,56 @@
   </div>
 </section>
 
-<section class="project-section">
+<section class="project-factsheet reveal">
+  <div class="project-factsheet-inner">
+    <div class="project-factsheet-head">
+      <div class="project-factsheet-head-left">
+        <div class="project-eyebrow">Fact sheet</div>
+        <h2 class="project-section-title">Dunearn House at a glance.</h2>
+        <p class="project-section-lede" style="margin-bottom:0">Developer-preview details summarised for easy reference. Print or save as PDF to share with your household before VIP preview.</p>
+      </div>
+      <div class="project-factsheet-actions">
+        <button class="project-factsheet-btn primary" onclick="printFactSheet()">
+          <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save PDF
+        </button>
+        <a class="project-factsheet-btn ghost" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20full%20Dunearn%20House%20fact%20sheet%20%2B%20latest%20price%20list." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Full e-brochure
+        </a>
+      </div>
+    </div>
+
+    <div class="project-factsheet-panel">
+      <div class="project-factsheet-grid">
+        <div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Project</div><div class="project-factsheet-val">Dunearn House</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Location</div><div class="project-factsheet-val">Bukit Timah corridor <span class="muted">(D10)</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Tenure</div><div class="project-factsheet-val">Freehold</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">TOP</div><div class="project-factsheet-val">TBC <span class="muted">· register for update</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">District tier</div><div class="project-factsheet-val">D10 · CCR (Core Central Region)</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Unit types</div><div class="project-factsheet-val">2 BR · 3 BR · 4 BR</div></div>
+        </div>
+        <div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">MRT</div><div class="project-factsheet-val">Tan Kah Kee / Sixth Av <span class="muted">· DT Line</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Unit sizes</div><div class="project-factsheet-val">~650 – 1,550 sqft</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Pricing</div><div class="project-factsheet-val">VIP preview <span class="muted">· register for indicative PSF</span></div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Key schools (&lt;2km)</div><div class="project-factsheet-val">ACS (Barker) · Nanyang Primary · Methodist Girls</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Nature</div><div class="project-factsheet-val">Botanic Gardens UNESCO zone · &lt;10 min</div></div>
+          <div class="project-factsheet-row"><div class="project-factsheet-key">Positioning</div><div class="project-factsheet-val">Freehold boutique · school-priority family</div></div>
+        </div>
+      </div>
+      <p class="project-factsheet-note">Indicative numbers; final specifications subject to developer confirmation. Prices and availability change at each VIP preview release — register at the top of the page for the most current numbers, unit availability, and my honest read on which stack fits your goals.</p>
+    </div>
+  </div>
+</section>
+
+<section class="project-section reveal">
   <div class="project-section-inner">
     <div class="project-eyebrow">Why Dunearn House</div>
     <h2>What this delivers.</h2>
 
-    <div class="usp-grid">
+    <div class="usp-grid reveal-stagger">
       <div class="usp-item">
         <h4>Tier-1 school catchment</h4>
         <p>Within 2km of Nanyang Primary and close to ACS (Barker Road) — two of Singapore's most sought-after primary schools. Priority-1 eligibility for parents living within 1km.</p>
@@ -249,22 +318,57 @@
   </div>
 </section>
 
-<section class="project-section" style="background:var(--cream)">
-  <div class="project-section-inner">
+<section class="project-take reveal">
+  <div class="project-take-inner">
+    <div class="project-take-quote">&ldquo;</div>
     <div class="project-eyebrow">Honest take</div>
-    <h2>My read on this one.</h2>
-    <p style="font-size:1rem;color:#333;line-height:1.75;max-width:780px">Dunearn House is a precision play. The audience is specific: families who need the 1km P1 advantage at Nanyang or nearby, buyers who value D10 freehold prestige, or investors playing the top-school-zone rental premium. If you're not in one of those three segments, the PSF premium over lower-tier districts is hard to justify — Tengah or Tampines give you more space for your dollar. But if you ARE the target buyer, this is exactly the freehold protection + school access combo that doesn't come around often. Three-bedroom stacks go fastest.</p>
-    <p style="font-size:0.88rem;color:#777;font-style:italic;margin-top:16px">— Joe Tay, District Director at ERA Realty Network</p>
+    <h2 class="project-section-title">My read on this one.</h2>
+    <div class="project-take-body">
+      <p>Dunearn House is a precision play. The audience is specific: families who need the 1km P1 advantage at Nanyang or nearby, buyers who value D10 freehold prestige, or investors playing the top-school-zone rental premium.</p>
+      <p>If you're not in one of those three segments, the PSF premium over lower-tier districts is hard to justify — Tengah or Tampines give you more space for your dollar. But if you ARE the target buyer, this is exactly the freehold protection + school access combo that doesn't come around often. Three-bedroom stacks go fastest.</p>
+    </div>
+    <div class="project-take-sig">
+      <span class="project-take-sig-line">— <strong>Joe Tay</strong>, District Director at ERA Realty Network · CEA R009618D</span>
+    </div>
   </div>
 </section>
 
-<section class="nl-register-band" id="register">
+<section class="nl-register-band reveal" id="register">
   <div class="nl-register-band-inner">
-    <h3>Get VIP preview pricing for Dunearn House</h3>
-    <p>Fill the form above. I'll reply within 10 minutes with current unit availability, indicative pricing, and which stacks I'd recommend based on your specific family situation. No obligation.</p>
+    <h3>Register for VVIP preview &amp; full e-brochure.</h3>
+    <p>Fill the form above. I'll reply within 10 minutes with current unit availability, indicative pricing, the full developer e-brochure, and which stacks I'd recommend based on your specific family situation. No obligation.</p>
     <a href="#projectForm">Register my interest →</a>
   </div>
 </section>
+
+<section class="project-disclaimer">
+  <div class="project-disclaimer-inner">
+    <h4>Provisional property information</h4>
+    <p>Project names and specifications used on this page are drawn from Government Land Sales (GLS), en-bloc announcements, and developer previews. Provisional names and details are provided for reference and may differ from the final, developer-issued versions.</p>
+    <p>All pricing, figures, and calculations on this page are illustrative only and do not represent actual or final selling prices. While we strive for accuracy, information may not be complete, current, or error-free. Nothing on this page constitutes an offer, representation, or guarantee.</p>
+    <p>Renderings, floor plans, and virtual tours are artistic interpretations or developer-issued materials and may not form part of the final sale contract. Forward-looking statements involve assumptions, risks, and uncertainties. You are strongly encouraged to verify details through direct enquiry and consult professional agents, bankers, and/or legal advisors before any decision.</p>
+    <p>Marketed by Joe Tay, District Director at ERA Realty Network Pte Ltd (L3002382K) · CEA Reg. R009618D.</p>
+  </div>
+</section>
+
+<button class="nl-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<nav class="nl-mobile-cta" aria-label="Quick actions">
+  <a class="primary" href="#projectForm">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    VVIP Preview
+  </a>
+  <a class="secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20Dunearn%20House%20e-brochure%20and%20latest%20price%20list." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+    E-Brochure
+  </a>
+  <a class="tertiary" href="tel:+6581881488" aria-label="Call Joe">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Call
+  </a>
+</nav>
 
 <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20more%20information%20on%20Dunearn%20House." target="_blank" rel="noopener" class="nl-wa-float" aria-label="WhatsApp Joe">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
