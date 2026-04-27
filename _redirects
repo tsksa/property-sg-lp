@@ -3,3 +3,9 @@
 /singapore-property-marina-bay-1280.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-1280.webp 200!
 /singapore-property-marina-bay-640.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-640.webp 200!
 /singapore-property-marina-bay.jpg https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged.jpg 200!
+
+# Keep semantic staged-home URLs available even when Netlify rebuilds from GitHub.
+/singapore-property-home-staged-1920.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-1920.webp 200!
+/singapore-property-home-staged-1280.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-1280.webp 200!
+/singapore-property-home-staged-640.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-640.webp 200!
+/singapore-property-home-staged.jpg https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged.jpg 200!
