@@ -2,37 +2,37 @@
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--ink:#111}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;width:100%;max-width:100%}
 a{color:var(--emerald);text-decoration:none}
 a:hover{text-decoration:underline}
 img{max-width:100%;height:auto}
 
 /* ── Compact topbar ── */
-.lp-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
-.lp-topbar-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
-.lp-logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.18rem;letter-spacing:-0.5px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.lp-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.06);max-width:100%;overflow:hidden}
+.lp-topbar-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;min-width:0}
+.lp-logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.18rem;letter-spacing:-0.5px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:0}
 .lp-logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
-.lp-phone{color:rgba(255,255,255,0.85);font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:8px;text-decoration:none}
+.lp-phone{color:rgba(255,255,255,0.85);font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap;min-width:0;flex-shrink:1}
 .lp-phone:hover{color:#fff;text-decoration:none}
 .lp-phone svg{width:16px;height:16px;fill:currentColor}
 
 /* ── Hero ── */
 .lp-hero{position:relative;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:72px 24px 88px;overflow:hidden}
 .lp-hero::before{content:"";position:absolute;top:-80px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(16,185,129,0.25) 0%,transparent 70%);filter:blur(60px)}
-.lp-hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,420px);gap:56px;align-items:center;position:relative;z-index:1}
+.lp-hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,420px);gap:56px;align-items:center;position:relative;z-index:1;min-width:0}
 @media(max-width:900px){.lp-hero-inner{grid-template-columns:1fr;gap:40px}.lp-hero{padding:48px 20px 64px}}
 
 .lp-tag{display:inline-block;padding:6px 14px;background:rgba(16,185,129,0.16);border:1px solid rgba(16,185,129,0.35);border-radius:100px;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:18px}
-.lp-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,2.9rem);font-weight:600;letter-spacing:-1px;line-height:1.1;margin-bottom:18px;color:#fff}
+.lp-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,2.9rem);font-weight:600;letter-spacing:-1px;line-height:1.1;margin-bottom:18px;color:#fff;overflow-wrap:anywhere}
 .lp-hero .accent{background:linear-gradient(120deg,var(--emerald) 0%,#34d399 50%,var(--emerald) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-weight:700}
-.lp-hero-desc{font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,0.85);margin-bottom:24px;max-width:560px}
+.lp-hero-desc{font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,0.85);margin-bottom:24px;max-width:560px;overflow-wrap:break-word}
 .lp-hero-trust{display:inline-flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;font-size:0.84rem;color:rgba(255,255,255,0.88);margin-bottom:8px}
 .lp-hero-trust .stars{color:#f5c518;letter-spacing:1.5px;font-size:0.8rem}
 .lp-hero-trust strong{color:#fff;font-weight:700}
 
 /* ── Hero form card ── */
-.lp-form-card{background:#fff;border-radius:16px;padding:30px 28px;box-shadow:0 24px 60px rgba(0,0,0,0.25);position:relative}
+.lp-form-card{background:#fff;border-radius:16px;padding:30px 28px;box-shadow:0 24px 60px rgba(0,0,0,0.25);position:relative;width:100%;max-width:100%;min-width:0}
 .lp-form-card h2{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:4px;letter-spacing:-0.3px}
 .lp-form-card .sub{font-size:0.84rem;color:#666;margin-bottom:20px;line-height:1.5}
 .lp-form-row{display:flex;gap:10px;margin-bottom:10px}
@@ -58,9 +58,9 @@ img{max-width:100%;height:auto}
 
 /* ── Section wrapper ── */
 .lp-section{padding:72px 24px;border-bottom:1px solid #eee}
-.lp-section-inner{max-width:1100px;margin:0 auto}
+.lp-section-inner{max-width:1100px;margin:0 auto;min-width:0}
 .lp-eyebrow{font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.lp-section h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,3.4vw,2.3rem);font-weight:600;color:var(--navy);letter-spacing:-0.5px;line-height:1.15;margin-bottom:18px}
+.lp-section h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,3.4vw,2.3rem);font-weight:600;color:var(--navy);letter-spacing:-0.5px;line-height:1.15;margin-bottom:18px;overflow-wrap:anywhere}
 .lp-section-lede{font-size:1rem;color:#555;line-height:1.6;max-width:640px;margin-bottom:44px}
 
 /* ── Why 3-col ── */
@@ -91,14 +91,14 @@ img{max-width:100%;height:auto}
 .lp-step p{font-size:0.88rem;color:#555;line-height:1.6}
 
 /* ── Objection callouts ── */
-.lp-objections{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.lp-objections{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px}
 .lp-objection{padding:22px 24px;background:#fafafa;border-left:3px solid var(--emerald);border-radius:0 10px 10px 0}
 .lp-objection h3{font-family:'Fraunces',Georgia,serif;font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.2px;line-height:1.3}
 .lp-objection p{font-size:0.88rem;color:#444;line-height:1.6}
 
 /* ── Final CTA block ── */
 .lp-final{padding:88px 24px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;text-align:center}
-.lp-final h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,3.4vw,2.4rem);font-weight:600;color:#fff;letter-spacing:-0.5px;line-height:1.15;margin-bottom:14px}
+.lp-final h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,3.4vw,2.4rem);font-weight:600;color:#fff;letter-spacing:-0.5px;line-height:1.15;margin-bottom:14px;overflow-wrap:anywhere}
 .lp-final-lede{color:rgba(255,255,255,0.82);font-size:1.02rem;margin-bottom:36px;max-width:540px;margin-left:auto;margin-right:auto;line-height:1.55}
 .lp-final-form{max-width:440px;margin:0 auto;text-align:left}
 .lp-final-form .lp-form-card{background:#fff;color:var(--navy)}
@@ -122,7 +122,24 @@ img{max-width:100%;height:auto}
 
 /* ── Responsive polish ── */
 @media(max-width:640px){
+  .lp-topbar{padding:16px 18px}
+  .lp-topbar-inner{gap:12px}
+  .lp-phone{font-size:0;gap:0;flex-shrink:0}
+  .lp-phone::after{content:"Call";font-size:0.82rem;margin-left:6px}
+  .lp-hero{padding:44px 18px 58px}
+  .lp-hero h1{font-size:clamp(1.85rem,8.4vw,2.35rem);letter-spacing:0}
+  .lp-hero-desc{font-size:1rem;max-width:100%}
+  .lp-hero-trust{max-width:100%;white-space:normal;border-radius:18px}
+  .lp-form-card{padding:26px 20px;border-radius:14px}
   .lp-section,.lp-case,.lp-final{padding:56px 20px}
   .lp-form-row{flex-direction:column;gap:10px}
   .lp-hero-trust{font-size:0.78rem;padding:8px 14px;gap:10px}
+  .lp-wa-float{right:16px;bottom:16px;width:52px;height:52px}
+}
+
+@media(max-width:380px){
+  .lp-topbar{padding-left:14px;padding-right:14px}
+  .lp-logo{font-size:1.05rem}
+  .lp-hero,.lp-section,.lp-case,.lp-final{padding-left:16px;padding-right:16px}
+  .lp-form-card{padding-left:18px;padding-right:18px}
 }
