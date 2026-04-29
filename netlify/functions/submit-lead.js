@@ -1,7 +1,12 @@
-// Netlify Function: submit-lead
+// Netlify Function: submit-lead  (joetay.com)
 // Forwards lead data to LEAD_WEBHOOK_URL (Google Apps Script → Sheets + email)
-// and sends a Twilio WhatsApp notification to Joe. Matches freevaluation.sg's
-// env var contract so the same webhook + Twilio numbers handle leads from both sites.
+// and sends a Twilio WhatsApp notification to Joe.
+//
+// joetay.com has three distinct lead categories, each routed to its own Meta template:
+//   - New-launch leads          → TWILIO_NEW_LAUNCH_CONTENT_SID    (NEW template — needs Meta approval)
+//   - Seller/landlord leads     → TWILIO_SELLER_LANDLORD_CONTENT_SID (NEW template — needs Meta approval)
+//   - Valuation requests        → existing approved template (override via TWILIO_VALUATION_CONTENT_SID)
+// freevaluation.sg runs separately and uses its own template / env vars.
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -75,12 +80,10 @@ exports.handler = async (event) => {
     );
   }
 
-  // 2. Twilio WhatsApp notification
-  //    - Valuation / generic leads → Meta-approved Content Template
-  //      (titled "New property valuation request")
-  //    - New-launch leads → plain-text message so Joe sees the correct context
-  //      (project name, request type, bedroom pref) instead of being mislabeled
-  //      as a valuation request
+  // 2. Twilio WhatsApp notification — three branches:
+  //      lead_type = new_launch_registration         → TWILIO_NEW_LAUNCH_CONTENT_SID (plain-text fallback)
+  //      lead_type = valuation                       → existing approved template (override via TWILIO_VALUATION_CONTENT_SID)
+  //      everything else (seller/landlord/consult)   → TWILIO_SELLER_LANDLORD_CONTENT_SID (plain-text fallback)
   if (
     !isNewsletterOnly &&
     process.env.TWILIO_ACCOUNT_SID &&
@@ -107,27 +110,45 @@ exports.handler = async (event) => {
         interest: 'Register interest',
       }[enriched.request_type] || 'New-launch registration';
 
-      const lines = [
-        '🏢 NEW LAUNCH LEAD',
-        '',
-        'Project: ' + (enriched.project || 'Not specified'),
-        'Request: ' + reqLabel,
-        'Name: ' + (enriched.full_name || 'Unknown'),
-        'Contact: ' + (mobileAndEmail || 'Not provided'),
-        'Bedroom: ' + (enriched.interest || 'Not specified'),
-        'Page: ' + (enriched.landing_page || enriched.source_site || 'joetay.com'),
-      ];
-      if (enriched.utm_source) lines.push('UTM: ' + [enriched.utm_source, enriched.utm_medium, enriched.utm_campaign].filter(Boolean).join(' / '));
+      if (process.env.TWILIO_NEW_LAUNCH_CONTENT_SID) {
+        // Approved Meta template — delivers regardless of session window
+        const contentVariables = JSON.stringify({
+          '1': enriched.project || 'Not specified',
+          '2': reqLabel,
+          '3': enriched.full_name || 'Unknown',
+          '4': mobileAndEmail || 'Not provided',
+          '5': enriched.interest || 'Not specified',
+          '6': enriched.landing_page || enriched.source_site || 'joetay.com',
+        });
 
-      twilioBody = new URLSearchParams({
-        From: process.env.TWILIO_WHATSAPP_FROM,
-        To: process.env.TWILIO_WHATSAPP_TO,
-        Body: lines.join('\n'),
-      });
+        twilioBody = new URLSearchParams({
+          From: process.env.TWILIO_WHATSAPP_FROM,
+          To: process.env.TWILIO_WHATSAPP_TO,
+          ContentSid: process.env.TWILIO_NEW_LAUNCH_CONTENT_SID,
+          ContentVariables: contentVariables,
+        });
+      } else {
+        // Fallback: plain-text body (works only inside the 24h session window)
+        const lines = [
+          '🏢 NEW LAUNCH LEAD',
+          '',
+          'Project: ' + (enriched.project || 'Not specified'),
+          'Request: ' + reqLabel,
+          'Name: ' + (enriched.full_name || 'Unknown'),
+          'Contact: ' + (mobileAndEmail || 'Not provided'),
+          'Bedroom: ' + (enriched.interest || 'Not specified'),
+          'Page: ' + (enriched.landing_page || enriched.source_site || 'joetay.com'),
+        ];
+        if (enriched.utm_source) lines.push('UTM: ' + [enriched.utm_source, enriched.utm_medium, enriched.utm_campaign].filter(Boolean).join(' / '));
+
+        twilioBody = new URLSearchParams({
+          From: process.env.TWILIO_WHATSAPP_FROM,
+          To: process.env.TWILIO_WHATSAPP_TO,
+          Body: lines.join('\n'),
+        });
+      }
     } else {
-      // Valuation / other lead types → approved template
-      const contentSid = 'HX591bf3c8cd3b596691067cda70b9b6b1';
-
+      // Shared property/address/timeline computation for valuation + seller/landlord
       const propertyDetail = [
         enriched.property_type,
         enriched.hdb_type,
@@ -139,20 +160,73 @@ exports.handler = async (event) => {
       const locationOrIntent = addressParts
         || (enriched.intent ? 'Intent: ' + enriched.intent : 'Not specified');
 
-      const contentVariables = JSON.stringify({
-        '1': (enriched.source_site || 'joetay.com') + ' · ' + (enriched.full_name || 'Unknown'),
-        '2': mobileAndEmail || 'Not provided',
-        '3': propertyDetail,
-        '4': locationOrIntent,
-        '5': enriched.selling_timeline || enriched.intent || 'Not specified',
-      });
+      const timeline = enriched.selling_timeline || enriched.intent || 'Not specified';
 
-      twilioBody = new URLSearchParams({
-        From: process.env.TWILIO_WHATSAPP_FROM,
-        To: process.env.TWILIO_WHATSAPP_TO,
-        ContentSid: contentSid,
-        ContentVariables: contentVariables,
-      });
+      const isValuationLead = enriched.lead_type === 'valuation';
+
+      if (isValuationLead) {
+        // Valuation requests reuse Joe's existing approved template.
+        // Override by setting TWILIO_VALUATION_CONTENT_SID if a different SID is ever wanted.
+        const valuationSid = process.env.TWILIO_VALUATION_CONTENT_SID
+          || 'HX591bf3c8cd3b596691067cda70b9b6b1';
+        const contentVariables = JSON.stringify({
+          '1': (enriched.source_site || 'joetay.com') + ' · ' + (enriched.full_name || 'Unknown'),
+          '2': mobileAndEmail || 'Not provided',
+          '3': propertyDetail,
+          '4': locationOrIntent,
+          '5': timeline,
+        });
+        twilioBody = new URLSearchParams({
+          From: process.env.TWILIO_WHATSAPP_FROM,
+          To: process.env.TWILIO_WHATSAPP_TO,
+          ContentSid: valuationSid,
+          ContentVariables: contentVariables,
+        });
+      } else {
+        // Seller / landlord / general consultation lead
+        const intentLabel = {
+          seller_consult: 'Sell property',
+          landlord_consult: 'Rent out property',
+          consultation: 'General consultation',
+          final_cta_consultation: 'General consultation',
+        }[enriched.lead_type] || 'Property enquiry';
+
+        if (process.env.TWILIO_SELLER_LANDLORD_CONTENT_SID) {
+          const contentVariables = JSON.stringify({
+            '1': intentLabel,
+            '2': enriched.full_name || 'Unknown',
+            '3': mobileAndEmail || 'Not provided',
+            '4': propertyDetail,
+            '5': locationOrIntent,
+            '6': timeline,
+            '7': enriched.landing_page || enriched.source_site || 'joetay.com',
+          });
+          twilioBody = new URLSearchParams({
+            From: process.env.TWILIO_WHATSAPP_FROM,
+            To: process.env.TWILIO_WHATSAPP_TO,
+            ContentSid: process.env.TWILIO_SELLER_LANDLORD_CONTENT_SID,
+            ContentVariables: contentVariables,
+          });
+        } else {
+          // Fallback: plain-text body (only delivers inside the 24h session window)
+          const lines = [
+            '🏡 SELLER / LANDLORD LEAD',
+            '',
+            'Intent: ' + intentLabel,
+            'Name: ' + (enriched.full_name || 'Unknown'),
+            'Contact: ' + (mobileAndEmail || 'Not provided'),
+            'Property: ' + propertyDetail,
+            'Address: ' + locationOrIntent,
+            'Timeline: ' + timeline,
+            'Page: ' + (enriched.landing_page || enriched.source_site || 'joetay.com'),
+          ];
+          twilioBody = new URLSearchParams({
+            From: process.env.TWILIO_WHATSAPP_FROM,
+            To: process.env.TWILIO_WHATSAPP_TO,
+            Body: lines.join('\n'),
+          });
+        }
+      }
     }
 
     tasks.push(
