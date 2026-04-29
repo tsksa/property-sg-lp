@@ -628,9 +628,11 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 @media(max-width:640px){.cookie-banner{bottom:86px;left:12px;right:12px;max-width:none;flex-direction:row;text-align:left;padding:10px 12px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.35}.cookie-banner button{width:auto;min-width:76px;padding:9px 12px;font-size:0.8rem}}
 @media(max-width:360px){.cookie-banner{flex-direction:column;text-align:center}.cookie-banner button{width:100%}}
 
-/* ── Hero: secondary valuation CTA link ── */
-.hero-valuation-link{display:inline-flex;align-items:center;gap:4px;margin-top:10px;color:rgba(255,255,255,0.85);font-size:0.82rem;font-weight:500;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,0.4);padding-bottom:1px;transition:color .2s,border-color .2s;background:transparent;border-left:none;border-right:none;border-top:none;cursor:pointer;font-family:inherit}
-.hero-valuation-link:hover{color:#fff;border-bottom-color:rgba(255,255,255,0.9)}
+/* ── Hero: secondary valuation CTA link + OR divider ── */
+.hero-or-divider{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 4px;user-select:none}
+.hero-or-divider::before,.hero-or-divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.18)}
+.hero-valuation-link{display:inline-flex;align-items:center;gap:6px;margin-top:2px;color:rgba(255,255,255,0.95);font-size:0.92rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(16,185,129,0.55);padding-bottom:2px;transition:color .2s,border-color .2s;background:transparent;border-left:none;border-right:none;border-top:none;cursor:pointer;font-family:inherit;align-self:center}
+.hero-valuation-link:hover{color:var(--emerald);border-bottom-color:var(--emerald)}
 .hero-valuation-link .arrow-sm{transition:transform .2s;display:inline-block}
 .hero-valuation-link:hover .arrow-sm{transform:translateX(3px)}
 
@@ -957,7 +959,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
-      <button type="button" class="hero-valuation-link" id="heroValuationLink">Or get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
+      <div class="hero-or-divider" aria-hidden="true"><span>or</span></div>
+      <button type="button" class="hero-valuation-link" id="heroValuationLink">Get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
     </form>
     <div class="hero-testimonial" aria-label="Customer testimonial">
       <span class="hero-stars" aria-hidden="true">★★★★★</span>
