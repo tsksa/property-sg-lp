@@ -1,3 +1,7 @@
+# Redirect old indexed projects page to the current new launches page.
+/projects /new-launches/ 301!
+/projects/ /new-launches/ 301!
+
 # Replace old Marina Bay hero asset URLs with the staged home interior hero.
 /singapore-property-marina-bay-1920.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-1920.webp 200!
 /singapore-property-marina-bay-1280.webp https://69ee298a9d6157f28933e755--propertysg78.netlify.app/singapore-property-home-staged-1280.webp 200!
