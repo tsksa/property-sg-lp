@@ -423,5 +423,6 @@ function showSuccess(form){form.innerHTML=`<div class="pf-success"><div class="p
 async function handleSubmit(form){if(form.company_website.value)return;const btn=form.querySelector('button[type=submit]');const o=btn.innerHTML;btn.disabled=true;btn.textContent='Submitting...';const data={lead_type:'new_launch_registration',request_type:form.request_type?form.request_type.value:'vvip',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),...utm};try{const res=await fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});const r=await res.json().catch(()=>({ok:res.ok}));if(!r.ok)throw new Error('submit failed');showSuccess(form);}catch(e){btn.disabled=false;btn.innerHTML=o;alert("Sorry, something went wrong. Please try again or WhatsApp me at +65 8188 1488.");}}
 document.getElementById('projectForm').addEventListener('submit',e=>{e.preventDefault();handleSubmit(e.target);});
 </script>
+<script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

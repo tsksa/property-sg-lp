@@ -1603,11 +1603,10 @@ function showFormSuccess(form,title,body,data){
   form.innerHTML=`<div class="form-success"><div class="form-success-icon">✓</div><h3>${title}</h3><p>${body}</p></div>`;
   const leadType=data?.lead_type||'consultation';
   const propType=data?.property_type||'';
-  if(typeof gtag==='function') gtag('event','generate_lead',{
+  if(typeof jtTrackConversion==='function') jtTrackConversion('generate_lead',{
     method:'website_form',
     lead_type:leadType,
-    property_type:propType,
-    source_site:'joetay.com'
+    property_type:propType
   });
   if(typeof fbq==='function') fbq('track','Lead',{
     content_category:leadType,
@@ -1919,5 +1918,6 @@ document.addEventListener('keydown',e=>{
   });
 })();
 </script>
+<script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

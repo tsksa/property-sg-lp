@@ -282,13 +282,11 @@ function showSuccess(form){
       <h3>You're in — I'll be in touch.</h3>
       <p>I'll WhatsApp you within 10 minutes to discuss your rental and the realistic tenant profile and timeline for your property.</p>
     </div>`;
-  if(typeof gtag === 'function') gtag('event','generate_lead',{
+  if(typeof jtTrackConversion === 'function') jtTrackConversion('generate_lead',{
     method:'website_form',
     lead_type:'landlord_consult',
-    source_site:'joetay.com',
     landing_page:'/rent-out/'
   });
-  if(typeof fbq === 'function') fbq('track','Lead',{content_category:'landlord_consult'});
 }
 
 async function handleSubmit(form){
@@ -333,5 +331,6 @@ async function handleSubmit(form){
 });
 </script>
 
+<script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

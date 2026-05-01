@@ -292,13 +292,11 @@ function showSuccess(form){
       <h3>You're in — I'll be in touch.</h3>
       <p>I'll WhatsApp you within 10 minutes. No spam, no cold calls — just a straight answer to whatever you've asked.</p>
     </div>`;
-  if(typeof gtag === 'function') gtag('event','generate_lead',{
+  if(typeof jtTrackConversion === 'function') jtTrackConversion('generate_lead',{
     method:'website_form',
     lead_type:'seller_consult',
-    source_site:'joetay.com',
     landing_page:'/sell/'
   });
-  if(typeof fbq === 'function') fbq('track','Lead',{content_category:'seller_consult'});
 }
 
 async function handleSubmit(form){
@@ -343,5 +341,6 @@ async function handleSubmit(form){
 });
 </script>
 
+<script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

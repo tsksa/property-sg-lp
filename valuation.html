@@ -441,7 +441,13 @@ function validate(){
   return true;
 }
 
-function showSuccess(){
+function showSuccess(data){
+  if(typeof jtTrackConversion === 'function') jtTrackConversion('generate_lead',{
+    method:'website_form',
+    lead_type:'valuation',
+    property_type:data?.property_type,
+    landing_page:'/valuation.html'
+  });
   document.querySelector('[data-step="1"]').classList.remove('active');
   document.querySelector('[data-step="success"]').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -489,7 +495,7 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
     });
     const result = await res.json().catch(()=>({ok:res.ok}));
     if(!result.ok) throw new Error('submit failed');
-    showSuccess();
+    showSuccess(data);
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Get My Free Valuation →';
@@ -498,5 +504,6 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
 });
 </script>
 
+<script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>
