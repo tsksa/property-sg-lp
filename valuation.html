@@ -309,7 +309,7 @@ footer a{color:rgba(255,255,255,0.8)}
         <div class="val-row">
           <div class="val-group">
             <label class="val-group-label" for="mobile">Mobile</label>
-            <input id="mobile" name="mobile" type="tel" pattern="[0-9+\s]{7,}" placeholder="8123 4567" autocomplete="tel" required>
+            <input id="mobile" name="mobile" type="tel" pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" placeholder="e.g. 8188 1488" autocomplete="tel" required>
             <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
           </div>
           <div class="val-group">

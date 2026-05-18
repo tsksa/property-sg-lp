@@ -1,13 +1,17 @@
 // Netlify Function: submit-lead  (joetay.com)
-// Pipeline:
-//   1. Reject obvious junk (honeypot, missing required fields, bad email pattern)
-//   2. Rate-limit: 3/IP/hour, 1/email/day (Netlify Blobs persistent store)
-//   3. (Optional) reCAPTCHA v3 score check — only enforced if RECAPTCHA_SECRET_KEY set
-//      score < 0.5  → silently reject + log to spam
-//      score < 0.7  → forward but flag as review_required (WhatsApp gets ⚠️ prefix)
-//      score >= 0.7 → forward normally
-//   4. Forward to LEAD_WEBHOOK_URL (Google Apps Script → Sheets + email)
-//   5. Send Twilio WhatsApp via category-specific Meta template (with plain-text fallback)
+// Pipeline (each gate either silently 200s or returns a real 400 to humans):
+//   1. Honeypot (company_website / _honeypot / website_url) → silent 200
+//   2. Required fields → 400 with "Missing field: …"
+//   2b. Singapore phone format → 400 with "Please enter a valid Singapore phone number"
+//   3. Suspicious email (disposable provider / gmail dot abuse / digit cluster /
+//      consonant cluster / vowel-less local) → silent 200
+//   4. Rate-limit: 3/IP/hour, 1/email/day (Netlify Blobs persistent store) → silent 200
+//   5. (Optional) reCAPTCHA v3 score — only enforced if RECAPTCHA_SECRET set:
+//      < 0.5  → silent 200
+//      < 0.7  → forward but flag review_required (WhatsApp gets ⚠️ prefix)
+//      >= 0.7 → forward normally
+//   6. Forward to LEAD_WEBHOOK_URL (Google Apps Script → Sheets + email)
+//   7. Send Twilio WhatsApp via category-specific Meta template (with plain-text fallback)
 //
 // Spam-rejected submissions are logged to LEAD_SPAM_WEBHOOK_URL (separate Sheet)
 // if set; otherwise to LEAD_WEBHOOK_URL with is_spam:true, otherwise to console.
@@ -56,7 +60,7 @@ exports.handler = async (event) => {
   const userAgent = event.headers['user-agent'] || '';
 
   // ─── Gate 1: Honeypot ──────────────────────────────────────────────
-  if (payload.company_website || payload._honeypot) {
+  if (payload.company_website || payload._honeypot || payload.website_url) {
     await logSpam(event, payload, 'honeypot_triggered', ip);
     return OK_RESPONSE;
   }
@@ -69,6 +73,16 @@ exports.handler = async (event) => {
       statusCode: 400,
       headers: CORS_HEADERS,
       body: JSON.stringify({ ok: false, error: fieldError }),
+    };
+  }
+
+  // ─── Gate 2b: Singapore phone format ───────────────────────────────
+  // Real 400 with friendly message — humans see it and can retry.
+  if (!isNewsletterOnly && !isValidSingaporePhone(payload.mobile_number)) {
+    return {
+      statusCode: 400,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: 'Please enter a valid Singapore phone number' }),
     };
   }
 
@@ -90,7 +104,7 @@ exports.handler = async (event) => {
   // ─── Gate 5: reCAPTCHA v3 (only enforced when secret configured) ──
   let recaptchaScore = null;
   let recaptchaError = null;
-  if (process.env.RECAPTCHA_SECRET_KEY) {
+  if (process.env.RECAPTCHA_SECRET) {
     if (!payload.recaptcha_token) {
       // Token expected once site key deployed — log + silently drop
       await logSpam(event, payload, 'recaptcha_missing_token', ip);
@@ -320,12 +334,13 @@ exports.handler = async (event) => {
   const webhookResult = process.env.LEAD_WEBHOOK_URL ? results[0] : null;
   const twilioResult = process.env.LEAD_WEBHOOK_URL ? results[1] : results[0];
 
-  console.log('Lead submission:', {
-    lead_type: enriched.lead_type,
+  console.log('✅ REAL LEAD', {
     name: enriched.full_name,
-    mobile: enriched.mobile_number,
+    phone: enriched.mobile_number,
+    score: recaptchaScore,
+    ip,
+    lead_type: enriched.lead_type,
     source_site: enriched.source_site,
-    recaptcha_score: recaptchaScore,
     review_required: reviewRequired,
     webhook_ok: webhookResult?.ok,
     webhook_status: webhookResult?.status,
@@ -333,6 +348,7 @@ exports.handler = async (event) => {
     twilio_status: twilioResult?.status ?? null,
     twilio_body: twilioResult?.body ? String(twilioResult.body).slice(0, 500) : null,
     tasks: results.length,
+    timestamp: new Date().toISOString(),
   });
 
   if (webhookResult && !webhookResult.ok) {
@@ -386,34 +402,69 @@ function validateRequiredFields(payload, isNewsletterOnly) {
   return null;
 }
 
+// Disposable / throw-away email providers commonly used by spammers.
+const DISPOSABLE_DOMAINS = new Set([
+  'tempmail.com', 'guerrillamail.com', '10minutemail.com',
+  'mailinator.com', 'throwawaymail.com', 'temp-mail.org',
+  'fakeinbox.com', 'trashmail.com', 'maildrop.cc',
+  'sharklasers.com', 'yopmail.com', 'spamgourmet.com',
+  'getairmail.com', 'mintemail.com', 'dispostable.com',
+]);
+
 function checkSuspiciousEmail(email) {
   if (!email) return null;
+  email = email.toLowerCase().trim();
+
+  // Strict format check
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return 'email_invalid_format';
+  }
+
   const at = email.indexOf('@');
-  if (at < 0) return 'email_invalid_format';
   const local = email.slice(0, at);
   const domain = email.slice(at + 1);
 
-  // Rule: Gmail addresses with 4+ dots in local part (common spammer pattern —
-  // Gmail ignores dots, so spammer farms generate variants like
-  // j.o.h.n.s.m.i.t.h@gmail.com to spam the same inbox repeatedly).
-  if (domain === 'gmail.com' || domain === 'googlemail.com') {
-    const dotCount = (local.match(/\./g) || []).length;
-    if (dotCount >= 4) return 'email_gmail_excessive_dots';
+  // Rule: disposable / throwaway provider → reject
+  if (DISPOSABLE_DOMAINS.has(domain)) {
+    return 'email_disposable_domain';
   }
 
-  // Rule: random consonant-cluster local part (e.g. xqzbvfr@…) — flag as bot.
-  // 5+ consecutive consonants with no vowels in between.
+  // Rule: Gmail dot abuse — Gmail ignores dots, so spammer farms generate
+  // variants like j.o.h.n.s.m.i.t.h@gmail.com to spam one inbox repeatedly.
+  // 5+ segments (= 4+ dots) is the spec threshold.
+  if (domain === 'gmail.com' && local.split('.').length > 4) {
+    return 'email_gmail_dot_abuse';
+  }
+
+  // Rule: 4+ consecutive digits in local part is a strong bot signature
+  // (e.g. "j8472@…", "user1234@…", "abc9999@…").
+  if (/\d{4,}/.test(local)) {
+    return 'email_digit_cluster';
+  }
+
+  // Defence-in-depth: random consonant-cluster local part (xqzbvfr@…)
   if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(local)) {
     return 'email_consonant_cluster';
   }
 
-  // Rule: 8+ char local part with zero vowels at all — almost always garbage.
+  // Defence-in-depth: 8+ char local part with zero vowels at all
   if (local.length >= 8) {
     const vowels = (local.match(/[aeiouy]/gi) || []).length;
     if (vowels === 0) return 'email_no_vowels';
   }
 
   return null;
+}
+
+// Singapore mobile number: optional +65 prefix, then 8 digits starting with 6, 8, or 9.
+// Accepts spaces or hyphens as separators. Examples: 81881488, +65 8188 1488, 9123-4567.
+function isValidSingaporePhone(phone) {
+  if (!phone) return false;
+  const cleaned = String(phone).replace(/[\s\-]/g, '').replace(/^\+65/, '');
+  if (cleaned.length !== 8) return false;
+  if (!/^[689]/.test(cleaned)) return false;
+  if (!/^\d+$/.test(cleaned)) return false;
+  return true;
 }
 
 async function checkRateLimit(ip, email) {
@@ -472,7 +523,7 @@ async function checkRateLimit(ip, email) {
 async function verifyRecaptcha(token, ip) {
   try {
     const body = new URLSearchParams({
-      secret: process.env.RECAPTCHA_SECRET_KEY,
+      secret: process.env.RECAPTCHA_SECRET,
       response: token,
     });
     if (ip) body.append('remoteip', ip);
@@ -493,10 +544,11 @@ async function verifyRecaptcha(token, ip) {
 }
 
 async function logSpam(event, payload, reason, ip) {
+  const timestamp = new Date().toISOString();
   const spamRecord = {
     is_spam: true,
     spam_reason: reason,
-    submitted_at: new Date().toISOString(),
+    submitted_at: timestamp,
     client_ip: ip,
     user_agent: event.headers['user-agent'] || '',
     referer: event.headers.referer || event.headers.referrer || '',
@@ -522,5 +574,5 @@ async function logSpam(event, payload, reason, ip) {
       console.warn('Spam-log webhook failed:', err.message);
     }
   }
-  console.log('Spam rejected:', spamRecord);
+  console.log('🤖 BLOCKED [' + reason + ']', { ip, timestamp, ...spamRecord.payload });
 }

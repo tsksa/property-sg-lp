@@ -1,18 +1,51 @@
-/* joetay.com reCAPTCHA v3 helper
+/* joetay.com reCAPTCHA v3 helper + honeypot injector
  *
- * Loaded on every form page. Once the real Site Key is plugged in below
- * (single one-line change) AND `RECAPTCHA_SECRET_KEY` is set on Netlify,
- * every form submission to /api/submit-lead or /.netlify/functions/submit-lead
- * automatically picks up a fresh reCAPTCHA v3 token — no form-handler changes
- * needed.
+ * Loaded on every form page. Two responsibilities:
  *
- * Approach: drop a global `window.getRecaptchaToken(action)` helper AND a
- * transparent `fetch` wrapper that injects `recaptcha_token` + `recaptcha_action`
- * into the JSON body of any POST to the lead-capture endpoints. This keeps
- * the existing form code untouched.
+ *   (a) Inject a `website_url` honeypot field into every <form> on the page
+ *       (off-screen, aria-hidden, tabindex=-1). Bots that fill every field
+ *       trip this and the backend silently rejects.
+ *
+ *   (b) Once the real Site Key is plugged in below AND `RECAPTCHA_SECRET` is
+ *       set on Netlify, every form submission to /api/submit-lead or
+ *       /.netlify/functions/submit-lead automatically picks up a fresh
+ *       reCAPTCHA v3 token (action=lead_submit) via a transparent fetch wrapper.
+ *       Existing form handlers stay untouched.
  */
 (function () {
   var SITE_KEY = 'PLACEHOLDER_SITE_KEY';
+
+  // ───── Honeypot injection ─────
+  // Adds a hidden `website_url` field to every <form> on the page that
+  // doesn't already have one. Runs as soon as the DOM is ready.
+  function injectHoneypot() {
+    var forms = document.querySelectorAll('form');
+    for (var i = 0; i < forms.length; i++) {
+      var form = forms[i];
+      if (form.querySelector('input[name="website_url"]')) continue;
+      var wrap = document.createElement('div');
+      wrap.setAttribute('aria-hidden', 'true');
+      wrap.style.cssText = 'position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden';
+      var lbl = document.createElement('label');
+      lbl.htmlFor = 'website_url_' + i;
+      lbl.textContent = 'Website (leave blank):';
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'website_url_' + i;
+      input.name = 'website_url';
+      input.tabIndex = -1;
+      input.autocomplete = 'off';
+      input.value = '';
+      wrap.appendChild(lbl);
+      wrap.appendChild(input);
+      form.appendChild(wrap);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectHoneypot);
+  } else {
+    injectHoneypot();
+  }
 
   function isPlaceholder() {
     return !SITE_KEY || SITE_KEY === 'PLACEHOLDER_SITE_KEY';
@@ -55,7 +88,7 @@
   }
 
   window.getRecaptchaToken = function (action) {
-    var labelled = action || 'submit_lead';
+    var labelled = action || 'lead_submit';
     return waitForGrecaptcha().then(function () {
       if (!window.grecaptcha) return null;
       return new Promise(function (resolve) {
@@ -100,7 +133,7 @@
     try { parsed = JSON.parse(body); } catch (e) { return originalFetch(input, init); }
     if (!parsed || typeof parsed !== 'object') return originalFetch(input, init);
 
-    var action = parsed.lead_type ? String(parsed.lead_type).replace(/[^a-zA-Z0-9_]/g, '_') : 'submit_lead';
+    var action = parsed.lead_type ? String(parsed.lead_type).replace(/[^a-zA-Z0-9_]/g, '_') : 'lead_submit';
 
     return window.getRecaptchaToken(action).then(function (token) {
       if (token) {
