@@ -13,7 +13,7 @@
  *       Existing form handlers stay untouched.
  */
 (function () {
-  var SITE_KEY = 'PLACEHOLDER_SITE_KEY';
+  var SITE_KEY = '6LcIxO8sAAAAAKcaeJOtScQGH8zWW6ttbAt9hRxm';
 
   // ───── Honeypot injection ─────
   // Adds a hidden `website_url` field to every <form> on the page that
