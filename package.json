@@ -1,0 +1,9 @@
+{
+  "name": "property-sg-lp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "joetay.com — static site + Netlify Functions (lead capture)",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
