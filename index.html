@@ -1606,12 +1606,13 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 // server-side. No wa.me redirect — user stays on the page and sees a success message.
 const FORM_ENDPOINT='/.netlify/functions/submit-lead';
 const _utm=(()=>{const p=new URLSearchParams(location.search),k=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'],o={};k.forEach(x=>o[x]=p.get(x)||'');return o;})();
+const _pageLoadedAt=Date.now();
 
 async function submitLead(data){
   const res=await fetch(FORM_ENDPOINT,{
     method:'POST',
     headers:{'Accept':'application/json','Content-Type':'application/json'},
-    body:JSON.stringify({...data,..._utm,source_site:'joetay.com',submitted_at:new Date().toISOString()})
+    body:JSON.stringify({...data,..._utm,source_site:'joetay.com',submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt})
   });
   const result=await res.json().catch(()=>({ok:res.ok}));
   if(!result.ok) throw new Error('submit failed');

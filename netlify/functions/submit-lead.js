@@ -1,6 +1,7 @@
 // Netlify Function: submit-lead  (joetay.com)
 // Pipeline (each gate either silently 200s or returns a real 400 to humans):
 //   1. Honeypot (company_website / _honeypot / website_url) → silent 200
+//   1b. Time-on-form (submits in < 3s when timestamp present) → silent 200
 //   2. Required fields → 400 with "Missing field: …"
 //   2b. Singapore phone format → 400 with "Please enter a valid Singapore phone number"
 //   3. Suspicious email (disposable provider / gmail dot abuse / digit cluster /
@@ -63,6 +64,18 @@ exports.handler = async (event) => {
   if (payload.company_website || payload._honeypot || payload.website_url) {
     await logSpam(event, payload, 'honeypot_triggered', ip);
     return OK_RESPONSE;
+  }
+
+  // ─── Gate 1b: Time-on-form ─────────────────────────────────────────
+  // Client sends time_on_form_ms = Date.now() - page-load timestamp.
+  // Real humans take 10+ seconds to fill the form; sub-3-second submits
+  // are bots. Missing field = legacy/cached page → don't block.
+  if (payload.time_on_form_ms != null) {
+    const tOnForm = Number(payload.time_on_form_ms);
+    if (Number.isFinite(tOnForm) && tOnForm < 3000) {
+      await logSpam(event, payload, 'submitted_too_fast:' + tOnForm + 'ms', ip);
+      return OK_RESPONSE;
+    }
   }
 
   // ─── Gate 2: Required fields ───────────────────────────────────────
