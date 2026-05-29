@@ -1,0 +1,22 @@
+{
+  "name": "remotion-tutorial",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A meta-tutorial: a Remotion video about how to make videos with Remotion.",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render HowToRemotion out/how-to-remotion.mp4",
+    "upgrade": "remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.380",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.380"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "5.6.3"
+  }
+}
