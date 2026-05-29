@@ -348,6 +348,7 @@ footer a{color:rgba(255,255,255,0.8)}
 <script>
 // ── Config ─────────────────────────────────────────────
 const FORM_ENDPOINT = '/.netlify/functions/submit-lead';
+const PAGE_LOADED_AT = Date.now();
 
 // ── Pre-fill from URL params (e.g. redirected from hero form) ──
 const params = new URLSearchParams(location.search);
@@ -478,6 +479,7 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
     email: f.email.value.trim(),
     source_site: 'joetay.com',
     submitted_at: new Date().toISOString(),
+    time_on_form_ms: Date.now() - PAGE_LOADED_AT,
     ...utm
   };
   if(propType === 'HDB'){
