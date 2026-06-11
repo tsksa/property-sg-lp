@@ -121,7 +121,7 @@
     </div>
 
     <div class="project-form-card">
-      <h3>Register for VIP preview</h3>
+      <h2>Register for VIP preview</h2>
       <p class="sub">Early-bird pricing before public launch. Reply in under 10 minutes.</p>
       <form id="projectForm" class="pf" novalidate>
         <div class="pf-row">
@@ -336,19 +336,19 @@
 
     <div class="usp-grid reveal-stagger">
       <div class="usp-item">
-        <h4>Freehold in the CCR</h4>
+        <h3>Freehold in the CCR</h3>
         <p>Freehold tenure in Novena — rare. Most new launches in this corridor are 99-year leasehold. Direct resale-value implications.</p>
       </div>
       <div class="usp-item">
-        <h4>Medical hub proximity</h4>
+        <h3>Medical hub proximity</h3>
         <p>Mount Elizabeth Novena, Tan Tock Seng, Novena Medical Centre all within walking distance. Strong rental pool from healthcare professionals + medical tourists.</p>
       </div>
       <div class="usp-item">
-        <h4>Top-tier school zones</h4>
+        <h3>Top-tier school zones</h3>
         <p>Within proximity catchments for ACS (Barker Road), CHIJ Primary (Toa Payoh), and accessible to Raffles Girls. Premium school-priority buyers.</p>
       </div>
       <div class="usp-item">
-        <h4>MRT connectivity</h4>
+        <h3>MRT connectivity</h3>
         <p>Novena MRT (North-South Line) directly to Orchard, Dhoby Ghaut, and CBD. One-stop to Newton interchange for Downtown Line access.</p>
       </div>
     </div>
@@ -416,7 +416,7 @@
 
 <section class="project-disclaimer">
   <div class="project-disclaimer-inner">
-    <h4>Provisional property information</h4>
+    <h3>Provisional property information</h3>
     <p>Project names and specifications used on this page are drawn from Government Land Sales (GLS), en-bloc announcements, and developer previews. Provisional names and details are provided for reference and may differ from the final, developer-issued versions.</p>
     <p>All pricing, figures, and calculations on this page are illustrative only and do not represent actual or final selling prices. While we strive for accuracy, information may not be complete, current, or error-free. Nothing on this page constitutes an offer, representation, or guarantee.</p>
     <p>Renderings, floor plans, and virtual tours are artistic interpretations or developer-issued materials and may not form part of the final sale contract. Forward-looking statements involve assumptions, risks, and uncertainties. You are strongly encouraged to verify details through direct enquiry and consult professional agents, bankers, and/or legal advisors before any decision.</p>
@@ -464,7 +464,7 @@ const PROJECT_NAME = 'The Serra Residences';
 const LANDING_PAGE = '/new-launches/the-serra-residences.html';
 
 function showSuccess(form){
-  form.innerHTML = `<div class="pf-success"><div class="pf-success-icon">✓</div><h4>You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
+  form.innerHTML = `<div class="pf-success"><div class="pf-success-icon">✓</div><h3>You're registered.</h3><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
   if(typeof gtag === 'function') gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});
   if(typeof fbq === 'function') fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});
 }
