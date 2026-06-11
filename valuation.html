@@ -175,6 +175,11 @@ main>*{min-width:0}
 /* Error state */
 .val-error-msg{color:#dc2626;font-size:0.85rem;margin-top:8px;display:none}
 .val-error-msg.show{display:block}
+/* Submit-level error banner — surfaces server-side rejections so the user
+   can actually fix what's wrong instead of getting an opaque alert(). */
+.val-submit-error{display:none;background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.25);color:#991b1b;padding:12px 16px;border-radius:10px;margin-top:14px;font-size:0.88rem;line-height:1.45}
+.val-submit-error.show{display:block}
+.val-submit-error a{color:#991b1b;text-decoration:underline;font-weight:600}
 
 /* Success */
 .val-success{text-align:center;padding:16px 0}
@@ -328,6 +333,7 @@ footer a{color:rgba(255,255,255,0.8)}
         <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
+        <div class="val-submit-error" id="submitError" role="alert" aria-live="polite"></div>
       </div>
 
       <!-- Success -->
@@ -495,6 +501,10 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
+  const errBox = document.getElementById('submitError');
+  errBox.classList.remove('show');
+  errBox.innerHTML = '';
+
   try {
     const res = await fetch(FORM_ENDPOINT, {
       method: 'POST',
@@ -502,12 +512,27 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
       body: JSON.stringify(data)
     });
     const result = await res.json().catch(()=>({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    if(!result.ok){
+      // Server returned a structured 4xx — surface its message inline so the
+      // user can correct the field, instead of an opaque alert().
+      const serverMsg = (result && result.error) ? String(result.error) : '';
+      const fallbackMsg = 'Sorry, something went wrong submitting your request.';
+      const waLink = ' Or <a href="https://wa.me/6581881488?text=I%20had%20trouble%20submitting%20the%20valuation%20form" target="_blank" rel="noopener">WhatsApp Joe directly</a>.';
+      errBox.innerHTML = (serverMsg || fallbackMsg) + waLink;
+      errBox.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Get My Free Valuation →';
+      // Keep focus near the error so screen readers + keyboard users notice.
+      errBox.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
     showSuccess(data);
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Get My Free Valuation →';
-    alert("Sorry, something went wrong submitting your request. Please try again or WhatsApp me at +65 8188 1488.");
+    errBox.innerHTML = 'Sorry, we couldn\'t reach our servers. Check your connection and try again. <a href="https://wa.me/6581881488?text=I%20had%20trouble%20submitting%20the%20valuation%20form" target="_blank" rel="noopener">Or WhatsApp Joe directly</a>.';
+    errBox.classList.add('show');
+    errBox.scrollIntoView({behavior:'smooth',block:'center'});
   }
 });
 </script>
