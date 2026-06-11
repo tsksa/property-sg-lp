@@ -17,7 +17,8 @@
 <link rel="preload" as="style" href="https://assets.calendly.com/assets/external/widget.css">
 <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"></noscript>
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly widget.js is lazy-loaded when the booking section nears the viewport (see script near openCalendly handler) -->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1968,6 +1969,29 @@ if(testiSection){
       c.style.transform='translateY('+offset+'px)';
     });
   });
+}
+
+// ── Calendly: lazy-load widget.js when the booking section nears the viewport ──
+// widget.js auto-initialises the inline .calendly-inline-widget iframe on script
+// load, so deferring the script defers the whole embed (~400KB incl. iframe) for
+// visitors who never scroll to the booking section.
+let calendlyRequested=false;
+function loadCalendlyScript(){
+  if(calendlyRequested)return;
+  calendlyRequested=true;
+  const s=document.createElement('script');
+  s.src='https://assets.calendly.com/assets/external/widget.js';
+  s.async=true;
+  document.head.appendChild(s);
+}
+const bookSection=document.getElementById('book');
+if('IntersectionObserver' in window&&bookSection){
+  const calObs=new IntersectionObserver(entries=>{
+    if(entries.some(en=>en.isIntersecting)){loadCalendlyScript();calObs.disconnect();}
+  },{rootMargin:'1200px 0px'});
+  calObs.observe(bookSection);
+}else{
+  loadCalendlyScript();
 }
 
 // ── Calendly popup (fallback to new tab if widget.js unavailable) ──
