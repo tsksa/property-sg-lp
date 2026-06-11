@@ -198,6 +198,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* ── Progress Bar ── */
 .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--emerald),var(--navy));z-index:200;width:0;transition:width .1s linear}
 
+/* ── Skip-to-content (WCAG 2.4.1) — visually hidden until focused ── */
+.skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:var(--emerald);color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px}
+
 /* ── Nav ── */
 nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
 nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
@@ -963,6 +967,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </head>
 <body>
 
+<a href="#main" class="skip-to-content">Skip to main content</a>
+
 <div class="progress-bar" id="progressBar"></div>
 
 <nav>
@@ -988,7 +994,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </nav>
 
 <!-- Hero -->
-<section class="hero">
+<section class="hero" id="main" tabindex="-1">
   <div class="hero-bg" role="img" aria-label="Staged Singapore home interior prepared for property sale or rental viewing"></div>
   <div class="hero-overlay"></div>
   <div class="hero-grain"></div>
