@@ -1747,16 +1747,15 @@ document.getElementById('heroForm').addEventListener('submit',e=>{
   "I'll WhatsApp you within 24 hours. No spam, no cold calls.");
 });
 
-// Secondary hero CTA: "Or get an instant valuation →" — opens the valuation popup
+// Secondary hero CTA: "Or get an instant valuation →" — opens the valuation popup.
+// Uses the form's native HTML5 validation (the inputs already declare `required`
+// and `pattern`) rather than blocking alert()s — reportValidity() shows the
+// browser-native tooltip on the first invalid field and focuses it, and screen
+// readers announce the constraint message inline rather than as a modal dialog.
 document.getElementById('heroValuationLink').addEventListener('click',()=>{
   const f=document.getElementById('heroForm');
-  const name=f.name.value.trim();
-  const phone=f.phone.value.trim();
-  const propType=f.propType.value;
-  if(!name){alert('Please enter your name first.');f.name.focus();return;}
-  if(!phone){alert('Please enter your phone number first.');f.phone.focus();return;}
-  if(!propType){alert('Please select your property type first.');f.propType.focus();return;}
-  openValPopup(name,phone,propType,f.newsletter_opt_in?.checked?1:0);
+  if(!f.reportValidity()) return;
+  openValPopup(f.name.value.trim(),f.phone.value.trim(),f.propType.value,f.newsletter_opt_in?.checked?1:0);
 });
 
 // ── Valuation Popup (from hero form "Get valuation") ──
