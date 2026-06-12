@@ -810,7 +810,10 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 /* — Floating advisor photo — */
 .advisor-photo-wrap{animation:floatY 8s ease-in-out infinite}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media(prefers-reduced-motion:reduce){.advisor-photo-wrap,.accent,.logo::before,.trust-dot,.scroll-hint{animation:none !important}}
+@media(prefers-reduced-motion:reduce){
+  .advisor-photo-wrap,.accent,.logo::before,.trust-dot,.scroll-hint,.hero-bg{animation:none !important}
+  *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+}
 
 /* — Section eyebrow with leading line — */
 .section-eyebrow{display:inline-flex;align-items:center;gap:10px}
