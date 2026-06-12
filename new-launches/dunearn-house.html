@@ -463,6 +463,7 @@ function showSuccess(form){
 
 async function handleSubmit(form){
   if(form.company_website.value) return;
+  if(!form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
   btn.disabled = true;
