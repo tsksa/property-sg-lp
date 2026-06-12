@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-SG">
+  <title>PropertySG Insights — Joe Tay</title>
+  <subtitle>Plain-English guides on Singapore property: selling, renting, valuation, regulations.</subtitle>
+  <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
+  <id>https://joetay.com/insights/</id>
+  <updated>2026-04-21T00:00:00+08:00</updated>
+  <generator uri="https://joetay.com/">PropertySG Insights</generator>
+  <author>
+    <name>Joe Tay</name>
+    <email>joe@joetay.com</email>
+    <uri>https://joetay.com/</uri>
+  </author>
+  <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
+  <entry>
+    <title>HDB Valuation Explained: How Singapore Agents Actually Price Your Flat</title>
+    <link href="https://joetay.com/insights/hdb-valuation-explained.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/hdb-valuation-explained.html</id>
+    <published>2026-04-21T00:00:00+08:00</published>
+    <updated>2026-04-21T00:00:00+08:00</updated>
+    <author>
+      <name>Joe Tay</name>
+      <uri>https://joetay.com/</uri>
+    </author>
+    <summary type="text">Valuation, asking price, offer price — three different numbers most HDB sellers confuse. How agents triangulate URA, SRX, and recent transactions to price your flat honestly.</summary>
+  </entry>
+  <entry>
+    <title>How Long Does It Take to Sell an HDB Flat in Singapore? (2026 Timeline)</title>
+    <link href="https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html</id>
+    <published>2026-04-21T00:00:00+08:00</published>
+    <updated>2026-04-21T00:00:00+08:00</updated>
+    <author>
+      <name>Joe Tay</name>
+      <uri>https://joetay.com/</uri>
+    </author>
+    <summary type="text">A realistic week-by-week breakdown of selling your HDB flat in Singapore — from listing launch to key handover. Written by a CEA-registered advisor.</summary>
+  </entry>
+  <entry>
+    <title>2% Commission: What Your Singapore Property Agent Actually Does For It</title>
+    <link href="https://joetay.com/insights/property-agent-commission-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/property-agent-commission-singapore.html</id>
+    <published>2026-04-21T00:00:00+08:00</published>
+    <updated>2026-04-21T00:00:00+08:00</updated>
+    <author>
+      <name>Joe Tay</name>
+      <uri>https://joetay.com/</uri>
+    </author>
+    <summary type="text">Singapore property agents charge 2% for sales — but what exactly does that cover? The full breakdown of work done behind the scenes, what's included vs extra, and when cheaper agents cost you more.</summary>
+  </entry>
+  <entry>
+    <title>Selling HDB After MOP: The 5-Step Timeline With CPF &amp;amp; HDB Paperwork</title>
+    <link href="https://joetay.com/insights/selling-hdb-after-mop-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/selling-hdb-after-mop-singapore.html</id>
+    <published>2026-04-21T00:00:00+08:00</published>
+    <updated>2026-04-21T00:00:00+08:00</updated>
+    <author>
+      <name>Joe Tay</name>
+      <uri>https://joetay.com/</uri>
+    </author>
+    <summary type="text">Just crossed your 5-year MOP and thinking of selling? The 5 steps from eligibility check to keys — including CPF refund, paperwork, and the mistakes BTO owners make on their first resale.</summary>
+  </entry>
+</feed>
