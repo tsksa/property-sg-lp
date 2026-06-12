@@ -146,7 +146,7 @@
     modal.innerHTML = ''
       + '<div class="nl-modal-overlay" data-close></div>'
       + '<div class="nl-modal-card">'
-      +   '<button class="nl-modal-close" aria-label="Close" data-close>&times;</button>'
+      +   '<button type="button" class="nl-modal-close" aria-label="Close" data-close><span aria-hidden="true">&times;</span></button>'
       +   '<div class="nl-modal-eyebrow" id="nlModalEyebrow"></div>'
       +   '<h3 id="nlModalTitle"></h3>'
       +   '<p class="nl-modal-sub" id="nlModalSub"></p>'
@@ -203,7 +203,9 @@
     modalNote = modal.querySelector('#nlModalNote');
 
     modal.addEventListener('click', function(e){
-      if(e.target.hasAttribute('data-close')) closeModal();
+      // Use closest so clicks on the inner aria-hidden span inside the close
+      // button still resolve to the button's data-close attribute.
+      if(e.target.closest('[data-close]')) closeModal();
     });
     document.addEventListener('keydown', function(e){
       if(e.key === 'Escape' && !modal.hidden) closeModal();
