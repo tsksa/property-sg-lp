@@ -78,6 +78,10 @@
   }, true);
 
   window.addEventListener('message', function(e){
+    // Only trust calendly postMessage events from Calendly's own origin —
+    // without this check any embedded iframe could spoof a 'booking' and
+    // fire a generate_lead conversion.
+    if(e.origin !== 'https://calendly.com') return;
     var data = e.data || {};
     if(data.event === 'calendly.event_scheduled'){
       window.jtTrackConversion('generate_lead', {
