@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "description": "joetay.com — static site + Netlify Functions (lead capture)",
+  "license": "UNLICENSED",
+  "author": "Joe Tay <joe@joetay.com> (https://joetay.com/)",
+  "homepage": "https://joetay.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsksa/property-sg-lp.git"
+  },
+  "bugs": {
+    "email": "joe@joetay.com"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@netlify/blobs": "^8.1.0"
   }
