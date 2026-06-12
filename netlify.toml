@@ -24,6 +24,13 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Insights RSS feed — correct MIME type and 1-hour cache for feed readers
+[[headers]]
+  for = "/insights/feed.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
 # Friendly alias so the form can POST to /api/submit-lead as well
 [[redirects]]
   from = "/api/*"

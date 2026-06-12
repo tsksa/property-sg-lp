@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>PropertySG Insights</title>
+    <link>https://joetay.com/insights/</link>
+    <atom:link href="https://joetay.com/insights/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Plain-English guides on selling, renting, and valuing Singapore property — written by Joe Tay, CEA-registered advisor at ERA.</description>
+    <language>en-sg</language>
+    <copyright>Copyright 2026 PropertySG</copyright>
+    <managingEditor>joe@joetay.com (Joe Tay)</managingEditor>
+    <webMaster>joe@joetay.com (Joe Tay)</webMaster>
+    <category>Real Estate</category>
+    <category>Singapore Property</category>
+    <ttl>1440</ttl>
+    <image>
+      <url>https://joetay.com/joetay-social-preview.jpg</url>
+      <title>PropertySG Insights</title>
+      <link>https://joetay.com/insights/</link>
+    </image>
+
+    <item>
+      <title>How long does it take to sell an HDB flat in Singapore? (2026 timeline)</title>
+      <link>https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html</link>
+      <guid isPermaLink="true">https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0800</pubDate>
+      <dc:creator>Joe Tay</dc:creator>
+      <category>Selling</category>
+      <description><![CDATA[A week-by-week breakdown of a typical HDB resale — from listing launch to key handover. What realistic timelines look like in 2026, the factors that speed things up or slow them down, and when to worry if your flat is still sitting after 12 weeks.]]></description>
+    </item>
+
+    <item>
+      <title>HDB valuation explained: how Singapore agents actually price your flat</title>
+      <link>https://joetay.com/insights/hdb-valuation-explained.html</link>
+      <guid isPermaLink="true">https://joetay.com/insights/hdb-valuation-explained.html</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0800</pubDate>
+      <dc:creator>Joe Tay</dc:creator>
+      <category>Valuation</category>
+      <description><![CDATA[Valuation, asking price, offer price — three different numbers that most sellers confuse. What HDB valuation really means, how data-driven agents triangulate URA + SRX + recent closed transactions, and why gut-feel pricing costs you money.]]></description>
+    </item>
+
+    <item>
+      <title>Selling HDB after MOP: the 5-step timeline with CPF &amp; HDB paperwork</title>
+      <link>https://joetay.com/insights/selling-hdb-after-mop-singapore.html</link>
+      <guid isPermaLink="true">https://joetay.com/insights/selling-hdb-after-mop-singapore.html</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0800</pubDate>
+      <dc:creator>Joe Tay</dc:creator>
+      <category>Selling</category>
+      <description><![CDATA[Just crossed your 5-year MOP and thinking of selling? The 5 steps from eligibility check to keys — including the CPF accrued-interest refund that catches first-time sellers off guard, and the ABSD trap on upgrading to a condo.]]></description>
+    </item>
+
+    <item>
+      <title>2% commission: what your Singapore property agent actually does for it</title>
+      <link>https://joetay.com/insights/property-agent-commission-singapore.html</link>
+      <guid isPermaLink="true">https://joetay.com/insights/property-agent-commission-singapore.html</guid>
+      <pubDate>Tue, 21 Apr 2026 00:00:00 +0800</pubDate>
+      <dc:creator>Joe Tay</dc:creator>
+      <category>Fees</category>
+      <description><![CDATA[On a $700k flat, 2% is $14,000. Fair question: what does that actually buy? The full breakdown — photography, pre-screening, private buyer network, HDB paperwork — and when "discount agents" cost you more than they save.]]></description>
+    </item>
+
+  </channel>
+</rss>
