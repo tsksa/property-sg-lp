@@ -460,3 +460,7 @@ body.nl-modal-open{overflow:hidden}
   .nl-mobile-cta a{font-size:0.68rem}
   .nl-mobile-cta svg{display:none}
 }
+
+/* Screen-reader-only utility for live-region announcements
+   (e.g. #nlFilterStatus updates as filter changes). */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
