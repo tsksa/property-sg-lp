@@ -469,11 +469,29 @@ function checkSuspiciousEmail(email) {
   return null;
 }
 
-// Singapore mobile number: optional +65 prefix, then 8 digits starting with 6, 8, or 9.
-// Accepts spaces or hyphens as separators. Examples: 81881488, +65 8188 1488, 9123-4567.
+// Accepts:
+//   1) Singapore mobile: optional +65 prefix, then 8 digits starting with 6, 8, or 9.
+//      Examples: 81881488, +65 8188 1488, 9123-4567
+//   2) International: any other +<country code> followed by 6-15 digits.
+//      Examples: +60 12 345 6789 (MY), +86 138 0013 8000 (CN), +1 415 555 0100 (US)
+//
+// The homepage final-CTA form has a 15-country code selector
+// and concatenates `country_code + ' ' + phone` into mobile_number. Without the
+// international branch below the server rejected every non-SG lead with
+// "Please enter a valid Singapore phone number" — defeating the client-side
+// fix shipped in PR #158.
 function isValidSingaporePhone(phone) {
   if (!phone) return false;
-  const cleaned = String(phone).replace(/[\s\-]/g, '').replace(/^\+65/, '');
+  const trimmed = String(phone).trim();
+
+  // International (any leading +CC where CC != 65) — loose digit-count check.
+  if (/^\+(?!65[\s\-]?\d)/.test(trimmed)) {
+    const digits = trimmed.replace(/[\s\-]/g, '').replace(/^\+/, '');
+    return /^\d{8,15}$/.test(digits);
+  }
+
+  // Singapore mobile — strict.
+  const cleaned = trimmed.replace(/[\s\-]/g, '').replace(/^\+65/, '');
   if (cleaned.length !== 8) return false;
   if (!/^[689]/.test(cleaned)) return false;
   if (!/^\d+$/.test(cleaned)) return false;
