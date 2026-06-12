@@ -420,6 +420,7 @@ body.nl-modal-open{overflow:hidden}
   .reveal,.reveal-stagger>*{transition:none;opacity:1;transform:none}
   .nl-wa-float::before{animation:none}
   html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
 }
 
 /* ── Responsive ── */
