@@ -258,8 +258,8 @@ footer a{color:rgba(255,255,255,0.8)}
       <div class="val-step active" data-step="1">
 
         <div class="val-group">
-          <label class="val-group-label">Property type</label>
-          <div class="val-chips" role="radiogroup">
+          <label class="val-group-label" id="propTypeLabel">Property type</label>
+          <div class="val-chips" role="radiogroup" aria-labelledby="propTypeLabel">
             <label class="val-chip"><input type="radio" name="propType" value="HDB" required><span>HDB</span></label>
             <label class="val-chip"><input type="radio" name="propType" value="Condo / Apartment"><span>Condo / Apartment</span></label>
             <label class="val-chip"><input type="radio" name="propType" value="Landed"><span>Landed</span></label>
@@ -283,8 +283,8 @@ footer a{color:rgba(255,255,255,0.8)}
 
         <!-- Conditional: HDB flat type -->
         <div class="val-group" id="hdbTypeGroup" style="display:none">
-          <label class="val-group-label">HDB flat type</label>
-          <div class="val-chips" role="radiogroup">
+          <label class="val-group-label" id="hdbTypeLabel">HDB flat type</label>
+          <div class="val-chips" role="radiogroup" aria-labelledby="hdbTypeLabel">
             <label class="val-chip"><input type="radio" name="hdbType" value="2-room"><span>2-room</span></label>
             <label class="val-chip"><input type="radio" name="hdbType" value="3-room"><span>3-room</span></label>
             <label class="val-chip"><input type="radio" name="hdbType" value="4-room"><span>4-room</span></label>
