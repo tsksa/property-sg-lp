@@ -1968,7 +1968,7 @@ if(testiSection){
       const offset=center*0.03*(i%2===0?1:-1);
       c.style.transform='translateY('+offset+'px)';
     });
-  });
+  },{passive:true});
 }
 
 // ── Calendly: lazy-load widget.js when the booking section nears the viewport ──
