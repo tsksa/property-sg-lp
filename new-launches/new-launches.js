@@ -206,7 +206,19 @@
       if(e.target.hasAttribute('data-close')) closeModal();
     });
     document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && !modal.hidden) closeModal();
+      if(modal.hidden) return;
+      if(e.key === 'Escape') { closeModal(); return; }
+      // Focus trap: cycle Tab/Shift+Tab within the modal so screen-reader
+      // and keyboard users can't tab into the page behind the dialog.
+      if(e.key !== 'Tab') return;
+      var focusable = modal.querySelectorAll(
+        'button:not([disabled]),[href],input:not([type=hidden]):not([disabled]),' +
+        'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+      );
+      if(!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length-1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     });
     modalForm.addEventListener('submit', function(e){
       e.preventDefault();
@@ -226,6 +238,8 @@
     modalIntent.value = intent;
     // Show project-select only when we don't already know the project
     modal.querySelector('#nlModalProjectRow').hidden = !!project;
+    // Remember what to focus on close (typically the trigger button).
+    modal._returnFocusEl = document.activeElement;
     modal.hidden = false;
     document.body.classList.add('nl-modal-open');
     // Focus first input
@@ -236,6 +250,14 @@
     if(!modal) return;
     modal.hidden = true;
     document.body.classList.remove('nl-modal-open');
+    // Restore focus to whatever opened the modal so keyboard users don't
+    // get dumped to the top of the page.
+    try {
+      if(modal._returnFocusEl && typeof modal._returnFocusEl.focus === 'function') {
+        modal._returnFocusEl.focus();
+      }
+    } catch(_) { /* element may have unmounted; ignore */ }
+    modal._returnFocusEl = null;
   }
 
   function submitModal(){
