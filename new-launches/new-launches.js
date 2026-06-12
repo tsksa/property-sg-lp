@@ -135,6 +135,9 @@
 
   // Build the lead-capture modal once per page load.
   var modal, modalForm, modalEyebrow, modalTitle, modalSub, modalSubmit, modalProject, modalIntent, modalNote, modalSuccessTpl;
+  // Time-on-form anti-spam: captured when the modal opens, sent on submit.
+  // The Netlify Function drops submissions where this is < 3000ms.
+  var modalOpenedAt = 0;
   function buildModal(){
     if(modal) return;
     modal = document.createElement('div');
@@ -226,6 +229,7 @@
     modalIntent.value = intent;
     // Show project-select only when we don't already know the project
     modal.querySelector('#nlModalProjectRow').hidden = !!project;
+    modalOpenedAt = Date.now();
     modal.hidden = false;
     document.body.classList.add('nl-modal-open');
     // Focus first input
@@ -261,7 +265,8 @@
       interest: modalForm.interest.value,
       source_site: 'joetay.com',
       landing_page: location.pathname,
-      submitted_at: new Date().toISOString()
+      submitted_at: new Date().toISOString(),
+      time_on_form_ms: modalOpenedAt ? Date.now() - modalOpenedAt : null
     };
     Object.keys(utm).forEach(function(k){ data[k] = utm[k]; });
 
