@@ -1,0 +1,45 @@
+# Dependabot configuration — https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+# Auto-opens PRs against this repo when npm or GitHub Actions dependencies
+# have security or version updates available.
+
+version: 2
+
+updates:
+  # npm dependencies live at repo root (package.json — currently only
+  # @netlify/blobs, but defends forward).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Singapore"
+    # PR limit so we don't get spammed if a major-version churn happens
+    open-pull-requests-limit: 3
+    # Keep PRs small and reviewable
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+    reviewers:
+      - "tsksa"
+
+  # GitHub Actions versions (no workflows today, but if any get added the
+  # config is ready). Same Monday-morning cadence as npm so reviews batch.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Singapore"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "ci"
+      - "dependencies"
+    reviewers:
+      - "tsksa"
