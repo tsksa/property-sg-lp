@@ -1819,12 +1819,13 @@ valPopupForm.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   if(f.company_website.value) return; // honeypot
+  // The form carries novalidate so the browser doesn't double-validate; call
+  // reportValidity() explicitly to use the inputs' existing required/pattern/
+  // type=email constraints and surface a native tooltip on the first failure.
+  if(!f.reportValidity()) return;
   const postal=f.postal_code.value.trim();
   const unit=f.unit_number.value.trim();
   const email=f.email.value.trim();
-  if(!/^\d{6}$/.test(postal)){alert('Please enter a valid 6-digit postal code.');valPostalInput.focus();return;}
-  if(!unit){alert('Please enter your unit number.');f.unit_number.focus();return;}
-  if(!email||!f.email.checkValidity()){alert('Please enter a valid email address.');f.email.focus();return;}
   const data={
     lead_type:'valuation',
     property_type:valContext.propType,
