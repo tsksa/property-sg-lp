@@ -56,7 +56,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-filter{max-width:1180px;margin:32px auto 0;padding:0 24px}
 .nl-filter-inner{display:flex;flex-wrap:wrap;gap:10px;padding:16px;background:var(--cream);border-radius:14px;align-items:center;border:1px solid rgba(201,166,97,0.15)}
 .nl-filter-label{font-size:0.76rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:1.2px;margin-right:8px}
-.nl-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#fff;border:1px solid #e5e5e5;border-radius:100px;font-size:0.82rem;font-weight:600;color:#444;cursor:pointer;transition:all .15s;user-select:none}
+.nl-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#fff;border:1px solid #e5e5e5;border-radius:100px;font-family:inherit;font-size:0.82rem;font-weight:600;color:#444;cursor:pointer;transition:all .15s;user-select:none;line-height:1.2}
 .nl-chip:hover{border-color:var(--emerald);color:var(--emerald);transform:translateY(-1px)}
 .nl-chip.active{background:var(--emerald);color:#fff;border-color:var(--emerald);box-shadow:0 4px 14px rgba(16,185,129,0.3)}
 

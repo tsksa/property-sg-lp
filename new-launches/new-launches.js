@@ -58,8 +58,12 @@
     chips.forEach(function(chip){
       chip.addEventListener('click', function(){
         var filter = chip.getAttribute('data-filter');
-        chips.forEach(function(c){ c.classList.remove('active'); });
+        chips.forEach(function(c){
+          c.classList.remove('active');
+          if(c.hasAttribute('aria-pressed')) c.setAttribute('aria-pressed','false');
+        });
         chip.classList.add('active');
+        if(chip.hasAttribute('aria-pressed')) chip.setAttribute('aria-pressed','true');
         cards.forEach(function(card){
           if(filter === 'all'){ card.style.display = ''; return; }
           var region = card.getAttribute('data-region');
