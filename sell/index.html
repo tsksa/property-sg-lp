@@ -67,8 +67,15 @@
 </script>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
+<style>
+/* Skip-to-content link (WCAG 2.4.1) — visually hidden until keyboard-focused */
+.skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:#10b981;color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px;font-family:'DM Sans',system-ui,sans-serif}
+</style>
 </head>
 <body>
+
+<a href="#main" class="skip-to-content">Skip to main content</a>
 
 <!-- Compact topbar — no full nav, single-focus landing page -->
 <header class="lp-topbar">
@@ -82,7 +89,7 @@
 </header>
 
 <!-- Hero with form -->
-<section class="lp-hero">
+<section id="main" tabindex="-1" class="lp-hero">
   <div class="lp-hero-inner">
     <div class="lp-hero-content">
       <div class="lp-tag">Singapore property · selling</div>
