@@ -1,0 +1,15 @@
+# RFC 9116 security disclosure contact for joetay.com
+# Researchers: please report any vulnerability or misconfiguration via the
+# contact below. Joe Tay personally triages every report.
+
+Contact: mailto:joe@joetay.com
+Contact: https://wa.me/6581881488
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://joetay.com/.well-known/security.txt
+Policy: https://joetay.com/privacy-policy.html
+
+# Out of scope: physical security of CEA-registered offices,
+# third-party services (PropertyGuru, 99.co, SRX, EdgeProp,
+# Calendly, Twilio, Netlify) - report those to their respective
+# vendors.
