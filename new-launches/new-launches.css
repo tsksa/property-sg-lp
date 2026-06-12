@@ -382,7 +382,7 @@ body.nl-modal-open{overflow:hidden}
 .nl-wa-float svg{width:26px;height:26px;fill:#fff;position:relative;z-index:1}
 
 /* ── Back to top ── */
-.nl-to-top{position:fixed;bottom:92px;right:24px;z-index:98;width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(11,30,63,0.32);border:none;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .25s,transform .25s,background .25s}
+.nl-to-top{position:fixed;bottom:92px;right:24px;z-index:98;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(11,30,63,0.32);border:none;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .25s,transform .25s,background .25s}
 .nl-to-top.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
 .nl-to-top:hover{background:var(--emerald);transform:translateY(-2px)}
 .nl-to-top svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -398,7 +398,7 @@ body.nl-modal-open{overflow:hidden}
 @media(max-width:640px){
   .nl-mobile-cta{display:flex}
   .nl-wa-float{display:none}
-  .nl-to-top{bottom:144px;width:38px;height:38px}
+  .nl-to-top{bottom:144px;width:44px;height:44px}
   body{padding-bottom:72px}
 }
 
