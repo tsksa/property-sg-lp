@@ -135,6 +135,11 @@
 
   // Build the lead-capture modal once per page load.
   var modal, modalForm, modalEyebrow, modalTitle, modalSub, modalSubmit, modalProject, modalIntent, modalNote, modalSuccessTpl;
+  // The document-level keydown handler is attached once at first buildModal()
+  // and re-used across any subsequent rebuilds (e.g. tearing down after a
+  // success state). The handler references `modal` via closure on the
+  // module-scoped binding, so it always sees the current modal instance.
+  var modalKeydownAttached = false;
   function buildModal(){
     if(modal) return;
     modal = document.createElement('div');
@@ -205,9 +210,12 @@
     modal.addEventListener('click', function(e){
       if(e.target.hasAttribute('data-close')) closeModal();
     });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && !modal.hidden) closeModal();
-    });
+    if(!modalKeydownAttached){
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && modal && !modal.hidden) closeModal();
+      });
+      modalKeydownAttached = true;
+    }
     modalForm.addEventListener('submit', function(e){
       e.preventDefault();
       submitModal();
