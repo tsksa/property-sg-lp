@@ -364,7 +364,24 @@ exports.handler = async (event) => {
     timestamp: new Date().toISOString(),
   });
 
-  if (webhookResult && !webhookResult.ok) {
+  // Partial-success policy: return 200 OK if EITHER the webhook (Sheets) or
+  // Twilio (WhatsApp) reached Joe. Only fail back to the user if BOTH paths
+  // are down — then they get an error and can retry.
+  //
+  // Previous behaviour returned 502 whenever the Sheets webhook failed, even
+  // if Twilio successfully fired Joe's WhatsApp. The user saw "Sorry, something
+  // went wrong" and re-submitted, creating a duplicate WhatsApp notification.
+  // Joe gets the lead twice, the user is confused, and the duplicate burns
+  // one of his Meta-approved template quota slots.
+  //
+  // Function logs (line 350 above) always record the lead regardless of
+  // delivery channel, so partial failures are visible to Joe in Netlify's
+  // function-log dashboard even when the response says 200.
+  const webhookFailed = webhookResult && !webhookResult.ok;
+  const twilioFailed = twilioResult && twilioResult.ok === false;
+  const twilioAttempted = twilioResult != null && twilioResult !== webhookResult;
+  const everythingFailed = webhookFailed && (twilioFailed || !twilioAttempted);
+  if (everythingFailed) {
     return {
       statusCode: 502,
       headers: CORS_HEADERS,
