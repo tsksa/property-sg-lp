@@ -1699,7 +1699,14 @@ async function submitLead(data){
 }
 
 function showFormSuccess(form,title,body,data){
-  form.innerHTML=`<div class="form-success"><div class="form-success-icon">✓</div><h3>${title}</h3><p>${body}</p></div>`;
+  form.innerHTML=`<div class="form-success"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
+  // Move focus to the success heading so keyboard / screen-reader users
+  // aren't dropped to <body> when the submit button gets detached.
+  // tabindex="-1" makes the h3 programmatically focusable without putting
+  // it into the natural tab sequence (Tab moves on to the next interactive
+  // control after).
+  const successHeading=form.querySelector('.form-success h3');
+  if(successHeading) successHeading.focus();
   const leadType=data?.lead_type||'consultation';
   const propType=data?.property_type||'';
   if(typeof jtTrackConversion==='function') jtTrackConversion('generate_lead',{
