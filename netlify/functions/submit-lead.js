@@ -23,25 +23,48 @@
 //   - Valuation requests        → existing approved SID (override via TWILIO_VALUATION_CONTENT_SID)
 // freevaluation.sg runs separately and uses its own template / env vars.
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json',
-};
-
-// Return 200 OK to every rejected submission so bots don't get a clear signal.
-const OK_RESPONSE = { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+// Build per-request CORS headers based on the requesting Origin. Echoes the
+// Origin back only if it's in the allow-list (joetay.com production + the
+// Netlify deploy-preview / branch-deploy patterns). Anything else gets no
+// Access-Control-Allow-Origin and the browser blocks the response.
+//
+// Why echo instead of '*': '*' lets any third-party site embed a form that
+// POSTs to this endpoint and pollutes Joe's lead pipeline (his quota, his
+// Twilio template credits, his Sheets row count). Honeypot + time-on-form +
+// reCAPTCHA still catch most abuse, but the browser-level origin check
+// adds another layer with near-zero false positives.
+//
+// curl / Postman / cron jobs don't send an Origin header at all — those
+// bypass the check, which is fine: they're trusted server-to-server callers.
+function getCorsHeaders(origin) {
+  const allowed = (
+    origin === 'https://joetay.com' ||
+    origin === 'https://www.joetay.com' ||
+    /^https:\/\/[\w-]+--[\w-]+\.netlify\.app$/.test(origin || '') ||
+    /^https:\/\/[\w-]+\.netlify\.app$/.test(origin || '')
+  );
+  return {
+    'Access-Control-Allow-Origin': allowed ? origin : 'null',
+    'Vary': 'Origin',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+    'Content-Type': 'application/json',
+  };
+}
 
 exports.handler = async (event) => {
+  const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
+  const OK_RESPONSE = { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Method not allowed' }),
     };
   }
@@ -52,7 +75,7 @@ exports.handler = async (event) => {
   } catch {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Invalid JSON' }),
     };
   }
@@ -84,7 +107,7 @@ exports.handler = async (event) => {
   if (fieldError) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: fieldError }),
     };
   }
@@ -94,7 +117,7 @@ exports.handler = async (event) => {
   if (!isNewsletterOnly && !isValidSingaporePhone(payload.mobile_number)) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Please enter a valid Singapore phone number' }),
     };
   }
@@ -367,12 +390,12 @@ exports.handler = async (event) => {
   if (webhookResult && !webhookResult.ok) {
     return {
       statusCode: 502,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Lead capture upstream failed' }),
     };
   }
 
-  return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+  return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
