@@ -101,3 +101,66 @@ a:hover{text-decoration:underline}
   .article-cta{padding:32px 22px}
   .article-body{font-size:0.98rem}
 }
+
+/* ── Print styles — clean reading copy for paper / PDF ── */
+@media print {
+  /* Hide site chrome and CTAs that have no meaning on paper */
+  .blog-topbar,
+  .blog-nav,
+  .blog-footer,
+  .article-cta,
+  .cta-block,
+  .skip-to-content {
+    display: none !important;
+  }
+
+  /* Reset background and force black-on-white for ink economy + max contrast */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Centred narrow text column with full-width margins */
+  .blog-main, .article {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  /* Headings stay serif but lose decorative weights/colours */
+  .article h1, .article-body h2, .article-body h3 {
+    color: #000 !important;
+    page-break-after: avoid;
+  }
+
+  /* Don't split paragraphs and callouts across pages */
+  p, .callout, .article-byline {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Callouts: keep visual hierarchy via border, drop background fill */
+  .article-body .callout {
+    background: none !important;
+    border: 1px solid #999 !important;
+    border-left: 3px solid #000 !important;
+    color: #000 !important;
+  }
+
+  /* Show link targets after the link text so URLs survive paper */
+  .article-body a[href^="http"]::after,
+  .article-body a[href^="/"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+  /* …but not for in-page anchors (#foo) — those become "(#foo)" noise */
+  .article-body a[href^="#"]::after { content: "" !important; }
+
+  /* Images don't bleed past page margins */
+  img { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+}
