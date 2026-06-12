@@ -1,0 +1,25 @@
+# EditorConfig — https://editorconfig.org
+# Keeps indent / line-endings consistent across editors and contributors.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = off
+
+# HTML / CSS / JS — site code, 2-space indent matches existing style
+[*.{html,css,js,json}]
+indent_size = 2
+
+# Markdown — preserve trailing whitespace (significant for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefiles — tabs required by Make's grammar
+[Makefile]
+indent_style = tab

@@ -1,0 +1,46 @@
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Local environment / secrets — NEVER commit these.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json
+token.json
+
+# Netlify local state
+.netlify/
+!.netlify/state.json  # site-id is fine to commit; CLI scratch dirs are not
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# Editor / IDE caches
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build / cache artefacts (this repo has no build, but defend
+# against future regressions)
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# Coverage / test output (no current tests, defending forward)
+coverage/
+*.log
