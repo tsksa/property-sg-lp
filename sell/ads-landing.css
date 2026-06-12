@@ -143,3 +143,8 @@ img{max-width:100%;height:auto}
   .lp-hero,.lp-section,.lp-case,.lp-final{padding-left:16px;padding-right:16px}
   .lp-form-card{padding-left:18px;padding-right:18px}
 }
+
+/* ── Respect OS Reduce Motion preference (WCAG 2.3.3) ── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+}
