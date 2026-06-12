@@ -10,6 +10,8 @@ a:hover{text-decoration:underline}
 img{max-width:100%;height:auto;display:block}
 *:focus{outline:none}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10001;background:var(--navy);color:#fff;padding:12px 18px;border-radius:0 0 8px 0;font-weight:600;text-decoration:none}
+.skip-link:focus{left:0;text-decoration:none}
 
 /* ── Progress bar ── */
 .nl-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--emerald),var(--gold));z-index:200;width:0;transition:width .08s linear;pointer-events:none}

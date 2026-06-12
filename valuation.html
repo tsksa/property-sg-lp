@@ -59,6 +59,8 @@ body{font-family:'DM Sans',sans-serif;color:#111;background:var(--cream);line-he
 a{color:var(--emerald);text-decoration:none}
 a:hover{text-decoration:underline}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10001;background:var(--navy);color:#fff;padding:12px 18px;border-radius:0 0 8px 0;font-weight:600;text-decoration:none}
+.skip-link:focus{left:0;text-decoration:none}
 
 /* Top bar */
 .topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;padding:20px 24px;position:sticky;top:0;z-index:10;box-shadow:0 2px 20px rgba(0,0,0,0.08);max-width:100%;overflow:hidden}
@@ -228,6 +230,8 @@ footer a{color:rgba(255,255,255,0.8)}
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <div class="topbar">
   <div class="topbar-inner">
     <a href="index.html" class="logo">PropertySG</a>
@@ -235,7 +239,7 @@ footer a{color:rgba(255,255,255,0.8)}
   </div>
 </div>
 
-<main>
+<main id="main-content" tabindex="-1">
   <div class="val-intro">
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>

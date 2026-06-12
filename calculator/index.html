@@ -53,6 +53,8 @@
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#f7f5ef;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:var(--emerald);text-decoration:none}
 a:hover{text-decoration:underline}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10001;background:var(--navy);color:#fff;padding:12px 18px;border-radius:0 0 8px 0;font-weight:600;text-decoration:none}
+.skip-link:focus{left:0;text-decoration:none}
 
 /* Topbar */
 .calc-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
@@ -122,6 +124,8 @@ a:hover{text-decoration:underline}
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
 <header class="calc-topbar">
   <div class="calc-topbar-inner">
     <a href="/" class="calc-logo">PropertySG</a>
@@ -142,7 +146,7 @@ a:hover{text-decoration:underline}
   </div>
 </section>
 
-<main class="calc-main">
+<main class="calc-main" id="main-content" tabindex="-1">
 
   <div class="calc-form">
     <h2>Your numbers</h2>
