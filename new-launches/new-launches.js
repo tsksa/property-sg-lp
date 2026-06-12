@@ -159,7 +159,7 @@
       +       '<input type="email" name="email" placeholder="Email address" autocomplete="email" required>'
       +     '</div>'
       +     '<div class="pf-row" id="nlModalProjectRow" hidden>'
-      +       '<select name="project_select">'
+      +       '<select name="project_select" required>'
       +         '<option value="" disabled selected>Which project?</option>'
       +         '<option>Newport Residences</option>'
       +         '<option>Tengah Garden Residences</option>'
