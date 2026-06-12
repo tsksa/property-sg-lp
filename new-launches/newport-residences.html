@@ -590,8 +590,8 @@ UTM_KEYS.forEach(k => utm[k] = params.get(k) || '');
 
 function showSuccess(form){
   form.innerHTML = `
-    <div class="pf-success">
-      <div class="pf-success-icon">✓</div>
+    <div class="pf-success" role="status" aria-live="polite">
+      <div class="pf-success-icon" aria-hidden="true">✓</div>
       <h4>You're registered.</h4>
       <p>I'll WhatsApp you within 10 minutes with Newport Residences pricing, unit availability, and the virtual tour link.</p>
     </div>`;
