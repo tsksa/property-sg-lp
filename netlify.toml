@@ -13,6 +13,11 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    # Isolate the browsing context from other-origin tabs (tabnabbing defence
+    # complementing the per-link rel="noopener" from PR #50).
+    # "allow-popups" lets the WhatsApp / Calendly / external links keep opening
+    # in new tabs; only cross-origin window.opener is blocked.
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
 
 [[headers]]
   for = "/*.jpg"
