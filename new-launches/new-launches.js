@@ -71,7 +71,11 @@
     });
   }
 
-  // Smooth scroll for anchor links with sticky-nav offset
+  // Smooth scroll for anchor links with sticky-nav offset.
+  // When the target is a focus anchor (e.g. the skip-link's tabindex="-1"
+  // main-content target), also move keyboard focus so assistive tech
+  // actually lands on the destination — preventDefault otherwise robs
+  // the browser of its built-in focus-jump behavior.
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click', function(e){
       var href = a.getAttribute('href');
@@ -81,6 +85,9 @@
       e.preventDefault();
       var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
       window.scrollTo({top:top, behavior:'smooth'});
+      if(target.hasAttribute('tabindex') || /^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(target.tagName)){
+        target.focus({preventScroll:true});
+      }
     });
   });
 
