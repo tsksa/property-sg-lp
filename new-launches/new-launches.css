@@ -345,7 +345,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-modal-overlay{position:absolute;inset:0;background:rgba(6,20,48,0.58);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:nlFadeIn .25s ease-out}
 .nl-modal-card{position:relative;background:#fff;border-radius:18px;padding:32px 30px 26px;max-width:480px;width:100%;box-shadow:0 40px 120px -24px rgba(0,0,0,0.45);z-index:1;animation:nlModalIn .3s cubic-bezier(.2,.8,.2,1)}
 .nl-modal-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold));border-radius:18px 18px 0 0}
-.nl-modal-close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
+.nl-modal-close{position:absolute;top:6px;right:8px;width:44px;height:44px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
 .nl-modal-close:hover{background:rgba(0,0,0,0.06);color:var(--navy)}
 .nl-modal-eyebrow{font-size:0.7rem;font-weight:700;color:var(--emerald);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px}
 .nl-modal-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.3px;line-height:1.25}
