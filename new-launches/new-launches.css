@@ -398,8 +398,12 @@ body.nl-modal-open{overflow:hidden}
 @media(max-width:640px){
   .nl-mobile-cta{display:flex}
   .nl-wa-float{display:none}
-  .nl-to-top{bottom:144px;width:38px;height:38px}
-  body{padding-bottom:72px}
+  /* .nl-mobile-cta itself adds env(safe-area-inset-bottom) to its own
+     padding; mirror that inset into body padding and the back-to-top
+     button so the bottom of the page + the back-to-top control both
+     clear iOS's home-indicator on iPhone X+. */
+  .nl-to-top{bottom:calc(144px + env(safe-area-inset-bottom,0px));width:38px;height:38px}
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 }
 
 /* ── Scroll reveal ── */
