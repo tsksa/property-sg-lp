@@ -456,7 +456,7 @@ const PROJECT_NAME = 'Dunearn House';
 const LANDING_PAGE = '/new-launches/dunearn-house.html';
 
 function showSuccess(form){
-  form.innerHTML = `<div class="pf-success"><div class="pf-success-icon">✓</div><h4>You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
+  form.innerHTML = `<div class="pf-success" role="status"><div class="pf-success-icon" aria-hidden="true">✓</div><h4>You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
   if(typeof gtag === 'function') gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});
   if(typeof fbq === 'function') fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});
 }
