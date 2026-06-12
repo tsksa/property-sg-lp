@@ -1798,17 +1798,23 @@ valPostalInput.addEventListener('input',_valDebounce(async()=>{
   if(code!==valPostalInput.value) valPostalInput.value=code;
   if(code.length!==6){valAddrBox.style.display='none';valDetectedAddress='';return;}
   try{
-    const res=await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${code}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
+    const res=await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${encodeURIComponent(code)}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
     const data=await res.json();
     if(data.results&&data.results.length>0){
       const r=data.results[0];
       valDetectedAddress=`${r.BLK_NO?r.BLK_NO+' ':''}${r.ROAD_NAME||''}, Singapore ${r.POSTAL||code}`.trim().replace(/\s+/g,' ');
       valAddrBox.className='val-popup-addr';
-      valAddrBox.innerHTML=`<strong>Detected address</strong>${valDetectedAddress}`;
+      valAddrBox.textContent='';
+      const lbl=document.createElement('strong');lbl.textContent='Detected address';
+      valAddrBox.appendChild(lbl);
+      valAddrBox.appendChild(document.createTextNode(valDetectedAddress));
       valAddrBox.style.display='block';
     } else {
       valAddrBox.className='val-popup-addr error';
-      valAddrBox.innerHTML=`<strong>Postal code not found</strong>You can still continue — I'll confirm when I reply.`;
+      valAddrBox.textContent='';
+      const lbl=document.createElement('strong');lbl.textContent='Postal code not found';
+      valAddrBox.appendChild(lbl);
+      valAddrBox.appendChild(document.createTextNode("You can still continue — I'll confirm when I reply."));
       valAddrBox.style.display='block';
       valDetectedAddress='';
     }
