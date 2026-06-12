@@ -516,10 +516,20 @@ async function checkRateLimit(ip, email) {
     }
 
     if (email) {
+      // 3 submissions per email per 24h. The previous limit of 1/day silently
+      // blocked very common legitimate flows:
+      //   - User submits, notices a typo, resubmits → blocked
+      //   - Same user registering for a different project on the same day
+      //     (browsing Newport, then Vela Bay) → blocked
+      //   - User starts a valuation request, then later submits the final-CTA
+      //     consultation form → blocked at the second
+      //   - Couple sharing one email, each submitting for their own reason
+      // 3/day still rejects obvious spam (4+ submissions from one email/day
+      // is well outside any real-user pattern) and matches the IP limit.
       const emailKey = 'email:' + email.replace(/[^a-zA-Z0-9.@_-]/g, '_');
       const existing = (await store.get(emailKey, { type: 'json' })) || { timestamps: [] };
       const recent = (existing.timestamps || []).filter((t) => now - t < oneDay);
-      if (recent.length >= 1) {
+      if (recent.length >= 3) {
         return { blocked: true, reason: 'rate_limit_email_daily' };
       }
       recent.push(now);
