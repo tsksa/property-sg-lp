@@ -1336,7 +1336,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <!-- Inline Calendly widget — pick a slot without leaving the page -->
     <div class="calendly-inline-wrap reveal reveal-delay-2">
       <div class="calendly-inline-wrap-head">Or pick a slot right now</div>
-      <div class="calendly-inline-widget" data-url="https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981"></div>
+      <div class="calendly-inline-widget" data-url="https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981&embed_domain=joetay.com&embed_type=Inline"></div>
     </div>
   </div>
 </section>
@@ -1998,7 +1998,7 @@ if('IntersectionObserver' in window&&bookSection){
 document.getElementById('openCalendly')?.addEventListener('click',e=>{
   if(typeof Calendly==='undefined')return; // default <a> new-tab behaviour
   e.preventDefault();
-  Calendly.initPopupWidget({url:'https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981'});
+  Calendly.initPopupWidget({url:'https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981&embed_domain=joetay.com&embed_type=PopupWidget'});
 });
 
 // ── Exit Intent / Scroll-Depth Popup ──
