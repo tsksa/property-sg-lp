@@ -36,12 +36,22 @@
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3279494272146114');fbq('track','PageView');</script>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
+<style>
+/* Skip-to-content link (WCAG 2.4.1) — visually hidden until keyboard-focused */
+.skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:#10b981;color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px;font-family:'DM Sans',system-ui,sans-serif}
+</style>
 </head>
 <body>
+
+<a href="#main" class="skip-to-content">Skip to main content</a>
 
 <div class="nl-progress"></div>
 
 <header class="nl-topbar"><div class="nl-topbar-inner"><a href="/" class="nl-logo">PropertySG</a><nav class="nl-nav" aria-label="Primary"><a href="/">Home</a><a href="/new-launches/">All Launches</a><a href="/insights/">Insights</a><a href="/#book" class="nl-nav-cta">Book a Call</a></nav></div></header>
+
+<main id="main" tabindex="-1">
+
 
 <nav class="nl-breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span>Narra Residences</span></nav>
 
@@ -394,6 +404,8 @@
 </nav>
 
 <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/PLACEHOLDER_WHATSAPP', 'value': 30.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20more%20information%20on%20Narra%20Residences." target="_blank" rel="noopener" class="nl-wa-float" aria-label="WhatsApp Joe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+
+</main>
 
 <footer class="nl-footer"><div class="nl-footer-inner"><p>&copy; 2026 PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · <a href="/">Home</a> · <a href="/privacy-policy.html">Privacy Policy</a></p><p class="creds">CEA Reg. No. R009618D · joe@joetay.com · +65 8188 1488</p></div></footer>
 

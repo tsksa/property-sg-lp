@@ -63,8 +63,15 @@
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3279494272146114');fbq('track','PageView');</script>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
+<style>
+/* Skip-to-content link (WCAG 2.4.1) — visually hidden until keyboard-focused */
+.skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:#10b981;color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:10000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px;font-family:'DM Sans',system-ui,sans-serif}
+</style>
 </head>
 <body>
+
+<a href="#main" class="skip-to-content">Skip to main content</a>
 
 <div class="nl-progress"></div>
 
@@ -79,6 +86,9 @@
     </nav>
   </div>
 </header>
+
+<main id="main" tabindex="-1">
+
 
 <nav class="nl-breadcrumb">
   <a href="/">Home</a><span class="sep">›</span>
@@ -573,6 +583,8 @@
     <p>Marketed by Joe Tay, District Director at ERA Realty Network Pte Ltd (L3002382K) · CEA Reg. R009618D. Developer: City Developments Limited.</p>
   </div>
 </section>
+
+</main>
 
 <footer class="nl-footer">
   <div class="nl-footer-inner">
