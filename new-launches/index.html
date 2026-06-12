@@ -100,14 +100,14 @@
 
 <!-- Filter bar — visual scaffold; filtering logic can be added when catalog grows -->
 <div class="nl-filter">
-  <div class="nl-filter-inner">
-    <span class="nl-filter-label">Filter</span>
-    <span class="nl-chip active" data-filter="all">All launches</span>
-    <span class="nl-chip" data-filter="CCR">CCR (D09–11)</span>
-    <span class="nl-chip" data-filter="RCR">RCR (D01–08, 12–14)</span>
-    <span class="nl-chip" data-filter="OCR">OCR (D15–28)</span>
-    <span class="nl-chip" data-filter="condo">Condo</span>
-    <span class="nl-chip" data-filter="landed">Landed / GLS</span>
+  <div class="nl-filter-inner" role="group" aria-label="Filter projects">
+    <span class="nl-filter-label" aria-hidden="true">Filter</span>
+    <button type="button" class="nl-chip active" data-filter="all" aria-pressed="true">All launches</button>
+    <button type="button" class="nl-chip" data-filter="CCR" aria-pressed="false">CCR (D09–11)</button>
+    <button type="button" class="nl-chip" data-filter="RCR" aria-pressed="false">RCR (D01–08, 12–14)</button>
+    <button type="button" class="nl-chip" data-filter="OCR" aria-pressed="false">OCR (D15–28)</button>
+    <button type="button" class="nl-chip" data-filter="condo" aria-pressed="false">Condo</button>
+    <button type="button" class="nl-chip" data-filter="landed" aria-pressed="false">Landed / GLS</button>
   </div>
 </div>
 
