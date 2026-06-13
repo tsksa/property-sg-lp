@@ -54,19 +54,34 @@
   // Filter chips (index only — no-op if filter not present)
   var chips = document.querySelectorAll('.nl-chip');
   var cards = document.querySelectorAll('.nl-card[data-region]');
+  var filterStatus = document.getElementById('nlFilterStatus');
   if(chips.length && cards.length){
     chips.forEach(function(chip){
       chip.addEventListener('click', function(){
         var filter = chip.getAttribute('data-filter');
         chips.forEach(function(c){ c.classList.remove('active'); });
         chip.classList.add('active');
+        var shown = 0;
         cards.forEach(function(card){
-          if(filter === 'all'){ card.style.display = ''; return; }
-          var region = card.getAttribute('data-region');
-          var type = card.getAttribute('data-type');
-          if(region === filter || type === filter) card.style.display = '';
-          else card.style.display = 'none';
+          var visible;
+          if(filter === 'all'){ visible = true; }
+          else {
+            var region = card.getAttribute('data-region');
+            var type = card.getAttribute('data-type');
+            visible = region === filter || type === filter;
+          }
+          card.style.display = visible ? '' : 'none';
+          if(visible) shown++;
         });
+        // Announce the visible count to screen readers so they know the
+        // filter took effect. role=status + aria-live=polite means the
+        // SR speaks the update without interrupting whatever it's reading.
+        if(filterStatus){
+          var label = chip.textContent.trim();
+          filterStatus.textContent = shown === 0
+            ? 'No projects match "' + label + '".'
+            : 'Showing ' + shown + ' project' + (shown === 1 ? '' : 's') + ' for "' + label + '".';
+        }
       });
     });
   }
