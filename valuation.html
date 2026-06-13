@@ -331,9 +331,9 @@ footer a{color:rgba(255,255,255,0.8)}
       </div>
 
       <!-- Success -->
-      <div class="val-step val-success" data-step="success">
-        <div class="val-success-icon">✓</div>
-        <h2>I'm on it.</h2>
+      <div class="val-step val-success" data-step="success" role="status" aria-live="polite">
+        <div class="val-success-icon" aria-hidden="true">✓</div>
+        <h2 tabindex="-1">I'm on it.</h2>
         <p>Your valuation request is in. I'll WhatsApp you within 24 hours with a detailed valuation and a summary of recent transactions in your area.</p>
         <a href="index.html" class="val-back-home">← Back to home</a>
       </div>
@@ -456,7 +456,13 @@ function showSuccess(data){
     landing_page:'/valuation.html'
   });
   document.querySelector('[data-step="1"]').classList.remove('active');
-  document.querySelector('[data-step="success"]').classList.add('active');
+  const successStep=document.querySelector('[data-step="success"]');
+  successStep.classList.add('active');
+  // Focus the success heading so keyboard / SR users have an anchor
+  // (the submit button they were on is gone). role=status above
+  // announces the heading + body via aria-live.
+  const successHeading=successStep.querySelector('h2');
+  if(successHeading) successHeading.focus();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
