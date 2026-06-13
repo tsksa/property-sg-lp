@@ -143,7 +143,13 @@ exports.handler = async (event) => {
   const enriched = {
     ...payload,
     source_site: payload.source_site || 'joetay.com',
-    submitted_at: payload.submitted_at || new Date().toISOString(),
+    // Server-side timestamp — never trust the client-provided submitted_at.
+    // Spreading payload above means client_submitted_at is preserved as a
+    // separate field for forensic comparison (a divergence between the two
+    // can indicate clock skew on real users or, more interestingly, a bot
+    // setting a stale value to evade time-on-form analysis).
+    client_submitted_at: payload.submitted_at || null,
+    submitted_at: new Date().toISOString(),
     user_agent: userAgent,
     referer: event.headers.referer || event.headers.referrer || '',
     client_ip: ip,
