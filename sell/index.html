@@ -290,8 +290,8 @@ UTM_KEYS.forEach(k => utm[k] = params.get(k) || '');
 function showSuccess(form){
   form.innerHTML = `
     <div class="lp-form-success">
-      <div class="lp-form-success-icon">✓</div>
-      <h3>You're in — I'll be in touch.</h3>
+      <div class="lp-form-success-icon" aria-hidden="true">✓</div>
+      <h3 tabindex="-1">You're in — I'll be in touch.</h3>
       <p>I'll WhatsApp you within 10 minutes. No spam, no cold calls — just a straight answer to whatever you've asked.</p>
     </div>`;
   if(typeof jtTrackConversion === 'function') jtTrackConversion('generate_lead',{
