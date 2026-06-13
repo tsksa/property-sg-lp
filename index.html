@@ -707,7 +707,13 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
   .mobile-bar{display:flex}
   .wa-float{display:none}
   .dark-toggle{bottom:80px}
-  body{padding-bottom:76px}
+  /* The mobile-bar adds env(safe-area-inset-bottom) to its own bottom
+     padding so it sits above iOS's home-indicator. Mirror that inset on
+     body's padding-bottom so the last row of content also clears the bar
+     on notched iPhones — without this the final paragraph or CTA on
+     mobile gets hidden behind the bar by however many points the inset is. */
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .dark-toggle{bottom:calc(80px + env(safe-area-inset-bottom))}
 }
 
 /* ── Scroll Animations ── */
