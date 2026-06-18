@@ -191,7 +191,7 @@
       +       '</select>'
       +     '</div>'
       +     '<div class="pf-row">'
-      +       '<select name="interest">'
+      +       '<select name="interest" required>'
       +         '<option value="" disabled selected>Bedroom preference</option>'
       +         '<option>1 BR</option>'
       +         '<option>2 BR</option>'
