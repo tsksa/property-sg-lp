@@ -143,3 +143,8 @@ img{max-width:100%;height:auto}
   .lp-hero,.lp-section,.lp-case,.lp-final{padding-left:16px;padding-right:16px}
   .lp-form-card{padding-left:18px;padding-right:18px}
 }
+
+/* Visible keyboard focus indicator (WCAG 2.4.7).
+   `outline:none` on inputs above hides the default ring during type/select;
+   restore a strong brand-coloured ring for keyboard navigation only. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
