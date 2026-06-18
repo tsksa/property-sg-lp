@@ -1005,9 +1005,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
       <div class="hero-form-row">
         <label for="hero-name" class="sr-only">Your name</label>
-        <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words">
         <label for="hero-phone" class="sr-only">Phone number</label>
-        <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)">
+        <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off">
       </div>
       <div class="hero-form-row">
         <label for="hero-proptype" class="sr-only">Property type</label>
@@ -1553,7 +1553,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <option value="+971">🇦🇪 +971</option>
         </select>
         <label for="final-phone" class="sr-only">Phone number</label>
-        <input id="final-phone" type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)">
+        <input id="final-phone" type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off">
       </div>
       <label for="final-intent" class="sr-only">What are you looking to do</label>
       <select id="final-intent" name="intent" required>
@@ -1579,7 +1579,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </div>
       <form class="footer-newsletter-form" id="footerNewsletter" aria-label="Newsletter signup">
         <label for="footer-email" class="sr-only">Email address</label>
-        <input id="footer-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+        <input id="footer-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required autocapitalize="off" autocorrect="off">
         <button type="submit">Subscribe</button>
       </form>
     </div>
@@ -1659,7 +1659,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 
       <label>
         <span>Email address</span>
-        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email">
+        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="off" autocorrect="off">
       </label>
 
       <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
@@ -1678,9 +1678,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <p>One-page PDF covering every HDB document, fee, and deadline — MOP check, CPF refund, OTP fees, online endorsement, Resale Completion. Current for the April 2026 HDB process. Plus one market update email per month (unsubscribe anytime).</p>
     <form class="exit-popup-form" id="exitForm" aria-labelledby="exitFormTitle">
       <label for="exit-name" class="sr-only">Your name</label>
-      <input id="exit-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+      <input id="exit-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words">
       <label for="exit-email" class="sr-only">Email address</label>
-      <input id="exit-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
+      <input id="exit-email" type="email" name="email" placeholder="Email address" autocomplete="email" required autocapitalize="off" autocorrect="off">
       <button type="submit">Get the checklist (free)</button>
     </form>
   </div>
