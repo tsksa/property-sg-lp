@@ -255,6 +255,10 @@
 
   function submitModal(){
     if(modalForm.company_website.value) return;
+    // The form has novalidate, so call reportValidity() explicitly to surface
+    // the inputs' required/pattern/type=email constraints via native tooltips
+    // instead of sending empty fields to the server only to alert() on the 400.
+    if(!modalForm.reportValidity()) return;
     var original = modalSubmit.textContent;
     modalSubmit.disabled = true;
     modalSubmit.textContent = 'Submitting...';
