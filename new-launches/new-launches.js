@@ -290,7 +290,7 @@
       if(!result.ok) throw new Error('submit failed');
       var copy = INTENT_COPY[modalIntent.value] || INTENT_COPY.interest;
       modal.querySelector('.nl-modal-card').innerHTML = ''
-        + '<button class="nl-modal-close" aria-label="Close" data-close>&times;</button>'
+        + '<button type="button" class="nl-modal-close" aria-label="Close" data-close><span aria-hidden="true">&times;</span></button>'
         + '<div class="pf-success">'
         +   '<div class="pf-success-icon">✓</div>'
         +   '<h4>You\'re registered.</h4>'
