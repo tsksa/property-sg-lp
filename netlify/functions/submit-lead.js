@@ -472,9 +472,17 @@ function checkSuspiciousEmail(email) {
     return 'email_gmail_dot_abuse';
   }
 
-  // Rule: 4+ consecutive digits in local part is a strong bot signature
-  // (e.g. "j8472@…", "user1234@…", "abc9999@…").
-  if (/\d{4,}/.test(local)) {
+  // Rule: 6+ consecutive digits in local part is a strong bot signature
+  // (e.g. "user123456@…", "abc999999@…").
+  //
+  // The threshold used to be 4+ but that caught extremely common legitimate
+  // patterns — Singaporeans regularly use birth-year suffixes on Gmail
+  // (john1995@…, mary2003@…, chen.weiqiang2023@…) and 4-digit phone-suffix
+  // emails. The time-on-form + reCAPTCHA + honeypot gates already block
+  // most bots; this is defence in depth, not the primary filter, so the
+  // conservative tradeoff is to accept some borderline spam to avoid losing
+  // real leads to silent rejection.
+  if (/\d{6,}/.test(local)) {
     return 'email_digit_cluster';
   }
 
