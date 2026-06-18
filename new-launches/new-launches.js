@@ -291,11 +291,17 @@
       var copy = INTENT_COPY[modalIntent.value] || INTENT_COPY.interest;
       modal.querySelector('.nl-modal-card').innerHTML = ''
         + '<button class="nl-modal-close" aria-label="Close" data-close>&times;</button>'
-        + '<div class="pf-success">'
-        +   '<div class="pf-success-icon">✓</div>'
+        + '<div class="pf-success" role="status" aria-live="polite">'
+        +   '<div class="pf-success-icon" aria-hidden="true">✓</div>'
         +   '<h4>You\'re registered.</h4>'
         +   '<p>' + copy.success + '</p>'
         + '</div>';
+      // Move focus to the close button so keyboard users have something
+      // to act on (the submit button they were focused on is gone).
+      // role=status above triggers screen-reader announcement of the
+      // heading + body without stealing focus.
+      var newClose = modal.querySelector('.nl-modal-close');
+      if(newClose) newClose.focus();
       if(typeof gtag === 'function') gtag('event','generate_lead',{
         method: 'website_modal',
         lead_type: 'new_launch_registration',
