@@ -1612,7 +1612,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </a>
 
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
+<button class="dark-toggle" id="darkToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"><span aria-hidden="true">🌙</span></button>
 
 <!-- PDPA Cookie Consent Banner -->
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-labelledby="cookieBannerText">
@@ -1962,7 +1962,7 @@ if(statsSection)statsObserver.observe(statsSection);
 // ── Dark Mode Toggle ──
 const dt=document.getElementById('darkToggle');
 if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');
-function updateToggleIcon(){dt.textContent=document.body.classList.contains('dark-mode')?'☀️':'🌙';}
+function updateToggleIcon(){const isDark=document.body.classList.contains('dark-mode');dt.innerHTML='<span aria-hidden="true">'+(isDark?'☀️':'🌙')+'</span>';dt.setAttribute('aria-pressed',isDark?'true':'false');dt.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');}
 updateToggleIcon();
 dt.addEventListener('click',()=>{
   document.body.classList.toggle('dark-mode');
