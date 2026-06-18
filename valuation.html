@@ -271,7 +271,7 @@ footer a{color:rgba(255,255,255,0.8)}
         <div class="val-row">
           <div class="val-group">
             <label class="val-group-label" for="postalCode">Postal code</label>
-            <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="e.g. 238859" maxlength="6" autocomplete="postal-code" required>
+            <input id="postalCode" name="postalCode" type="text" inputmode="numeric" pattern="[0-9]{6}" placeholder="e.g. 238859" maxlength="6" autocomplete="postal-code" required spellcheck="false">
           </div>
           <div class="val-group">
             <label class="val-group-label" for="unitNumber">Unit no. <span class="val-optional">(optional)</span></label>
@@ -302,19 +302,19 @@ footer a{color:rgba(255,255,255,0.8)}
 
         <div class="val-group">
           <label class="val-group-label" for="fullName">Full name</label>
-          <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required>
+          <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required spellcheck="false">
           <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
         </div>
 
         <div class="val-row">
           <div class="val-group">
             <label class="val-group-label" for="mobile">Mobile</label>
-            <input id="mobile" name="mobile" type="tel" pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" placeholder="e.g. 8188 1488" autocomplete="tel" required>
+            <input id="mobile" name="mobile" type="tel" pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" placeholder="e.g. 8188 1488" autocomplete="tel" required spellcheck="false">
             <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
           </div>
           <div class="val-group">
             <label class="val-group-label" for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required spellcheck="false">
             <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
           </div>
         </div>
