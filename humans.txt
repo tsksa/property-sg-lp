@@ -1,0 +1,40 @@
+# humanstxt.org — the humans behind joetay.com
+
+/* TEAM */
+
+  Property Advisor & Owner: Joe Tay
+  Role: District Director, ERA Realty Network Pte Ltd
+  CEA Registration: R009618D
+  Agency Lic.: L3002382K
+  Contact: joe [at] joetay.com
+  Phone: +65 8188 1488
+  WhatsApp: https://wa.me/6581881488
+  Location: Singapore
+
+/* SITE */
+
+  Last update: 2026/06
+  Standards: HTML5, JSON-LD, WCAG 2.1 AA
+  Language: English (Singapore)
+  CMS: Static site (Netlify-hosted)
+  Tooling: Vanilla JavaScript, Netlify Functions, Twilio WhatsApp,
+           Calendly, Google reCAPTCHA v3
+
+/* THANKS */
+
+  Every Singapore homeowner who's trusted me with their HDB,
+  condo, landed, or commercial transaction since 2009. The
+  reviews on the testimonials section are real — past clients
+  who agreed to be quoted.
+
+  Past tenants, landlords, and buyers — your honest feedback
+  built this practice.
+
+# ASCII
+
+   ____                            __         ____ ___
+  / __ \_________  ____  ___  _____/ /___  __/ ____/ //_/
+ / /_/ / ___/ __ \/ __ \/ _ \/ ___/ __/ / / /\__ \/ ,<
+/ ____/ /  / /_/ / /_/ /  __/ /  / /_/ /_/ /___/ / /| |
+\_/   /_/   \____/ .___/\___/_/   \__/\__, //____/_/ |_|
+                /_/                  /____/
