@@ -115,29 +115,44 @@ exports.handler = async (event) => {
   }
 
   // ─── Gate 5: reCAPTCHA v3 (only enforced when secret configured) ──
+  //
+  // Fail-open philosophy:
+  //   - low score (< 0.5)              → silent drop (real bot signal)
+  //   - missing token / verify error   → forward with review_required flag
+  //
+  // reCAPTCHA's JS CDN can be unavailable to legitimate users for reasons
+  // that aren't bot-like — corporate firewall blocking google.com,
+  // ad blocker stripping the script, regional restriction (mainland China,
+  // some MEA networks), or the 4-second client-side wait timing out on
+  // a slow mobile connection. Failing closed there silently drops real
+  // leads with no recovery path: form shows success, lead never arrives.
+  //
+  // Forwarding with the review flag means Joe sees the lead with a ⚠️
+  // prefix on his Twilio WhatsApp template and can judge for himself.
   let recaptchaScore = null;
   let recaptchaError = null;
+  let recaptchaTokenMissing = false;
   if (process.env.RECAPTCHA_SECRET) {
     if (!payload.recaptcha_token) {
-      // Token expected once site key deployed — log + silently drop
-      await logSpam(event, payload, 'recaptcha_missing_token', ip);
-      return OK_RESPONSE;
-    }
-    const result = await verifyRecaptcha(payload.recaptcha_token, ip);
-    recaptchaScore = result.score;
-    recaptchaError = result.error;
+      recaptchaTokenMissing = true;
+    } else {
+      const result = await verifyRecaptcha(payload.recaptcha_token, ip);
+      recaptchaScore = result.score;
+      recaptchaError = result.error;
 
-    if (recaptchaError || recaptchaScore === null) {
-      await logSpam(event, payload, 'recaptcha_verify_failed:' + (recaptchaError || 'no_score'), ip);
-      return OK_RESPONSE;
-    }
-    if (recaptchaScore < 0.5) {
-      await logSpam(event, payload, 'recaptcha_low_score:' + recaptchaScore, ip);
-      return OK_RESPONSE;
+      // Only drop on a real bot-score signal (< 0.5). Verify errors fall
+      // through to review-required just like a missing token.
+      if (recaptchaScore !== null && recaptchaScore < 0.5) {
+        await logSpam(event, payload, 'recaptcha_low_score:' + recaptchaScore, ip);
+        return OK_RESPONSE;
+      }
     }
   }
 
-  const reviewRequired = recaptchaScore !== null && recaptchaScore < 0.7;
+  const reviewRequired =
+    recaptchaTokenMissing ||
+    !!recaptchaError ||
+    (recaptchaScore !== null && recaptchaScore < 0.7);
 
   // ─── Forward + notify ──────────────────────────────────────────────
   const enriched = {
