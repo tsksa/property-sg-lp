@@ -143,3 +143,6 @@ img{max-width:100%;height:auto}
   .lp-hero,.lp-section,.lp-case,.lp-final{padding-left:16px;padding-right:16px}
   .lp-form-card{padding-left:18px;padding-right:18px}
 }
+
+/* Screen-reader-only utility (visually hidden, announceable) */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
