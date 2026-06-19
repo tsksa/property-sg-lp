@@ -78,6 +78,10 @@
   }, true);
 
   window.addEventListener('message', function(e){
+    // Only trust messages from the real Calendly origin — any other iframe
+    // (Matterport, YouTube, embedded ads) or injected script could otherwise
+    // post a fake calendly.event_scheduled and inflate the Lead conversion count.
+    if(e.origin !== 'https://calendly.com') return;
     var data = e.data || {};
     if(data.event === 'calendly.event_scheduled'){
       window.jtTrackConversion('generate_lead', {
