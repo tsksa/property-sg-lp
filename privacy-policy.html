@@ -52,7 +52,7 @@ footer a{color:#666}
 <main>
   <h1>Privacy Policy</h1>
   <p class="lede">How PropertySG collects, uses, discloses and protects your personal data.</p>
-  <p class="updated">Last updated: 18 April 2026</p>
+  <p class="updated">Last updated: 11 June 2026</p>
 
   <div class="callout">
     This policy is issued in accordance with the Singapore <strong>Personal Data Protection Act 2012 (PDPA)</strong>. By submitting your details through our website, forms, WhatsApp, or scheduled consultations, you consent to the collection and use of your personal data as described below.
@@ -90,11 +90,14 @@ footer a{color:#666}
   <p>You may withdraw consent or opt out of marketing communications at any time by contacting our Data Protection Officer (see Section 11).</p>
 
   <h2>4. Disclosure to third parties</h2>
-  <p>We only share your data with third parties where necessary to deliver our service, and under appropriate confidentiality and data-protection safeguards:</p>
+  <p>We only share your data with third parties where necessary to deliver our service or to operate this website, and under appropriate confidentiality and data-protection safeguards:</p>
   <ul>
     <li><strong>Property portals</strong> (PropertyGuru, 99.co, SRX, EdgeProp) — to list your property, with your prior consent.</li>
     <li><strong>Scheduling providers</strong> (Calendly) — when you book a consultation.</li>
-    <li><strong>Messaging platforms</strong> (WhatsApp / Meta) — when you initiate contact via those channels.</li>
+    <li><strong>Messaging platforms</strong> (WhatsApp / Meta) — when you initiate contact via those channels. Outbound notifications to our team are delivered via <strong>Twilio</strong> (WhatsApp Business API provider).</li>
+    <li><strong>Form processing &amp; lead routing</strong> — form submissions are handled by <strong>Netlify Functions</strong> (hosting, including transient rate-limit storage of IP and email) and forwarded to a private Google Sheet for record-keeping.</li>
+    <li><strong>Bot &amp; abuse prevention</strong> — submissions are scored by <strong>Google reCAPTCHA v3</strong> to filter automated traffic; this involves Google receiving your IP address, browser fingerprint, and on-page interaction signals per <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+    <li><strong>Analytics &amp; advertising measurement</strong> — anonymous usage statistics and conversion events are collected via <strong>Google Analytics 4</strong> and <strong>Google Ads conversion tracking</strong>; further detail in Section 8.</li>
     <li><strong>Professional service providers</strong> — conveyancing lawyers, valuers and photographers engaged for your transaction.</li>
     <li><strong>Regulators and law enforcement</strong> — where required by Singapore law.</li>
   </ul>
@@ -115,8 +118,15 @@ footer a{color:#666}
   </ul>
   <p>Requests can be sent to our contact below. We will respond within 30 days as required by the PDPA.</p>
 
-  <h2>8. Cookies and analytics</h2>
-  <p>Our website uses minimal cookies and local storage only for essential functions (e.g., remembering whether you closed a popup, dark-mode preference). We do not use advertising or cross-site tracking cookies.</p>
+  <h2>8. Cookies, analytics and conversion tracking</h2>
+  <p>Our website uses cookies and local storage for three purposes:</p>
+  <ul>
+    <li><strong>Essential</strong> — remembering whether you closed a popup, dark-mode preference, and similar UI state. Set in your browser only, not shared with any third party.</li>
+    <li><strong>Analytics</strong> — <strong>Google Analytics 4</strong> sets first-party <code>_ga</code> / <code>_ga_*</code> cookies to measure page views and session activity in aggregate. We have configured GA4 to anonymise IP addresses where supported.</li>
+    <li><strong>Conversion tracking</strong> — when you arrive via a Google Ads click, <strong>Google Ads conversion tracking</strong> sets <code>_gcl_*</code> cookies so we can measure whether the click resulted in a phone call, WhatsApp message, valuation enquiry or consultation booking. This is aggregated measurement only — we do not use it for cross-site behavioural advertising on this site.</li>
+  </ul>
+  <p>You can opt out of Google Analytics across all sites by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-Out browser add-on</a>, or by blocking cookies for <code>google-analytics.com</code> and <code>googletagmanager.com</code> in your browser settings. Blocking these does not affect your ability to use the site.</p>
+  <p>We do not run remarketing pixels, behavioural ad targeting, or third-party advertising cookies on this site.</p>
 
   <h2>9. Children's data</h2>
   <p>Our services are directed at adults aged 21 and above (the minimum age for property transactions in Singapore). We do not knowingly collect data from minors.</p>
