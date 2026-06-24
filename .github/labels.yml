@@ -1,0 +1,76 @@
+# GitHub labels — synced via crazy-max/ghaction-github-labeler or
+# manually via `gh label create` from this file. The labels listed
+# here are the canonical set used by Dependabot (PR #77), the issue
+# templates (PR #79), and any future automation.
+
+# ─── Theme labels (what kind of work) ─────────────────────────────────
+- name: "perf"
+  color: "0E8A16"
+  description: "Performance improvement"
+
+- name: "a11y"
+  color: "5319E7"
+  description: "Accessibility (WCAG) fix"
+
+- name: "seo"
+  color: "1D76DB"
+  description: "SEO / schema / metadata"
+
+- name: "security"
+  color: "B60205"
+  description: "Security hardening or fix"
+
+- name: "compliance"
+  color: "C5DEF5"
+  description: "Legal / regulatory (PDPA, etc.)"
+
+- name: "infra"
+  color: "BFD4F2"
+  description: "Build / CI / hosting / dotfiles"
+
+- name: "docs"
+  color: "0075CA"
+  description: "Documentation only"
+
+- name: "content"
+  color: "FBCA04"
+  description: "Editorial copy / images / reviews"
+
+# ─── State labels (where it is in the workflow) ───────────────────────
+- name: "bug"
+  color: "D73A4A"
+  description: "Confirmed regression or defect"
+
+- name: "good first issue"
+  color: "7057FF"
+  description: "Suitable for first-time contributors"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Joe is open to outside help on this"
+
+- name: "blocked"
+  color: "C2E0C6"
+  description: "Awaiting external input or upstream fix"
+
+# ─── Automation labels (used by Dependabot + CI) ──────────────────────
+- name: "dependencies"
+  color: "0366D6"
+  description: "Dependency update (Dependabot)"
+
+- name: "ci"
+  color: "F9D0C4"
+  description: "Continuous Integration / GitHub Actions"
+
+# ─── Resolution labels ────────────────────────────────────────────────
+- name: "duplicate"
+  color: "CFD3D7"
+  description: "Already reported elsewhere"
+
+- name: "wontfix"
+  color: "FFFFFF"
+  description: "Closed without resolution — by design or out of scope"
+
+- name: "invalid"
+  color: "E4E669"
+  description: "Not actionable as filed"
