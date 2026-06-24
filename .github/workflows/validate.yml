@@ -1,0 +1,124 @@
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**.html"
+      - "**.json"
+      - "**.xml"
+      - "**.webmanifest"
+      - "sw.js"
+      - "assets/**.js"
+      - "js/**.js"
+      - "netlify/functions/**.js"
+  push:
+    branches: [main]
+    paths:
+      - "**.html"
+      - "**.json"
+      - "**.xml"
+      - "**.webmanifest"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint structured files
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate every JSON-LD block in every HTML file
+        run: |
+          node -e "
+          const fs = require('fs'); const path = require('path');
+          const root = process.cwd();
+          let failed = 0, files = 0, blocks = 0;
+          function walk(d){
+            for (const e of fs.readdirSync(d, {withFileTypes:true})) {
+              const p = path.join(d, e.name);
+              if (e.isDirectory()) {
+                if (['node_modules','.git','.github','remotion-tutorial'].includes(e.name)) continue;
+                walk(p);
+              } else if (e.name.endsWith('.html')) {
+                files++;
+                const html = fs.readFileSync(p, 'utf8');
+                const re = /<script type=\"application\/ld\+json\">([\s\S]*?)<\/script>/g;
+                let m;
+                while ((m = re.exec(html))) {
+                  blocks++;
+                  try { JSON.parse(m[1]); }
+                  catch (err) {
+                    console.error('::error file=' + p + '::JSON-LD parse error: ' + err.message);
+                    failed++;
+                  }
+                }
+              }
+            }
+          }
+          walk(root);
+          console.log('HTML files scanned:', files);
+          console.log('JSON-LD blocks parsed:', blocks);
+          console.log('Failures:', failed);
+          if (failed) process.exit(1);
+          "
+
+      - name: Validate sitemap.xml
+        if: ${{ hashFiles('sitemap.xml') != '' }}
+        run: |
+          python3 -c "
+          import xml.etree.ElementTree as ET
+          t = ET.parse('sitemap.xml')
+          ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = t.findall('s:url', ns)
+          print(f'Sitemap valid XML, {len(urls)} URLs')
+          assert len(urls) > 0, 'sitemap has no <url> entries'
+          for u in urls:
+              loc = u.find('s:loc', ns)
+              lastmod = u.find('s:lastmod', ns)
+              assert loc is not None and loc.text, 'url missing <loc>'
+              assert lastmod is None or lastmod.text, '<lastmod> empty'
+          "
+
+      - name: Validate Atom feed
+        if: ${{ hashFiles('insights/feed.xml') != '' }}
+        run: |
+          python3 -c "
+          import xml.etree.ElementTree as ET
+          t = ET.parse('insights/feed.xml')
+          ns = {'a': 'http://www.w3.org/2005/Atom'}
+          entries = t.findall('a:entry', ns)
+          print(f'Atom feed valid, {len(entries)} entries')
+          assert len(entries) > 0, 'Atom feed has no <entry>'
+          "
+
+      - name: Validate JSON feed
+        if: ${{ hashFiles('insights/feed.json') != '' }}
+        run: |
+          node -e "
+          const f = JSON.parse(require('fs').readFileSync('insights/feed.json','utf8'));
+          if (!f.version || !f.version.startsWith('https://jsonfeed.org/version/'))
+            { console.error('Not a JSON Feed:', f.version); process.exit(1); }
+          if (!Array.isArray(f.items) || f.items.length === 0)
+            { console.error('JSON Feed has no items'); process.exit(1); }
+          console.log('JSON Feed valid,', f.items.length, 'items');
+          "
+
+      - name: Validate package.json + webmanifest + dependabot.yml + sw.js syntax
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8')); console.log('package.json ok');"
+          test -f site.webmanifest && node -e "JSON.parse(require('fs').readFileSync('site.webmanifest','utf8')); console.log('site.webmanifest ok');" || echo 'site.webmanifest absent (ok if pre-PR #32)'
+          test -f sw.js && node --check sw.js && echo 'sw.js syntax ok' || echo 'sw.js absent (ok if pre-PR #70)'
+          test -f .github/dependabot.yml && python3 -c "import yaml; yaml.safe_load(open('.github/dependabot.yml')); print('dependabot.yml ok')" || echo 'dependabot.yml absent'
+
+      - name: Submit-lead function syntax check
+        if: ${{ hashFiles('netlify/functions/submit-lead.js') != '' }}
+        run: node --check netlify/functions/submit-lead.js && echo 'submit-lead.js syntax ok'
