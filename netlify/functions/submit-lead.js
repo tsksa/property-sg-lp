@@ -424,9 +424,26 @@ exports.handler = async (event) => {
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function getClientIp(event) {
+  // Netlify's edge sets x-nf-client-connection-ip to the real TCP peer it
+  // observed for this request. The client cannot inject or forge it — it's
+  // stamped by Netlify after they terminate the TLS connection.
+  //
+  // x-forwarded-for is unsafe to read first because a client can send their
+  // own X-Forwarded-For header that Netlify appends to (not strips). Using
+  // the leftmost XFF entry as the client IP lets attackers spoof the value
+  // they want recorded — defeating the rate-limit gate (Gate 4) and
+  // poisoning logSpam records.
+  //
+  // Order:
+  //   1. x-nf-client-connection-ip (Netlify-authoritative; production)
+  //   2. x-forwarded-for leftmost   (other reverse-proxy setups; fallback)
+  //   3. client-ip                  (CloudFront-style; rare)
+  if (event.headers['x-nf-client-connection-ip']) {
+    return event.headers['x-nf-client-connection-ip'];
+  }
   const xff = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'];
   if (xff) return xff.split(',')[0].trim();
-  return event.headers['client-ip'] || event.headers['x-nf-client-connection-ip'] || '';
+  return event.headers['client-ip'] || '';
 }
 
 function validateRequiredFields(payload, isNewsletterOnly) {
