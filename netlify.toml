@@ -16,6 +16,11 @@
     # HSTS — force HTTPS for two years, include all subdomains, preload-eligible.
     # Safe because joetay.com is HTTPS-only on Netlify and has no HTTP subdomains.
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # Isolate the browsing context from other-origin tabs (tabnabbing defence
+    # complementing the per-link rel="noopener" from PR #50).
+    # "allow-popups" lets the WhatsApp / Calendly / external links keep opening
+    # in new tabs; only cross-origin window.opener is blocked.
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
 
 [[headers]]
   for = "/*.jpg"
