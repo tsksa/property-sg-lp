@@ -23,25 +23,48 @@
 //   - Valuation requests        → existing approved SID (override via TWILIO_VALUATION_CONTENT_SID)
 // freevaluation.sg runs separately and uses its own template / env vars.
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json',
-};
-
-// Return 200 OK to every rejected submission so bots don't get a clear signal.
-const OK_RESPONSE = { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+// Build per-request CORS headers based on the requesting Origin. Echoes the
+// Origin back only if it's in the allow-list (joetay.com production + the
+// Netlify deploy-preview / branch-deploy patterns). Anything else gets no
+// Access-Control-Allow-Origin and the browser blocks the response.
+//
+// Why echo instead of '*': '*' lets any third-party site embed a form that
+// POSTs to this endpoint and pollutes Joe's lead pipeline (his quota, his
+// Twilio template credits, his Sheets row count). Honeypot + time-on-form +
+// reCAPTCHA still catch most abuse, but the browser-level origin check
+// adds another layer with near-zero false positives.
+//
+// curl / Postman / cron jobs don't send an Origin header at all — those
+// bypass the check, which is fine: they're trusted server-to-server callers.
+function getCorsHeaders(origin) {
+  const allowed = (
+    origin === 'https://joetay.com' ||
+    origin === 'https://www.joetay.com' ||
+    /^https:\/\/[\w-]+--[\w-]+\.netlify\.app$/.test(origin || '') ||
+    /^https:\/\/[\w-]+\.netlify\.app$/.test(origin || '')
+  );
+  return {
+    'Access-Control-Allow-Origin': allowed ? origin : 'null',
+    'Vary': 'Origin',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+    'Content-Type': 'application/json',
+  };
+}
 
 exports.handler = async (event) => {
+  const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
+  const OK_RESPONSE = { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
+
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Method not allowed' }),
     };
   }
@@ -52,7 +75,7 @@ exports.handler = async (event) => {
   } catch {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Invalid JSON' }),
     };
   }
@@ -84,7 +107,7 @@ exports.handler = async (event) => {
   if (fieldError) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: fieldError }),
     };
   }
@@ -94,7 +117,7 @@ exports.handler = async (event) => {
   if (!isNewsletterOnly && !isValidSingaporePhone(payload.mobile_number)) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Please enter a valid Singapore phone number' }),
     };
   }
@@ -115,29 +138,44 @@ exports.handler = async (event) => {
   }
 
   // ─── Gate 5: reCAPTCHA v3 (only enforced when secret configured) ──
+  //
+  // Fail-open philosophy:
+  //   - low score (< 0.5)              → silent drop (real bot signal)
+  //   - missing token / verify error   → forward with review_required flag
+  //
+  // reCAPTCHA's JS CDN can be unavailable to legitimate users for reasons
+  // that aren't bot-like — corporate firewall blocking google.com,
+  // ad blocker stripping the script, regional restriction (mainland China,
+  // some MEA networks), or the 4-second client-side wait timing out on
+  // a slow mobile connection. Failing closed there silently drops real
+  // leads with no recovery path: form shows success, lead never arrives.
+  //
+  // Forwarding with the review flag means Joe sees the lead with a ⚠️
+  // prefix on his Twilio WhatsApp template and can judge for himself.
   let recaptchaScore = null;
   let recaptchaError = null;
+  let recaptchaTokenMissing = false;
   if (process.env.RECAPTCHA_SECRET) {
     if (!payload.recaptcha_token) {
-      // Token expected once site key deployed — log + silently drop
-      await logSpam(event, payload, 'recaptcha_missing_token', ip);
-      return OK_RESPONSE;
-    }
-    const result = await verifyRecaptcha(payload.recaptcha_token, ip);
-    recaptchaScore = result.score;
-    recaptchaError = result.error;
+      recaptchaTokenMissing = true;
+    } else {
+      const result = await verifyRecaptcha(payload.recaptcha_token, ip);
+      recaptchaScore = result.score;
+      recaptchaError = result.error;
 
-    if (recaptchaError || recaptchaScore === null) {
-      await logSpam(event, payload, 'recaptcha_verify_failed:' + (recaptchaError || 'no_score'), ip);
-      return OK_RESPONSE;
-    }
-    if (recaptchaScore < 0.5) {
-      await logSpam(event, payload, 'recaptcha_low_score:' + recaptchaScore, ip);
-      return OK_RESPONSE;
+      // Only drop on a real bot-score signal (< 0.5). Verify errors fall
+      // through to review-required just like a missing token.
+      if (recaptchaScore !== null && recaptchaScore < 0.5) {
+        await logSpam(event, payload, 'recaptcha_low_score:' + recaptchaScore, ip);
+        return OK_RESPONSE;
+      }
     }
   }
 
-  const reviewRequired = recaptchaScore !== null && recaptchaScore < 0.7;
+  const reviewRequired =
+    recaptchaTokenMissing ||
+    !!recaptchaError ||
+    (recaptchaScore !== null && recaptchaScore < 0.7);
 
   // ─── Forward + notify ──────────────────────────────────────────────
   const enriched = {
@@ -390,20 +428,37 @@ exports.handler = async (event) => {
   if (everythingFailed) {
     return {
       statusCode: 502,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Lead capture upstream failed' }),
     };
   }
 
-  return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+  return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function getClientIp(event) {
+  // Netlify's edge sets x-nf-client-connection-ip to the real TCP peer it
+  // observed for this request. The client cannot inject or forge it — it's
+  // stamped by Netlify after they terminate the TLS connection.
+  //
+  // x-forwarded-for is unsafe to read first because a client can send their
+  // own X-Forwarded-For header that Netlify appends to (not strips). Using
+  // the leftmost XFF entry as the client IP lets attackers spoof the value
+  // they want recorded — defeating the rate-limit gate (Gate 4) and
+  // poisoning logSpam records.
+  //
+  // Order:
+  //   1. x-nf-client-connection-ip (Netlify-authoritative; production)
+  //   2. x-forwarded-for leftmost   (other reverse-proxy setups; fallback)
+  //   3. client-ip                  (CloudFront-style; rare)
+  if (event.headers['x-nf-client-connection-ip']) {
+    return event.headers['x-nf-client-connection-ip'];
+  }
   const xff = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'];
   if (xff) return xff.split(',')[0].trim();
-  return event.headers['client-ip'] || event.headers['x-nf-client-connection-ip'] || '';
+  return event.headers['client-ip'] || '';
 }
 
 function validateRequiredFields(payload, isNewsletterOnly) {
@@ -472,9 +527,17 @@ function checkSuspiciousEmail(email) {
     return 'email_gmail_dot_abuse';
   }
 
-  // Rule: 4+ consecutive digits in local part is a strong bot signature
-  // (e.g. "j8472@…", "user1234@…", "abc9999@…").
-  if (/\d{4,}/.test(local)) {
+  // Rule: 6+ consecutive digits in local part is a strong bot signature
+  // (e.g. "user123456@…", "abc999999@…").
+  //
+  // The threshold used to be 4+ but that caught extremely common legitimate
+  // patterns — Singaporeans regularly use birth-year suffixes on Gmail
+  // (john1995@…, mary2003@…, chen.weiqiang2023@…) and 4-digit phone-suffix
+  // emails. The time-on-form + reCAPTCHA + honeypot gates already block
+  // most bots; this is defence in depth, not the primary filter, so the
+  // conservative tradeoff is to accept some borderline spam to avoid losing
+  // real leads to silent rejection.
+  if (/\d{6,}/.test(local)) {
     return 'email_digit_cluster';
   }
 
@@ -492,11 +555,29 @@ function checkSuspiciousEmail(email) {
   return null;
 }
 
-// Singapore mobile number: optional +65 prefix, then 8 digits starting with 6, 8, or 9.
-// Accepts spaces or hyphens as separators. Examples: 81881488, +65 8188 1488, 9123-4567.
+// Accepts:
+//   1) Singapore mobile: optional +65 prefix, then 8 digits starting with 6, 8, or 9.
+//      Examples: 81881488, +65 8188 1488, 9123-4567
+//   2) International: any other +<country code> followed by 6-15 digits.
+//      Examples: +60 12 345 6789 (MY), +86 138 0013 8000 (CN), +1 415 555 0100 (US)
+//
+// The homepage final-CTA form has a 15-country code selector
+// and concatenates `country_code + ' ' + phone` into mobile_number. Without the
+// international branch below the server rejected every non-SG lead with
+// "Please enter a valid Singapore phone number" — defeating the client-side
+// fix shipped in PR #158.
 function isValidSingaporePhone(phone) {
   if (!phone) return false;
-  const cleaned = String(phone).replace(/[\s\-]/g, '').replace(/^\+65/, '');
+  const trimmed = String(phone).trim();
+
+  // International (any leading +CC where CC != 65) — loose digit-count check.
+  if (/^\+(?!65[\s\-]?\d)/.test(trimmed)) {
+    const digits = trimmed.replace(/[\s\-]/g, '').replace(/^\+/, '');
+    return /^\d{8,15}$/.test(digits);
+  }
+
+  // Singapore mobile — strict.
+  const cleaned = trimmed.replace(/[\s\-]/g, '').replace(/^\+65/, '');
   if (cleaned.length !== 8) return false;
   if (!/^[689]/.test(cleaned)) return false;
   if (!/^\d+$/.test(cleaned)) return false;
