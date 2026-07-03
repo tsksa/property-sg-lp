@@ -206,6 +206,11 @@ nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(255,255,25
 nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
 nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:#666}
 nav .nav-links a:hover{color:#111}
+.nav-burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:none;cursor:pointer;padding:0;margin-left:8px}
+.nav-burger span{display:block;width:20px;height:2px;background:#111;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 nav .nav-cta{background:var(--navy);color:#fff;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:600;transition:all .25s}
 nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 
@@ -477,6 +482,7 @@ body.dark-mode nav{background:rgba(6,20,48,0.88);border-bottom-color:rgba(16,185
 body.dark-mode nav .logo{color:#fff}
 body.dark-mode nav .nav-links{color:rgba(232,236,243,0.7)}
 body.dark-mode nav .nav-links a:hover{color:var(--emerald)}
+body.dark-mode .nav-burger span{background:#e8ecf3}
 body.dark-mode .logo-bar{background:var(--navy);border-bottom-color:rgba(255,255,255,0.05)}
 body.dark-mode .logo-bar p{color:rgba(232,236,243,0.45)}
 body.dark-mode .logo-bar .logos span{color:#fff}
@@ -666,6 +672,8 @@ body.dark-mode .val-popup-form input::placeholder{color:rgba(232,236,243,0.4)}
 .val-popup-addr{background:var(--cream);border-left:3px solid var(--emerald);padding:10px 14px;border-radius:0 8px 8px 0;font-size:0.85rem;line-height:1.5;color:#333}
 .val-popup-addr.error{border-left-color:#e67e22;background:#fff8f0;color:#8a4a00}
 .val-popup-addr strong{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;color:#666;font-weight:700}
+.val-popup-err{display:none;background:#fdf1f1;border-left:3px solid #d9534f;padding:10px 14px;border-radius:0 8px 8px 0;font-size:0.85rem;line-height:1.5;color:#8a1f1b}
+body.dark-mode .val-popup-err{background:rgba(217,83,79,0.14);color:#f3b8b5}
 body.dark-mode .val-popup-addr{background:rgba(16,185,129,0.12);color:rgba(232,236,243,0.9)}
 body.dark-mode .val-popup-addr strong{color:rgba(232,236,243,0.6)}
 .val-popup-form button[type="submit"]{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;margin-top:6px}
@@ -729,7 +737,13 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 /* ── Mobile ── */
 @media(max-width:768px){
   nav{padding:0 20px}
-  nav .nav-links{display:none}
+  .nav-burger{display:flex}
+  nav .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.08);box-shadow:0 16px 40px rgba(0,0,0,0.08)}
+  nav .nav-links.open{display:flex}
+  nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(0,0,0,0.05);font-size:0.95rem}
+  nav .nav-links a:last-child{border-bottom:none}
+  body.dark-mode nav .nav-links{background:rgba(6,20,48,0.97);border-bottom-color:rgba(16,185,129,0.14)}
+  body.dark-mode nav .nav-links a{border-bottom-color:rgba(255,255,255,0.06)}
   .hero{padding:100px 20px 60px;min-height:100svh}
   .hero h1{letter-spacing:-1px}
   .hero-form{padding:20px}
@@ -976,7 +990,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 
 <nav>
   <div class="logo">PropertySG</div>
-  <div class="nav-links">
+  <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
     <a href="#problem">Why Joe</a>
     <a href="#solution">How It Works</a>
     <a href="#advisor">Advisor</a>
@@ -1027,7 +1044,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
       <div class="hero-or-divider" aria-hidden="true"><span>or</span></div>
-      <button type="button" class="hero-valuation-link" id="heroValuationLink">Get an instant valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
+      <button type="button" class="hero-valuation-link" id="heroValuationLink">Get a free valuation in 24h <span class="arrow-sm" aria-hidden="true">→</span></button>
     </form>
     <div class="hero-testimonial" aria-label="Customer testimonial">
       <span class="hero-stars" aria-hidden="true">★★★★★</span>
@@ -1641,8 +1658,30 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <div class="val-popup-inner">
     <button class="val-popup-close" id="valPopupClose" aria-label="Close">✕</button>
     <h3 id="valPopupTitle">Get your free valuation</h3>
-    <p class="val-popup-sub">Quick one — postal code, unit number, and your email. I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
+    <p class="val-popup-sub" id="valPopupSub">Quick one — postal code, unit number, and your email. I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
     <form class="val-popup-form" id="valPopupForm" novalidate>
+      <div id="valContactWrap" style="display:none">
+        <div class="val-popup-row">
+          <label>
+            <span>Your name</span>
+            <input type="text" name="contact_name" id="valContactName" placeholder="Your name" autocomplete="name">
+          </label>
+          <label>
+            <span>Phone number</span>
+            <input type="tel" name="contact_phone" id="valContactPhone" inputmode="tel" placeholder="e.g. 9123 4567" autocomplete="tel">
+          </label>
+        </div>
+        <label style="margin-top:14px;display:flex">
+          <span>Property type</span>
+          <select name="contact_prop_type" id="valContactPropType">
+            <option value="" disabled selected>Select property type</option>
+            <option>HDB</option>
+            <option>Condo</option>
+            <option>Landed</option>
+            <option>Commercial</option>
+          </select>
+        </label>
+      </div>
       <div class="val-popup-row">
         <label>
           <span>Postal code</span>
@@ -1679,6 +1718,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </label>
 
       <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+
+      <div class="val-popup-err" id="valPopupErr" role="alert"></div>
 
       <button type="submit">Get Free Valuation</button>
       <p class="val-popup-note">Free · No obligation · Reply within 24 hours</p>
@@ -1776,16 +1817,11 @@ document.getElementById('heroForm').addEventListener('submit',e=>{
   "I'll WhatsApp you within 24 hours. No spam, no cold calls.");
 });
 
-// Secondary hero CTA: "Or get an instant valuation →" — opens the valuation popup
+// Secondary hero CTA — opens the valuation popup directly. Hero fields that are
+// already filled carry over; missing ones are collected inside the popup itself.
 document.getElementById('heroValuationLink').addEventListener('click',()=>{
   const f=document.getElementById('heroForm');
-  const name=f.name.value.trim();
-  const phone=f.phone.value.trim();
-  const propType=f.propType.value;
-  if(!name){alert('Please enter your name first.');f.name.focus();return;}
-  if(!phone){alert('Please enter your phone number first.');f.phone.focus();return;}
-  if(!propType){alert('Please select your property type first.');f.propType.focus();return;}
-  openValPopup(name,phone,propType,f.newsletter_opt_in?.checked?1:0);
+  openValPopup(f.name.value.trim(),f.phone.value.trim(),f.propType.value,f.newsletter_opt_in?.checked?1:0);
 });
 
 // ── Valuation Popup (from hero form "Get valuation") ──
@@ -1798,22 +1834,50 @@ const valYearBuiltWrap=document.getElementById('valYearBuiltWrap');
 let valDetectedAddress='';
 let valContext={fullName:'',mobile:'',propType:'',newsletter_opt_in:0};
 
+const valContactWrap=document.getElementById('valContactWrap');
+const valPopupErr=document.getElementById('valPopupErr');
+function showValErr(msg,field){valPopupErr.textContent=msg;valPopupErr.style.display='block';if(field)field.focus();}
+function clearValErr(){valPopupErr.textContent='';valPopupErr.style.display='none';}
+function updateValConditionals(propType){
+  valHdbTypeWrap.style.display=propType==='HDB'?'flex':'none';
+  valYearBuiltWrap.style.display=propType==='Landed'?'flex':'none';
+  document.getElementById('valHdbType').required=propType==='HDB';
+  document.getElementById('valYearBuilt').required=propType==='Landed';
+}
+// Mirrors the server check: strict SG mobile, or international with a non-65 +CC.
+function isPlausiblePhone(p){
+  const c=String(p).replace(/[\s\-]/g,'');
+  if(/^\+(?!65)/.test(c)) return /^\+\d{8,15}$/.test(c);
+  return /^[689]\d{7}$/.test(c.replace(/^\+65/,''));
+}
 function openValPopup(fullName,mobile,propType,newsletter){
   valContext={fullName,mobile,propType,newsletter_opt_in:newsletter||0};
   valPopupForm.reset();
   valDetectedAddress='';
   valAddrBox.style.display='none';
-  valHdbTypeWrap.style.display=propType==='HDB'?'flex':'none';
-  valYearBuiltWrap.style.display=propType==='Landed'?'flex':'none';
-  document.getElementById('valHdbType').required=propType==='HDB';
-  document.getElementById('valYearBuilt').required=propType==='Landed';
+  clearValErr();
+  // Hero gave us everything → skip the contact block; otherwise collect it here,
+  // pre-filling whatever the visitor already typed.
+  const haveContact=!!(fullName&&mobile&&propType);
+  valContactWrap.style.display=haveContact?'none':'block';
+  document.getElementById('valPopupSub').textContent=(haveContact
+    ?'Quick one — postal code, unit number, and your email. '
+    :'Quick one — your details plus the address. ')+
+    "I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.";
+  if(!haveContact){
+    if(fullName) valPopupForm.contact_name.value=fullName;
+    if(mobile) valPopupForm.contact_phone.value=mobile;
+    if(propType) valPopupForm.contact_prop_type.value=propType;
+  }
+  updateValConditionals(propType||'');
   // Reset submit button state
   const btn=valPopupForm.querySelector('button[type=submit]');
   btn.disabled=false;btn.textContent='Get Free Valuation';
   valPopup.classList.add('show');
   document.body.style.overflow='hidden';
-  setTimeout(()=>valPostalInput.focus(),120);
+  setTimeout(()=>{(haveContact?valPostalInput:valPopupForm.contact_name).focus()},120);
 }
+document.getElementById('valContactPropType').addEventListener('change',e=>updateValConditionals(e.target.value));
 function closeValPopup(){
   valPopup.classList.remove('show');
   document.body.style.overflow='';
@@ -1854,25 +1918,36 @@ valPopupForm.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   if(f.company_website.value) return; // honeypot
+  clearValErr();
+  // Contact details: from the hero form when it was complete, else from the popup's own fields.
+  const needContact=valContactWrap.style.display!=='none';
+  const fullName=needContact?f.contact_name.value.trim():valContext.fullName;
+  const mobile=needContact?f.contact_phone.value.trim():valContext.mobile;
+  const propType=needContact?f.contact_prop_type.value:valContext.propType;
   const postal=f.postal_code.value.trim();
   const unit=f.unit_number.value.trim();
   const email=f.email.value.trim();
-  if(!/^\d{6}$/.test(postal)){alert('Please enter a valid 6-digit postal code.');valPostalInput.focus();return;}
-  if(!unit){alert('Please enter your unit number.');f.unit_number.focus();return;}
-  if(!email||!f.email.checkValidity()){alert('Please enter a valid email address.');f.email.focus();return;}
+  if(needContact){
+    if(!fullName){showValErr('Please enter your name.',f.contact_name);return;}
+    if(!mobile||!isPlausiblePhone(mobile)){showValErr('Please enter a valid phone number — SG mobile, or include your +country code.',f.contact_phone);return;}
+    if(!propType){showValErr('Please select your property type.',f.contact_prop_type);return;}
+  }
+  if(!/^\d{6}$/.test(postal)){showValErr('Please enter a valid 6-digit postal code.',valPostalInput);return;}
+  if(!unit){showValErr('Please enter your unit number.',f.unit_number);return;}
+  if(!email||!f.email.checkValidity()){showValErr('Please enter a valid email address.',f.email);return;}
   const data={
     lead_type:'valuation',
-    property_type:valContext.propType,
+    property_type:propType,
     postal_code:postal,
     detected_address:valDetectedAddress,
     unit_number:unit,
-    full_name:valContext.fullName,
-    mobile_number:valContext.mobile,
+    full_name:fullName,
+    mobile_number:mobile,
     email:email,
     newsletter_opt_in:valContext.newsletter_opt_in
   };
-  if(valContext.propType==='HDB'&&f.hdb_type) data.hdb_type=f.hdb_type.value;
-  if(valContext.propType==='Landed'&&f.year_built) data.year_built=f.year_built.value.trim();
+  if(propType==='HDB'&&f.hdb_type) data.hdb_type=f.hdb_type.value;
+  if(propType==='Landed'&&f.year_built) data.year_built=f.year_built.value.trim();
   handleFormSubmit(f,data,
     "Thanks — your valuation request is in.",
     "I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.");
@@ -1949,6 +2024,22 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
   "Thanks — your consultation is booked.",
   "I'll call you back shortly.");
 });
+
+// Mobile nav (hamburger)
+const navBurger=document.getElementById('navBurger');
+const navLinksEl=document.getElementById('navLinks');
+if(navBurger&&navLinksEl){
+  const setNav=open=>{
+    navLinksEl.classList.toggle('open',open);
+    navBurger.classList.toggle('open',open);
+    navBurger.setAttribute('aria-expanded',open?'true':'false');
+    navBurger.setAttribute('aria-label',open?'Close menu':'Open menu');
+  };
+  navBurger.addEventListener('click',()=>setNav(!navLinksEl.classList.contains('open')));
+  navLinksEl.addEventListener('click',e=>{if(e.target.tagName==='A')setNav(false);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navLinksEl.classList.contains('open'))setNav(false);});
+  document.addEventListener('click',e=>{if(navLinksEl.classList.contains('open')&&!e.target.closest('nav'))setNav(false);});
+}
 
 // Progress bar + nav intensify
 const _nav=document.querySelector('nav');
