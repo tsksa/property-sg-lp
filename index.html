@@ -1908,6 +1908,29 @@ document.getElementById('footerNewsletter').addEventListener('submit',e=>{
   "The next Singapore property market update lands in your inbox soon.");
 });
 
+// ── Final CTA: swap phone pattern when country code changes ──
+// Singapore default rejects any non-SG number; loosen pattern when user picks another country.
+(function(){
+  const cc=document.getElementById('final-cc');
+  const phone=document.getElementById('final-phone');
+  if(!cc||!phone) return;
+  const sgPattern=phone.getAttribute('pattern');
+  const sgTitle=phone.getAttribute('title');
+  const intlPattern='^[\\d\\s\\-]{5,15}$';
+  const intlTitle='Phone number (digits, spaces, or dashes; 5–15 chars)';
+  function syncPattern(){
+    if(cc.value==='+65'){
+      phone.setAttribute('pattern',sgPattern);
+      phone.setAttribute('title',sgTitle);
+    }else{
+      phone.setAttribute('pattern',intlPattern);
+      phone.setAttribute('title',intlTitle);
+    }
+  }
+  cc.addEventListener('change',syncPattern);
+  syncPattern();
+})();
+
 // ── Final CTA consultation form ──
 document.getElementById('finalForm').addEventListener('submit',e=>{
   e.preventDefault();
