@@ -3,7 +3,7 @@
 //   1. Honeypot (company_website / _honeypot / website_url) → silent 200
 //   1b. Time-on-form (submits in < 3s when timestamp present) → silent 200
 //   2. Required fields → 400 with "Missing field: …"
-//   2b. Singapore phone format → 400 with "Please enter a valid Singapore phone number"
+//   2b. Phone format (SG strict, or +CC international) → 400 with "Please enter a valid phone number"
 //   3. Suspicious email (disposable provider / gmail dot abuse / digit cluster /
 //      consonant cluster / vowel-less local) → silent 200
 //   4. Rate-limit: 3/IP/hour, 1/email/day (Netlify Blobs persistent store) → silent 200
@@ -25,7 +25,8 @@
 
 // Build per-request CORS headers based on the requesting Origin. Echoes the
 // Origin back only if it's in the allow-list (joetay.com production + the
-// Netlify deploy-preview / branch-deploy patterns). Anything else gets no
+// deploy-preview / branch-deploy subdomains of this site, propertysg78 —
+// not any *.netlify.app, which anyone can register). Anything else gets no
 // Access-Control-Allow-Origin and the browser blocks the response.
 //
 // Why echo instead of '*': '*' lets any third-party site embed a form that
@@ -40,8 +41,7 @@ function getCorsHeaders(origin) {
   const allowed = (
     origin === 'https://joetay.com' ||
     origin === 'https://www.joetay.com' ||
-    /^https:\/\/[\w-]+--[\w-]+\.netlify\.app$/.test(origin || '') ||
-    /^https:\/\/[\w-]+\.netlify\.app$/.test(origin || '')
+    /^https:\/\/(?:[\w-]+--)?propertysg78\.netlify\.app$/.test(origin || '')
   );
   return {
     'Access-Control-Allow-Origin': allowed ? origin : 'null',
@@ -118,7 +118,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 400,
       headers: corsHeaders,
-      body: JSON.stringify({ ok: false, error: 'Please enter a valid Singapore phone number' }),
+      body: JSON.stringify({ ok: false, error: 'Please enter a valid phone number' }),
     };
   }
 
