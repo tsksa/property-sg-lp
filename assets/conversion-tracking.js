@@ -78,6 +78,7 @@
   }, true);
 
   window.addEventListener('message', function(e){
+    if(e.origin !== 'https://calendly.com') return;
     var data = e.data || {};
     if(data.event === 'calendly.event_scheduled'){
       window.jtTrackConversion('generate_lead', {

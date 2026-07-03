@@ -1725,23 +1725,27 @@ document.getElementById('valPopupClose').addEventListener('click',closeValPopup)
 valPopup.addEventListener('click',e=>{if(e.target===valPopup) closeValPopup();});
 
 function _valDebounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+function setValAddressBox(title,message,isError){
+  valAddrBox.textContent='';
+  const strong=document.createElement('strong');
+  strong.textContent=title;
+  valAddrBox.append(strong,document.createTextNode(message));
+  valAddrBox.className=isError?'val-popup-addr error':'val-popup-addr';
+  valAddrBox.style.display='block';
+}
 valPostalInput.addEventListener('input',_valDebounce(async()=>{
   const code=valPostalInput.value.replace(/\D/g,'').slice(0,6);
   if(code!==valPostalInput.value) valPostalInput.value=code;
   if(code.length!==6){valAddrBox.style.display='none';valDetectedAddress='';return;}
   try{
-    const res=await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${code}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
+    const res=await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${encodeURIComponent(code)}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
     const data=await res.json();
     if(data.results&&data.results.length>0){
       const r=data.results[0];
       valDetectedAddress=`${r.BLK_NO?r.BLK_NO+' ':''}${r.ROAD_NAME||''}, Singapore ${r.POSTAL||code}`.trim().replace(/\s+/g,' ');
-      valAddrBox.className='val-popup-addr';
-      valAddrBox.innerHTML=`<strong>Detected address</strong>${valDetectedAddress}`;
-      valAddrBox.style.display='block';
+      setValAddressBox('Detected address',valDetectedAddress,false);
     } else {
-      valAddrBox.className='val-popup-addr error';
-      valAddrBox.innerHTML=`<strong>Postal code not found</strong>You can still continue — I'll confirm when I reply.`;
-      valAddrBox.style.display='block';
+      setValAddressBox('Postal code not found',"You can still continue — I'll confirm when I reply.",true);
       valDetectedAddress='';
     }
   }catch(err){valAddrBox.style.display='none';valDetectedAddress='';}
@@ -1804,6 +1808,29 @@ document.getElementById('footerNewsletter').addEventListener('submit',e=>{
   "Subscribed — thanks.",
   "The next Singapore property market update lands in your inbox soon.");
 });
+
+// Keep final CTA phone validation in sync with the selected country code.
+// Singapore remains strict; international selections allow common 7–15 digit numbers.
+const finalCountryCode=document.getElementById('final-cc');
+const finalPhone=document.getElementById('final-phone');
+const SG_PHONE_PATTERN='^(\\+65[\\s\\-]?)?[689]\\d{3}[\\s\\-]?\\d{4}$';
+const INTL_PHONE_PATTERN='^[0-9][0-9\\s\\-()]{5,18}[0-9]$';
+function syncFinalPhonePattern(){
+  if(!finalCountryCode||!finalPhone) return;
+  if(finalCountryCode.value==='+65'){
+    finalPhone.pattern=SG_PHONE_PATTERN;
+    finalPhone.placeholder='e.g. 8188 1488';
+    finalPhone.title='Singapore mobile (8 digits, starts with 6, 8, or 9)';
+  }else{
+    finalPhone.pattern=INTL_PHONE_PATTERN;
+    finalPhone.placeholder='e.g. 415 555 0123';
+    finalPhone.title='Enter your local phone number without the country code';
+  }
+}
+if(finalCountryCode&&finalPhone){
+  finalCountryCode.addEventListener('change',syncFinalPhonePattern);
+  syncFinalPhonePattern();
+}
 
 // ── Final CTA consultation form ──
 document.getElementById('finalForm').addEventListener('submit',e=>{

@@ -1,8 +1,9 @@
 // Netlify Function: submit-lead  (joetay.com)
 // Pipeline (each gate either silently 200s or returns a real 400 to humans):
 //   1. Honeypot (company_website / _honeypot / website_url) → silent 200
+//   1b. Time-on-form: sub-3s submits with time_on_form_ms present → silent 200
 //   2. Required fields → 400 with "Missing field: …"
-//   2b. Singapore phone format → 400 with "Please enter a valid Singapore phone number"
+//   2b. Phone format → 400 unless Singapore or +CC international format is valid
 //   3. Suspicious email (disposable provider / gmail dot abuse / digit cluster /
 //      consonant cluster / vowel-less local) → silent 200
 //   4. Rate-limit: 3/IP/hour, 1/email/day (Netlify Blobs persistent store) → silent 200
@@ -22,25 +23,39 @@
 //   - Valuation requests        → existing approved SID (override via TWILIO_VALUATION_CONTENT_SID)
 // freevaluation.sg runs separately and uses its own template / env vars.
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Content-Type': 'application/json',
-};
+const ALLOWED_ORIGIN_PATTERNS = [
+  /^https:\/\/(?:www\.)?joetay\.com$/i,
+  /^https:\/\/(?:[a-z0-9-]+--)?propertysg78\.netlify\.app$/i,
+];
 
-// Return 200 OK to every rejected submission so bots don't get a clear signal.
-const OK_RESPONSE = { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+function getCorsHeaders(event) {
+  const origin = event.headers.origin || event.headers.Origin || '';
+  const allowedOrigin = ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin)) ? origin : 'https://joetay.com';
+
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json',
+  };
+}
+
+function okResponse(headers) {
+  // Return 200 OK to every rejected submission so bots don't get a clear signal.
+  return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
+}
 
 exports.handler = async (event) => {
+  const corsHeaders = getCorsHeaders(event);
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Method not allowed' }),
     };
   }
@@ -51,7 +66,7 @@ exports.handler = async (event) => {
   } catch {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Invalid JSON' }),
     };
   }
@@ -62,7 +77,19 @@ exports.handler = async (event) => {
   // ─── Gate 1: Honeypot ──────────────────────────────────────────────
   if (payload.company_website || payload._honeypot || payload.website_url) {
     await logSpam(event, payload, 'honeypot_triggered', ip);
-    return OK_RESPONSE;
+    return okResponse(corsHeaders);
+  }
+
+  // ─── Gate 1b: Time-on-form ─────────────────────────────────────────
+  // Client sends time_on_form_ms = Date.now() - page-load timestamp.
+  // Real humans take 10+ seconds to fill the form; sub-3-second submits
+  // are bots. Missing field = legacy/cached page → don't block.
+  if (payload.time_on_form_ms != null) {
+    const tOnForm = Number(payload.time_on_form_ms);
+    if (Number.isFinite(tOnForm) && tOnForm < 3000) {
+      await logSpam(event, payload, 'submitted_too_fast:' + tOnForm + 'ms', ip);
+      return okResponse(corsHeaders);
+    }
   }
 
   // ─── Gate 2: Required fields ───────────────────────────────────────
@@ -71,18 +98,19 @@ exports.handler = async (event) => {
   if (fieldError) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: fieldError }),
     };
   }
 
-  // ─── Gate 2b: Singapore phone format ───────────────────────────────
-  // Real 400 with friendly message — humans see it and can retry.
-  if (!isNewsletterOnly && !isValidSingaporePhone(payload.mobile_number)) {
+  // ─── Gate 2b: Phone format ─────────────────────────────────────────
+  // Singapore numbers stay strict; international leads are accepted when they
+  // include a non-65 +CC prefix and a plausible E.164-length subscriber number.
+  if (!isNewsletterOnly && !isValidPhoneNumber(payload.mobile_number)) {
     return {
       statusCode: 400,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({ ok: false, error: 'Please enter a valid Singapore phone number' }),
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: false, error: 'Please enter a valid phone number' }),
     };
   }
 
@@ -91,14 +119,14 @@ exports.handler = async (event) => {
   const emailReason = checkSuspiciousEmail(emailValue);
   if (emailReason) {
     await logSpam(event, payload, emailReason, ip);
-    return OK_RESPONSE;
+    return okResponse(corsHeaders);
   }
 
   // ─── Gate 4: Rate limiting ─────────────────────────────────────────
   const rate = await checkRateLimit(ip, emailValue);
   if (rate.blocked) {
     await logSpam(event, payload, rate.reason, ip);
-    return OK_RESPONSE;
+    return okResponse(corsHeaders);
   }
 
   // ─── Gate 5: reCAPTCHA v3 (only enforced when secret configured) ──
@@ -108,7 +136,7 @@ exports.handler = async (event) => {
     if (!payload.recaptcha_token) {
       // Token expected once site key deployed — log + silently drop
       await logSpam(event, payload, 'recaptcha_missing_token', ip);
-      return OK_RESPONSE;
+      return okResponse(corsHeaders);
     }
     const result = await verifyRecaptcha(payload.recaptcha_token, ip);
     recaptchaScore = result.score;
@@ -116,11 +144,11 @@ exports.handler = async (event) => {
 
     if (recaptchaError || recaptchaScore === null) {
       await logSpam(event, payload, 'recaptcha_verify_failed:' + (recaptchaError || 'no_score'), ip);
-      return OK_RESPONSE;
+      return okResponse(corsHeaders);
     }
     if (recaptchaScore < 0.5) {
       await logSpam(event, payload, 'recaptcha_low_score:' + recaptchaScore, ip);
-      return OK_RESPONSE;
+      return okResponse(corsHeaders);
     }
   }
 
@@ -354,20 +382,23 @@ exports.handler = async (event) => {
   if (webhookResult && !webhookResult.ok) {
     return {
       statusCode: 502,
-      headers: CORS_HEADERS,
+      headers: corsHeaders,
       body: JSON.stringify({ ok: false, error: 'Lead capture upstream failed' }),
     };
   }
 
-  return { statusCode: 200, headers: CORS_HEADERS, body: JSON.stringify({ ok: true }) };
+  return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
 function getClientIp(event) {
+  const netlifyClientIp = event.headers['x-nf-client-connection-ip'] || event.headers['X-Nf-Client-Connection-Ip'];
+  if (netlifyClientIp) return netlifyClientIp.trim();
+
   const xff = event.headers['x-forwarded-for'] || event.headers['X-Forwarded-For'];
   if (xff) return xff.split(',')[0].trim();
-  return event.headers['client-ip'] || event.headers['x-nf-client-connection-ip'] || '';
+  return event.headers['client-ip'] || event.headers['Client-Ip'] || '';
 }
 
 function validateRequiredFields(payload, isNewsletterOnly) {
@@ -465,6 +496,21 @@ function isValidSingaporePhone(phone) {
   if (!/^[689]/.test(cleaned)) return false;
   if (!/^\d+$/.test(cleaned)) return false;
   return true;
+}
+
+// International numbers must include a non-Singapore country code. Keep this
+// intentionally format-light: browsers collect the selected +CC separately, and
+// the backend only needs to avoid rejecting legitimate overseas buyers.
+function isValidInternationalPhone(phone) {
+  if (!phone) return false;
+  const normalized = String(phone).trim().replace(/[\s\-().]/g, '');
+  if (!/^\+[1-9]\d{6,14}$/.test(normalized)) return false;
+  if (/^\+65/.test(normalized)) return false;
+  return true;
+}
+
+function isValidPhoneNumber(phone) {
+  return isValidSingaporePhone(phone) || isValidInternationalPhone(phone);
 }
 
 async function checkRateLimit(ip, email) {
