@@ -195,6 +195,7 @@ a:hover{text-decoration:underline}
       <div class="calc-result-label">Max property price</div>
       <div class="calc-result-value big" id="maxPrice">$—</div>
       <div class="calc-result-detail" id="maxPriceDetail">Fill in your numbers on the left</div>
+      <div class="calc-result-detail" id="maxPriceBinding" style="margin-top:4px;font-weight:600"></div>
     </div>
 
     <div class="calc-result">
@@ -336,6 +337,21 @@ function recalc(){
   document.getElementById('maxPriceDetail').textContent = income > 0
     ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.${loanType==='Bank' ? ' (MAS stress rate)' : ''}`
     : 'Enter your monthly income to calculate';
+
+  // Name the constraint that actually caps the price, so changing an input
+  // that isn't the bottleneck (e.g. income when downpayment binds) doesn't
+  // look like the calculator is broken.
+  let bindingNote = '';
+  if (income > 0 && maxPrice > 0 && isFinite(maxPrice)) {
+    if (priceFromDownpayment <= priceFromLoan && priceFromDownpayment <= priceFromMinCash) {
+      bindingNote = 'What limits you: your downpayment (25% must come from cash + CPF). Adding savings raises this — higher income alone won’t.';
+    } else if (priceFromMinCash <= priceFromLoan) {
+      bindingNote = 'What limits you: the 5% minimum-cash rule for bank loans. More cash savings raises this.';
+    } else {
+      bindingNote = `What limits you: your income (${loanType === 'Bank' ? 'MSR/TDSR' : 'MSR'} monthly cap). Higher income or a longer tenure raises this.`;
+    }
+  }
+  document.getElementById('maxPriceBinding').textContent = bindingNote;
   document.getElementById('maxLoanDetail').textContent = income > 0
     ? `75% LTV cap · MSR ${fmt(msrMax)}/mo max${loanType==='Bank' ? ` · TDSR ${fmt(Math.max(0,(income*0.55)-otherDebt))}/mo` : ''}`
     : '';
