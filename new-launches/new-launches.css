@@ -198,6 +198,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .project-tour-card-link::after{content:"→";transition:transform .25s}
 .project-tour-card-link:hover::after{transform:translateX(3px)}
 
+/* Click-to-load tour facade — keeps third-party tour servers out of the
+   page-load path; the iframe is injected only when the visitor asks for it. */
+.tour-facade{position:absolute;inset:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border:0;cursor:pointer;color:#fff;font-family:inherit}
+.tour-facade:hover .tour-facade-label{background:var(--emerald-dark)}
+.tour-facade-icon{font-family:'Fraunces',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--emerald);letter-spacing:1px}
+.tour-facade-label{background:var(--emerald);color:#fff;font-size:0.82rem;font-weight:700;padding:10px 20px;border-radius:999px;transition:background .2s}
+.tour-facade-hint{font-size:0.7rem;color:rgba(255,255,255,0.55);font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+.tour-facade-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:rgba(255,255,255,0.85);font-size:0.88rem;line-height:1.5;padding:20px;text-align:center}
+.tour-facade-fallback a{color:var(--emerald);font-weight:700}
+
 /* Linked-out tour card (opens in new tab, no iframe) */
 .project-tour-link-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:14px;padding:26px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 32px -16px rgba(11,30,63,0.32)}
 .project-tour-link-card h4{font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:600;letter-spacing:-0.2px}
