@@ -615,6 +615,8 @@ body.dark-mode .dark-toggle{background:#13294d;border-color:rgba(16,185,129,0.25
 
 /* ── Inline form success state (shared across hero / final CTA / exit popup) ── */
 .form-success{text-align:center;padding:28px 16px;animation:formPop .35s cubic-bezier(.34,1.56,.64,1)}
+.form-error-banner{background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.28);color:#991b1b;padding:10px 14px;border-radius:8px;margin-top:12px;font-size:0.86rem;line-height:1.5}
+.form-error-banner a{color:#991b1b;text-decoration:underline;font-weight:600}
 .form-success-icon{width:56px;height:56px;background:var(--emerald);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 16px;box-shadow:0 8px 24px rgba(16,185,129,0.32)}
 .form-success h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;letter-spacing:-0.3px;color:var(--navy);margin-bottom:8px;line-height:1.25}
 .form-success p{font-size:0.92rem;color:#555;line-height:1.6;max-width:320px;margin:0 auto}
@@ -983,6 +985,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </style>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
+<noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
@@ -1042,6 +1045,14 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
+      <noscript>
+        <div style="margin-top:14px;padding:12px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:8px;font-size:0.86rem;color:rgba(255,255,255,0.92);line-height:1.5">
+          <strong>JavaScript required.</strong> Enable JS to submit this form, or reach Joe directly:<br>
+          <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp +65 8188 1488</a>
+          ·
+          <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
+        </div>
+      </noscript>
       <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
       <div class="hero-or-divider" aria-hidden="true"><span>or</span></div>
       <button type="button" class="hero-valuation-link" id="heroValuationLink">Get a free valuation in 24h <span class="arrow-sm" aria-hidden="true">→</span></button>
@@ -1598,6 +1609,14 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </select>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit">Get a Free Consultation</button>
+      <noscript>
+        <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
+          <strong>JavaScript is required for this form.</strong> Enable JS, or contact Joe directly:
+          <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp</a>
+          ·
+          <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
+        </div>
+      </noscript>
       <p class="consult-note">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
     </form>
   </div>
@@ -1614,6 +1633,11 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <label for="footer-email" class="sr-only">Email address</label>
         <input id="footer-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
         <button type="submit">Subscribe</button>
+        <noscript>
+          <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);border-radius:6px;font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.5">
+            <strong>JavaScript needed.</strong> Email Joe at <a href="mailto:joe@joetay.com" style="color:#10b981;font-weight:600;text-decoration:underline">joe@joetay.com</a> to subscribe manually.
+          </div>
+        </noscript>
       </form>
     </div>
     <div class="footer-bottom">
@@ -1656,7 +1680,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
 <div class="val-popup" id="valPopup" role="dialog" aria-labelledby="valPopupTitle" aria-modal="true">
   <div class="val-popup-inner">
-    <button class="val-popup-close" id="valPopupClose" aria-label="Close">✕</button>
+    <button type="button" class="val-popup-close" id="valPopupClose" aria-label="Close"><span aria-hidden="true">✕</span></button>
     <h3 id="valPopupTitle">Get your free valuation</h3>
     <p class="val-popup-sub" id="valPopupSub">Quick one — postal code, unit number, and your email. I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
     <form class="val-popup-form" id="valPopupForm" novalidate>
@@ -1722,6 +1746,13 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <div class="val-popup-err" id="valPopupErr" role="alert"></div>
 
       <button type="submit">Get Free Valuation</button>
+      <noscript>
+        <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
+          <strong>JavaScript needed.</strong>
+          <a href="https://wa.me/6581881488?text=I%27d%20like%20a%20free%20property%20valuation" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp Joe</a>
+          for your free valuation instead.
+        </div>
+      </noscript>
       <p class="val-popup-note">Free · No obligation · Reply within 24 hours</p>
     </form>
   </div>
@@ -1739,6 +1770,11 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <label for="exit-email" class="sr-only">Email address</label>
       <input id="exit-email" type="email" name="email" placeholder="Email address" autocomplete="email" required>
       <button type="submit">Get the checklist (free)</button>
+      <noscript>
+        <div style="margin-top:12px;padding:10px 12px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:6px;font-size:0.84rem;color:#991b1b;line-height:1.5">
+          <strong>JavaScript needed.</strong> Email <a href="mailto:joe@joetay.com?subject=Send%20me%20the%20Seller%27s%20Checklist" style="color:#10b981;font-weight:600;text-decoration:underline">joe@joetay.com</a> to get the checklist.
+        </div>
+      </noscript>
     </form>
   </div>
 </div>
@@ -1762,7 +1798,7 @@ async function submitLead(data){
 }
 
 function showFormSuccess(form,title,body,data){
-  form.innerHTML=`<div class="form-success"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
+  form.innerHTML=`<div class="form-success" role="status"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
   // Move focus to the success heading so keyboard / screen-reader users
   // aren't dropped to <body> when the submit button gets detached.
   // tabindex="-1" makes the h3 programmatically focusable without putting
@@ -1786,7 +1822,18 @@ function showFormSuccess(form,title,body,data){
 function showFormError(btn,originalHTML){
   btn.disabled=false;
   btn.innerHTML=originalHTML;
-  alert("Sorry, something went wrong. Please try again or call Joe at +65 8188 1488.");
+  // Inline error banner replaces the previous alert() — keeps the user in flow
+  // and gives screen-reader users an announceable message via role="alert".
+  const form=btn.closest('form');
+  if(!form){return;}
+  let banner=form.querySelector('.form-error-banner');
+  if(!banner){
+    banner=document.createElement('div');
+    banner.className='form-error-banner';
+    banner.setAttribute('role','alert');
+    btn.parentNode.insertBefore(banner,btn.nextSibling);
+  }
+  banner.innerHTML='Sorry, something went wrong. Please try again or <a href="https://wa.me/6581881488" target="_blank" rel="noopener">WhatsApp Joe directly</a>.';
 }
 
 async function handleFormSubmit(form,data,successTitle,successBody){
@@ -1875,13 +1922,27 @@ function openValPopup(fullName,mobile,propType,newsletter){
   btn.disabled=false;btn.textContent='Get Free Valuation';
   valPopup.classList.add('show');
   document.body.style.overflow='hidden';
+  // Remember the element that opened the popup so we can return focus on close
+  valPopup._returnFocusEl=document.activeElement;
   setTimeout(()=>{(haveContact?valPostalInput:valPopupForm.contact_name).focus()},120);
 }
 document.getElementById('valContactPropType').addEventListener('change',e=>updateValConditionals(e.target.value));
 function closeValPopup(){
   valPopup.classList.remove('show');
   document.body.style.overflow='';
+  // Restore focus to the element that opened the popup (a11y best practice)
+  const ret=valPopup._returnFocusEl;
+  if(ret&&typeof ret.focus==='function'){try{ret.focus();}catch(e){}}
 }
+// Focus trap: keep Tab inside the modal so keyboard users can't escape it
+valPopup.addEventListener('keydown',e=>{
+  if(e.key!=='Tab'||!valPopup.classList.contains('show'))return;
+  const focusable=valPopup.querySelectorAll('button,[href],input:not([type=hidden]),select,textarea,[tabindex]:not([tabindex="-1"])');
+  if(!focusable.length)return;
+  const first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 document.getElementById('valPopupClose').addEventListener('click',closeValPopup);
 valPopup.addEventListener('click',e=>{if(e.target===valPopup) closeValPopup();});
 
