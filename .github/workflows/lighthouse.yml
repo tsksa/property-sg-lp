@@ -1,0 +1,46 @@
+name: Lighthouse
+
+# Runs Lighthouse against the live joetay.com homepage + valuation form on
+# a weekly cadence so Joe gets baseline scores even without merging a PR,
+# and on every push to main so any merged change is benchmarked.
+#
+# Manual trigger (workflow_dispatch) lets Joe re-run after any deploy
+# without waiting for the next push.
+
+on:
+  schedule:
+    # Monday 02:00 UTC = 10:00 SGT — after Joe's typical morning workflow
+    - cron: "0 2 * * 1"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit homepage + valuation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        url:
+          - https://joetay.com/
+          - https://joetay.com/valuation.html
+          - https://joetay.com/calculator/
+          - https://joetay.com/insights/
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse mobile audit
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: ${{ matrix.url }}
+          # Mobile audit by default — that's the primary visitor profile.
+          # Set explicit settings so a future Lighthouse upgrade doesn't
+          # silently change the audit form factor.
+          configPath: "./.github/lighthouse-config.json"
+          uploadArtifacts: true
+          temporaryPublicStorage: true
