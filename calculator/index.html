@@ -287,7 +287,17 @@ function recalc(){
   // Tenure cap: HDB flats max 25yrs, or 65 - age, whichever lower
   const ageCapTenure = Math.max(5, 65 - age);
   const maxTenure = loanType === 'HDB' ? Math.min(25, ageCapTenure) : Math.min(30, ageCapTenure);
-  if(tenure > maxTenure) tenure = maxTenure;
+  const tenureEl = document.getElementById('tenure');
+  if(tenure > maxTenure){
+    tenure = maxTenure;
+    // Reflect the cap back into the input unless the user is currently
+    // editing it — otherwise the cursor would jump mid-keystroke. They'll
+    // see the clamped value once they tab out of (or away from) the field.
+    if(document.activeElement !== tenureEl) tenureEl.value = tenure;
+  }
+  // Keep the max attribute in sync so HTML5 validation and the up/down
+  // spinners reflect the current (age + loanType)-derived ceiling.
+  tenureEl.max = String(maxTenure);
 
   // Rates: HDB concessionary (no stress test) / Bank MAS stress rate (4% floor)
   const annualRate = loanType === 'HDB' ? 0.026 : 0.040;
