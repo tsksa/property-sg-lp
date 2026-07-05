@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security disclosure
+    url: https://joetay.com/.well-known/security.txt
+    about: For security vulnerabilities, follow the RFC 9116 disclosure path — don't open a public GitHub issue.
+  - name: Property advisory enquiry
+    url: https://joetay.com/#book
+    about: To book Joe for a consultation, please use the booking form on the site.
