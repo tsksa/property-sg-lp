@@ -2111,13 +2111,21 @@ dt.addEventListener('click',()=>{
 // ── Parallax on Testimonials ──
 const testiSection=document.querySelector('.testimonials');
 if(testiSection){
+  // Cache the testimonial cards once so the scroll handler doesn't query
+  // the DOM on every event; throttle to 1 update per animation frame so
+  // we never do more work than the screen can display.
+  const testiCards=testiSection.querySelectorAll('.testi-card');
+  let testiRaf=0;
   window.addEventListener('scroll',()=>{
-    const rect=testiSection.getBoundingClientRect();
-    const center=rect.top+rect.height/2-window.innerHeight/2;
-    const cards=testiSection.querySelectorAll('.testi-card');
-    cards.forEach((c,i)=>{
-      const offset=center*0.03*(i%2===0?1:-1);
-      c.style.transform='translateY('+offset+'px)';
+    if(testiRaf) return;
+    testiRaf=requestAnimationFrame(()=>{
+      testiRaf=0;
+      const rect=testiSection.getBoundingClientRect();
+      const center=rect.top+rect.height/2-window.innerHeight/2;
+      for(let i=0;i<testiCards.length;i++){
+        const offset=center*0.03*(i%2===0?1:-1);
+        testiCards[i].style.transform='translateY('+offset+'px)';
+      }
     });
   },{passive:true});
 }
