@@ -715,6 +715,13 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 .wa-float:hover{transform:scale(1.08)}
 .wa-float svg{width:28px;height:28px;fill:#fff}
 
+/* Back-to-top — visible after scrolling past first viewport */
+.back-to-top{position:fixed;bottom:24px;right:88px;z-index:199;width:44px;height:44px;border-radius:50%;background:rgba(11,30,63,0.86);color:#fff;border:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,visibility .2s,transform .2s,background .2s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(11,30,63,1)}
+.back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
+@media(max-width:640px){.back-to-top{bottom:80px;right:18px}}
+
 /* ── Mobile Sticky CTA Bar ── */
 .mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid #eee;box-shadow:0 -4px 20px rgba(0,0,0,0.06);padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:10px}
 .mobile-bar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;border-radius:12px;font-weight:600;font-size:0.92rem;transition:transform .15s,opacity .2s}
@@ -2133,11 +2140,16 @@ if(navBurger&&navLinksEl){
 
 // Progress bar + nav intensify
 const _nav=document.querySelector('nav');
+const _backToTop=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-window.innerHeight;
   document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%';
   if(_nav) _nav.classList.toggle('scrolled',window.scrollY>24);
+  if(_backToTop) _backToTop.classList.toggle('visible',window.scrollY>600);
 },{passive:true});
+if(_backToTop){
+  _backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
 
 // Scroll reveal
 const reveals=document.querySelectorAll('.reveal');
