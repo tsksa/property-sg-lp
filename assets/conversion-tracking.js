@@ -2,6 +2,24 @@
 // Tracks lead form submissions, call taps, WhatsApp clicks, Calendly clicks, and Calendly bookings.
 // Google Ads direct conversion IDs/labels can be filled in after creating conversions in Google Ads.
 (function(){
+  // Defensive gtag wrap: drop any conversion event whose send_to still contains
+  // a PLACEHOLDER_ token. The inline onclick handlers across the site use
+  // labels like AW-XXX/PLACEHOLDER_WHATSAPP that Google Ads silently rejects;
+  // suppressing them avoids noisy invalid requests and confusing debug logs.
+  // The moment real conversion labels are pasted in, the wrap becomes a no-op.
+  if (typeof window.gtag === 'function') {
+    var _gtagOriginal = window.gtag;
+    window.gtag = function(){
+      if (arguments[0] === 'event' && arguments[1] === 'conversion') {
+        var params = arguments[2];
+        if (params && typeof params.send_to === 'string' && params.send_to.indexOf('PLACEHOLDER_') !== -1) {
+          return;
+        }
+      }
+      return _gtagOriginal.apply(this, arguments);
+    };
+  }
+
   window.JT_TRACKING = window.JT_TRACKING || {
     googleAdsConversionId: '', // e.g. AW-123456789
     leadConversionLabel: '',   // e.g. AbCdEfGhIjkLmNoPqRs
