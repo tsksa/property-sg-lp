@@ -182,7 +182,7 @@
       +       '<input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address">'
       +     '</div>'
       +     '<div class="pf-row" id="nlModalProjectRow" hidden>'
-      +       '<select name="project_select" aria-label="Which project?">'
+      +       '<select name="project_select" required aria-label="Which project?">'
       +         '<option value="" disabled selected>Which project?</option>'
       +         '<option>Newport Residences</option>'
       +         '<option>Tengah Garden Residences</option>'
