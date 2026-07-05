@@ -71,6 +71,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <style>
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 /* WCAG 2.3.3 — respect user's reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -90,6 +91,7 @@
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <a href="#main" class="skip-to-content">Skip to main content</a>
 
@@ -113,7 +115,7 @@
   </div>
 </section>
 
-<main class="blog-main blog-main-wide">
+<main id="main" tabindex="-1" class="blog-main blog-main-wide">
   <div class="blog-grid" role="list" aria-label="Insight articles">
     <a href="how-long-to-sell-hdb-singapore-2026.html" class="blog-card" role="listitem">
       <div class="blog-card-meta">

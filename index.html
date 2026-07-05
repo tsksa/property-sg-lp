@@ -194,6 +194,7 @@ fbq('track','PageView');
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet"></noscript>
 <style>
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 :root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf}
@@ -1020,6 +1021,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
@@ -1051,7 +1053,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </header>
 
 <!-- Hero -->
-<section class="hero" aria-label="Hero — free property valuation">
+<section class="hero" id="main" tabindex="-1" aria-label="Hero — free property valuation">
   <div class="hero-bg" role="img" aria-label="Staged Singapore home interior prepared for property sale or rental viewing"></div>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>

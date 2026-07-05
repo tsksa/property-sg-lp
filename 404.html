@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
 <style>
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
 html,body{height:100%}
@@ -58,6 +59,7 @@ footer .creds{font-size:0.7rem;color:#aaa;margin-top:4px}
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');gtag('event','404_view',{'page_path':location.pathname,'page_referrer':document.referrer||''});</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -66,7 +68,7 @@ footer .creds{font-size:0.7rem;color:#aaa;margin-top:4px}
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
   <div class="card">
     <span class="eyebrow">Error 404</span>
     <h1>That page doesn't exist.</h1>

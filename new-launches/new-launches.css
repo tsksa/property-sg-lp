@@ -1,3 +1,4 @@
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 /* ── Shared styles for /new-launches/ pages ── */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
