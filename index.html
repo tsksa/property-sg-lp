@@ -1798,7 +1798,7 @@ async function submitLead(data){
 }
 
 function showFormSuccess(form,title,body,data){
-  form.innerHTML=`<div class="form-success"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
+  form.innerHTML=`<div class="form-success" role="status"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
   // Move focus to the success heading so keyboard / screen-reader users
   // aren't dropped to <body> when the submit button gets detached.
   // tabindex="-1" makes the h3 programmatically focusable without putting

@@ -474,8 +474,12 @@ const PROJECT_NAME = 'The Serra Residences';
 const LANDING_PAGE = '/new-launches/the-serra-residences.html';
 
 function showSuccess(form){
+<<<<<<< HEAD
   form.innerHTML = `<div class="pf-success"><div class="pf-success-icon" aria-hidden="true">✓</div><h4 tabindex="-1">You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
   var sH=form.querySelector('.lp-form-success h3, .pf-success h4'); if(sH) sH.focus();
+=======
+  form.innerHTML = `<div class="pf-success" role="status"><div class="pf-success-icon" aria-hidden="true">✓</div><h4>You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
+>>>>>>> origin/claude/form-success-aria-live
   if(typeof gtag === 'function') gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});
   if(typeof fbq === 'function') fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});
 }
