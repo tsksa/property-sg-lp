@@ -118,6 +118,9 @@ a:hover{text-decoration:underline}
 .calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#888;line-height:1.6}
 .calc-footer a{color:#555}
 .calc-footer .creds{font-size:0.72rem;color:#aaa;margin-top:6px}
+/* Visible keyboard focus indicator (WCAG 2.4.7). outline:none on .calc-field
+   above hides the default ring; restore a brand emerald ring for keyboard nav. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
 </style>
 </head>
 <body>
