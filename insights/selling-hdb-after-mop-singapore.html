@@ -352,5 +352,20 @@
 </footer>
 
 <script src="/assets/conversion-tracking.js" defer></script>
+
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
+</button>
+<script>
+(function(){
+  var b=document.getElementById('backToTop');
+  if(!b) return;
+  window.addEventListener('scroll',function(){
+    b.classList.toggle('visible',window.scrollY>600);
+  },{passive:true});
+  b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+
 </body>
 </html>
