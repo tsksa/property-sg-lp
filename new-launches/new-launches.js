@@ -153,6 +153,11 @@
   // Time-on-form anti-spam: captured when the modal opens, sent on submit.
   // The Netlify Function drops submissions where this is < 3000ms.
   var modalOpenedAt = 0;
+  // The document-level keydown handler is attached once at first buildModal()
+  // and re-used across any subsequent rebuilds (e.g. tearing down after a
+  // success state). The handler references `modal` via closure on the
+  // module-scoped binding, so it always sees the current modal instance.
+  var modalKeydownAttached = false;
   function buildModal(){
     if(modal) return;
     modal = document.createElement('div');
@@ -225,21 +230,24 @@
       // button still resolve to the button's data-close attribute.
       if(e.target.closest('[data-close]')) closeModal();
     });
-    document.addEventListener('keydown', function(e){
-      if(modal.hidden) return;
-      if(e.key === 'Escape') { closeModal(); return; }
-      // Focus trap: cycle Tab/Shift+Tab within the modal so screen-reader
-      // and keyboard users can't tab into the page behind the dialog.
-      if(e.key !== 'Tab') return;
-      var focusable = modal.querySelectorAll(
-        'button:not([disabled]),[href],input:not([type=hidden]):not([disabled]),' +
-        'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
-      );
-      if(!focusable.length) return;
-      var first = focusable[0], last = focusable[focusable.length-1];
-      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    });
+    if(!modalKeydownAttached){
+      document.addEventListener('keydown', function(e){
+        if(!modal || modal.hidden) return;
+        if(e.key === 'Escape') { closeModal(); return; }
+        // Focus trap: cycle Tab/Shift+Tab within the modal so screen-reader
+        // and keyboard users can't tab into the page behind the dialog.
+        if(e.key !== 'Tab') return;
+        var focusable = modal.querySelectorAll(
+          'button:not([disabled]),[href],input:not([type=hidden]):not([disabled]),' +
+          'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+        );
+        if(!focusable.length) return;
+        var first = focusable[0], last = focusable[focusable.length-1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      });
+      modalKeydownAttached = true;
+    }
     modalForm.addEventListener('submit', function(e){
       e.preventDefault();
       submitModal();
