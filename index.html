@@ -1922,13 +1922,27 @@ function openValPopup(fullName,mobile,propType,newsletter){
   btn.disabled=false;btn.textContent='Get Free Valuation';
   valPopup.classList.add('show');
   document.body.style.overflow='hidden';
+  // Remember the element that opened the popup so we can return focus on close
+  valPopup._returnFocusEl=document.activeElement;
   setTimeout(()=>{(haveContact?valPostalInput:valPopupForm.contact_name).focus()},120);
 }
 document.getElementById('valContactPropType').addEventListener('change',e=>updateValConditionals(e.target.value));
 function closeValPopup(){
   valPopup.classList.remove('show');
   document.body.style.overflow='';
+  // Restore focus to the element that opened the popup (a11y best practice)
+  const ret=valPopup._returnFocusEl;
+  if(ret&&typeof ret.focus==='function'){try{ret.focus();}catch(e){}}
 }
+// Focus trap: keep Tab inside the modal so keyboard users can't escape it
+valPopup.addEventListener('keydown',e=>{
+  if(e.key!=='Tab'||!valPopup.classList.contains('show'))return;
+  const focusable=valPopup.querySelectorAll('button,[href],input:not([type=hidden]),select,textarea,[tabindex]:not([tabindex="-1"])');
+  if(!focusable.length)return;
+  const first=focusable[0],last=focusable[focusable.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 document.getElementById('valPopupClose').addEventListener('click',closeValPopup);
 valPopup.addEventListener('click',e=>{if(e.target===valPopup) closeValPopup();});
 
