@@ -41,6 +41,17 @@
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
 <link rel="preload" as="image" href="https://img.singmap.com/upload/broke/a0a87c09a8fa45f1b629fd39f27224c6/50ba3d549264456cbe67a97565d66d79/imgs/20250407/840d33d439e24a53afb1dd0b8e910682.png" fetchpriority="high" type="image/png">
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
 </head>
 <body>
 
