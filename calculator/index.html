@@ -118,6 +118,9 @@ a:hover{text-decoration:underline}
 .calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#888;line-height:1.6}
 .calc-footer a{color:#555}
 .calc-footer .creds{font-size:0.72rem;color:#aaa;margin-top:6px}
+/* Visible keyboard focus indicator (WCAG 2.4.7). outline:none on .calc-field
+   above hides the default ring; restore a brand emerald ring for keyboard nav. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
 </style>
 </head>
 <body>
@@ -148,7 +151,7 @@ a:hover{text-decoration:underline}
     <h2>Your numbers</h2>
     <p class="sub">All calculations happen locally in your browser — nothing is sent or stored.</p>
 
-    <div class="calc-loan-type">
+    <div class="calc-loan-type" role="radiogroup" aria-label="Loan type">
       <input type="radio" id="loanHDB" name="loanType" value="HDB" checked>
       <label for="loanHDB">HDB loan<span class="type-sub">Concessionary · 2.6%</span></label>
       <input type="radio" id="loanBank" name="loanType" value="Bank">
@@ -195,6 +198,7 @@ a:hover{text-decoration:underline}
       <div class="calc-result-label">Max property price</div>
       <div class="calc-result-value big" id="maxPrice">$—</div>
       <div class="calc-result-detail" id="maxPriceDetail">Fill in your numbers on the left</div>
+      <div class="calc-result-detail" id="maxPriceBinding" style="margin-top:4px;font-weight:600"></div>
     </div>
 
     <div class="calc-result">
@@ -283,7 +287,17 @@ function recalc(){
   // Tenure cap: HDB flats max 25yrs, or 65 - age, whichever lower
   const ageCapTenure = Math.max(5, 65 - age);
   const maxTenure = loanType === 'HDB' ? Math.min(25, ageCapTenure) : Math.min(30, ageCapTenure);
-  if(tenure > maxTenure) tenure = maxTenure;
+  const tenureEl = document.getElementById('tenure');
+  if(tenure > maxTenure){
+    tenure = maxTenure;
+    // Reflect the cap back into the input unless the user is currently
+    // editing it — otherwise the cursor would jump mid-keystroke. They'll
+    // see the clamped value once they tab out of (or away from) the field.
+    if(document.activeElement !== tenureEl) tenureEl.value = tenure;
+  }
+  // Keep the max attribute in sync so HTML5 validation and the up/down
+  // spinners reflect the current (age + loanType)-derived ceiling.
+  tenureEl.max = String(maxTenure);
 
   // Rates: HDB concessionary (no stress test) / Bank MAS stress rate (4% floor)
   const annualRate = loanType === 'HDB' ? 0.026 : 0.040;
@@ -336,6 +350,21 @@ function recalc(){
   document.getElementById('maxPriceDetail').textContent = income > 0
     ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.${loanType==='Bank' ? ' (MAS stress rate)' : ''}`
     : 'Enter your monthly income to calculate';
+
+  // Name the constraint that actually caps the price, so changing an input
+  // that isn't the bottleneck (e.g. income when downpayment binds) doesn't
+  // look like the calculator is broken.
+  let bindingNote = '';
+  if (income > 0 && maxPrice > 0 && isFinite(maxPrice)) {
+    if (priceFromDownpayment <= priceFromLoan && priceFromDownpayment <= priceFromMinCash) {
+      bindingNote = 'What limits you: your downpayment (25% must come from cash + CPF). Adding savings raises this — higher income alone won’t.';
+    } else if (priceFromMinCash <= priceFromLoan) {
+      bindingNote = 'What limits you: the 5% minimum-cash rule for bank loans. More cash savings raises this.';
+    } else {
+      bindingNote = `What limits you: your income (${loanType === 'Bank' ? 'MSR/TDSR' : 'MSR'} monthly cap). Higher income or a longer tenure raises this.`;
+    }
+  }
+  document.getElementById('maxPriceBinding').textContent = bindingNote;
   document.getElementById('maxLoanDetail').textContent = income > 0
     ? `75% LTV cap · MSR ${fmt(msrMax)}/mo max${loanType==='Bank' ? ` · TDSR ${fmt(Math.max(0,(income*0.55)-otherDebt))}/mo` : ''}`
     : '';
@@ -351,9 +380,17 @@ function recalc(){
     : '';
 }
 
-// Attach listeners
+// Debounce recalc so the aria-live results region doesn't re-announce
+// all four values on every keystroke. ~250ms feels instantaneous to
+// sighted users but lets screen-reader announcements settle.
+let recalcTimer = null;
+function scheduleRecalc(){
+  if(recalcTimer) clearTimeout(recalcTimer);
+  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(); }, 250);
+}
+
 document.querySelectorAll('#income, #cash, #cpfOA, #age, #tenure, #otherDebt').forEach(el=>{
-  el.addEventListener('input', recalc);
+  el.addEventListener('input', scheduleRecalc);
 });
 document.querySelectorAll('[name="loanType"]').forEach(el=>{
   el.addEventListener('change', recalc);
