@@ -284,7 +284,7 @@
 </footer>
 
 <script>
-const ENDPOINT = '/.netlify/functions/submit-lead';
+const ENDPOINT = '/.netlify/functions/submit-lead';const _pageLoadedAt=Date.now();
 const params = new URLSearchParams(location.search);
 const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
 const utm = {};
@@ -320,7 +320,7 @@ async function handleSubmit(form){
     newsletter_opt_in:form.newsletter_opt_in?.checked?1:0,
     source_site:'joetay.com',
     landing_page:'/rent-out/',
-    submitted_at:new Date().toISOString(),
+    submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,
     ...utm
   };
 
