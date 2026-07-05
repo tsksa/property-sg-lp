@@ -370,9 +370,17 @@ function recalc(){
     : '';
 }
 
-// Attach listeners
+// Debounce recalc so the aria-live results region doesn't re-announce
+// all four values on every keystroke. ~250ms feels instantaneous to
+// sighted users but lets screen-reader announcements settle.
+let recalcTimer = null;
+function scheduleRecalc(){
+  if(recalcTimer) clearTimeout(recalcTimer);
+  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(); }, 250);
+}
+
 document.querySelectorAll('#income, #cash, #cpfOA, #age, #tenure, #otherDebt').forEach(el=>{
-  el.addEventListener('input', recalc);
+  el.addEventListener('input', scheduleRecalc);
 });
 document.querySelectorAll('[name="loanType"]').forEach(el=>{
   el.addEventListener('change', recalc);
