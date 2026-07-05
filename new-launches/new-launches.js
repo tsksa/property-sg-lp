@@ -199,7 +199,7 @@
       +       '</select>'
       +     '</div>'
       +     '<div class="pf-row">'
-      +       '<select name="interest" aria-label="Bedroom preference">'
+      +       '<select name="interest" required aria-label="Bedroom preference">'
       +         '<option value="" disabled selected>Bedroom preference</option>'
       +         '<option>1 BR</option>'
       +         '<option>2 BR</option>'
