@@ -4,13 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PropertySG | Singapore Property Agent — HDB, Condo & Landed</title>
-<meta name="description" content="Singapore property agent &amp; advisor. Data-driven pricing, premium listing exposure on PropertyGuru, 99.co, SRX, and a dedicated advisor from valuation to closing — for HDB, condo, landed and commercial property.">
+<meta name="description" content="CEA-registered Singapore property advisor. Data-driven pricing, premium PropertyGuru/99.co/SRX listings, dedicated guidance — HDB, condo, landed, commercial.">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="alternate" hreflang="en-SG" href="https://joetay.com/">
 <link rel="alternate" hreflang="x-default" href="https://joetay.com/">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<!-- Prefetch the highest-intent next page so it's already cached when the hero CTA is clicked -->
+<link rel="prefetch" href="/valuation.html" as="document">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropertySG">
+<meta name="format-detection" content="telephone=no">
 <link rel="canonical" href="https://joetay.com/">
+<link rel="author" type="text/plain" href="/humans.txt">
 <link rel="preload" as="image" href="joetay-social-preview-1280.webp" type="image/webp" fetchpriority="high" media="(min-width:641px) and (max-width:1280px)">
 <link rel="preload" as="image" href="joetay-social-preview-1920.webp" type="image/webp" fetchpriority="high" media="(min-width:1281px)">
 <link rel="preload" as="image" href="joetay-social-preview-640.webp" type="image/webp" fetchpriority="high" media="(max-width:640px)">
@@ -117,13 +125,7 @@
   "description": "Singapore real estate specialist with 16+ years experience and 500+ properties sold. HDB, Condo, Landed and Commercial property expert.",
   "hasCredential": {"@type": "EducationalOccupationalCredential", "credentialCategory": "license", "name": "CEA Registration", "identifier": "R009618D"},
   "identifier": "CEA: R009618D",
-  "sameAs": ["https://wa.me/6581881488"],
-  "review": {
-    "@type": "Review",
-    "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
-    "author": {"@type": "Person", "name": "Mr Ng"},
-    "reviewBody": "Joe priced my 4-room right from day one — sold at $18k above valuation."
-  }
+  "sameAs": ["https://wa.me/6581881488"]
 }
 </script>
 <script type="application/ld+json">
@@ -182,6 +184,8 @@ fbq('track','PageView');
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet"></noscript>
@@ -986,6 +990,19 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+<link rel="alternate" type="application/atom+xml" title="PropertySG Insights" href="https://joetay.com/insights/feed.xml">
+<link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
 </head>
 <body>
 
@@ -1122,10 +1139,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Problem -->
-<section class="section problem" id="problem">
+<section class="section problem" id="problem" aria-labelledby="problem-title">
   <div class="container">
     <div class="section-eyebrow reveal">The problem</div>
-    <h2 class="reveal">Selling or renting shouldn't feel this hard.</h2>
+    <h2 id="problem-title" class="reveal">Selling or renting shouldn't feel this hard.</h2>
     <p class="lead reveal">You deserve better than crossing your fingers and hoping for the best.</p>
     <div class="problem-grid">
       <div class="problem-card reveal">
@@ -1157,10 +1174,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Solution -->
-<section class="section" id="solution">
+<section class="section" id="solution" aria-labelledby="solution-title">
   <div class="container">
     <div class="section-eyebrow reveal">The solution</div>
-    <h2 class="reveal">Everything you need.<br>Nothing you don't.</h2>
+    <h2 id="solution-title" class="reveal">Everything you need.<br>Nothing you don't.</h2>
     <div class="solution-grid">
       <div>
         <div class="benefit-item reveal">
@@ -1191,10 +1208,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Process: How we work -->
-<section class="process" id="process">
+<section class="process" id="process" aria-labelledby="process-title">
   <div class="container">
     <div class="section-eyebrow reveal">How I work</div>
-    <h2 class="reveal">From valuation to closing — a process built for Singapore homeowners.</h2>
+    <h2 id="process-title" class="reveal">From valuation to closing — a process built for Singapore homeowners.</h2>
     <p class="process-lede reveal">Whether you're selling your HDB flat in Tampines, renting out a condo in District 10, or pricing a landed home in Bukit Timah, I follow the same four-step process — transparent, dedicated, and built around real Singapore market data (URA, SRX, HDB resale index). <a href="/insights/how-long-to-sell-hdb-singapore-2026.html" style="color:var(--emerald);font-weight:600">See the full week-by-week HDB sale timeline →</a></p>
     <div class="process-timeline">
       <div class="process-step reveal">
@@ -1230,10 +1247,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Compare: Typical agent vs PropertySG -->
-<section class="compare" id="compare">
+<section class="compare" id="compare" aria-labelledby="compare-title">
   <div class="container">
     <div class="section-eyebrow eyebrow reveal">Why sellers switch</div>
-    <h2 class="reveal">Typical agent vs <span class="accent">PropertySG</span></h2>
+    <h2 id="compare-title" class="reveal">Typical agent vs <span class="accent">PropertySG</span></h2>
     <p class="compare-lede reveal">The same listing, two very different outcomes. See where the difference comes from.</p>
     <div class="compare-table reveal">
       <div class="compare-header">
@@ -1293,7 +1310,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Meet Your Advisor -->
-<section class="advisor" id="advisor">
+<section class="advisor" id="advisor" aria-labelledby="advisor-title">
   <div class="container">
     <div class="advisor-photo-wrap reveal">
       <picture>
@@ -1308,7 +1325,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
     <div class="advisor-content reveal reveal-delay-1">
       <div class="section-eyebrow">Meet your advisor</div>
-      <h2>A dedicated advisor. Not a call centre.</h2>
+      <h2 id="advisor-title">A dedicated advisor. Not a call centre.</h2>
       <div class="advisor-title">District Director · ERA Realty Network</div>
       <div class="advisor-creds">
         <span class="advisor-cred"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>CEA Licensed <span>· R009618D</span></span>
@@ -1337,10 +1354,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Book: three-choice CTA -->
-<section class="book-section" id="book">
+<section class="book-section" id="book" aria-labelledby="book-title">
   <div class="container">
     <div class="section-eyebrow reveal">Ready to talk?</div>
-    <h2 class="reveal">Three ways to reach Joe.</h2>
+    <h2 id="book-title" class="reveal">Three ways to reach Joe.</h2>
     <p class="book-lead reveal">Free 30-minute consultation. No obligation, no pitch — just a straight answer on your property question.</p>
     <div class="book-choices reveal reveal-delay-1">
       <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/PLACEHOLDER_LABEL_FOR_WHATSAPP', 'value': 30.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20a%20free%20property%20consultation." class="book-choice book-choice-primary" target="_blank" rel="noopener">
@@ -1374,16 +1391,25 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <!-- Inline Calendly widget — pick a slot without leaving the page -->
     <div class="calendly-inline-wrap reveal reveal-delay-2">
       <div class="calendly-inline-wrap-head">Or pick a slot right now</div>
-      <div class="calendly-inline-widget" data-url="https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981"></div>
+      <div class="calendly-inline-widget" data-url="https://calendly.com/joetay78/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=10b981">
+        <noscript>
+          <div style="text-align:center;padding:32px 20px;color:#666;font-size:0.92rem;line-height:1.55">
+            <p style="margin-bottom:14px"><strong style="color:#0b1e3f">JavaScript is required for the in-page calendar.</strong></p>
+            <p style="margin-bottom:18px">No problem — open Calendly directly in a new tab, or contact Joe via WhatsApp.</p>
+            <a href="https://calendly.com/joetay78/30min" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:11px 24px;background:#10b981;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;margin:0 4px 6px">Book on Calendly →</a>
+            <a href="https://wa.me/6581881488" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:11px 24px;background:#0b1e3f;color:#fff;border-radius:8px;font-weight:600;text-decoration:none;margin:0 4px 6px">WhatsApp Joe →</a>
+          </div>
+        </noscript>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Objection handler: kill hesitation before the final form -->
-<section class="objections" id="concerns">
+<section class="objections" id="concerns" aria-labelledby="concerns-title">
   <div class="objections-inner">
     <div class="section-eyebrow reveal" style="text-align:center;margin-bottom:18px">Common concerns</div>
-    <h2 class="reveal">Thinking about it? Let me answer before you ask.</h2>
+    <h2 id="concerns-title" class="reveal">Thinking about it? Let me answer before you ask.</h2>
     <p class="objections-lede reveal">The four questions I get most often before a first consultation — answered upfront so you don't have to awkwardly bring them up.</p>
 
     <div class="objection-list">
@@ -1408,10 +1434,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Testimonials -->
-<section class="section testimonials" id="testimonials">
+<section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
   <div class="container">
     <div class="section-eyebrow reveal">Reviews</div>
-    <h2 class="reveal">Don't take my word for it.</h2>
+    <h2 id="testimonials-title" class="reveal">Don't take my word for it.</h2>
     <p class="lead reveal">Real results from real homeowners across Singapore.</p>
     <div class="testi-list">
       <div class="testi-card reveal">
@@ -1492,10 +1518,10 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- FAQ -->
-<section class="section faq" id="faq">
+<section class="section faq" id="faq" aria-labelledby="faq-title">
   <div class="container">
     <div class="section-eyebrow reveal">FAQ</div>
-    <h2 class="reveal">Common questions.</h2>
+    <h2 id="faq-title" class="reveal">Common questions.</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-question" id="faq-question-1" aria-controls="faq-answer-1" aria-expanded="false">What are your commission rates?<span class="faq-icon">+</span></button>
@@ -1559,9 +1585,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </section>
 
 <!-- Final CTA -->
-<section class="section final-cta" id="cta-final">
+<section class="section final-cta" id="cta-final" aria-labelledby="cta-final-title">
   <div class="final-cta-centered">
-    <h2 class="reveal">Get a Free Consultation</h2>
+    <h2 id="cta-final-title" class="reveal">Get a Free Consultation</h2>
     <p class="final-cta-sub reveal">Have questions? Leave your details below and get a call back.</p>
     <form id="finalForm" class="consult-form reveal reveal-delay-1" aria-labelledby="finalFormTitle">
       <h3 id="finalFormTitle" class="sr-only">Get a free consultation</h3>
@@ -1669,12 +1695,12 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </a>
 
 <!-- Dark Mode Toggle -->
-<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
+<button class="dark-toggle" id="darkToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"><span aria-hidden="true">🌙</span></button>
 
 <!-- PDPA Cookie Consent Banner -->
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-labelledby="cookieBannerText">
-  <p id="cookieBannerText">This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
-  <button type="button" id="cookieAccept">Got it</button>
+<div class="cookie-banner" id="cookieBanner" role="region" aria-labelledby="cookieBannerHeading">
+  <p><strong id="cookieBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
+  <button type="button" id="cookieAccept" aria-label="Dismiss cookie notice">Got it</button>
 </div>
 
 <!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
@@ -2159,7 +2185,7 @@ if(statsSection)statsObserver.observe(statsSection);
 // ── Dark Mode Toggle ──
 const dt=document.getElementById('darkToggle');
 if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');
-function updateToggleIcon(){dt.textContent=document.body.classList.contains('dark-mode')?'☀️':'🌙';}
+function updateToggleIcon(){const isDark=document.body.classList.contains('dark-mode');dt.innerHTML='<span aria-hidden="true">'+(isDark?'☀️':'🌙')+'</span>';dt.setAttribute('aria-pressed',isDark?'true':'false');dt.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');}
 updateToggleIcon();
 dt.addEventListener('click',()=>{
   document.body.classList.toggle('dark-mode');
@@ -2170,15 +2196,23 @@ dt.addEventListener('click',()=>{
 // ── Parallax on Testimonials ──
 const testiSection=document.querySelector('.testimonials');
 if(testiSection){
+  // Cache the testimonial cards once so the scroll handler doesn't query
+  // the DOM on every event; throttle to 1 update per animation frame so
+  // we never do more work than the screen can display.
+  const testiCards=testiSection.querySelectorAll('.testi-card');
+  let testiRaf=0;
   window.addEventListener('scroll',()=>{
-    const rect=testiSection.getBoundingClientRect();
-    const center=rect.top+rect.height/2-window.innerHeight/2;
-    const cards=testiSection.querySelectorAll('.testi-card');
-    cards.forEach((c,i)=>{
-      const offset=center*0.03*(i%2===0?1:-1);
-      c.style.transform='translateY('+offset+'px)';
+    if(testiRaf) return;
+    testiRaf=requestAnimationFrame(()=>{
+      testiRaf=0;
+      const rect=testiSection.getBoundingClientRect();
+      const center=rect.top+rect.height/2-window.innerHeight/2;
+      for(let i=0;i<testiCards.length;i++){
+        const offset=center*0.03*(i%2===0?1:-1);
+        testiCards[i].style.transform='translateY('+offset+'px)';
+      }
     });
-  });
+  },{passive:true});
 }
 
 // ── Calendly: lazy-load widget.js when the booking section nears the viewport ──

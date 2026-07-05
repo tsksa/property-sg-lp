@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HDB Affordability Calculator — What Can You Afford in 2026? | Joe Tay</title>
-<meta name="description" content="Free Singapore HDB affordability calculator — enter income, savings, CPF, age, and tenure to see your maximum property budget, loan amount, and monthly repayment in under 30 seconds.">
+<meta name="description" content="Free Singapore HDB affordability calculator — see your maximum budget, loan amount and monthly repayment in 30 seconds. Built for MSR + TDSR rules.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/calculator/">
@@ -18,10 +18,19 @@
 <meta property="og:url" content="https://joetay.com/calculator/">
 <meta property="og:locale" content="en_SG">
 
+<meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Joe Tay, District Director at ERA Realty Network — PropertySG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HDB Affordability Calculator — Joe Tay">
+<meta name="twitter:description" content="See your maximum property budget, loan amount, and monthly repayment in under 30 seconds. Free tool.">
+<meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
@@ -35,12 +44,57 @@
   "description": "Free Singapore HDB affordability calculator — see your maximum property budget, loan amount, and monthly repayment calculated against MSR and TDSR rules.",
   "inLanguage": "en-SG",
   "isPartOf": {"@type": "WebSite", "name": "PropertySG", "url": "https://joetay.com/"},
+  "primaryImageOfPage": {"@type": "ImageObject", "url": "https://joetay.com/joetay-social-preview.jpg"},
   "breadcrumb": {
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://joetay.com/"},
       {"@type": "ListItem", "position": 2, "name": "Affordability Calculator", "item": "https://joetay.com/calculator/"}
     ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "HDB Affordability Calculator",
+  "url": "https://joetay.com/calculator/",
+  "description": "Free Singapore HDB affordability calculator — enter income, savings, CPF, age and tenure to see your maximum property budget, loan amount and monthly repayment, modelled against MSR (30%) and TDSR (55%) rules with the 4% stress-test rate.",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Mortgage Calculator",
+  "operatingSystem": "Web",
+  "browserRequirements": "Requires JavaScript. HTML5-capable browser.",
+  "inLanguage": "en-SG",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "SGD",
+    "availability": "https://schema.org/InStock"
+  },
+  "featureList": [
+    "Maximum property purchase price",
+    "Maximum loan amount (HDB or bank)",
+    "Monthly repayment with MSR check",
+    "TDSR stress-test at 4% rate",
+    "CPF + cash downpayment split"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "Joe Tay",
+    "url": "https://joetay.com/",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "license",
+      "name": "CEA Registration",
+      "identifier": "R009618D"
+    }
+  },
+  "publisher": {
+    "@type": "RealEstateAgent",
+    "name": "PropertySG",
+    "url": "https://joetay.com/"
   }
 }
 </script>
@@ -121,7 +175,29 @@ a:hover{text-decoration:underline}
 /* Visible keyboard focus indicator (WCAG 2.4.7). outline:none on .calc-field
    above hides the default ring; restore a brand emerald ring for keyboard nav. */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+
+/* Back-to-top — same pattern as PR #95 (homepage) + PR #96 (insights) */
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:199;width:44px;height:44px;border-radius:50%;background:rgba(11,30,63,0.86);color:#fff;border:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,visibility .2s,transform .2s,background .2s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(11,30,63,1)}
+.back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
 </style>
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropertySG">
+<meta name="format-detection" content="telephone=no">
 </head>
 <body>
 
@@ -137,10 +213,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   </div>
 </header>
 
-<section class="calc-hero">
+<section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">
     <div class="eyebrow">Affordability Calculator</div>
-    <h1>What property can you afford in Singapore?</h1>
+    <h1 id="page-hero-title">What property can you afford in Singapore?</h1>
     <p>Enter your income, savings, and loan tenure. See your maximum property budget, loan amount, and monthly repayment — calculated against HDB's MSR and TDSR rules. Updated for 2026 cooling-measure rules.</p>
   </div>
 </section>
@@ -411,6 +487,19 @@ document.querySelectorAll('input').forEach(el=>{
 recalc();
 </script>
 
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
+</button>
+<script>
+(function(){
+  var b=document.getElementById('backToTop');
+  if(!b) return;
+  window.addEventListener('scroll',function(){
+    b.classList.toggle('visible',window.scrollY>600);
+  },{passive:true});
+  b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
 <script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

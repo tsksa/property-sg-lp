@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Singapore Property Glossary — HDB, CPF, OTP, MOP &amp; More | Joe Tay</title>
-<meta name="description" content="Every Singapore property term explained plainly — HDB, BTO, MOP, OTP, COV, ABSD, BSD, CPF, LTV, MSR, TDSR, SORA, TOP, EC, and more. Written by Joe Tay, District Director at ERA.">
+<meta name="description" content="Singapore property terms explained plainly — HDB, BTO, MOP, OTP, COV, ABSD, BSD, CPF, LTV, MSR, TDSR, SORA, TOP, EC. By Joe Tay, ERA District Director.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/glossary/">
@@ -18,6 +18,14 @@
 <meta property="og:url" content="https://joetay.com/glossary/">
 <meta property="og:locale" content="en_SG">
 
+<meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:image:alt" content="Joe Tay, District Director at ERA Realty Network — PropertySG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Singapore Property Glossary | Joe Tay">
+<meta name="twitter:description" content="Every Singapore property term explained — HDB, CPF, OTP, MOP, COV, ABSD, and more.">
+<meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 
 <script type="application/ld+json">
@@ -64,6 +72,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
@@ -130,7 +139,29 @@ a:hover{text-decoration:underline}
 .g-footer a{color:#555}
 .g-footer-inner{max-width:1100px;margin:0 auto}
 .g-footer .creds{font-size:0.72rem;color:#aaa;margin-top:6px}
+
+/* Back-to-top — same pattern as PR #95 (homepage) + PR #96 (insights) */
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:199;width:44px;height:44px;border-radius:50%;background:rgba(11,30,63,0.86);color:#fff;border:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,visibility .2s,transform .2s,background .2s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(11,30,63,1)}
+.back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
 </style>
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropertySG">
+<meta name="format-detection" content="telephone=no">
 </head>
 <body>
 
@@ -146,10 +177,10 @@ a:hover{text-decoration:underline}
   </div>
 </header>
 
-<section class="g-hero">
+<section class="g-hero" aria-labelledby="page-hero-title">
   <div class="g-hero-inner">
     <div class="eyebrow">Glossary</div>
-    <h1>Singapore property terms, plainly explained.</h1>
+    <h1 id="page-hero-title">Singapore property terms, plainly explained.</h1>
     <p>Every acronym and term you'll encounter selling, renting, or buying property in Singapore — from ABSD to TOP. Bookmark it. Updated for 2026 rules.</p>
   </div>
 </section>
@@ -297,6 +328,19 @@ a:hover{text-decoration:underline}
   </div>
 </footer>
 
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
+</button>
+<script>
+(function(){
+  var b=document.getElementById('backToTop');
+  if(!b) return;
+  window.addEventListener('scroll',function(){
+    b.classList.toggle('visible',window.scrollY>600);
+  },{passive:true});
+  b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
 <script src="/assets/conversion-tracking.js" defer></script>
 </body>
 </html>

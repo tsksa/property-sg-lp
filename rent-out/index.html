@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rent Out Your Property · Find the Right Tenant Fast · Joe Tay, ERA</title>
-<meta name="description" content="Landlord? Let me place the right tenant in your Singapore HDB or condo. 15-day average time to tenant. District Director at ERA, 16+ years. Free 30-min consult, reply in 10 min.">
+<meta name="description" content="Landlord? Place the right tenant in your Singapore HDB or condo — 15-day average. Joe Tay, ERA District Director, 16+ yrs. Free consult, 10-min reply.">
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/rent-out/">
@@ -16,12 +16,18 @@
 <meta property="og:description" content="Find the right tenant fast. 15-day average. District Director at ERA. Free 30-min consult.">
 <meta property="og:url" content="https://joetay.com/rent-out/">
 <meta property="og:locale" content="en_SG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rent Out Your Singapore Property · Joe Tay, ERA">
+<meta name="twitter:description" content="Find the right tenant fast. 15-day average. District Director at ERA. Free 30-min consult.">
+<meta name="twitter:image" content="https://joetay.com/singapore-property-marina-bay.jpg">
 <meta property="og:image" content="https://joetay.com/singapore-property-marina-bay.jpg">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
@@ -67,6 +73,22 @@
 </script>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropertySG">
+<meta name="format-detection" content="telephone=no">
 </head>
 <body>
 
@@ -287,7 +309,7 @@
 </footer>
 
 <script>
-const ENDPOINT = '/.netlify/functions/submit-lead';
+const ENDPOINT = '/.netlify/functions/submit-lead';const _pageLoadedAt=Date.now();
 const params = new URLSearchParams(location.search);
 const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
 const utm = {};
@@ -323,7 +345,7 @@ async function handleSubmit(form){
     newsletter_opt_in:form.newsletter_opt_in?.checked?1:0,
     source_site:'joetay.com',
     landing_page:'/rent-out/',
-    submitted_at:new Date().toISOString(),
+    submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,
     ...utm
   };
 
