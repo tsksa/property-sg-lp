@@ -244,6 +244,14 @@
   }
 
   function openModal(intent, project){
+    // If a previous submission replaced .nl-modal-card with the success
+    // state, the cached modalForm reference points at a detached node.
+    // Tear down and rebuild so the next open starts on a fresh form.
+    if(modal && (!modalForm || !modal.contains(modalForm))){
+      modal.remove();
+      modal = modalForm = modalEyebrow = modalTitle = modalSub = null;
+      modalSubmit = modalProject = modalIntent = modalNote = null;
+    }
     buildModal();
     var copy = INTENT_COPY[intent] || INTENT_COPY.interest;
     modalEyebrow.textContent = copy.eyebrow;
