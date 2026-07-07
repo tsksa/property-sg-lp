@@ -86,7 +86,11 @@
     });
   }
 
-  // Smooth scroll for anchor links with sticky-nav offset
+  // Smooth scroll for anchor links with sticky-nav offset.
+  // When the target is a focus anchor (e.g. the skip-link's tabindex="-1"
+  // main-content target), also move keyboard focus so assistive tech
+  // actually lands on the destination — preventDefault otherwise robs
+  // the browser of its built-in focus-jump behavior.
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click', function(e){
       var href = a.getAttribute('href');
@@ -96,6 +100,9 @@
       e.preventDefault();
       var top = target.getBoundingClientRect().top + window.pageYOffset - 80;
       window.scrollTo({top:top, behavior:'smooth'});
+      if(target.hasAttribute('tabindex') || /^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(target.tagName)){
+        target.focus({preventScroll:true});
+      }
     });
   });
 
@@ -150,6 +157,14 @@
 
   // Build the lead-capture modal once per page load.
   var modal, modalForm, modalEyebrow, modalTitle, modalSub, modalSubmit, modalProject, modalIntent, modalNote, modalSuccessTpl;
+  // Time-on-form anti-spam: captured when the modal opens, sent on submit.
+  // The Netlify Function drops submissions where this is < 3000ms.
+  var modalOpenedAt = 0;
+  // The document-level keydown handler is attached once at first buildModal()
+  // and re-used across any subsequent rebuilds (e.g. tearing down after a
+  // success state). The handler references `modal` via closure on the
+  // module-scoped binding, so it always sees the current modal instance.
+  var modalKeydownAttached = false;
   function buildModal(){
     if(modal) return;
     modal = document.createElement('div');
@@ -161,20 +176,20 @@
     modal.innerHTML = ''
       + '<div class="nl-modal-overlay" data-close></div>'
       + '<div class="nl-modal-card">'
-      +   '<button class="nl-modal-close" aria-label="Close" data-close>&times;</button>'
+      +   '<button type="button" class="nl-modal-close" aria-label="Close" data-close><span aria-hidden="true">&times;</span></button>'
       +   '<div class="nl-modal-eyebrow" id="nlModalEyebrow"></div>'
       +   '<h3 id="nlModalTitle"></h3>'
       +   '<p class="nl-modal-sub" id="nlModalSub"></p>'
       +   '<form class="pf" id="nlModalForm" novalidate>'
       +     '<div class="pf-row">'
-      +       '<input type="text" name="name" placeholder="Your name" autocomplete="name" required>'
-      +       '<input type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\\+65[\\s\\-]?)?[689]\\d{3}[\\s\\-]?\\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)">'
+      +       '<input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">'
+      +       '<input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\\+65[\\s\\-]?)?[689]\\d{3}[\\s\\-]?\\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">'
       +     '</div>'
       +     '<div class="pf-row">'
-      +       '<input type="email" name="email" placeholder="Email address" autocomplete="email" required>'
+      +       '<input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address">'
       +     '</div>'
       +     '<div class="pf-row" id="nlModalProjectRow" hidden>'
-      +       '<select name="project_select">'
+      +       '<select name="project_select" required aria-label="Which project?">'
       +         '<option value="" disabled selected>Which project?</option>'
       +         '<option>Newport Residences</option>'
       +         '<option>Tengah Garden Residences</option>'
@@ -191,7 +206,7 @@
       +       '</select>'
       +     '</div>'
       +     '<div class="pf-row">'
-      +       '<select name="interest">'
+      +       '<select name="interest" required aria-label="Bedroom preference">'
       +         '<option value="" disabled selected>Bedroom preference</option>'
       +         '<option>1 BR</option>'
       +         '<option>2 BR</option>'
@@ -218,11 +233,28 @@
     modalNote = modal.querySelector('#nlModalNote');
 
     modal.addEventListener('click', function(e){
-      if(e.target.hasAttribute('data-close')) closeModal();
+      // Use closest so clicks on the inner aria-hidden span inside the close
+      // button still resolve to the button's data-close attribute.
+      if(e.target.closest('[data-close]')) closeModal();
     });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && !modal.hidden) closeModal();
-    });
+    if(!modalKeydownAttached){
+      document.addEventListener('keydown', function(e){
+        if(!modal || modal.hidden) return;
+        if(e.key === 'Escape') { closeModal(); return; }
+        // Focus trap: cycle Tab/Shift+Tab within the modal so screen-reader
+        // and keyboard users can't tab into the page behind the dialog.
+        if(e.key !== 'Tab') return;
+        var focusable = modal.querySelectorAll(
+          'button:not([disabled]),[href],input:not([type=hidden]):not([disabled]),' +
+          'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+        );
+        if(!focusable.length) return;
+        var first = focusable[0], last = focusable[focusable.length-1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      });
+      modalKeydownAttached = true;
+    }
     modalForm.addEventListener('submit', function(e){
       e.preventDefault();
       submitModal();
@@ -230,6 +262,14 @@
   }
 
   function openModal(intent, project){
+    // If a previous submission replaced .nl-modal-card with the success
+    // state, the cached modalForm reference points at a detached node.
+    // Tear down and rebuild so the next open starts on a fresh form.
+    if(modal && (!modalForm || !modal.contains(modalForm))){
+      modal.remove();
+      modal = modalForm = modalEyebrow = modalTitle = modalSub = null;
+      modalSubmit = modalProject = modalIntent = modalNote = null;
+    }
     buildModal();
     var copy = INTENT_COPY[intent] || INTENT_COPY.interest;
     modalEyebrow.textContent = copy.eyebrow;
@@ -241,6 +281,9 @@
     modalIntent.value = intent;
     // Show project-select only when we don't already know the project
     modal.querySelector('#nlModalProjectRow').hidden = !!project;
+    // Remember what to focus on close (typically the trigger button).
+    modal._returnFocusEl = document.activeElement;
+    modalOpenedAt = Date.now();
     modal.hidden = false;
     document.body.classList.add('nl-modal-open');
     // Focus first input
@@ -251,10 +294,22 @@
     if(!modal) return;
     modal.hidden = true;
     document.body.classList.remove('nl-modal-open');
+    // Restore focus to whatever opened the modal so keyboard users don't
+    // get dumped to the top of the page.
+    try {
+      if(modal._returnFocusEl && typeof modal._returnFocusEl.focus === 'function') {
+        modal._returnFocusEl.focus();
+      }
+    } catch(_) { /* element may have unmounted; ignore */ }
+    modal._returnFocusEl = null;
   }
 
   function submitModal(){
     if(modalForm.company_website.value) return;
+    // The form has novalidate, so call reportValidity() explicitly to surface
+    // the inputs' required/pattern/type=email constraints via native tooltips
+    // instead of sending empty fields to the server only to alert() on the 400.
+    if(!modalForm.reportValidity()) return;
     var original = modalSubmit.textContent;
     modalSubmit.disabled = true;
     modalSubmit.textContent = 'Submitting...';
@@ -276,7 +331,8 @@
       interest: modalForm.interest.value,
       source_site: 'joetay.com',
       landing_page: location.pathname,
-      submitted_at: new Date().toISOString()
+      submitted_at: new Date().toISOString(),
+      time_on_form_ms: modalOpenedAt ? Date.now() - modalOpenedAt : null
     };
     Object.keys(utm).forEach(function(k){ data[k] = utm[k]; });
 
@@ -290,12 +346,18 @@
       if(!result.ok) throw new Error('submit failed');
       var copy = INTENT_COPY[modalIntent.value] || INTENT_COPY.interest;
       modal.querySelector('.nl-modal-card').innerHTML = ''
-        + '<button class="nl-modal-close" aria-label="Close" data-close>&times;</button>'
-        + '<div class="pf-success">'
-        +   '<div class="pf-success-icon">✓</div>'
+        + '<button type="button" class="nl-modal-close" aria-label="Close" data-close><span aria-hidden="true">&times;</span></button>'
+        + '<div class="pf-success" role="status" aria-live="polite">'
+        +   '<div class="pf-success-icon" aria-hidden="true">✓</div>'
         +   '<h4>You\'re registered.</h4>'
         +   '<p>' + copy.success + '</p>'
         + '</div>';
+      // Move focus to the close button so keyboard users have something
+      // to act on (the submit button they were focused on is gone).
+      // role=status above triggers screen-reader announcement of the
+      // heading + body without stealing focus.
+      var newClose = modal.querySelector('.nl-modal-close');
+      if(newClose) newClose.focus();
       if(typeof gtag === 'function') gtag('event','generate_lead',{
         method: 'website_modal',
         lead_type: 'new_launch_registration',

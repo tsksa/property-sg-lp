@@ -1,3 +1,4 @@
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 /* ── Shared styles for /new-launches/ pages ── */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -140,7 +141,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .project-form-card{background:#fff;border-radius:18px;padding:28px 28px 24px;box-shadow:0 32px 72px -16px rgba(0,0,0,0.4),0 0 0 1px rgba(11,30,63,0.04);position:relative;overflow:hidden;width:100%;max-width:100%;min-width:0}
 .project-form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold))}
 .project-form-card .pf-intent{display:inline-block;font-size:0.66rem;font-weight:700;color:var(--emerald);letter-spacing:1.4px;text-transform:uppercase;padding:4px 10px;background:rgba(16,185,129,0.1);border-radius:100px;margin-bottom:10px}
-.project-form-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;line-height:1.25}
+.project-form-card h2,.project-form-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;line-height:1.25}
 .project-form-card .sub{font-size:0.84rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.5}
 .project-form-trust{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:10px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
 .project-form-trust-item{display:inline-flex;align-items:center;gap:5px;font-size:0.68rem;font-weight:600;color:var(--ink-soft);letter-spacing:0.3px}
@@ -157,7 +158,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .pf-hp{position:absolute;left:-9999px;opacity:0;pointer-events:none}
 .pf-success{text-align:center;padding:18px 0}
 .pf-success-icon{width:56px;height:56px;border-radius:50%;background:rgba(16,185,129,0.12);color:var(--emerald);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.8rem;font-weight:700}
-.pf-success h4{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--navy);margin-bottom:8px}
+.pf-success h3,.pf-success h4{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--navy);margin-bottom:8px}
 .pf-success p{font-size:0.9rem;color:var(--ink-soft);line-height:1.6}
 
 /* ── Section ── */
@@ -198,9 +199,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .project-tour-card-link::after{content:"→";transition:transform .25s}
 .project-tour-card-link:hover::after{transform:translateX(3px)}
 
+/* Click-to-load tour facade — keeps third-party tour servers out of the
+   page-load path; the iframe is injected only when the visitor asks for it. */
+.tour-facade{position:absolute;inset:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border:0;cursor:pointer;color:#fff;font-family:inherit}
+.tour-facade:hover .tour-facade-label{background:var(--emerald-dark)}
+.tour-facade-icon{font-family:'Fraunces',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--emerald);letter-spacing:1px}
+.tour-facade-label{background:var(--emerald);color:#fff;font-size:0.82rem;font-weight:700;padding:10px 20px;border-radius:999px;transition:background .2s}
+.tour-facade-hint{font-size:0.7rem;color:rgba(255,255,255,0.55);font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
+.tour-facade-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:rgba(255,255,255,0.85);font-size:0.88rem;line-height:1.5;padding:20px;text-align:center}
+.tour-facade-fallback a{color:var(--emerald);font-weight:700}
+
 /* Linked-out tour card (opens in new tab, no iframe) */
 .project-tour-link-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:14px;padding:26px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 32px -16px rgba(11,30,63,0.32)}
-.project-tour-link-card h4{font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:600;letter-spacing:-0.2px}
+.project-tour-link-card h3,.project-tour-link-card h4{font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:600;letter-spacing:-0.2px}
 .project-tour-link-card .meta{font-size:0.74rem;color:rgba(255,255,255,0.65);font-weight:600;letter-spacing:0.6px;text-transform:uppercase}
 .project-tour-link-card p{color:rgba(255,255,255,0.82);font-size:0.9rem;line-height:1.55}
 .project-tour-link-card a{align-self:flex-start;background:var(--gold);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;font-size:0.84rem;text-decoration:none;transition:background .2s,transform .2s}
@@ -283,7 +294,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .usp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .usp-item{padding:24px 26px;background:#fff;border:1px solid rgba(11,30,63,0.08);border-left:3px solid var(--emerald);border-radius:0 14px 14px 0;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-left-color .3s;position:relative;overflow:hidden}
 .usp-item:hover{transform:translateY(-3px);box-shadow:0 18px 36px -20px rgba(11,30,63,0.25);border-left-color:var(--gold)}
-.usp-item h4{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.2px}
+.usp-item h3,.usp-item h4{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.2px}
 .usp-item p{font-size:0.9rem;color:#444;line-height:1.6}
 .project-section-alt .usp-item{background:#fff}
 
@@ -345,7 +356,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-modal-overlay{position:absolute;inset:0;background:rgba(6,20,48,0.58);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:nlFadeIn .25s ease-out}
 .nl-modal-card{position:relative;background:#fff;border-radius:18px;padding:32px 30px 26px;max-width:480px;width:100%;box-shadow:0 40px 120px -24px rgba(0,0,0,0.45);z-index:1;animation:nlModalIn .3s cubic-bezier(.2,.8,.2,1)}
 .nl-modal-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold));border-radius:18px 18px 0 0}
-.nl-modal-close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
+.nl-modal-close{position:absolute;top:6px;right:8px;width:44px;height:44px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
 .nl-modal-close:hover{background:rgba(0,0,0,0.06);color:var(--navy)}
 .nl-modal-eyebrow{font-size:0.7rem;font-weight:700;color:var(--emerald);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px}
 .nl-modal-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.3px;line-height:1.25}
@@ -362,7 +373,7 @@ body.nl-modal-open{overflow:hidden}
 /* ── Legal / provisional disclaimer block ── */
 .project-disclaimer{background:var(--cream);border-top:1px solid rgba(201,166,97,0.18);padding:48px 24px;font-size:0.82rem;color:var(--ink-muted);line-height:1.7}
 .project-disclaimer-inner{max-width:1000px;margin:0 auto}
-.project-disclaimer h4{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:12px;letter-spacing:-0.2px}
+.project-disclaimer h3,.project-disclaimer h4{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:12px;letter-spacing:-0.2px}
 .project-disclaimer p{margin-bottom:10px}
 .project-disclaimer p:last-child{margin-bottom:0}
 .project-disclaimer a{color:var(--ink-soft);text-decoration:underline}
@@ -382,7 +393,7 @@ body.nl-modal-open{overflow:hidden}
 .nl-wa-float svg{width:26px;height:26px;fill:#fff;position:relative;z-index:1}
 
 /* ── Back to top ── */
-.nl-to-top{position:fixed;bottom:92px;right:24px;z-index:98;width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(11,30,63,0.32);border:none;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .25s,transform .25s,background .25s}
+.nl-to-top{position:fixed;bottom:92px;right:24px;z-index:98;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(11,30,63,0.32);border:none;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .25s,transform .25s,background .25s}
 .nl-to-top.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
 .nl-to-top:hover{background:var(--emerald);transform:translateY(-2px)}
 .nl-to-top svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -398,8 +409,12 @@ body.nl-modal-open{overflow:hidden}
 @media(max-width:640px){
   .nl-mobile-cta{display:flex}
   .nl-wa-float{display:none}
-  .nl-to-top{bottom:144px;width:38px;height:38px}
-  body{padding-bottom:72px}
+  /* .nl-mobile-cta itself adds env(safe-area-inset-bottom) to its own
+     padding; mirror that inset into body padding and the back-to-top
+     button so the bottom of the page + the back-to-top control both
+     clear iOS's home-indicator on iPhone X+. */
+  .nl-to-top{bottom:calc(144px + env(safe-area-inset-bottom,0px));width:38px;height:38px}
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 }
 
 /* ── Scroll reveal ── */

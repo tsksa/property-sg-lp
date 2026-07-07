@@ -110,7 +110,7 @@ img{max-width:100%;height:auto}
 .lp-footer .creds{font-size:0.72rem;color:#aaa;margin-top:6px}
 
 /* ── Floating WhatsApp ── */
-.lp-wa-float{position:fixed;bottom:24px;right:24px;z-index:100;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(37,211,102,0.42);transition:transform .2s}
+.lp-wa-float{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom, 0px));right:calc(24px + env(safe-area-inset-right, 0px));z-index:100;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(37,211,102,0.42);transition:transform .2s}
 .lp-wa-float:hover{transform:scale(1.06);text-decoration:none}
 .lp-wa-float svg{width:26px;height:26px;fill:#fff}
 
@@ -134,7 +134,7 @@ img{max-width:100%;height:auto}
   .lp-section,.lp-case,.lp-final{padding:56px 20px}
   .lp-form-row{flex-direction:column;gap:10px}
   .lp-hero-trust{font-size:0.78rem;padding:8px 14px;gap:10px}
-  .lp-wa-float{right:16px;bottom:16px;width:52px;height:52px}
+  .lp-wa-float{right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));width:52px;height:52px}
 }
 
 @media(max-width:380px){
@@ -143,3 +143,10 @@ img{max-width:100%;height:auto}
   .lp-hero,.lp-section,.lp-case,.lp-final{padding-left:16px;padding-right:16px}
   .lp-form-card{padding-left:18px;padding-right:18px}
 }
+
+/* Back-to-top — same pattern as PR #95/#96/#97 */
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:199;width:44px;height:44px;border-radius:50%;background:rgba(11,30,63,0.86);color:#fff;border:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,visibility .2s,transform .2s,background .2s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(11,30,63,1)}
+.back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
+@media(max-width:640px){.back-to-top{bottom:80px;right:18px}}

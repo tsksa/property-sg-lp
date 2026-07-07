@@ -1,0 +1,36 @@
+All Rights Reserved.
+
+Copyright (c) 2026 Joe Tay / PropertySG.
+CEA Registration: R009618D — under ERA Realty Network Pte Ltd (L3002382K).
+
+This source code is private.
+
+No license is granted, by implication or otherwise, to use, copy,
+modify, merge, publish, distribute, sublicense, or sell copies of
+this software, in whole or in part, except as expressly permitted
+in writing by the copyright holder.
+
+You MAY:
+
+  - View the source for reference (it is a public GitHub repository)
+  - Submit pull requests proposing improvements
+  - Report issues or vulnerabilities (see SECURITY.md and
+    /.well-known/security.txt)
+
+You MAY NOT:
+
+  - Re-host the site under a different domain
+  - Republish any portion of the static HTML, CSS, JavaScript, copy
+    text, or images as your own
+  - Re-purpose the content for a competing property advisory site
+  - Use the brand assets (PropertySG name, Joe Tay's name, CEA
+    registration number, logo, headshot) for any purpose
+
+The third-party libraries and assets used by this site
+(@netlify/blobs, Google reCAPTCHA, Twilio templates, Calendly widget,
+Google Fonts DM Sans + Fraunces) are governed by their own licenses,
+which apply separately and are unaffected by this notice.
+
+For licensing inquiries, please contact:
+  joe [at] joetay.com
+  +65 8188 1488 (WhatsApp / Phone)

@@ -1,0 +1,24 @@
+# CODEOWNERS — https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Every pull request to this repo auto-requests review from the owners
+# listed below for the matching path. With branch protection enabled,
+# CODEOWNERS approval becomes a merge prerequisite for protected branches.
+
+# Default owner — every file unless overridden by a more specific rule.
+* @tsksa
+
+# Lead-capture pipeline — sensitive enough that Joe should always see
+# changes (PII handling, Twilio integration, rate limit / spam logic).
+/netlify/functions/  @tsksa
+
+# Build / deploy config — single mistake here can break the live site.
+/netlify.toml        @tsksa
+/_redirects          @tsksa
+/site.webmanifest    @tsksa
+/sw.js               @tsksa
+
+# Security-adjacent files — disclosure routing + dep updates.
+/.well-known/        @tsksa
+/.github/            @tsksa
+/package.json        @tsksa
+/.gitignore          @tsksa

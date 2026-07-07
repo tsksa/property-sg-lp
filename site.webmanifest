@@ -1,0 +1,21 @@
+{
+  "name": "PropertySG · Joe Tay",
+  "short_name": "PropertySG",
+  "description": "Singapore HDB, condo, landed and commercial property advisory — Joe Tay, District Director at ERA Realty Network.",
+  "start_url": "/?utm_source=pwa&utm_medium=home_screen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6ec",
+  "theme_color": "#0b1e3f",
+  "lang": "en-SG",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["business", "lifestyle", "finance"]
+}

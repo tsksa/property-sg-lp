@@ -2,15 +2,20 @@
 <html lang="en-SG">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Privacy Policy — PropertySG</title>
 <meta name="description" content="PropertySG privacy policy outlining how we collect, use, disclose and protect your personal data in accordance with Singapore's PDPA.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1e3f">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
 <style>
+.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0b1e3f;--emerald:#10b981;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#111;background:#fff;line-height:1.7;-webkit-font-smoothing:antialiased}
@@ -30,26 +35,50 @@ p{color:#333;margin-bottom:14px;font-size:0.96rem}
 ul{margin:8px 0 18px 22px}
 ul li{color:#333;margin-bottom:6px;font-size:0.96rem}
 .callout{background:var(--cream);border-left:3px solid var(--emerald);padding:18px 22px;border-radius:0 10px 10px 0;margin:28px 0;font-size:0.92rem;color:#333}
-.contact-box{background:#fafafa;border:1px solid #eee;border-radius:12px;padding:24px;margin-top:16px;font-size:0.95rem}
+.contact-box{background:#fafafa;border:1px solid #eee;border-radius:12px;padding:24px;margin-top:16px;font-size:0.95rem;font-style:normal}
 .contact-box strong{color:var(--navy)}
 footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.8rem;color:#999}
 footer a{color:#666}
 @media(max-width:640px){main{padding:40px 20px 64px}h2{font-size:1.25rem}}
+
+/* Back-to-top — same pattern as PR #95/#96/#97 */
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:199;width:44px;height:44px;border-radius:50%;background:rgba(11,30,63,0.86);color:#fff;border:none;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,visibility .2s,transform .2s,background .2s;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(11,30,63,1)}
+.back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
 </style>
 <!-- Google tag (gtag.js) — GA4 (joetay.com property) -->
+<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<style>
+/* WCAG 2.3.3 — respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PropertySG">
+<meta name="format-detection" content="telephone=no">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<div class="topbar">
+<header class="topbar">
   <div class="topbar-inner">
     <div class="logo">PropertySG</div>
     <a href="index.html" class="back">← Back to home</a>
   </div>
-</div>
+</header>
 
-<main>
+<main id="main" tabindex="-1">
   <h1>Privacy Policy</h1>
   <p class="lede">How PropertySG collects, uses, discloses and protects your personal data.</p>
   <p class="updated">Last updated: 18 April 2026</p>
@@ -125,14 +154,14 @@ footer a{color:#666}
   <p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date at the top of this page. Continued use of our services after changes constitutes acceptance of the revised policy.</p>
 
   <h2>11. Contact — Data Protection Officer</h2>
-  <div class="contact-box">
+  <address class="contact-box">
     <p style="margin-bottom:8px"><strong>Joe Tay · PropertySG — Data Protection Enquiries</strong></p>
     <p style="margin-bottom:4px">📧 <a href="mailto:joe@joetay.com">joe@joetay.com</a></p>
     <p style="margin-bottom:4px">📞 +65 8188 1488</p>
     <p style="margin-bottom:4px">💬 WhatsApp: <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/PLACEHOLDER_LABEL_FOR_WHATSAPP', 'value': 30.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="https://wa.me/6581881488">+65 8188 1488</a></p>
     <p style="margin-bottom:4px">CEA Reg. No. R009618D</p>
     <p style="margin-bottom:0">ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K</p>
-  </div>
+  </address>
 </main>
 
 <footer>
@@ -140,5 +169,20 @@ footer a{color:#666}
 </footer>
 
 <script src="/assets/conversion-tracking.js" defer></script>
+
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
+</button>
+<script>
+(function(){
+  var b=document.getElementById('backToTop');
+  if(!b) return;
+  window.addEventListener('scroll',function(){
+    b.classList.toggle('visible',window.scrollY>600);
+  },{passive:true});
+  b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+
 </body>
 </html>
