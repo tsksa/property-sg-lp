@@ -12,6 +12,7 @@ on:
       - "assets/**.js"
       - "js/**.js"
       - "netlify/functions/**.js"
+      - "scripts/**.mjs"
   push:
     branches: [main]
     paths:
@@ -118,6 +119,9 @@ jobs:
           test -f site.webmanifest && node -e "JSON.parse(require('fs').readFileSync('site.webmanifest','utf8')); console.log('site.webmanifest ok');" || echo 'site.webmanifest absent (ok if pre-PR #32)'
           test -f sw.js && node --check sw.js && echo 'sw.js syntax ok' || echo 'sw.js absent (ok if pre-PR #70)'
           test -f .github/dependabot.yml && python3 -c "import yaml; yaml.safe_load(open('.github/dependabot.yml')); print('dependabot.yml ok')" || echo 'dependabot.yml absent'
+
+      - name: Cross-page consistency guard
+        run: node scripts/check-consistency.mjs
 
       - name: Submit-lead function syntax check
         if: ${{ hashFiles('netlify/functions/submit-lead.js') != '' }}
