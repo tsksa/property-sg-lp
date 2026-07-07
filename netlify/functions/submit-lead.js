@@ -387,9 +387,33 @@ exports.handler = async (event) => {
     );
   }
 
+  // 3. AgentOS copilot intake — deliberately OUTSIDE the `tasks` positional
+  //    accounting and the partial-success policy below: AgentOS being slow or
+  //    down must never affect lead delivery (Sheets/Twilio) or the visitor's
+  //    response. Bounded at 5s; outcome is only logged. Inactive until the
+  //    AGENTOS_LEAD_URL env var is set.
+  let agentosTask = null;
+  if (process.env.AGENTOS_LEAD_URL && !isNewsletterOnly) {
+    agentosTask = fetch(process.env.AGENTOS_LEAD_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(enriched),
+      signal: AbortSignal.timeout(5000),
+    })
+      .then((r) => ({ ok: r.ok, status: r.status }))
+      .catch((err) => ({ ok: false, error: err.message }));
+  }
+
   const results = await Promise.all(tasks);
   const webhookResult = process.env.LEAD_WEBHOOK_URL ? results[0] : null;
   const twilioResult = process.env.LEAD_WEBHOOK_URL ? results[1] : results[0];
+
+  if (agentosTask) {
+    const agentosResult = await agentosTask;
+    if (!agentosResult.ok) {
+      console.warn('AgentOS intake failed (non-blocking):', JSON.stringify(agentosResult));
+    }
+  }
 
   console.log('✅ REAL LEAD', {
     name: enriched.full_name,
