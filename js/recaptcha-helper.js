@@ -66,11 +66,27 @@
   }
 
   // ───── Real wiring ─────
-  var script = document.createElement('script');
-  script.src = 'https://www.google.com/recaptcha/api.js?render=' + encodeURIComponent(SITE_KEY);
-  script.async = true;
-  script.defer = true;
-  document.head.appendChild(script);
+  // The Google api.js bundle is ~375KB — by far the heaviest resource on the
+  // site — and is only needed at form-submit time. Load it on the first
+  // interaction with any form (focus/tap) instead of at page load; that still
+  // leaves seconds of headroom before a human can finish typing, and the
+  // backend fails open (review-flag, not drop) if the token isn't ready.
+  var recaptchaRequested = false;
+  function loadRecaptchaApi() {
+    if (recaptchaRequested) return;
+    recaptchaRequested = true;
+    var script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js?render=' + encodeURIComponent(SITE_KEY);
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+  document.addEventListener('focusin', function (e) {
+    if (e.target && e.target.form !== undefined && e.target.closest && e.target.closest('form')) loadRecaptchaApi();
+  }, { passive: true, capture: true });
+  document.addEventListener('touchstart', function (e) {
+    if (e.target && e.target.closest && e.target.closest('form')) loadRecaptchaApi();
+  }, { passive: true, capture: true });
 
   function waitForGrecaptcha() {
     return new Promise(function (resolve) {
@@ -89,6 +105,7 @@
 
   window.getRecaptchaToken = function (action) {
     var labelled = action || 'lead_submit';
+    loadRecaptchaApi(); // last-resort load if no prior form interaction fired
     return waitForGrecaptcha().then(function () {
       if (!window.grecaptcha) return null;
       return new Promise(function (resolve) {

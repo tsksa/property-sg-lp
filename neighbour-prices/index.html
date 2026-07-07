@@ -27,15 +27,26 @@
 
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "What Did Your Neighbour's Flat Sell For?",
-  "url": "https://joetay.com/neighbour-prices/",
-  "applicationCategory": "RealEstateApplication",
-  "operatingSystem": "Web",
-  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "SGD"},
-  "description": "Free lookup of actual HDB resale transactions in your block and street, using official HDB data from data.gov.sg.",
-  "provider": {"@type": "RealEstateAgent", "name": "PropertySG", "url": "https://joetay.com/", "telephone": "+65-8188-1488"}
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "What Did Your Neighbour's Flat Sell For?",
+ "url": "https://joetay.com/neighbour-prices/",
+ "applicationCategory": "RealEstateApplication",
+ "operatingSystem": "Web",
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "SGD"
+ },
+ "description": "Free lookup of actual HDB resale transactions in your block and street, using official HDB data from data.gov.sg.",
+ "provider": {
+  "@type": "RealEstateAgent",
+  "name": "Joe Tay",
+  "url": "https://joetay.com/",
+  "telephone": "+65-8188-1488",
+  "@id": "https://joetay.com/#agent",
+  "alternateName": "PropertySG"
+ }
 }
 </script>
 <script type="application/ld+json">
@@ -57,6 +68,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
 
+<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 
@@ -114,6 +126,7 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.9rem);fon
 
 .np-table-wrap{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;margin-bottom:14px}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:560px}
+td:nth-child(n+4),th:nth-child(n+4){text-align:right}
 caption{text-align:left;font-weight:600;color:var(--navy);font-size:0.95rem;padding:16px 18px 6px}
 th{text-align:left;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.8px;color:#888;font-weight:600;padding:10px 18px;border-bottom:1px solid #eee;white-space:nowrap}
 td{padding:11px 18px;border-bottom:1px solid #f3f3f3;color:#333;white-space:nowrap}
@@ -348,7 +361,7 @@ function buildTable(captionText, records, cap){
       fmtMonth(rec.month),
       String(rec.flat_type || '—'),
       fmtStorey(rec.storey_range),
-      String(rec.floor_area_sqm || '—'),
+      (isFinite(Number(rec.floor_area_sqm)) ? String(Number(rec.floor_area_sqm)) : '—'),
       fmtPrice(rec.resale_price),
       p ? '$' + Math.round(p).toLocaleString('en-SG') : '—'
     ];

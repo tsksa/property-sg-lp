@@ -183,7 +183,7 @@
       +   '<form class="pf" id="nlModalForm" novalidate>'
       +     '<div class="pf-row">'
       +       '<input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">'
-      +       '<input type="tel" name="phone" placeholder="e.g. 8188 1488" autocomplete="tel" required pattern="^(\\+65[\\s\\-]?)?[689]\\d{3}[\\s\\-]?\\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">'
+      +       '<input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\\+65[\\s\\-]?)?[689]\\d{3}[\\s\\-]?\\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">'
       +     '</div>'
       +     '<div class="pf-row">'
       +       '<input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address">'
