@@ -32,7 +32,7 @@ jobs:
           - https://joetay.com/calculator/
           - https://joetay.com/insights/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Run Lighthouse mobile audit
         uses: treosh/lighthouse-ci-action@v12
