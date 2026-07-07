@@ -150,6 +150,13 @@ a:hover{text-decoration:underline}
 .back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
 .back-to-top:hover{background:rgba(11,30,63,1)}
 .back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
+
+@media print{
+  nav,.mobile-bar,.back-to-top,.cookie-banner,.dark-toggle,.skip-link,footer form{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  a{color:#000;text-decoration:none}
+  .glossary-term{break-inside:avoid;page-break-inside:avoid}
+}
 </style>
 <style>
 /* WCAG 2.3.3 — respect user's reduced-motion preference */

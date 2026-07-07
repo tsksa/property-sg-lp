@@ -327,7 +327,7 @@
         <p class="project-section-lede" style="margin-bottom:0">Developer-preview details summarised for easy reference. Print or save as PDF to share with your household before VIP preview.</p>
       </div>
       <div class="project-factsheet-actions">
-        <button class="project-factsheet-btn primary" onclick="printFactSheet()">
+        <button type="button" class="project-factsheet-btn primary" onclick="printFactSheet()">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print / Save PDF
         </button>
@@ -457,7 +457,7 @@
   </div>
 </section>
 
-<button class="nl-to-top" aria-label="Back to top">
+<button type="button" class="nl-to-top" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
@@ -499,7 +499,7 @@ const PROJECT_NAME = 'Dunearn House';
 const LANDING_PAGE = '/new-launches/dunearn-house.html';
 
 function showSuccess(form){
-  form.innerHTML = `<div class="pf-success"><div class="pf-success-icon" aria-hidden="true">✓</div><h4 tabindex="-1">You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
+  form.innerHTML = `<div class="pf-success" role="status"><div class="pf-success-icon" aria-hidden="true">✓</div><h4 tabindex="-1">You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the virtual tour link.</p></div>`;
   var sH=form.querySelector('.lp-form-success h3, .pf-success h4'); if(sH) sH.focus();
   if(typeof gtag === 'function') gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});
   if(typeof fbq === 'function') fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});
@@ -507,6 +507,7 @@ function showSuccess(form){
 
 async function handleSubmit(form){
   if(form.company_website.value) return;
+  if(form.reportValidity && !form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
   btn.disabled = true;

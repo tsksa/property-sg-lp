@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "description": "joetay.com \u2014 static site + Netlify Functions (lead capture)",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsksa/property-sg-lp.git"
+  },
+  "homepage": "https://joetay.com",
+  "license": "UNLICENSED",
+  "author": "Joe Tay <joe@joetay.com>",
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
     "check": "node scripts/check-consistency.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
   }
 }
