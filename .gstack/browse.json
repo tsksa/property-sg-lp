@@ -1,9 +1,0 @@
-{
-  "pid": 15520,
-  "port": 12762,
-  "token": "14a744c1-4714-4ae7-bc5b-937f415c889e",
-  "startedAt": "2026-07-07T06:06:00.768Z",
-  "serverPath": "/Users/andylau/.claude/skills/gstack/browse/src/server.ts",
-  "mode": "launched",
-  "configHash": "303a7eeccc03078b"
-}
