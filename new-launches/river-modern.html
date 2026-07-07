@@ -290,7 +290,7 @@
         <p class="project-section-lede" style="margin-bottom:0">Developer-preview details summarised for easy reference. Print or save as PDF to share with your household before VIP preview.</p>
       </div>
       <div class="project-factsheet-actions">
-        <button class="project-factsheet-btn primary" onclick="printFactSheet()">
+        <button type="button" class="project-factsheet-btn primary" onclick="printFactSheet()">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print / Save PDF
         </button>
@@ -433,7 +433,7 @@
   </div>
 </section>
 
-<button class="nl-to-top" aria-label="Back to top">
+<button type="button" class="nl-to-top" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
@@ -458,8 +458,8 @@
 
 <script>
 const ENDPOINT='/.netlify/functions/submit-lead';const _pageLoadedAt=Date.now();const params=new URLSearchParams(location.search);const UTM_KEYS=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];const utm={};UTM_KEYS.forEach(k=>utm[k]=params.get(k)||'');const PROJECT_NAME='River Modern';const LANDING_PAGE='/new-launches/river-modern.html';
-function showSuccess(form){form.innerHTML=`<div class="pf-success"><div class="pf-success-icon" aria-hidden="true">✓</div><h4 tabindex="-1">You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the 4 Matterport tour links.</p></div>`;var sH=form.querySelector('.pf-success h4'); if(sH) sH.focus();if(typeof gtag==='function')gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});if(typeof fbq==='function')fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});}
-async function handleSubmit(form){if(form.company_website.value)return;const btn=form.querySelector('button[type=submit]');const o=btn.innerHTML;btn.disabled=true;btn.textContent='Submitting...';const data={lead_type:'new_launch_registration',request_type:form.request_type?form.request_type.value:'vvip',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,...utm};try{const res=await fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});const r=await res.json().catch(()=>({ok:res.ok}));if(!r.ok)throw new Error('submit failed');showSuccess(form);}catch(e){btn.disabled=false;btn.innerHTML=o;alert("Sorry, something went wrong. Please try again or WhatsApp me at +65 8188 1488.");}}
+function showSuccess(form){form.innerHTML=`<div class="pf-success" role="status"><div class="pf-success-icon" aria-hidden="true">✓</div><h4 tabindex="-1">You're registered.</h4><p>I'll WhatsApp you within 10 minutes with ${PROJECT_NAME} pricing, unit availability, and the 4 Matterport tour links.</p></div>`;var sH=form.querySelector('.pf-success h4'); if(sH) sH.focus();if(typeof gtag==='function')gtag('event','generate_lead',{method:'website_form',lead_type:'new_launch_registration',source_site:'joetay.com',landing_page:LANDING_PAGE,project:PROJECT_NAME});if(typeof fbq==='function')fbq('track','Lead',{content_category:'new_launch',content_name:PROJECT_NAME});}
+async function handleSubmit(form){if(form.company_website.value)return;if(form.reportValidity&&!form.reportValidity())return;const btn=form.querySelector('button[type=submit]');const o=btn.innerHTML;btn.disabled=true;btn.textContent='Submitting...';const data={lead_type:'new_launch_registration',request_type:form.request_type?form.request_type.value:'vvip',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,...utm};try{const res=await fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});const r=await res.json().catch(()=>({ok:res.ok}));if(!r.ok)throw new Error('submit failed');showSuccess(form);}catch(e){btn.disabled=false;btn.innerHTML=o;alert("Sorry, something went wrong. Please try again or WhatsApp me at +65 8188 1488.");}}
 document.getElementById('projectForm').addEventListener('submit',e=>{e.preventDefault();handleSubmit(e.target);});
 </script>
 <script src="/assets/conversion-tracking.js" defer></script>

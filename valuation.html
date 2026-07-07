@@ -489,8 +489,21 @@ postalEl.addEventListener('input', debounce(async ()=>{
 }, 400));
 
 // ── Validation ──
+// Errors are programmatically associated with their fields (WCAG 3.3.1/4.1.3):
+// each shown .val-error-msg gets an id, the field gets aria-describedby +
+// aria-invalid, and the message carries role=alert so SRs announce it.
 function clearErrors(){
   document.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
+  document.querySelectorAll('#valForm [aria-invalid]').forEach(f=>{f.removeAttribute('aria-invalid');f.removeAttribute('aria-describedby');});
+}
+function showFieldError(form, field){
+  const msg=form.querySelector(`[data-error-for="${field.name}"]`);
+  if(!msg) return;
+  if(!msg.id) msg.id='err-'+field.name;
+  msg.setAttribute('role','alert');
+  msg.classList.add('show');
+  const group=field.type==='radio'?form.querySelectorAll(`[name="${field.name}"]`):[field];
+  group.forEach(el=>{el.setAttribute('aria-invalid','true');el.setAttribute('aria-describedby',msg.id);});
 }
 function validate(){
   clearErrors();
@@ -500,16 +513,16 @@ function validate(){
     if(field.type === 'radio'){
       const group = form.querySelectorAll(`[name="${field.name}"]`);
       if(![...group].some(r=>r.checked)){
-        form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        showFieldError(form, field);
         return false;
       }
     } else if(field.type === 'checkbox'){
       if(!field.checked){
-        form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+        showFieldError(form, field);
         return false;
       }
     } else if(!field.value.trim() || !field.checkValidity()){
-      form.querySelector(`[data-error-for="${field.name}"]`)?.classList.add('show');
+      showFieldError(form, field);
       field.focus();
       return false;
     }
