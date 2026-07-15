@@ -1,0 +1,79 @@
+name: Production canary
+
+# Watches the parts of joetay.com that make money: the lead-capture
+# function, the pages that feed it, and the SEO surfaces. Fails loudly
+# (GitHub emails the repo owner) the moment any of them breaks.
+#
+# No lead is ever created: the only POST is an intentionally-invalid
+# payload that must be rejected at the validation gate.
+
+on:
+  schedule:
+    - cron: "23 */2 * * *" # every 2 hours, off the :00 stampede
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    name: Lead pipeline + core pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Core pages respond
+        run: |
+          set -e
+          for path in / /valuation.html /new-launches/ /neighbour-prices/ /calculator/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -m 20 --retry 2 "https://joetay.com${path}")
+            echo "${path} → ${code}"
+            [ "$code" = "200" ] || { echo "::error::${path} returned ${code}"; exit 1; }
+          done
+
+      - name: Homepage serves current content (not a stale/error shell)
+        run: |
+          body=$(curl -s -m 20 --retry 2 https://joetay.com/)
+          echo "$body" | grep -q 'heroValuationLink' || { echo "::error::hero CTA missing from homepage"; exit 1; }
+          echo "$body" | grep -q 'rel="canonical" href="https://joetay.com/"' || { echo "::error::homepage canonical missing"; exit 1; }
+          echo "homepage content OK"
+
+      - name: Lead function preflight (CORS + availability)
+        run: |
+          resp=$(curl -s -o /dev/null -X OPTIONS -H 'Origin: https://joetay.com' \
+            -w '%{http_code}' -m 20 --retry 2 https://joetay.com/api/submit-lead)
+          echo "OPTIONS → ${resp}"
+          [ "$resp" = "204" ] || { echo "::error::submit-lead OPTIONS returned ${resp}"; exit 1; }
+          acao=$(curl -s -o /dev/null -X OPTIONS -H 'Origin: https://joetay.com' -D - -m 20 \
+            https://joetay.com/api/submit-lead | tr -d '\r' | grep -i '^access-control-allow-origin:' | awk '{print $2}')
+          echo "ACAO → ${acao}"
+          [ "$acao" = "https://joetay.com" ] || { echo "::error::CORS echo wrong: ${acao}"; exit 1; }
+
+      - name: Lead function validation gate (no lead created)
+        run: |
+          resp=$(curl -s -w '\n%{http_code}' -m 20 -X POST \
+            -H 'Origin: https://joetay.com' -H 'Content-Type: application/json' \
+            -d '{"lead_type":"valuation"}' \
+            https://joetay.com/api/submit-lead)
+          body=$(echo "$resp" | head -1); code=$(echo "$resp" | tail -1)
+          echo "POST(invalid) → ${code} ${body}"
+          [ "$code" = "400" ] || { echo "::error::expected 400 for invalid lead, got ${code}"; exit 1; }
+          echo "$body" | grep -q '"ok":false' || { echo "::error::unexpected body: ${body}"; exit 1; }
+
+      - name: SEO surfaces respond
+        run: |
+          set -e
+          for path in /sitemap.xml /robots.txt /insights/feed.xml /site.webmanifest; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -m 20 --retry 2 "https://joetay.com${path}")
+            echo "${path} → ${code}"
+            [ "$code" = "200" ] || { echo "::error::${path} returned ${code}"; exit 1; }
+          done
+
+      - name: Tour showroom server (soft check)
+        continue-on-error: true
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -m 15 \
+            "https://vmwgrp.synology.me/CDL_FujiXerox/export/3br-cp1/pano2vr_player.js")
+          echo "NAS tour server → ${code}"
+          if [ "$code" != "200" ]; then
+            echo "::warning::Newport tour showroom server unreachable (${code}) — visitors see the WhatsApp fallback"
+          fi
