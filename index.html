@@ -2412,5 +2412,16 @@ document.addEventListener('keydown',e=>{
 })();
 </script>
 <script src="/assets/conversion-tracking.js" defer></script>
+<!-- Service worker for offline support (Singapore MRT tunnel reality check) -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function(err) {
+      // Non-blocking: if SW registration fails, the site works normally.
+      console.warn('SW registration failed:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>
