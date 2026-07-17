@@ -299,19 +299,22 @@ nav .nav-cta{background:var(--navy);color:#fff;padding:10px 24px;border-radius:1
 nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 
 /* ── Hero ── */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:120px 24px 80px;position:relative;overflow:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:128px 32px 88px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:0;background-image:url('joetay-social-preview-640.webp');background-size:cover;background-position:center;transform:scale(1.05);animation:heroZoom 20s ease-out forwards}
 @media(min-width:641px){.hero-bg{background-image:url('joetay-social-preview-1280.webp')}}
 @media(min-width:1281px){.hero-bg{background-image:url('joetay-social-preview-1920.webp')}}
 @keyframes heroZoom{from{transform:scale(1.12)}to{transform:scale(1.02)}}
 .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,10,25,0.55) 0%,rgba(5,10,25,0.35) 38%,rgba(5,10,25,0.78) 100%),radial-gradient(ellipse at 70% 30%,rgba(30,80,140,0.22),transparent 60%)}
-.hero-inner{max-width:720px;text-align:center;position:relative;z-index:2}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;backdrop-filter:blur(8px)}
-.hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:600;color:#fff;line-height:1.08;letter-spacing:-0.5px;margin-bottom:24px;font-variation-settings:"opsz" 144,"SOFT" 50}
-.hero .hero-desc{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,0.82);max-width:480px;margin:0 auto 36px;line-height:1.6}
+.hero-inner{width:min(1160px,100%);display:grid;grid-template-columns:minmax(0,1.12fr) minmax(380px,.88fr);align-items:center;gap:clamp(44px,6vw,84px);text-align:left;position:relative;z-index:2}
+.hero-copy{max-width:650px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(8px)}
+.hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.8rem,5.4vw,4.8rem);font-weight:600;color:#fff;line-height:1.04;letter-spacing:-1.5px;margin-bottom:22px;font-variation-settings:"opsz" 144,"SOFT" 50}
+.hero .hero-desc{font-size:clamp(1rem,1.6vw,1.16rem);color:rgba(255,255,255,0.82);max-width:570px;margin:0 0 30px;line-height:1.65}
 
 /* Hero Form */
-.hero-form{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px;backdrop-filter:blur(16px);display:flex;flex-direction:column;gap:12px;max-width:440px;margin:0 auto}
+.hero-form{background:rgba(8,20,39,0.76);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:32px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:12px;width:100%;max-width:460px;margin:0 0 0 auto;box-shadow:0 28px 70px rgba(0,0,0,0.3)}
+.hero-form-heading{font-family:'Fraunces',Georgia,serif;font-size:1.45rem;line-height:1.2;color:#fff;margin-bottom:2px}
+.hero-form-intro{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.68);margin-bottom:6px}
 .hero-form-row{display:flex;gap:12px}
 .hero-form input,.hero-form select{width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-family:inherit;font-size:0.9rem;outline:none;transition:border .2s}
 .hero-form input::placeholder{color:rgba(255,255,255,0.35)}
@@ -322,7 +325,7 @@ nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 .hero-form .cta-submit:hover{background:var(--emerald-dark);transform:translateY(-1px);box-shadow:0 6px 24px rgba(16,185,129,0.45)}
 .hero-form .arrow{transition:transform .25s}
 .hero-form .cta-submit:hover .arrow{transform:translateX(4px)}
-.hero-form-note{color:rgba(255,255,255,0.68);font-size:0.72rem;text-align:center;margin-top:4px}
+.hero-form-note{color:rgba(255,255,255,0.68);font-size:0.72rem;text-align:center;margin-top:4px;line-height:1.45}
 .hero-form-note a{color:rgba(255,255,255,0.85);text-decoration:underline}
 
 /* ── Trust Strip ── */
@@ -688,7 +691,8 @@ body.dark-mode .footer-newsletter-form button:hover{background:#0ea371}
 body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 
 /* ── Dark Mode Toggle ── */
-.dark-toggle{position:fixed;bottom:24px;left:24px;z-index:200;width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all .25s}
+.dark-toggle{position:static;width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:transform .25s,opacity .2s,visibility .2s}
+.dark-toggle-label{display:none}
 .dark-toggle:hover{transform:scale(1.1)}
 body.dark-mode .dark-toggle{background:#13294d;border-color:rgba(16,185,129,0.25);color:#fff}
 
@@ -771,18 +775,18 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 @media(max-width:520px){.val-popup-row{grid-template-columns:1fr}.val-popup-inner{padding:32px 22px}}
 
 /* ── PDPA Cookie Consent Banner ── */
-.cookie-banner{position:fixed;bottom:24px;left:24px;right:96px;max-width:520px;background:var(--navy);color:#fff;padding:16px 20px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.28);display:none;z-index:9999;gap:14px;align-items:center;font-size:0.82rem;line-height:1.5}
+.cookie-banner{position:fixed;bottom:20px;left:50%;width:min(760px,calc(100% - 176px));transform:translateX(-50%);background:rgba(11,30,63,.96);color:#fff;padding:14px 16px 14px 20px;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 14px 48px rgba(0,0,0,0.32);display:none;z-index:9999;gap:18px;align-items:center;font-size:0.8rem;line-height:1.45;backdrop-filter:blur(16px)}
 .cookie-banner.show{display:flex}
 .cookie-banner p{margin:0;flex:1;color:rgba(255,255,255,0.92)}
 .cookie-banner a{color:var(--emerald);text-decoration:underline}
+.cookie-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .cookie-banner button{flex-shrink:0;background:var(--emerald);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:background .2s}
 .cookie-banner #cookieDecline{background:transparent;border:1px solid rgba(255,255,255,0.35);font-weight:600;color:rgba(255,255,255,0.85)}
 .cookie-banner #cookieDecline:hover{border-color:rgba(255,255,255,0.6)}
-/* Keep the dark-mode toggle clear of the banner while it's showing */
-body:has(.cookie-banner.show) .dark-toggle{bottom:120px}
+/* Keep first-visit controls from competing while consent needs a decision. */
+body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-events:none}
 .cookie-banner button:hover{background:var(--emerald-dark)}
-@media(max-width:640px){.cookie-banner{bottom:86px;left:12px;right:12px;max-width:none;flex-direction:row;text-align:left;padding:10px 12px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.35}.cookie-banner button{width:auto;min-width:76px;min-height:44px;padding:9px 14px;font-size:0.8rem}}
-@media(max-width:360px){.cookie-banner{flex-direction:column;text-align:center}.cookie-banner button{width:100%}}
+@media(max-width:768px){.cookie-banner{bottom:calc(84px + env(safe-area-inset-bottom));left:12px;width:calc(100% - 24px);transform:none;flex-direction:column;align-items:stretch;text-align:left;padding:13px 14px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.4}.cookie-actions{display:grid;grid-template-columns:1fr 1fr}.cookie-banner button{width:100%;min-height:44px;padding:9px 12px;font-size:0.8rem}}
 
 /* ── Hero: secondary valuation CTA link + OR divider ── */
 .hero-or-divider{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 4px;user-select:none}
@@ -814,14 +818,12 @@ body:has(.cookie-banner.show) .dark-toggle{bottom:120px}
 @media(max-width:768px){
   .mobile-bar{display:flex}
   .wa-float{display:none}
-  .dark-toggle{bottom:80px}
   /* The mobile-bar adds env(safe-area-inset-bottom) to its own bottom
      padding so it sits above iOS's home-indicator. Mirror that inset on
      body's padding-bottom so the last row of content also clears the bar
      on notched iPhones — without this the final paragraph or CTA on
      mobile gets hidden behind the bar by however many points the inset is. */
   body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-  .dark-toggle{bottom:calc(80px + env(safe-area-inset-bottom))}
 }
 
 /* ── Scroll Animations ── */
@@ -832,6 +834,13 @@ body:has(.cookie-banner.show) .dark-toggle{bottom:120px}
 .reveal-delay-3{transition-delay:.3s}
 
 /* ── Mobile ── */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;max-width:680px;gap:34px;text-align:center}
+  .hero-copy{max-width:none}
+  .hero .hero-desc{margin:0 auto 28px}
+  .hero-testimonial{margin:0 auto;text-align:center;border-left:0;padding-left:0}
+  .hero-form{margin:0 auto}
+}
 @media(max-width:768px){
   nav{padding:0 20px}
   .nav-burger{display:flex}
@@ -839,11 +848,19 @@ body:has(.cookie-banner.show) .dark-toggle{bottom:120px}
   nav .nav-links.open{display:flex}
   nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(0,0,0,0.05);font-size:0.95rem}
   nav .nav-links a:last-child{border-bottom:none}
+  nav .nav-links .dark-toggle{position:static;width:100%;height:44px;justify-content:flex-start;gap:10px;border:0;border-radius:0;border-top:1px solid rgba(0,0,0,.06);background:transparent;box-shadow:none;font-size:.95rem;color:#111}
+  nav .nav-links .dark-toggle:hover{transform:none;color:var(--emerald)}
+  nav .nav-links .dark-toggle-label{display:inline;font-size:.82rem;font-weight:600}
   body.dark-mode nav .nav-links{background:rgba(6,20,48,0.97);border-bottom-color:rgba(16,185,129,0.14)}
   body.dark-mode nav .nav-links a{border-bottom-color:rgba(255,255,255,0.06)}
-  .hero{padding:100px 20px 60px;min-height:100svh}
+  body.dark-mode nav .nav-links .dark-toggle{background:transparent;border-top-color:rgba(255,255,255,.06);color:#fff}
+  .hero{padding:104px 20px 72px;min-height:100svh}
   .hero h1{letter-spacing:-1px}
-  .hero-form{padding:20px}
+  .hero-inner{gap:28px}
+  .hero-tag{margin-bottom:18px}
+  .hero .hero-desc{margin-bottom:22px}
+  .hero-testimonial{font-size:.8rem}
+  .hero-form{padding:22px;border-radius:16px}
   .hero-form-row{flex-direction:column}
   .section{padding:72px 20px}
   .problem-grid{grid-template-columns:1fr;gap:0}
@@ -953,10 +970,10 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 .hero-response::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.22);animation:dotPulse 1.6s ease-in-out infinite}
 
 /* Hero mini testimonial */
-.hero-testimonial{max-width:460px;margin:24px auto 0;color:rgba(255,255,255,0.78);font-size:0.82rem;line-height:1.5;text-align:center}
+.hero-testimonial{max-width:540px;margin:0;color:rgba(255,255,255,0.78);font-size:0.84rem;line-height:1.55;text-align:left;border-left:2px solid rgba(16,185,129,.7);padding-left:18px}
 .hero-testimonial-mark{font-family:'Fraunces',Georgia,serif;color:rgba(16,185,129,0.9);font-weight:600;font-size:1.05rem;line-height:1;margin:0 2px;display:inline-block;vertical-align:baseline}
 .hero-testimonial em{font-style:italic;color:rgba(255,255,255,0.9);display:block}
-.hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.55);font-size:0.72rem;margin-top:6px;letter-spacing:0.2px}
+.hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.58);font-size:0.72rem;margin-top:7px;letter-spacing:0.2px}
 
 /* Nav — phone + CTA group */
 .nav-right{display:flex;align-items:center;gap:18px}
@@ -1111,6 +1128,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <a href="/new-launches/">New Launches</a>
     <a href="/calculator/">Calculator</a>
     <a href="/insights/">Insights</a>
+    <button class="dark-toggle" id="darkToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"><span aria-hidden="true">🌙</span><span class="dark-toggle-label">Dark mode</span></button>
   </div>
   <div class="nav-right">
     <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="nav-phone" aria-label="Call Joe at +65 8188 1488">
@@ -1128,10 +1146,19 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-grain" aria-hidden="true"></div>
   <div class="hero-inner">
-    <div class="hero-tag">HDB · Condo · Landed · Commercial</div>
-    <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
+    <div class="hero-copy">
+      <div class="hero-tag">HDB · Condo · Landed · Commercial</div>
+      <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
+      <p class="hero-desc">A clear pricing strategy, hands-on marketing, and one experienced agent from first conversation to completion.</p>
+      <div class="hero-testimonial" aria-label="Customer testimonial">
+        <span class="hero-stars" aria-hidden="true">★★★★★</span><span class="sr-only">Rated 5 out of 5 stars.</span>
+        <em><span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>Joe priced my 4-room right from day one — sold at $18k above valuation.<span class="hero-testimonial-mark" aria-hidden="true">&rdquo;</span></em>
+        <cite>Mr Ng · HDB Seller, Serangoon North · Verified</cite>
+      </div>
+    </div>
     <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
-      <h2 id="heroFormTitle" class="sr-only">Get a free property consultation</h2>
+      <h2 id="heroFormTitle" class="hero-form-heading">Plan your next property move</h2>
+      <p class="hero-form-intro">Tell me where you are now. I’ll reply personally with a practical next step.</p>
       <div class="hero-form-row">
         <label for="hero-name" class="sr-only">Your name</label>
         <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words">
@@ -1161,13 +1188,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
       <div class="hero-or-divider" aria-hidden="true"><span>or</span></div>
       <button type="button" class="hero-valuation-link" id="heroValuationLink">Get a free valuation in 24h <span class="arrow-sm" aria-hidden="true">→</span></button>
+      <p class="hero-form-note">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
     </form>
-    <div class="hero-testimonial" aria-label="Customer testimonial">
-      <span class="hero-stars" aria-hidden="true">★★★★★</span><span class="sr-only">Rated 5 out of 5 stars.</span>
-      <em><span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>Joe priced my 4-room right from day one — sold at $18k above valuation.<span class="hero-testimonial-mark" aria-hidden="true">&rdquo;</span></em>
-      <cite>Mr Ng · HDB Seller, Serangoon North · Verified</cite>
-    </div>
-    <p class="hero-fineprint">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
     <span>Scroll</span>
@@ -1790,14 +1812,13 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <span class="wa-float-tip">Chat with Joe</span>
 </a>
 
-<!-- Dark Mode Toggle -->
-<button class="dark-toggle" id="darkToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"><span aria-hidden="true">🌙</span></button>
-
 <!-- PDPA Cookie Consent Banner -->
 <div class="cookie-banner" id="cookieBanner" role="region" aria-labelledby="cookieBannerHeading">
   <p><strong id="cookieBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
-  <button type="button" id="cookieAccept" aria-label="Accept cookies">Got it</button>
-  <button type="button" id="cookieDecline" aria-label="Decline non-essential cookies">No thanks</button>
+  <div class="cookie-actions">
+    <button type="button" id="cookieDecline" aria-label="Decline non-essential cookies">No thanks</button>
+    <button type="button" id="cookieAccept" aria-label="Accept cookies">Accept</button>
+  </div>
 </div>
 
 <!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
