@@ -46,3 +46,8 @@
   status = 200
 
 # SPA-style fallback not needed — this is a multi-page static site
+
+# Monthly price-alert digest — matches subscriptions against the latest
+# HDB dataset month and emails Joe one follow-up list (see alert-digest.js).
+[functions."alert-digest"]
+  schedule = "37 1 6 * *"
