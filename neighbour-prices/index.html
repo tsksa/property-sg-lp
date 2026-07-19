@@ -364,7 +364,7 @@ function median(arr){
 }
 
 // All rendering uses createElement/textContent — API data never touches innerHTML.
-function buildTable(captionText, records, cap){
+function buildTable(captionText, records, cap, showBlock){
   var wrap = document.createDocumentFragment();
   var table = document.createElement('table');
   var caption = document.createElement('caption');
@@ -373,7 +373,9 @@ function buildTable(captionText, records, cap){
 
   var thead = document.createElement('thead');
   var hr = document.createElement('tr');
-  ['Sold','Flat type','Storey','Size (sqm)','Price','$psf'].forEach(function(h){
+  (showBlock
+    ? ['Sold','Blk','Flat type','Storey','Size (sqm)','Price','$psf']
+    : ['Sold','Flat type','Storey','Size (sqm)','Price','$psf']).forEach(function(h){
     var th = document.createElement('th');
     th.scope = 'col';
     th.textContent = h;
@@ -394,11 +396,13 @@ function buildTable(captionText, records, cap){
       fmtPrice(rec.resale_price),
       p ? '$' + Math.round(p).toLocaleString('en-SG') : '—'
     ];
+    if(showBlock) cells.splice(1, 0, String(rec.block || '—'));
+    var priceIdx = showBlock ? 5 : 4;
     cells.forEach(function(text, i){
       var td = document.createElement('td');
       td.textContent = text;
-      if(i === 4) td.className = 'price';
-      if(i === 5) td.className = 'psf';
+      if(i === priceIdx) td.className = 'price';
+      if(i === priceIdx + 1) td.className = 'psf';
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
@@ -455,7 +459,7 @@ function render(addr, blockRecs, streetRecs){
   var others = streetRecs.filter(function(r){ return String(r.block).trim() !== addr.block; });
   streetWrap.textContent = '';
   if(others.length){
-    streetWrap.appendChild(buildTable('Along ' + addr.road, others, 15));
+    streetWrap.appendChild(buildTable('Along ' + addr.road, others, 15, true));
     streetWrap.style.display = '';
   } else {
     streetWrap.style.display = 'none';
