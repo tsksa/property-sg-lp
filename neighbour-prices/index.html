@@ -135,6 +135,18 @@ tr:last-child td{border-bottom:none}
 td.price{font-weight:700;color:var(--navy)}
 td.psf{color:#666}
 .np-note{font-size:0.78rem;color:#767676;margin-bottom:34px}
+.np-alert{background:#fff;border:1.5px solid rgba(16,185,129,0.35);border-radius:16px;padding:24px;margin:26px 0 8px}
+.np-alert h3{font-family:'Fraunces',Georgia,serif;font-size:1.15rem;color:var(--navy);margin-bottom:4px}
+.np-alert p{font-size:0.85rem;color:#555;margin-bottom:14px}
+.np-alert .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.np-alert input[type=text],.np-alert input[type=email]{width:100%;padding:11px 13px;border:1px solid #ddd;border-radius:9px;font-family:inherit;font-size:0.9rem}
+.np-alert input:focus{border-color:var(--emerald);outline:none}
+.np-alert label.consent{display:flex;gap:8px;align-items:flex-start;font-size:0.78rem;color:#555;margin-bottom:12px}
+.np-alert button{background:var(--emerald);color:#fff;border:none;font-weight:700;padding:12px 20px;border-radius:10px;cursor:pointer;font-size:0.9rem}
+.np-alert button:hover{background:var(--emerald-dark)}
+.np-alert .err{display:none;color:#b91c1c;background:#fef2f2;border-left:3px solid #b91c1c;padding:8px 12px;border-radius:0 8px 8px 0;font-size:0.82rem;margin-bottom:10px}
+.np-alert .err.show{display:block}
+@media(max-width:520px){.np-alert .row{grid-template-columns:1fr}}
 
 .np-cta{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);border-radius:18px;padding:34px 30px;color:#fff;margin-top:8px}
 .np-cta h2{font-family:'Fraunces',Georgia,serif;font-size:1.45rem;font-weight:600;letter-spacing:-0.3px;line-height:1.3;margin-bottom:8px}
@@ -195,6 +207,22 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
     <p class="np-results-sub" id="resultsSub"></p>
     <div class="np-summary" id="npSummary"></div>
     <div class="np-table-wrap" id="blockTableWrap"></div>
+    <div class="np-alert" id="npAlert" style="display:none">
+      <h3>Know the moment your block moves</h3>
+      <p>When the next flat in your block (or street) is registered as sold, I'll message you the price personally — usually before it shows up on the portals.</p>
+      <div class="err" id="npAlertErr" role="alert"></div>
+      <form id="npAlertForm" novalidate>
+        <div class="row">
+          <label class="sr-only" for="npAlertName">Your name</label>
+          <input type="text" id="npAlertName" name="name" placeholder="Your name" autocomplete="name" required>
+          <label class="sr-only" for="npAlertContact">Mobile or email</label>
+          <input type="text" id="npAlertContact" name="contact" placeholder="Mobile or email" autocomplete="tel" required>
+        </div>
+        <label class="consent"><input type="checkbox" id="npAlertConsent" required> <span>I agree to be contacted by Joe Tay about resale activity for this block. One person sees this — no lists, no spam, stop anytime.</span></label>
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><input type="text" name="company_website" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Alert me on the next sale →</button>
+      </form>
+    </div>
     <div class="np-table-wrap" id="streetTableWrap"></div>
     <p class="np-note">Prices are the actual amounts registered with HDB. $psf is computed from the recorded floor area. Storey shown as a range to protect seller privacy — HDB publishes it that way.</p>
 
@@ -438,9 +466,54 @@ function render(addr, blockRecs, streetRecs){
   waBtn.href = 'https://wa.me/6581881488?text=' + encodeURIComponent(msg);
 
   results.classList.add('show');
+  // Reveal the price-alert subscribe card with this lookup's context.
+  var srcRec = (blockRecs[0] || streetRecs[0] || {});
+  window._npAlertCtx = { postal_code: postalInput.value, block: addr.block, street_name: addr.road, town: srcRec.town || '' };
+  var alertCard = document.getElementById('npAlert');
+  if (alertCard) alertCard.style.display = '';
   resultsHead.focus({preventScroll: true});
   resultsHead.scrollIntoView({behavior: 'smooth', block: 'start'});
 }
+
+// ── Price-alert subscription ──
+(function(){
+  var f = document.getElementById('npAlertForm');
+  if (!f) return;
+  var err = document.getElementById('npAlertErr');
+  function showErr(m){ err.textContent = m; err.classList.add('show'); }
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    err.classList.remove('show');
+    var name = document.getElementById('npAlertName').value.trim();
+    var contact = document.getElementById('npAlertContact').value.trim();
+    var consent = document.getElementById('npAlertConsent').checked;
+    if (!name) { showErr('Please enter your name.'); return; }
+    if (!contact) { showErr('Please enter your mobile number or email.'); return; }
+    if (!consent) { showErr('Please tick the consent box so Joe can contact you.'); return; }
+    var btn = f.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Setting up…';
+    var ctx = window._npAlertCtx || {};
+    fetch('/api/subscribe-alert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name, contact: contact, consent: true,
+        postal_code: ctx.postal_code || '', block: ctx.block || '',
+        street_name: ctx.street_name || '', town: ctx.town || '',
+        company_website: f.company_website ? f.company_website.value : ''
+      })
+    }).then(function(r){ return r.json().catch(function(){ return { ok: r.ok }; }); })
+      .then(function(r){
+        if (!r.ok) throw new Error(r.error || 'failed');
+        var card = document.getElementById('npAlert');
+        card.innerHTML = '<h3>You\u2019re on the list.</h3><p role="status">The moment the next sale in Blk ' + (ctx.block || 'your block') + ' is registered, Joe will message you the price personally.</p>';
+      })
+      .catch(function(ex){
+        btn.disabled = false; btn.textContent = 'Alert me on the next sale \u2192';
+        showErr(ex.message === 'failed' ? 'Something went wrong \u2014 try again, or WhatsApp Joe directly.' : ex.message);
+      });
+  });
+})();
 
 form.addEventListener('submit', function(e){
   e.preventDefault();
