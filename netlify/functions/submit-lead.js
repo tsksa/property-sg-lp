@@ -54,6 +54,14 @@ function getCorsHeaders(origin) {
 }
 
 exports.handler = async (event) => {
+  // Hydrate Netlify Blobs for the legacy function signature — without this,
+  // getStore() in checkRateLimit throws and the rate limit silently fails
+  // open on every request (fail-open by design, but it should actually work).
+  try {
+    const blobs = await import('@netlify/blobs');
+    if (typeof blobs.connectLambda === 'function') blobs.connectLambda(event);
+  } catch (e) { console.warn('Blobs hydration failed:', e.message); }
+
   const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
   const OK_RESPONSE = { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 

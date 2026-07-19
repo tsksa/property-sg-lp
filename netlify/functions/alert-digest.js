@@ -18,9 +18,13 @@ async function fetchMonth(month) {
   return j.success ? j.result.records : [];
 }
 
-exports.handler = async () => {
-  const { getStore } = await import('@netlify/blobs');
-  const store = getStore('price-alerts');
+exports.handler = async (event) => {
+  const blobs = await import('@netlify/blobs');
+  // Hydrate Blobs env under the legacy function signature (see subscribe-alert.js).
+  if (event && typeof blobs.connectLambda === 'function') {
+    try { blobs.connectLambda(event); } catch (e) { console.warn('connectLambda:', e.message); }
+  }
+  const store = blobs.getStore('price-alerts');
 
   const subs = [];
   const listing = await store.list();
