@@ -49,7 +49,17 @@ exports.handler = async (event) => {
   const stamp = await store.get('_digested');
   if (stamp === month) { console.log(`Already digested ${month}.`); return { statusCode: 200, body: 'already done' }; }
 
-  const norm = (x) => String(x || '').toUpperCase().replace(/\s+/g, ' ').trim();
+  // OneMap stores full road names ("SERANGOON NORTH AVENUE 1") but the HDB
+  // dataset abbreviates ("SERANGOON NTH AVE 1"). Same token map as the
+  // neighbour-prices tool — both sides normalize to the abbreviated form.
+  const ROAD_ABBREV = {
+    'AVENUE':'AVE','BUKIT':'BT','CENTRAL':'CTRL','CLOSE':'CL','COMMONWEALTH':"C'WEALTH",
+    'CRESCENT':'CRES','DRIVE':'DR','GARDENS':'GDNS','HEIGHTS':'HTS','JALAN':'JLN',
+    'KAMPONG':'KG','LORONG':'LOR','NORTH':'NTH','PARK':'PK','PLACE':'PL','ROAD':'RD',
+    'SOUTH':'STH','STREET':'ST','TANJONG':'TG','TERRACE':'TER','UPPER':'UPP','SAINT':'ST.'
+  };
+  const norm = (x) => String(x || '').toUpperCase().replace(/\s+/g, ' ').trim()
+    .split(' ').map((t) => ROAD_ABBREV[t] || t).join(' ');
   const matches = [];
   for (const s of subs) {
     const inBlock = recs.filter((r) => norm(r.block) === norm(s.block) && norm(r.street_name) === norm(s.street_name));
