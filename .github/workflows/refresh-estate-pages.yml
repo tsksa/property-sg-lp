@@ -1,0 +1,45 @@
+name: Refresh estate market pages
+
+# The HDB resale dataset updates monthly. Regenerate /hdb-prices/ from it and
+# open a PR with the diff — Joe reviews and merges (pages never change silently).
+
+on:
+  schedule:
+    - cron: "43 2 3 * *" # 3rd of each month, 02:43 UTC (off the :00 stampede)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Regenerate pages from data.gov.sg
+        run: node scripts/generate-estate-pages.mjs
+
+      - name: Consistency guard on the result
+        run: node scripts/check-consistency.mjs
+
+      - name: Open refresh PR if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then echo "No data changes this month."; exit 0; fi
+          BRANCH="auto/estate-refresh-$(date -u +%Y-%m)"
+          git config user.name "estate-refresh-bot"
+          git config user.email "actions@github.com"
+          git checkout -B "$BRANCH"
+          git add hdb-prices/ sitemap.xml
+          git commit -m "Monthly estate-page refresh from data.gov.sg ($(date -u +%Y-%m))"
+          git push -f origin "$BRANCH"
+          gh pr create --fill --title "Monthly estate-page data refresh ($(date -u +%Y-%m))" \
+            --body "Automated regeneration of /hdb-prices/ from the HDB Resale Flat Prices dataset. Consistency guard passed in this workflow. Review the diff (medians + recent-sales tables) and merge." \
+            || echo "PR already exists for this month"
