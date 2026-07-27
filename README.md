@@ -124,6 +124,64 @@ Function endpoint is `http://localhost:8888/.netlify/functions/submit-lead`.
 
 ---
 
+## Search Console growth report
+
+The `Weekly Search Console growth report` GitHub Actions workflow runs every
+Monday at **10:15 Asia/Singapore** and can also be started manually. It reads
+finalized Google web-search data for two adjacent 28-day windows, ending three
+days before the run date.
+
+The report ranks up to ten non-branded Singapore query/page opportunities:
+
+1. clicks down at least 20% from a prior baseline of 5 clicks and 50 impressions;
+2. positions 1–10 with at least 50 impressions and CTR below 2%; and
+3. positions 4–20 with at least 50 impressions.
+
+That order is also the deterministic priority when one row matches multiple
+groups. Recommendations are fixed rules; the workflow does not call an AI API
+or change the website. The job summary and the 90-day Markdown and JSON
+artifacts contain the same windows, summaries, and ranked rows. Branded
+Singapore traffic and global property totals remain separate from the primary
+ranking. A valid run with no matches succeeds with an explicit empty state.
+
+### One-time Google setup
+
+1. In a dedicated Google Cloud project, enable the **Google Search Console
+   API**.
+2. Create a dedicated service account and JSON key. Never commit that key.
+3. In Search Console, open the exact joetay.com property, then add the service
+   account's `client_email` under **Settings → Users and permissions** with
+   read access.
+4. In GitHub **Settings → Secrets and variables → Actions**, add:
+   - secret `GSC_SERVICE_ACCOUNT_JSON`: the complete service-account JSON;
+   - repository variable `GSC_SITE_URL`: the exact Search Console property
+     identifier, such as `sc-domain:joetay.com` or the exact URL-prefix value.
+
+The variable must match the property granted to the service account. A missing
+key, denied user, disabled API, or mismatched property fails the workflow
+without writing a partial report or printing credentials.
+
+### Run and interpret it
+
+Open **Actions → Weekly Search Console growth report → Run workflow** for a
+manual check after configuration. The workflow uses finalized data only,
+filters the opportunity set to Singapore, and excludes queries containing
+`Joe Tay`, `joetay`, `PropertySG`, or `Property SG` case-insensitively.
+
+Search Analytics exposes top rows rather than guaranteeing every query, so use
+the report as a prioritized editing queue and verify material changes in
+Search Console. It never creates issues, commits, pull requests, content, or
+indexing requests.
+
+Run the fixture-only local checks without Google credentials:
+
+```bash
+npm run test:search-growth
+npm run check
+```
+
+---
+
 ## Reporting issues / security
 
 - **Bugs / suggestions**: <joe@joetay.com>
