@@ -1,0 +1,110 @@
+{
+  "dimensionHeaders": [
+    { "name": "landingPagePlusQueryString" },
+    { "name": "customEvent:lead_type" }
+  ],
+  "metricHeaders": [
+    { "name": "eventCount", "type": "TYPE_INTEGER" }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        { "value": "/sell/?utm_source=google" },
+        { "value": "seller_consult" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/index.html" },
+        { "value": "valuation" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "landlord_consult" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "final_cta_consultation" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "consultation" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "calendly_booking" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "new_launch_registration" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "newsletter_signup" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "mystery_type" }
+      ],
+      "metricValues": [{ "value": "3" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "(not set)" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/insights/fees/" },
+        { "value": "consultation" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/valuation/" },
+        { "value": "valuation" }
+      ],
+      "metricValues": [{ "value": "20" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/new-launches/example/" },
+        { "value": "new_launch_registration" }
+      ],
+      "metricValues": [{ "value": "5" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "(not set)" },
+        { "value": "seller_consult" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    }
+  ],
+  "rowCount": 14
+}

@@ -116,7 +116,8 @@ Function endpoint is `http://localhost:8888/.netlify/functions/submit-lead`.
 
 ## Tracking
 
-- **GA4** property: `GT-KVFDZD5V`
+- **Google tag**: `GT-KVFDZD5V` (the numeric GA4 property ID is configured
+  separately for reporting)
 - **Google Ads** conversion ID: `AW-18046717591`
 - **Meta Pixel**: `3279494272146114`
 - **PDPA**: disclosure in `privacy-policy.html` covers reCAPTCHA, Twilio,
@@ -144,29 +145,59 @@ artifacts contain the same windows, summaries, and ranked rows. Branded
 Singapore traffic and global property totals remain separate from the primary
 ranking. A valid run with no matches succeeds with an explicit empty state.
 
+Each ranked row is enriched with aggregate GA4 **Organic Search** sessions,
+engaged sessions, completed lead-event categories, and contact-intent events
+for the same two windows. Search Console still determines the ranking order.
+GA4 landing pages are joined by normalized path, and unmatched or unavailable
+paths remain visible in report diagnostics. Contact clicks stay separate from
+completed leads. Because the GA4 property is shared with another site, every
+GA4 request also filters `hostName` to `joetay.com`.
+
 ### One-time Google setup
 
-1. In a dedicated Google Cloud project, enable the **Google Search Console
-   API**.
-2. Create a dedicated service account and JSON key. Never commit that key.
+1. In the dedicated Google Cloud project, enable both the **Google Search
+   Console API** and **Google Analytics Data API**.
+2. Create a dedicated service account and JSON key. Never commit that key or
+   create a second key for GA4.
 3. In Search Console, open the exact joetay.com property, then add the service
    account's `client_email` under **Settings → Users and permissions** with
    read access.
-4. In GitHub **Settings → Secrets and variables → Actions**, add:
+4. In GA4, open **Admin → Property access management**, add the same service
+   account email, and grant it the **Viewer** role.
+5. In **GA4 Admin → Data display → Custom definitions**, create:
+   - **Lead type** — scope **Event**, event parameter `lead_type`;
+   - **Contact method** — scope **Event**, event parameter `contact_method`.
+
+   New definitions can take **24–48 hours** to become reportable and do not
+   backfill data from before GA4 made them available.
+6. Find the numeric GA4 property ID in GA4 Admin. Then in GitHub **Settings →
+   Secrets and variables → Actions**, add:
    - secret `GSC_SERVICE_ACCOUNT_JSON`: the complete service-account JSON;
    - repository variable `GSC_SITE_URL`: the exact Search Console property
-     identifier, such as `sc-domain:joetay.com` or the exact URL-prefix value.
+     identifier, such as `sc-domain:joetay.com` or the exact URL-prefix value;
+   - repository variable `GA4_PROPERTY_ID`: the numeric GA4 property ID, not a
+     `G-` or `GT-` Google tag ID.
 
-The variable must match the property granted to the service account. A missing
-key, denied user, disabled API, or mismatched property fails the workflow
-without writing a partial report or printing credentials.
+Each variable must match the property granted to the service account. Before
+querying report data, the workflow checks that both event-scoped custom
+dimensions are available. A missing definition, key, Viewer role, API, or
+mismatched property fails without writing a partial report or printing
+credentials.
 
 ### Run and interpret it
 
 Open **Actions → Weekly Search Console growth report → Run workflow** for a
-manual check after configuration. The workflow uses finalized data only,
-filters the opportunity set to Singapore, and excludes queries containing
-`Joe Tay`, `joetay`, `PropertySG`, or `Property SG` case-insensitively.
+manual check after configuration and the custom-dimension availability delay.
+Confirm that the GA4 metadata check passes, both sources show the same date
+windows, and the job summary matches the downloadable JSON and Markdown
+artifacts. Compare organic sessions and at least one lead category with GA4
+for the same landing page and dates.
+
+The workflow uses finalized Search Console data only, filters the opportunity
+set to Singapore, and excludes queries containing `Joe Tay`, `joetay`,
+`PropertySG`, or `Property SG` case-insensitively. GA4 figures remain
+aggregate-only: seller/owner, general consultation, new-launch, nurture,
+unclassified lead, and contact-intent figures are reported separately.
 
 Search Analytics exposes top rows rather than guaranteeing every query, so use
 the report as a prioritized editing queue and verify material changes in

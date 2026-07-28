@@ -1,0 +1,47 @@
+{
+  "dimensionHeaders": [
+    { "name": "landingPagePlusQueryString" },
+    { "name": "customEvent:contact_method" }
+  ],
+  "metricHeaders": [
+    { "name": "eventCount", "type": "TYPE_INTEGER" }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "phone_call" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "whatsapp" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/insights/timeline/" },
+        { "value": "email" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/valuation/index.html" },
+        { "value": "email" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/other/" },
+        { "value": "carrier_pigeon" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    }
+  ],
+  "rowCount": 5
+}

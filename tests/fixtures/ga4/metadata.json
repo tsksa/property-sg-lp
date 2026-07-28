@@ -1,0 +1,34 @@
+{
+  "name": "properties/123456789/metadata",
+  "dimensions": [
+    {
+      "apiName": "landingPagePlusQueryString",
+      "uiName": "Landing page + query string",
+      "customDefinition": false
+    },
+    {
+      "apiName": "customEvent:lead_type",
+      "uiName": "Lead type",
+      "customDefinition": true
+    },
+    {
+      "apiName": "customEvent:contact_method",
+      "uiName": "Contact method",
+      "customDefinition": true
+    }
+  ],
+  "metrics": [
+    {
+      "apiName": "sessions",
+      "uiName": "Sessions"
+    },
+    {
+      "apiName": "engagedSessions",
+      "uiName": "Engaged sessions"
+    },
+    {
+      "apiName": "eventCount",
+      "uiName": "Event count"
+    }
+  ]
+}
