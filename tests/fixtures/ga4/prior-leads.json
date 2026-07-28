@@ -1,0 +1,54 @@
+{
+  "dimensionHeaders": [
+    { "name": "landingPagePlusQueryString" },
+    { "name": "customEvent:lead_type" }
+  ],
+  "metricHeaders": [
+    { "name": "eventCount", "type": "TYPE_INTEGER" }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "seller_consult" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "consultation" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "new_launch_registration" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "newsletter_signup" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/insights/fees/index.html" },
+        { "value": "consultation" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/valuation/" },
+        { "value": "valuation" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    }
+  ],
+  "rowCount": 6
+}

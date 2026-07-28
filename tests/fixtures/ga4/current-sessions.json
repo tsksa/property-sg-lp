@@ -1,0 +1,36 @@
+{
+  "dimensionHeaders": [
+    { "name": "landingPagePlusQueryString" }
+  ],
+  "metricHeaders": [
+    { "name": "sessions", "type": "TYPE_INTEGER" },
+    { "name": "engagedSessions", "type": "TYPE_INTEGER" }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [{ "value": "/sell/?utm_source=google" }],
+      "metricValues": [{ "value": "100" }, { "value": "60" }]
+    },
+    {
+      "dimensionValues": [{ "value": "//sell/index.html?ref=x#hero" }],
+      "metricValues": [{ "value": "20" }, { "value": "12" }]
+    },
+    {
+      "dimensionValues": [{ "value": "/insights/fees?source=google" }],
+      "metricValues": [{ "value": "30" }, { "value": "18" }]
+    },
+    {
+      "dimensionValues": [{ "value": "/valuation/index.html" }],
+      "metricValues": [{ "value": "12" }, { "value": "6" }]
+    },
+    {
+      "dimensionValues": [{ "value": "/other/?utm_source=google" }],
+      "metricValues": [{ "value": "7" }, { "value": "3" }]
+    },
+    {
+      "dimensionValues": [{ "value": "(not set)" }],
+      "metricValues": [{ "value": "2" }, { "value": "1" }]
+    }
+  ],
+  "rowCount": 6
+}

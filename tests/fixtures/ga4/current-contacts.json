@@ -1,0 +1,75 @@
+{
+  "dimensionHeaders": [
+    { "name": "landingPagePlusQueryString" },
+    { "name": "customEvent:contact_method" }
+  ],
+  "metricHeaders": [
+    { "name": "eventCount", "type": "TYPE_INTEGER" }
+  ],
+  "rows": [
+    {
+      "dimensionValues": [
+        { "value": "/sell/?utm_source=google" },
+        { "value": "phone_call" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/" },
+        { "value": "whatsapp" }
+      ],
+      "metricValues": [{ "value": "3" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell/index.html" },
+        { "value": "calendly" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "email" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/sell" },
+        { "value": "fax" }
+      ],
+      "metricValues": [{ "value": "2" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/insights/fees/" },
+        { "value": "email" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/valuation/" },
+        { "value": "phone_call" }
+      ],
+      "metricValues": [{ "value": "5" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "/ga4-only/" },
+        { "value": "whatsapp" }
+      ],
+      "metricValues": [{ "value": "4" }]
+    },
+    {
+      "dimensionValues": [
+        { "value": "(other)" },
+        { "value": "email" }
+      ],
+      "metricValues": [{ "value": "1" }]
+    }
+  ],
+  "rowCount": 9
+}
