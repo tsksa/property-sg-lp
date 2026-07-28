@@ -1,0 +1,54 @@
+{
+  "rows": [
+    {
+      "keys": ["sell hdb singapore", "https://example.test/sell/"],
+      "clicks": 10,
+      "impressions": 180,
+      "ctr": 0.0555555556,
+      "position": 9
+    },
+    {
+      "keys": ["hdb agent fees", "https://example.test/insights/fees"],
+      "clicks": 2,
+      "impressions": 100,
+      "ctr": 0.02,
+      "position": 6
+    },
+    {
+      "keys": ["hdb resale timeline", "https://example.test/insights/timeline"],
+      "clicks": 10,
+      "impressions": 100,
+      "ctr": 0.1,
+      "position": 3
+    },
+    {
+      "keys": ["hdb valuation guide", "https://example.test/valuation"],
+      "clicks": 4,
+      "impressions": 100,
+      "ctr": 0.04,
+      "position": 13
+    },
+    {
+      "keys": ["vanished seller query", "https://example.test/sell/"],
+      "clicks": 6,
+      "impressions": 60,
+      "ctr": 0.1,
+      "position": 7
+    },
+    {
+      "keys": ["best agent Joe Tay reviews", "https://example.test/"],
+      "clicks": 18,
+      "impressions": 90,
+      "ctr": 0.2,
+      "position": 1
+    },
+    {
+      "keys": ["Property SG valuation", "https://example.test/valuation"],
+      "clicks": 8,
+      "impressions": 70,
+      "ctr": 0.1142857143,
+      "position": 1
+    }
+  ],
+  "responseAggregationType": "byPage"
+}

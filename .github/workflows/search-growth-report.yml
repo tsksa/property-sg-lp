@@ -1,0 +1,45 @@
+name: Weekly Search Console growth report
+
+on:
+  schedule:
+    - cron: "15 10 * * 1"
+      timezone: "Asia/Singapore"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    name: Build organic-growth opportunity report
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Test reporting logic
+        run: npm run test:search-growth
+
+      - name: Generate Search Console report
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+        run: node scripts/search-growth-report.mjs --output-dir "$RUNNER_TEMP/search-growth-report"
+
+      - name: Publish report in the job summary
+        run: cat "$RUNNER_TEMP/search-growth-report/search-growth-report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Markdown and JSON reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-growth-report-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/search-growth-report/search-growth-report.md
+            ${{ runner.temp }}/search-growth-report/search-growth-report.json
+          if-no-files-found: error
+          retention-days: 90
