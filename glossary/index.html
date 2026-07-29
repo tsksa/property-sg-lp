@@ -118,8 +118,8 @@ a:hover{text-decoration:underline}
 .g-toc{max-width:900px;margin:28px auto 0;padding:0 24px}
 .g-toc-inner{background:#fff;border:1px solid #eee;border-radius:12px;padding:22px 26px}
 .g-toc h2{font-family:'Fraunces',Georgia,serif;font-size:0.76rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
-.g-toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
-.g-toc-grid a{padding:8px 10px;background:var(--cream);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--navy);text-align:center;text-decoration:none;transition:background .15s}
+.g-toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;list-style:none;margin:0;padding:0}
+.g-toc-grid a{display:block;padding:8px 10px;background:var(--cream);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--navy);text-align:center;text-decoration:none;transition:background .15s}
 .g-toc-grid a:hover{background:rgba(16,185,129,0.15);color:var(--emerald);text-decoration:none}
 
 .g-main{max-width:900px;margin:0 auto;padding:40px 24px 72px}
@@ -208,26 +208,26 @@ a:hover{text-decoration:underline}
 <div class="g-toc">
   <div class="g-toc-inner">
     <h2>Quick jump</h2>
-    <div class="g-toc-grid" role="list" aria-label="Glossary table of contents">
-      <a href="#absd"role="listitem">ABSD</a>
-      <a href="#bsd"role="listitem">BSD</a>
-      <a href="#bto"role="listitem">BTO</a>
-      <a href="#cea"role="listitem">CEA</a>
-      <a href="#cov"role="listitem">COV</a>
-      <a href="#cpf"role="listitem">CPF</a>
-      <a href="#ec"role="listitem">EC</a>
-      <a href="#hdb"role="listitem">HDB</a>
-      <a href="#hfe"role="listitem">HFE</a>
-      <a href="#ltv"role="listitem">LTV</a>
-      <a href="#mop"role="listitem">MOP</a>
-      <a href="#msr"role="listitem">MSR</a>
-      <a href="#otp"role="listitem">OTP</a>
-      <a href="#sora"role="listitem">SORA</a>
-      <a href="#srx"role="listitem">SRX</a>
-      <a href="#tdsr"role="listitem">TDSR</a>
-      <a href="#top"role="listitem">TOP</a>
-      <a href="#ura"role="listitem">URA</a>
-    </div>
+    <ul class="g-toc-grid" aria-label="Glossary table of contents">
+      <li><a href="#absd">ABSD</a></li>
+      <li><a href="#bsd">BSD</a></li>
+      <li><a href="#bto">BTO</a></li>
+      <li><a href="#cea">CEA</a></li>
+      <li><a href="#cov">COV</a></li>
+      <li><a href="#cpf">CPF</a></li>
+      <li><a href="#ec">EC</a></li>
+      <li><a href="#hdb">HDB</a></li>
+      <li><a href="#hfe">HFE</a></li>
+      <li><a href="#ltv">LTV</a></li>
+      <li><a href="#mop">MOP</a></li>
+      <li><a href="#msr">MSR</a></li>
+      <li><a href="#otp">OTP</a></li>
+      <li><a href="#sora">SORA</a></li>
+      <li><a href="#srx">SRX</a></li>
+      <li><a href="#tdsr">TDSR</a></li>
+      <li><a href="#top">TOP</a></li>
+      <li><a href="#ura">URA</a></li>
+    </ul>
   </div>
 </div>
 

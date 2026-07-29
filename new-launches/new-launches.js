@@ -70,7 +70,7 @@
             var type = card.getAttribute('data-type');
             visible = region === filter || type === filter;
           }
-          card.style.display = visible ? '' : 'none';
+          card.closest('.nl-card-item').style.display = visible ? '' : 'none';
           if(visible) shown++;
         });
         // Announce the visible count to screen readers so they know the
