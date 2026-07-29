@@ -35,6 +35,12 @@
             "minScore": 0.9
           }
         ],
+        "color-contrast": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
         "categories:best-practices": [
           "warn",
           {
@@ -78,6 +84,18 @@
         ],
         "network-dependency-tree-insight": "off",
         "legacy-javascript": [
+          "warn",
+          {}
+        ],
+        "legacy-javascript-insight": [
+          "warn",
+          {}
+        ],
+        "inspector-issues": [
+          "warn",
+          {}
+        ],
+        "third-party-cookies": [
           "warn",
           {}
         ]
