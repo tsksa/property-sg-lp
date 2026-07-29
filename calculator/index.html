@@ -110,10 +110,12 @@
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
+:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-aa:#047857;--emerald-dark:#065f46;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#f7f5ef;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
-a{color:var(--emerald);text-decoration:none}
+a{color:var(--emerald-aa);text-decoration:none}
 a:hover{text-decoration:underline}
+.skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:var(--emerald-aa);color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px}
 
 /* Topbar */
 .calc-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
@@ -123,14 +125,14 @@ a:hover{text-decoration:underline}
 .calc-nav{display:flex;gap:22px;align-items:center}
 .calc-nav a{color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;transition:color .15s}
 .calc-nav a:hover{color:#fff;text-decoration:none}
-.calc-nav .calc-nav-cta{background:var(--emerald);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem}
+.calc-nav .calc-nav-cta{background:var(--emerald-aa);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem}
 .calc-nav .calc-nav-cta:hover{background:var(--emerald-dark)}
 @media(max-width:680px){.calc-nav a:not(.calc-nav-cta){display:none}}
 
 /* Hero */
 .calc-hero{padding:56px 24px 32px;text-align:center;background:#fff;border-bottom:1px solid #eee}
 .calc-hero-inner{max-width:760px;margin:0 auto}
-.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 .calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:14px;color:var(--navy)}
 .calc-hero p{font-size:1rem;color:#555;line-height:1.55;max-width:560px;margin:0 auto}
 
@@ -141,7 +143,7 @@ a:hover{text-decoration:underline}
 /* Form side */
 .calc-form{background:#fff;padding:36px 32px;border-radius:16px;border:1px solid #eee;box-shadow:0 4px 20px rgba(11,30,63,0.04)}
 .calc-form h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px}
-.calc-form .sub{font-size:0.88rem;color:#777;margin-bottom:28px}
+.calc-form .sub{font-size:0.88rem;color:#666;margin-bottom:28px}
 .calc-field{margin-bottom:22px}
 .calc-field label{display:block;font-size:0.82rem;font-weight:600;color:#333;margin-bottom:6px;letter-spacing:0.2px}
 .calc-field .hint{font-size:0.72rem;color:#767676;font-weight:400;margin-left:6px}
@@ -166,19 +168,19 @@ a:hover{text-decoration:underline}
 .calc-result-value.big{font-size:2.3rem;color:var(--emerald);text-shadow:0 2px 20px rgba(16,185,129,0.25)}
 .calc-result-detail{font-size:0.78rem;color:rgba(255,255,255,0.6);margin-top:4px;line-height:1.5}
 .calc-result-pending{color:rgba(255,255,255,0.4);font-size:0.88rem;font-style:italic}
-.calc-cta{margin-top:28px;padding:18px 20px;background:var(--emerald);border-radius:10px;text-align:center}
-.calc-cta p{font-size:0.82rem;color:rgba(255,255,255,0.92);margin-bottom:12px;line-height:1.5}
+.calc-cta{margin-top:28px;padding:18px 20px;background:var(--emerald-aa);border-radius:10px;text-align:center}
+.calc-cta p{font-size:0.82rem;color:#fff;margin-bottom:12px;line-height:1.5}
 .calc-cta a{display:block;background:#fff;color:var(--navy);padding:11px 18px;border-radius:8px;font-weight:700;font-size:0.92rem;text-decoration:none;transition:background .2s}
 .calc-cta a:hover{background:#f0faf5;text-decoration:none}
 
 /* Disclaimer */
-.calc-disclaimer{max-width:1000px;margin:0 auto;padding:0 24px 48px;font-size:0.82rem;color:#888;line-height:1.6;text-align:center}
+.calc-disclaimer{max-width:1000px;margin:0 auto;padding:0 24px 48px;font-size:0.82rem;color:#666;line-height:1.6;text-align:center}
 .calc-disclaimer strong{color:#555}
 
 /* Footer */
-.calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#888;line-height:1.6}
+.calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#666;line-height:1.6}
 .calc-footer a{color:#555}
-.calc-footer .creds{font-size:0.72rem;color:#aaa;margin-top:6px}
+.calc-footer .creds{font-size:0.72rem;color:#666;margin-top:6px}
 /* Visible keyboard focus indicator (WCAG 2.4.7). outline:none on .calc-field
    above hides the default ring; restore a brand emerald ring for keyboard nav. */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}

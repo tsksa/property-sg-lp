@@ -268,7 +268,7 @@ fbq('track','PageView');
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
-:root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf}
+:root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--emerald-aa:#047857;--emerald-dark:#065f46;--cream:#faf6ec;--cream-warm:#f5efdf}
 body{font-family:'DM Sans',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -561,7 +561,7 @@ body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 }
 
 /* ── Footer ── */
-footer{background:var(--cream);border-top:1px solid #eee;padding:40px 48px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#767676}
+footer{background:var(--cream);border-top:1px solid #eee;padding:40px 48px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#666}
 
 /* ── Dark Mode (brand-aligned navy + emerald) ── */
 body.dark-mode{background:#030a1a;color:#e8ecf3}
@@ -664,17 +664,18 @@ footer{padding:48px 24px 28px}
 .footer-newsletter{display:flex;align-items:center;justify-content:space-between;gap:28px;padding-bottom:28px;border-bottom:1px solid rgba(11,30,63,0.08)}
 .footer-newsletter-text{max-width:420px}
 .footer-newsletter-text strong{display:block;color:var(--navy);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1.08rem;letter-spacing:-0.3px;margin-bottom:4px}
-.footer-newsletter-text span{color:#777;font-size:0.84rem;line-height:1.55;display:block}
+.footer-newsletter-text span{color:#666;font-size:0.84rem;line-height:1.55;display:block}
 .footer-newsletter-form{display:flex;gap:8px;flex-shrink:0}
 .footer-newsletter-form input[type=email]{padding:12px 14px;border:1px solid rgba(11,30,63,0.14);border-radius:8px;font-family:inherit;font-size:0.88rem;min-width:260px;background:#fff;color:var(--navy);outline:none;transition:border-color .2s,box-shadow .2s}
 .footer-newsletter-form input[type=email]:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.08)}
 .footer-newsletter-form button{padding:12px 20px;border:none;border-radius:8px;background:var(--navy);color:#fff;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;transition:background .2s,transform .2s}
 .footer-newsletter-form button:hover{background:var(--emerald);transform:translateY(-1px)}
 .footer-newsletter-status{font-size:0.78rem;color:var(--emerald);margin-top:4px;min-height:1em;display:block}
-.footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:#767676}
+.footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.78rem;color:#666}
 body.dark-mode .footer-newsletter{border-bottom-color:rgba(255,255,255,0.1)}
 body.dark-mode .footer-newsletter-text strong{color:#fff}
 body.dark-mode .footer-newsletter-text span{color:rgba(255,255,255,0.65)}
+body.dark-mode .footer-bottom{color:rgba(232,236,243,0.75)}
 body.dark-mode .footer-newsletter-form input[type=email]{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
 body.dark-mode .footer-newsletter-form input[type=email]::placeholder{color:rgba(255,255,255,0.4)}
 body.dark-mode .footer-newsletter-form input[type=email]:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
@@ -780,7 +781,7 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 .cookie-banner p{margin:0;flex:1;color:rgba(255,255,255,0.92)}
 .cookie-banner a{color:var(--emerald);text-decoration:underline}
 .cookie-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.cookie-banner button{flex-shrink:0;background:var(--emerald);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:background .2s}
+.cookie-banner button{flex-shrink:0;background:var(--emerald-aa);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:background .2s}
 .cookie-banner #cookieDecline{background:transparent;border:1px solid rgba(255,255,255,0.35);font-weight:600;color:rgba(255,255,255,0.85)}
 .cookie-banner #cookieDecline:hover{border-color:rgba(255,255,255,0.6)}
 /* Keep first-visit controls from competing while consent needs a decision. */
@@ -813,7 +814,7 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 .mobile-bar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;border-radius:12px;font-weight:600;font-size:0.92rem;transition:transform .15s,opacity .2s}
 .mobile-bar a:active{transform:scale(0.97)}
 .mobile-bar .mb-call{background:var(--navy);color:#fff}
-.mobile-bar .mb-wa{background:#25d366;color:#fff}
+.mobile-bar .mb-wa{background:#075e54;color:#fff}
 .mobile-bar svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
 @media(max-width:768px){
   .mobile-bar{display:flex}
@@ -1046,16 +1047,18 @@ body.dark-mode .testi-verified{background:rgba(16,185,129,0.18);color:#3edfa0}
 /* ── Recently completed activity band ── */
 .recent-activity{background:var(--cream);padding:32px 24px;border-bottom:1px solid #eee}
 .recent-activity-inner{max-width:1100px;margin:0 auto}
-.recent-activity-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:0.72rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:2px}
+.recent-activity-head{display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:0.72rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:2px}
 .recent-activity-head::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--emerald);animation:activityPulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
 @keyframes activityPulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .recent-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .recent-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
-.recent-card-badge{display:inline-block;font-size:0.64rem;font-weight:700;color:var(--emerald);text-transform:uppercase;letter-spacing:1.2px;padding:3px 8px;background:rgba(16,185,129,0.1);border-radius:100px;align-self:flex-start}
+.recent-card-badge{display:inline-block;font-size:0.64rem;font-weight:700;color:var(--emerald-aa);text-transform:uppercase;letter-spacing:1.2px;padding:3px 8px;background:rgba(16,185,129,0.1);border-radius:100px;align-self:flex-start}
 .recent-card-outcome{font-family:'Fraunces',Georgia,serif;font-weight:600;color:var(--navy);font-size:1rem;letter-spacing:-0.2px;line-height:1.3}
 .recent-card-detail{font-size:0.82rem;color:#666;line-height:1.5}
 body.dark-mode .recent-activity{background:var(--navy);border-bottom-color:rgba(255,255,255,0.06)}
 body.dark-mode .recent-card{background:#13294d;border-color:rgba(255,255,255,0.08)}
+body.dark-mode .recent-activity-head{color:rgba(232,236,243,0.75)}
+body.dark-mode .recent-card-badge{color:#3edfa0}
 body.dark-mode .recent-card-outcome{color:#fff}
 body.dark-mode .recent-card-detail{color:rgba(232,236,243,0.75)}
 
@@ -1702,7 +1705,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <p class="final-cta-sub reveal">Have questions? Leave your details below and get a call back.</p>
     <form id="finalForm" class="consult-form reveal reveal-delay-1" aria-labelledby="finalFormTitle">
       <h3 id="finalFormTitle" class="sr-only">Get a free consultation</h3>
-      <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="honeypot">
+      <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true">
       <div class="consult-row">
         <div class="consult-field">
           <label for="final-first" class="sr-only">First name</label>
@@ -1796,7 +1799,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 
 <!-- Mobile Sticky Bar -->
 <div class="mobile-bar" role="navigation" aria-label="Quick contact">
-  <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="mb-call" aria-label="Call Joe at +65 8188 1488">
+  <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="mb-call" aria-label="Call Joe +65 8188 1488">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
     <span class="mb-stack">
       <span class="mb-label">Call Joe</span>
@@ -1819,7 +1822,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <div class="cookie-banner" id="cookieBanner" role="region" aria-labelledby="cookieBannerHeading">
   <p><strong id="cookieBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
   <div class="cookie-actions">
-    <button type="button" id="cookieDecline" aria-label="Decline non-essential cookies">No thanks</button>
+    <button type="button" id="cookieDecline" aria-label="No thanks — decline non-essential cookies">No thanks</button>
     <button type="button" id="cookieAccept" aria-label="Accept cookies">Accept</button>
   </div>
 </div>
