@@ -81,17 +81,20 @@ test('insights footer links are distinguishable without relying on colour', () =
   );
 });
 
-test('calculator and insights skip links stay hidden until keyboard focus', () => {
-  for (const file of ['calculator/index.html', 'insights/blog.css']) {
-    const source = read(file);
+test('calculator and insights expose one skip link that appears on focus', () => {
+  for (const file of ['calculator/index.html', 'insights/index.html']) {
+    const html = read(file);
+    const skipLinks =
+      html.match(/<a\b(?=[^>]*\bhref="#main")[^>]*>/g) || [];
 
+    assert.equal(skipLinks.length, 1, `${file}: expected one skip link`);
     assert.match(
-      source,
-      /\.skip-to-content\{[^}]*left:-9999px[^}]*overflow:hidden[^}]*\}/,
+      html,
+      /\.skip-link\{[^}]*left:-9999px[^}]*\}/,
     );
     assert.match(
-      source,
-      /\.skip-to-content:focus\{[^}]*position:fixed[^}]*background:var\(--emerald-aa\)[^}]*\}/,
+      html,
+      /\.skip-link:focus\{[^}]*left:0[^}]*\}/,
     );
   }
 });
