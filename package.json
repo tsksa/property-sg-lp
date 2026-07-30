@@ -14,9 +14,10 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "node scripts/check-consistency.mjs && npm run test:lighthouse",
+    "check": "node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:lighthouse",
     "test:contrast": "node --test tests/color-contrast.test.mjs",
     "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs",
+    "test:new-launches": "node --test tests/new-launches-data.test.mjs",
     "test:search-growth": "node --test tests/search-growth-report.test.mjs"
   },
   "dependencies": {
