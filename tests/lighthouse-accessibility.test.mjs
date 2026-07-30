@@ -72,6 +72,31 @@ test('insight cards use semantic list markup without invalid link roles', () => 
   assert.doesNotMatch(html, /<a[^>]+role="listitem"/);
 });
 
+test('glossary quick jumps use semantic list markup without invalid link roles', () => {
+  const html = read('glossary/index.html');
+  const list = html.match(
+    /<ul class="g-toc-grid" aria-label="Glossary table of contents">([\s\S]*?)<\/ul>/,
+  )?.[1];
+
+  assert.ok(list, 'missing glossary table-of-contents list');
+  assert.equal((list.match(/<li>/g) || []).length, 18);
+  assert.equal((list.match(/<\/li>/g) || []).length, 18);
+  assert.doesNotMatch(list, /<a[^>]+role="listitem"/);
+});
+
+test('new-launch cards use semantic list markup without invalid link roles', () => {
+  const html = read('new-launches/index.html');
+  const list = html.match(
+    /<ul class="nl-grid reveal-stagger" aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
+  )?.[1];
+
+  assert.ok(list, 'missing new-launch project list');
+  assert.equal((list.match(/<li class="nl-card-item">/g) || []).length, 15);
+  assert.equal((list.match(/<\/li>/g) || []).length, 15);
+  assert.equal((list.match(/class="nl-card"/g) || []).length, 15);
+  assert.doesNotMatch(list, /<a[^>]+role="listitem"/);
+});
+
 test('insights footer links are distinguishable without relying on colour', () => {
   const css = read('insights/blog.css');
 
