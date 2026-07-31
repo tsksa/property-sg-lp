@@ -86,15 +86,26 @@ test('glossary quick jumps use semantic list markup without invalid link roles',
 
 test('new-launch cards use semantic list markup without invalid link roles', () => {
   const html = read('new-launches/index.html');
+  const data = JSON.parse(read('new-launches/projects.json'));
+  const activeCount = data.projects.filter(({ status }) => status !== 'sold-out').length;
   const list = html.match(
-    /<ul class="nl-grid reveal-stagger" aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
+    /<ul[^>]+class="nl-grid reveal-stagger"[^>]+aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
   )?.[1];
 
   assert.ok(list, 'missing new-launch project list');
-  assert.equal((list.match(/<li class="nl-card-item">/g) || []).length, 15);
-  assert.equal((list.match(/<\/li>/g) || []).length, 15);
-  assert.equal((list.match(/class="nl-card"/g) || []).length, 15);
+  assert.equal((list.match(/<li class="nl-card-item"/g) || []).length, activeCount);
+  assert.equal((list.match(/<\/li>/g) || []).length, activeCount);
+  assert.equal((list.match(/class="nl-card"/g) || []).length, activeCount);
   assert.doesNotMatch(list, /<a[^>]+role="listitem"/);
+});
+
+test('new-launch catalog controls have explicit labels and live feedback', () => {
+  const html = read('new-launches/index.html');
+  for (const id of ['nlCatalogSearch', 'nlStatusFilter', 'nlRegionFilter', 'nlTypeFilter', 'nlTenureFilter', 'nlSort']) {
+    assert.match(html, new RegExp(`<label[^>]*>[\\s\\S]*?<[^>]+id="${id}"`));
+  }
+  assert.match(html, /id="nlFilterStatus"[^>]+role="status"[^>]+aria-live="polite"/);
+  assert.match(html, /id="nlEmptyState"[^>]+hidden/);
 });
 
 test('insights footer links are distinguishable without relying on colour', () => {
