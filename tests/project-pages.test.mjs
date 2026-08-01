@@ -100,3 +100,15 @@ test('the verified Former Thomson View alias redirects to Thomson Reserve', () =
     /^\/new-launches\/former-thomson-view\.html \/new-launches\/thomson-reserve\.html 301!$/m,
   );
 });
+
+test('every 2026 inventory record has a canonical project page', () => {
+  const inventory = DATA.projects.filter((project) => project.inventoryYear === 2026);
+  if (MANIFEST.slugs.length < inventory.length) return;
+  assert.deepEqual(
+    new Set(MANIFEST.slugs),
+    new Set(inventory.map((project) => project.slug)),
+  );
+  for (const project of inventory) {
+    assert.ok(fs.existsSync(path.join(ROOT, new URL(project.canonicalUrl).pathname)), `${project.slug}: canonical page missing`);
+  }
+});
