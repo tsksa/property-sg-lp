@@ -91,3 +91,12 @@ test('manifest project URLs are discoverable in the sitemap', () => {
     assert.ok(sitemap.includes(`<loc>${project.canonicalUrl}</loc>`), `${slug}: sitemap URL missing`);
   }
 });
+
+test('the verified Former Thomson View alias redirects to Thomson Reserve', () => {
+  if (!MANIFEST.slugs.includes('thomson-reserve')) return;
+  const redirects = read('_redirects');
+  assert.match(
+    redirects,
+    /^\/new-launches\/former-thomson-view\.html \/new-launches\/thomson-reserve\.html 301!$/m,
+  );
+});
