@@ -376,6 +376,7 @@ function refreshExistingPage(html, project) {
   html = replaceSection(html, 'project-related', relatedSection(project));
   html = replaceSection(html, 'nl-register-band', contactSection(project));
   html = html
+    .replaceAll('then register below to lock in your preferred stack before public launch.', 'then ask Joe to confirm the current unit list and suitable stacks.')
     .replaceAll('then register below to secure your preferred stack at VVIP preview.', 'then ask Joe to confirm the current unit list and suitable stacks.')
     .replaceAll('Developer-produced virtual tour materials for Dunearn House are released to registered VIP preview guests. Register below — I\'ll share the walkthrough link, full e-brochure, and unit availability in the same WhatsApp reply.', 'Ask Joe which developer-produced virtual tour materials are currently available for Dunearn House, together with the latest floor plans and unit availability.')
     .replace(/(class="nl-mobile-cta"[\s\S]*?<a class="primary" href="#projectForm">[\s\S]*?<\/svg>)\s*VVIP Preview/, '$1\n    Enquire')

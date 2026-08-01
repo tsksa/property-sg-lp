@@ -72,6 +72,7 @@ test('refreshed pages retain lead forms, tracking and existing media', () => {
     assert.match(html, /id="projectForm"/);
     assert.match(html, /\/assets\/conversion-tracking\.js/);
     assert.match(html, /class="project-tour-wrap/);
+    assert.doesNotMatch(html, /before public launch|VIP preview|VVIP preview/i);
   }
 });
 
