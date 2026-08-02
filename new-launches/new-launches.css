@@ -159,6 +159,8 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 /* ── Developer / credibility strip (all detail pages) ── */
 .project-dev-strip{background:#fff;padding:44px 24px;border-bottom:1px solid var(--line)}
 .project-dev-strip-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:28px;align-items:center}
+.project-verification-head{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;color:var(--navy)}
+.project-status-pill{display:inline-flex;padding:6px 12px;border-radius:999px;background:rgba(16,185,129,.1);color:var(--emerald-dark);font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
 .project-dev-meta{display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center;justify-content:center;text-align:center}
 .project-dev-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:120px}
 .project-dev-item-label{font-size:0.66rem;font-weight:700;color:var(--ink-muted);letter-spacing:1.4px;text-transform:uppercase}
@@ -266,6 +268,13 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-val{font-size:0.94rem;font-weight:600;color:var(--navy);line-height:1.4}
 .project-factsheet-val .muted{color:var(--ink-muted);font-weight:500}
 .project-factsheet-note{font-size:0.8rem;color:var(--ink-muted);margin-top:20px;line-height:1.55;font-style:italic;padding-top:20px;border-top:1px solid rgba(11,30,63,0.08)}
+.project-market-callout{display:flex;flex-direction:column;gap:4px;margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(16,185,129,.08);color:var(--navy)}
+.project-market-callout span{font-size:.78rem;color:var(--ink-soft)}
+.project-source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:20px}
+.project-source-list div{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.project-source-list strong{font-size:.68rem;color:var(--emerald-dark);letter-spacing:.8px;text-transform:uppercase}
+.project-source-list span{font-size:.76rem;color:var(--ink-soft);line-height:1.45}
+.pf-error{margin-top:12px;color:#991b1b;font-size:.82rem;line-height:1.45}
 @media(max-width:640px){
   .project-factsheet-panel{padding:26px 22px}
   .project-factsheet-row{grid-template-columns:110px 1fr;gap:10px;padding:8px 0}
