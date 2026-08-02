@@ -51,39 +51,82 @@
     });
   }
 
-  // Filter chips (index only — no-op if filter not present)
-  var chips = document.querySelectorAll('.nl-chip');
-  var cards = document.querySelectorAll('.nl-card[data-region]');
+  // Search, filters and sorting for the generated catalog. The full catalog is
+  // present in the HTML first, so it remains crawlable and useful without JS.
+  var catalogForm = document.getElementById('nlCatalogControls');
+  var catalog = document.getElementById('catalog');
+  var cards = catalog ? Array.prototype.slice.call(catalog.querySelectorAll('[data-catalog-item]')) : [];
   var filterStatus = document.getElementById('nlFilterStatus');
-  if(chips.length && cards.length){
-    chips.forEach(function(chip){
-      chip.addEventListener('click', function(){
-        var filter = chip.getAttribute('data-filter');
-        chips.forEach(function(c){ c.classList.remove('active'); });
-        chip.classList.add('active');
-        var shown = 0;
-        cards.forEach(function(card){
-          var visible;
-          if(filter === 'all'){ visible = true; }
-          else {
-            var region = card.getAttribute('data-region');
-            var type = card.getAttribute('data-type');
-            visible = region === filter || type === filter;
-          }
-          card.closest('.nl-card-item').style.display = visible ? '' : 'none';
-          if(visible) shown++;
-        });
-        // Announce the visible count to screen readers so they know the
-        // filter took effect. role=status + aria-live=polite means the
-        // SR speaks the update without interrupting whatever it's reading.
-        if(filterStatus){
-          var label = chip.textContent.trim();
-          filterStatus.textContent = shown === 0
-            ? 'No projects match "' + label + '".'
-            : 'Showing ' + shown + ' project' + (shown === 1 ? '' : 's') + ' for "' + label + '".';
-        }
+  if(catalogForm && cards.length){
+    var search = document.getElementById('nlCatalogSearch');
+    var statusFilter = document.getElementById('nlStatusFilter');
+    var regionFilter = document.getElementById('nlRegionFilter');
+    var typeFilter = document.getElementById('nlTypeFilter');
+    var tenureFilter = document.getElementById('nlTenureFilter');
+    var sortControl = document.getElementById('nlSort');
+    var resultCount = document.getElementById('nlResultCount');
+    var emptyState = document.getElementById('nlEmptyState');
+    var emptyReset = document.getElementById('nlEmptyReset');
+
+    function compareText(a, b){
+      return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+    }
+
+    function compareCards(a, b){
+      var mode = sortControl.value;
+      if(mode === 'newest'){
+        var aDate = a.getAttribute('data-launch-date');
+        var bDate = b.getAttribute('data-launch-date');
+        if(aDate && bDate && aDate !== bDate) return bDate.localeCompare(aDate);
+        if(aDate) return -1;
+        if(bDate) return 1;
+        return compareText(a, b);
+      }
+      if(mode === 'price'){
+        var aPrice = a.getAttribute('data-price');
+        var bPrice = b.getAttribute('data-price');
+        if(aPrice && bPrice && Number(aPrice) !== Number(bPrice)) return Number(aPrice) - Number(bPrice);
+        if(aPrice) return -1;
+        if(bPrice) return 1;
+      }
+      return Number(a.getAttribute('data-default-order')) - Number(b.getAttribute('data-default-order'));
+    }
+
+    function applyCatalogControls(announce){
+      var query = search.value.trim().toLowerCase();
+      var shown = 0;
+      cards.sort(compareCards).forEach(function(card){
+        var visible =
+          (!query || card.getAttribute('data-search').indexOf(query) !== -1) &&
+          (!statusFilter.value || card.getAttribute('data-status') === statusFilter.value) &&
+          (!regionFilter.value || card.getAttribute('data-region') === regionFilter.value) &&
+          (!typeFilter.value || card.getAttribute('data-property-type') === typeFilter.value) &&
+          (!tenureFilter.value || card.getAttribute('data-tenure') === tenureFilter.value);
+        card.hidden = !visible;
+        if(visible) shown++;
+        catalog.appendChild(card);
       });
+      resultCount.textContent = shown;
+      emptyState.hidden = shown !== 0;
+      catalog.hidden = shown === 0;
+      if(announce && filterStatus){
+        filterStatus.textContent = shown === 0
+          ? 'No projects match the current search and filters.'
+          : 'Showing ' + shown + ' project' + (shown === 1 ? '' : 's') + '.';
+      }
+    }
+
+    catalogForm.addEventListener('input', function(){ applyCatalogControls(true); });
+    catalogForm.addEventListener('change', function(){ applyCatalogControls(true); });
+    catalogForm.addEventListener('reset', function(){
+      window.setTimeout(function(){ applyCatalogControls(true); }, 0);
     });
+    if(emptyReset){
+      emptyReset.addEventListener('click', function(){
+        catalogForm.reset();
+        search.focus();
+      });
+    }
   }
 
   // Smooth scroll for anchor links with sticky-nav offset.
