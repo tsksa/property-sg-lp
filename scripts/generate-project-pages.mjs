@@ -227,17 +227,17 @@ function takeSection(project) {
   const copy = content[project.slug];
   if (!copy) throw new Error(`Missing project-page content for ${project.slug}`);
   const market = marketCopy(project);
-  return `<section class="project-take reveal" aria-labelledby="joe-take-${esc(project.slug)}" data-approval="pending">
+  return `<section class="project-take reveal" aria-labelledby="joe-take-${esc(project.slug)}" data-approval="approved" data-approved-at="2026-08-02">
   <div class="project-take-inner">
     <div class="project-take-quote" aria-hidden="true">&ldquo;</div>
-    <div class="project-eyebrow">Draft for Joe’s approval</div>
+    <div class="project-eyebrow">Joe’s approved take</div>
     <h2 id="joe-take-${esc(project.slug)}">Joe’s Take: ${esc(project.name)}</h2>
     <div class="project-take-body">
       <p>This project is best suited to ${esc(copy.fit)}. The verified record places ${esc(project.name)} at ${esc(project.location)} in ${esc(project.district)}, with ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes on a ${esc(TENURES[project.tenure].toLowerCase())} tenure by ${esc(project.developer)}. That makes buyer fit more important than a generic “best launch” label.</p>
       <p>${esc(copy.advantage)} The current verified market line is: ${esc(market)} Those figures are a dated snapshot, not a promise of today’s unit availability, and the exact stack, floor and layout still determine whether the price is sensible.</p>
       <p>${esc(copy.risk)} Before choosing, compare three things: the live unit list, the total entry quantum and the most credible active alternatives. I would only shortlist the project when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.</p>
     </div>
-    <div class="project-take-sig"><span class="project-take-sig-line"><strong>Approval pending</strong> · Draft prepared for Joe Tay review</span></div>
+    <div class="project-take-sig"><span class="project-take-sig-line"><strong>Approved by Joe Tay</strong> · 2 Aug 2026</span></div>
   </div>
 </section>`;
 }
@@ -310,7 +310,7 @@ ${factsheetSection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}
-<section class="project-disclaimer"><div class="project-disclaimer-inner"><p>Project information is source-backed and verified as dated above, but remains subject to developer and authority confirmation. “Joe’s Take” is a draft pending Joe’s approval and must not be treated as published personal advice.</p></div></section>
+<section class="project-disclaimer"><div class="project-disclaimer-inner"><p>Project information is source-backed and verified as dated above, but remains subject to developer and authority confirmation. “Joe’s Take” was approved by Joe Tay on 2 Aug 2026 and is general commentary, not financial or legal advice.</p></div></section>
 <footer class="nl-footer"><div class="nl-footer-inner"><p>&copy; 2026 PropertySG · Joe Tay · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · <a href="/privacy-policy.html">Privacy Policy</a></p><p class="creds">CEA Reg. No. R009618D · joe@joetay.com · +65 8188 1488</p></div></footer>
 <script src="/assets/conversion-tracking.js" defer></script>
 </body>
@@ -403,7 +403,7 @@ export function validateProjectPage(html, project) {
   for (const expected of [project.name, project.canonicalUrl, project.district, project.region, TENURES[project.tenure], String(project.unitCount), formatDate(project.verifiedAt)]) {
     if (!html.includes(expected)) errors.push(`${project.slug}: missing ${expected}`);
   }
-  if (!html.includes('data-approval="pending"')) errors.push(`${project.slug}: Joe's Take approval gate missing`);
+  if (!html.includes('data-approval="approved" data-approved-at="2026-08-02"')) errors.push(`${project.slug}: Joe's Take approval evidence missing`);
   if ((html.match(/class="project-related-card"/g) || []).length !== 3) errors.push(`${project.slug}: expected three alternatives`);
   return errors;
 }
