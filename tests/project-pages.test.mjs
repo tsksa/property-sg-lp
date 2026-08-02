@@ -35,13 +35,14 @@ test('manifest pages expose the verified dataset contract', () => {
   }
 });
 
-test("every Joe's Take is a unique 150–300-word approval-pending draft", () => {
+test("every Joe's Take is unique, approved and 150–300 words", () => {
   const takes = new Set();
   for (const slug of MANIFEST.slugs) {
     const project = DATA.projects.find((candidate) => candidate.slug === slug);
     const html = pageFor(project);
-    const section = html.match(/<section class="project-take[^>]+data-approval="pending">([\s\S]*?)<\/section>/)?.[1];
-    assert.ok(section, `${slug}: approval-pending take missing`);
+    const section = html.match(/<section class="project-take[^>]+data-approval="approved" data-approved-at="2026-08-02">([\s\S]*?)<\/section>/)?.[1];
+    assert.ok(section, `${slug}: approved take missing`);
+    assert.match(section, /Approved by Joe Tay<\/strong> · 2 Aug 2026/);
     const body = section.match(/<div class="project-take-body">([\s\S]*?)<\/div>/)?.[1];
     assert.ok(body, `${slug}: take body missing`);
     const copy = stripTags(body);
