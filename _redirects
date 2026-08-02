@@ -2,6 +2,9 @@
 /projects /new-launches/ 301!
 /projects/ /new-launches/ 301!
 
+# Former Thomson View is superseded by the verified Thomson Reserve record.
+/new-launches/former-thomson-view.html /new-launches/thomson-reserve.html 301!
+
 # Canonicalise all legacy hero/social-preview filenames to /joetay-social-preview-*.
 # The same bytes also exist under the staged-home and marina-bay names — these 301s
 # collapse the SEO surface to a single URL set and avoid stale-content drift.
