@@ -5,6 +5,9 @@
 # Former Thomson View is superseded by the verified Thomson Reserve record.
 /new-launches/former-thomson-view.html /new-launches/thomson-reserve.html 301!
 
+# Former Pastoral View now uses the developer-confirmed The Serra Residences name.
+/new-launches/former-pastoral-view.html /new-launches/the-serra-residences.html 301!
+
 # Canonicalise all legacy hero/social-preview filenames to /joetay-social-preview-*.
 # The same bytes also exist under the staged-home and marina-bay names — these 301s
 # collapse the SEO surface to a single URL set and avoid stale-content drift.
