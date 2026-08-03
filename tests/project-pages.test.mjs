@@ -6,12 +6,12 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
+const CONTENT = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'project-page-content.json'), 'utf8'));
 const MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'project-page-manifest.json'), 'utf8'));
 const REFRESHED_SLUGS = [
   'newport-residences',
   'narra-residences',
   'river-modern',
-  'tengah-garden-residences',
   'vela-bay',
   'dunearn-house',
 ];
@@ -35,11 +35,17 @@ test('manifest pages expose the verified dataset contract', () => {
   }
 });
 
-test("every Joe's Take is unique, approved and 150–300 words", () => {
+test("approved Joe's Takes remain unique and unapproved legacy pages use factual assessments", () => {
   const takes = new Set();
   for (const slug of MANIFEST.slugs) {
     const project = DATA.projects.find((candidate) => candidate.slug === slug);
     const html = pageFor(project);
+    if (!CONTENT[slug]) {
+      assert.match(html, /data-approval="not-required"/);
+      assert.match(html, /Evidence-led assessment/);
+      assert.doesNotMatch(html, /Joe’s approved take|Approved by Joe Tay/);
+      continue;
+    }
     const section = html.match(/<section class="project-take[^>]+data-approval="approved" data-approved-at="2026-08-02">([\s\S]*?)<\/section>/)?.[1];
     assert.ok(section, `${slug}: approved take missing`);
     assert.match(section, /Approved by Joe Tay<\/strong> · 2 Aug 2026/);
@@ -62,7 +68,11 @@ test('market figures obey freshness fallbacks and each page links three active a
     if (!hasFreshDynamic && project.status === 'upcoming') assert.match(html, /Ask for latest price/);
     const related = [...html.matchAll(/class="project-related-card"/g)];
     assert.equal(related.length, 3, `${slug}: expected three alternatives`);
-    assert.ok(html.indexOf('WhatsApp for price list') < html.indexOf('Use the enquiry form'), `${slug}: WhatsApp must be primary`);
+    if (project.status === 'sold-out') {
+      assert.ok(html.indexOf('Compare active alternatives') < html.indexOf('View sold-out archive'), `${slug}: alternatives must be primary`);
+    } else {
+      assert.ok(html.indexOf('WhatsApp for price list') < html.indexOf('Use the enquiry form'), `${slug}: WhatsApp must be primary`);
+    }
   }
 });
 
@@ -102,14 +112,57 @@ test('the verified Former Thomson View alias redirects to Thomson Reserve', () =
   );
 });
 
+test('the Former Pastoral View alias redirects permanently to The Serra Residences', () => {
+  const redirects = read('_redirects');
+  assert.match(
+    redirects,
+    /^\/new-launches\/former-pastoral-view\.html \/new-launches\/the-serra-residences\.html 301!$/m,
+  );
+  const sitemap = read('sitemap.xml');
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/joetay\.com\/new-launches\/former-pastoral-view\.html<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/joetay\.com\/new-launches\/the-serra-residences\.html<\/loc>/);
+});
+
+test('superseded and excluded legacy URLs are absent from the sitemap', () => {
+  const sitemap = read('sitemap.xml');
+  for (const review of DATA.legacyReview.filter(({ disposition }) => disposition !== 'retained')) {
+    assert.doesNotMatch(
+      sitemap,
+      new RegExp(`<loc>https://joetay\\.com/new-launches/${review.slug}\\.html</loc>`),
+      `${review.slug}: stale sitemap URL`,
+    );
+  }
+});
+
+test('sold-out pages contain no active-sale language and link three active alternatives', () => {
+  for (const project of DATA.projects.filter(({ status }) => status === 'sold-out')) {
+    const html = pageFor(project);
+    assert.match(html, />Sold out</);
+    assert.doesNotMatch(html, /Registration open|VVIP|VIP preview|price list|latest (?:available )?unit list|current unit availability/i);
+    const links = [...html.matchAll(/class="project-related-card"[^>]*href="([^"]+)"|href="([^"]+)" class="project-related-card"/g)]
+      .map((match) => match[1] || match[2]);
+    assert.equal(links.length, 3);
+    for (const href of links) {
+      const related = DATA.projects.find(({ canonicalUrl }) => new URL(canonicalUrl).pathname === href);
+      assert.ok(related, `${project.slug}: unknown related link ${href}`);
+      assert.notEqual(related.status, 'sold-out', `${project.slug}: sold-out related project`);
+    }
+  }
+});
+
 test('every 2026 inventory record has a canonical project page', () => {
   const inventory = DATA.projects.filter((project) => project.inventoryYear === 2026);
-  if (MANIFEST.slugs.length < inventory.length) return;
-  assert.deepEqual(
-    new Set(MANIFEST.slugs),
-    new Set(inventory.map((project) => project.slug)),
-  );
   for (const project of inventory) {
+    assert.ok(MANIFEST.slugs.includes(project.slug), `${project.slug}: missing from manifest`);
     assert.ok(fs.existsSync(path.join(ROOT, new URL(project.canonicalUrl).pathname)), `${project.slug}: canonical page missing`);
+  }
+});
+
+test('every retained legacy record has a canonical project page', () => {
+  for (const review of DATA.legacyReview.filter(({ disposition }) => disposition === 'retained')) {
+    const project = DATA.projects.find(({ slug }) => slug === review.slug);
+    assert.ok(project, `${review.slug}: retained record missing`);
+    assert.ok(MANIFEST.slugs.includes(project.slug), `${review.slug}: missing from manifest`);
+    assert.ok(fs.existsSync(path.join(ROOT, new URL(project.canonicalUrl).pathname)), `${review.slug}: canonical page missing`);
   }
 });

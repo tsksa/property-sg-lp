@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "inventoryAsOf": "2026-07-30",
+  "inventoryAsOf": "2026-08-03",
   "dynamicFreshnessDays": 7,
   "provenanceFields": {
     "facts": [
@@ -54,6 +54,60 @@
       "category": "portal-corroboration",
       "url": "https://www.edgeprop.sg/new-launches",
       "checkedAt": "2026-07-30"
+    },
+    "far-east-the-serra": {
+      "name": "Far East Organization — The Serra Residences",
+      "category": "developer",
+      "url": "https://www.fareast.com/en/residential/the-serra-residences",
+      "checkedAt": "2026-08-03"
+    },
+    "guocoland-fy2026-half-year": {
+      "name": "GuocoLand 1H FY2026 Results Media Release",
+      "category": "corporate-filing",
+      "url": "https://links.sgx.com/1.0.0/corporate-announcements/FHP1T69I187EU38J/873496_1H%20FY26%20Results%20Media%20Release_29%20Jan%202026.pdf",
+      "checkedAt": "2026-08-03"
+    },
+    "cdl-q1-2026-operational-update": {
+      "name": "City Developments Q1 2026 Operational Update",
+      "category": "corporate-filing",
+      "url": "https://ir.cdl.com.sg/static-files/8edd9eb6-9b49-449b-8d30-5c631477c3cf",
+      "checkedAt": "2026-08-03"
+    },
+    "ioi-properties-2025-annual-report": {
+      "name": "IOI Properties Group Integrated Annual Report 2025",
+      "category": "developer",
+      "url": "https://files.ioiproperties.com.my/dsites/s3fs-public/annual-report/file/%5BWEBSITE%5D%20IOIPG%20IAR2025_01102025_updated%20on%2005052026_spread.pdf",
+      "checkedAt": "2026-08-03"
+    },
+    "w-residences-developer-site": {
+      "name": "W Residences Marina View — Singapore developer sales site",
+      "category": "developer",
+      "url": "https://www.wresidencesmarinaview.com.sg/enquiry-form.html",
+      "checkedAt": "2026-08-03"
+    },
+    "edgeprop-ct-gold-sold-out": {
+      "name": "EdgeProp — CT Gold sells out in two days",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/ct-gold-sells-out-two-days-bulk-buyers-snap-units",
+      "checkedAt": "2026-08-03"
+    },
+    "faber-current-sales-directory": {
+      "name": "Faber Residence current sales and balance-unit directory",
+      "category": "portal-corroboration",
+      "url": "https://www.faberresidence.sg/",
+      "checkedAt": "2026-08-03"
+    },
+    "zyon-current-sales-directory": {
+      "name": "Zyon Grand current sales and balance-unit directory",
+      "category": "portal-corroboration",
+      "url": "https://zyongrand.com.sg/",
+      "checkedAt": "2026-08-03"
+    },
+    "w-current-inventory-directory": {
+      "name": "W Residences Marina View current unit directory",
+      "category": "portal-corroboration",
+      "url": "https://wresidencesmarinaview.newhomessg.com/units",
+      "checkedAt": "2026-08-03"
     }
   },
   "projects": [
@@ -478,9 +532,9 @@
       "legacyInventoryEvidence": null
     },
     {
-      "slug": "former-pastoral-view",
-      "name": "Former Pastoral View",
-      "location": "Bassein Road",
+      "slug": "the-serra-residences",
+      "name": "The Serra Residences",
+      "location": "7 Bassein Road",
       "district": "D11",
       "region": "CCR",
       "propertyType": "condominium",
@@ -490,18 +544,18 @@
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": "2026-Q3",
+      "launchWindow": "2026-Q4",
       "status": "upcoming",
-      "canonicalUrl": "https://joetay.com/new-launches/former-pastoral-view.html",
-      "verifiedAt": "2026-07-30",
+      "canonicalUrl": "https://joetay.com/new-launches/the-serra-residences.html",
+      "verifiedAt": "2026-08-03",
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["propnex-sgx-2026-pipeline"],
-        "timing": ["99co-2026-guide"],
-        "status": ["99co-2026-guide"],
-        "dynamics": ["99co-2026-guide"]
+        "facts": ["far-east-the-serra", "propnex-sgx-2026-pipeline"],
+        "timing": ["propnex-sgx-2026-pipeline"],
+        "status": ["far-east-the-serra", "propnex-sgx-2026-pipeline"],
+        "dynamics": ["far-east-the-serra"]
       },
       "legacyInventoryEvidence": null
     },
@@ -717,20 +771,20 @@
       "launchWindow": null,
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/faber-residence.html",
-      "verifiedAt": "2026-07-30",
+      "verifiedAt": "2026-08-03",
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["ura-uncompleted-projects", "99co-new-launches"],
-        "timing": ["ura-uncompleted-projects"],
-        "status": ["99co-new-launches"],
-        "dynamics": ["99co-new-launches"]
+        "facts": ["ura-uncompleted-projects", "guocoland-fy2026-half-year"],
+        "timing": ["guocoland-fy2026-half-year"],
+        "status": ["guocoland-fy2026-half-year", "faber-current-sales-directory"],
+        "dynamics": ["faber-current-sales-directory"]
       },
       "legacyInventoryEvidence": {
         "remainingInventoryVerified": true,
-        "checkedAt": "2026-07-30",
-        "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+        "checkedAt": "2026-08-03",
+        "sourceIds": ["guocoland-fy2026-half-year", "faber-current-sales-directory"]
       }
     },
     {
@@ -749,20 +803,52 @@
       "launchWindow": null,
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/zyon-grand.html",
-      "verifiedAt": "2026-07-30",
+      "verifiedAt": "2026-08-03",
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["ura-uncompleted-projects", "99co-new-launches"],
-        "timing": ["ura-uncompleted-projects"],
-        "status": ["99co-new-launches"],
-        "dynamics": ["99co-new-launches"]
+        "facts": ["ura-uncompleted-projects", "cdl-q1-2026-operational-update"],
+        "timing": ["cdl-q1-2026-operational-update"],
+        "status": ["cdl-q1-2026-operational-update", "zyon-current-sales-directory"],
+        "dynamics": ["zyon-current-sales-directory"]
       },
       "legacyInventoryEvidence": {
         "remainingInventoryVerified": true,
-        "checkedAt": "2026-07-30",
-        "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+        "checkedAt": "2026-08-03",
+        "sourceIds": ["cdl-q1-2026-operational-update", "zyon-current-sales-directory"]
+      }
+    },
+    {
+      "slug": "w-residences-marina-view",
+      "name": "W Residences Marina View - Singapore",
+      "location": "Marina View",
+      "district": "D01",
+      "region": "CCR",
+      "propertyType": "condominium",
+      "tenure": "99-year",
+      "developer": "Boulevard Development / Boulevard Midtown (IOI Properties)",
+      "unitCount": 683,
+      "inventoryYear": 2025,
+      "previewDate": null,
+      "bookingDate": null,
+      "launchWindow": "2025-10",
+      "status": "selling",
+      "canonicalUrl": "https://joetay.com/new-launches/w-residences-marina-view.html",
+      "verifiedAt": "2026-08-03",
+      "priceFrom": { "value": null, "asOf": null },
+      "averagePsf": { "value": null, "asOf": null },
+      "soldPercent": { "value": null, "asOf": null },
+      "provenance": {
+        "facts": ["ioi-properties-2025-annual-report", "w-residences-developer-site"],
+        "timing": ["ioi-properties-2025-annual-report"],
+        "status": ["ioi-properties-2025-annual-report", "w-residences-developer-site", "w-current-inventory-directory"],
+        "dynamics": ["w-current-inventory-directory"]
+      },
+      "legacyInventoryEvidence": {
+        "remainingInventoryVerified": true,
+        "checkedAt": "2026-08-03",
+        "sourceIds": ["ioi-properties-2025-annual-report", "w-residences-developer-site", "w-current-inventory-directory"]
       }
     }
   ],
@@ -770,37 +856,45 @@
     {
       "slug": "faber-residence",
       "disposition": "retained",
-      "reason": "The project remains in URA's uncompleted-project inventory and has current units represented in the launch directory.",
-      "checkedAt": "2026-07-30",
-      "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+      "reason": "GuocoLand reported 91% sold as at 31 December 2025, verifying remaining developer inventory.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["guocoland-fy2026-half-year", "faber-current-sales-directory"]
     },
     {
       "slug": "zyon-grand",
       "disposition": "retained",
-      "reason": "The project remains in URA's uncompleted-project inventory and has current units represented in the launch directory.",
-      "checkedAt": "2026-07-30",
-      "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+      "reason": "CDL reported Zyon Grand as an ongoing launched project at more than 88% sold in its Q1 2026 operational update.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["cdl-q1-2026-operational-update", "zyon-current-sales-directory"]
     },
     {
       "slug": "the-serra-residences",
-      "disposition": "excluded",
-      "reason": "The approved source set did not verify both the final project identity and remaining developer inventory.",
-      "checkedAt": "2026-07-30",
-      "sourceIds": ["ura-uncompleted-projects", "99co-2026-guide"]
+      "disposition": "retained",
+      "reason": "Far East Organization confirms the final name, 7 Bassein Road address and 133-home freehold project; the PropNex filing places its preview in Q4 2026.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["far-east-the-serra", "propnex-sgx-2026-pipeline"]
     },
     {
       "slug": "w-residences-marina-view",
-      "disposition": "excluded",
-      "reason": "The project is present in the official pipeline, but remaining developer inventory was not verified by a current corroborating source.",
-      "checkedAt": "2026-07-30",
-      "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+      "disposition": "retained",
+      "reason": "IOI Properties identifies the 683-home project as active FY2026 sales inventory and the developer sales site remains open.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["ioi-properties-2025-annual-report", "w-residences-developer-site", "w-current-inventory-directory"]
     },
     {
       "slug": "ct-gold-macpherson",
       "disposition": "excluded",
-      "reason": "No current project record or remaining developer inventory was found in the approved source set.",
-      "checkedAt": "2026-07-30",
-      "sourceIds": ["ura-uncompleted-projects", "99co-new-launches"]
+      "reason": "CT Gold was verified fully sold on 1 May 2026, but it is a B1 industrial development and therefore outside this residential new-launch catalog.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["edgeprop-ct-gold-sold-out"]
+    },
+    {
+      "slug": "former-pastoral-view",
+      "disposition": "superseded",
+      "replacementSlug": "the-serra-residences",
+      "reason": "Far East Organization confirms The Serra Residences as the canonical name for the 7 Bassein Road development on the former Pastoral View site.",
+      "checkedAt": "2026-08-03",
+      "sourceIds": ["far-east-the-serra", "propnex-sgx-2026-pipeline"]
     },
     {
       "slug": "former-thomson-view",

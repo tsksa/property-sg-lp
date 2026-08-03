@@ -114,6 +114,41 @@ test('legacy projects require verified remaining-inventory evidence', () => {
   );
 });
 
+test('all five JOE-186 projects have an explicit evidence-backed classification', () => {
+  const expected = new Map([
+    ['the-serra-residences', 'retained'],
+    ['faber-residence', 'retained'],
+    ['zyon-grand', 'retained'],
+    ['w-residences-marina-view', 'retained'],
+    ['ct-gold-macpherson', 'excluded'],
+  ]);
+
+  for (const [slug, disposition] of expected) {
+    const review = DATA.legacyReview.find((candidate) => candidate.slug === slug);
+    assert.ok(review, `${slug}: review missing`);
+    assert.equal(review.disposition, disposition, `${slug}: wrong disposition`);
+    assert.ok(review.reason.length > 40, `${slug}: evidence summary is too thin`);
+    assert.ok(review.sourceIds.every((sourceId) => DATA.sources[sourceId]), `${slug}: source missing`);
+  }
+});
+
+test('retained legacy active projects carry current developer-inventory evidence', () => {
+  for (const slug of ['faber-residence', 'zyon-grand', 'w-residences-marina-view']) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    assert.equal(project?.status, 'selling', `${slug}: should remain active`);
+    assert.equal(project?.legacyInventoryEvidence?.remainingInventoryVerified, true);
+    assert.equal(project?.legacyInventoryEvidence?.checkedAt, '2026-08-03');
+  }
+});
+
+test('the renamed Bassein Road project has one canonical dataset record', () => {
+  assert.ok(DATA.projects.some((project) => project.slug === 'the-serra-residences'));
+  assert.ok(!DATA.projects.some((project) => project.slug === 'former-pastoral-view'));
+  const alias = DATA.legacyReview.find((review) => review.slug === 'former-pastoral-view');
+  assert.equal(alias?.disposition, 'superseded');
+  assert.equal(alias?.replacementSlug, 'the-serra-residences');
+});
+
 test('every provenance reference must resolve to a source record', () => {
   const data = clone();
   data.projects[0].provenance.facts = ['missing-source'];

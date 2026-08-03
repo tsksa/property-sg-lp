@@ -23,7 +23,7 @@ export const EXPECTED_2026_PROJECTS = [
   'Lucerne Grand',
   'Chuan Grove',
   'Amberwood at Holland',
-  'Former Pastoral View',
+  'The Serra Residences',
   'Dorset Road',
   'Woodlands Drive 17 EC',
   'Chencharu Close',
@@ -68,6 +68,8 @@ const ALLOWED_SOURCE_CATEGORIES = new Set([
   'government',
   'corporate-filing',
   'portal-corroboration',
+  'developer',
+  'publisher-reporting',
 ]);
 const ALLOWED_STATUSES = new Set(['selling', 'upcoming', 'sold-out']);
 const ALLOWED_REGIONS = new Set(['CCR', 'RCR', 'OCR']);

@@ -164,6 +164,13 @@ function statsHtml(project) {
 }
 
 function heroCtas(project) {
+  if (project.status === 'sold-out') {
+    const message = encodeURIComponent(`Hi Joe, please help me compare active alternatives to ${project.name}.`);
+    return `<div class="project-hero-ctas">
+  <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">Compare active alternatives</a>
+  <a href="/new-launches/sold-out.html" class="project-hero-cta ghost">View sold-out archive</a>
+</div>`;
+  }
   const message = encodeURIComponent(`Hi Joe, please send me the latest price list and floor plans for ${project.name}.`);
   return `<div class="project-hero-ctas">
   <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for price list &amp; floor plans</a>
@@ -197,6 +204,9 @@ function verificationStrip(project) {
 }
 
 function factsheetSection(project) {
+  const verificationNote = project.status === 'sold-out'
+    ? 'Status and core facts are verified as dated above. This project is sold out; any later resale or subsale listing must be checked independently.'
+    : 'Status and core facts are verified as dated above. Developer confirmation and the latest available unit list remain decisive before purchase.';
   return `<section class="project-factsheet reveal" aria-labelledby="verified-facts-${esc(project.slug)}">
   <div class="project-factsheet-inner">
     <div class="project-factsheet-head"><div class="project-factsheet-head-left"><div class="project-eyebrow">Dataset-backed facts</div><h2 id="verified-facts-${esc(project.slug)}" class="project-section-title">${esc(project.name)} at a glance.</h2></div></div>
@@ -216,7 +226,7 @@ function factsheetSection(project) {
         </div>
       </div>
       <div class="project-market-callout"><strong>${esc(marketCopy(project))}</strong><span>Dynamic figures are shown only when verified within ${data.dynamicFreshnessDays} days of the ${esc(formatDate(data.inventoryAsOf))} inventory.</span></div>
-      <p class="project-factsheet-note">Status and core facts verified ${esc(formatDate(project.verifiedAt))}. Developer confirmation and the latest available unit list remain decisive before purchase.</p>
+      <p class="project-factsheet-note">${esc(verificationNote)}</p>
       ${sourceSection(project)}
     </div>
   </div>
@@ -225,8 +235,26 @@ function factsheetSection(project) {
 
 function takeSection(project) {
   const copy = content[project.slug];
-  if (!copy) throw new Error(`Missing project-page content for ${project.slug}`);
+  if (!copy) {
+    const statusCopy = project.status === 'upcoming'
+      ? 'The developer has confirmed the project, while launch timing and sale materials remain subject to release. Treat any price, layout or availability claim outside the verified sources as provisional.'
+      : 'Current developer evidence confirms that sales inventory remains. Exact units and prices can change, so confirm them directly before making a decision.';
+    return `<section class="project-take reveal" aria-labelledby="project-assessment-${esc(project.slug)}" data-approval="not-required">
+  <div class="project-take-inner">
+    <div class="project-eyebrow">Evidence-led assessment</div>
+    <h2 id="project-assessment-${esc(project.slug)}">What to verify about ${esc(project.name)}.</h2>
+    <div class="project-take-body">
+      <p>${esc(project.name)} is recorded as ${esc(STATUSES[project.status].toLowerCase())}: a ${esc(TENURES[project.tenure].toLowerCase())} ${esc(PROPERTY_TYPES[project.propertyType].toLowerCase())} at ${esc(project.location)} with ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes by ${esc(project.developer)}.</p>
+      <p>${esc(statusCopy)}</p>
+      <p>Use the source list and verification date on this page as the baseline, then compare tenure, total entry price, layout and location with the three active alternatives below.</p>
+    </div>
+  </div>
+</section>`;
+  }
   const market = marketCopy(project);
+  const finalChecks = project.status === 'sold-out'
+    ? 'Before choosing a substitute, compare three things: the total entry quantum, the location trade-offs and the most credible active alternatives. I would only shortlist an alternative when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.'
+    : 'Before choosing, compare three things: the live unit list, the total entry quantum and the most credible active alternatives. I would only shortlist the project when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.';
   return `<section class="project-take reveal" aria-labelledby="joe-take-${esc(project.slug)}" data-approval="approved" data-approved-at="2026-08-02">
   <div class="project-take-inner">
     <div class="project-take-quote" aria-hidden="true">&ldquo;</div>
@@ -235,7 +263,7 @@ function takeSection(project) {
     <div class="project-take-body">
       <p>This project is best suited to ${esc(copy.fit)}. The verified record places ${esc(project.name)} at ${esc(project.location)} in ${esc(project.district)}, with ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes on a ${esc(TENURES[project.tenure].toLowerCase())} tenure by ${esc(project.developer)}. That makes buyer fit more important than a generic “best launch” label.</p>
       <p>${esc(copy.advantage)} The current verified market line is: ${esc(market)} Those figures are a dated snapshot, not a promise of today’s unit availability, and the exact stack, floor and layout still determine whether the price is sensible.</p>
-      <p>${esc(copy.risk)} Before choosing, compare three things: the live unit list, the total entry quantum and the most credible active alternatives. I would only shortlist the project when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.</p>
+      <p>${esc(copy.risk)} ${esc(finalChecks)}</p>
     </div>
     <div class="project-take-sig"><span class="project-take-sig-line"><strong>Approved by Joe Tay</strong> · 2 Aug 2026</span></div>
   </div>
@@ -255,15 +283,21 @@ ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.ca
 }
 
 function formCard(project) {
+  const soldOut = project.status === 'sold-out';
+  const heading = soldOut ? 'Find an active alternative' : `Ask about ${esc(project.name)}`;
+  const sub = soldOut
+    ? `${esc(project.name)} is sold out. Share your preferred bedroom size and Joe will suggest current alternatives.`
+    : 'The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.';
+  const button = soldOut ? 'Request alternatives →' : 'Send enquiry →';
   return `<div class="project-form-card">
-  <h2>Ask about ${esc(project.name)}</h2>
-  <p class="sub">The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.</p>
+  <h2>${heading}</h2>
+  <p class="sub">${sub}</p>
   <form id="projectForm" class="pf" novalidate data-project="${esc(project.name)}" data-landing-page="${esc(new URL(project.canonicalUrl).pathname)}">
     <div class="pf-row"><input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name"><input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required aria-label="Phone number"></div>
     <div class="pf-row"><input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address"></div>
     <div class="pf-row"><select name="interest" required aria-label="Bedroom preference"><option value="" disabled selected>Bedroom preference</option><option>1 BR</option><option>2 BR</option><option>3 BR</option><option>4 BR +</option><option>Just exploring</option></select></div>
     <div class="pf-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true"></label></div>
-    <button type="submit">Send enquiry →</button>
+    <button type="submit">${button}</button>
     <p class="pf-micro">CEA R009618D · ERA District Director · No obligation</p>
   </form>
 </div>`;
@@ -388,8 +422,13 @@ function refreshExistingPage(html, project) {
   return html;
 }
 
-function addSitemapEntries(projects) {
+function reconcileSitemap(projects) {
   let sitemap = fs.readFileSync(SITEMAP_PATH, 'utf8');
+  const retainedUrls = new Set(data.projects.map((project) => project.canonicalUrl));
+  sitemap = sitemap.replace(/\s*<url>\s*<loc>(https:\/\/joetay\.com\/new-launches\/[^<]+\.html)<\/loc>[\s\S]*?<\/url>/g, (entry, url) => {
+    if (url.endsWith('/sold-out.html') || retainedUrls.has(url)) return entry;
+    return '';
+  });
   for (const project of projects) {
     if (sitemap.includes(`<loc>${project.canonicalUrl}</loc>`)) continue;
     const entry = `  <url>\n    <loc>${project.canonicalUrl}</loc>\n    <lastmod>${project.verifiedAt}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n`;
@@ -403,7 +442,11 @@ export function validateProjectPage(html, project) {
   for (const expected of [project.name, project.canonicalUrl, project.district, project.region, TENURES[project.tenure], String(project.unitCount), formatDate(project.verifiedAt)]) {
     if (!html.includes(expected)) errors.push(`${project.slug}: missing ${expected}`);
   }
-  if (!html.includes('data-approval="approved" data-approved-at="2026-08-02"')) errors.push(`${project.slug}: Joe's Take approval evidence missing`);
+  if (content[project.slug]) {
+    if (!html.includes('data-approval="approved" data-approved-at="2026-08-02"')) errors.push(`${project.slug}: Joe's Take approval evidence missing`);
+  } else if (!html.includes('data-approval="not-required"')) {
+    errors.push(`${project.slug}: evidence-led assessment marker missing`);
+  }
   if ((html.match(/class="project-related-card"/g) || []).length !== 3) errors.push(`${project.slug}: expected three alternatives`);
   return errors;
 }
@@ -440,12 +483,15 @@ function run() {
   for (const project of projects) {
     const pagePath = path.join(ROOT, new URL(project.canonicalUrl).pathname);
     const existing = fs.existsSync(pagePath) ? fs.readFileSync(pagePath, 'utf8') : '';
-    const page = existing && !existing.includes('data-generated-project-page="true"')
+    const page = existing &&
+      !existing.includes('data-generated-project-page="true"') &&
+      content[project.slug] &&
+      project.status !== 'sold-out'
       ? refreshExistingPage(existing, project)
       : renderNewPage(project);
     fs.writeFileSync(pagePath, page);
   }
-  addSitemapEntries(projects);
+  reconcileSitemap(projects);
   console.log(`Generated or refreshed ${projects.length} project pages`);
 }
 
