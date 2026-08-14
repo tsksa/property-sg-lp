@@ -14,11 +14,14 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "npm run check:new-launches-generated && npm run check:project-pages && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:lighthouse",
+    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:lighthouse",
     "generate:new-launches": "node scripts/generate-new-launch-index.mjs",
     "check:new-launches-generated": "node scripts/generate-new-launch-index.mjs --check",
     "generate:project-pages": "node scripts/generate-project-pages.mjs",
     "check:project-pages": "node scripts/generate-project-pages.mjs --check",
+    "generate:llms-txt": "node scripts/generate-llms-txt.mjs",
+    "check:llms-txt": "node scripts/generate-llms-txt.mjs --check",
+    "test:calculator": "node --test tests/calculator-rules.test.mjs",
     "test:contrast": "node --test tests/color-contrast.test.mjs",
     "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs",
     "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs",

@@ -1,0 +1,98 @@
+# PropertySG — joetay.com
+
+> Singapore residential property advisory run by Joe Tay, a CEA-registered salesperson
+> with ERA Realty Network. The site publishes data-backed HDB resale prices for all 26
+> HDB towns, verified new-launch project records, and buyer/seller guides. Price figures
+> derive from the official data.gov.sg HDB resale dataset under the Singapore Open Data
+> Licence; each project record carries the date it was last verified.
+
+## Contact
+
+- [Free property valuation](https://joetay.com/valuation.html): postal-code lookup and a same-day indicative valuation.
+- WhatsApp: https://wa.me/6581881488
+
+## HDB resale prices by town
+
+- [HDB Resale Prices by Town — Official Medians, Updated Monthly](https://joetay.com/hdb-prices/)
+- [Ang Mo Kio HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/ang-mo-kio/)
+- [Bedok HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bedok/)
+- [Bishan HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bishan/)
+- [Bukit Batok HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bukit-batok/)
+- [Bukit Merah HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bukit-merah/)
+- [Bukit Panjang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bukit-panjang/)
+- [Bukit Timah HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/bukit-timah/)
+- [Central Area HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/central-area/)
+- [Choa Chu Kang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/choa-chu-kang/)
+- [Clementi HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/clementi/)
+- [Geylang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/geylang/)
+- [Hougang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/hougang/)
+- [Jurong East HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/jurong-east/)
+- [Jurong West HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/jurong-west/)
+- [Kallang/Whampoa HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/kallang-whampoa/)
+- [Marine Parade HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/marine-parade/)
+- [Pasir Ris HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/pasir-ris/)
+- [Punggol HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/punggol/)
+- [Queenstown HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/queenstown/)
+- [Sembawang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/sembawang/)
+- [Sengkang HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/sengkang/)
+- [Serangoon HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/serangoon/)
+- [Tampines HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/tampines/)
+- [Toa Payoh HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/toa-payoh/)
+- [Woodlands HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/woodlands/)
+- [Yishun HDB Resale Prices — Median & Recent Sales](https://joetay.com/hdb-prices/yishun/)
+
+## New launch projects
+
+- [Singapore New Launch Projects 2026 | Verified Condo & EC Catalog](https://joetay.com/new-launches/)
+- [Sold-out Singapore New Launch Projects](https://joetay.com/new-launches/sold-out.html)
+- [Newport Residences | Verified D02 New Launch](https://joetay.com/new-launches/newport-residences.html)
+- [The Serra Residences | Verified D11 New Launch](https://joetay.com/new-launches/the-serra-residences.html)
+- [Dunearn House | Verified D11 New Launch](https://joetay.com/new-launches/dunearn-house.html)
+- [Tengah Garden Residences | Verified D24 New Launch](https://joetay.com/new-launches/tengah-garden-residences.html)
+- [Vela Bay | Verified D16 New Launch](https://joetay.com/new-launches/vela-bay.html)
+- [Faber Residence | Verified D05 New Launch](https://joetay.com/new-launches/faber-residence.html)
+- [Zyon Grand | Verified D03 New Launch](https://joetay.com/new-launches/zyon-grand.html)
+- [River Modern | Verified D09 New Launch](https://joetay.com/new-launches/river-modern.html)
+- [Narra Residences | Verified D23 New Launch](https://joetay.com/new-launches/narra-residences.html)
+- [Coastal Cabana | Verified D17 New Launch](https://joetay.com/new-launches/coastal-cabana.html)
+- [Rivelle Tampines | Verified D18 New Launch](https://joetay.com/new-launches/rivelle-tampines.html)
+- [Pinery Residences | Verified D18 New Launch](https://joetay.com/new-launches/pinery-residences.html)
+- [Hudson Place Residences | Verified D05 New Launch](https://joetay.com/new-launches/hudson-place-residences.html)
+- [Lentor Gardens Residences | Verified D26 New Launch](https://joetay.com/new-launches/lentor-gardens-residences.html)
+- [Thomson Reserve | Verified D20 New Launch](https://joetay.com/new-launches/thomson-reserve.html)
+- [Lucerne Grand | Verified D22 New Launch](https://joetay.com/new-launches/lucerne-grand.html)
+- [Chuan Grove | Verified D19 New Launch](https://joetay.com/new-launches/chuan-grove.html)
+- [Amberwood at Holland | Verified D10 New Launch](https://joetay.com/new-launches/amberwood-at-holland.html)
+- [Dorset Road | Verified D08 New Launch](https://joetay.com/new-launches/dorset-road.html)
+- [Woodlands Drive 17 EC | Verified D25 New Launch](https://joetay.com/new-launches/woodlands-drive-17-ec.html)
+- [Chencharu Close | Verified D27 New Launch](https://joetay.com/new-launches/chencharu-close.html)
+- [Sembawang Road EC | Verified D27 New Launch](https://joetay.com/new-launches/sembawang-road-ec.html)
+- [Upper Thomson Road | Verified D26 New Launch](https://joetay.com/new-launches/upper-thomson-road.html)
+- [Senja Close EC | Verified D23 New Launch](https://joetay.com/new-launches/senja-close-ec.html)
+- [Keppel Bay Plot 6 | Verified D04 New Launch](https://joetay.com/new-launches/keppel-bay-plot-6.html)
+- [W Residences Marina View - Singapore | Verified D01 New Launch](https://joetay.com/new-launches/w-residences-marina-view.html)
+
+## Guides and insights
+
+- [Insights — Singapore Property, Explained Straight](https://joetay.com/insights/)
+- [How Long Does It Take to Sell an HDB Flat in Singapore? (2026 Timeline)](https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html)
+- [HDB Valuation Explained: How Singapore Agents Actually Price Your Flat](https://joetay.com/insights/hdb-valuation-explained.html)
+- [Selling HDB After MOP: The 5-Step Timeline With CPF & HDB Paperwork](https://joetay.com/insights/selling-hdb-after-mop-singapore.html)
+- [2% Commission: What Your Singapore Property Agent Actually Does For It](https://joetay.com/insights/property-agent-commission-singapore.html)
+
+## Tools
+
+- [Free Property Valuation — PropertySG](https://joetay.com/valuation.html)
+- [What Did Your Neighbour's Flat Sell For?](https://joetay.com/neighbour-prices/)
+- [HDB Affordability Calculator — What Can You Afford in 2026?](https://joetay.com/calculator/)
+- [Singapore Property Glossary — HDB, CPF, OTP, MOP & More](https://joetay.com/glossary/)
+
+## Services
+
+- [Sell Your HDB, Condo or Landed · Joe Tay, District Director at ERA](https://joetay.com/sell/)
+- [Rent Out Your Property · Find the Right Tenant Fast · Joe Tay, ERA](https://joetay.com/rent-out/)
+- [Join HomeLah — Open Marketplace for Singapore Property Agents](https://joetay.com/agents/)
+
+## Other pages
+
+- [PropertySG | Singapore Property Agent — HDB, Condo & Landed](https://joetay.com/)

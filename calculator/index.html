@@ -265,7 +265,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
       <div class="calc-field">
         <label for="tenure">Loan tenure <span class="hint">years</span></label>
-        <input type="number" id="tenure" min="5" max="30" step="1" inputmode="numeric" value="25" placeholder="25">
+        <input type="number" id="tenure" min="5" max="25" step="1" inputmode="numeric" value="25" placeholder="25">
       </div>
     </div>
 
@@ -365,12 +365,15 @@ function recalc(){
   const cash = Math.max(0, parseFloat(document.getElementById('cash').value) || 0);
   const cpfOA = Math.max(0, parseFloat(document.getElementById('cpfOA').value) || 0);
   const age = Math.max(21, parseFloat(document.getElementById('age').value) || 35);
-  let tenure = Math.max(5, Math.min(30, parseFloat(document.getElementById('tenure').value) || 25));
+  let tenure = Math.max(5, Math.min(25, parseFloat(document.getElementById('tenure').value) || 25));
   const otherDebt = Math.max(0, parseFloat(document.getElementById('otherDebt').value) || 0);
 
-  // Tenure cap: HDB flats max 25yrs, or 65 - age, whichever lower
+  // Tenure cap: HDB flats max 25yrs, or 65 - age, whichever lower.
+  // This applies to a bank loan on an HDB flat too (MAS Notice 645) — 30 years is the
+  // private-property ceiling, and this calculator assumes HDB throughout (MSR is
+  // applied on both branches). Using 30 here overstated max price by ~10%.
   const ageCapTenure = Math.max(5, 65 - age);
-  const maxTenure = loanType === 'HDB' ? Math.min(25, ageCapTenure) : Math.min(30, ageCapTenure);
+  const maxTenure = Math.min(25, ageCapTenure);
   const tenureEl = document.getElementById('tenure');
   if(tenure > maxTenure){
     tenure = maxTenure;
@@ -383,9 +386,13 @@ function recalc(){
   // spinners reflect the current (age + loanType)-derived ceiling.
   tenureEl.max = String(maxTenure);
 
-  // Rates: HDB concessionary (no stress test) / Bank MAS stress rate (4% floor)
-  const annualRate = loanType === 'HDB' ? 0.026 : 0.040;
-  // Actual market rate for 'real' monthly payment display
+  // Eligibility rates. Both branches compute the loan against a floor rate, not the
+  // rate the buyer will actually pay:
+  //   HDB  — since the Sep 2022 measures HDB assesses the eligible amount at a 3%
+  //          floor (or CPF OA + 0.1%, whichever is higher), so 2.6% overstated it.
+  //   Bank — MAS 4% stress rate.
+  const annualRate = loanType === 'HDB' ? Math.max(0.03, 0.026) : 0.040;
+  // Actual market rate for the 'real' monthly payment display
   const marketRate = loanType === 'HDB' ? 0.026 : 0.025;
 
   // MSR = 30% of gross income goes to mortgage

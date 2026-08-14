@@ -22,13 +22,21 @@
 
     submit.disabled = true;
     submit.textContent = 'Sending…';
+    // Field names are a contract with netlify/functions/submit-lead.js, which requires
+    // full_name and mobile_number. Sending name/phone returns 400 "Missing field" and
+    // the visitor is told to start over on WhatsApp. Mirrors new-launches.js.
     var payload = {
-      name: form.elements.name.value.trim(),
-      phone: form.elements.phone.value.trim(),
+      lead_type: 'new_launch_registration',
+      request_type: form.getAttribute('data-request-type') || 'interest',
+      full_name: form.elements.name.value.trim(),
+      mobile_number: form.elements.phone.value.trim(),
       email: form.elements.email.value.trim(),
       interest: form.elements.interest.value,
       project: project,
+      source_site: 'joetay.com',
       landing_page: landingPage,
+      submitted_at: new Date().toISOString(),
+      time_on_form_ms: Date.now() - loadedAt,
       utm_source: params.get('utm_source') || '',
       utm_medium: params.get('utm_medium') || '',
       utm_campaign: params.get('utm_campaign') || '',

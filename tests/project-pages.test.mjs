@@ -87,6 +87,40 @@ test('refreshed pages retain lead forms, tracking and existing media', () => {
   }
 });
 
+// The submit-lead function rejects anything missing full_name / mobile_number with a
+// 400, and the page then tells the visitor to start over on WhatsApp. That shipped
+// once already: the handler sent name/phone, so every enquiry from a project page was
+// dropped. Assert the wire contract, not just that a form element exists.
+test('project enquiry handler sends the field names submit-lead requires', () => {
+  const handler = read('new-launches/project-page-form.js');
+  for (const field of ['lead_type', 'full_name', 'mobile_number', 'source_site']) {
+    assert.match(handler, new RegExp(`\\b${field}:`), `payload is missing ${field}`);
+  }
+  // The server ignores these, so sending them means the real field is absent.
+  assert.doesNotMatch(handler, /^\s*name:/m, 'payload sends name; submit-lead wants full_name');
+  assert.doesNotMatch(handler, /^\s*phone:/m, 'payload sends phone; submit-lead wants mobile_number');
+});
+
+// Project pages submit through one of two handlers: the shared project-page-form.js,
+// or an inline script on the hand-built pages. Both must satisfy the same contract,
+// so resolve whichever a page uses and assert against that.
+test('every project page with an enquiry form satisfies the submit-lead contract', () => {
+  const shared = read('new-launches/project-page-form.js');
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    if (!/id="projectForm"/.test(html)) continue;
+    const handler = html.includes('project-page-form.js') ? shared : html;
+    for (const field of ['full_name', 'mobile_number', 'lead_type']) {
+      assert.ok(handler.includes(field), `${slug}: enquiry payload is missing ${field}`);
+    }
+    // Without the helper the page sends no reCAPTCHA token, so every lead is flagged
+    // review-required and lands on the free-form WhatsApp path that fails outside a
+    // 24-hour session window.
+    assert.match(html, /recaptcha-helper\.js/, `${slug}: recaptcha helper not loaded`);
+  }
+});
+
 test('Dunearn House no longer claims D10 or freehold', () => {
   const html = read('new-launches/dunearn-house.html');
   assert.doesNotMatch(html, /\bD10\b/i);
