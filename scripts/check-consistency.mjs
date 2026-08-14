@@ -163,6 +163,21 @@ for (const file of pages) {
       fail(file, 'FAQPage JSON-LD present but has fewer than 2 questions');
     }
   }
+
+  // ── HDB estate-page internal linking (JOE-289 cycle 2) ──
+  // Town pages used to carry exactly one inbound link (from the hub) and
+  // zero outbound links to each other, to new-launch projects, or to any
+  // other tool/content page — the site's highest-demand keyword cluster was
+  // carrying almost no internal PageRank. generate-estate-pages.mjs now
+  // emits a nearby-towns block + calculator/glossary links on every town
+  // page; this guards against that regressing back to isolated pages.
+  if (/^hdb-prices\/[^/]+\/index\.html$/.test(file) && file !== 'hdb-prices/index.html') {
+    const nearbyLinks = s.match(/href="\/hdb-prices\/[a-z0-9-]+\/"/g) || [];
+    if (nearbyLinks.length < 3) fail(file, `estate page links to only ${nearbyLinks.length} other town pages — needs a nearby-towns block`);
+    if (!s.includes('href="/hdb-prices/"')) fail(file, 'estate page missing a link back to the /hdb-prices/ hub');
+    if (!s.includes('href="/calculator/"')) fail(file, 'estate page missing a link to /calculator/');
+    if (!s.includes('href="/glossary/"')) fail(file, 'estate page missing a link to /glossary/');
+  }
 }
 
 console.log(`Checked ${pages.length} pages — ${failures} failure(s)`);

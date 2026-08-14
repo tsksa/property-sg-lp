@@ -9,6 +9,14 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  crumbsNav,
+  nearbyTownsBlock,
+  newLaunchesBlock,
+  readingBlock,
+  projectsByDistrictFromFile,
+  ESTATE_LINKING_CSS,
+} from './lib/estate-linking.mjs';
 
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
@@ -183,6 +191,7 @@ td:nth-child(n+2),th:nth-child(n+2){text-align:right}
 .cta a.secondary{border:1px solid rgba(255,255,255,0.35);color:#fff;font-weight:600;padding:12px 22px;border-radius:10px}
 footer{max-width:1000px;margin:0 auto;padding:0 24px 40px;font-size:0.78rem;color:#767676}
 a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+${ESTATE_LINKING_CSS}
 </style>
 </head>
 <body>
@@ -193,6 +202,7 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
     <a href="/" class="back">← Back to home</a>
   </div>
 </header>
+${crumbsNav(breadcrumbName, esc)}
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official HDB data · Updated monthly</div>
   <h1>${h1}</h1>
@@ -217,6 +227,16 @@ ${body}
 }
 
 // ── Town pages ──
+// Pre-compute which towns clear the tx threshold and will actually get a
+// page, so the nearby-towns block only ever links to real, in-bundle pages.
+const townMeta = new Map(); // slug -> title
+for (const town of towns) {
+  if (stats(byTown.get(town), window12).n < 20) continue;
+  townMeta.set(slug(town), title(town));
+}
+const projectsJson = JSON.parse(fs.readFileSync('new-launches/projects.json', 'utf8'));
+const projectsByDistrict = projectsByDistrictFromFile(projectsJson);
+
 const indexRows = [];
 for (const town of towns) {
   const recs = byTown.get(town);
@@ -264,7 +284,8 @@ for (const town of towns) {
     <tbody>
       ${latest}
     </tbody>
-  </table></div>`;
+  </table></div>
+${[nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsByDistrict, esc), readingBlock(t, esc)].filter(Boolean).join('\n')}`;
 
   const canonical = `${SITE}/hdb-prices/${s}/`;
   const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API });
