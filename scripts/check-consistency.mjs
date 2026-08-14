@@ -18,6 +18,19 @@ const PIXEL_ID = '3279494272146114';
 // Pages excluded from indexable-page invariants (noindex utility pages).
 const UTILITY = new Set(['404.html', 'downloads/seller-checklist-2026.html', 'privacy-policy.html']);
 
+// High-intent organic entry points: someone reading an article on
+// selling/valuation, or looking at their calculated affordability, is a
+// lead with active intent. These pages must carry a WhatsApp CTA so that
+// intent has somewhere to go instead of bouncing.
+const REQUIRES_WHATSAPP_CTA = new Set([
+  'calculator/index.html',
+  'insights/index.html',
+  'insights/hdb-valuation-explained.html',
+  'insights/how-long-to-sell-hdb-singapore-2026.html',
+  'insights/selling-hdb-after-mop-singapore.html',
+  'insights/property-agent-commission-singapore.html',
+]);
+
 // Google truncates around 155-160 chars. ARCHITECTURE.md states this rule; without
 // an assertion it drifted to 28 over-length pages before anyone noticed.
 const DESCRIPTION_MAX = 160;
@@ -94,6 +107,10 @@ for (const file of pages) {
       });
   if (postsToSubmitLead && !s.includes('recaptcha-helper.js')) {
     fail(file, 'posts to submit-lead but does not load recaptcha-helper.js (honeypot + token)');
+  }
+
+  if (REQUIRES_WHATSAPP_CTA.has(file) && !s.includes('wa.me/')) {
+    fail(file, 'high-intent page has no WhatsApp CTA (wa.me link) for lead capture');
   }
 
   if (!indexable) continue;
