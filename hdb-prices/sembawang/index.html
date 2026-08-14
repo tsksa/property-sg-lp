@@ -63,6 +63,91 @@
  }
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Dataset",
+   "name": "Sembawang HDB resale prices — 12-month dataset",
+   "description": "Median resale price, price per square foot, and transaction count for Sembawang HDB flats, computed from 882 registered resale transactions in the 12 months to 2026-07.",
+   "url": "https://joetay.com/hdb-prices/sembawang/",
+   "license": "https://data.gov.sg/open-data-licence",
+   "isAccessibleForFree": true,
+   "temporalCoverage": "2025-08-01/2026-07-01",
+   "spatialCoverage": {
+    "@type": "Place",
+    "name": "Sembawang",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Sembawang",
+     "addressCountry": "SG"
+    }
+   },
+   "creator": {
+    "@type": "GovernmentOrganization",
+    "name": "Housing & Development Board",
+    "url": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view"
+   },
+   "isBasedOn": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view",
+   "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_8b84c4ee58e3cfc0ece0d773c8ca6abc"
+   },
+   "variableMeasured": [
+    {
+     "@type": "PropertyValue",
+     "name": "Median resale price",
+     "value": 600000,
+     "unitText": "SGD"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Median price per square foot",
+     "value": 610,
+     "unitText": "SGD per square foot"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Transaction count",
+     "value": 882,
+     "unitText": "count"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What is the median HDB resale price in Sembawang?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median HDB resale price in Sembawang is $600,000, based on 882 registered transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the median price per square foot (psf) for HDB flats in Sembawang?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median price is $610 psf across all flat types, based on transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Have HDB prices in Sembawang gone up or down over the past year?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Median resale prices in Sembawang have fallen 2.4% over the past year, comparing the 12 months to 2026-07 against the prior 12-month period."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>

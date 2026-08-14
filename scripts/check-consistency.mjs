@@ -144,6 +144,25 @@ for (const file of pages) {
   if (!s.includes('class="skip-link"')) fail(file, 'missing skip link');
   else if (!s.includes('id="main"')) fail(file, 'skip link present but no id="main" target');
   if (!/<meta name="viewport"/.test(s)) fail(file, 'missing viewport meta');
+
+  // ── Estate-page structured data: the on-page medians/psf/YoY are only useful to a
+  // crawler if they're also marked up. Parse every ld+json block rather than string-
+  // matching, so a syntax-broken or copy-pasted-but-wrong block still fails the guard.
+  if (file.startsWith('hdb-prices/') && file.endsWith('index.html')) {
+    const blocks = [...s.matchAll(/<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/g)]
+      .map((m) => { try { return JSON.parse(m[1]); } catch { return null; } });
+    const nodes = blocks.flatMap((b) => (b && Array.isArray(b['@graph']) ? b['@graph'] : b ? [b] : []));
+    const dataset = nodes.find((n) => n && n['@type'] === 'Dataset');
+    const faq = nodes.find((n) => n && n['@type'] === 'FAQPage');
+    if (!dataset) fail(file, 'missing Dataset JSON-LD for the HDB price figures on this page');
+    else if (!Array.isArray(dataset.variableMeasured) || dataset.variableMeasured.length < 1) {
+      fail(file, 'Dataset JSON-LD present but variableMeasured is empty');
+    }
+    if (!faq) fail(file, 'missing FAQPage JSON-LD for the HDB price figures on this page');
+    else if (!Array.isArray(faq.mainEntity) || faq.mainEntity.length < 2) {
+      fail(file, 'FAQPage JSON-LD present but has fewer than 2 questions');
+    }
+  }
 }
 
 console.log(`Checked ${pages.length} pages — ${failures} failure(s)`);

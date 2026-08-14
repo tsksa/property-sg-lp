@@ -57,6 +57,83 @@
  }
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Dataset",
+   "name": "HDB resale prices by town — 12-month medians",
+   "description": "Median HDB resale prices for 26 Singapore towns, computed from 24,283 registered resale transactions in the 12 months to 2026-07.",
+   "url": "https://joetay.com/hdb-prices/",
+   "license": "https://data.gov.sg/open-data-licence",
+   "isAccessibleForFree": true,
+   "creator": {
+    "@type": "GovernmentOrganization",
+    "name": "Housing & Development Board",
+    "url": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view"
+   },
+   "isBasedOn": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view",
+   "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_8b84c4ee58e3cfc0ece0d773c8ca6abc"
+   },
+   "variableMeasured": [
+    {
+     "@type": "PropertyValue",
+     "name": "Town count",
+     "value": 26,
+     "unitText": "count"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Total 12-month transaction count",
+     "value": 24283,
+     "unitText": "count"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "How many HDB towns does this cover?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "26 towns across Singapore, each with a 12-month resale median computed from official transactions."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Where does this HDB resale price data come from?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The Housing & Development Board's official HDB Resale Flat Prices dataset, published via data.gov.sg under the Singapore Open Data Licence v1.0."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which HDB town has the highest median resale price?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Bukit Timah, with a 12-month median of $990,000."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which HDB town has the lowest median resale price?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Ang Mo Kio, with a 12-month median of $517,500."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>

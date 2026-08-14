@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
+import { buildTownSchema, buildHubSchema } from './lib/estate-schema.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -81,7 +82,7 @@ function stats(recs, monthsSet) {
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName }) {
+function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -129,7 +130,10 @@ ${JSON.stringify({
   },
 }, null, 1)}
 </script>
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
+${extraSchema ? `<script type="application/ld+json">
+${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, null, 1)}
+</script>
+` : ''}<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <style>
@@ -257,6 +261,9 @@ for (const town of towns) {
     </tbody>
   </table></div>`;
 
+  const canonical = `${SITE}/hdb-prices/${s}/`;
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API });
+
   fs.mkdirSync(path.join(OUT, s), { recursive: true });
   fs.writeFileSync(path.join(OUT, s, 'index.html'), pageShell({
     path: `/hdb-prices/${s}/`,
@@ -266,12 +273,14 @@ for (const town of towns) {
     lede: `Every figure on this page comes from actual registered resale transactions in ${t} — no estimates, no modelling.`,
     body,
     breadcrumbName: t,
+    extraSchema,
   }));
   indexRows.push({ town: t, s, med: cur.med, n: cur.n });
 }
 
 // ── Index page ──
 const grid = indexRows.map((r) => `    <a class="town-card" href="/hdb-prices/${r.s}/"><span class="t">${r.town}</span><span class="m" style="display:block">median ${money(r.med)} · ${r.n} sales/12m</span></a>`).join('\n');
+const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API });
 fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   path: '/hdb-prices/',
   titleTag: 'HDB Resale Prices by Town — Official Medians, Updated Monthly | PropertySG',
@@ -280,6 +289,7 @@ fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',
   body: `  <div class="town-grid">\n${grid}\n  </div>`,
   breadcrumbName: null,
+  extraSchema: hubSchema,
 }));
 
 // ── Sitemap upkeep (managed block) ──
