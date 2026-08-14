@@ -74,7 +74,11 @@ test('placeholder content is rejected', () => {
 
 test('dynamic values older than seven days are rejected', () => {
   const data = clone();
-  data.projects[0].averagePsf.asOf = '2026-07-20';
+  // Set the value too. Mutating only asOf coupled this test to whatever the live
+  // fixture happened to hold, so it broke the moment stale figures were nulled out —
+  // the validator reported the null/asOf mismatch instead of the staleness it means
+  // to exercise.
+  data.projects[0].averagePsf = { value: 1794, asOf: '2026-07-20' };
 
   assert.ok(
     validate(data).some(
