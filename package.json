@@ -31,6 +31,6 @@
     "test:estate-windows": "node --test tests/estate-windows.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^10.7.9"
+    "@netlify/blobs": "^10.7.12"
   }
 }
