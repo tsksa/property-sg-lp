@@ -10,11 +10,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
+
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
 const OUT = 'hdb-prices';
 const SITE = 'https://joetay.com';
-const MONTHS_FETCHED = 25; // 12m window + 12m prior window for YoY + current partial
+// 12m window + 12m prior window for YoY + the current partial month, which is always
+// discarded, + one month of slack so a publication lag at data.gov.sg can shift the
+// anchor back without shortening either window.
+const MONTHS_FETCHED = 26;
 
 const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const title = (t) => t.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
@@ -25,17 +30,6 @@ const median = (a) => {
   const m = Math.floor(s.length / 2);
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 };
-
-function monthsBack(n) {
-  const out = [];
-  const d = new Date();
-  d.setDate(1);
-  for (let i = 0; i < n; i++) {
-    out.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
-    d.setMonth(d.getMonth() - 1);
-  }
-  return out;
-}
 
 async function fetchMonth(month) {
   const filters = encodeURIComponent(JSON.stringify({ month }));
@@ -57,9 +51,13 @@ for (const m of months) {
 }
 if (all.length < 5000) throw new Error(`suspiciously few records (${all.length}) — aborting rather than generating empty pages`);
 
-const latestFullMonth = months.find((m) => all.some((r) => r.month === m));
-const window12 = months.slice(0, 12);
-const prior12 = months.slice(12, 24);
+// The current calendar month is always partial and is discarded — see
+// scripts/lib/estate-windows.mjs. Including it made the "last 12 months" headline
+// really 11 months plus a fragment while prior12 was a full 12, so the year-on-year
+// figure compared mismatched windows, and it let a partial month be labelled
+// "latest full month".
+const monthsWithData = new Set(all.map((r) => r.month));
+const { latestFullMonth, window12, prior12 } = resolveWindows(months, (m) => monthsWithData.has(m));
 const SQM_TO_SQFT = 10.7639;
 
 const byTown = new Map();
