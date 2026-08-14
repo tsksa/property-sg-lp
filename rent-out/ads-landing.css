@@ -150,3 +150,7 @@ img{max-width:100%;height:auto}
 .back-to-top:hover{background:rgba(11,30,63,1)}
 .back-to-top svg{width:18px;height:18px;stroke:#fff;stroke-width:2.4;fill:none}
 @media(max-width:640px){.back-to-top{bottom:80px;right:18px}}
+
+/* iOS zooms the viewport when a focused field is under 16px, shifting the layout
+   mid-entry. These are the paid-ad landing pages, so the cost is real traffic. */
+@media(max-width:768px){.lp-form input,.lp-form select{font-size:16px}}
