@@ -40,6 +40,16 @@ jobs:
           git add hdb-prices/ sitemap.xml
           git commit -m "Monthly estate-page refresh from data.gov.sg ($(date -u +%Y-%m))"
           git push -f origin "$BRANCH"
-          gh pr create --fill --title "Monthly estate-page data refresh ($(date -u +%Y-%m))" \
-            --body "Automated regeneration of /hdb-prices/ from the HDB Resale Flat Prices dataset. Consistency guard passed in this workflow. Review the diff (medians + recent-sales tables) and merge." \
-            || echo "PR already exists for this month"
+
+          # `gh pr create ... || echo` used to swallow every failure, not just the
+          # already-exists case. It failed silently on 2026-08-03 and the refresh sat
+          # on an orphan branch for 11 days with nothing pointing at it. Check for an
+          # existing PR explicitly, and let a real failure fail the run.
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #${existing} already open for ${BRANCH} — updated by the force-push above."
+            exit 0
+          fi
+          gh pr create --base main --head "$BRANCH" \
+            --title "Monthly estate-page data refresh ($(date -u +%Y-%m))" \
+            --body "Automated regeneration of /hdb-prices/ from the HDB Resale Flat Prices dataset. Consistency guard passed in this workflow. Review the diff (medians + recent-sales tables) and merge."

@@ -2,7 +2,7 @@
   "name": "property-sg-lp",
   "version": "1.0.0",
   "private": true,
-  "description": "joetay.com \u2014 static site + Netlify Functions (lead capture)",
+  "description": "joetay.com — static site + Netlify Functions (lead capture)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsksa/property-sg-lp.git"
@@ -14,7 +14,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:lighthouse",
+    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:estate-windows && npm run test:lighthouse",
     "generate:new-launches": "node scripts/generate-new-launch-index.mjs",
     "check:new-launches-generated": "node scripts/generate-new-launch-index.mjs --check",
     "generate:project-pages": "node scripts/generate-project-pages.mjs",
@@ -26,7 +26,9 @@
     "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs",
     "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs",
     "test:project-pages": "node --test tests/project-pages.test.mjs",
-    "test:search-growth": "node --test tests/search-growth-report.test.mjs"
+    "test:search-growth": "node --test tests/search-growth-report.test.mjs",
+    "generate:estate-pages": "node scripts/generate-estate-pages.mjs",
+    "test:estate-windows": "node --test tests/estate-windows.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9"
