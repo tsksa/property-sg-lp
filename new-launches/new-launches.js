@@ -379,10 +379,19 @@
     };
     Object.keys(utm).forEach(function(k){ data[k] = utm[k]; });
 
-    fetch('/.netlify/functions/submit-lead', {
-      method: 'POST',
-      headers: {'Accept':'application/json','Content-Type':'application/json'},
-      body: JSON.stringify(data)
+    // Without a token submit-lead flags the lead review-required and notifies Joe over
+    // the free-form WhatsApp path, which fails outside a 24-hour session window.
+    var tokenPromise = window.getRecaptchaToken
+      ? window.getRecaptchaToken('new_launch_registration')
+      : Promise.resolve('');
+
+    tokenPromise.then(function(token){
+      data.recaptcha_token = token;
+      return fetch('/.netlify/functions/submit-lead', {
+        method: 'POST',
+        headers: {'Accept':'application/json','Content-Type':'application/json'},
+        body: JSON.stringify(data)
+      });
     }).then(function(res){
       return res.json().catch(function(){ return {ok: res.ok}; });
     }).then(function(result){

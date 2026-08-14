@@ -96,6 +96,34 @@ function description(project) {
   return `${project.name} is a ${TENURES[project.tenure].toLowerCase()} ${PROPERTY_TYPES[project.propertyType].toLowerCase()} at ${project.location}, ${project.district}, with ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes by ${project.developer}. Verified project facts and current market status from PropertySG.`;
 }
 
+// Search results truncate around 155-160 chars. The full description() above still
+// feeds the hero copy and JSON-LD; only the meta tag is shortened. It is assembled
+// from whole clauses in descending value order rather than cut to length, because a
+// developer name sliced mid-word ("... by Boulevard Midtown (IOI") reads as broken.
+// District and tenure lead, since that is what buyers scan for in a result list.
+const META_DESCRIPTION_MAX = 158;
+
+function metaDescription(project) {
+  const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
+  const lead = `${project.name}: ${TENURES[project.tenure].toLowerCase()} ${PROPERTY_TYPES[project.propertyType].toLowerCase()} in ${project.district}, ${project.location}.`;
+  // Each candidate is tried in order; the first that fits the remaining budget wins.
+  const optional = [
+    [`${units} units by ${project.developer}.`, `${units} units.`],
+    ['Verified facts from PropertySG.', null],
+  ];
+
+  let out = lead.slice(0, META_DESCRIPTION_MAX);
+  for (const candidates of optional) {
+    for (const candidate of candidates) {
+      if (candidate && out.length + 1 + candidate.length <= META_DESCRIPTION_MAX) {
+        out += ` ${candidate}`;
+        break;
+      }
+    }
+  }
+  return out;
+}
+
 function projectJson(project) {
   return {
     '@context': 'https://schema.org',
@@ -305,7 +333,7 @@ function formCard(project) {
 
 function head(project) {
   const title = `${project.name} | Verified ${project.district} New Launch | PropertySG`;
-  const meta = description(project);
+  const meta = metaDescription(project);
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>
@@ -387,7 +415,7 @@ function refreshFormCard(html, project) {
 
 function refreshExistingPage(html, project) {
   const title = `${project.name} | Verified ${project.district} New Launch | PropertySG`;
-  const meta = description(project);
+  const meta = metaDescription(project);
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(meta)}">`);
   html = html.replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${esc(title)}">`);

@@ -59,6 +59,30 @@ jobs:
           [ "$code" = "400" ] || { echo "::error::expected 400 for invalid lead, got ${code}"; exit 1; }
           echo "$body" | grep -q '"ok":false' || { echo "::error::unexpected body: ${body}"; exit 1; }
 
+      - name: Lead function accepts a well-formed payload (no lead created)
+        run: |
+          # The gate above only proves bad input is rejected. It stayed green for weeks
+          # while every project-page enquiry was rejected for "Missing field: full_name".
+          # This sends the real field contract with a deliberately invalid phone, so the
+          # request dies at phone validation and no lead, webhook, or WhatsApp is created.
+          resp=$(curl -s -w '\n%{http_code}' -m 20 -X POST \
+            -H 'Origin: https://joetay.com' -H 'Content-Type: application/json' \
+            -d '{"lead_type":"new_launch_registration","full_name":"canary","mobile_number":"123","source_site":"joetay.com"}' \
+            https://joetay.com/api/submit-lead)
+          body=$(echo "$resp" | head -1); code=$(echo "$resp" | tail -1)
+          echo "POST(well-formed, bad phone) → ${code} ${body}"
+          [ "$code" = "400" ] || { echo "::error::expected 400 from phone validation, got ${code}"; exit 1; }
+          echo "$body" | grep -qi 'phone' || { echo "::error::expected a phone-validation error, got: ${body}. A 'Missing field' error here means the client/server field contract is broken."; exit 1; }
+
+      - name: Deployed enquiry handler carries the field contract
+        run: |
+          # Guards against repo-vs-deploy drift on the shared project-page handler.
+          js=$(curl -s -m 20 --retry 2 https://joetay.com/new-launches/project-page-form.js)
+          for field in full_name mobile_number lead_type; do
+            echo "$js" | grep -q "$field" || { echo "::error::deployed project-page-form.js is missing ${field} — project enquiries are being rejected"; exit 1; }
+          done
+          echo "deployed enquiry handler contract OK"
+
       - name: SEO surfaces respond
         run: |
           set -e
