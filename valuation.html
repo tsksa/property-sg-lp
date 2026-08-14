@@ -169,6 +169,10 @@ main>*{min-width:0}
 .val-chip:hover{border-color:var(--emerald);color:var(--navy);background:rgba(16,185,129,0.03)}
 .val-chip input{position:absolute;opacity:0;pointer-events:none}
 .val-chip:has(input:checked){border-color:var(--emerald-aa);background:var(--emerald-aa);color:#fff;font-weight:600;box-shadow:0 4px 12px rgba(16,185,129,0.25)}
+/* The radio itself is opacity:0 behind the chip, so without this a focused chip —
+   including the one validation moves focus to — has no visible indicator at all. */
+.val-chip:has(input:focus-visible){outline:2px solid var(--emerald-aa);outline-offset:2px}
+
 
 /* Chapter structure */
 .val-chapter-head{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #f0f0f0}
@@ -504,6 +508,14 @@ function showFieldError(form, field){
   msg.classList.add('show');
   const group=field.type==='radio'?form.querySelectorAll(`[name="${field.name}"]`):[field];
   group.forEach(el=>{el.setAttribute('aria-invalid','true');el.setAttribute('aria-describedby',msg.id);});
+  // Move focus and bring the field into view. Only the text branch of validate()
+  // used to focus, so a missing property type or unticked consent rendered an
+  // error far above the viewport with no focus move — on mobile the submit button
+  // simply appeared to do nothing. Doing it here covers every branch.
+  const target=field.type==='radio'?group[0]:field;
+  target.focus({preventScroll:true});
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (target.closest('.val-group')||target).scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
 }
 function validate(){
   clearErrors();
@@ -523,7 +535,6 @@ function validate(){
       }
     } else if(!field.value.trim() || !field.checkValidity()){
       showFieldError(form, field);
-      field.focus();
       return false;
     }
   }
