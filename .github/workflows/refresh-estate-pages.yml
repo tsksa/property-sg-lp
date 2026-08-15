@@ -22,7 +22,7 @@ jobs:
           # refresh-sitemap-lastmod reads git history; a shallow clone reports the
           # clone date for every file and would flag the whole sitemap as stale.
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: "20"
 
