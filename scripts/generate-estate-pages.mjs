@@ -8,6 +8,7 @@
 // Pages are generated to comply with scripts/check-consistency.mjs invariants.
 
 import fs from 'node:fs';
+import { siteFooterHtml } from './lib/site-footer.mjs';
 import path from 'node:path';
 import {
   crumbsNav,
@@ -221,7 +222,7 @@ ${body}
 ${leadCapture || ''}
   </div>
 </main>
-<footer>
+<footer>\n${siteFooterHtml()}
   <p>Contains information from the <a href="https://data.gov.sg/datasets/${DATASET}/view" target="_blank" rel="noopener">HDB Resale Flat Prices</a> dataset accessed via data.gov.sg, made available under the <a href="https://data.gov.sg/open-data-licence" target="_blank" rel="noopener">Singapore Open Data Licence v1.0</a>. Medians are indicative, not a valuation. PropertySG · Joe Tay, District Director, ERA · CEA R009618D.</p>
 </footer>
 </body>

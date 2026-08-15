@@ -63,12 +63,17 @@ test('visible mobile and cookie labels are included in their accessible names', 
 test('insight cards use semantic list markup without invalid link roles', () => {
   const html = read('insights/index.html');
 
-  assert.match(
-    html,
-    /<ul class="blog-grid" aria-label="Insight articles">/,
-  );
-  assert.equal((html.match(/<li>/g) || []).length, 4);
-  assert.equal((html.match(/<\/li>/g) || []).length, 4);
+  // Scope the count to the card list. Counting <li> across the whole document
+  // made this fail the moment any other list was added to the page — the shared
+  // site footer is a <ul> of section links — which says nothing about whether
+  // the insight cards are marked up correctly. Mirrors the glossary test below.
+  const list = html.match(
+    /<ul class="blog-grid" aria-label="Insight articles">([\s\S]*?)<\/ul>/,
+  )?.[1];
+
+  assert.ok(list, 'missing insight card list');
+  assert.equal((list.match(/<li>/g) || []).length, 4);
+  assert.equal((list.match(/<\/li>/g) || []).length, 4);
   assert.doesNotMatch(html, /<a[^>]+role="listitem"/);
 });
 
