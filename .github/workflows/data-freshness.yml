@@ -1,0 +1,33 @@
+name: New-launch data freshness
+
+# priceFrom/averagePsf/soldPercent in new-launches/projects.json decay past
+# their dynamicFreshnessDays policy window silently — nothing catches it but
+# a local `npm run check`, and Validate only fires on a push that touches
+# the file, so a project nobody edits for a week goes stale with zero
+# signal. This runs the same gate daily against main so decay fails loudly
+# (GitHub emails the repo owner on a failed scheduled run — the same
+# mechanism canary.yml already relies on).
+
+on:
+  schedule:
+    - cron: "37 5 * * *" # daily, off the :00 stampede
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    name: projects.json freshness gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Dynamic-figure freshness gate
+        run: node scripts/check-new-launches.mjs
