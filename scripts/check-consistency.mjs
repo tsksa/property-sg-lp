@@ -91,6 +91,27 @@ for (const file of pages) {
     }
   }
 
+  // A gtag conversion send_to with a literal PLACEHOLDER label is a TODO that shipped to
+  // production. The label doesn't exist as a Google Ads conversion action, so the call is
+  // a guaranteed no-op — every click on that CTA is invisible to Ads reporting and bidding,
+  // and the try/catch already on these handlers swallows the failure with nothing surfaced
+  // to a human. Found live on 10 pages / 21 CTAs: every WhatsApp float and book-modal button
+  // site-wide was firing AW-18046717591/PLACEHOLDER_LABEL_FOR_WHATSAPP or .../PLACEHOLDER_CALENDLY.
+  if (/'send_to':\s*'AW-[^']*PLACEHOLDER[^']*'/.test(s)) {
+    fail(file, 'gtag conversion send_to still has a literal PLACEHOLDER label — this conversion is a silent no-op');
+  }
+
+  // A stray </main> with no matching <main> is invalid HTML, silently dropped by the
+  // browser — a copy/paste or hand-edit can leave one behind after id="main" moves onto
+  // some other element (found live on 4 pages: rent-out/index.html and three hand-built
+  // new-launch pages, each with id="main" migrated onto the hero <section> but the old
+  // </main> left in place lower down the file).
+  {
+    const opens = (s.match(/<main\b/g) || []).length;
+    const closes = (s.match(/<\/main>/g) || []).length;
+    if (opens !== closes) fail(file, `<main> open/close mismatch: ${opens} open tag(s), ${closes} close tag(s)`);
+  }
+
   // ── Tracking invariants: if a tracker is present, it must be the canonical one, gated ──
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
