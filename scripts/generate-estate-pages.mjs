@@ -9,6 +9,7 @@
 
 import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
+import { headerNavHtml } from './lib/header-nav.mjs';
 import path from 'node:path';
 import {
   crumbsNav,
@@ -158,7 +159,6 @@ a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
 .topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
 .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
 .logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
-.topbar a.back{color:rgba(255,255,255,0.85);font-size:0.88rem}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
@@ -203,7 +203,7 @@ ${ESTATE_LINKING_CSS}
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="logo">PropertySG</a>
-    <a href="/" class="back">← Back to home</a>
+    ${headerNavHtml()}
   </div>
 </header>
 ${crumbsNav(breadcrumbName, esc)}
