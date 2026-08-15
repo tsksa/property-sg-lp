@@ -81,7 +81,7 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
 
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
+<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 
 <style>
@@ -332,6 +332,11 @@ a:hover{text-decoration:underline}
 <div class="g-cta">
   <h3>Need a term explained that's not here?</h3>
   <p>WhatsApp me — I'll explain it in 30 seconds and add it to this page if others might ask too. Or book a free consult for your specific situation.</p>
+  <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20have%20a%20question%20about%20a%20property%20term"
+     target="_blank"
+     rel="noopener"
+     data-cta="whatsapp-glossary"
+     onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'glossary',article:'glossary'});">WhatsApp Joe directly →</a>
   <a href="/#book">Book a free 30-min consult →</a>
 </div>
 </main>

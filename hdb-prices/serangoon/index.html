@@ -63,9 +63,96 @@
  }
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Dataset",
+   "name": "Serangoon HDB resale prices — 12-month dataset",
+   "description": "Median resale price, price per square foot, and transaction count for Serangoon HDB flats, computed from 374 registered resale transactions in the 12 months to 2026-07.",
+   "url": "https://joetay.com/hdb-prices/serangoon/",
+   "license": "https://data.gov.sg/open-data-licence",
+   "isAccessibleForFree": true,
+   "temporalCoverage": "2025-08/2026-07",
+   "spatialCoverage": {
+    "@type": "Place",
+    "name": "Serangoon",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Serangoon",
+     "addressCountry": "SG"
+    }
+   },
+   "creator": {
+    "@type": "GovernmentOrganization",
+    "name": "Housing & Development Board",
+    "url": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view"
+   },
+   "isBasedOn": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view",
+   "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_8b84c4ee58e3cfc0ece0d773c8ca6abc"
+   },
+   "variableMeasured": [
+    {
+     "@type": "PropertyValue",
+     "name": "Median resale price",
+     "value": 660944,
+     "unitText": "SGD"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Median price per square foot",
+     "value": 658,
+     "unitText": "SGD per square foot"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Transaction count",
+     "value": 374,
+     "unitText": "count"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What is the median HDB resale price in Serangoon?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median HDB resale price in Serangoon is $660,944, based on 374 registered transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the median price per square foot (psf) for HDB flats in Serangoon?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median price is $658 psf across all flat types, based on transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Have HDB prices in Serangoon gone up or down over the past year?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Median resale prices in Serangoon have fallen 0.6% over the past year, comparing the 12 months to 2026-07 against the prior 12-month period."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
+<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script src="/js/recaptcha-helper.js" defer></script>
+<script src="/js/estate-lead.js" defer></script>
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -90,6 +177,25 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .up{color:var(--emerald-dark)}.down{color:#b45309}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
+.faq{margin-top:8px}
+.est-lead{margin-top:14px;display:grid;gap:10px;max-width:520px}
+.est-lead-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.est-lead-row{grid-template-columns:1fr}}
+.est-lead input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid rgba(11,30,63,0.18);font-family:inherit;font-size:16px;background:#fff;color:#111}
+.est-lead input:focus-visible{outline:2px solid var(--emerald);outline-offset:1px;border-color:var(--emerald)}
+.est-lead button{padding:13px 20px;border:0;border-radius:10px;background:var(--emerald-dark);color:#fff;font-family:inherit;font-weight:700;font-size:0.95rem;cursor:pointer}
+.est-lead button:hover{background:var(--navy)}
+.est-lead button:disabled{opacity:.65;cursor:default}
+.est-lead-note{font-size:0.8rem;color:#5a6473;margin:0}
+.est-form-err{margin:0;font-size:0.86rem;color:#b42318}
+.est-form-err a{color:#b42318;font-weight:600;text-decoration:underline}
+.est-form-done{margin-top:14px;padding:14px 16px;border-radius:10px;background:rgba(16,185,129,0.10);border:1px solid rgba(16,185,129,0.35);font-weight:600;color:var(--navy)}
+.est-wa{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-weight:600;color:var(--emerald-dark)}
+
+.faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
+.faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
+.faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.faq-item p{margin-top:8px;color:#444}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:520px}
 th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676;text-align:left;padding:12px 16px;border-bottom:1px solid rgba(11,30,63,0.08)}
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
@@ -108,6 +214,7 @@ td:nth-child(n+2),th:nth-child(n+2){text-align:right}
 .cta a.secondary{border:1px solid rgba(255,255,255,0.35);color:#fff;font-weight:600;padding:12px 22px;border-radius:10px}
 footer{max-width:1000px;margin:0 auto;padding:0 24px 40px;font-size:0.78rem;color:#767676}
 a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+.crumbs{max-width:1000px;margin:14px auto 0;padding:0 24px;font-size:0.82rem;color:#767676}.crumbs a{color:#767676}.crumbs a:hover{color:var(--emerald)}.link-list{list-style:none}.link-list li{padding:10px 0;border-bottom:1px solid rgba(11,30,63,0.06)}.link-list li:last-child{border-bottom:none}
 </style>
 </head>
 <body>
@@ -118,6 +225,7 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
     <a href="/" class="back">← Back to home</a>
   </div>
 </header>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/hdb-prices/">HDB Prices by Town</a> &rsaquo; <span>Serangoon</span></nav>
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official HDB data · Updated monthly</div>
   <h1>Serangoon HDB resale prices</h1>
@@ -156,13 +264,49 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
       <tr><td>2026-08</td><td style="text-align:left">4 Room · Blk 204 Serangoon Ctrl</td><td>01 TO 03</td><td>$580,000</td></tr>
     </tbody>
   </table></div>
+  <h2>Nearby towns</h2>
+  <div class="town-grid">
+    <a class="town-card" href="/hdb-prices/hougang/"><span class="t">Hougang</span></a>
+    <a class="town-card" href="/hdb-prices/ang-mo-kio/"><span class="t">Ang Mo Kio</span></a>
+    <a class="town-card" href="/hdb-prices/bishan/"><span class="t">Bishan</span></a>
+    <a class="town-card" href="/hdb-prices/sengkang/"><span class="t">Sengkang</span></a>
+  </div>
+  <h2>New launches near Serangoon</h2>
+  <ul class="link-list">
+    <li><a href="https://joetay.com/new-launches/chuan-grove.html">Chuan Grove</a> — Chuan Grove, D19</li>
+  </ul>
+  <h2>Useful reading for Serangoon sellers</h2>
+  <ul class="link-list">
+    <li><a href="/insights/hdb-valuation-explained.html">How agents actually price a flat</a></li>
+    <li><a href="/insights/how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell in 2026</a></li>
+    <li><a href="/insights/selling-hdb-after-mop-singapore.html">Selling after MOP: the 5-step timeline</a></li>
+    <li><a href="/insights/property-agent-commission-singapore.html">What that 2% commission covers</a></li>
+    <li><a href="/calculator/">Affordability calculator</a></li>
+    <li><a href="/glossary/">Property glossary — CPF, OTP, MOP &amp; more</a></li>
+  </ul>
+  <h2>Common questions</h2>
+  <div class="faq">
+      <details class="faq-item"><summary>What is the median HDB resale price in Serangoon?</summary><p>The median HDB resale price in Serangoon is $660,944, based on 374 registered transactions in the 12 months to 2026-07.</p></details>
+      <details class="faq-item"><summary>What is the median price per square foot (psf) for HDB flats in Serangoon?</summary><p>The median price is $658 psf across all flat types, based on transactions in the 12 months to 2026-07.</p></details>
+      <details class="faq-item"><summary>Have HDB prices in Serangoon gone up or down over the past year?</summary><p>Median resale prices in Serangoon have fallen 0.6% over the past year, comparing the 12 months to 2026-07 against the prior 12-month period.</p></details>
+  </div>
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>
     <div class="btns">
-      <a class="primary" href="/neighbour-prices/">Check your block's sold prices</a>
-      <a class="secondary" href="/valuation.html">Get a free valuation</a>
+      <a class="secondary" href="/neighbour-prices/">Check your block's sold prices</a>
     </div>
+  <form id="estateLeadForm" class="est-lead" data-town="Serangoon" novalidate>
+    <p class="est-lead-note">Tell me your block and I'll price it against the actual Serangoon sales above — not a town-wide median.</p>
+    <div class="est-lead-row">
+      <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+      <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile number" aria-label="Your mobile number">
+    </div>
+    <button type="submit">Get my Serangoon valuation →</button>
+    <p class="est-lead-note">Free, no obligation — the reply comes from me, not an auto-responder.</p>
+    <noscript><p class="est-lead-note">JavaScript is off — <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20what's%20my%20flat%20in%20Serangoon%20worth%20right%20now%3F">WhatsApp Joe on +65 8188 1488</a> instead.</p></noscript>
+  </form>
+  <a class="est-wa" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20what's%20my%20flat%20in%20Serangoon%20worth%20right%20now%3F" target="_blank" rel="noopener" data-cta="whatsapp-estate" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-page',town:'Serangoon'});">Or WhatsApp me directly →</a>
   </div>
 </main>
 <footer>

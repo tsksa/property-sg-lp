@@ -9,8 +9,18 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  crumbsNav,
+  nearbyTownsBlock,
+  newLaunchesBlock,
+  readingBlock,
+  projectsByDistrictFromFile,
+  ESTATE_LINKING_CSS,
+} from './lib/estate-linking.mjs';
 
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
+import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
+import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -81,7 +91,7 @@ function stats(recs, monthsSet) {
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName }) {
+function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema, leadScripts, leadCapture }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -129,9 +139,14 @@ ${JSON.stringify({
   },
 }, null, 1)}
 </script>
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+${extraSchema ? `<script type="application/ld+json">
+${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, null, 1)}
+</script>
+` : ''}<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
+<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>${leadScripts ? `
+<script src="/js/recaptcha-helper.js" defer></script>
+<script src="/js/estate-lead.js" defer></script>` : ''}
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -156,6 +171,11 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .up{color:var(--emerald-dark)}.down{color:#b45309}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
+.faq{margin-top:8px}${LEAD_CAPTURE_CSS}
+.faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
+.faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
+.faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.faq-item p{margin-top:8px;color:#444}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:520px}
 th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676;text-align:left;padding:12px 16px;border-bottom:1px solid rgba(11,30,63,0.08)}
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
@@ -174,6 +194,7 @@ td:nth-child(n+2),th:nth-child(n+2){text-align:right}
 .cta a.secondary{border:1px solid rgba(255,255,255,0.35);color:#fff;font-weight:600;padding:12px 22px;border-radius:10px}
 footer{max-width:1000px;margin:0 auto;padding:0 24px 40px;font-size:0.78rem;color:#767676}
 a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+${ESTATE_LINKING_CSS}
 </style>
 </head>
 <body>
@@ -184,6 +205,7 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
     <a href="/" class="back">← Back to home</a>
   </div>
 </header>
+${crumbsNav(breadcrumbName, esc)}
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official HDB data · Updated monthly</div>
   <h1>${h1}</h1>
@@ -194,9 +216,9 @@ ${body}
     <h2>What would <em>your</em> flat fetch?</h2>
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>
     <div class="btns">
-      <a class="primary" href="/neighbour-prices/">Check your block's sold prices</a>
-      <a class="secondary" href="/valuation.html">Get a free valuation</a>
+      <a class="secondary" href="/neighbour-prices/">Check your block's sold prices</a>
     </div>
+${leadCapture || ''}
   </div>
 </main>
 <footer>
@@ -208,6 +230,16 @@ ${body}
 }
 
 // ── Town pages ──
+// Pre-compute which towns clear the tx threshold and will actually get a
+// page, so the nearby-towns block only ever links to real, in-bundle pages.
+const townMeta = new Map(); // slug -> title
+for (const town of towns) {
+  if (stats(byTown.get(town), window12).n < 20) continue;
+  townMeta.set(slug(town), title(town));
+}
+const projectsJson = JSON.parse(fs.readFileSync('new-launches/projects.json', 'utf8'));
+const projectsByDistrict = projectsByDistrictFromFile(projectsJson);
+
 const indexRows = [];
 for (const town of towns) {
   const recs = byTown.get(town);
@@ -255,7 +287,15 @@ for (const town of towns) {
     <tbody>
       ${latest}
     </tbody>
-  </table></div>`;
+  </table></div>
+${[nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsByDistrict, esc), readingBlock(t, esc)].filter(Boolean).join('\n')}`;
+
+  const canonical = `${SITE}/hdb-prices/${s}/`;
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API });
+  // FAQPage markup requires the Q&A to be visible on the page, so render it from
+  // the same node that becomes the JSON-LD.
+  const bodyWithFaq = `${body}
+${faqHtml(extraSchema[1], esc)}`;
 
   fs.mkdirSync(path.join(OUT, s), { recursive: true });
   fs.writeFileSync(path.join(OUT, s, 'index.html'), pageShell({
@@ -264,22 +304,27 @@ for (const town of towns) {
     desc: esc(desc),
     h1: `${t} HDB resale prices`,
     lede: `Every figure on this page comes from actual registered resale transactions in ${t} — no estimates, no modelling.`,
-    body,
+    body: bodyWithFaq,
     breadcrumbName: t,
+    extraSchema,
+    leadScripts: true,
+    leadCapture: leadCaptureHtml(t, esc),
   }));
   indexRows.push({ town: t, s, med: cur.med, n: cur.n });
 }
 
 // ── Index page ──
 const grid = indexRows.map((r) => `    <a class="town-card" href="/hdb-prices/${r.s}/"><span class="t">${r.town}</span><span class="m" style="display:block">median ${money(r.med)} · ${r.n} sales/12m</span></a>`).join('\n');
+const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API });
 fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   path: '/hdb-prices/',
   titleTag: 'HDB Resale Prices by Town — Official Medians, Updated Monthly | PropertySG',
   desc: `Median HDB resale prices for all ${indexRows.length} towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.`,
   h1: 'HDB resale prices, town by town',
   lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',
-  body: `  <div class="town-grid">\n${grid}\n  </div>`,
+  body: `  <div class="town-grid">\n${grid}\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
   breadcrumbName: null,
+  extraSchema: hubSchema,
 }));
 
 // ── Sitemap upkeep (managed block) ──

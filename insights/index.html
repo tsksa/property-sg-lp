@@ -70,7 +70,7 @@
 
 <!-- GA4 -->
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
+<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
@@ -170,6 +170,24 @@
     </li>
 
   </ul>
+
+  <!-- WhatsApp CTA for readers who didn't find their exact question above -->
+  <div class="cta-block cta-soft" style="background:#e8f5e9;border-left:4px solid #25D366;padding:24px 28px;margin:48px 0 0;border-radius:8px;">
+    <p style="font-size:18px;font-weight:600;margin:0 0 8px;color:#1a1a1a;">
+      💬 Didn't find what you're looking for?
+    </p>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 16px;color:#444;">
+      WhatsApp me directly with your specific question — I reply within 10 minutes during 9am–9pm. Free, no obligation, straight answer.
+    </p>
+    <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20have%20a%20property%20question"
+       target="_blank"
+       rel="noopener"
+       style="display:inline-block;background:#25D366;color:white;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;font-size:15px;"
+       data-cta="whatsapp-hub"
+       onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'insights-hub'});">
+      WhatsApp Joe Directly →
+    </a>
+  </div>
 </main>
 
 <footer class="blog-footer">

@@ -18,6 +18,20 @@ const PIXEL_ID = '3279494272146114';
 // Pages excluded from indexable-page invariants (noindex utility pages).
 const UTILITY = new Set(['404.html', 'downloads/seller-checklist-2026.html', 'privacy-policy.html']);
 
+// High-intent organic entry points: someone reading an article on
+// selling/valuation, or looking at their calculated affordability, is a
+// lead with active intent. These pages must carry a WhatsApp CTA so that
+// intent has somewhere to go instead of bouncing.
+const REQUIRES_WHATSAPP_CTA = new Set([
+  'calculator/index.html',
+  'insights/index.html',
+  'insights/hdb-valuation-explained.html',
+  'insights/how-long-to-sell-hdb-singapore-2026.html',
+  'insights/selling-hdb-after-mop-singapore.html',
+  'insights/property-agent-commission-singapore.html',
+  'glossary/index.html',
+]);
+
 // Google truncates around 155-160 chars. ARCHITECTURE.md states this rule; without
 // an assertion it drifted to 28 over-length pages before anyone noticed.
 const DESCRIPTION_MAX = 160;
@@ -68,14 +82,26 @@ for (const file of pages) {
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
     if (!s.includes(`ga-disable-${GA_ID}`)) fail(file, 'gtag present without the PDPA consent gate');
+    // ga-disable-<ID> only silences hits after gtag.js has already loaded — it does
+    // nothing about the download itself. A static <script src> fetches gtag.js on every
+    // page load even for a visitor who already declined, so the fetch must be gated too.
+    if (/<script[^>]*\ssrc="https:\/\/www\.googletagmanager\.com\/gtag\/js/.test(s))
+      fail(file, 'gtag.js is a static <script src> — it downloads even when consent was declined');
+    if (
+      !/if\(!window\._pdpaDeclined\)\{\s*var gaS=document\.createElement\('script'\);gaS\.async=true;gaS\.src='https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=GT-KVFDZD5V';document\.head\.appendChild\(gaS\);\s*\}/.test(
+        s,
+      )
+    )
+      fail(file, 'gtag.js loader is not gated behind the consent flag');
   }
   if (s.includes('fbevents.js')) {
     if (!s.includes(`fbq('init','${PIXEL_ID}')`)) fail(file, `pixel present but not the canonical ID ${PIXEL_ID}`);
-    // Assert the guarded call form, not just the flag name. The old check tested for
-    // "_pdpaDeclined" anywhere in the file, which the GA snippet above also sets — so
-    // it passed on index.html while the pixel init sat outside any guard.
-    if (!s.includes("_pdpaDeclined){fbq('init'")) fail(file, 'pixel init not wrapped in the consent gate');
     if (!s.includes('requestIdleCallback')) fail(file, 'pixel present without the idle-defer loader');
+    // Wrapping only the later fbq('init'...) call in the consent gate still lets a
+    // declined visitor download fbevents.js — the loader IIFE that fetches it must sit
+    // inside the same gate as the calls that fire after it loads, not just those calls.
+    if (!/if\(!window\._pdpaDeclined\)\{\s*!function\(f,b,e,v,n,t,s\)\{if\(f\.fbq\)return;/.test(s))
+      fail(file, 'pixel loader (the fbevents.js fetch) is not wrapped in the consent gate');
   }
 
   // ── Lead-form invariants: any page that posts to submit-lead needs the helper ──
@@ -94,6 +120,10 @@ for (const file of pages) {
       });
   if (postsToSubmitLead && !s.includes('recaptcha-helper.js')) {
     fail(file, 'posts to submit-lead but does not load recaptcha-helper.js (honeypot + token)');
+  }
+
+  if (REQUIRES_WHATSAPP_CTA.has(file) && !s.includes('wa.me/')) {
+    fail(file, 'high-intent page has no WhatsApp CTA (wa.me link) for lead capture');
   }
 
   if (!indexable) continue;
@@ -126,6 +156,47 @@ for (const file of pages) {
   if (!s.includes('class="skip-link"')) fail(file, 'missing skip link');
   else if (!s.includes('id="main"')) fail(file, 'skip link present but no id="main" target');
   if (!/<meta name="viewport"/.test(s)) fail(file, 'missing viewport meta');
+
+  // ── Estate-page structured data: the on-page medians/psf/YoY are only useful to a
+  // crawler if they're also marked up. Parse every ld+json block rather than string-
+  // matching, so a syntax-broken or copy-pasted-but-wrong block still fails the guard.
+  if (file.startsWith('hdb-prices/') && file.endsWith('index.html')) {
+    const blocks = [...s.matchAll(/<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/g)]
+      .map((m) => { try { return JSON.parse(m[1]); } catch { return null; } });
+    const nodes = blocks.flatMap((b) => (b && Array.isArray(b['@graph']) ? b['@graph'] : b ? [b] : []));
+    const dataset = nodes.find((n) => n && n['@type'] === 'Dataset');
+    const faq = nodes.find((n) => n && n['@type'] === 'FAQPage');
+    if (!dataset) fail(file, 'missing Dataset JSON-LD for the HDB price figures on this page');
+    else if (!Array.isArray(dataset.variableMeasured) || dataset.variableMeasured.length < 1) {
+      fail(file, 'Dataset JSON-LD present but variableMeasured is empty');
+    }
+    if (!faq) fail(file, 'missing FAQPage JSON-LD for the HDB price figures on this page');
+    else if (!Array.isArray(faq.mainEntity) || faq.mainEntity.length < 2) {
+      fail(file, 'FAQPage JSON-LD present but has fewer than 2 questions');
+    }
+  }
+
+  // ── HDB estate-page internal linking (JOE-289 cycle 2) ──
+  // Town pages used to carry exactly one inbound link (from the hub) and
+  // zero outbound links to each other, to new-launch projects, or to any
+  // other tool/content page — the site's highest-demand keyword cluster was
+  // carrying almost no internal PageRank. generate-estate-pages.mjs now
+  // emits a nearby-towns block + calculator/glossary links on every town
+  // page; this guards against that regressing back to isolated pages.
+  if (/^hdb-prices\/[^/]+\/index\.html$/.test(file) && file !== 'hdb-prices/index.html') {
+    const nearbyLinks = s.match(/href="\/hdb-prices\/[a-z0-9-]+\/"/g) || [];
+    if (nearbyLinks.length < 3) fail(file, `estate page links to only ${nearbyLinks.length} other town pages — needs a nearby-towns block`);
+    if (!s.includes('href="/hdb-prices/"')) fail(file, 'estate page missing a link back to the /hdb-prices/ hub');
+    if (!s.includes('href="/calculator/"')) fail(file, 'estate page missing a link to /calculator/');
+    if (!s.includes('href="/glossary/"')) fail(file, 'estate page missing a link to /glossary/');
+
+    // These pages rank for the site's highest-intent queries and used to offer no
+    // way to reach Joe at all — only anchors to other pages. Lead capture here is
+    // the point of the cluster, so assert it rather than trusting a regeneration.
+    if (!s.includes('id="estateLeadForm"')) fail(file, 'estate page has no lead form');
+    if (!s.includes('wa.me/')) fail(file, 'estate page has no WhatsApp fallback');
+    if (!s.includes('/js/estate-lead.js')) fail(file, 'estate page has a lead form but does not load /js/estate-lead.js');
+  }
 }
 
 console.log(`Checked ${pages.length} pages — ${failures} failure(s)`);
