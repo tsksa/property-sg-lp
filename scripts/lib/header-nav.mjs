@@ -53,10 +53,13 @@ const STYLE = `<style>
 }
 </style>`;
 
-export function headerNavHtml() {
+// `cta` overrides the default "Free Valuation" link — needed on valuation.html
+// itself, where a CTA pointing at /valuation.html would send the reader to the
+// page they're already on.
+export function headerNavHtml({ cta = CTA } = {}) {
   const links = LINKS.map(([href, label]) => `      <a href="${href}">${label}</a>`).join('\n');
   return `<nav class="jt-hn" ${HEADER_NAV_MARKER} aria-label="Primary">
 ${links}
-      <a class="jt-hn-cta" href="${CTA[0]}">${CTA[1]}</a>
+      <a class="jt-hn-cta" href="${cta[0]}">${cta[1]}</a>
     </nav>${STYLE}`;
 }
