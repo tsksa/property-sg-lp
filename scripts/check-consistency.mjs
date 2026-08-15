@@ -78,6 +78,18 @@ for (const file of pages) {
   if (s.includes('<<<<<<<') || s.includes('>>>>>>>')) fail(file, 'merge conflict markers present');
   if (/REMOVE BEFORE GOING LIVE|EDITORIAL NOTE/i.test(s)) fail(file, 'editorial/leak comment present');
 
+  // <main> carries the skip-link target and the a11y landmark; a second id/tabindex
+  // on the same tag is invalid HTML and the browser silently drops it, so a copy-paste
+  // duplicate (e.g. id="main" ... id="main-content") passes an id="main" substring
+  // check yet is one edit away from breaking the skip link for real.
+  const mainTag = s.match(/<main\b[^>]*>/);
+  if (mainTag) {
+    for (const attr of ['id', 'tabindex']) {
+      const count = (mainTag[0].match(new RegExp(`\\s${attr}=`, 'g')) || []).length;
+      if (count > 1) fail(file, `<main> has ${count} "${attr}" attributes — duplicate, invalid HTML`);
+    }
+  }
+
   // ── Tracking invariants: if a tracker is present, it must be the canonical one, gated ──
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
