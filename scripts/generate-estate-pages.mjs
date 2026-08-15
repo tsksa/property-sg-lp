@@ -330,7 +330,11 @@ fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
 // ── Sitemap upkeep (managed block) ──
 let sm = fs.readFileSync('sitemap.xml', 'utf8');
 sm = sm.replace(/  <!-- hdb-prices:start -->[\s\S]*?<!-- hdb-prices:end -->\n/g, '');
-const today = `${generatedAt}-01`.slice(0, 10);
+// The real generation date, not the data month. lastmod is a crawl-scheduling
+// hint about the PAGE, and these pages change (schema, links, copy) far more
+// often than the dataset month rolls over. refresh-sitemap-lastmod.mjs later
+// reconciles this against git history.
+const today = new Date().toISOString().slice(0, 10);
 const entries = ['/hdb-prices/', ...indexRows.map((r) => `/hdb-prices/${r.s}/`)]
   .map((p) => `  <url>\n    <loc>${SITE}${p}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`)
   .join('\n');
