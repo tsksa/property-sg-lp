@@ -33,6 +33,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
+        with:
+          # refresh-sitemap-lastmod reads git history; a shallow clone reports the
+          # clone date for every file and would flag the whole sitemap as stale.
+          fetch-depth: 0
 
       - name: Set up Node 20
         uses: actions/setup-node@v6
@@ -128,6 +132,9 @@ jobs:
       - name: New-launch data freshness gate
         if: ${{ hashFiles('new-launches/projects.json') != '' }}
         run: node scripts/check-new-launches.mjs
+
+      - name: Sitemap lastmod reflects real change dates
+        run: node scripts/refresh-sitemap-lastmod.mjs --check
 
       - name: Submit-lead function syntax check
         if: ${{ hashFiles('netlify/functions/submit-lead.js') != '' }}
