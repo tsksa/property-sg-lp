@@ -78,6 +78,37 @@ for (const file of pages) {
   if (s.includes('<<<<<<<') || s.includes('>>>>>>>')) fail(file, 'merge conflict markers present');
   if (/REMOVE BEFORE GOING LIVE|EDITORIAL NOTE/i.test(s)) fail(file, 'editorial/leak comment present');
 
+  // aria-labelledby/describedby/controls/owns must resolve to an id that actually
+  // exists on the page — an unresolved reference gives assistive tech nothing
+  // (no accessible name, no described-by text, no controls relationship), which
+  // fails silently in a browser with no visual sign anything is wrong. Found live
+  // on former-thomson-view.html: a <section aria-labelledby="sect-…-9807"> whose
+  // <h2> was missing the matching id — every sibling section had it, this one didn't.
+  {
+    const ids = new Set([...s.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+    for (const attr of ['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns']) {
+      for (const m of s.matchAll(new RegExp(`${attr}="([^"]+)"`, 'g'))) {
+        const missing = m[1]
+          .split(/\s+/)
+          .filter(Boolean)
+          .filter((id) => !ids.has(id));
+        if (missing.length) fail(file, `${attr} references missing id(s): ${missing.join(', ')}`);
+      }
+    }
+  }
+
+  // <main> carries the skip-link target and the a11y landmark; a second id/tabindex
+  // on the same tag is invalid HTML and the browser silently drops it, so a copy-paste
+  // duplicate (e.g. id="main" ... id="main-content") passes an id="main" substring
+  // check yet is one edit away from breaking the skip link for real.
+  const mainTag = s.match(/<main\b[^>]*>/);
+  if (mainTag) {
+    for (const attr of ['id', 'tabindex']) {
+      const count = (mainTag[0].match(new RegExp(`\\s${attr}=`, 'g')) || []).length;
+      if (count > 1) fail(file, `<main> has ${count} "${attr}" attributes — duplicate, invalid HTML`);
+    }
+  }
+
   // Nested <a> is invalid HTML — the browser implicitly closes the outer anchor at
   // the inner tag, so any onclick/tracking handler on the outer anchor stops covering
   // whatever content sits inside the (now-orphaned) inner one. Found live on the
