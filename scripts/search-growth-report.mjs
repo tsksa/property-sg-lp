@@ -1010,6 +1010,32 @@ export function selectOpportunities(currentRows, priorRows, limit = 10) {
     .map((opportunity, index) => ({ rank: index + 1, ...opportunity }));
 }
 
+/**
+ * Top current rows by impressions, ignoring the opportunity thresholds.
+ *
+ * Every opportunity bucket requires at least 50 impressions on a single
+ * query/page. A site early in its indexing never clears that, so the report
+ * reads "empty" while telling you nothing about where you actually rank —
+ * which is the one thing worth knowing at that stage. This always shows it.
+ */
+export function selectVisibilitySnapshot(currentRows, limit = 15) {
+  return [...currentRows]
+    .filter((row) => !isBrandedQuery(row.query))
+    .sort(
+      (left, right) =>
+        right.impressions - left.impressions ||
+        compareText(left.query, right.query),
+    )
+    .slice(0, limit)
+    .map((row) => ({
+      query: row.query,
+      page: row.page,
+      impressions: row.impressions,
+      clicks: row.clicks,
+      position: row.position,
+    }));
+}
+
 export function summarizeRows(rows) {
   const clicks = rows.reduce((total, row) => total + row.clicks, 0);
   const impressions = rows.reduce(
@@ -1462,6 +1488,7 @@ export function buildReport({
     currentGa4,
     priorGa4,
   );
+  const visibilitySnapshot = selectVisibilitySnapshot(currentRows);
   const unmatchedSearchConsolePages = opportunities
     .filter(
       (opportunity) =>
@@ -1521,6 +1548,7 @@ export function buildReport({
     },
     opportunityDefinitions: OPPORTUNITY_DEFINITIONS,
     opportunities,
+    visibilitySnapshot,
     emptyStateMessage:
       opportunities.length === 0 ?
         'No qualifying non-branded Singapore query/page opportunities were found for this window.'
@@ -1754,9 +1782,28 @@ export function renderMarkdown(report) {
     '',
     'When one query/page matches multiple definitions, the report assigns one recommendation using this priority: click decline, low CTR, then striking distance.',
     '',
-    '## Ranked opportunities',
+    '## Visibility snapshot',
+    '',
+    'Top non-branded rows by impressions, with no threshold applied. The opportunity buckets below all require 50+ impressions on a single query, so early on this table is the only place the real ranking picture shows up.',
     '',
   ];
+  if (report.visibilitySnapshot && report.visibilitySnapshot.length) {
+    lines.push(
+      '| Query | Page | Impressions | Clicks | Avg position |',
+      '|---|---|---:|---:|---:|',
+      ...report.visibilitySnapshot.map(
+        (row) =>
+          `| ${row.query || '—'} | ${row.page || '—'} | ${formatInteger(row.impressions)} | ${formatInteger(row.clicks)} | ${row.position == null ? '—' : row.position.toFixed(1)} |`,
+      ),
+      '',
+    );
+  } else {
+    lines.push('**No non-branded rows were returned for this window at all — the site is not being surfaced for any query.**', '');
+  }
+  lines.push(
+    '## Ranked opportunities',
+    '',
+  );
 
   if (report.opportunities.length === 0) {
     lines.push(`**${report.emptyStateMessage}**`, '');
