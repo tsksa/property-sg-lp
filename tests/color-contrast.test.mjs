@@ -209,6 +209,22 @@ const cases = [
     background: ['.cookie-banner button', 'background'],
   },
   {
+    // The shared header nav (scripts/lib/header-nav.mjs) sits on the estate
+    // pages' navy gradient. Its colours are pinned literals rather than var()
+    // references, so nothing else in the page can correct them — assert both the
+    // plain links and the CTA here so a palette edit cannot quietly fail AA.
+    name: 'estate header nav links',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.jt-hn a', 'color'],
+    background: '#061430',
+  },
+  {
+    name: 'estate header nav CTA',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.jt-hn a.jt-hn-cta', 'color'],
+    background: ['.jt-hn a.jt-hn-cta', 'background'],
+  },
+  {
     name: 'insights skip link',
     file: 'insights/blog.css',
     foreground: ['a', 'color'],

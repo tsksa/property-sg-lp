@@ -196,6 +196,18 @@ for (const file of pages) {
     if (!s.includes('id="estateLeadForm"')) fail(file, 'estate page has no lead form');
     if (!s.includes('wa.me/')) fail(file, 'estate page has no WhatsApp fallback');
     if (!s.includes('/js/estate-lead.js')) fail(file, 'estate page has a lead form but does not load /js/estate-lead.js');
+
+    // The lead form and WhatsApp link sit at the very bottom, after the medians,
+    // the flat-type tables, the nearby-town links and the FAQ — a reader had to
+    // scroll the whole page before anything asked for the lead. The header nav
+    // carries the only above-the-fold conversion path, so assert it survives a
+    // regeneration rather than trusting the generator.
+    const headerBlock = s.match(/<header class="topbar">[\s\S]*?<\/header>/)?.[0] || '';
+    if (!headerBlock.includes('data-jt-header-nav')) {
+      fail(file, 'estate page header is missing the shared nav (no above-the-fold conversion path)');
+    } else if (!headerBlock.includes('href="/valuation.html"')) {
+      fail(file, 'estate page header nav has no /valuation.html CTA');
+    }
   }
 }
 
