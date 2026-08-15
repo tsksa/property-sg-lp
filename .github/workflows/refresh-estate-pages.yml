@@ -18,6 +18,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          # refresh-sitemap-lastmod reads git history; a shallow clone reports the
+          # clone date for every file and would flag the whole sitemap as stale.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -27,6 +31,9 @@ jobs:
 
       - name: Consistency guard on the result
         run: node scripts/check-consistency.mjs
+
+      - name: Refresh sitemap lastmod for the regenerated pages
+        run: node scripts/refresh-sitemap-lastmod.mjs
 
       - name: Open refresh PR if anything changed
         env:
