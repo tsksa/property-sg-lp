@@ -78,6 +78,19 @@ for (const file of pages) {
   if (s.includes('<<<<<<<') || s.includes('>>>>>>>')) fail(file, 'merge conflict markers present');
   if (/REMOVE BEFORE GOING LIVE|EDITORIAL NOTE/i.test(s)) fail(file, 'editorial/leak comment present');
 
+  // Nested <a> is invalid HTML — the browser implicitly closes the outer anchor at
+  // the inner tag, so any onclick/tracking handler on the outer anchor stops covering
+  // whatever content sits inside the (now-orphaned) inner one. Found live on the
+  // sell/rent-out phone CTA: the Google Ads conversion handler sat on the outer <a>,
+  // the visible phone-number text sat in a silently-detached inner <a> with no tracking.
+  {
+    let depth = 0;
+    for (const m of s.matchAll(/<a\b[^>]*>|<\/a\s*>/g)) {
+      if (m[0][1] === '/') { if (depth > 0) depth--; }
+      else { if (depth > 0) { fail(file, 'nested <a> tag — browser will implicitly close the outer anchor, silently detaching any handler on it from the inner anchor\'s content'); } depth++; }
+    }
+  }
+
   // A gtag conversion send_to with a literal PLACEHOLDER label is a TODO that shipped to
   // production. The label doesn't exist as a Google Ads conversion action, so the call is
   // a guaranteed no-op — every click on that CTA is invisible to Ads reporting and bidding,
