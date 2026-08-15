@@ -13,6 +13,7 @@ on:
       - "js/**.js"
       - "netlify/functions/**.js"
       - "scripts/**.mjs"
+      - ".github/workflows/**.yml"
   push:
     branches: [main]
     paths:
@@ -20,6 +21,7 @@ on:
       - "**.json"
       - "**.xml"
       - "**.webmanifest"
+      - ".github/workflows/**.yml"
 
 permissions:
   contents: read
@@ -126,6 +128,10 @@ jobs:
 
       - name: Cross-page consistency guard
         run: node scripts/check-consistency.mjs
+
+      - name: New-launch data freshness gate
+        if: ${{ hashFiles('new-launches/projects.json') != '' }}
+        run: node scripts/check-new-launches.mjs
 
       - name: Sitemap lastmod reflects real change dates
         run: node scripts/refresh-sitemap-lastmod.mjs --check

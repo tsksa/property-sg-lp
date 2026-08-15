@@ -79,6 +79,71 @@ for (const file of pages) {
   if (s.includes('<<<<<<<') || s.includes('>>>>>>>')) fail(file, 'merge conflict markers present');
   if (/REMOVE BEFORE GOING LIVE|EDITORIAL NOTE/i.test(s)) fail(file, 'editorial/leak comment present');
 
+  // aria-labelledby/describedby/controls/owns must resolve to an id that actually
+  // exists on the page — an unresolved reference gives assistive tech nothing
+  // (no accessible name, no described-by text, no controls relationship), which
+  // fails silently in a browser with no visual sign anything is wrong. Found live
+  // on former-thomson-view.html: a <section aria-labelledby="sect-…-9807"> whose
+  // <h2> was missing the matching id — every sibling section had it, this one didn't.
+  {
+    const ids = new Set([...s.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+    for (const attr of ['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns']) {
+      for (const m of s.matchAll(new RegExp(`${attr}="([^"]+)"`, 'g'))) {
+        const missing = m[1]
+          .split(/\s+/)
+          .filter(Boolean)
+          .filter((id) => !ids.has(id));
+        if (missing.length) fail(file, `${attr} references missing id(s): ${missing.join(', ')}`);
+      }
+    }
+  }
+
+  // <main> carries the skip-link target and the a11y landmark; a second id/tabindex
+  // on the same tag is invalid HTML and the browser silently drops it, so a copy-paste
+  // duplicate (e.g. id="main" ... id="main-content") passes an id="main" substring
+  // check yet is one edit away from breaking the skip link for real.
+  const mainTag = s.match(/<main\b[^>]*>/);
+  if (mainTag) {
+    for (const attr of ['id', 'tabindex']) {
+      const count = (mainTag[0].match(new RegExp(`\\s${attr}=`, 'g')) || []).length;
+      if (count > 1) fail(file, `<main> has ${count} "${attr}" attributes — duplicate, invalid HTML`);
+    }
+  }
+
+  // Nested <a> is invalid HTML — the browser implicitly closes the outer anchor at
+  // the inner tag, so any onclick/tracking handler on the outer anchor stops covering
+  // whatever content sits inside the (now-orphaned) inner one. Found live on the
+  // sell/rent-out phone CTA: the Google Ads conversion handler sat on the outer <a>,
+  // the visible phone-number text sat in a silently-detached inner <a> with no tracking.
+  {
+    let depth = 0;
+    for (const m of s.matchAll(/<a\b[^>]*>|<\/a\s*>/g)) {
+      if (m[0][1] === '/') { if (depth > 0) depth--; }
+      else { if (depth > 0) { fail(file, 'nested <a> tag — browser will implicitly close the outer anchor, silently detaching any handler on it from the inner anchor\'s content'); } depth++; }
+    }
+  }
+
+  // A gtag conversion send_to with a literal PLACEHOLDER label is a TODO that shipped to
+  // production. The label doesn't exist as a Google Ads conversion action, so the call is
+  // a guaranteed no-op — every click on that CTA is invisible to Ads reporting and bidding,
+  // and the try/catch already on these handlers swallows the failure with nothing surfaced
+  // to a human. Found live on 10 pages / 21 CTAs: every WhatsApp float and book-modal button
+  // site-wide was firing AW-18046717591/PLACEHOLDER_LABEL_FOR_WHATSAPP or .../PLACEHOLDER_CALENDLY.
+  if (/'send_to':\s*'AW-[^']*PLACEHOLDER[^']*'/.test(s)) {
+    fail(file, 'gtag conversion send_to still has a literal PLACEHOLDER label — this conversion is a silent no-op');
+  }
+
+  // A stray </main> with no matching <main> is invalid HTML, silently dropped by the
+  // browser — a copy/paste or hand-edit can leave one behind after id="main" moves onto
+  // some other element (found live on 4 pages: rent-out/index.html and three hand-built
+  // new-launch pages, each with id="main" migrated onto the hero <section> but the old
+  // </main> left in place lower down the file).
+  {
+    const opens = (s.match(/<main\b/g) || []).length;
+    const closes = (s.match(/<\/main>/g) || []).length;
+    if (opens !== closes) fail(file, `<main> open/close mismatch: ${opens} open tag(s), ${closes} close tag(s)`);
+  }
+
   // ── Tracking invariants: if a tracker is present, it must be the canonical one, gated ──
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
@@ -197,6 +262,18 @@ for (const file of pages) {
     if (!s.includes('id="estateLeadForm"')) fail(file, 'estate page has no lead form');
     if (!s.includes('wa.me/')) fail(file, 'estate page has no WhatsApp fallback');
     if (!s.includes('/js/estate-lead.js')) fail(file, 'estate page has a lead form but does not load /js/estate-lead.js');
+
+    // The lead form and WhatsApp link sit at the very bottom, after the medians,
+    // the flat-type tables, the nearby-town links and the FAQ — a reader had to
+    // scroll the whole page before anything asked for the lead. The header nav
+    // carries the only above-the-fold conversion path, so assert it survives a
+    // regeneration rather than trusting the generator.
+    const headerBlock = s.match(/<header class="topbar">[\s\S]*?<\/header>/)?.[0] || '';
+    if (!headerBlock.includes('data-jt-header-nav')) {
+      fail(file, 'estate page header is missing the shared nav (no above-the-fold conversion path)');
+    } else if (!headerBlock.includes('href="/valuation.html"')) {
+      fail(file, 'estate page header nav has no /valuation.html CTA');
+    }
   }
 }
 
