@@ -83,6 +83,12 @@ jobs:
           done
           echo "deployed enquiry handler contract OK"
 
+      - name: Report-only CSP header is deployed
+        run: |
+          headers=$(curl -s -o /dev/null -D - -m 20 --retry 2 https://joetay.com/)
+          echo "$headers" | grep -qi '^content-security-policy-report-only:' || { echo "::error::homepage response is missing Content-Security-Policy-Report-Only — netlify.toml drifted from what's deployed"; exit 1; }
+          echo "CSP report-only header present"
+
       - name: SEO surfaces respond
         run: |
           set -e
