@@ -82,14 +82,26 @@ for (const file of pages) {
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
     if (!s.includes(`ga-disable-${GA_ID}`)) fail(file, 'gtag present without the PDPA consent gate');
+    // ga-disable-<ID> only silences hits after gtag.js has already loaded — it does
+    // nothing about the download itself. A static <script src> fetches gtag.js on every
+    // page load even for a visitor who already declined, so the fetch must be gated too.
+    if (/<script[^>]*\ssrc="https:\/\/www\.googletagmanager\.com\/gtag\/js/.test(s))
+      fail(file, 'gtag.js is a static <script src> — it downloads even when consent was declined');
+    if (
+      !/if\(!window\._pdpaDeclined\)\{\s*var gaS=document\.createElement\('script'\);gaS\.async=true;gaS\.src='https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=GT-KVFDZD5V';document\.head\.appendChild\(gaS\);\s*\}/.test(
+        s,
+      )
+    )
+      fail(file, 'gtag.js loader is not gated behind the consent flag');
   }
   if (s.includes('fbevents.js')) {
     if (!s.includes(`fbq('init','${PIXEL_ID}')`)) fail(file, `pixel present but not the canonical ID ${PIXEL_ID}`);
-    // Assert the guarded call form, not just the flag name. The old check tested for
-    // "_pdpaDeclined" anywhere in the file, which the GA snippet above also sets — so
-    // it passed on index.html while the pixel init sat outside any guard.
-    if (!s.includes("_pdpaDeclined){fbq('init'")) fail(file, 'pixel init not wrapped in the consent gate');
     if (!s.includes('requestIdleCallback')) fail(file, 'pixel present without the idle-defer loader');
+    // Wrapping only the later fbq('init'...) call in the consent gate still lets a
+    // declined visitor download fbevents.js — the loader IIFE that fetches it must sit
+    // inside the same gate as the calls that fire after it loads, not just those calls.
+    if (!/if\(!window\._pdpaDeclined\)\{\s*!function\(f,b,e,v,n,t,s\)\{if\(f\.fbq\)return;/.test(s))
+      fail(file, 'pixel loader (the fbevents.js fetch) is not wrapped in the consent gate');
   }
 
   // ── Lead-form invariants: any page that posts to submit-lead needs the helper ──
