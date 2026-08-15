@@ -24,6 +24,7 @@ const UTILITY = new Set(['404.html', 'downloads/seller-checklist-2026.html', 'pr
 // intent has somewhere to go instead of bouncing.
 const REQUIRES_WHATSAPP_CTA = new Set([
   'calculator/index.html',
+  'stamp-duty-calculator/index.html',
   'insights/index.html',
   'insights/hdb-valuation-explained.html',
   'insights/how-long-to-sell-hdb-singapore-2026.html',
