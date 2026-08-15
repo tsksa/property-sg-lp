@@ -170,6 +170,8 @@ a:hover{text-decoration:underline}
 .calc-cta p{font-size:0.82rem;color:#fff;margin-bottom:12px;line-height:1.5}
 .calc-cta a{display:block;background:#fff;color:var(--navy);padding:11px 18px;border-radius:8px;font-weight:700;font-size:0.92rem;text-decoration:none;transition:background .2s}
 .calc-cta a:hover{background:#f0faf5;text-decoration:none}
+.calc-cta a.calc-cta-whatsapp{margin-top:10px;background:#25D366;color:#fff}
+.calc-cta a.calc-cta-whatsapp:hover{background:#1ebe5a}
 
 /* Disclaimer */
 .calc-disclaimer{max-width:1000px;margin:0 auto;padding:0 24px 48px;font-size:0.82rem;color:#666;line-height:1.6;text-align:center}
@@ -306,6 +308,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="calc-cta">
       <p>Want the detailed breakdown — comparable property prices in your target estate, ABSD, stamp duty, and your realistic target range?</p>
       <a href="/#book">Book a free 30-min call →</a>
+      <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20used%20the%20affordability%20calculator"
+         id="calcWhatsapp"
+         class="calc-cta-whatsapp"
+         target="_blank"
+         rel="noopener"
+         data-cta="whatsapp-calculator"
+         onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'calculator',page:'calculator'});">
+        WhatsApp Joe your numbers →
+      </a>
     </div>
   </aside>
 
@@ -469,6 +480,17 @@ function recalc(){
         ? `Can be fully covered by CPF OA (${fmt(cpfOA)} available)`
         : `Min 5% cash (${fmt(maxPrice*0.05)}) + remainder cash or CPF`
     : '';
+
+  // Keep the WhatsApp CTA's prefilled message in sync with what the visitor
+  // is actually looking at, so the message that lands in Joe's inbox already
+  // has the numbers instead of starting from zero context.
+  const waLink = document.getElementById('calcWhatsapp');
+  if (waLink) {
+    const waText = income > 0 && isFinite(maxPrice) && maxPrice > 0
+      ? `Hi Joe, the affordability calculator shows my max budget is ~${fmt(maxPrice)} (${loanType} loan, ${tenure}-year tenure). Can you help me find matching listings?`
+      : 'Hi Joe, I used the affordability calculator';
+    waLink.href = `https://wa.me/6581881488?text=${encodeURIComponent(waText)}`;
+  }
 }
 
 // Debounce recalc so the aria-live results region doesn't re-announce
