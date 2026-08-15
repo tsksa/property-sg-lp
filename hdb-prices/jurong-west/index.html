@@ -163,7 +163,6 @@ a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
 .topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
 .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
 .logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
-.topbar a.back{color:rgba(255,255,255,0.85);font-size:0.88rem}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
@@ -222,7 +221,28 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="logo">PropertySG</a>
-    <a href="/" class="back">← Back to home</a>
+    <nav class="jt-hn" data-jt-header-nav aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/hdb-prices/">HDB Prices</a>
+      <a href="/insights/">Insights</a>
+      <a class="jt-hn-cta" href="/valuation.html">Free Valuation</a>
+    </nav><style>
+.jt-hn{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+.jt-hn a{color:#d8e2f0;font-size:.88rem;font-weight:500;text-decoration:none;white-space:nowrap}
+.jt-hn a:hover{color:#fff;text-decoration:underline}
+.jt-hn a.jt-hn-cta{background:#10b981;color:#04231a;font-weight:700;padding:10px 16px;border-radius:8px;display:inline-flex;align-items:center}
+.jt-hn a.jt-hn-cta:hover{background:#34d399;color:#04231a;text-decoration:none}
+/* On phones the plain links are dropped and only the CTA is kept, so the header
+   stays a single row instead of wrapping under the logo. Nothing is lost: the
+   logo already links home, and the breadcrumb trail immediately below the header
+   carries both "Home" and "HDB Prices by Town". WCAG 2.5.5: the CTA keeps a full
+   44px touch height. */
+@media(max-width:600px){
+.jt-hn{gap:14px}
+.jt-hn a:not(.jt-hn-cta){display:none}
+.jt-hn a.jt-hn-cta{min-height:44px;padding:10px 15px}
+}
+</style>
   </div>
 </header>
 <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/hdb-prices/">HDB Prices by Town</a> &rsaquo; <span>Jurong West</span></nav>
