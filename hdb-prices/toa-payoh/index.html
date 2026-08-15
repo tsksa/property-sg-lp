@@ -63,6 +63,91 @@
  }
 }
 </script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Dataset",
+   "name": "Toa Payoh HDB resale prices — 12-month dataset",
+   "description": "Median resale price, price per square foot, and transaction count for Toa Payoh HDB flats, computed from 998 registered resale transactions in the 12 months to 2026-07.",
+   "url": "https://joetay.com/hdb-prices/toa-payoh/",
+   "license": "https://data.gov.sg/open-data-licence",
+   "isAccessibleForFree": true,
+   "temporalCoverage": "2025-08/2026-07",
+   "spatialCoverage": {
+    "@type": "Place",
+    "name": "Toa Payoh",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Toa Payoh",
+     "addressCountry": "SG"
+    }
+   },
+   "creator": {
+    "@type": "GovernmentOrganization",
+    "name": "Housing & Development Board",
+    "url": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view"
+   },
+   "isBasedOn": "https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view",
+   "distribution": {
+    "@type": "DataDownload",
+    "encodingFormat": "application/json",
+    "contentUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_8b84c4ee58e3cfc0ece0d773c8ca6abc"
+   },
+   "variableMeasured": [
+    {
+     "@type": "PropertyValue",
+     "name": "Median resale price",
+     "value": 783500,
+     "unitText": "SGD"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Median price per square foot",
+     "value": 728,
+     "unitText": "SGD per square foot"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "Transaction count",
+     "value": 998,
+     "unitText": "count"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "What is the median HDB resale price in Toa Payoh?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median HDB resale price in Toa Payoh is $783,500, based on 998 registered transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the median price per square foot (psf) for HDB flats in Toa Payoh?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The median price is $728 psf across all flat types, based on transactions in the 12 months to 2026-07."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Have HDB prices in Toa Payoh gone up or down over the past year?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Median resale prices in Toa Payoh have risen 4.7% over the past year, comparing the 12 months to 2026-07 against the prior 12-month period."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
@@ -90,6 +175,11 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .up{color:var(--emerald-dark)}.down{color:#b45309}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
+.faq{margin-top:8px}
+.faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
+.faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
+.faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.faq-item p{margin-top:8px;color:#444}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:520px}
 th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676;text-align:left;padding:12px 16px;border-bottom:1px solid rgba(11,30,63,0.08)}
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
@@ -147,16 +237,22 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 115C Alkaff Cres</td><td>07 TO 09</td><td>$930,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 113A Alkaff Cres</td><td>07 TO 09</td><td>$848,888</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 115A Alkaff Cres</td><td>04 TO 06</td><td>$800,000</td></tr>
+      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 118A Alkaff Cres</td><td>10 TO 12</td><td>$800,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 103A Bidadari Pk Dr</td><td>04 TO 06</td><td>$768,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 125 Lor 1 Toa Payoh</td><td>04 TO 06</td><td>$335,000</td></tr>
+      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 131B Lor 1 Toa Payoh</td><td>01 TO 03</td><td>$740,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 38 Lor 5 Toa Payoh</td><td>04 TO 06</td><td>$328,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 34 Lor 5 Toa Payoh</td><td>10 TO 12</td><td>$355,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 17 Lor 7 Toa Payoh</td><td>07 TO 09</td><td>$375,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 2 Lor 7 Toa Payoh</td><td>07 TO 09</td><td>$360,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 1 Lor 7 Toa Payoh</td><td>01 TO 03</td><td>$360,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 25 Toa Payoh East</td><td>07 TO 09</td><td>$355,000</td></tr>
     </tbody>
   </table></div>
+  <h2>Common questions</h2>
+  <div class="faq">
+      <details class="faq-item"><summary>What is the median HDB resale price in Toa Payoh?</summary><p>The median HDB resale price in Toa Payoh is $783,500, based on 998 registered transactions in the 12 months to 2026-07.</p></details>
+      <details class="faq-item"><summary>What is the median price per square foot (psf) for HDB flats in Toa Payoh?</summary><p>The median price is $728 psf across all flat types, based on transactions in the 12 months to 2026-07.</p></details>
+      <details class="faq-item"><summary>Have HDB prices in Toa Payoh gone up or down over the past year?</summary><p>Median resale prices in Toa Payoh have risen 4.7% over the past year, comparing the 12 months to 2026-07 against the prior 12-month period.</p></details>
+  </div>
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>

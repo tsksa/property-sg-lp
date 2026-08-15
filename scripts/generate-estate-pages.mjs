@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
+import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -81,7 +82,7 @@ function stats(recs, monthsSet) {
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName }) {
+function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -129,7 +130,10 @@ ${JSON.stringify({
   },
 }, null, 1)}
 </script>
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
+${extraSchema ? `<script type="application/ld+json">
+${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, null, 1)}
+</script>
+` : ''}<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <style>
@@ -156,6 +160,11 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .up{color:var(--emerald-dark)}.down{color:#b45309}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
+.faq{margin-top:8px}
+.faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
+.faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
+.faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.faq-item p{margin-top:8px;color:#444}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:520px}
 th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676;text-align:left;padding:12px 16px;border-bottom:1px solid rgba(11,30,63,0.08)}
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
@@ -257,6 +266,13 @@ for (const town of towns) {
     </tbody>
   </table></div>`;
 
+  const canonical = `${SITE}/hdb-prices/${s}/`;
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API });
+  // FAQPage markup requires the Q&A to be visible on the page, so render it from
+  // the same node that becomes the JSON-LD.
+  const bodyWithFaq = `${body}
+${faqHtml(extraSchema[1], esc)}`;
+
   fs.mkdirSync(path.join(OUT, s), { recursive: true });
   fs.writeFileSync(path.join(OUT, s, 'index.html'), pageShell({
     path: `/hdb-prices/${s}/`,
@@ -264,22 +280,25 @@ for (const town of towns) {
     desc: esc(desc),
     h1: `${t} HDB resale prices`,
     lede: `Every figure on this page comes from actual registered resale transactions in ${t} — no estimates, no modelling.`,
-    body,
+    body: bodyWithFaq,
     breadcrumbName: t,
+    extraSchema,
   }));
   indexRows.push({ town: t, s, med: cur.med, n: cur.n });
 }
 
 // ── Index page ──
 const grid = indexRows.map((r) => `    <a class="town-card" href="/hdb-prices/${r.s}/"><span class="t">${r.town}</span><span class="m" style="display:block">median ${money(r.med)} · ${r.n} sales/12m</span></a>`).join('\n');
+const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API });
 fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   path: '/hdb-prices/',
   titleTag: 'HDB Resale Prices by Town — Official Medians, Updated Monthly | PropertySG',
   desc: `Median HDB resale prices for all ${indexRows.length} towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.`,
   h1: 'HDB resale prices, town by town',
   lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',
-  body: `  <div class="town-grid">\n${grid}\n  </div>`,
+  body: `  <div class="town-grid">\n${grid}\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
   breadcrumbName: null,
+  extraSchema: hubSchema,
 }));
 
 // ── Sitemap upkeep (managed block) ──
