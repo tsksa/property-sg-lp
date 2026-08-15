@@ -151,6 +151,8 @@
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script src="/js/recaptcha-helper.js" defer></script>
+<script src="/js/estate-lead.js" defer></script>
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -176,6 +178,20 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
+.est-lead{margin-top:14px;display:grid;gap:10px;max-width:520px}
+.est-lead-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.est-lead-row{grid-template-columns:1fr}}
+.est-lead input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid rgba(11,30,63,0.18);font-family:inherit;font-size:16px;background:#fff;color:#111}
+.est-lead input:focus-visible{outline:2px solid var(--emerald);outline-offset:1px;border-color:var(--emerald)}
+.est-lead button{padding:13px 20px;border:0;border-radius:10px;background:var(--emerald-dark);color:#fff;font-family:inherit;font-weight:700;font-size:0.95rem;cursor:pointer}
+.est-lead button:hover{background:var(--navy)}
+.est-lead button:disabled{opacity:.65;cursor:default}
+.est-lead-note{font-size:0.8rem;color:#5a6473;margin:0}
+.est-form-err{margin:0;font-size:0.86rem;color:#b42318}
+.est-form-err a{color:#b42318;font-weight:600;text-decoration:underline}
+.est-form-done{margin-top:14px;padding:14px 16px;border-radius:10px;background:rgba(16,185,129,0.10);border:1px solid rgba(16,185,129,0.35);font-weight:600;color:var(--navy)}
+.est-wa{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-weight:600;color:var(--emerald-dark)}
+
 .faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
 .faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
@@ -279,9 +295,19 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
     <h2>What would <em>your</em> flat fetch?</h2>
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>
     <div class="btns">
-      <a class="primary" href="/neighbour-prices/">Check your block's sold prices</a>
-      <a class="secondary" href="/valuation.html">Get a free valuation</a>
+      <a class="secondary" href="/neighbour-prices/">Check your block's sold prices</a>
     </div>
+  <form id="estateLeadForm" class="est-lead" data-town="Sengkang" novalidate>
+    <p class="est-lead-note">Tell me your block and I'll price it against the actual Sengkang sales above — not a town-wide median.</p>
+    <div class="est-lead-row">
+      <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+      <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile number" aria-label="Your mobile number">
+    </div>
+    <button type="submit">Get my Sengkang valuation →</button>
+    <p class="est-lead-note">Free, no obligation — the reply comes from me, not an auto-responder.</p>
+    <noscript><p class="est-lead-note">JavaScript is off — <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20what's%20my%20flat%20in%20Sengkang%20worth%20right%20now%3F">WhatsApp Joe on +65 8188 1488</a> instead.</p></noscript>
+  </form>
+  <a class="est-wa" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20what's%20my%20flat%20in%20Sengkang%20worth%20right%20now%3F" target="_blank" rel="noopener" data-cta="whatsapp-estate" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-page',town:'Sengkang'});">Or WhatsApp me directly →</a>
   </div>
 </main>
 <footer>

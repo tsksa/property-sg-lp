@@ -20,6 +20,7 @@ import {
 
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
+import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -90,7 +91,7 @@ function stats(recs, monthsSet) {
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema }) {
+function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema, leadScripts, leadCapture }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -143,7 +144,9 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, nu
 </script>
 ` : ''}<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>${leadScripts ? `
+<script src="/js/recaptcha-helper.js" defer></script>
+<script src="/js/estate-lead.js" defer></script>` : ''}
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -168,7 +171,7 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .up{color:var(--emerald-dark)}.down{color:#b45309}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
-.faq{margin-top:8px}
+.faq{margin-top:8px}${LEAD_CAPTURE_CSS}
 .faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
 .faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
@@ -213,9 +216,9 @@ ${body}
     <h2>What would <em>your</em> flat fetch?</h2>
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>
     <div class="btns">
-      <a class="primary" href="/neighbour-prices/">Check your block's sold prices</a>
-      <a class="secondary" href="/valuation.html">Get a free valuation</a>
+      <a class="secondary" href="/neighbour-prices/">Check your block's sold prices</a>
     </div>
+${leadCapture || ''}
   </div>
 </main>
 <footer>
@@ -304,6 +307,8 @@ ${faqHtml(extraSchema[1], esc)}`;
     body: bodyWithFaq,
     breadcrumbName: t,
     extraSchema,
+    leadScripts: true,
+    leadCapture: leadCaptureHtml(t, esc),
   }));
   indexRows.push({ town: t, s, med: cur.med, n: cur.n });
 }
