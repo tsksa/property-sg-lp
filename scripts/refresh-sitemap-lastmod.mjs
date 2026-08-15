@@ -56,14 +56,31 @@ function hasUncommittedChanges(file) {
   }
 }
 
-/** Committer date (YYYY-MM-DD) of the last commit touching `file`. */
+/**
+ * Committer date (YYYY-MM-DD, UTC) of the last commit touching `file`.
+ *
+ * The date MUST be resolved in UTC to match TODAY above, which comes from
+ * toISOString(). The obvious `--format=%cs` renders the date in the offset the
+ * commit itself recorded (+0800 for commits made from Singapore), so a commit
+ * landing between 16:00 and 24:00 UTC reads as *tomorrow* while TODAY still
+ * reads as today. The check then reports every file in that commit as
+ * "lastmod <today> but the file changed <tomorrow>" and fails — for a third of
+ * every day, on a branch that auto-deploys. Forcing TZ=UTC with an explicit
+ * format-local keeps both sides on the same calendar regardless of who
+ * committed from where, or which timezone CI happens to run in.
+ */
 function lastCommitDate(file) {
   try {
-    const out = execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
-      cwd: ROOT,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
+    const out = execFileSync(
+      'git',
+      ['log', '-1', '--date=format-local:%Y-%m-%d', '--format=%cd', '--', file],
+      {
+        cwd: ROOT,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+        env: { ...process.env, TZ: 'UTC' },
+      },
+    ).trim();
     return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : null;
   } catch {
     return null;
@@ -73,6 +90,7 @@ function lastCommitDate(file) {
 const xml = fs.readFileSync(SITEMAP, 'utf8');
 const stale = [];
 const unresolved = [];
+const future = [];
 
 // Rewrite each <url> block independently so ordering and formatting survive.
 const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
@@ -97,9 +115,14 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
   // Only understating freshness is a problem. A lastmod NEWER than the last
   // commit is normal — the file has just been regenerated and not committed yet
   // — and it self-corrects on the next run, so leave it alone.
-  if (current && current > date) return block;
-
-  stale.push({ loc, from: current || '(none)', to: date });
+  //
+  // But only up to today: a lastmod dated in the FUTURE cannot be legitimate,
+  // and because this branch returns early it would never self-correct. Six such
+  // entries (including the homepage) reached main when a timezone-skewed date
+  // was written by hand to silence this check. Fall through and correct those.
+  if (current && current > date && current <= TODAY) return block;
+  if (current && current > TODAY) future.push({ loc, from: current, to: date });
+  else stale.push({ loc, from: current || '(none)', to: date });
   return current === undefined
     ? block.replace(/(<loc>[^<]+<\/loc>)/, `$1\n    <lastmod>${date}</lastmod>`)
     : block.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${date}</lastmod>`);
@@ -110,7 +133,12 @@ for (const loc of unresolved) {
 }
 
 if (checkOnly) {
-  if (stale.length) {
+  for (const f of future) {
+    console.error(
+      `::error file=sitemap.xml::${f.loc} lastmod ${f.from} is in the future (today is ${TODAY} UTC); the file changed ${f.to}`,
+    );
+  }
+  if (stale.length || future.length) {
     for (const s of stale.slice(0, 10)) {
       console.error(`::error file=sitemap.xml::${s.loc} lastmod ${s.from} but the file changed ${s.to}`);
     }
@@ -120,6 +148,8 @@ if (checkOnly) {
   }
   console.log('sitemap lastmod values are current');
 } else {
-  if (stale.length) fs.writeFileSync(SITEMAP, updated);
-  console.log(`sitemap lastmod: ${stale.length} updated, ${unresolved.length} unresolved`);
+  if (stale.length || future.length) fs.writeFileSync(SITEMAP, updated);
+  console.log(
+    `sitemap lastmod: ${stale.length} updated, ${future.length} future-dated corrected, ${unresolved.length} unresolved`,
+  );
 }
