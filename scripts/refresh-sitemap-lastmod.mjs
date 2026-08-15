@@ -28,6 +28,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITEMAP = path.join(ROOT, 'sitemap.xml');
 const APEX = 'https://joetay.com/';
 const checkOnly = process.argv.includes('--check');
+const TODAY = new Date().toISOString().slice(0, 10);
 
 /** Resolve a published URL to the file that produces it. */
 function fileForUrl(url) {
@@ -38,6 +39,21 @@ function fileForUrl(url) {
     if (fs.existsSync(abs) && fs.statSync(abs).isFile()) return candidate;
   }
   return null;
+}
+
+/** True when the file differs from HEAD — modified, staged, or untracked. */
+function hasUncommittedChanges(file) {
+  try {
+    return (
+      execFileSync('git', ['status', '--porcelain', '--', file], {
+        cwd: ROOT,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      }).trim() !== ''
+    );
+  } catch {
+    return false;
+  }
 }
 
 /** Committer date (YYYY-MM-DD) of the last commit touching `file`. */
@@ -69,9 +85,11 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
     return block;
   }
 
-  // A file that is tracked but uncommitted has no commit date yet; leave it be
-  // rather than inventing one, and let the next run pick it up.
-  const date = lastCommitDate(file);
+  // A file with uncommitted changes is about to be committed as of today, so
+  // today is its real change date. Using the last commit instead would stamp
+  // every page edited in this same commit with its PREVIOUS date — which is
+  // exactly the one-commit lag that made CI reject an otherwise correct run.
+  const date = hasUncommittedChanges(file) ? TODAY : lastCommitDate(file);
   if (!date) return block;
 
   const current = block.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1];
