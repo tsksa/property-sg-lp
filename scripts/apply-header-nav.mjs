@@ -8,10 +8,12 @@
 // run after the page generators on every build. Run it AFTER them and BEFORE
 // refresh-sitemap-lastmod.mjs — same slot as apply-site-footer.mjs.
 //
-// Scope is the /hdb-prices/ cluster only. valuation.html shares the `topbar`
-// template but is itself the conversion target, so a "Free Valuation" CTA there
-// would point at the page the reader is already on; unifying its header needs a
-// different link set and is deliberately left out of this pass.
+// Scope is the /hdb-prices/ cluster plus /neighbour-prices/ — the other bare-
+// `topbar` page that shares the same high-intent-but-buried-CTA problem this
+// block exists to fix. valuation.html also shares the `topbar` template but is
+// itself the conversion target, so a "Free Valuation" CTA there would point at
+// the page the reader is already on; unifying its header needs a different
+// link set and is deliberately left out of this pass.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,6 +33,7 @@ const pages = fs
         ? [path.join('hdb-prices', entry.name)]
         : [],
   )
+  .concat(['neighbour-prices/index.html'])
   .filter((rel) => fs.existsSync(path.join(ROOT, rel)))
   .sort();
 
