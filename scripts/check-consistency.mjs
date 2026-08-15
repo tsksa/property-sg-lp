@@ -78,6 +78,19 @@ for (const file of pages) {
   if (s.includes('<<<<<<<') || s.includes('>>>>>>>')) fail(file, 'merge conflict markers present');
   if (/REMOVE BEFORE GOING LIVE|EDITORIAL NOTE/i.test(s)) fail(file, 'editorial/leak comment present');
 
+  // Nested <a> is invalid HTML — the browser implicitly closes the outer anchor at
+  // the inner tag, so any onclick/tracking handler on the outer anchor stops covering
+  // whatever content sits inside the (now-orphaned) inner one. Found live on the
+  // sell/rent-out phone CTA: the Google Ads conversion handler sat on the outer <a>,
+  // the visible phone-number text sat in a silently-detached inner <a> with no tracking.
+  {
+    let depth = 0;
+    for (const m of s.matchAll(/<a\b[^>]*>|<\/a\s*>/g)) {
+      if (m[0][1] === '/') { if (depth > 0) depth--; }
+      else { if (depth > 0) { fail(file, 'nested <a> tag — browser will implicitly close the outer anchor, silently detaching any handler on it from the inner anchor\'s content'); } depth++; }
+    }
+  }
+
   // ── Tracking invariants: if a tracker is present, it must be the canonical one, gated ──
   if (s.includes('googletagmanager.com/gtag')) {
     if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
