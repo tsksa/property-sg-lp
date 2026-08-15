@@ -14,7 +14,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:estate-windows && npm run test:lighthouse",
+    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:estate-windows && npm run test:lighthouse && npm run test:security-headers",
     "generate:new-launches": "node scripts/generate-new-launch-index.mjs",
     "check:new-launches-generated": "node scripts/generate-new-launch-index.mjs --check",
     "generate:project-pages": "node scripts/generate-project-pages.mjs",
@@ -28,7 +28,8 @@
     "test:project-pages": "node --test tests/project-pages.test.mjs",
     "test:search-growth": "node --test tests/search-growth-report.test.mjs",
     "generate:estate-pages": "node scripts/generate-estate-pages.mjs",
-    "test:estate-windows": "node --test tests/estate-windows.test.mjs"
+    "test:estate-windows": "node --test tests/estate-windows.test.mjs",
+    "test:security-headers": "node --test tests/security-headers.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9"
