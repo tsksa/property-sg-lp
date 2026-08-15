@@ -29,6 +29,7 @@ const REQUIRES_WHATSAPP_CTA = new Set([
   'insights/how-long-to-sell-hdb-singapore-2026.html',
   'insights/selling-hdb-after-mop-singapore.html',
   'insights/property-agent-commission-singapore.html',
+  'glossary/index.html',
 ]);
 
 // Google truncates around 155-160 chars. ARCHITECTURE.md states this rule; without
