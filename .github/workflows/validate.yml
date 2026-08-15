@@ -123,6 +123,10 @@ jobs:
       - name: Cross-page consistency guard
         run: node scripts/check-consistency.mjs
 
+      - name: New-launch data freshness gate
+        if: ${{ hashFiles('new-launches/projects.json') != '' }}
+        run: node scripts/check-new-launches.mjs
+
       - name: Submit-lead function syntax check
         if: ${{ hashFiles('netlify/functions/submit-lead.js') != '' }}
         run: node --check netlify/functions/submit-lead.js && echo 'submit-lead.js syntax ok'
