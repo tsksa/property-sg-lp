@@ -189,6 +189,13 @@ for (const file of pages) {
     if (!s.includes('href="/hdb-prices/"')) fail(file, 'estate page missing a link back to the /hdb-prices/ hub');
     if (!s.includes('href="/calculator/"')) fail(file, 'estate page missing a link to /calculator/');
     if (!s.includes('href="/glossary/"')) fail(file, 'estate page missing a link to /glossary/');
+
+    // These pages rank for the site's highest-intent queries and used to offer no
+    // way to reach Joe at all — only anchors to other pages. Lead capture here is
+    // the point of the cluster, so assert it rather than trusting a regeneration.
+    if (!s.includes('id="estateLeadForm"')) fail(file, 'estate page has no lead form');
+    if (!s.includes('wa.me/')) fail(file, 'estate page has no WhatsApp fallback');
+    if (!s.includes('/js/estate-lead.js')) fail(file, 'estate page has a lead form but does not load /js/estate-lead.js');
   }
 }
 
