@@ -8,10 +8,11 @@
 // run after the page generators on every build. Run it AFTER them and BEFORE
 // refresh-sitemap-lastmod.mjs — same slot as apply-site-footer.mjs.
 //
-// Scope is the /hdb-prices/ cluster only. valuation.html shares the `topbar`
-// template but is itself the conversion target, so a "Free Valuation" CTA there
-// would point at the page the reader is already on; unifying its header needs a
-// different link set and is deliberately left out of this pass.
+// Scope is the /hdb-prices/ cluster plus valuation.html. valuation.html shares
+// the `topbar` template but is itself the conversion target, so it keeps the
+// default Home/HDB Prices/Insights links but swaps the CTA for a WhatsApp link
+// (see PAGE_CTA below) instead of a "Free Valuation" link pointing at the page
+// the reader is already on.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,6 +22,13 @@ import { headerNavHtml, HEADER_NAV_MARKER } from './lib/header-nav.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
+
+const PAGE_CTA = {
+  'valuation.html': [
+    'https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20would%20like%20a%20property%20valuation',
+    'WhatsApp Joe',
+  ],
+};
 
 const pages = fs
   .readdirSync(path.join(ROOT, 'hdb-prices'), { withFileTypes: true })
@@ -32,9 +40,8 @@ const pages = fs
         : [],
   )
   .filter((rel) => fs.existsSync(path.join(ROOT, rel)))
+  .concat(['valuation.html'])
   .sort();
-
-const block = headerNavHtml();
 // Matches either the original "← Back to home" link or a previously injected
 // block, so the first run replaces the old link and later runs refresh in place.
 const backLinkRe = /\n?\s*<a href="\/" class="back">[^<]*<\/a>/;
@@ -55,6 +62,7 @@ for (const rel of pages) {
 
   const had = html.includes(HEADER_NAV_MARKER);
   const stripped = html.replace(existingRe, '').replace(backLinkRe, '');
+  const block = headerNavHtml(rel in PAGE_CTA ? { cta: PAGE_CTA[rel] } : {});
   // Insert as the last child of .topbar-inner, after the logo.
   const injected = stripped.replace(
     /(<a href="\/" class="logo">[^<]*<\/a>)/,
