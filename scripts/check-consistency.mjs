@@ -157,6 +157,21 @@ for (const file of pages) {
   else if (!s.includes('id="main"')) fail(file, 'skip link present but no id="main" target');
   if (!/<meta name="viewport"/.test(s)) fail(file, 'missing viewport meta');
 
+  // ── Site-wide footer nav (JOE-289 cycle) ──
+  // 33 pages carried a bare <footer> with legal text and 0-3 links — a
+  // visitor (or a crawler) on an HDB town page or new-launch project page
+  // had no path to any other cluster. Every indexable page's real site
+  // footer must carry the canonical nav to all main sections;
+  // scripts/add-footer-sitelinks.mjs is what emits it.
+  const FOOTER_NAV_TARGETS = ['/hdb-prices/', '/new-launches/', '/calculator/', '/insights/', '/glossary/', '/sell/', '/rent-out/'];
+  const navMatch = s.match(/<nav class="site-footer-links"[^>]*>([\s\S]*?)<\/nav>/);
+  if (!navMatch) {
+    fail(file, 'footer missing the site-wide nav (see scripts/add-footer-sitelinks.mjs)');
+  } else {
+    const missing = FOOTER_NAV_TARGETS.filter((href) => !navMatch[1].includes(`href="${href}"`));
+    if (missing.length) fail(file, `site-footer-links nav is missing links to: ${missing.join(', ')}`);
+  }
+
   // ── Estate-page structured data: the on-page medians/psf/YoY are only useful to a
   // crawler if they're also marked up. Parse every ld+json block rather than string-
   // matching, so a syntax-broken or copy-pasted-but-wrong block still fails the guard.
