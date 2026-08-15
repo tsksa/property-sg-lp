@@ -24,7 +24,7 @@ test('town Dataset carries the exact stat-band numbers, not rounded/rederived on
     API,
   });
   assert.equal(dataset['@type'], 'Dataset');
-  assert.equal(dataset.temporalCoverage, '2025-08-01/2026-07-01');
+  assert.equal(dataset.temporalCoverage, '2025-08/2026-07');
   const byName = Object.fromEntries(dataset.variableMeasured.map((v) => [v.name, v.value]));
   assert.equal(byName['Median resale price'], 517500);
   assert.equal(byName['Median price per square foot'], 585); // rounded, same as the page's $585 psf
@@ -88,4 +88,31 @@ test('hub schema identifies the actual highest/lowest median from indexRows, not
   const lowestQ = faq.mainEntity.find((q) => /lowest/.test(q.name));
   assert.match(highestQ.acceptedAnswer.text, /Bukit Timah/);
   assert.match(lowestQ.acceptedAnswer.text, /Woodlands/);
+});
+
+// Google requires FAQPage content to be visible on the page; JSON-LD-only Q&A
+// risks a manual action for spammy structured data. The generator renders the
+// visible block from the same node it serialises, so this pins that faqHtml
+// reproduces every question and answer verbatim.
+test('faqHtml renders every schema question and answer verbatim', async () => {
+  const { faqHtml } = await import('../scripts/lib/estate-schema.mjs');
+  const esc = (v) => String(v).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  const [, faq] = buildTownSchema({
+    t: 'Tampines',
+    canonical: 'https://joetay.com/hdb-prices/tampines/',
+    generatedAt: '2026-07',
+    window12: ['2026-07', '2026-06', '2026-05', '2026-04', '2026-03', '2026-02',
+      '2026-01', '2025-12', '2025-11', '2025-10', '2025-09', '2025-08'],
+    cur: { med: 545400, psf: 585, n: 1224 },
+    yoy: -2.8,
+    DATASET,
+    API,
+  });
+
+  const html = faqHtml(faq, esc);
+  for (const q of faq.mainEntity) {
+    assert.ok(html.includes(esc(q.name)), `question not rendered: ${q.name}`);
+    assert.ok(html.includes(esc(q.acceptedAnswer.text)), `answer not rendered: ${q.name}`);
+  }
+  assert.equal((html.match(/<details/g) || []).length, faq.mainEntity.length);
 });

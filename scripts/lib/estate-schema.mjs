@@ -10,8 +10,10 @@
 const LICENCE = 'https://data.gov.sg/open-data-licence';
 
 // window12 is newest-first (see scripts/lib/estate-windows.mjs); the oldest
-// entry is the start of the 12-month span.
-const monthRange = (window12) => `${window12[window12.length - 1]}-01/${window12[0]}-01`;
+// entry is the start of the 12-month span. Month precision, not day: the
+// day form "2025-08-01/2026-07-01" ends at the START of the newest month and
+// so excludes almost all of the data it claims to describe.
+const monthRange = (window12) => `${window12[window12.length - 1]}/${window12[0]}`;
 
 const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
 
@@ -132,4 +134,22 @@ export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API
   };
 
   return [dataset, faq];
+}
+
+/**
+ * Visible rendering of a FAQPage node.
+ *
+ * Google requires content marked up with FAQPage to be visible to the user on
+ * the page; JSON-LD-only Q&A risks a manual action for spammy structured data.
+ * Rendering straight from the same node the schema emits means the visible text
+ * and the markup cannot drift apart.
+ */
+export function faqHtml(faqNode, esc) {
+  const items = faqNode.mainEntity
+    .map((q) => `      <details class="faq-item"><summary>${esc(q.name)}</summary><p>${esc(q.acceptedAnswer.text)}</p></details>`)
+    .join('\n');
+  return `  <h2>Common questions</h2>
+  <div class="faq">
+${items}
+  </div>`;
 }
