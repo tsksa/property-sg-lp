@@ -18,17 +18,26 @@
 // Note for CI: needs full git history. actions/checkout defaults to a shallow
 // clone, where `git log` reports the clone date for every file — set
 // `fetch-depth: 0` on any job that runs this.
+//
+// Note on timezones: date resolution is delegated to scripts/lib/git-dates.mjs
+// — a naive `git log --format=%cs` renders using the committer's recorded
+// offset regardless of the machine's timezone, which made this guard fail
+// permanently on commits landing 00:00-07:59 SGT (confirmed 2026-08-15: main
+// red on lastmod for `sell/`, `rent-out/`, all 27 hdb-prices pages, stuck
+// disagreeing forever since the recorded commit date never changes). See
+// that module for the full explanation.
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { lastCommitDateUTC, todayUTC } from './lib/git-dates.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITEMAP = path.join(ROOT, 'sitemap.xml');
 const APEX = 'https://joetay.com/';
 const checkOnly = process.argv.includes('--check');
-const TODAY = new Date().toISOString().slice(0, 10);
+const TODAY = todayUTC();
 
 /** Resolve a published URL to the file that produces it. */
 function fileForUrl(url) {
@@ -56,20 +65,6 @@ function hasUncommittedChanges(file) {
   }
 }
 
-/** Committer date (YYYY-MM-DD) of the last commit touching `file`. */
-function lastCommitDate(file) {
-  try {
-    const out = execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
-      cwd: ROOT,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
-    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : null;
-  } catch {
-    return null;
-  }
-}
-
 const xml = fs.readFileSync(SITEMAP, 'utf8');
 const stale = [];
 const unresolved = [];
@@ -89,7 +84,7 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
   // today is its real change date. Using the last commit instead would stamp
   // every page edited in this same commit with its PREVIOUS date — which is
   // exactly the one-commit lag that made CI reject an otherwise correct run.
-  const date = hasUncommittedChanges(file) ? TODAY : lastCommitDate(file);
+  const date = hasUncommittedChanges(file) ? TODAY : lastCommitDateUTC(file, { cwd: ROOT });
   if (!date) return block;
 
   const current = block.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1];
