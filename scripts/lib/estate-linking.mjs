@@ -73,6 +73,37 @@ export const TOWN_DISTRICT = {
   'yishun': 'D27',
 };
 
+// Districts with no HDB town page of their own — mostly the private-housing-heavy
+// central districts, plus D24 (Tengah: too new for enough resale history to have
+// earned a page yet) — still have active launches worth surfacing. Each maps to
+// the one existing town page that's geographically closest or administratively
+// overlapping, so a launch there isn't orphaned from the /hdb-prices/ cluster,
+// the site's strongest internal-link-equity source. Same non-legal, non-market-
+// data caveat as NEARBY_TOWNS above: this is a proximity heuristic, not a claim.
+//
+// JOE-289 cycle: found via an internal-link audit that 10 of 26 active
+// (selling/upcoming) new-launch pages — D02, D04, D08, D09, D10, D11, D17, D26 —
+// had zero inbound links from any of the 26 town pages, because their district
+// simply has no town in TOWN_DISTRICT to match against.
+export const UNMAPPED_DISTRICT_FALLBACK = {
+  D02: 'bukit-merah', // Tanjong Pagar/Anson — borders Tiong Bahru/Alexandra
+  D04: 'bukit-merah', // Telok Blangah/Keppel/Sentosa — HDB's own Bukit Merah town includes Telok Blangah
+  D08: 'kallang-whampoa', // Little India/Farrer Park — borders Boon Keng/Whampoa
+  D09: 'central-area', // Orchard/River Valley — closest existing "central" town page
+  D10: 'bukit-timah', // Holland/Tanglin/Ardmore — closest namesake town page
+  D11: 'toa-payoh', // Novena/Watten Estate — borders Toa Payoh
+  D17: 'pasir-ris', // Changi/Loyang — adjoins Pasir Ris along the east coast
+  D24: 'choa-chu-kang', // Lim Chu Kang/Tengah — Tengah new town was carved from Choa Chu Kang
+  D26: 'ang-mo-kio', // Upper Thomson/Springleaf — borders Ang Mo Kio/Bishan
+};
+
+// Inverted: town slug -> extra district(s) to pull launches from, beyond its own
+// TOWN_DISTRICT entry. Derived so the two maps can't drift out of sync.
+const EXTRA_DISTRICTS_BY_TOWN = Object.entries(UNMAPPED_DISTRICT_FALLBACK).reduce((acc, [district, slug]) => {
+  (acc[slug] ||= []).push(district);
+  return acc;
+}, {});
+
 const ACTIVE_STATUSES = new Set(['selling', 'upcoming']);
 
 export function projectsByDistrictFromFile(projectsJson) {
@@ -100,8 +131,8 @@ export function nearbyTownsBlock(slug, townMeta) {
 }
 
 export function newLaunchesBlock(slug, townTitle, projectsByDistrict, esc) {
-  const district = TOWN_DISTRICT[slug];
-  const launches = district ? projectsByDistrict.get(district) || [] : [];
+  const districts = [TOWN_DISTRICT[slug], ...(EXTRA_DISTRICTS_BY_TOWN[slug] || [])].filter(Boolean);
+  const launches = districts.flatMap((d) => projectsByDistrict.get(d) || []);
   if (!launches.length) return '';
   const items = launches
     .map((p) => `    <li><a href="${p.canonicalUrl}">${esc(p.name)}</a> — ${esc(p.location)}, ${p.district}</li>`)
