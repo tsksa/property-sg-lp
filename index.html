@@ -533,7 +533,10 @@ body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 .faq-question .faq-icon{font-size:1.5rem;transition:transform .3s;color:#767676;font-weight:300}
 .faq-item.open .faq-icon{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
-.faq-item.open .faq-answer{max-height:200px;padding-bottom:28px}
+/* Budget is measured, not guessed: the longest answer renders to 343px at a 320px
+   viewport (the narrowest supported width) — see the FAQ_ANSWER_MAX_CHARS guard in
+   check-consistency.mjs, which fails CI before a longer answer can silently clip here. */
+.faq-item.open .faq-answer{max-height:460px;padding-bottom:28px}
 .faq-answer p{font-size:0.9rem;color:#777;line-height:1.7}
 
 /* ── Final CTA (centered consultation form) ── */
@@ -1715,16 +1718,16 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <div class="faq-answer" id="faq-answer-11" role="region" aria-labelledby="faq-question-11"><p>Typically within 10 minutes during 9am–9pm. Direct WhatsApp to me — not routed through an office line. See <a href="/glossary/">property terms glossary →</a> while you wait.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button type="button" class="faq-question" aria-expanded="false">What is ABSD in Singapore?<span class="faq-icon">+</span></button>
-        <div class="faq-answer"><p>Additional Buyer's Stamp Duty — paid on top of standard BSD. Singapore Citizens: 0% on the 1st residential property, 20% on the 2nd, 30% on the 3rd+. PRs: 5% / 30% / 35%. Foreigners: a flat 60% (post-Apr 2023 cooling measures). Entities: 65%. Calculated on the higher of price or valuation, payable within 14 days of OTP signing. I'll model your exact stamp duty before you commit.</p></div>
+        <button type="button" class="faq-question" id="faq-question-12" aria-controls="faq-answer-12" aria-expanded="false">What is ABSD in Singapore?<span class="faq-icon">+</span></button>
+        <div class="faq-answer" id="faq-answer-12" role="region" aria-labelledby="faq-question-12"><p>Additional Buyer's Stamp Duty — paid on top of standard BSD. Singapore Citizens: 0% on the 1st residential property, 20% on the 2nd, 30% on the 3rd+. PRs: 5% / 30% / 35%. Foreigners: a flat 60% (post-Apr 2023 cooling measures). Entities: 65%. Calculated on the higher of price or valuation, payable within 14 days of OTP signing. I'll model your exact stamp duty before you commit.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button type="button" class="faq-question" aria-expanded="false">Can foreigners buy property in Singapore?<span class="faq-icon">+</span></button>
-        <div class="faq-answer"><p>Yes — private condos and apartments are open to foreign buyers (subject to the 60% ABSD). Landed property needs Singapore Land Authority approval and is generally only granted on Sentosa Cove. HDB flats are off-limits to foreigners — citizenship or qualifying PR family status is required.</p></div>
+        <button type="button" class="faq-question" id="faq-question-13" aria-controls="faq-answer-13" aria-expanded="false">Can foreigners buy property in Singapore?<span class="faq-icon">+</span></button>
+        <div class="faq-answer" id="faq-answer-13" role="region" aria-labelledby="faq-question-13"><p>Yes — private condos and apartments are open to foreign buyers (subject to the 60% ABSD). Landed property needs Singapore Land Authority approval and is generally only granted on Sentosa Cove. HDB flats are off-limits to foreigners — citizenship or qualifying PR family status is required.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button type="button" class="faq-question" aria-expanded="false">What is decoupling and is it still worth it?<span class="faq-icon">+</span></button>
-        <div class="faq-answer"><p>Decoupling is when one spouse buys out the other's share of a jointly-owned home so the second spouse counts as a "first-property" buyer — sidestepping the 20% ABSD on a second home. HDB has not allowed decoupling since 2018. Private property decoupling is still possible but costs BSD on the bought-out share + S$6–10k in legal fees + a fresh mortgage approval. It only makes financial sense above roughly a S$1.5M second-property purchase. I'll run the actual numbers with your conveyancing lawyer before recommending it.</p></div>
+        <button type="button" class="faq-question" id="faq-question-14" aria-controls="faq-answer-14" aria-expanded="false">What is decoupling and is it still worth it?<span class="faq-icon">+</span></button>
+        <div class="faq-answer" id="faq-answer-14" role="region" aria-labelledby="faq-question-14"><p>Decoupling is when one spouse buys out the other's share of a jointly-owned home so the second spouse counts as a "first-property" buyer — sidestepping the 20% ABSD on a second home. HDB has not allowed decoupling since 2018. Private property decoupling is still possible but costs BSD on the bought-out share + S$6–10k in legal fees + a fresh mortgage approval. It only makes financial sense above roughly a S$1.5M second-property purchase. I'll run the actual numbers with your conveyancing lawyer before recommending it.</p></div>
       </div>
     </div>
     <p class="faq-footer reveal" style="text-align:center;margin-top:32px;font-size:0.9rem;color:#888">Still have questions? <a href="#book" style="color:var(--emerald);font-weight:600">Book a free 30-min call →</a></p>
