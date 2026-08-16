@@ -300,6 +300,23 @@ for (const file of pages) {
       fail(file, `insights article missing cross-link(s) to sibling article(s): ${missing.join(', ')}`);
     }
   }
+
+  // ── New-launch project-page stamp duty CTA (JOE-289 cycle 6) ──
+  // Someone reading an individual project page is pricing a specific private-
+  // property purchase — exactly who needs to know their BSD/ABSD before they
+  // commit. Until this cycle the only link to /stamp-duty-calculator/ on these
+  // pages was the shared footer, seven scrolls down; the factsheet (where the
+  // project's price-relevant facts already sit) had none. Guards against the
+  // generator's factsheetSection() regressing that link back out.
+  if (
+    /^new-launches\/[a-z0-9-]+\.html$/.test(file)
+    && !['new-launches/index.html', 'new-launches/sold-out.html'].includes(file)
+    && !REDIRECTED.has(file)
+  ) {
+    if (!s.includes('href="/stamp-duty-calculator/"')) {
+      fail(file, 'new-launch project page has no in-content link to /stamp-duty-calculator/ (footer link alone is too low-visibility for a live buyer)');
+    }
+  }
 }
 
 console.log(`Checked ${pages.length} pages — ${failures} failure(s)`);
