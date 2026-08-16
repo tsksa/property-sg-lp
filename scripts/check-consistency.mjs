@@ -42,10 +42,10 @@ const DESCRIPTION_MAX = 160;
 // og:image hotlinked from a third party is a silent single point of failure: if the
 // host blocks hotlinking, deletes the file, or reorganises its paths, the social
 // preview breaks with nothing in our own CI to catch it. Found live 2026-08-17: 6
-// new-launch pages hotlink their og:image straight from img.singmap.com (a broker
+// new-launch pages hotlinked their og:image straight from img.singmap.com (a broker
 // CDN, not ours). Self-hosting all 6 needs network access to img.singmap.com, which
 // this guard's own CI environment doesn't have reason to require — so instead of
-// silently passing, the current 6 are a named, shrinking exception. Delete a file's
+// silently passing, the remaining pages are a named, shrinking exception. Delete a file's
 // entry here in the same commit its og:image moves to /new-launches/img/ (JOE-289).
 const KNOWN_HOTLINKED_OG_IMAGES = new Set([
   'new-launches/river-modern.html',
@@ -53,7 +53,6 @@ const KNOWN_HOTLINKED_OG_IMAGES = new Set([
   'new-launches/vela-bay.html',
   'new-launches/newport-residences.html',
   'new-launches/dunearn-house.html',
-  'new-launches/former-thomson-view.html',
 ]);
 
 // Pages behind a forced 301 in _redirects never reach a crawler — Netlify serves the
@@ -89,6 +88,20 @@ const fail = (file, msg) => {
   failures++;
   console.error(`::error file=${file}::${msg}`);
 };
+
+// A forced (301!) redirect source that still has a matching file on disk is dead
+// weight, not a safety net: Netlify's edge applies the redirect before the static
+// file is ever considered, so the file is unreachable in production. It just sits
+// there getting parsed by this very script and can silently go stale. Every other
+// retired URL in _redirects had its file deleted when it was superseded — except
+// new-launches/former-thomson-view.html and former-pastoral-view.html, left behind
+// after their August 2026 renames. Deleted 2026-08-16; this guard stops the next one.
+for (const source of REDIRECTED) {
+  const abs = path.join(ROOT, source);
+  if (fs.existsSync(abs) && fs.statSync(abs).isFile()) {
+    fail(source, 'forced (301!) redirect source still has a physical file on disk — Netlify serves the redirect regardless, so the file is unreachable dead weight; delete it');
+  }
+}
 
 for (const file of pages) {
   const s = fs.readFileSync(file, 'utf8');
