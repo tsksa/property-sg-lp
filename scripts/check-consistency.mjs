@@ -275,6 +275,50 @@ for (const file of pages) {
       fail(file, 'estate page header nav has no /valuation.html CTA');
     }
   }
+
+  // ── Homepage FAQ accordion: full ARIA wiring + a text-length budget tied to
+  // the CSS max-height cap ──
+  // Found live: the 3 trailing FAQ items (ABSD, foreigners, decoupling) had
+  // neither the id/aria-controls/aria-labelledby/role wiring the other 11
+  // carry, nor an updated CSS budget after their answers outgrew the
+  // accordion's original 200px cap — the longest (523 chars) rendered to
+  // 343px at a 320px viewport and was silently clipped open with no
+  // scrollbar. FAQ_ANSWER_MAX_CHARS is a measured, not guessed, ceiling: at
+  // the narrowest supported viewport the longest current answer (523 chars)
+  // renders to 343px against a 460px cap in index.html's CSS — comfortable
+  // headroom today, but both numbers must move together if either changes.
+  if (file === 'index.html') {
+    const FAQ_ANSWER_MAX_CHARS = 600;
+    const faqItems = [...s.matchAll(/<div class="faq-item reveal">([\s\S]*?)<\/div>\s*<\/div>/g)].map((m) => m[1]);
+    faqItems.forEach((block, i) => {
+      const label = `FAQ item ${i + 1}`;
+      const btn = block.match(/<button[^>]*class="faq-question"[^>]*>/)?.[0] || '';
+      const btnId = btn.match(/\sid="([^"]+)"/)?.[1];
+      const controls = btn.match(/aria-controls="([^"]+)"/)?.[1];
+      const answerDiv = block.match(/<div class="faq-answer"[^>]*>/)?.[0] || '';
+      const answerId = answerDiv.match(/\sid="([^"]+)"/)?.[1];
+      const labelledby = answerDiv.match(/aria-labelledby="([^"]+)"/)?.[1];
+
+      if (!btnId || !controls) fail(file, `${label}: question button is missing id/aria-controls`);
+      if (!answerId || !answerDiv.includes('role="region"') || !labelledby) {
+        fail(file, `${label}: answer panel is missing id/role="region"/aria-labelledby`);
+      }
+      if (btnId && controls && answerId && controls !== answerId) {
+        fail(file, `${label}: aria-controls="${controls}" does not match the answer panel's id="${answerId}"`);
+      }
+      if (answerId && labelledby && labelledby !== btnId) {
+        fail(file, `${label}: aria-labelledby="${labelledby}" does not match the question button's id="${btnId}"`);
+      }
+
+      const text = block.replace(/<[^>]+>/g, '');
+      if (text.length > FAQ_ANSWER_MAX_CHARS) {
+        fail(
+          file,
+          `${label}: answer is ${text.length} chars, over the ${FAQ_ANSWER_MAX_CHARS}-char budget — it will clip inside the accordion's fixed max-height without also raising the CSS cap`,
+        );
+      }
+    });
+  }
 }
 
 console.log(`Checked ${pages.length} pages — ${failures} failure(s)`);
