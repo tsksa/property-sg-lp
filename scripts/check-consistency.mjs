@@ -102,6 +102,22 @@ for (const file of pages) {
     }
   }
 
+  // Heading levels must not skip more than one step deeper (h2 straight to h4, no h3
+  // in between) — assistive tech users navigating by heading level get a broken
+  // outline with no visual sign anything is wrong. Jumping back up any number of
+  // levels is fine (h3 -> h1 just starts a new top-level section). Found live on
+  // former-thomson-view.html (h2 "The Thomson mega-launch case" straight to four h4
+  // USP items) and on the shared "Related reads" footer widget on 4 insights/
+  // articles (last article heading is h2, footer widget heading is h4).
+  {
+    const levels = [...s.matchAll(/<h([1-6])\b/g)].map((m) => Number(m[1]));
+    for (let i = 1; i < levels.length; i++) {
+      if (levels[i] > levels[i - 1] + 1) {
+        fail(file, `heading level skips from h${levels[i - 1]} to h${levels[i]} — no intermediate h${levels[i - 1] + 1}`);
+      }
+    }
+  }
+
   // <main> carries the skip-link target and the a11y landmark; a second id/tabindex
   // on the same tag is invalid HTML and the browser silently drops it, so a copy-paste
   // duplicate (e.g. id="main" ... id="main-content") passes an id="main" substring
