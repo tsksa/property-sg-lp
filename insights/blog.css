@@ -85,7 +85,7 @@ a:hover{text-decoration:underline}
 
 /* ── Article footer / related ── */
 .article-footer{margin-top:56px;padding-top:32px;border-top:1px solid #eee}
-.article-footer h4{font-size:0.78rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
+.article-footer h3{font-size:0.78rem;font-weight:700;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
 .related-posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
 .related-posts a{padding:18px 22px;background:#fafafa;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.93rem;font-weight:500;transition:background .2s,border-color .2s;line-height:1.4}
 .related-posts a:hover{background:#fff;border-color:rgba(16,185,129,0.3);text-decoration:none}
