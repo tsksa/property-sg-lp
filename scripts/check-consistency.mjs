@@ -242,6 +242,13 @@ for (const file of pages) {
     else if (!Array.isArray(faq.mainEntity) || faq.mainEntity.length < 2) {
       fail(file, 'FAQPage JSON-LD present but has fewer than 2 questions');
     }
+
+    // A reader checking their town's median (or scanning the hub) is exactly the
+    // high-intent buyer/seller the stamp duty calculator is for, and the
+    // calculator had no inbound link from this cluster at all (JOE-289 cycle).
+    if (!s.includes('href="/stamp-duty-calculator/"')) {
+      fail(file, 'missing a link to /stamp-duty-calculator/');
+    }
   }
 
   // ── HDB estate-page internal linking (JOE-289 cycle 2) ──

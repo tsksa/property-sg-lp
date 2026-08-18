@@ -218,6 +218,7 @@ ${body}
     <p>The medians above are town-wide. Your block, storey, and renovation state move the number — check the actual sales in your block, or get a considered valuation from me on WhatsApp within 24 hours.</p>
     <div class="btns">
       <a class="secondary" href="/neighbour-prices/">Check your block's sold prices</a>
+      <a class="primary" href="/stamp-duty-calculator/">Work out your stamp duty →</a>
     </div>
 ${leadCapture || ''}
   </div>
