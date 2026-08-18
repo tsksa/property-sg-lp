@@ -349,6 +349,10 @@
 
   function submitModal(){
     if(modalForm.company_website.value) return;
+    // Must be >= submit-lead.js's time-on-form floor (currently 3000ms) — see
+    // tests/homepage-lead-timing.test.mjs. Without this, a fast/autofilled submit is
+    // shown success while the server silently drops it as spam.
+    if(modalOpenedAt && Date.now() - modalOpenedAt < 3000) return;
     // The form has novalidate, so call reportValidity() explicitly to surface
     // the inputs' required/pattern/type=email constraints via native tooltips
     // instead of sending empty fields to the server only to alert() on the 400.

@@ -611,6 +611,10 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
   if(!validate()) return;
   const f = e.target;
   if(f._honeypot.value) return; // honeypot
+  // Must be >= submit-lead.js's time-on-form floor (currently 3000ms) — see
+  // tests/homepage-lead-timing.test.mjs. Without this, a fast/autofilled submit is
+  // shown success while the server silently drops it as spam.
+  if(Date.now() - PAGE_LOADED_AT < 3000) return;
 
   const propType = f.propType.value;
   const data = {
