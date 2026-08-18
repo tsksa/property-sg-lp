@@ -50,6 +50,13 @@
     });
     if (trapped) return;
 
+    // Must be >= submit-lead.js's time-on-form floor (currently 3000ms). The server
+    // returns a silent HTTP 200 for anything under it — indistinguishable from a real
+    // success — so with no client-side gate at all, a real visitor whose autofill
+    // fills name+phone in well under a second gets shown "Got it" while the lead is
+    // dropped. tests/estate-lead-form.test.mjs pins this against the server floor.
+    if (Date.now() - loadedAt < 3000) return;
+
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
