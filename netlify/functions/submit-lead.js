@@ -453,10 +453,7 @@ exports.handler = async (event) => {
   // Function logs (line 350 above) always record the lead regardless of
   // delivery channel, so partial failures are visible to Joe in Netlify's
   // function-log dashboard even when the response says 200.
-  const webhookFailed = webhookResult && !webhookResult.ok;
-  const twilioFailed = twilioResult && twilioResult.ok === false;
-  const twilioAttempted = twilioResult != null && twilioResult !== webhookResult;
-  const everythingFailed = webhookFailed && (twilioFailed || !twilioAttempted);
+  const everythingFailed = computeEverythingFailed(webhookResult, twilioResult);
   if (everythingFailed) {
     return {
       statusCode: 502,
@@ -469,6 +466,22 @@ exports.handler = async (event) => {
 };
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
+
+// Decides whether a lead was completely lost: true only when at least one
+// delivery channel (webhook or Twilio) was actually attempted for this
+// request AND every attempted channel failed. A channel that was never
+// configured/attempted (result is null) must not count as a "pass" or a
+// "fail" — it must be excluded, or an environment with only one channel
+// configured (e.g. LEAD_WEBHOOK_URL unset, Twilio-only) can silently report
+// success on 200 while its one and only attempted channel actually failed.
+function computeEverythingFailed(webhookResult, twilioResult) {
+  const webhookAttempted = webhookResult != null;
+  const twilioAttempted = twilioResult != null && twilioResult !== webhookResult;
+  const webhookOk = webhookAttempted && webhookResult.ok === true;
+  const twilioOk = twilioAttempted && twilioResult.ok === true;
+  return (webhookAttempted || twilioAttempted) && !webhookOk && !twilioOk;
+}
+exports.computeEverythingFailed = computeEverythingFailed;
 
 function getClientIp(event) {
   // Netlify's edge sets x-nf-client-connection-ip to the real TCP peer it

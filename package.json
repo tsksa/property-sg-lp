@@ -14,7 +14,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && npm run check:site-footer && npm run check:header-nav && npm run check:sitemap-lastmod && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:stamp-duty && npm run test:estate-windows && npm run test:ad-lander-lead-timing && npm run test:price-alert-delivery && npm run test:alert-digest && npm run test:sitemap-lastmod && npm run test:estate-schema && npm run test:lighthouse && npm run test:security-headers",
+    "check": "npm run check:new-launches-generated && npm run check:project-pages && npm run check:llms-txt && npm run check:site-footer && npm run check:header-nav && npm run check:sitemap-lastmod && node scripts/check-consistency.mjs && node scripts/check-new-launches.mjs && npm run test:new-launches && npm run test:project-pages && npm run test:calculator && npm run test:stamp-duty && npm run test:estate-windows && npm run test:ad-lander-lead-timing && npm run test:price-alert-delivery && npm run test:alert-digest && npm run test:submit-lead-delivery && npm run test:sitemap-lastmod && npm run test:estate-schema && npm run test:lighthouse && npm run test:security-headers",
     "generate:new-launches": "node scripts/generate-new-launch-index.mjs",
     "check:new-launches-generated": "node scripts/generate-new-launch-index.mjs --check",
     "generate:project-pages": "node scripts/generate-project-pages.mjs",
@@ -40,7 +40,8 @@
     "apply:site-footer": "node scripts/apply-site-footer.mjs",
     "check:site-footer": "node scripts/apply-site-footer.mjs --check",
     "check:header-nav": "node scripts/apply-header-nav.mjs --check",
-    "test:security-headers": "node --test tests/security-headers.test.mjs"
+    "test:security-headers": "node --test tests/security-headers.test.mjs",
+    "test:submit-lead-delivery": "node --test tests/submit-lead-delivery.test.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9"
