@@ -1,13 +1,13 @@
 # joetay.com — Architecture
 
-*Last updated 2026-08-14. Maintained by the architecture loop; update when the shape of the system changes, not for content edits.*
+*Last updated 2026-08-24. Maintained by the architecture loop; update when the shape of the system changes, not for content edits.*
 
 ## System shape
 
 **Build-less static site + serverless functions**, deployed by Netlify from `main` (site `propertysg78`, production domain `https://joetay.com`, apex canonical, www→apex 301).
 
 ```
-Browser ──► Netlify CDN ── 74 static HTML pages (no build step; publish = ".")
+Browser ──► Netlify CDN ── 72 static HTML pages (no build step; publish = ".")
    │
    └─POST /api/submit-lead ──► netlify/functions/submit-lead.js
                                   ├─ gates: honeypot → time-on-form → required fields
@@ -20,7 +20,7 @@ Browser ──► Netlify CDN ── 74 static HTML pages (no build step; publis
 
 - **Lead capture is the business.** Everything else exists to route people to a form, WhatsApp, or a call.
 - CORS on the function is pinned to `joetay.com`, `www`, and `*--propertysg78.netlify.app` (deploy previews). Disallowed origins get `null`.
-- Third-party runtime deps: Google Fonts, GA4 (`GT-KVFDZD5V`), Meta pixel (`3279494272146114`). Both the `gtag.js` and `fbevents.js` script tags are only created when `_pdpaDeclined` is falsy (verified 2026-08-15 across all 73 pages carrying a tracker), and the pixel's `init`/`track` calls are additionally consent-gated and deferred to idle; reCAPTCHA loads on first form interaction. OneMap API for postal lookup. An external Synology NAS streams the Newport 360° tours behind click-to-load facades with a WhatsApp fallback.
+- Third-party runtime deps: Google Fonts, GA4 (`GT-KVFDZD5V`), Meta pixel (`3279494272146114`). Both the `gtag.js` and `fbevents.js` script tags are only created when `_pdpaDeclined` is falsy (fixed by #285, 2026-08-15), and all 71 tracker-bearing pages offer the shared accept/decline banner that sets that gate; the pixel's `init`/`track` calls are additionally consent-gated and deferred to idle. reCAPTCHA loads on first form interaction. OneMap API handles postal lookup. An external Synology NAS streams the Newport 360° tours behind click-to-load facades with a WhatsApp fallback.
 
 ## Pages
 
