@@ -14,7 +14,11 @@
     var submit = form.querySelector('button[type="submit"]');
     var honeypot = form.querySelector('[name="company_website"]');
     if(honeypot && honeypot.value) return;
-    if(Date.now() - loadedAt < 2000) return;
+    // Must be >= submit-lead.js's time-on-form floor (currently 3000ms). The server
+    // returns a silent HTTP 200 for anything under it — indistinguishable from a real
+    // success — so if this gate ever opens sooner, a genuine fast submit gets shown
+    // "Enquiry received" while the lead is dropped. tests/project-pages.test.mjs pins this.
+    if(Date.now() - loadedAt < 3000) return;
     if(!form.checkValidity()){
       form.reportValidity();
       return;

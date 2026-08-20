@@ -101,6 +101,28 @@ test('project enquiry handler sends the field names submit-lead requires', () =>
   assert.doesNotMatch(handler, /^\s*phone:/m, 'payload sends phone; submit-lead wants mobile_number');
 });
 
+// submit-lead.js silently discards anything under its time-on-form floor — it still
+// returns HTTP 200 (deliberately, so bots can't tell), which project-page-form.js reads
+// as success and shows "Enquiry received." If the shared handler's own client-side gate
+// ever allows a submit sooner than the server's floor, a real visitor who fills the form
+// in that gap gets told they succeeded while the lead is dropped on the floor. Assert the
+// client never opens that window, whatever either threshold is set to.
+test("project-page-form.js never lets a submit through before submit-lead.js's time-on-form floor", () => {
+  const server = read('netlify/functions/submit-lead.js');
+  const serverFloor = server.match(/tOnForm\s*<\s*(\d+)/);
+  assert.ok(serverFloor, 'could not find the server time-on-form floor to compare against');
+
+  const client = read('new-launches/project-page-form.js');
+  const clientGate = client.match(/Date\.now\(\)\s*-\s*loadedAt\s*<\s*(\d+)\)\s*return;/);
+  assert.ok(clientGate, 'could not find the client time-on-form gate');
+
+  assert.ok(
+    Number(clientGate[1]) >= Number(serverFloor[1]),
+    `client allows submit at ${clientGate[1]}ms but the server floor is ${serverFloor[1]}ms — ` +
+      'a real submission in that gap gets shown "Enquiry received" while the lead is silently dropped',
+  );
+});
+
 // Project pages submit through one of two handlers: the shared project-page-form.js,
 // or an inline script on the hand-built pages. Both must satisfy the same contract,
 // so resolve whichever a page uses and assert against that.
