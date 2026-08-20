@@ -2,6 +2,7 @@
 
 import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
+import { consentBannerHtml } from './lib/consent-banner.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -376,6 +377,7 @@ ${contactSection(project)}
 <section class="project-disclaimer"><div class="project-disclaimer-inner"><p>Project information is source-backed and verified as dated above, but remains subject to developer and authority confirmation. “Joe’s Take” was approved by Joe Tay on 2 Aug 2026 and is general commentary, not financial or legal advice.</p></div></section>
 <footer class="nl-footer">\n${siteFooterHtml()}<div class="nl-footer-inner"><p>&copy; 2026 PropertySG · Joe Tay · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · <a href="/privacy-policy.html">Privacy Policy</a></p><p class="creds">CEA Reg. No. R009618D · joe@joetay.com · +65 8188 1488</p></div></footer>
 <script src="/assets/conversion-tracking.js" defer></script>
+${consentBannerHtml()}
 </body>
 </html>
 `;
