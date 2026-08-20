@@ -2055,6 +2055,14 @@ function showFormError(btn,originalHTML){
 }
 
 async function handleFormSubmit(form,data,successTitle,successBody){
+  // Must be >= submit-lead.js's time-on-form floor (currently 3000ms). The server
+  // returns a silent HTTP 200 for anything under it — indistinguishable from a real
+  // success — so with no client-side gate at all, a real visitor whose autofill fills
+  // name+phone in well under a second gets shown success while the lead is dropped.
+  // Covers all four forms routed through this function: hero, valuation popup, exit
+  // popup, footer newsletter. tests/homepage-lead-timing.test.mjs pins this against
+  // the server floor.
+  if(Date.now()-_pageLoadedAt<3000) return;
   const btn=form.querySelector('button[type=submit]');
   const originalHTML=btn.innerHTML;
   btn.disabled=true;
