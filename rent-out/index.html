@@ -340,6 +340,9 @@ function showSuccess(form){
 
 async function handleSubmit(form){
   if(form.company_website.value) return;
+  // The server silently discards submissions below its 3000ms time-on-form floor.
+  // Keep fast/autofilled visitors on the form instead of showing a false success.
+  if(Date.now()-_pageLoadedAt<3000) return;
   if(form.reportValidity && !form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
