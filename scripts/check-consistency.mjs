@@ -69,6 +69,20 @@ const fail = (file, msg) => {
   console.error(`::error file=${file}::${msg}`);
 };
 
+// A forced (301!) redirect source that still has a matching file on disk is dead
+// weight, not a safety net: Netlify's edge applies the redirect before the static
+// file is ever considered, so the file is unreachable in production. It just sits
+// there getting parsed by this very script and can silently go stale. Every other
+// retired URL in _redirects had its file deleted when it was superseded — except
+// new-launches/former-thomson-view.html and former-pastoral-view.html, left behind
+// after their August 2026 renames. Deleted 2026-08-16; this guard stops the next one.
+for (const source of REDIRECTED) {
+  const abs = path.join(ROOT, source);
+  if (fs.existsSync(abs) && fs.statSync(abs).isFile()) {
+    fail(source, 'forced (301!) redirect source still has a physical file on disk — Netlify serves the redirect regardless, so the file is unreachable dead weight; delete it');
+  }
+}
+
 for (const file of pages) {
   const s = fs.readFileSync(file, 'utf8');
   const indexable = !UTILITY.has(file) && !REDIRECTED.has(file);
