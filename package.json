@@ -25,7 +25,7 @@
     "test:stamp-duty": "node --test tests/stamp-duty-rules.test.mjs",
     "test:contrast": "node --test tests/color-contrast.test.mjs",
     "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs",
-    "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs",
+    "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs tests/new-launch-request-type.test.mjs",
     "test:project-pages": "node --test tests/project-pages.test.mjs",
     "test:search-growth": "node --test tests/search-growth-report.test.mjs",
     "generate:estate-pages": "node scripts/generate-estate-pages.mjs",
