@@ -155,6 +155,12 @@ const cases = [
     background: ['.calc-cta', 'background'],
   },
   {
+    name: 'calculator WhatsApp CTA',
+    file: 'calculator/index.html',
+    foreground: ['.calc-cta a.calc-cta-whatsapp', 'color'],
+    background: ['.calc-cta a.calc-cta-whatsapp', 'background'],
+  },
+  {
     name: 'calculator disclaimer',
     file: 'calculator/index.html',
     foreground: ['.calc-disclaimer', 'color'],
@@ -253,6 +259,12 @@ const cases = [
     file: 'insights/blog.css',
     foreground: ['.blog-card .read-more', 'color'],
     background: '#ffffff',
+  },
+  {
+    name: 'insights WhatsApp CTA',
+    file: 'insights/blog.css',
+    foreground: ['.insights-whatsapp-cta', 'color'],
+    background: ['.insights-whatsapp-cta', 'background'],
   },
   {
     name: 'insights footer',

@@ -90,6 +90,10 @@ a:hover{text-decoration:underline}
 .related-posts a{padding:18px 22px;background:#fafafa;border:1px solid #eee;border-radius:10px;text-decoration:none;color:var(--navy);font-size:0.93rem;font-weight:500;transition:background .2s,border-color .2s;line-height:1.4}
 .related-posts a:hover{background:#fff;border-color:rgba(16,185,129,0.3);text-decoration:none}
 
+/* ── Insights index CTA ── */
+.insights-whatsapp-cta{background:#087a3c;color:#fff}
+.insights-whatsapp-cta:hover{background:#06713a;color:#fff;text-decoration:none}
+
 /* ── Blog footer ── */
 .blog-footer{background:var(--cream);border-top:1px solid #eee;padding:36px 24px;text-align:center;font-size:0.82rem;color:#666;line-height:1.6}
 .blog-footer a{color:#555;text-decoration:underline;text-underline-offset:2px}
