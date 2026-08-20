@@ -9,6 +9,7 @@
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
+const { postJson } = require('./lib/lead-webhook');
 
 async function fetchMonth(month) {
   const filters = encodeURIComponent(JSON.stringify({ month }));
@@ -17,6 +18,12 @@ async function fetchMonth(month) {
   const j = await res.json();
   return j.success ? j.result.records : [];
 }
+
+async function deliverAndStamp({ webhookUrl, payload, store, month, fetchImpl = globalThis.fetch }) {
+  await postJson(webhookUrl, payload, fetchImpl);
+  await store.set('_digested', month);
+}
+exports.deliverAndStamp = deliverAndStamp;
 
 exports.handler = async (event) => {
   const blobs = await import('@netlify/blobs');
@@ -75,23 +82,21 @@ exports.handler = async (event) => {
   console.log(`${subs.length} subscriptions, ${matches.length} with activity in ${month}`);
   if (!matches.length) { await store.set('_digested', month); return { statusCode: 200, body: 'no matches' }; }
 
-  if (process.env.LEAD_WEBHOOK_URL) {
-    const lines = matches.map((m) =>
-      `${m.name} (${m.contact}) — Blk ${m.block} ${m.street}: ` +
-      (m.block_sales.length ? `${m.block_sales.length} sale(s) in their block [${m.block_sales.join('; ')}]` : `${m.street_sales_count} sale(s) on their street`)
-    );
-    await fetch(process.env.LEAD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        lead_type: 'price_alert_digest',
-        full_name: `Price-alert digest ${month}`,
-        message: `${matches.length} subscriber(s) to contact:\n` + lines.join('\n'),
-        source_site: 'joetay.com',
-        submitted_at: new Date().toISOString(),
-      }),
-    });
-  }
-  await store.set('_digested', month);
+  const lines = matches.map((m) =>
+    `${m.name} (${m.contact}) — Blk ${m.block} ${m.street}: ` +
+    (m.block_sales.length ? `${m.block_sales.length} sale(s) in their block [${m.block_sales.join('; ')}]` : `${m.street_sales_count} sale(s) on their street`)
+  );
+  await deliverAndStamp({
+    webhookUrl: process.env.LEAD_WEBHOOK_URL,
+    store,
+    month,
+    payload: {
+      lead_type: 'price_alert_digest',
+      full_name: `Price-alert digest ${month}`,
+      message: `${matches.length} subscriber(s) to contact:\n` + lines.join('\n'),
+      source_site: 'joetay.com',
+      submitted_at: new Date().toISOString(),
+    },
+  });
   return { statusCode: 200, body: `digested ${matches.length}` };
 };

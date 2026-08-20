@@ -11,6 +11,7 @@
 // subscription keyed by `${postal}:${sha1(contact)}`.
 
 const crypto = require('crypto');
+const { postJson } = require('./lib/lead-webhook');
 
 function getCorsHeaders(origin) {
   const allowed = (
@@ -36,6 +37,11 @@ function isPlausibleContact(c) {
   const digits = s.replace(/[\s\-+]/g, '');
   return /^\d{8,15}$/.test(digits); // phone
 }
+
+function hasDurableCapture(stored, mirrored) {
+  return Boolean(stored || mirrored);
+}
+exports.hasDurableCapture = hasDurableCapture;
 
 exports.handler = async (event) => {
   const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
@@ -64,10 +70,10 @@ exports.handler = async (event) => {
   // Blobs under the legacy (Lambda-compatible) function signature needs the
   // environment hydrated from the event via connectLambda() before getStore()
   // — without it, getStore throws MissingBlobsEnvironmentError and every
-  // valid subscription 500s. If Blobs still fails, we fall through: the
-  // webhook mirror below is the durability path, so the subscriber is never
-  // lost — they just miss automated digest matching until re-added.
+  // valid subscription 500s. If Blobs still fails, the webhook mirror below
+  // is the fallback capture path. We report success only after one path confirms.
   let store = null;
+  let stored = false;
   try {
     const blobs = await import('@netlify/blobs');
     if (typeof blobs.connectLambda === 'function') blobs.connectLambda(event);
@@ -93,26 +99,32 @@ exports.handler = async (event) => {
         created_at: new Date().toISOString(),
         source: 'neighbour-prices',
       });
+      stored = true;
     } catch (e) {
       console.error('Blobs write failed, relying on webhook mirror:', e.message);
     }
   }
 
   // Mirror into Joe's lead pipeline so the subscription is also a soft lead.
-  if (process.env.LEAD_WEBHOOK_URL) {
-    try {
-      await fetch(process.env.LEAD_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lead_type: 'price_alert_subscription',
-          full_name: name, mobile_number: contact,
-          postal_code: postal, block, street_name: street, town,
-          source_site: 'joetay.com', landing_page: '/neighbour-prices/',
-          submitted_at: new Date().toISOString(),
-        }),
-      });
-    } catch (e) { console.warn('lead webhook mirror failed:', e.message); }
+  let mirrored = false;
+  try {
+    await postJson(process.env.LEAD_WEBHOOK_URL, {
+      lead_type: 'price_alert_subscription',
+      full_name: name, mobile_number: contact,
+      postal_code: postal, block, street_name: street, town,
+      source_site: 'joetay.com', landing_page: '/neighbour-prices/',
+      submitted_at: new Date().toISOString(),
+    });
+    mirrored = true;
+  } catch (e) {
+    console.warn('lead webhook mirror failed:', e.message);
+  }
+
+  if (!hasDurableCapture(stored, mirrored)) {
+    return okJson(corsHeaders, 502, {
+      ok: false,
+      error: 'I could not save your alert right now. Please try again or WhatsApp Joe directly.',
+    });
   }
 
   return okJson(corsHeaders, 200, { ok: true });
