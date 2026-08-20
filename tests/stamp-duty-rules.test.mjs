@@ -41,6 +41,12 @@ const ABSD_RATES = {
   EN: { 1: 0.65, 2: 0.65, 3: 0.65 },
 };
 
+function pageRoundDuty() {
+  const source = html.match(/function roundDuty\(amount\) \{[\s\S]*?\n\}/);
+  assert.ok(source, 'stamp-duty calculator has no IRAS round-down function');
+  return Function(`"use strict"; ${source[0]}; return roundDuty;`)();
+}
+
 test('the BSD tier table in the page source matches the IRAS schedule (effective 15 Feb 2023)', () => {
   assert.match(html, /\{ upTo: 180000, rate: 0\.01 \}/);
   assert.match(html, /\{ upTo: 360000, rate: 0\.02 \}/);
@@ -90,4 +96,22 @@ test('a foreigner pays the flat 60% ABSD rate on top of BSD regardless of proper
   const totalAsThird = calcBSD(price) + price * ABSD_RATES.FR[3];
   assert.equal(totalAsFirst, totalAsThird);
   assert.equal(totalAsFirst, calcBSD(price) + 1200000);
+});
+
+test('BSD and ABSD are rounded down separately with the IRAS $1 minimum', () => {
+  const roundDuty = pageRoundDuty();
+  assert.equal(roundDuty(0), 0);
+  assert.equal(roundDuty(0.01), 1);
+  assert.equal(roundDuty(1.99), 1);
+
+  const price = 999999;
+  const bsd = roundDuty(calcBSD(price));
+  const absd = roundDuty(price * ABSD_RATES.PR[1]);
+  assert.equal(bsd, 24599);
+  assert.equal(absd, 49999);
+  assert.equal(bsd + absd, 74598);
+
+  assert.match(html, /const bsd = roundDuty\(calcBSD\(price\)\);/);
+  assert.match(html, /const absd = roundDuty\(price \* absdRate\);/);
+  assert.match(html, /const total = bsd \+ absd;/);
 });

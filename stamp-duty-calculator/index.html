@@ -323,7 +323,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </main>
 
 <div class="calc-disclaimer">
-  <p><strong>Estimates only, rounded to the nearest dollar.</strong> BSD uses IRAS's tiered residential schedule (1%–6%, in effect since 15 Feb 2023). ABSD uses IRAS's rate table by buyer profile and property count (in effect since 27 Apr 2023, unchanged as of 2026). This tool does not account for remissions — including spousal transfers, the ABSD refund on selling your existing HDB within 6 months of a new purchase, or the Free Trade Agreement treatment that lets US, Iceland, Liechtenstein, Norway and Switzerland nationals pay Citizen-rate ABSD — nor Seller's Stamp Duty or Additional Conveyance Duties for entities. Verify your final figure at <a href="https://www.iras.gov.sg/quick-links/tax-rates/stamp-duty" target="_blank" rel="noopener">iras.gov.sg</a> or with me before making an offer.</p>
+  <p><strong>Estimates only. BSD and ABSD are each rounded down to the nearest dollar, subject to IRAS's $1 minimum duty.</strong> BSD uses IRAS's tiered residential schedule (1%–6%, in effect since 15 Feb 2023). ABSD uses IRAS's rate table by buyer profile and property count (in effect since 27 Apr 2023, unchanged as of 2026). This tool does not account for remissions — including spousal transfers, the ABSD refund on selling your existing HDB within 6 months of a new purchase, or the Free Trade Agreement treatment that lets US, Iceland, Liechtenstein, Norway and Switzerland nationals pay Citizen-rate ABSD — nor Seller's Stamp Duty or Additional Conveyance Duties for entities. Verify your final figure at <a href="https://www.iras.gov.sg/quick-links/tax-rates/stamp-duty" target="_blank" rel="noopener">iras.gov.sg</a> or with me before making an offer.</p>
 </div>
 
 <div class="calc-faq">
@@ -429,6 +429,11 @@ function calcBSD(price) {
   return duty;
 }
 
+function roundDuty(amount) {
+  if (!Number.isFinite(amount) || amount <= 0) return 0;
+  return Math.max(1, Math.floor(amount));
+}
+
 // [profile][count] -> ABSD rate. Foreigner and entity rates are flat
 // regardless of count (index 1 is reused for 2/3 in the UI).
 const ABSD_RATES = {
@@ -455,9 +460,9 @@ function recalc() {
   const countGroup = document.getElementById('countGroup');
   countGroup.classList.toggle('disabled', profile === 'FR' || profile === 'EN');
 
-  const bsd = calcBSD(price);
+  const bsd = roundDuty(calcBSD(price));
   const absdRate = ABSD_RATES[profile][count];
-  const absd = price * absdRate;
+  const absd = roundDuty(price * absdRate);
   const total = bsd + absd;
 
   document.getElementById('bsdValue').textContent = fmt(bsd);
