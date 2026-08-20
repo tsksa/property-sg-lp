@@ -63,6 +63,8 @@ const pages = [];
   }
 })(ROOT);
 
+const INSIGHT_ARTICLES = pages.filter((f) => f.startsWith('insights/') && f !== 'insights/index.html');
+
 let failures = 0;
 const fail = (file, msg) => {
   failures++;
@@ -273,6 +275,22 @@ for (const file of pages) {
       fail(file, 'estate page header is missing the shared nav (no above-the-fold conversion path)');
     } else if (!headerBlock.includes('href="/valuation.html"')) {
       fail(file, 'estate page header nav has no /valuation.html CTA');
+    }
+  }
+
+  // ── Insights cross-linking ──
+  // The 4 long-form articles target informational search queries and should
+  // link to every sibling, not just whichever
+  // ones existed when each article shipped. Audited 2026-08-16: 3 of 4 articles
+  // linked to only 1-2 of their 3 possible siblings, so property-agent-
+  // commission-singapore.html got zero inbound link equity from the cluster.
+  if (INSIGHT_ARTICLES.includes(file)) {
+    const selfName = path.basename(file);
+    const missing = INSIGHT_ARTICLES
+      .map((f) => path.basename(f))
+      .filter((name) => name !== selfName && !s.includes(`href="${name}"`));
+    if (missing.length) {
+      fail(file, `insights article missing cross-link(s) to sibling article(s): ${missing.join(', ')}`);
     }
   }
 }
