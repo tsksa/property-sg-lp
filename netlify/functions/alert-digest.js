@@ -25,6 +25,33 @@ async function deliverAndStamp({ webhookUrl, payload, store, month, fetchImpl = 
 }
 exports.deliverAndStamp = deliverAndStamp;
 
+// Candidate months to check for the digest, newest-first, always excluding the
+// current calendar month. data.gov.sg's HDB resale dataset adds records for
+// the in-progress month incrementally (not in one batch at month-end), so a
+// "does this month have ANY records yet" check — which is what the loop below
+// used to be — can match a still-partial current month. That mislabels an
+// in-progress month as final: it gets stamped into `_digested` immediately,
+// so any transaction added to that same month afterward (the vast majority —
+// most of the month hadn't happened yet) is never checked again by a later
+// run, silently dropping the alert for that subscriber.
+//
+// This is the identical bug class the estate pages hit and fixed — see
+// scripts/lib/estate-windows.mjs ("the current, always-partial calendar month
+// is never the reported month"). Structurally excluding month 0 here (rather
+// than relying on it happening to have zero records) closes it the same way.
+function digestCandidateMonths(now = new Date(), lookback = 3) {
+  const d = new Date(now);
+  d.setDate(1);
+  d.setMonth(d.getMonth() - 1); // skip the current, always-partial month
+  const out = [];
+  for (let i = 0; i < lookback; i += 1) {
+    out.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+    d.setMonth(d.getMonth() - 1);
+  }
+  return out;
+}
+exports.digestCandidateMonths = digestCandidateMonths;
+
 exports.handler = async (event) => {
   const blobs = await import('@netlify/blobs');
   // Hydrate Blobs env under the legacy function signature (see subscribe-alert.js).
@@ -42,13 +69,11 @@ exports.handler = async (event) => {
   }
   if (!subs.length) { console.log('No subscriptions.'); return { statusCode: 200, body: 'no subs' }; }
 
-  // Latest month with data (walk back up to 3 months for publication lag).
-  const d = new Date(); d.setDate(1);
+  // Latest complete month with data (walk back up to 3 months for publication lag).
   let month = null, recs = [];
-  for (let i = 0; i < 3 && !recs.length; i++) {
-    month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-    recs = await fetchMonth(month);
-    d.setMonth(d.getMonth() - 1);
+  for (const candidate of digestCandidateMonths()) {
+    recs = await fetchMonth(candidate);
+    if (recs.length) { month = candidate; break; }
   }
   if (!recs.length) { console.log('No recent data.'); return { statusCode: 200, body: 'no data' }; }
 
