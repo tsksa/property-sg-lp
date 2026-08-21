@@ -23,8 +23,8 @@
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     # Report-only CSP (ARCHITECTURE.md "parked" proposal, promoted to shipped).
     # Enumerated from every external host the site actually loads (fonts,
-    # GA4, Meta Pixel, reCAPTCHA, Calendly, data.gov.sg/OneMap, the Matterport/
-    # Tubear/Synology-NAS virtual tours, unpkg for /autopilot/). Report-only —
+    # GA4, Meta Pixel, reCAPTCHA, Calendly, data.gov.sg/OneMap, and the
+    # Matterport/Tubear/Synology-NAS virtual tours). Report-only —
     # nothing is blocked yet, so this ships with zero breakage risk. It still
     # earns its keep today: it's the one directive class report-only can't
     # relax — 'unsafe-inline' covers this build-less site's many inline
@@ -32,7 +32,7 @@
     # is not in any allow-listed origin below and would still be reported.
     # A future enforcing pass needs a report-to endpoint and a burn-in period
     # to confirm no allow-listed origin was missed.
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://www.google.com https://www.gstatic.com https://assets.calendly.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com https://data.gov.sg https://www.onemap.gov.sg https://www.google.com; frame-src https://calendly.com https://my.matterport.com https://tubear.co https://*.synology.me https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'"
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://www.google.com https://www.gstatic.com https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com https://data.gov.sg https://www.onemap.gov.sg https://www.google.com; frame-src https://calendly.com https://my.matterport.com https://tubear.co https://*.synology.me https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'"
 
 [[headers]]
   for = "/*.jpg"

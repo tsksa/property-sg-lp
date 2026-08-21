@@ -24,7 +24,7 @@ const SECTIONS = [
   ['New launch projects', (p) => p.startsWith('new-launches/')],
   ['Guides and insights', (p) => p.startsWith('insights/')],
   ['Tools', (p) => ['valuation.html', 'calculator/', 'stamp-duty-calculator/', 'neighbour-prices/', 'glossary/'].includes(p)],
-  ['Services', (p) => ['sell/', 'rent-out/', 'agents/'].includes(p)],
+  ['Services', (p) => ['sell/', 'rent-out/', 'about-joe/'].includes(p)],
 ];
 
 const urls = [...fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)]
