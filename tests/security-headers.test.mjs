@@ -36,7 +36,6 @@ test('the site-wide header block ships a report-only CSP', () => {
     ['script-src', 'https://www.googletagmanager.com'], // GA4
     ['script-src', 'https://connect.facebook.net'], // Meta Pixel
     ['script-src', 'https://assets.calendly.com'], // Calendly inline widget
-    ['script-src', 'https://unpkg.com'], // /autopilot/ (lucide icons)
     ['style-src', 'https://fonts.googleapis.com'],
     ['font-src', 'https://fonts.gstatic.com'],
     ['connect-src', 'https://data.gov.sg'], // /neighbour-prices/, /hdb-prices/ live queries

@@ -24,6 +24,7 @@ const LINK_GROUPS = [
     ['/calculator/', 'Affordability calculator'],
   ]],
   ['Browse', [
+    ['/about-joe/', 'About Joe'],
     ['/new-launches/', 'New launches'],
     ['/insights/', 'Guides & insights'],
     ['/glossary/', 'Property glossary'],

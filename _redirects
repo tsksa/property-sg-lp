@@ -2,6 +2,13 @@
 /projects /new-launches/ 301!
 /projects/ /new-launches/ 301!
 
+# These unrelated legacy surfaces were published here by mistake. Keep old links
+# useful while consolidating joetay.com around Joe Tay's professional identity.
+/agents /about-joe/ 301!
+/agents/ /about-joe/ 301!
+/autopilot /calculator/ 301!
+/autopilot/ /calculator/ 301!
+
 # Former Thomson View is superseded by the verified Thomson Reserve record.
 /new-launches/former-thomson-view.html /new-launches/thomson-reserve.html 301!
 
