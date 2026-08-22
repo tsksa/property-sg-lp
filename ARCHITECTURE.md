@@ -20,7 +20,7 @@ Browser ──► Netlify CDN ── 74 static HTML pages (no build step; publis
 
 - **Lead capture is the business.** Everything else exists to route people to a form, WhatsApp, or a call.
 - CORS on the function is pinned to `joetay.com`, `www`, and `*--propertysg78.netlify.app` (deploy previews). Disallowed origins get `null`.
-- Third-party runtime deps: Google Fonts, GA4 (`GT-KVFDZD5V`), Meta pixel (`3279494272146114`). The pixel's `init`/`track` calls are consent-gated on `_pdpaDeclined` and deferred to idle; reCAPTCHA loads on first form interaction. **Caveat (audited 2026-08-14): both loaders still fetch unconditionally — `gtag.js` and `fbevents.js` download even when consent is declined, so GA4 is opt-out rather than gated. Moving the loaders behind consent is open work.** OneMap API for postal lookup. An external Synology NAS streams the Newport 360° tours behind click-to-load facades with a WhatsApp fallback.
+- Third-party runtime deps: Google Fonts, GA4 (`GT-KVFDZD5V`), Meta pixel (`3279494272146114`). Both the `gtag.js` and `fbevents.js` script tags are only created when `_pdpaDeclined` is falsy (verified 2026-08-15 across all 73 pages carrying a tracker), and the pixel's `init`/`track` calls are additionally consent-gated and deferred to idle; reCAPTCHA loads on first form interaction. OneMap API for postal lookup. An external Synology NAS streams the Newport 360° tours behind click-to-load facades with a WhatsApp fallback.
 
 ## Pages
 
