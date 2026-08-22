@@ -289,18 +289,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:var(--emerald);color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px}
 
-/* ── Nav ── */
-nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
-nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
-nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:#666}
-nav .nav-links a:hover{color:#111}
+/* ── Primary navigation ── */
+.site-nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(6,20,48,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.site-nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px;color:#fff}
+.site-nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:rgba(255,255,255,.76)}
+.site-nav .nav-links a:hover{color:#fff}
 .nav-burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:none;cursor:pointer;padding:0;margin-left:8px}
-.nav-burger span{display:block;width:20px;height:2px;background:#111;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
+.nav-burger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
 .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav-burger.open span:nth-child(2){opacity:0}
 .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-nav .nav-cta{background:var(--navy);color:#fff;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:600;transition:all .25s}
-nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
+.site-nav .nav-cta{background:var(--emerald);color:#062d24;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:700;transition:all .25s}
+.site-nav .nav-cta:hover{background:#6ee7b7;transform:scale(1.02)}
 
 /* ── Hero ── */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:128px 32px 88px;position:relative;overflow:hidden}
@@ -325,6 +325,11 @@ nav .nav-cta:hover{background:var(--emerald);transform:scale(1.02)}
 .hero-form select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-opacity='0.65' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
 .hero-form select option{background:#222;color:#fff}
 .hero-form input:focus,.hero-form select:focus{border-color:rgba(255,255,255,0.4)}
+.hero-field{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}
+.hero-field-error{color:#fecaca;font-size:.75rem;line-height:1.35;text-align:left}
+.hero-form [aria-invalid="true"]{border-color:#fca5a5;box-shadow:0 0 0 1px rgba(252,165,165,.35)}
+.hero-validation-summary{background:rgba(127,29,29,.34);border:1px solid rgba(252,165,165,.55);border-radius:8px;color:#fee2e2;font-size:.8rem;line-height:1.45;padding:9px 12px;text-align:left}
+.hero-validation-summary[hidden],.hero-field-error[hidden]{display:none}
 .hero-form .cta-submit{width:100%;padding:14px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(16,185,129,0.35)}
 .hero-form .cta-submit:hover{background:var(--emerald-dark);transform:translateY(-1px);box-shadow:0 6px 24px rgba(16,185,129,0.45)}
 .hero-form .arrow{transition:transform .25s}
@@ -569,10 +574,10 @@ footer{background:var(--cream);border-top:1px solid #eee;padding:40px 48px;displ
 
 /* ── Dark Mode (brand-aligned navy + emerald) ── */
 body.dark-mode{background:#030a1a;color:#e8ecf3}
-body.dark-mode nav{background:rgba(6,20,48,0.88);border-bottom-color:rgba(16,185,129,0.14)}
-body.dark-mode nav .logo{color:#fff}
-body.dark-mode nav .nav-links{color:rgba(232,236,243,0.7)}
-body.dark-mode nav .nav-links a:hover{color:var(--emerald)}
+body.dark-mode .site-nav{background:rgba(6,20,48,0.94);border-bottom-color:rgba(16,185,129,0.14)}
+body.dark-mode .site-nav .logo{color:#fff}
+body.dark-mode .site-nav .nav-links{color:rgba(232,236,243,0.7)}
+body.dark-mode .site-nav .nav-links a:hover{color:var(--emerald)}
 body.dark-mode .nav-burger span{background:#e8ecf3}
 body.dark-mode .logo-bar{background:var(--navy);border-bottom-color:rgba(255,255,255,0.05)}
 body.dark-mode .logo-bar p{color:rgba(232,236,243,0.45)}
@@ -799,9 +804,7 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 @media(max-width:768px){.cookie-banner{top:calc(72px + env(safe-area-inset-top));bottom:auto;left:12px;width:calc(100% - 24px);transform:none;flex-direction:column;align-items:stretch;text-align:left;padding:13px 14px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.4}.cookie-actions{display:grid;grid-template-columns:1fr 1fr}.cookie-banner button{width:100%;min-height:44px;padding:9px 12px;font-size:0.8rem}}
 
 /* ── Hero: secondary valuation CTA link + OR divider ── */
-.hero-or-divider{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.5);font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 4px;user-select:none}
-.hero-or-divider::before,.hero-or-divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.18)}
-.hero-valuation-link{display:inline-flex;align-items:center;gap:6px;margin-top:2px;color:rgba(255,255,255,0.95);font-size:0.92rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(16,185,129,0.55);padding:10px 0 8px;min-height:44px;transition:color .2s,border-color .2s;background:transparent;border-left:none;border-right:none;border-top:none;cursor:pointer;font-family:inherit;align-self:center}
+.hero-valuation-link{display:inline-flex;align-items:center;gap:6px;margin-top:2px;color:rgba(255,255,255,.72);font-size:.82rem;font-weight:500;text-decoration:none;border:0;padding:7px 0;min-height:40px;transition:color .2s;background:transparent;cursor:pointer;font-family:inherit;align-self:center}
 .hero-valuation-link:hover{color:var(--emerald);border-bottom-color:var(--emerald)}
 .hero-valuation-link .arrow-sm{transition:transform .2s;display:inline-block}
 .hero-valuation-link:hover .arrow-sm{transform:translateX(3px)}
@@ -852,18 +855,15 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .hero-form{margin:0 auto}
 }
 @media(max-width:768px){
-  nav{padding:0 20px}
+  .site-nav{padding:0 20px}
   .nav-burger{display:flex}
-  nav .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.08);box-shadow:0 16px 40px rgba(0,0,0,0.08)}
-  nav .nav-links.open{display:flex}
-  nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(0,0,0,0.05);font-size:0.95rem}
-  nav .nav-links a:last-child{border-bottom:none}
-  nav .nav-links .dark-toggle{position:static;width:100%;height:44px;justify-content:flex-start;gap:10px;border:0;border-radius:0;border-top:1px solid rgba(0,0,0,.06);background:transparent;box-shadow:none;font-size:.95rem;color:#111}
-  nav .nav-links .dark-toggle:hover{transform:none;color:var(--emerald)}
-  nav .nav-links .dark-toggle-label{display:inline;font-size:.82rem;font-weight:600}
-  body.dark-mode nav .nav-links{background:rgba(6,20,48,0.97);border-bottom-color:rgba(16,185,129,0.14)}
-  body.dark-mode nav .nav-links a{border-bottom-color:rgba(255,255,255,0.06)}
-  body.dark-mode nav .nav-links .dark-toggle{background:transparent;border-top-color:rgba(255,255,255,.06);color:#fff}
+  .site-nav .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:rgba(6,20,48,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+  .site-nav .nav-links.open{display:flex}
+  .site-nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.08);font-size:0.95rem;color:rgba(255,255,255,.88)}
+  .site-nav .nav-links a:last-child{border-bottom:none}
+  .site-nav .nav-links .dark-toggle{position:static;width:100%;height:44px;justify-content:flex-start;gap:10px;border:0;border-radius:0;border-top:1px solid rgba(255,255,255,.08);background:transparent;box-shadow:none;font-size:.95rem;color:#fff}
+  .site-nav .nav-links .dark-toggle:hover{transform:none;color:var(--emerald)}
+  .site-nav .nav-links .dark-toggle-label{display:inline;font-size:.82rem;font-weight:600}
   /* 92px still leaves 25px of clear space below the 67px-tall fixed nav; the
      reclaimed 12px is what brings the submit button clear of the sticky call bar. */
   .hero{padding:92px 20px 72px;min-height:100svh}
@@ -915,11 +915,11 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 @media(max-width:768px){.scroll-hint{display:none}}
 
 /* — Nav logomark dot + scroll intensify — */
-nav .logo{display:inline-flex;align-items:center;gap:10px}
-nav .logo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5);animation:logoPulse 2.6s ease-in-out infinite}
+.site-nav .logo{display:inline-flex;align-items:center;gap:10px}
+.site-nav .logo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5);animation:logoPulse 2.6s ease-in-out infinite}
 @keyframes logoPulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5)}50%{box-shadow:0 0 0 5px rgba(16,185,129,0.10),0 0 20px rgba(16,185,129,0.75)}}
-nav.scrolled{background:rgba(255,255,255,0.96);box-shadow:0 1px 20px rgba(11,30,63,0.08);height:60px}
-body.dark-mode nav.scrolled{background:rgba(6,20,48,0.96);box-shadow:0 1px 20px rgba(0,0,0,0.4)}
+.site-nav.scrolled{background:rgba(6,20,48,.98);box-shadow:0 1px 20px rgba(0,0,0,.28);height:60px}
+body.dark-mode .site-nav.scrolled{background:rgba(6,20,48,0.98);box-shadow:0 1px 20px rgba(0,0,0,0.4)}
 
 /* — Trust strip: pulsing dots — */
 .trust-dot{animation:dotPulse 2s ease-in-out infinite}
@@ -998,7 +998,7 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 
 /* Nav — phone + CTA group */
 .nav-right{display:flex;align-items:center;gap:18px}
-.nav-phone{display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;color:#111;transition:color .2s;letter-spacing:-0.1px}
+.nav-phone{display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,.86);transition:color .2s;letter-spacing:-0.1px}
 .nav-phone:hover{color:var(--emerald)}
 .nav-phone svg{width:13px;height:13px;fill:var(--emerald);flex-shrink:0}
 body.dark-mode .nav-phone{color:#fff}
@@ -1143,8 +1143,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
-<nav aria-label="Primary">
-  <div class="logo">PropertySG</div>
+<nav class="site-nav" aria-label="Primary">
+  <a class="logo" href="/" aria-label="PropertySG home">PropertySG</a>
   <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
@@ -1163,7 +1163,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
       +65 8188 1488
     </a>
-    <a href="#book" class="nav-cta">Book a Call</a>
+    <a href="#book" class="nav-cta">Sell with Joe</a>
   </div>
 </nav>
 </header>
@@ -1184,26 +1184,36 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <cite>Mr Ng · HDB Seller, Serangoon North · Verified</cite>
       </div>
     </div>
-    <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle">
+    <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle" novalidate>
       <h2 id="heroFormTitle" class="hero-form-heading">Plan your next property move</h2>
       <p class="hero-form-intro">Tell me where you are now. I’ll reply personally with a practical next step.</p>
       <div class="hero-form-row">
-        <label for="hero-name" class="sr-only">Your name</label>
-        <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words">
-        <label for="hero-phone" class="sr-only">Phone number</label>
-        <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off">
+        <div class="hero-field">
+          <label for="hero-name" class="sr-only">Your name</label>
+          <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words" aria-describedby="hero-name-error">
+          <p class="hero-field-error" id="hero-name-error" hidden>Please enter your name.</p>
+        </div>
+        <div class="hero-field">
+          <label for="hero-phone" class="sr-only">Phone number</label>
+          <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off" aria-describedby="hero-phone-error">
+          <p class="hero-field-error" id="hero-phone-error" hidden>Enter an 8-digit Singapore phone number starting with 6, 8, or 9.</p>
+        </div>
       </div>
       <div class="hero-form-row">
-        <label for="hero-proptype" class="sr-only">Property type</label>
-        <select id="hero-proptype" name="propType" required>
-          <option value="" disabled selected>Property type</option>
-          <option>HDB</option>
-          <option>Condo</option>
-          <option>Landed</option>
-          <option>Commercial</option>
-        </select>
+        <div class="hero-field">
+          <label for="hero-proptype" class="sr-only">Property type</label>
+          <select id="hero-proptype" name="propType" required aria-describedby="hero-proptype-error">
+            <option value="" disabled selected>Property type</option>
+            <option>HDB</option>
+            <option>Condo</option>
+            <option>Landed</option>
+            <option>Commercial</option>
+          </select>
+          <p class="hero-field-error" id="hero-proptype-error" hidden>Select your property type.</p>
+        </div>
       </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
+      <div class="hero-validation-summary" id="heroValidation" role="alert" aria-live="assertive" tabindex="-1" hidden>Please correct the highlighted fields.</div>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <noscript>
         <div style="margin-top:14px;padding:12px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:8px;font-size:0.86rem;color:rgba(255,255,255,0.92);line-height:1.5">
@@ -1214,8 +1224,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         </div>
       </noscript>
       <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
-      <div class="hero-or-divider" aria-hidden="true"><span>or</span></div>
-      <button type="button" class="hero-valuation-link" id="heroValuationLink">Get a free valuation in 24h <span class="arrow-sm" aria-hidden="true">→</span></button>
+      <button type="button" class="hero-valuation-link" id="heroValuationLink">Need a price estimate instead? Get a free valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
       <p class="hero-form-note">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
     </form>
   </div>
@@ -2078,9 +2087,39 @@ async function handleFormSubmit(form,data,successTitle,successBody){
 }
 
 // ── Hero form ──
-document.getElementById('heroForm').addEventListener('submit',e=>{
+const heroForm=document.getElementById('heroForm');
+const heroValidation=document.getElementById('heroValidation');
+const heroValidationFields=[
+  {field:heroForm.elements.name,error:document.getElementById('hero-name-error'),valid:field=>field.value.trim().length>0},
+  {field:heroForm.elements.phone,error:document.getElementById('hero-phone-error'),valid:field=>field.value.trim().length>0&&field.validity.valid},
+  {field:heroForm.elements.propType,error:document.getElementById('hero-proptype-error'),valid:field=>field.value.length>0}
+];
+
+function renderHeroValidation(focusFirst=false){
+  const invalid=[];
+  for(const item of heroValidationFields){
+    const valid=item.valid(item.field);
+    item.field.setAttribute('aria-invalid',valid?'false':'true');
+    item.error.hidden=valid;
+    if(!valid)invalid.push(item.field);
+  }
+  heroValidation.hidden=invalid.length<2;
+  if(focusFirst&&invalid[0])invalid[0].focus();
+  return invalid.length===0;
+}
+
+for(const {field} of heroValidationFields){
+  const eventName=field.tagName==='SELECT'?'change':'input';
+  field.addEventListener(eventName,()=>{
+    if(heroForm.dataset.validationAttempted==='true')renderHeroValidation();
+  });
+}
+
+heroForm.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
+  heroForm.dataset.validationAttempted='true';
+  if(!renderHeroValidation(true))return;
   handleFormSubmit(f,{
     lead_type:'consultation',
     full_name:f.name.value.trim(),
@@ -2327,11 +2366,11 @@ if(navBurger&&navLinksEl){
   navBurger.addEventListener('click',()=>setNav(!navLinksEl.classList.contains('open')));
   navLinksEl.addEventListener('click',e=>{if(e.target.tagName==='A')setNav(false);});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navLinksEl.classList.contains('open'))setNav(false);});
-  document.addEventListener('click',e=>{if(navLinksEl.classList.contains('open')&&!e.target.closest('nav'))setNav(false);});
+  document.addEventListener('click',e=>{if(navLinksEl.classList.contains('open')&&!e.target.closest('.site-nav'))setNav(false);});
 }
 
 // Progress bar + nav intensify
-const _nav=document.querySelector('nav');
+const _nav=document.querySelector('.site-nav');
 const _backToTop=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-window.innerHeight;
