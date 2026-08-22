@@ -175,12 +175,33 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="topbar">
+<header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="logo">PropertySG</a>
-    <a href="/" class="back">← Back to home</a>
+    <nav class="jt-hn" data-jt-header-nav aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/hdb-prices/">HDB Prices</a>
+      <a href="/insights/">Insights</a>
+      <a class="jt-hn-cta" href="/valuation.html">Free Valuation</a>
+    </nav><style>
+.jt-hn{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
+.jt-hn a{color:#d8e2f0;font-size:.88rem;font-weight:500;text-decoration:none;white-space:nowrap}
+.jt-hn a:hover{color:#fff;text-decoration:underline}
+.jt-hn a.jt-hn-cta{background:#10b981;color:#04231a;font-weight:700;padding:10px 16px;border-radius:8px;display:inline-flex;align-items:center}
+.jt-hn a.jt-hn-cta:hover{background:#34d399;color:#04231a;text-decoration:none}
+/* On phones the plain links are dropped and only the CTA is kept, so the header
+   stays a single row instead of wrapping under the logo. Nothing is lost: the
+   logo already links home, and the breadcrumb trail immediately below the header
+   carries both "Home" and "HDB Prices by Town". WCAG 2.5.5: the CTA keeps a full
+   44px touch height. */
+@media(max-width:600px){
+.jt-hn{gap:14px}
+.jt-hn a:not(.jt-hn-cta){display:none}
+.jt-hn a.jt-hn-cta{min-height:44px;padding:10px 15px}
+}
+</style>
   </div>
-</div>
+</header>
 
 <main id="main" tabindex="-1">
   <span class="np-eyebrow">Free · Official HDB data · No sign-up</span>
