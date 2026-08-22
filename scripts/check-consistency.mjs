@@ -37,6 +37,23 @@ const REQUIRES_WHATSAPP_CTA = new Set([
 // an assertion it drifted to 28 over-length pages before anyone noticed.
 const DESCRIPTION_MAX = 160;
 
+// og:image hotlinked from a third party is a silent single point of failure: if the
+// host blocks hotlinking, deletes the file, or reorganises its paths, the social
+// preview breaks with nothing in our own CI to catch it. Found live 2026-08-17: 6
+// new-launch pages hotlink their og:image straight from img.singmap.com (a broker
+// CDN, not ours). Self-hosting all 6 needs network access to img.singmap.com, which
+// this guard's own CI environment doesn't have reason to require — so instead of
+// silently passing, the current 6 are a named, shrinking exception. Delete a file's
+// entry here in the same commit its og:image moves to /new-launches/img/ (JOE-289).
+const KNOWN_HOTLINKED_OG_IMAGES = new Set([
+  'new-launches/river-modern.html',
+  'new-launches/narra-residences.html',
+  'new-launches/vela-bay.html',
+  'new-launches/newport-residences.html',
+  'new-launches/dunearn-house.html',
+  'new-launches/former-thomson-view.html',
+]);
+
 // Pages behind a forced 301 in _redirects never reach a crawler — Netlify serves the
 // redirect instead of the file. Reading the set from _redirects keeps this in step
 // with the redirect table instead of hardcoding a list that goes stale.
@@ -217,6 +234,11 @@ for (const file of pages) {
     const apex = 'https://joetay.com/';
     if (img.startsWith(apex) && !fs.existsSync(img.slice(apex.length))) {
       fail(file, `og:image does not resolve to a file at that path: ${img}`);
+    }
+    if (!img.startsWith(apex) && !KNOWN_HOTLINKED_OG_IMAGES.has(file)) {
+      fail(file, `og:image is hotlinked from a third party instead of self-hosted: ${img}`);
+    } else if (img.startsWith(apex) && KNOWN_HOTLINKED_OG_IMAGES.has(file)) {
+      fail(file, `${file} is listed in KNOWN_HOTLINKED_OG_IMAGES but its og:image is now apex-hosted — remove the stale exception`);
     }
   }
   if (!s.includes('name="twitter:card"')) fail(file, 'missing twitter:card');
