@@ -256,6 +256,7 @@ function factsheetSection(project) {
         </div>
       </div>
       <div class="project-market-callout"><strong>${esc(marketCopy(project))}</strong><span>Dynamic figures are shown only when verified within ${data.dynamicFreshnessDays} days of the ${esc(formatDate(data.inventoryAsOf))} inventory.</span></div>
+      <p class="project-factsheet-cta">Budgeting for ${esc(project.name)}? Work out the <a href="/stamp-duty-calculator/">BSD and ABSD stamp duty</a> on top of your purchase price before you commit.</p>
       <p class="project-factsheet-note">${esc(verificationNote)}</p>
       ${sourceSection(project)}
     </div>

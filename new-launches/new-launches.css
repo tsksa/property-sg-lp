@@ -267,6 +267,8 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-key{font-size:0.72rem;font-weight:700;color:var(--ink-muted);letter-spacing:1px;text-transform:uppercase}
 .project-factsheet-val{font-size:0.94rem;font-weight:600;color:var(--navy);line-height:1.4}
 .project-factsheet-val .muted{color:var(--ink-muted);font-weight:500}
+.project-factsheet-cta{font-size:0.86rem;color:var(--navy);margin-top:20px;line-height:1.55}
+.project-factsheet-cta a{color:var(--emerald-dark);font-weight:600;text-decoration:underline}
 .project-factsheet-note{font-size:0.8rem;color:var(--ink-muted);margin-top:20px;line-height:1.55;font-style:italic;padding-top:20px;border-top:1px solid rgba(11,30,63,0.08)}
 .project-market-callout{display:flex;flex-direction:column;gap:4px;margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(16,185,129,.08);color:var(--navy)}
 .project-market-callout span{font-size:.78rem;color:var(--ink-soft)}
