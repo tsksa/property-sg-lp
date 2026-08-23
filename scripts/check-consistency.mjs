@@ -11,6 +11,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { findMissingSitemapEntries } from './lib/sitemap-completeness.mjs';
+
 const ROOT = process.cwd();
 const GA_ID = 'GT-KVFDZD5V';
 const PIXEL_ID = '3279494272146114';
@@ -55,7 +57,7 @@ const pages = [];
     const p = path.join(dir, e.name);
     const rel = path.relative(ROOT, p);
     if (e.isDirectory()) {
-      if (['node_modules', '.git', '.github', '.gstack', 'scripts', 'ops'].includes(e.name)) continue;
+      if (['node_modules', '.git', '.github', '.claude', '.gstack', 'scripts', 'ops'].includes(e.name)) continue;
       walk(p);
     } else if (e.name.endsWith('.html')) {
       pages.push(rel);
@@ -316,6 +318,19 @@ for (const file of pages) {
     if (!s.includes('href="/stamp-duty-calculator/"')) {
       fail(file, 'new-launch project page has no in-content link to /stamp-duty-calculator/ (footer link alone is too low-visibility for a live buyer)');
     }
+  }
+}
+
+// ── Sitemap completeness (JOE-289 cycle) ──
+// A page can pass every check above — meta, a11y, tracking, structured data —
+// and still be invisible to a crawler if nobody remembered the extra step of
+// adding it to sitemap.xml. HomeLah (autopilot/) is a separate product sharing
+// this repo/team and is out of scope here (see JOE-289 working rules).
+{
+  const sitemapXml = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  const isIndexable = (file) => !UTILITY.has(file) && !REDIRECTED.has(file) && !file.startsWith('autopilot/');
+  for (const file of findMissingSitemapEntries(pages, sitemapXml, isIndexable)) {
+    fail(file, 'indexable page has no sitemap.xml entry — crawlers cannot discover it via the sitemap');
   }
 }
 
