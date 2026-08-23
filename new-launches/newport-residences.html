@@ -497,10 +497,10 @@ function showSuccess(form){
   form.innerHTML = `
     <div class="pf-success" role="status">
       <div class="pf-success-icon" aria-hidden="true">✓</div>
-      <h4 tabindex="-1">You're registered.</h4>
+      <h3 tabindex="-1">You're registered.</h3>
       <p>I'll WhatsApp you within 10 minutes with Newport Residences pricing, unit availability, and the virtual tour link.</p>
     </div>`;
-  var sH=form.querySelector('.lp-form-success h3, .pf-success h4'); if(sH) sH.focus();
+  var sH=form.querySelector('.lp-form-success h3, .pf-success h3'); if(sH) sH.focus();
   if(typeof gtag === 'function') gtag('event','generate_lead',{
     method:'website_form',
     lead_type:'new_launch_registration',
