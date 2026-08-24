@@ -8,11 +8,10 @@
 // run after the page generators on every build. Run it AFTER them and BEFORE
 // refresh-sitemap-lastmod.mjs — same slot as apply-site-footer.mjs.
 //
-// Scope is the /hdb-prices/ cluster plus valuation.html. valuation.html shares
-// the `topbar` template but is itself the conversion target, so it keeps the
-// default Home/HDB Prices/Insights links but swaps the CTA for a WhatsApp link
-// (see PAGE_CTA below) instead of a "Free Valuation" link pointing at the page
-// the reader is already on.
+// Scope is the /hdb-prices/ cluster plus /neighbour-prices/ and valuation.html.
+// valuation.html is itself the conversion target, so it keeps the default
+// Home/HDB Prices/Insights links but swaps the CTA for a WhatsApp link (see
+// PAGE_CTA below) instead of pointing "Free Valuation" back to the same page.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -39,6 +38,7 @@ const pages = fs
         ? [path.join('hdb-prices', entry.name)]
         : [],
   )
+  .concat(['neighbour-prices/index.html'])
   .filter((rel) => fs.existsSync(path.join(ROOT, rel)))
   .concat(['valuation.html'])
   .sort();
