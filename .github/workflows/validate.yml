@@ -43,6 +43,20 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Full check suite (npm run check)
+        # `npm run check` is the 18-step gate this repo asks contributors to run
+        # before every push (AGENTS.md) — generator drift, header/footer nav,
+        # llms.txt, the HDB/new-launch consistency guard, and the node:test
+        # suites (calculator + stamp-duty money-figure rules, estate schema,
+        # security headers, accessibility). This workflow used to hand-pick a
+        # handful of those checks instead of running the real gate, so 11 of the
+        # 13 check/test scripts in package.json — including the tests that pin
+        # the calculator/stamp-duty constants after they previously overstated a
+        # buyer's max budget by ~$64k — never ran in CI: a PR could break them
+        # and still show green. No install step needed — zero devDependencies,
+        # confirmed offline.
+        run: npm run check
+
       - name: Validate every JSON-LD block in every HTML file
         run: |
           node -e "
