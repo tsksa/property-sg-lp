@@ -21,10 +21,10 @@ jobs:
           # clone date for every file and would flag the whole sitemap as stale.
           fetch-depth: 0
 
-      - name: Set up Node 20
+      - name: Set up Node 22
         uses: actions/setup-node@v7
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Full check suite (npm run check)
         # `npm run check` is the full gate this repo asks contributors to run
