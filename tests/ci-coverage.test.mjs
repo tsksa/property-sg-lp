@@ -7,6 +7,12 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const VALIDATE_WORKFLOW = path.join(ROOT, '.github', 'workflows', 'validate.yml');
 const workflow = fs.readFileSync(VALIDATE_WORKFLOW, 'utf8');
+const NODE_WORKFLOWS = [
+  'data-freshness.yml',
+  'refresh-estate-pages.yml',
+  'search-growth-report.yml',
+  'validate.yml',
+];
 
 // The bug this pins: validate.yml hand-picked a handful of check/test scripts
 // (check-consistency, check-new-launches, sitemap-lastmod, JSON-LD/feed lint)
@@ -50,4 +56,22 @@ test('CI validates every pull request and push to main without fragile path filt
     /^\s+(?:paths|paths-ignore):/m,
     'Validate must not use path filters: they previously let script-only merges bypass the full suite',
   );
+});
+
+test('Netlify builds and every Node workflow use the Node 22 runtime required by dependencies', () => {
+  const nvmVersion = fs.readFileSync(path.join(ROOT, '.nvmrc'), 'utf8').trim();
+  const packageJson = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+
+  assert.equal(nvmVersion, '22', '.nvmrc must pin Netlify builds and Functions to Node 22');
+  assert.equal(
+    packageJson.engines?.node,
+    '>=22.12.0',
+    'package.json must reject Node versions below the @netlify/blobs v11 minimum',
+  );
+
+  for (const filename of NODE_WORKFLOWS) {
+    const contents = fs.readFileSync(path.join(ROOT, '.github', 'workflows', filename), 'utf8');
+    assert.match(contents, /node-version: ["']22["']/, `${filename} must run on Node 22`);
+    assert.doesNotMatch(contents, /node-version: ["']20["']/, `${filename} still declares Node 20`);
+  }
 });
