@@ -83,3 +83,17 @@ test('every indexable page in the current repo has a sitemap.xml entry', () => {
   const isIndexable = (file) => !utility.has(file) && !redirected.has(file) && !file.startsWith('autopilot/');
   assert.deepEqual(findMissingSitemapEntries(pages, sitemapXml, isIndexable), []);
 });
+
+test('every sitemap changefreq uses a value accepted by the sitemap protocol', () => {
+  const sitemapXml = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  const allowed = new Set(['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never']);
+  const invalid = [];
+
+  for (const block of sitemapXml.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+    const loc = block[1].match(/<loc>([^<]+)<\/loc>/)?.[1];
+    const changefreq = block[1].match(/<changefreq>([^<]+)<\/changefreq>/)?.[1];
+    if (changefreq && !allowed.has(changefreq)) invalid.push(`${loc ?? 'unknown URL'} → ${changefreq}`);
+  }
+
+  assert.deepEqual(invalid, [], 'sitemap.xml contains invalid changefreq values');
+});
