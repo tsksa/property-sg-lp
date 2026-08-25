@@ -69,6 +69,7 @@ test('market figures obey freshness fallbacks and each page links three active a
       !hasFreshDynamic &&
       project.status === 'upcoming' &&
       project.availabilityStatus?.state !== 'pre-launch' &&
+      project.searchIntent?.state !== 'pre-launch' &&
       project.layoutStatus?.state !== 'not-confirmed'
     ) {
       assert.match(html, /Ask for latest price/);
@@ -117,6 +118,36 @@ test('Thomson Reserve answers dual-key intent without inventing a layout', () =>
   assert.match(html, /"@type": "FAQPage"/);
   assert.match(html, /Ask Joe to verify dual-key layouts/);
   assert.doesNotMatch(html, /dual-key (?:units|layouts?) are (?:available|officially confirmed)/i);
+});
+
+test('Keppel Bay Plot 6 answers launch and project-status intent from current primary evidence', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'keppel-bay-plot-6');
+  const html = pageFor(project);
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((match) => JSON.parse(match[1]));
+  const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
+
+  assert.equal(project.unitCount, 84);
+  assert.equal(project.launchWindow, '2026-Q4');
+  assert.equal(project.searchIntent.state, 'pre-launch');
+  assert.ok(project.seoTitle.length <= 60);
+  assert.ok(project.seoDescription.length <= 155);
+  assert.match(html, /<title>Keppel Bay Plot 6 Launch &amp; Project Status \| Joe Tay<\/title>/);
+  assert.match(html, /Keppel Bay Plot 6 launch, units and project status/);
+  assert.match(html, /latest annual-report property schedule proposes 84 units/);
+  assert.match(html, /older PropNex launch pipeline lists 86/);
+  assert.match(html, /targets Q4 2026/);
+  assert.match(html, /No verified developer price list, floor plan, showflat date or booking date/);
+  assert.match(html, /Oceania at Keppel Bay should be treated as an unconfirmed marketing name/);
+  assert.match(html, /WhatsApp for launch updates/);
+  assert.ok(faq, 'missing Keppel Bay FAQPage schema');
+  assert.equal(faq.mainEntity.length, 5);
+  for (const { name, acceptedAnswer } of faq.mainEntity) {
+    assert.ok(html.includes(name), `FAQ question is not visible: ${name}`);
+    assert.ok(html.includes(acceptedAnswer.text), `FAQ answer is not visible: ${name}`);
+  }
+  assert.match(html, /keppel-ltd-2025-major-properties\.pdf/);
+  assert.doesNotMatch(html, /<div class="project-stat-value">86<\/div>/);
 });
 
 test('refreshed pages retain lead forms, tracking and existing media', () => {
