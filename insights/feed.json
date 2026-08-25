@@ -16,6 +16,46 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/hdb-loan-eligibility-singapore.html",
+      "url": "https://joetay.com/insights/hdb-loan-eligibility-singapore.html",
+      "title": "HDB Loan Eligibility Singapore (2026) | Joe Tay",
+      "summary": "Current HDB loan eligibility, income ceilings, LTV, tenure, MSR and HFE requirements, with a direct path to an affordability estimate.",
+      "content_text": "Current HDB loan eligibility, income ceilings, LTV, tenure, MSR and HFE requirements, with a direct path to an affordability estimate.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/hfe-letter-singapore-guide.html",
+      "url": "https://joetay.com/insights/hfe-letter-singapore-guide.html",
+      "title": "HFE Letter Singapore: Application Guide (2026) | Joe Tay",
+      "summary": "Application timing, validity, documents, HDB loan and grant outcomes, and bank IPA options for Singapore's HFE letter.",
+      "content_text": "Application timing, validity, documents, HDB loan and grant outcomes, and bank IPA options for Singapore's HFE letter.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/msr-vs-tdsr-singapore.html",
+      "url": "https://joetay.com/insights/msr-vs-tdsr-singapore.html",
+      "title": "MSR vs TDSR Singapore: HDB Loan Limits Explained | Joe Tay",
+      "summary": "The 30% MSR and 55% TDSR ceilings explained with worked HDB affordability examples.",
+      "content_text": "The 30% MSR and 55% TDSR ceilings explained with worked HDB affordability examples.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/hdb-loan-vs-bank-loan-singapore.html",
+      "url": "https://joetay.com/insights/hdb-loan-vs-bank-loan-singapore.html",
+      "title": "HDB Loan vs Bank Loan Singapore (2026) | Joe Tay",
+      "summary": "Compare HDB and bank loans by interest, downpayment, CPF use, lock-in, early repayment and refinancing.",
+      "content_text": "Compare HDB and bank loans by interest, downpayment, CPF use, lock-in, early repayment and refinancing.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
       "id": "https://joetay.com/insights/hdb-valuation-explained.html",
       "url": "https://joetay.com/insights/hdb-valuation-explained.html",
       "title": "HDB Valuation Explained: How Singapore Agents Actually Price Your Flat",

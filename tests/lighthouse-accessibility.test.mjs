@@ -70,10 +70,11 @@ test('insight cards use semantic list markup without invalid link roles', () => 
   const list = html.match(
     /<ul class="blog-grid" aria-label="Insight articles">([\s\S]*?)<\/ul>/,
   )?.[1];
+  const expectedCards = JSON.parse(read('insights/feed.json')).items.length;
 
   assert.ok(list, 'missing insight card list');
-  assert.equal((list.match(/<li>/g) || []).length, 4);
-  assert.equal((list.match(/<\/li>/g) || []).length, 4);
+  assert.equal((list.match(/<li>/g) || []).length, expectedCards);
+  assert.equal((list.match(/<\/li>/g) || []).length, expectedCards);
   assert.doesNotMatch(html, /<a[^>]+role="listitem"/);
 });
 
