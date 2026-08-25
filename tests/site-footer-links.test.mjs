@@ -30,3 +30,21 @@ test('the shared footer links every content/browse section', () => {
     assert.match(html, new RegExp(`href="${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`), `footer missing link to ${href}`);
   }
 });
+
+test('the shared footer supports pages already earning search impressions', () => {
+  const expected = new Map([
+    ['/new-launches/chuan-grove.html', 'Chuan Grove updates'],
+    ['/calculator/', 'HDB loan calculator'],
+    ['/insights/property-agent-commission-singapore.html', 'Property agent commission guide'],
+    ['/new-launches/thomson-reserve.html', 'Thomson Reserve updates'],
+    ['/new-launches/keppel-bay-plot-6.html', 'Keppel Bay Plot 6 updates'],
+  ]);
+
+  for (const [href, label] of expected) {
+    assert.match(
+      html,
+      new RegExp(`<a href="${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">${label}</a>`),
+      `footer missing search-priority link to ${href}`,
+    );
+  }
+});
