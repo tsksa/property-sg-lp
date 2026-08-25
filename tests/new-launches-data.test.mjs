@@ -77,6 +77,20 @@ test('pre-launch availability must carry a dated source reference', () => {
   );
 });
 
+test('layout status must carry dated source references', () => {
+  const data = clone();
+  const thomson = data.projects.find(({ slug }) => slug === 'thomson-reserve');
+  thomson.layoutStatus.sourceIds = ['missing-source'];
+
+  assert.ok(
+    validate(data).some(
+      (error) =>
+        error.includes('thomson-reserve.layoutStatus.sourceIds') &&
+        error.includes('reference sources'),
+    ),
+  );
+});
+
 test('placeholder content is rejected', () => {
   const data = clone();
   data.projects[0].developer = 'From $—';
