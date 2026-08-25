@@ -324,7 +324,7 @@ fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   desc: `Median HDB resale prices for all ${indexRows.length} towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.`,
   h1: 'HDB resale prices, town by town',
   lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',
-  body: `  <div class="town-grid">\n${grid}\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
+  body: `  <div class="town-grid">\n${grid}\n  </div>\n  <div class="cta">\n    <h2>Can your budget reach your target town?</h2>\n    <p>Use your household income, cash and CPF to estimate your HDB loan, maximum property budget and monthly repayment.</p>\n    <div class="btns"><a class="primary" href="/calculator/">Use the HDB loan calculator →</a></div>\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
   breadcrumbName: null,
   extraSchema: hubSchema,
 }));
