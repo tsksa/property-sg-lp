@@ -35,7 +35,19 @@
       "name": "PropNex FY2025 Business Updates filed with SGX",
       "category": "corporate-filing",
       "url": "https://links.sgx.com/1.0.0/corporate-announcements/LHL363GW6LP7178J/876506_FY2025%20PXL%20Slides_Business%20Updates.pdf",
-      "checkedAt": "2026-07-30"
+      "checkedAt": "2026-08-25"
+    },
+    "keppel-annual-report-2025-major-properties": {
+      "name": "Keppel Ltd Annual Report 2025 — Major Properties",
+      "category": "corporate-filing",
+      "url": "https://www.keppel.com/annualreport2025/theme/default/pdf/other-information/keppel-ltd-2025-major-properties.pdf",
+      "checkedAt": "2026-08-25"
+    },
+    "ura-keppel-bay-plot-6-eia": {
+      "name": "URA Environmental Impact Assessment — Plot 6 Development at Keppel Island",
+      "category": "government",
+      "url": "https://www.ura.gov.sg/land-planning/planning-strategies/greenery-and-heritage/environmental-impact-assessment/",
+      "checkedAt": "2026-08-25"
     },
     "propnex-sgx-2026-agm-pipeline": {
       "name": "PropNex FY2025 AGM slides filed with SGX",
@@ -791,22 +803,57 @@
       "propertyType": "condominium",
       "tenure": "99-year",
       "developer": "Keppel Land",
-      "unitCount": 86,
+      "unitCount": 84,
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": null,
+      "launchWindow": "2026-Q4",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/keppel-bay-plot-6.html",
-      "verifiedAt": "2026-07-30",
+      "verifiedAt": "2026-08-25",
+      "seoTitle": "Keppel Bay Plot 6 Launch & Project Status | Joe Tay",
+      "seoDescription": "Keppel Bay Plot 6 is a proposed 84-unit waterfront condo. Check its Q4 2026 launch outlook, official unit count, price-list and floor-plan status.",
+      "searchIntent": {
+        "state": "pre-launch",
+        "asOf": "2026-08-25",
+        "heading": "Keppel Bay Plot 6 launch, units and project status",
+        "intro": "The project is still pre-launch. Keppel's latest annual-report property schedule and the current corporate launch pipeline provide the clearest verified picture; final sale materials remain pending.",
+        "sourceIds": [
+          "keppel-annual-report-2025-major-properties",
+          "propnex-sgx-2026-pipeline",
+          "ura-keppel-bay-plot-6-eia"
+        ],
+        "faqs": [
+          {
+            "question": "What is Keppel Bay Plot 6?",
+            "answer": "Keppel Bay Plot 6 is a proposed 99-year leasehold waterfront condominium at Keppel Bay. Keppel's 2025 annual report lists Keppel Bay Pte Ltd as the holder and a land area of 43,701 square metres."
+          },
+          {
+            "question": "How many units will Keppel Bay Plot 6 have?",
+            "answer": "Keppel's latest annual-report property schedule proposes 84 units. An older PropNex launch pipeline lists 86, so this page uses the newer developer filing and will update again when official sale materials confirm the final count."
+          },
+          {
+            "question": "When will Keppel Bay Plot 6 launch?",
+            "answer": "The PropNex FY2025 launch pipeline targets Q4 2026. Keppel has not published an exact preview or booking date in the official sources checked as of 25 August 2026."
+          },
+          {
+            "question": "Are the Keppel Bay Plot 6 price list and floor plans available?",
+            "answer": "No verified developer price list, floor plan, showflat date or booking date was available in the official sources checked as of 25 August 2026. Treat third-party prices and appointment dates as provisional."
+          },
+          {
+            "question": "Is Oceania at Keppel Bay the official project name?",
+            "answer": "Not in the official sources checked as of 25 August 2026. Keppel's latest annual-report property schedule still uses Keppel Bay Plot 6, so Oceania at Keppel Bay should be treated as an unconfirmed marketing name."
+          }
+        ]
+      },
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["propnex-sgx-2026-pipeline"],
-        "timing": ["99co-2026-guide"],
-        "status": ["99co-2026-guide"],
-        "dynamics": ["99co-2026-guide"]
+        "facts": ["keppel-annual-report-2025-major-properties", "ura-keppel-bay-plot-6-eia"],
+        "timing": ["propnex-sgx-2026-pipeline"],
+        "status": ["keppel-annual-report-2025-major-properties", "propnex-sgx-2026-pipeline"],
+        "dynamics": ["keppel-annual-report-2025-major-properties"]
       },
       "legacyInventoryEvidence": null
     },

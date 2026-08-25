@@ -18,6 +18,7 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
 const sourceNames = new Map(
   Object.entries(data.sources).map(([id, source]) => [id, source.name]),
 );
+const sourcesById = new Map(Object.entries(data.sources));
 
 const PROPERTY_TYPES = {
   condominium: 'Condominium',
@@ -91,7 +92,7 @@ function marketCopy(project) {
     const asOf = project.priceFrom.asOf || project.averagePsf.asOf || project.soldPercent.asOf;
     return `${facts.join(' · ')} · as of ${formatDate(asOf)}`;
   }
-  if (project.availabilityStatus?.state === 'pre-launch') {
+  if (isPreLaunch(project)) {
     return `${launchCopy(project)} · no balance units yet`;
   }
   if (project.layoutStatus?.state === 'not-confirmed') {
@@ -100,6 +101,10 @@ function marketCopy(project) {
   if (project.status === 'selling') return 'Selling now—check availability.';
   if (project.status === 'sold-out') return 'Sold out—ask for current alternatives.';
   return 'Ask for latest price';
+}
+
+function isPreLaunch(project) {
+  return project.availabilityStatus?.state === 'pre-launch' || project.searchIntent?.state === 'pre-launch';
 }
 
 function description(project) {
@@ -240,6 +245,19 @@ function layoutFaqJson(project) {
   };
 }
 
+function searchIntentFaqJson(project) {
+  if (!project.searchIntent?.faqs?.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: project.searchIntent.faqs.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  };
+}
+
 function alternativesFor(project) {
   return data.projects
     .filter((candidate) => candidate.slug !== project.slug && candidate.status !== 'sold-out')
@@ -280,7 +298,7 @@ function heroCtas(project) {
   <a href="/new-launches/sold-out.html" class="project-hero-cta ghost">View sold-out archive</a>
 </div>`;
   }
-  if (project.availabilityStatus?.state === 'pre-launch') {
+  if (isPreLaunch(project)) {
     const message = encodeURIComponent(`Hi Joe, please keep me updated on the ${project.name} launch, floor plans and first official unit release.`);
     return `<div class="project-hero-ctas">
   <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for launch updates</a>
@@ -302,7 +320,7 @@ function heroCtas(project) {
 }
 
 function contactSection(project) {
-  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
+  const preLaunch = isPreLaunch(project);
   const layoutPending = project.layoutStatus?.state === 'not-confirmed';
   const message = encodeURIComponent(layoutPending
     ? `Hi Joe, please verify whether the official ${project.name} floor plans include dual-key layouts when they are released.`
@@ -343,10 +361,10 @@ function verificationStrip(project) {
 function factsheetSection(project) {
   const verificationNote = project.status === 'sold-out'
     ? 'Status and core facts are verified as dated above. This project is sold out; any later resale or subsale listing must be checked independently.'
-    : project.availabilityStatus?.state === 'pre-launch'
+    : isPreLaunch(project)
       ? 'The project has not launched for sale, so no official balance-unit count exists yet. Preview dates, booking dates, prices and layouts remain subject to developer release.'
     : 'Status and core facts are verified as dated above. Developer confirmation and the latest available unit list remain decisive before purchase.';
-  const marketNote = project.availabilityStatus?.state === 'pre-launch'
+  const marketNote = isPreLaunch(project)
     ? 'No price or sales inventory is shown before a verified developer release.'
     : `Dynamic figures are shown only when verified within ${data.dynamicFreshnessDays} days of the ${formatDate(data.inventoryAsOf)} inventory.`;
   return `<section class="project-factsheet reveal" aria-labelledby="verified-facts-${esc(project.slug)}">
@@ -372,6 +390,26 @@ function factsheetSection(project) {
       <p class="project-factsheet-note">${esc(verificationNote)}</p>
       ${sourceSection(project)}
     </div>
+  </div>
+</section>`;
+}
+
+function searchIntentSection(project) {
+  if (!project.searchIntent?.faqs?.length) return '';
+  const sourceLinks = project.searchIntent.sourceIds
+    .map((id) => sourcesById.get(id))
+    .filter(Boolean)
+    .map((source) => `<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.name)}</a>`)
+    .join(' · ');
+  return `<section class="project-availability project-search-intent reveal" aria-labelledby="search-intent-${esc(project.slug)}">
+  <div class="project-availability-inner">
+    <div class="project-eyebrow">Official project check · ${esc(formatDate(project.searchIntent.asOf))}</div>
+    <h2 id="search-intent-${esc(project.slug)}">${esc(project.searchIntent.heading)}</h2>
+    <p class="project-availability-note">${esc(project.searchIntent.intro)}</p>
+    <div class="project-availability-grid">
+${project.searchIntent.faqs.map(({ question, answer }) => `      <article><h3>${esc(question)}</h3><p>${esc(answer)}</p></article>`).join('\n')}
+    </div>
+    <p class="project-availability-note"><strong>Sources checked:</strong> ${sourceLinks}</p>
   </div>
 </section>`;
 }
@@ -428,7 +466,7 @@ function takeSection(project) {
   </div>
 </section>`;
   }
-  const preLaunch = project.availabilityStatus?.state === 'pre-launch' || project.layoutStatus?.state === 'not-confirmed';
+  const preLaunch = isPreLaunch(project) || project.layoutStatus?.state === 'not-confirmed';
   const market = marketCopy(project);
   const finalChecks = project.status === 'sold-out'
     ? 'Before choosing a substitute, compare three things: the total entry quantum, the location trade-offs and the most credible active alternatives. I would only shortlist an alternative when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.'
@@ -467,7 +505,7 @@ ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.ca
 
 function formCard(project) {
   const soldOut = project.status === 'sold-out';
-  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
+  const preLaunch = isPreLaunch(project);
   const layoutPending = project.layoutStatus?.state === 'not-confirmed';
   const heading = soldOut ? 'Find an active alternative' : layoutPending ? `Verify ${esc(project.name)} layouts` : preLaunch ? `Get ${esc(project.name)} launch updates` : `Ask about ${esc(project.name)}`;
   const sub = soldOut
@@ -497,6 +535,7 @@ function head(project) {
   const meta = metaDescription(project);
   const availabilityFaq = availabilityFaqJson(project);
   const layoutFaq = layoutFaqJson(project);
+  const searchIntentFaq = searchIntentFaqJson(project);
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>
@@ -517,6 +556,7 @@ function head(project) {
 <script type="application/ld+json">${jsonForHtml(breadcrumbJson(project))}</script>
 ${availabilityFaq ? `<script type="application/ld+json">${jsonForHtml(availabilityFaq)}</script>` : ''}
 ${layoutFaq ? `<script type="application/ld+json">${jsonForHtml(layoutFaq)}</script>` : ''}
+${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchIntentFaq)}</script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
@@ -536,6 +576,7 @@ ${verificationStrip(project)}
 ${factsheetSection(project)}
 ${availabilitySection(project)}
 ${layoutStatusSection(project)}
+${searchIntentSection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}
