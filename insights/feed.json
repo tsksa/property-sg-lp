@@ -16,6 +16,46 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/enhanced-cpf-housing-grant-singapore.html",
+      "url": "https://joetay.com/insights/enhanced-cpf-housing-grant-singapore.html",
+      "title": "Enhanced CPF Housing Grant Singapore (2026) | Joe Tay",
+      "summary": "Current EHG amounts, income and employment rules, lease requirements and grant-refund treatment for HDB buyers.",
+      "content_text": "Current EHG amounts, income and employment rules, lease requirements and grant-refund treatment for HDB buyers.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/hdb-resale-grants-singapore.html",
+      "url": "https://joetay.com/insights/hdb-resale-grants-singapore.html",
+      "title": "HDB Resale Grants Singapore (2026): Amounts | Joe Tay",
+      "summary": "Current CPF Housing Grant, EHG and Proximity Housing Grant amounts for eligible HDB resale buyers.",
+      "content_text": "Current CPF Housing Grant, EHG and Proximity Housing Grant amounts for eligible HDB resale buyers.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/use-cpf-buy-hdb-flat-singapore.html",
+      "url": "https://joetay.com/insights/use-cpf-buy-hdb-flat-singapore.html",
+      "title": "Using CPF to Buy an HDB Flat (2026) | Joe Tay",
+      "summary": "How CPF OA can fund an HDB purchase, including downpayment, instalments, usage limits, lease rules and refunds.",
+      "content_text": "How CPF OA can fund an HDB purchase, including downpayment, instalments, usage limits, lease rules and refunds.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
+      "id": "https://joetay.com/insights/hdb-downpayment-cash-cpf-grants.html",
+      "url": "https://joetay.com/insights/hdb-downpayment-cash-cpf-grants.html",
+      "title": "HDB Downpayment: Cash, CPF and Grants (2026) | Joe Tay",
+      "summary": "Plan the HDB downpayment and mandatory cash using confirmed grants, available CPF OA and the chosen loan type.",
+      "content_text": "Plan the HDB downpayment and mandatory cash using confirmed grants, available CPF OA and the chosen loan type.",
+      "date_published": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-25T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
       "id": "https://joetay.com/insights/hdb-loan-eligibility-singapore.html",
       "url": "https://joetay.com/insights/hdb-loan-eligibility-singapore.html",
       "title": "HDB Loan Eligibility Singapore (2026) | Joe Tay",

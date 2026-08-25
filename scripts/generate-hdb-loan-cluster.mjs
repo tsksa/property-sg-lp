@@ -231,6 +231,13 @@ const EXISTING_GUIDES = [
   ['selling-hdb-after-mop-singapore', 'Selling an HDB flat after MOP'],
 ];
 
+const GRANT_GUIDES = [
+  ['enhanced-cpf-housing-grant-singapore', 'Enhanced CPF Housing Grant'],
+  ['hdb-resale-grants-singapore', 'HDB resale grants'],
+  ['use-cpf-buy-hdb-flat-singapore', 'Using CPF to buy an HDB flat'],
+  ['hdb-downpayment-cash-cpf-grants', 'HDB downpayment: cash, CPF and grants'],
+];
+
 const esc = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 function schemas(article) {
@@ -263,6 +270,7 @@ function relatedGuides(currentSlug) {
   return `<aside class="callout" aria-labelledby="related-guides-title"><strong id="related-guides-title">HDB loan planning guides</strong><ul style="margin-bottom:0">
     <li><a href="/calculator/">HDB loan calculator</a></li>
 ${ARTICLES.filter((article) => article.slug !== currentSlug).map((article) => `    <li><a href="${article.slug}.html">${esc(article.headline)}</a></li>`).join('\n')}
+${GRANT_GUIDES.map(([slug, title]) => `    <li><a href="${slug}.html">${esc(title)}</a></li>`).join('\n')}
 ${EXISTING_GUIDES.map(([slug, title]) => `    <li><a href="${slug}.html">${esc(title)}</a></li>`).join('\n')}
   </ul></aside>`;
 }
