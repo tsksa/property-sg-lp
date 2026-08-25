@@ -65,7 +65,12 @@ test('market figures obey freshness fallbacks and each page links three active a
     const html = pageFor(project);
     const hasFreshDynamic = [project.priceFrom, project.averagePsf, project.soldPercent].some((field) => field.value != null && field.asOf);
     if (!hasFreshDynamic && project.status === 'selling') assert.match(html, /Selling now—check availability\./);
-    if (!hasFreshDynamic && project.status === 'upcoming' && project.availabilityStatus?.state !== 'pre-launch') {
+    if (
+      !hasFreshDynamic &&
+      project.status === 'upcoming' &&
+      project.availabilityStatus?.state !== 'pre-launch' &&
+      project.layoutStatus?.state !== 'not-confirmed'
+    ) {
       assert.match(html, /Ask for latest price/);
     }
     const related = [...html.matchAll(/class="project-related-card"/g)];
@@ -95,6 +100,23 @@ test('Chuan Grove answers balance-unit intent without inventing pre-launch inven
   assert.match(html, /"@type": "FAQPage"/);
   assert.match(html, /WhatsApp for launch updates/);
   assert.doesNotMatch(html, /Sing Holdings \/ MCC Singapore|Expected Q3 2026/);
+});
+
+test('Thomson Reserve answers dual-key intent without inventing a layout', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'thomson-reserve');
+  const html = pageFor(project);
+
+  assert.equal(project.launchWindow, '2026-Q4');
+  assert.equal(project.layoutStatus.state, 'not-confirmed');
+  assert.ok(project.seoTitle.length <= 60);
+  assert.ok(project.seoDescription.length <= 155);
+  assert.match(html, /<title>Thomson Reserve Dual Key Status &amp; Launch \| Joe Tay<\/title>/);
+  assert.match(html, /Does Thomson Reserve have dual-key units\?/);
+  assert.match(html, /No—not in an official source yet/);
+  assert.match(html, /expected to preview in Q4 2026/);
+  assert.match(html, /"@type": "FAQPage"/);
+  assert.match(html, /Ask Joe to verify dual-key layouts/);
+  assert.doesNotMatch(html, /dual-key (?:units|layouts?) are (?:available|officially confirmed)/i);
 });
 
 test('refreshed pages retain lead forms, tracking and existing media', () => {

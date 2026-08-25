@@ -94,6 +94,9 @@ function marketCopy(project) {
   if (project.availabilityStatus?.state === 'pre-launch') {
     return `${launchCopy(project)} · no balance units yet`;
   }
+  if (project.layoutStatus?.state === 'not-confirmed') {
+    return `${launchCopy(project)} · floor plans not released`;
+  }
   if (project.status === 'selling') return 'Selling now—check availability.';
   if (project.status === 'sold-out') return 'Sold out—ask for current alternatives.';
   return 'Ask for latest price';
@@ -202,6 +205,41 @@ function availabilityFaqJson(project) {
   };
 }
 
+function layoutFaqJson(project) {
+  if (project.layoutStatus?.topic !== 'dual-key' || project.layoutStatus.state !== 'not-confirmed') return null;
+  const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Does ${project.name} have dual-key units?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Dual-key units are not officially confirmed for ${project.name}. No official floor plan or developer release checked as of ${formatDate(project.layoutStatus.asOf)} identifies a dual-key layout.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `When will ${project.name} floor plans be available?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${project.name} is expected to preview in ${launch}. Exact floor-plan release, preview and booking dates have not been announced.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `What should buyers verify in a dual-key floor plan?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Check the official plan for separate entrances, the internal connection, cooking facilities, bedroom and bathroom access, and how the space works for the intended household.',
+        },
+      },
+    ],
+  };
+}
+
 function alternativesFor(project) {
   return data.projects
     .filter((candidate) => candidate.slug !== project.slug && candidate.status !== 'sold-out')
@@ -249,6 +287,13 @@ function heroCtas(project) {
   <a href="#projectForm" class="project-hero-cta ghost">Use the enquiry form</a>
 </div>`;
   }
+  if (project.layoutStatus?.topic === 'dual-key' && project.layoutStatus.state === 'not-confirmed') {
+    const message = encodeURIComponent(`Hi Joe, please verify whether the official ${project.name} floor plans include dual-key layouts when they are released.`);
+    return `<div class="project-hero-ctas">
+  <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">Ask Joe to verify dual-key layouts</a>
+  <a href="#projectForm" class="project-hero-cta ghost">Use the enquiry form</a>
+</div>`;
+  }
   const message = encodeURIComponent(`Hi Joe, please send me the latest price list and floor plans for ${project.name}.`);
   return `<div class="project-hero-ctas">
   <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for price list &amp; floor plans</a>
@@ -258,16 +303,23 @@ function heroCtas(project) {
 
 function contactSection(project) {
   const preLaunch = project.availabilityStatus?.state === 'pre-launch';
-  const message = encodeURIComponent(preLaunch
+  const layoutPending = project.layoutStatus?.state === 'not-confirmed';
+  const message = encodeURIComponent(layoutPending
+    ? `Hi Joe, please verify whether the official ${project.name} floor plans include dual-key layouts when they are released.`
+    : preLaunch
     ? `Hi Joe, please keep me updated on the ${project.name} launch, floor plans and first official unit release.`
     : `Hi Joe, please help me compare ${project.name} with active alternatives.`);
   const heading = project.status === 'sold-out'
     ? 'Compare the current alternatives.'
+    : layoutPending
+      ? 'Verify the official dual-key layout status.'
     : preLaunch
       ? 'Get the verified launch update.'
     : 'Check the live unit list before deciding.';
   const body = project.status === 'sold-out'
     ? 'This project is sold out. Ask Joe for the closest active alternatives and their current availability.'
+    : layoutPending
+      ? 'Official floor plans are not released yet. Ask Joe to check the layout labels and plan details when the developer publishes them.'
     : preLaunch
       ? 'No balance-unit count is available before launch. Ask Joe for confirmed preview dates, floor plans and the first official unit release.'
     : 'Ask for current availability, floor plans and a direct comparison with the three active alternatives.';
@@ -341,6 +393,23 @@ function availabilitySection(project) {
 </section>`;
 }
 
+function layoutStatusSection(project) {
+  if (project.layoutStatus?.topic !== 'dual-key' || project.layoutStatus.state !== 'not-confirmed') return '';
+  const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
+  return `<section class="project-availability project-layout-status reveal" aria-labelledby="layout-status-${esc(project.slug)}">
+  <div class="project-availability-inner">
+    <div class="project-eyebrow">Floor-plan status · checked ${esc(formatDate(project.layoutStatus.asOf))}</div>
+    <h2 id="layout-status-${esc(project.slug)}">Does ${esc(project.name)} have dual-key units?</h2>
+    <div class="project-availability-grid">
+      <article><h3>Are dual-key units confirmed?</h3><p><strong>No—not in an official source yet.</strong> No developer release or official floor plan checked as of ${esc(formatDate(project.layoutStatus.asOf))} identifies a dual-key layout. Treat third-party layout claims as unverified until the developer publishes the plans.</p></article>
+      <article><h3>When should floor plans arrive?</h3><p>${esc(project.name)} is expected to preview in ${esc(launch)}. Exact floor-plan release, preview and booking dates have not been announced.</p></article>
+      <article><h3>What makes a layout dual-key?</h3><p>Check the official plan for separate entrances, the internal connection, cooking facilities, bedroom and bathroom access, and whether the arrangement fits the intended household.</p></article>
+    </div>
+    <p class="project-availability-note">Want a factual answer when plans are released? Ask Joe to verify the official layout labels and plan details before relying on a marketing claim.</p>
+  </div>
+</section>`;
+}
+
 function takeSection(project) {
   const copy = content[project.slug];
   if (!copy) {
@@ -359,7 +428,7 @@ function takeSection(project) {
   </div>
 </section>`;
   }
-  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
+  const preLaunch = project.availabilityStatus?.state === 'pre-launch' || project.layoutStatus?.state === 'not-confirmed';
   const market = marketCopy(project);
   const finalChecks = project.status === 'sold-out'
     ? 'Before choosing a substitute, compare three things: the total entry quantum, the location trade-offs and the most credible active alternatives. I would only shortlist an alternative when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.'
@@ -399,9 +468,12 @@ ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.ca
 function formCard(project) {
   const soldOut = project.status === 'sold-out';
   const preLaunch = project.availabilityStatus?.state === 'pre-launch';
-  const heading = soldOut ? 'Find an active alternative' : preLaunch ? `Get ${esc(project.name)} launch updates` : `Ask about ${esc(project.name)}`;
+  const layoutPending = project.layoutStatus?.state === 'not-confirmed';
+  const heading = soldOut ? 'Find an active alternative' : layoutPending ? `Verify ${esc(project.name)} layouts` : preLaunch ? `Get ${esc(project.name)} launch updates` : `Ask about ${esc(project.name)}`;
   const sub = soldOut
     ? `${esc(project.name)} is sold out. Share your preferred bedroom size and Joe will suggest current alternatives.`
+    : layoutPending
+      ? 'Official floor plans are not released yet. Ask Joe to verify dual-key layouts when the developer publishes them.'
     : preLaunch
       ? 'No balance-unit count is available yet. Ask for confirmed launch dates, floor plans and the first official unit release.'
     : 'The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.';
@@ -424,6 +496,7 @@ function head(project) {
   const title = project.seoTitle || `${project.name} | Verified ${project.district} New Launch | PropertySG`;
   const meta = metaDescription(project);
   const availabilityFaq = availabilityFaqJson(project);
+  const layoutFaq = layoutFaqJson(project);
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>
@@ -443,6 +516,7 @@ function head(project) {
 <script type="application/ld+json">${jsonForHtml(projectJson(project))}</script>
 <script type="application/ld+json">${jsonForHtml(breadcrumbJson(project))}</script>
 ${availabilityFaq ? `<script type="application/ld+json">${jsonForHtml(availabilityFaq)}</script>` : ''}
+${layoutFaq ? `<script type="application/ld+json">${jsonForHtml(layoutFaq)}</script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
@@ -461,6 +535,7 @@ function renderNewPage(project) {
 ${verificationStrip(project)}
 ${factsheetSection(project)}
 ${availabilitySection(project)}
+${layoutStatusSection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}

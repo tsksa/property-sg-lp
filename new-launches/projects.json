@@ -37,6 +37,30 @@
       "url": "https://links.sgx.com/1.0.0/corporate-announcements/LHL363GW6LP7178J/876506_FY2025%20PXL%20Slides_Business%20Updates.pdf",
       "checkedAt": "2026-07-30"
     },
+    "propnex-sgx-2026-agm-pipeline": {
+      "name": "PropNex FY2025 AGM slides filed with SGX",
+      "category": "corporate-filing",
+      "url": "https://links.sgx.com/FileOpen/PXL_AGM%20Slides%20FY2025_23.4.26.ashx?App=Announcement&FileID=885353",
+      "checkedAt": "2026-08-25"
+    },
+    "capitaland-thomson-view-acquisition": {
+      "name": "CapitaLand Development and UOL — Thomson View acquisition update",
+      "category": "developer",
+      "url": "https://www.capitaland.com/en/about-capitaland/newsroom/news-releases/international/2025/july/cld-collective-acquisition-thomson-view-condo.html",
+      "checkedAt": "2026-08-25"
+    },
+    "uol-thomson-view-option": {
+      "name": "UOL — Thomson View put and call option announcement",
+      "category": "corporate-filing",
+      "url": "https://www.uol.com.sg/wp-content/uploads/uol-announcements/2024/20241026_085846_U14_VSIRMVR1AM91MLGQ.1.pdf",
+      "checkedAt": "2026-08-25"
+    },
+    "uol-annual-report-2025": {
+      "name": "UOL Group Annual Report 2025",
+      "category": "corporate-filing",
+      "url": "https://www.uol.com.sg/wp-content/uploads/uol-reports/files/UOL-Annual-Report-2025.pdf",
+      "checkedAt": "2026-08-25"
+    },
     "sing-holdings-chuan-grove-award": {
       "name": "Sing Holdings — award of second Chuan Grove land parcel",
       "category": "corporate-filing",
@@ -444,17 +468,29 @@
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": "2026-10",
+      "launchWindow": "2026-Q4",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/thomson-reserve.html",
-      "verifiedAt": "2026-07-30",
+      "verifiedAt": "2026-08-25",
+      "seoTitle": "Thomson Reserve Dual Key Status & Launch | Joe Tay",
+      "seoDescription": "Are Thomson Reserve dual-key units confirmed? Check official layout status, launch timing and verified facts for the 1,268-home Bright Hill project.",
+      "layoutStatus": {
+        "topic": "dual-key",
+        "state": "not-confirmed",
+        "asOf": "2026-08-25",
+        "sourceIds": [
+          "capitaland-thomson-view-acquisition",
+          "uol-annual-report-2025",
+          "propnex-sgx-2026-agm-pipeline"
+        ]
+      },
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["ura-uncompleted-projects", "propnex-sgx-2026-pipeline"],
-        "timing": ["99co-2026-guide"],
-        "status": ["99co-2026-guide"],
+        "facts": ["uol-thomson-view-option", "uol-annual-report-2025", "capitaland-thomson-view-acquisition"],
+        "timing": ["propnex-sgx-2026-agm-pipeline"],
+        "status": ["propnex-sgx-2026-agm-pipeline"],
         "dynamics": ["99co-2026-guide"]
       },
       "legacyInventoryEvidence": null

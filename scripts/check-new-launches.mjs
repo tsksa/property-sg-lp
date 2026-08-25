@@ -270,6 +270,32 @@ export function validateNewLaunchData(
       }
     }
 
+    if (project.layoutStatus != null) {
+      const layout = project.layoutStatus;
+      if (!layout || typeof layout !== 'object' || Array.isArray(layout)) {
+        fail(`${label}.layoutStatus must be an object`);
+      } else {
+        if (layout.topic !== 'dual-key') {
+          fail(`${label}.layoutStatus.topic must be dual-key`);
+        }
+        if (layout.state !== 'not-confirmed') {
+          fail(`${label}.layoutStatus.state must be not-confirmed`);
+        }
+        if (!isIsoDate(layout.asOf)) {
+          fail(`${label}.layoutStatus.asOf must be a real ISO date`);
+        }
+        if (!Array.isArray(layout.sourceIds) || layout.sourceIds.length === 0) {
+          fail(`${label}.layoutStatus.sourceIds requires at least one source`);
+        } else {
+          for (const sourceId of layout.sourceIds) {
+            if (!sources?.[sourceId]) {
+              fail(`${label}.layoutStatus.sourceIds must reference sources`);
+            }
+          }
+        }
+      }
+    }
+
     const provenance = project.provenance;
     if (
       !provenance ||
