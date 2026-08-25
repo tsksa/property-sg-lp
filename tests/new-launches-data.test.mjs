@@ -63,6 +63,20 @@ test('invalid dates and statuses are rejected', () => {
   assert.ok(errors.some((error) => error.includes('status is invalid')));
 });
 
+test('pre-launch availability must carry a dated source reference', () => {
+  const data = clone();
+  const chuan = data.projects.find(({ slug }) => slug === 'chuan-grove');
+  chuan.availabilityStatus.sourceId = 'missing-source';
+
+  assert.ok(
+    validate(data).some(
+      (error) =>
+        error.includes('chuan-grove.availabilityStatus.sourceId') &&
+        error.includes('reference a source'),
+    ),
+  );
+});
+
 test('placeholder content is rejected', () => {
   const data = clone();
   data.projects[0].developer = 'From $—';

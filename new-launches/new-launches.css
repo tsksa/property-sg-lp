@@ -270,6 +270,14 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-cta{font-size:0.86rem;color:var(--navy);margin-top:20px;line-height:1.55}
 .project-factsheet-cta a{color:var(--emerald-dark);font-weight:600;text-decoration:underline}
 .project-factsheet-note{font-size:0.8rem;color:var(--ink-muted);margin-top:20px;line-height:1.55;font-style:italic;padding-top:20px;border-top:1px solid rgba(11,30,63,0.08)}
+.project-availability{padding:64px 24px;background:var(--cream);border-bottom:1px solid var(--line)}
+.project-availability-inner{max-width:1080px;margin:0 auto}
+.project-availability h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.8rem,3vw,2.45rem);line-height:1.15;margin:8px 0 28px}
+.project-availability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.project-availability article{background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:14px;padding:24px;box-shadow:0 14px 38px -30px rgba(11,30,63,0.45)}
+.project-availability h3{color:var(--navy);font-size:1rem;line-height:1.4;margin:0 0 10px}
+.project-availability p{color:#3c4656;font-size:0.92rem;line-height:1.65;margin:0}
+.project-availability-note{margin-top:20px!important;padding:18px 20px;border-left:4px solid var(--emerald);background:rgba(16,185,129,0.07);border-radius:0 10px 10px 0;color:var(--navy)!important}
 .project-market-callout{display:flex;flex-direction:column;gap:4px;margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(16,185,129,.08);color:var(--navy)}
 .project-market-callout span{font-size:.78rem;color:var(--ink-soft)}
 .project-source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:20px}
@@ -509,7 +517,7 @@ body.nl-modal-open{overflow:hidden}
   .nl-catalog-controls-inner{padding:18px}
   .nl-controls-form{grid-template-columns:1fr}
   .nl-search-field,.nl-reset{grid-column:auto}
-  .nl-grid,.project-tour-grid,.project-gallery-grid,.project-related-grid{grid-template-columns:1fr}
+  .nl-grid,.project-tour-grid,.project-gallery-grid,.project-related-grid,.project-availability-grid{grid-template-columns:1fr}
   .project-factsheet-row{grid-template-columns:1fr;gap:2px}
 }
 

@@ -68,7 +68,9 @@ function launchCopy(project) {
   if (project.bookingDate) parts.push(`Booking ${formatDate(project.bookingDate)}`);
   if (!parts.length && project.launchWindow) {
     const label = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
-    parts.push(`Provisional launch window: ${label}`);
+    parts.push(project.availabilityStatus?.state === 'pre-launch'
+      ? `Expected launch by ${label}`
+      : `Provisional launch window: ${label}`);
   }
   return parts.join(' · ') || 'Launch timing not yet confirmed';
 }
@@ -89,6 +91,9 @@ function marketCopy(project) {
     const asOf = project.priceFrom.asOf || project.averagePsf.asOf || project.soldPercent.asOf;
     return `${facts.join(' · ')} · as of ${formatDate(asOf)}`;
   }
+  if (project.availabilityStatus?.state === 'pre-launch') {
+    return `${launchCopy(project)} · no balance units yet`;
+  }
   if (project.status === 'selling') return 'Selling now—check availability.';
   if (project.status === 'sold-out') return 'Sold out—ask for current alternatives.';
   return 'Ask for latest price';
@@ -106,6 +111,7 @@ function description(project) {
 const META_DESCRIPTION_MAX = 158;
 
 function metaDescription(project) {
+  if (project.seoDescription) return project.seoDescription;
   const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
   const lead = `${project.name}: ${TENURES[project.tenure].toLowerCase()} ${PROPERTY_TYPES[project.propertyType].toLowerCase()} in ${project.district}, ${project.location}.`;
   // Each candidate is tried in order; the first that fits the remaining budget wins.
@@ -161,6 +167,41 @@ function breadcrumbJson(project) {
   };
 }
 
+function availabilityFaqJson(project) {
+  if (project.availabilityStatus?.state !== 'pre-launch') return null;
+  const launch = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Are ${project.name} balance units available?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `No official balance-unit count has been published because ${project.name} has not launched for sale. The developer plans to launch by ${launch}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `When will ${project.name} launch?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `The developer plans to launch ${project.name} for sale by ${launch}. Exact preview and booking dates have not been announced.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `How many homes are planned at ${project.name}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${project.name} is planned as approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals.`,
+        },
+      },
+    ],
+  };
+}
+
 function alternativesFor(project) {
   return data.projects
     .filter((candidate) => candidate.slug !== project.slug && candidate.status !== 'sold-out')
@@ -201,6 +242,13 @@ function heroCtas(project) {
   <a href="/new-launches/sold-out.html" class="project-hero-cta ghost">View sold-out archive</a>
 </div>`;
   }
+  if (project.availabilityStatus?.state === 'pre-launch') {
+    const message = encodeURIComponent(`Hi Joe, please keep me updated on the ${project.name} launch, floor plans and first official unit release.`);
+    return `<div class="project-hero-ctas">
+  <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for launch updates</a>
+  <a href="#projectForm" class="project-hero-cta ghost">Use the enquiry form</a>
+</div>`;
+  }
   const message = encodeURIComponent(`Hi Joe, please send me the latest price list and floor plans for ${project.name}.`);
   return `<div class="project-hero-ctas">
   <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for price list &amp; floor plans</a>
@@ -209,12 +257,19 @@ function heroCtas(project) {
 }
 
 function contactSection(project) {
-  const message = encodeURIComponent(`Hi Joe, please help me compare ${project.name} with active alternatives.`);
+  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
+  const message = encodeURIComponent(preLaunch
+    ? `Hi Joe, please keep me updated on the ${project.name} launch, floor plans and first official unit release.`
+    : `Hi Joe, please help me compare ${project.name} with active alternatives.`);
   const heading = project.status === 'sold-out'
     ? 'Compare the current alternatives.'
+    : preLaunch
+      ? 'Get the verified launch update.'
     : 'Check the live unit list before deciding.';
   const body = project.status === 'sold-out'
     ? 'This project is sold out. Ask Joe for the closest active alternatives and their current availability.'
+    : preLaunch
+      ? 'No balance-unit count is available before launch. Ask Joe for confirmed preview dates, floor plans and the first official unit release.'
     : 'Ask for current availability, floor plans and a direct comparison with the three active alternatives.';
   return `<section class="nl-register-band reveal" id="register" aria-label="Contact Joe"><div class="nl-register-band-inner"><h3>${heading}</h3><p>${body}</p><a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener">WhatsApp Joe →</a></div></section>`;
 }
@@ -236,7 +291,12 @@ function verificationStrip(project) {
 function factsheetSection(project) {
   const verificationNote = project.status === 'sold-out'
     ? 'Status and core facts are verified as dated above. This project is sold out; any later resale or subsale listing must be checked independently.'
+    : project.availabilityStatus?.state === 'pre-launch'
+      ? 'The project has not launched for sale, so no official balance-unit count exists yet. Preview dates, booking dates, prices and layouts remain subject to developer release.'
     : 'Status and core facts are verified as dated above. Developer confirmation and the latest available unit list remain decisive before purchase.';
+  const marketNote = project.availabilityStatus?.state === 'pre-launch'
+    ? 'No price or sales inventory is shown before a verified developer release.'
+    : `Dynamic figures are shown only when verified within ${data.dynamicFreshnessDays} days of the ${formatDate(data.inventoryAsOf)} inventory.`;
   return `<section class="project-factsheet reveal" aria-labelledby="verified-facts-${esc(project.slug)}">
   <div class="project-factsheet-inner">
     <div class="project-factsheet-head"><div class="project-factsheet-head-left"><div class="project-eyebrow">Dataset-backed facts</div><h2 id="verified-facts-${esc(project.slug)}" class="project-section-title">${esc(project.name)} at a glance.</h2></div></div>
@@ -255,11 +315,28 @@ function factsheetSection(project) {
           <div class="project-factsheet-row"><div class="project-factsheet-key">Launch</div><div class="project-factsheet-val">${esc(launchCopy(project))}</div></div>
         </div>
       </div>
-      <div class="project-market-callout"><strong>${esc(marketCopy(project))}</strong><span>Dynamic figures are shown only when verified within ${data.dynamicFreshnessDays} days of the ${esc(formatDate(data.inventoryAsOf))} inventory.</span></div>
+      <div class="project-market-callout"><strong>${esc(marketCopy(project))}</strong><span>${esc(marketNote)}</span></div>
       <p class="project-factsheet-cta">Budgeting for ${esc(project.name)}? Work out the <a href="/stamp-duty-calculator/">BSD and ABSD stamp duty</a> on top of your purchase price before you commit.</p>
       <p class="project-factsheet-note">${esc(verificationNote)}</p>
       ${sourceSection(project)}
     </div>
+  </div>
+</section>`;
+}
+
+function availabilitySection(project) {
+  if (project.availabilityStatus?.state !== 'pre-launch') return '';
+  const launch = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+  return `<section class="project-availability reveal" aria-labelledby="availability-${esc(project.slug)}">
+  <div class="project-availability-inner">
+    <div class="project-eyebrow">Launch and unit status · checked ${esc(formatDate(project.availabilityStatus.asOf))}</div>
+    <h2 id="availability-${esc(project.slug)}">${esc(project.name)} balance units and availability.</h2>
+    <div class="project-availability-grid">
+      <article><h3>Are ${esc(project.name)} balance units available?</h3><p><strong>No official balance-unit count has been published.</strong> ${esc(project.name)} has not launched for sale, and the developer plans to launch by ${esc(launch)}. Any website showing a live balance-unit number now should be treated as unverified.</p></article>
+      <article><h3>When will ${esc(project.name)} launch?</h3><p>Sing Holdings plans to launch the project for sale by ${esc(launch)}. Exact preview and booking dates have not been announced, so this page will not invent a registration deadline.</p></article>
+      <article><h3>How many homes are planned?</h3><p>The combined development is planned for approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals. That is the planned project size—not a balance-unit figure.</p></article>
+    </div>
+    <p class="project-availability-note">A balance-unit count becomes meaningful only after booking begins. Ask Joe to verify the first official unit release, price list and floor plans when the developer publishes them.</p>
   </div>
 </section>`;
 }
@@ -282,10 +359,16 @@ function takeSection(project) {
   </div>
 </section>`;
   }
+  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
   const market = marketCopy(project);
   const finalChecks = project.status === 'sold-out'
     ? 'Before choosing a substitute, compare three things: the total entry quantum, the location trade-offs and the most credible active alternatives. I would only shortlist an alternative when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.'
+    : preLaunch
+      ? 'Before choosing, compare three things once they are released: the official floor plans, the total entry quantum and the most credible active alternatives. I would only shortlist the project when those checks support the buyer’s own timeline and exit plan—not because an early launch headline creates urgency.'
     : 'Before choosing, compare three things: the live unit list, the total entry quantum and the most credible active alternatives. I would only shortlist the project when those checks support the buyer’s own timeline and exit plan—not because a launch headline creates urgency.';
+  const marketContext = preLaunch
+    ? `The current verified launch line is: ${market}. This is a timing statement, not a price or availability claim; final stacks, floors and layouts have not been released.`
+    : `The current verified market line is: ${market} Those figures are a dated snapshot, not a promise of today’s unit availability, and the exact stack, floor and layout still determine whether the price is sensible.`;
   return `<section class="project-take reveal" aria-labelledby="joe-take-${esc(project.slug)}" data-approval="approved" data-approved-at="2026-08-02">
   <div class="project-take-inner">
     <div class="project-take-quote" aria-hidden="true">&ldquo;</div>
@@ -293,7 +376,7 @@ function takeSection(project) {
     <h2 id="joe-take-${esc(project.slug)}">Joe’s Take: ${esc(project.name)}</h2>
     <div class="project-take-body">
       <p>This project is best suited to ${esc(copy.fit)}. The verified record places ${esc(project.name)} at ${esc(project.location)} in ${esc(project.district)}, with ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes on a ${esc(TENURES[project.tenure].toLowerCase())} tenure by ${esc(project.developer)}. That makes buyer fit more important than a generic “best launch” label.</p>
-      <p>${esc(copy.advantage)} The current verified market line is: ${esc(market)} Those figures are a dated snapshot, not a promise of today’s unit availability, and the exact stack, floor and layout still determine whether the price is sensible.</p>
+      <p>${esc(copy.advantage)} ${esc(marketContext)}</p>
       <p>${esc(copy.risk)} ${esc(finalChecks)}</p>
     </div>
     <div class="project-take-sig"><span class="project-take-sig-line"><strong>Approved by Joe Tay</strong> · 2 Aug 2026</span></div>
@@ -315,9 +398,12 @@ ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.ca
 
 function formCard(project) {
   const soldOut = project.status === 'sold-out';
-  const heading = soldOut ? 'Find an active alternative' : `Ask about ${esc(project.name)}`;
+  const preLaunch = project.availabilityStatus?.state === 'pre-launch';
+  const heading = soldOut ? 'Find an active alternative' : preLaunch ? `Get ${esc(project.name)} launch updates` : `Ask about ${esc(project.name)}`;
   const sub = soldOut
     ? `${esc(project.name)} is sold out. Share your preferred bedroom size and Joe will suggest current alternatives.`
+    : preLaunch
+      ? 'No balance-unit count is available yet. Ask for confirmed launch dates, floor plans and the first official unit release.'
     : 'The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.';
   const button = soldOut ? 'Request alternatives →' : 'Send enquiry →';
   return `<div class="project-form-card">
@@ -335,8 +421,9 @@ function formCard(project) {
 }
 
 function head(project) {
-  const title = `${project.name} | Verified ${project.district} New Launch | PropertySG`;
+  const title = project.seoTitle || `${project.name} | Verified ${project.district} New Launch | PropertySG`;
   const meta = metaDescription(project);
+  const availabilityFaq = availabilityFaqJson(project);
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>
@@ -355,6 +442,7 @@ function head(project) {
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json">${jsonForHtml(projectJson(project))}</script>
 <script type="application/ld+json">${jsonForHtml(breadcrumbJson(project))}</script>
+${availabilityFaq ? `<script type="application/ld+json">${jsonForHtml(availabilityFaq)}</script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
@@ -372,6 +460,7 @@ function renderNewPage(project) {
 <section class="project-hero" id="main" tabindex="-1" aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>
 ${verificationStrip(project)}
 ${factsheetSection(project)}
+${availabilitySection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}
