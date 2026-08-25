@@ -65,7 +65,9 @@ test('market figures obey freshness fallbacks and each page links three active a
     const html = pageFor(project);
     const hasFreshDynamic = [project.priceFrom, project.averagePsf, project.soldPercent].some((field) => field.value != null && field.asOf);
     if (!hasFreshDynamic && project.status === 'selling') assert.match(html, /Selling now—check availability\./);
-    if (!hasFreshDynamic && project.status === 'upcoming') assert.match(html, /Ask for latest price/);
+    if (!hasFreshDynamic && project.status === 'upcoming' && project.availabilityStatus?.state !== 'pre-launch') {
+      assert.match(html, /Ask for latest price/);
+    }
     const related = [...html.matchAll(/class="project-related-card"/g)];
     assert.equal(related.length, 3, `${slug}: expected three alternatives`);
     if (project.status === 'sold-out') {
@@ -74,6 +76,25 @@ test('market figures obey freshness fallbacks and each page links three active a
       assert.ok(html.indexOf('WhatsApp for price list') < html.indexOf('Use the enquiry form'), `${slug}: WhatsApp must be primary`);
     }
   }
+});
+
+test('Chuan Grove answers balance-unit intent without inventing pre-launch inventory', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'chuan-grove');
+  const html = pageFor(project);
+
+  assert.equal(project.developer, 'Sing Holdings / Sunway Developments');
+  assert.equal(project.launchWindow, '2027-Q1');
+  assert.equal(project.availabilityStatus.state, 'pre-launch');
+  assert.ok(project.seoTitle.length <= 60);
+  assert.ok(project.seoDescription.length <= 155);
+  assert.match(html, /<title>Chuan Grove Balance Units &amp; Launch Status \| Joe Tay<\/title>/);
+  assert.match(html, /Chuan Grove balance units and availability/);
+  assert.match(html, /No official balance-unit count has been published/);
+  assert.match(html, /plans to launch by Q1 2027/);
+  assert.match(html, /Expected launch by Q1 2027 · no balance units yet/);
+  assert.match(html, /"@type": "FAQPage"/);
+  assert.match(html, /WhatsApp for launch updates/);
+  assert.doesNotMatch(html, /Sing Holdings \/ MCC Singapore|Expected Q3 2026/);
 });
 
 test('refreshed pages retain lead forms, tracking and existing media', () => {

@@ -153,6 +153,7 @@ function priceCopy(project) {
   if (project.priceFrom.value != null) {
     return `From ${formatMoney(project.priceFrom.value)}`;
   }
+  if (project.availabilityStatus?.state === 'pre-launch') return 'Price not released';
   if (project.status === 'selling') return 'Selling now—check availability.';
   if (project.status === 'sold-out') return 'Sold out';
   return 'Ask for latest price';
@@ -176,6 +177,9 @@ function marketVerificationCopy(project, hasDynamicFigures) {
     project.soldPercent.asOf;
   if (asOf) {
     return `${hasDynamicFigures ? '' : 'Market figure '}as of ${formatDate(asOf)}`;
+  }
+  if (project.availabilityStatus?.state === 'pre-launch') {
+    return 'No balance units published before launch.';
   }
   return 'Contact Joe for current pricing and availability.';
 }

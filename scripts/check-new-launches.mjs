@@ -249,6 +249,27 @@ export function validateNewLaunchData(
       fail(`${label}.launchWindow must be null, YYYY-MM or YYYY-QN`);
     }
 
+    if (project.availabilityStatus != null) {
+      const availability = project.availabilityStatus;
+      if (
+        !availability ||
+        typeof availability !== 'object' ||
+        Array.isArray(availability)
+      ) {
+        fail(`${label}.availabilityStatus must be an object`);
+      } else {
+        if (availability.state !== 'pre-launch') {
+          fail(`${label}.availabilityStatus.state must be pre-launch`);
+        }
+        if (!isIsoDate(availability.asOf)) {
+          fail(`${label}.availabilityStatus.asOf must be a real ISO date`);
+        }
+        if (!sources?.[availability.sourceId]) {
+          fail(`${label}.availabilityStatus.sourceId must reference a source`);
+        }
+      }
+    }
+
     const provenance = project.provenance;
     if (
       !provenance ||

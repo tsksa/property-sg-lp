@@ -37,6 +37,18 @@
       "url": "https://links.sgx.com/1.0.0/corporate-announcements/LHL363GW6LP7178J/876506_FY2025%20PXL%20Slides_Business%20Updates.pdf",
       "checkedAt": "2026-07-30"
     },
+    "sing-holdings-chuan-grove-award": {
+      "name": "Sing Holdings — award of second Chuan Grove land parcel",
+      "category": "corporate-filing",
+      "url": "https://links.sgx.com/FileOpen/Chuan%20Grove.ashx?App=Announcement&FileID=858721",
+      "checkedAt": "2026-08-25"
+    },
+    "sing-holdings-chuan-grove-launch-2027": {
+      "name": "Sing Holdings — FY2025 annual report query responses",
+      "category": "corporate-filing",
+      "url": "https://links.sgx.com/FileOpen/Response%20to%20Queries%20on%20FY2025%20Annual%20Report.ashx?App=Announcement&FileID=884373",
+      "checkedAt": "2026-08-25"
+    },
     "99co-2026-guide": {
       "name": "99.co Full List of New Condo Launches in 2026",
       "category": "portal-corroboration",
@@ -483,23 +495,30 @@
       "region": "OCR",
       "propertyType": "condominium",
       "tenure": "99-year",
-      "developer": "Sing Holdings / MCC Singapore",
+      "developer": "Sing Holdings / Sunway Developments",
       "unitCount": 1055,
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": "2026-Q3",
+      "launchWindow": "2027-Q1",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/chuan-grove.html",
-      "verifiedAt": "2026-07-30",
+      "verifiedAt": "2026-08-25",
+      "seoTitle": "Chuan Grove Balance Units & Launch Status | Joe Tay",
+      "seoDescription": "Chuan Grove has no balance-unit count before launch, now expected by Q1 2027. Check the verified developer, 1,055-unit plan and availability updates.",
+      "availabilityStatus": {
+        "state": "pre-launch",
+        "asOf": "2026-08-25",
+        "sourceId": "sing-holdings-chuan-grove-launch-2027"
+      },
       "priceFrom": { "value": null, "asOf": null },
       "averagePsf": { "value": null, "asOf": null },
       "soldPercent": { "value": null, "asOf": null },
       "provenance": {
-        "facts": ["propnex-sgx-2026-pipeline"],
-        "timing": ["99co-2026-guide"],
-        "status": ["99co-2026-guide"],
-        "dynamics": ["99co-2026-guide"]
+        "facts": ["sing-holdings-chuan-grove-award", "sing-holdings-chuan-grove-launch-2027"],
+        "timing": ["sing-holdings-chuan-grove-launch-2027"],
+        "status": ["sing-holdings-chuan-grove-launch-2027"],
+        "dynamics": ["sing-holdings-chuan-grove-launch-2027"]
       },
       "legacyInventoryEvidence": null
     },
