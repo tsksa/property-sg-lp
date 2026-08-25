@@ -30,6 +30,13 @@ const LINK_GROUPS = [
     ['/insights/', 'Guides & insights'],
     ['/glossary/', 'Property glossary'],
   ]],
+  ['Popular now', [
+    ['/new-launches/chuan-grove.html', 'Chuan Grove updates'],
+    ['/calculator/', 'HDB loan calculator'],
+    ['/insights/property-agent-commission-singapore.html', 'Property agent commission guide'],
+    ['/new-launches/thomson-reserve.html', 'Thomson Reserve updates'],
+    ['/new-launches/keppel-bay-plot-6.html', 'Keppel Bay Plot 6 updates'],
+  ]],
 ];
 
 const STYLE = `<style>
