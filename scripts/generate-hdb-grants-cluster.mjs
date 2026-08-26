@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
+import { policySources } from './content/hdb-policy-august-2026.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -28,6 +29,7 @@ const SOURCES = {
 const ARTICLES = [
   {
     slug: 'enhanced-cpf-housing-grant-singapore',
+    modified: '2026-08-26',
     title: 'Enhanced CPF Housing Grant Singapore (2026) | Joe Tay',
     headline: 'Enhanced CPF Housing Grant: amounts and eligibility in 2026',
     description: 'Check 2026 Enhanced CPF Housing Grant amounts, income and employment rules, lease requirements and how EHG works for HDB buyers.',
@@ -38,6 +40,7 @@ const ARTICLES = [
 <div class="callout"><strong>Current maximums</strong><p>Eligible first-timer families can receive up to <strong>$120,000</strong>. An eligible single buying alone can receive up to <strong>$60,000</strong>. The amount steps down as assessed income rises, and your HFE letter confirms the result.</p></div>
 
 <h2>Who may qualify for EHG?</h2>
+<p><strong>August 2026 clarification:</strong> the higher general HDB and resale-grant income ceilings do not raise the separate EHG limits below. See the <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">HDB income-ceiling update</a> before treating a $16,000 household ceiling as EHG eligibility.</p>
 <table aria-label="Enhanced CPF Housing Grant requirements">
   <tr><th>Requirement</th><th>Current rule</th></tr>
   <tr><td>Applicant status</td><td>At least one core applicant must be a first-timer. Different grant shares apply to first-timer/second-timer couples and singles.</td></tr>
@@ -67,6 +70,7 @@ const ARTICLES = [
   },
   {
     slug: 'hdb-resale-grants-singapore',
+    modified: '2026-08-26',
     title: 'HDB Resale Grants Singapore (2026): Amounts | Joe Tay',
     headline: 'HDB resale grants in 2026: family, singles and proximity amounts',
     description: 'Compare current HDB resale grants for families and singles, including CPF Housing Grant, EHG and Proximity Housing Grant amounts.',
@@ -86,7 +90,8 @@ const ARTICLES = [
 
 <h2>CPF Housing Grant for resale flats</h2>
 <p>Eligible first-timer families may receive $80,000 for a 2- to 4-room resale flat or $50,000 for a 5-room or larger flat. An eligible first-timer single buying alone may receive $40,000 or $25,000 respectively.</p>
-<p>The published income ceiling is generally $14,000 for a family household and $7,000 for a single buying alone, with additional household and property-ownership conditions.</p>
+<p>For HFE applications from <strong>24 August 2026</strong>, the general CPF Housing Grant income ceiling is <strong>$16,000 for a family</strong> and <strong>$8,000 for an eligible single buying alone</strong>. Eligible extended families may use the $24,000 ceiling, with each family nucleus within $16,000. Household, citizenship, flat-type and property-ownership conditions still apply.</p>
+<p>Income-ceiling update checked 26 Aug 2026 against <a href="${policySources.announcement}" rel="noopener">HDB's announcement</a> and Annex A. Existing HFE holders should read the <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">transition rules</a> before reapplying. This is not an increase in grant amounts or in the separate EHG income ceiling.</p>
 
 <h2>Enhanced CPF Housing Grant</h2>
 <p>EHG adds income-tiered support. A first-timer family can receive up to $120,000, while a single buying alone can receive up to $60,000. The remaining lease must be more than 20 years and cover the youngest eligible core member to age 95 for the full EHG amount.</p>
@@ -215,6 +220,7 @@ const ARTICLES = [
 ];
 
 const LOAN_GUIDES = [
+  ['hdb-income-ceiling-2026-ndr-changes', 'August 2026 HDB income ceilings and HFE changes'],
   ['hdb-loan-eligibility-singapore', 'HDB loan eligibility'],
   ['hfe-letter-singapore-guide', 'HFE letter application guide'],
   ['msr-vs-tdsr-singapore', 'MSR versus TDSR'],
@@ -236,7 +242,7 @@ function schemas(article) {
     {
       '@context': 'https://schema.org', '@type': 'Article', headline: article.headline,
       description: article.description, image: 'https://joetay.com/joetay-social-preview.jpg',
-      datePublished: published, dateModified: published, inLanguage: 'en-SG',
+      datePublished: published, dateModified: article.modified || published, inLanguage: 'en-SG',
       author: { '@type': 'Person', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', jobTitle: 'District Director, ERA Realty Network', identifier: 'CEA R009618D' },
       publisher: { '@type': 'RealEstateAgent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' },
       mainEntityOfPage: url,
@@ -294,7 +300,7 @@ function page(article) {
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="article:author" content="Joe Tay">
 <meta property="article:published_time" content="${published}">
-<meta property="article:modified_time" content="${published}">
+<meta property="article:modified_time" content="${article.modified || published}">
 <meta property="article:section" content="${esc(article.category)}">
 ${schemas(article)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,7 +319,7 @@ ${schemas(article)}
 <header class="blog-topbar"><div class="blog-topbar-inner"><a href="/" class="blog-logo">PropertySG</a><nav class="blog-nav" aria-label="Primary"><a href="/">Home</a><a href="/insights/">Insights</a><a href="/calculator/">Calculator</a><a href="/#book" class="blog-nav-cta">Book a Call</a></nav></div></header>
 <main id="main" tabindex="-1" class="blog-main"><article class="article">
 <div class="article-breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/insights/">Insights</a><span class="sep">›</span><span aria-current="page">${esc(article.headline)}</span></div>
-<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${published}">Aug 25, 2026</time></div>
+<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${article.modified || published}">${article.modified ? 'Updated Aug 26, 2026' : 'Aug 25, 2026'}</time></div>
 <h1 id="article-title">${esc(article.headline)}</h1><p class="article-lede">${esc(article.lede)}</p>
 <div class="article-byline"><picture><source type="image/webp" srcset="/joe-tay-propertysg-advisor-400.webp"><img src="/joe-tay-propertysg-advisor-400.jpg" alt="Joe Tay" width="40" height="40" loading="lazy" decoding="async"></picture><div>By <strong><a href="/about-joe/">Joe Tay</a></strong> · District Director, ERA Realty Network · CEA R009618D</div></div></header>
 <section class="article-body" aria-labelledby="article-title">

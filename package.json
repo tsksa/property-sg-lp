@@ -28,7 +28,7 @@
     "check:llms-txt": "node scripts/generate-llms-txt.mjs --check",
     "test:calculator": "node --test tests/calculator-rules.test.mjs tests/decision-tools.test.mjs",
     "test:hdb-loan-calculator-seo": "node --test tests/hdb-loan-calculator-seo.test.mjs",
-    "test:hdb-loan-content-cluster": "node --test tests/hdb-loan-content-cluster.test.mjs",
+    "test:hdb-loan-content-cluster": "node --test tests/hdb-loan-content-cluster.test.mjs tests/hdb-policy-update.test.mjs",
     "test:hdb-grants-content-cluster": "node --test tests/hdb-grants-content-cluster.test.mjs",
     "test:stamp-duty": "node --test tests/stamp-duty-rules.test.mjs",
     "test:contrast": "node --test tests/color-contrast.test.mjs",
