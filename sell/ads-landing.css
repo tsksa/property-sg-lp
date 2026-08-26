@@ -77,10 +77,9 @@ img{max-width:100%;height:auto}
 .lp-case-inner{max-width:900px;margin:0 auto;text-align:center}
 .lp-case-stars{color:#f5c518;letter-spacing:3px;font-size:1.1rem;margin-bottom:18px}
 .lp-case-quote{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.25rem,2.5vw,1.7rem);font-weight:500;color:var(--navy);line-height:1.4;letter-spacing:-0.3px;margin-bottom:22px}
-.lp-case-quote::before{content:"\201C";color:var(--emerald);font-size:1.3em;line-height:0;margin-right:4px}
-.lp-case-quote::after{content:"\201D";color:var(--emerald);font-size:1.3em;line-height:0;margin-left:4px}
 .lp-case-attrib{font-size:0.88rem;color:#666;font-weight:500}
 .lp-case-attrib strong{color:var(--navy)}
+.lp-case-attrib a{color:var(--navy);text-decoration:underline}
 .lp-case-verified{display:inline-block;margin-left:8px;font-size:0.68rem;font-weight:700;color:var(--emerald);letter-spacing:0.7px;text-transform:uppercase;background:rgba(16,185,129,0.1);padding:3px 8px;border-radius:100px}
 
 /* ── Process ── */
