@@ -1,0 +1,32 @@
+/* Scoped styles for the two client-side decision tools. */
+.decision-tool{background:#fff;border:1px solid #e8e5dd;border-radius:16px;padding:28px;color:#26354a;min-width:0}
+.decision-tool h2,.decision-tool h3{color:#0b1e3f}
+.decision-tool p{line-height:1.65}
+.decision-tool label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+.decision-tool input,.decision-tool select{box-sizing:border-box;width:100%;min-height:44px;border:1px solid #aaa;border-radius:8px;padding:10px 12px;font:inherit;color:#172b45;background:#fff}
+.decision-tool button{min-height:44px;border:0;border-radius:8px;background:#087a5b;color:#fff;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer}
+.decision-tool :focus-visible,.decision-modes input:focus-visible{outline:3px solid #087a5b;outline-offset:3px}
+.decision-tool [aria-invalid="true"]{border-color:#a21d28}
+.decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:20px 0}
+.decision-field{min-width:0}
+.decision-help{font-size:.85rem;color:#555;margin:6px 0 16px}
+.decision-error{color:#a21d28;font-weight:600}
+.decision-summary{background:#f1f8f5;border:1px solid #c7ddd4;border-radius:12px;padding:20px;margin:20px 0}
+.decision-summary dl{display:grid;grid-template-columns:1fr auto;gap:10px;margin:0}
+.decision-summary dt{font-size:.9rem}
+.decision-summary dd{font-weight:700;text-align:right;margin:0;overflow-wrap:anywhere}
+.decision-table-wrap{max-width:100%;overflow-x:auto;margin:18px 0}
+.decision-tool table{width:100%;border-collapse:collapse;font-size:.85rem;font-variant-numeric:tabular-nums}
+.decision-tool caption{text-align:left;font-weight:700;margin-bottom:10px}
+.decision-tool th,.decision-tool td{padding:10px 8px;border-bottom:1px solid #dbe2df;text-align:right;white-space:nowrap}
+.decision-tool th:first-child,.decision-tool td:first-child{text-align:left}
+.decision-tool fieldset{min-width:0;border:1px solid #dbe2df;border-radius:10px;padding:18px}
+.decision-tool legend{font-weight:700;padding:0 6px}
+.decision-tool fieldset .decision-field+.decision-field{margin-top:16px}
+.decision-modes{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px 24px;border:0;padding:0;margin:0}
+.decision-modes legend{font-weight:700;color:#0b1e3f;margin-bottom:12px}
+.decision-modes label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
+.decision-modes input{width:20px;height:20px;accent-color:#087a5b}
+#repaymentPanel{grid-column:1/-1}
+#repaymentPanel[hidden],#affordabilityForm[hidden],#affordabilityResults[hidden],#affordabilityDisclaimer[hidden],.decision-tool [hidden],.decision-modes[hidden]{display:none!important}
+@media(max-width:600px){.decision-tool{padding:20px 16px}.decision-grid{grid-template-columns:1fr}.decision-summary{padding:16px}.decision-summary dl{grid-template-columns:1fr}.decision-summary dd{text-align:left;margin-bottom:8px}.decision-tool th,.decision-tool td{padding:10px 5px}.decision-modes{gap:8px}}

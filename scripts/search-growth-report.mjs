@@ -1036,6 +1036,18 @@ export function selectVisibilitySnapshot(currentRows, limit = 15) {
     }));
 }
 
+// Exploratory observations are deliberately separate from the >=50-impression
+// opportunity buckets. A sparse query is a watch item, not a stable ranking win.
+export function selectVisibilityWatchlist(currentRows) {
+  return selectVisibilitySnapshot(currentRows, Infinity)
+    .filter((row) => row.impressions > 0)
+    .map((row) => ({
+      ...row,
+      confidence: row.impressions < 50 ? 'low-volume' : '50+ impressions',
+      nearTop20: row.position != null && row.position > 20 && row.position <= 50,
+    }));
+}
+
 export function summarizeRows(rows) {
   const clicks = rows.reduce((total, row) => total + row.clicks, 0);
   const impressions = rows.reduce(
@@ -1489,6 +1501,7 @@ export function buildReport({
     priorGa4,
   );
   const visibilitySnapshot = selectVisibilitySnapshot(currentRows);
+  const visibilityWatchlist = selectVisibilityWatchlist(currentRows);
   const unmatchedSearchConsolePages = opportunities
     .filter(
       (opportunity) =>
@@ -1539,6 +1552,12 @@ export function buildReport({
         currentGa4,
         priorGa4,
       ),
+      // Independent of Search Console thresholds: zero ranked opportunities
+      // must not hide sessions, lead submissions or contact intent.
+      landingPages: unmatchedGa4LandingPages([], currentGa4, priorGa4)
+        .sort((left, right) =>
+          right.current.organicSessions - left.current.organicSessions ||
+          compareText(left.normalizedPath, right.normalizedPath)),
       invalidLandingPageRows: {
         current: currentGa4.invalidLandingPageRows,
         prior: priorGa4.invalidLandingPageRows,
@@ -1549,6 +1568,7 @@ export function buildReport({
     opportunityDefinitions: OPPORTUNITY_DEFINITIONS,
     opportunities,
     visibilitySnapshot,
+    visibilityWatchlist,
     emptyStateMessage:
       opportunities.length === 0 ?
         'No qualifying non-branded Singapore query/page opportunities were found for this window.'
@@ -1793,12 +1813,33 @@ export function renderMarkdown(report) {
       '|---|---|---:|---:|---:|',
       ...report.visibilitySnapshot.map(
         (row) =>
-          `| ${row.query || '—'} | ${row.page || '—'} | ${formatInteger(row.impressions)} | ${formatInteger(row.clicks)} | ${row.position == null ? '—' : row.position.toFixed(1)} |`,
+          `| ${escapeMarkdownCell(row.query || '—')} | ${escapeMarkdownCell(row.page || '—')} | ${formatInteger(row.impressions)} | ${formatInteger(row.clicks)} | ${row.position == null ? '—' : row.position.toFixed(1)} |`,
       ),
       '',
     );
   } else {
-    lines.push('**No non-branded rows were returned for this window at all — the site is not being surfaced for any query.**', '');
+    lines.push('**No non-branded query/page rows were returned for this window. This does not prove the site had no search visibility; Search Console omits some queries.**', '');
+  }
+  const nearTop20 = (report.visibilityWatchlist || [])
+    .filter((row) => row.nearTop20)
+    .sort((left, right) => left.position - right.position || right.impressions - left.impressions || compareText(left.query, right.query));
+  lines.push(
+    '## Top-20 watchlist: average positions above 20 through 50',
+    '',
+    'Exploratory query/page observations, not guaranteed rankings or keyword search volumes. Low-volume means fewer than 50 impressions; the ranked-opportunity thresholds remain unchanged. The JSON visibilityWatchlist includes all returned non-branded rows with impressions, across all positions.',
+    '',
+  );
+  if (nearTop20.length) {
+    lines.push(
+      '| Query | Page | Impressions | Clicks | Avg position | Evidence |',
+      '|---|---|---:|---:|---:|---|',
+      ...nearTop20.slice(0, 100).map((row) =>
+        `| ${escapeMarkdownCell(row.query)} | ${escapeMarkdownCell(row.page)} | ${formatInteger(row.impressions)} | ${formatInteger(row.clicks)} | ${formatPosition(row.position)} | ${row.confidence} |`),
+      '',
+    );
+    if (nearTop20.length > 100) lines.push(`Showing 100 of ${nearTop20.length} watch items; see the JSON artifact for all rows.`, '');
+  } else {
+    lines.push('No returned non-branded rows in this position range. Other positions remain in the JSON watchlist.', '');
   }
   lines.push(
     '## Ranked opportunities',
@@ -1826,6 +1867,23 @@ export function renderMarkdown(report) {
     'GA4 is filtered to Organic Search and uses the same date windows. Lead and contact rates are event counts per organic session, not unique-user conversion rates. Contact intent is never counted as a completed lead.',
     '',
   );
+  lines.push('### All organic landing pages, independent of ranking thresholds', '');
+  const landingPages = report.ga4.landingPages || [];
+  if (landingPages.length) {
+    lines.push(
+      '| Landing page | Current sessions | Prior sessions | Current engaged sessions | Current lead submissions | Prior lead submissions | Current contact intent |',
+      '|---|---:|---:|---:|---:|---:|---:|',
+      ...landingPages.slice(0, 100).map((row) =>
+        `| ${escapeMarkdownCell(row.normalizedPath)} | ${formatInteger(row.current.organicSessions)} | ${formatInteger(row.prior.organicSessions)} | ${formatInteger(row.current.engagedSessions)} | ${formatInteger(row.current.totalLeads)} | ${formatInteger(row.prior.totalLeads)} | ${formatInteger(row.current.contactIntent.total)} |`),
+      '',
+      'Lead submissions and contact clicks are event counts, not verified qualified customers. Full current/prior metrics and lead-type breakdowns are in JSON ga4.landingPages. GA4 Organic Search is not restricted to Singapore; do not equate these sessions with Singapore Search Console clicks.',
+      '',
+    );
+    if (landingPages.length > 100) lines.push(`Showing 100 of ${landingPages.length} landing pages; see the JSON artifact for all rows.`, '');
+  } else {
+    lines.push('No reportable organic landing-page rows were returned by GA4. Check tracking coverage and the invalid-path diagnostics; this is not inferred from Search Console opportunity counts.', '');
+  }
+  lines.push('### Ranked-opportunity enrichment', '');
   if (report.opportunities.length === 0) {
     lines.push(
       'No ranked Search Console opportunity rows were available to enrich.',

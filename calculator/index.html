@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>HDB Loan Calculator Singapore (2026) | Joe Tay</title>
-<meta name="description" content="Free HDB loan calculator for Singapore buyers. Estimate your maximum loan, property budget and monthly repayment using current HDB loan rules.">
+<meta name="description" content="Free HDB loan calculator: calculate monthly repayments and total interest for your loan, or estimate your housing budget with cash, CPF and income.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="theme-color" content="#0b1e3f">
 <meta name="application-name" content="PropertySG">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
 <meta property="og:title" content="HDB Loan Calculator Singapore (2026) | Joe Tay">
-<meta property="og:description" content="Estimate your HDB loan, property budget and monthly repayment using current published HDB loan rules.">
+<meta property="og:description" content="Calculate repayments and total interest for your loan, or estimate your HDB housing budget with cash, CPF and income.">
 <meta property="og:url" content="https://joetay.com/calculator/">
 <meta property="og:locale" content="en_SG">
 
@@ -26,7 +26,7 @@
 <meta property="og:image:alt" content="Joe Tay, District Director at ERA Realty Network — PropertySG">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HDB Loan Calculator Singapore (2026) | Joe Tay">
-<meta name="twitter:description" content="Estimate your HDB loan, property budget and monthly repayment using current published HDB loan rules.">
+<meta name="twitter:description" content="Calculate repayments and total interest for your loan, or estimate your HDB housing budget with cash, CPF and income.">
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/site.webmanifest">
@@ -44,8 +44,8 @@
   "@type": "WebPage",
   "name": "HDB Loan Calculator Singapore (2026) | Joe Tay",
   "url": "https://joetay.com/calculator/",
-  "description": "Free HDB loan calculator for Singapore buyers. Estimate your maximum loan, property budget and monthly repayment using current HDB loan rules.",
-  "dateModified": "2026-08-25",
+  "description": "Free HDB loan calculator: calculate monthly repayments and total interest for your loan, or estimate your housing budget with cash, CPF and income.",
+  "dateModified": "2026-08-26",
   "inLanguage": "en-SG",
   "isPartOf": {"@type": "WebSite", "name": "PropertySG", "url": "https://joetay.com/"},
   "primaryImageOfPage": {"@type": "ImageObject", "url": "https://joetay.com/joetay-social-preview.jpg"},
@@ -64,7 +64,7 @@
  "@type": "SoftwareApplication",
  "name": "HDB Loan Calculator Singapore",
  "url": "https://joetay.com/calculator/",
- "description": "Free HDB loan calculator for Singapore buyers — enter income, savings, CPF, age and tenure to estimate your maximum property budget, loan amount and monthly repayment.",
+ "description": "Free HDB loan calculator with repayment and affordability modes: estimate monthly instalments, total interest and annual balances, or your housing budget with income, cash and CPF.",
  "applicationCategory": "FinanceApplication",
  "applicationSubCategory": "Mortgage Calculator",
  "operatingSystem": "Web",
@@ -81,6 +81,7 @@
   "Maximum property purchase price",
   "Maximum loan amount (HDB or bank)",
   "Monthly repayment with MSR check",
+  "Loan repayment, total interest and annual balance schedule",
   "TDSR stress-test at 4% rate",
   "CPF + cash downpayment split"
  ],
@@ -190,7 +191,8 @@ a:hover{text-decoration:underline}
 .calc-field input:focus,.calc-field select:focus{border-color:var(--emerald)}
 .calc-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .calc-loan-type{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
-.calc-loan-type input{display:none}
+.calc-loan-type input{position:absolute;width:1px;height:1px;opacity:0}
+.calc-loan-type input:focus-visible+label{outline:3px solid var(--emerald-aa);outline-offset:3px}
 .calc-loan-type label{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1.5px solid #ddd;border-radius:10px;cursor:pointer;transition:all .15s;text-align:center;font-size:0.88rem;font-weight:600;color:#555}
 .calc-loan-type label .type-sub{font-size:0.7rem;font-weight:500;color:#767676}
 .calc-loan-type input:checked + label{border-color:var(--emerald);background:rgba(16,185,129,0.06);color:var(--navy)}
@@ -261,6 +263,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/assets/decision-tools.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -282,13 +285,72 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="calc-hero-inner">
     <div class="eyebrow">HDB Loan Calculator Singapore</div>
     <h1 id="page-hero-title">HDB loan calculator: estimate your monthly repayment</h1>
-    <p>Enter your household income, cash, CPF and preferred tenure to estimate your maximum HDB loan, property budget and monthly repayment. This is an independent planning estimate; your HFE letter determines the actual eligible amount.</p>
+    <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount.</p>
   </div>
 </section>
 
 <main id="main" tabindex="-1" class="calc-main">
 
-  <div class="calc-form">
+  <fieldset class="decision-modes" id="calculatorModes" hidden>
+    <legend>What would you like to calculate?</legend>
+    <label><input type="radio" name="calculatorMode" value="repayment" checked> Monthly repayment</label>
+    <label><input type="radio" name="calculatorMode" value="affordability"> How much can I afford?</label>
+  </fieldset>
+
+  <section class="decision-tool" id="repaymentPanel" aria-labelledby="repaymentTitle">
+    <h2 id="repaymentTitle">Calculate your loan repayment</h2>
+    <p>Enter the amount you plan to borrow, not the property price. No contact details are needed; these calculations stay in your browser.</p>
+    <form id="repaymentForm" novalidate>
+      <div class="decision-grid">
+        <div class="decision-field">
+          <label for="repaymentPrincipal">Loan amount (S$)</label>
+          <input type="number" id="repaymentPrincipal" min="0" max="100000000" step="0.01" value="300000" inputmode="decimal" required aria-describedby="repaymentError">
+        </div>
+        <div class="decision-field">
+          <label for="repaymentYears">Loan term (years)</label>
+          <input type="number" id="repaymentYears" min="1" max="25" step="1" value="25" inputmode="numeric" required aria-describedby="repaymentError">
+        </div>
+        <div class="decision-field">
+          <label for="repaymentRate">Annual interest rate (%)</label>
+          <input type="number" id="repaymentRate" min="0" max="100" step="0.01" value="2.6" inputmode="decimal" required aria-describedby="repaymentRateHelp repaymentError">
+          <p class="decision-help" id="repaymentRateHelp">Use your quoted rate for a bank loan. The HDB preset is 2.6% for 1 July–30 September 2026; it is reviewed quarterly, not guaranteed for the whole term.</p>
+          <button type="button" id="useHdbRate">Use HDB rate: 2.6%</button>
+        </div>
+      </div>
+      <p id="repaymentError" class="decision-error" role="alert"></p>
+      <button type="submit">Calculate repayment</button>
+    </form>
+    <noscript><p>Enable JavaScript to use the interactive calculator. The worked examples and methodology below remain available.</p></noscript>
+    <div id="repaymentOutput" hidden>
+      <div class="decision-summary" aria-live="polite" aria-atomic="true">
+        <dl>
+          <dt>Regular monthly repayment</dt><dd id="repaymentMonthly"></dd>
+          <dt>Total interest over the term</dt><dd id="repaymentInterest"></dd>
+          <dt>Total repaid, including principal</dt><dd id="repaymentTotal"></dd>
+          <dt>Final payment, adjusted for rounding</dt><dd id="repaymentFinal"></dd>
+        </dl>
+      </div>
+      <details>
+        <summary>View annual repayment schedule</summary>
+        <div class="decision-table-wrap" role="region" aria-label="Annual repayment schedule" tabindex="0">
+          <table>
+            <caption>End-of-year balances (S$)</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Repaid</th><th scope="col">Interest</th><th scope="col">Balance</th></tr></thead>
+            <tbody id="repaymentSchedule"></tbody>
+          </table>
+        </div>
+      </details>
+      <p><a href="/#book">Discuss your housing budget with Joe</a> or <a href="/insights/hdb-loan-eligibility-singapore.html">check the HDB eligibility guide</a> before deciding what to borrow.</p>
+    </div>
+    <h3>How this repayment estimate works</h3>
+    <p>For a constant rate, the monthly instalment is P × r ÷ (1 − (1 + r)<sup>−n</sup>), where P is the loan amount, r is the annual rate divided by 12 and n is the number of months. At 0% interest, divide P by n.</p>
+    <p class="decision-help">The schedule rounds monthly interest and payments to cents and adjusts the last payment to clear the balance. It assumes payments at month-end and an unchanged rate. It excludes fees, insurance, missed payments, early repayment and future rate changes. Your lender's rounding and payment dates may differ. This mode does not assess MSR, TDSR, CPF usage or loan approval.</p>
+    <h3>Worked examples, not loan offers</h3>
+    <p>A hypothetical S$300,000 loan over 25 years at a constant 2.6% has a regular monthly repayment of about S$1,361. A S$120,000 loan over 10 years at 0% has a monthly repayment of S$1,000 and no interest.</p>
+    <p class="decision-help">Repayment source checked 26 August 2026: <a href="https://www.hdb.gov.sg/managing-my-home/finances/loan-matters/interest-rate" target="_blank" rel="noopener">HDB interest rate and monthly interest computation</a>.</p>
+  </section>
+
+  <div class="calc-form" id="affordabilityForm" hidden>
     <h2>Your numbers</h2>
     <p class="sub">All calculations happen locally in your browser — nothing is sent or stored.</p>
 
@@ -332,7 +394,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </div>
 
-  <aside class="calc-results" aria-live="polite">
+  <aside class="calc-results" id="affordabilityResults" aria-live="polite" hidden>
     <div class="calc-results-head">Your affordability</div>
 
     <div class="calc-result">
@@ -411,7 +473,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   </div>
 </section>
 
-<div class="calc-disclaimer">
+<div class="calc-disclaimer" id="affordabilityDisclaimer" hidden>
   <p><strong>Estimates only.</strong> Based on simplified HDB MSR (30% of gross income), TDSR (55% for bank loans, per MAS rules), and LTV 75% cap. Bank loan calculations use <strong>4% MAS stress rate</strong> — the minimum banks must use to assess loan eligibility. Your <strong>actual monthly payment</strong> at today's market rate (~2.5% for a typical fixed package) is shown separately and will be meaningfully lower. HDB concessionary loan rate is 2.6%. Final approval depends on credit assessment, property valuation, HFE letter, and current cooling measures. Speak to me for a detailed budget plan for your specific situation.</p>
 </div>
 
@@ -658,7 +720,7 @@ document.querySelectorAll('[name="loanType"]').forEach(el=>{
 
 // GA4 event when user engages meaningfully (after first tweak)
 let engaged = false;
-document.querySelectorAll('input').forEach(el=>{
+document.querySelectorAll('#affordabilityForm input').forEach(el=>{
   el.addEventListener('change', ()=>{
     if(!engaged){
       engaged = true;
@@ -684,6 +746,7 @@ recalc();
   b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 })();
 </script>
+<script type="module" src="/assets/repayment-calculator.mjs"></script>
 <script src="/assets/conversion-tracking.js" defer></script>
 <div class="jt-cb" data-jt-consent-banner id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
   <p><strong id="jtConsentBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="/privacy-policy.html">Privacy Policy</a>.</p>
