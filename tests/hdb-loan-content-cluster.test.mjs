@@ -11,14 +11,15 @@ const slugs = [
   'hfe-letter-singapore-guide',
   'msr-vs-tdsr-singapore',
   'hdb-loan-vs-bank-loan-singapore',
+  'hdb-income-ceiling-2026-ndr-changes',
 ];
 
-test('the four-article HDB loan cluster is indexable, sourced and calculator-linked', () => {
+test('the HDB loan and policy guides are indexable, sourced and calculator-linked', () => {
   for (const slug of slugs) {
     const html = read(`insights/${slug}.html`);
     assert.match(html, /<link rel="canonical" href="https:\/\/joetay\.com\/insights\//);
     assert.match(html, /<meta name="robots" content="index,follow/);
-    assert.match(html, /Reviewed 25 Aug 2026/);
+    assert.match(html, /Reviewed (25|26) Aug 2026/);
     assert.match(html, /href="\/calculator\/">HDB loan calculator<\/a>/);
     assert.match(html, /https:\/\/(?:www\.)?(?:hdb\.gov\.sg|cpf\.gov\.sg)\//);
     assert.doesNotMatch(html, /guaranteed approval|financial advice tailored to you/i);

@@ -16,13 +16,23 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/hdb-income-ceiling-2026-ndr-changes.html",
+      "url": "https://joetay.com/insights/hdb-income-ceiling-2026-ndr-changes.html",
+      "title": "HDB Income Ceiling 2026: $16,000 HDB, $18,000 EC | Joe Tay",
+      "summary": "The new HDB, singles and qualifying EC ceilings, existing HFE transition rules, November BTO timing and February 2027 ballot changes.",
+      "content_text": "The new HDB, singles and qualifying EC ceilings, existing HFE transition rules, November BTO timing and February 2027 ballot changes.",
+      "date_published": "2026-08-26T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
       "id": "https://joetay.com/insights/enhanced-cpf-housing-grant-singapore.html",
       "url": "https://joetay.com/insights/enhanced-cpf-housing-grant-singapore.html",
       "title": "Enhanced CPF Housing Grant Singapore (2026) | Joe Tay",
       "summary": "Current EHG amounts, income and employment rules, lease requirements and grant-refund treatment for HDB buyers.",
       "content_text": "Current EHG amounts, income and employment rules, lease requirements and grant-refund treatment for HDB buyers.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -32,7 +42,7 @@
       "summary": "Current CPF Housing Grant, EHG and Proximity Housing Grant amounts for eligible HDB resale buyers.",
       "content_text": "Current CPF Housing Grant, EHG and Proximity Housing Grant amounts for eligible HDB resale buyers.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -62,7 +72,7 @@
       "summary": "Current HDB loan eligibility, income ceilings, LTV, tenure, MSR and HFE requirements, with a direct path to an affordability estimate.",
       "content_text": "Current HDB loan eligibility, income ceilings, LTV, tenure, MSR and HFE requirements, with a direct path to an affordability estimate.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -72,7 +82,7 @@
       "summary": "Application timing, validity, documents, HDB loan and grant outcomes, and bank IPA options for Singapore's HFE letter.",
       "content_text": "Application timing, validity, documents, HDB loan and grant outcomes, and bank IPA options for Singapore's HFE letter.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -82,7 +92,7 @@
       "summary": "The 30% MSR and 55% TDSR ceilings explained with worked HDB affordability examples.",
       "content_text": "The 30% MSR and 55% TDSR ceilings explained with worked HDB affordability examples.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -92,7 +102,7 @@
       "summary": "Compare HDB and bank loans by interest, downpayment, CPF use, lock-in, early repayment and refinancing.",
       "content_text": "Compare HDB and bank loans by interest, downpayment, CPF use, lock-in, early repayment and refinancing.",
       "date_published": "2026-08-25T00:00:00+08:00",
-      "date_modified": "2026-08-25T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
     },
     {
@@ -147,7 +157,7 @@
       "summary": "Just crossed your 5-year MOP and thinking of selling? The 5 steps from eligibility check to keys — including CPF refund, paperwork, and the mistakes BTO owners make on their first resale.",
       "content_text": "Just crossed your 5-year MOP and thinking of selling? The 5 steps from eligibility check to keys — including CPF refund, paperwork, and the mistakes BTO owners make on their first resale.",
       "date_published": "2026-04-21T00:00:00+08:00",
-      "date_modified": "2026-04-21T00:00:00+08:00",
+      "date_modified": "2026-08-26T00:00:00+08:00",
       "authors": [
         {
           "name": "Joe Tay",

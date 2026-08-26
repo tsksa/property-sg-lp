@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
+import { hdbPolicyArticle, policySources } from './content/hdb-policy-august-2026.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -43,6 +44,7 @@ const ARTICLES = [
   <tr><td>Flat lease</td><td>The remaining lease affects both CPF use and the maximum loan. A lease that does not cover the youngest applicant to age 95 can reduce the LTV limit.</td></tr>
 </table>
 <p>These are summaries, not a substitute for an HFE outcome. Read the <a href="${SOURCES.loan}" rel="noopener">full HDB eligibility conditions</a> before committing to a purchase.</p>
+<p><strong>Income-ceiling update checked 26 Aug 2026:</strong> these revised limits apply to HFE applications from <strong>24 August 2026</strong>. For an extended family, each family nucleus must also stay within $16,000. Existing HFE holders should check the <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">August policy changes and transition rules</a>; $18,000 is the qualifying new-EC ceiling, not the general HDB loan ceiling.</p>
 
 <h2>How much can HDB lend?</h2>
 <p>For applications covered by the current rules, the HDB LTV limit is up to <strong>75% of the purchase price</strong> for a new flat, or up to 75% of the lower of the resale price and HDB value for a resale flat. That is a ceiling, not an entitlement.</p>
@@ -68,7 +70,7 @@ const ARTICLES = [
 <h2>Official sources and review date</h2>
 <p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.loan}" rel="noopener">Housing Loan from HDB</a>, <a href="${SOURCES.hfe}" rel="noopener">HFE application guide</a> and <a href="${SOURCES.rate}" rel="noopener">concessionary interest-rate page</a>.</p>`,
     faqs: [
-      ['What is the HDB loan income ceiling in 2026?', 'The average gross monthly household income ceiling is $16,000 for families, $24,000 for extended families, and $8,000 for singles under the Single Singapore Citizen Scheme, subject to the full HDB conditions.'],
+      ['What is the HDB loan income ceiling in 2026?', 'For HFE applications from 24 August 2026, the average gross monthly household income ceiling is $16,000 for families, $24,000 for extended families with each family nucleus within $16,000, and $8,000 for singles under the Single Singapore Citizen Scheme, subject to the full HDB conditions.'],
       ['Can I borrow 75% from HDB automatically?', 'No. Seventy-five per cent is the maximum LTV under the current rules. Your approved amount can be lower after MSR, age, remaining lease, income, debts and credit assessment are considered.'],
       ['Do I need an HFE letter for a resale HDB flat?', 'Yes. A buyer must have a valid HFE letter before obtaining an Option to Purchase from a resale-flat seller and when submitting the resale application.'],
     ],
@@ -83,6 +85,10 @@ const ARTICLES = [
     lede: 'The HFE letter brings flat eligibility, CPF housing grants and HDB loan eligibility into one outcome. Apply before you start making binding purchase decisions.',
     body: `
 <div class="callout"><strong>Timing matters</strong><p>For a new flat, you need a valid HFE letter when you apply. For a resale flat, you need it before the seller grants you an Option to Purchase and again when the resale application is submitted.</p></div>
+
+<h2>August 2026 income-ceiling transition</h2>
+<p>HFE applications from 24 August 2026 use the revised ceilings. Already-eligible holders of valid letters need no action solely for this change. If your valid letter excluded you because of the old income ceiling and you have not submitted a flat application, HDB allows cancellation and reapplication. Applications submitted before 24 August and still processing use the old ceilings unless replaced with a fresh application.</p>
+<p>A fresh application uses a new income-assessment period. Do not cancel without checking your circumstances, especially if a flat application is underway. For the November 2026 BTO exercise, HDB advises submitting all HFE documents by 25 September 2026. Transition guidance checked 26 Aug 2026 against <a href="${policySources.annexB}" rel="noopener">HDB Annex B</a>; see the <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">full income-ceiling and BTO update</a>.</p>
 
 <h2>What an HFE letter tells you</h2>
 <ul>
@@ -222,6 +228,7 @@ const ARTICLES = [
       ['How much cash is required for an HDB flat with a bank loan?', 'At 75% LTV, the 25% downpayment includes at least 5% of the flat price in cash. The remaining 20% can be paid with cash or CPF OA, subject to the applicable rules.'],
     ],
   },
+  hdbPolicyArticle,
 ];
 
 const EXISTING_GUIDES = [
@@ -246,7 +253,7 @@ function schemas(article) {
     {
       '@context': 'https://schema.org', '@type': 'Article', headline: article.headline,
       description: article.description, image: 'https://joetay.com/joetay-social-preview.jpg',
-      datePublished: published, dateModified: published, inLanguage: 'en-SG',
+      datePublished: article.published || published, dateModified: article.modified || '2026-08-26', inLanguage: 'en-SG',
       author: { '@type': 'Person', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', jobTitle: 'District Director, ERA Realty Network', identifier: 'CEA R009618D' },
       publisher: { '@type': 'RealEstateAgent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' },
       mainEntityOfPage: url,
@@ -277,6 +284,7 @@ ${EXISTING_GUIDES.map(([slug, title]) => `    <li><a href="${slug}.html">${esc(t
 
 function page(article) {
   const url = `https://joetay.com/insights/${article.slug}.html`;
+  const modified = article.modified || '2026-08-26';
   const faqHtml = article.faqs.map(([question, answer]) => `<h3>${esc(question)}</h3>\n<p>${esc(answer)}</p>`).join('\n');
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -303,8 +311,8 @@ function page(article) {
 <meta name="twitter:description" content="${esc(article.description)}">
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="article:author" content="Joe Tay">
-<meta property="article:published_time" content="${published}">
-<meta property="article:modified_time" content="${published}">
+<meta property="article:published_time" content="${article.published || published}">
+<meta property="article:modified_time" content="${modified}">
 <meta property="article:section" content="${esc(article.category)}">
 ${schemas(article)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -323,7 +331,7 @@ ${schemas(article)}
 <header class="blog-topbar"><div class="blog-topbar-inner"><a href="/" class="blog-logo">PropertySG</a><nav class="blog-nav" aria-label="Primary"><a href="/">Home</a><a href="/insights/">Insights</a><a href="/calculator/">Calculator</a><a href="/#book" class="blog-nav-cta">Book a Call</a></nav></div></header>
 <main id="main" tabindex="-1" class="blog-main"><article class="article">
 <div class="article-breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/insights/">Insights</a><span class="sep">›</span><span aria-current="page">${esc(article.headline)}</span></div>
-<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${published}">Aug 25, 2026</time></div>
+<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${modified}">${article.published ? '' : 'Updated '}Aug 26, 2026</time></div>
 <h1 id="article-title">${esc(article.headline)}</h1><p class="article-lede">${esc(article.lede)}</p>
 <div class="article-byline"><picture><source type="image/webp" srcset="/joe-tay-propertysg-advisor-400.webp"><img src="/joe-tay-propertysg-advisor-400.jpg" alt="Joe Tay" width="40" height="40" loading="lazy" decoding="async"></picture><div>By <strong><a href="/about-joe/">Joe Tay</a></strong> · District Director, ERA Realty Network · CEA R009618D</div></div></header>
 <section class="article-body" aria-labelledby="article-title">
