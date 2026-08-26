@@ -29,7 +29,9 @@ jobs:
         env:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
           GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
-          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          # Verified 2026-08-26: GT-KVFDZD5V → G-1YQE8JN66P → joetay.com.
+          # Keep the destination reviewed in Git, not an unrelated/stale repo variable.
+          GA4_PROPERTY_ID: '535131896'
         run: node scripts/search-growth-report.mjs --output-dir "$RUNNER_TEMP/search-growth-report"
 
       - name: Publish report in the job summary

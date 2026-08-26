@@ -60,7 +60,7 @@
     "test:submit-lead-delivery": "node --test tests/submit-lead-delivery.test.mjs",
     "apply:consent-banner": "node scripts/apply-consent-banner.mjs",
     "check:consent-banner": "node scripts/apply-consent-banner.mjs --check",
-    "test:consent-banner": "node --test tests/consent-banner.test.mjs",
+    "test:consent-banner": "node --test tests/consent-banner.test.mjs tests/conversion-tracking.test.mjs",
     "test:commission-seo": "node --test tests/commission-seo.test.mjs",
     "test:joe-authority-profile": "node --test tests/joe-authority-profile.test.mjs",
     "test:internal-links": "node --test tests/internal-links.test.mjs",
