@@ -115,6 +115,14 @@
         "@type": "Answer",
         "text": "CEA says the agreed commission is paid after the property transaction is completed and should be paid to the property agency, not directly to the salesperson. Clarify whether GST is included or excluded; only GST-registered property agencies can charge GST."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you pay an agent fee if you found the property on 99.co?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A listing enquiry alone does not appoint an agent to represent you. Ask whose interests the agent represents and agree any fee before appointing your own agent. There is no universal 99.co agent commission rate."
+      }
     }
   ]
 }
@@ -211,6 +219,10 @@
 
 <p>Here's what I tell my own clients upfront: 2% is my quote for the full seller service described below. It is not a compulsory Singapore rate. Whether it is good value depends on what the agent <em>actually does</em>, what is included, and whether those commitments are written into the estate agency agreement.</p>
 
+<nav aria-label="Commission guide sections">
+  <p>Jump to <a href="#commissionToolTitle">compare commission quotes</a>, <a href="#buyer-agent-fees">dedicated buyer-agent fees</a> or <a href="#portal-agent-fees">99.co agent fees</a>.</p>
+</nav>
+
 <div class="callout">
 <strong>Joe's published starting rates</strong>
 <ul style="margin-top:8px;margin-bottom:0">
@@ -288,7 +300,7 @@
 
 <p><strong>No official condo seller rate is fixed either.</strong> CEA says commission rates are negotiable. Compare each proposal by the agreed percentage or amount, included services, separately billed expenses, GST treatment and whether the agency agreement is exclusive or non-exclusive.</p>
 
-<h3>Who pays a dedicated buyer's agent in Singapore?</h3>
+<h3 id="buyer-agent-fees">Who pays a dedicated buyer's agent in Singapore?</h3>
 
 <p>If you appoint a dedicated buyer's agent, agree the fee and scope in a CEA Prescribed Estate Agency Agreement. The agent represents and collects commission from you and cannot also represent or collect commission from the seller in the same transaction. Luxury or off-market searches may involve a broader search mandate, but CEA does not prescribe a separate fee structure for them. A portal enquiry alone does not appoint a buyer's agent.</p>
 
@@ -296,11 +308,21 @@
 
 <p>CEA says the agreed commission is paid after the property transaction is completed and should be paid to the property agency, not directly to the salesperson. Clarify before signing whether GST is included or excluded; only GST-registered property agencies can charge GST.</p>
 
-<h2>Do you pay an agent fee if you found the property on 99.co?</h2>
+<h2 id="portal-agent-fees">Do you pay an agent fee if you found the property on 99.co?</h2>
+
+<p>A listing enquiry alone does not appoint an agent to represent you. Ask whose interests the agent represents and agree any fee before appointing your own agent. There is no universal 99.co agent commission rate.</p>
 
 <p><strong>Not simply because you used 99.co.</strong> The relevant question is whether you engaged an agent to represent you and agreed to pay for that service. 99.co's own guidance says a tenant who appoints a tenant's agent pays the agreed commission when the transaction succeeds; if you only contact a listing represented by the landlord's or seller's agent, confirm who that agent represents before accepting any service.</p>
 
 <p>For a sale listing, portal advertising is one part of the seller agent's service. A 99.co listing or enquiry does not by itself create a separate, universal "99.co agent fee".</p>
+
+<h3>Before agreeing to a buyer-agent or tenant-agent fee</h3>
+<ul>
+  <li><strong>Confirm representation:</strong> the agent advertising a home may represent the seller or landlord, not you.</li>
+  <li><strong>Agree your own engagement:</strong> if you want an agent to search and negotiate for you, document the scope, fee and GST treatment before work starts.</li>
+  <li><strong>Check the payment recipient:</strong> ask for the property agency's invoice and the agreed payment trigger; do not assume a portal enquiry creates a fee obligation.</li>
+</ul>
+<p>Representation and fee guidance checked 26 August 2026 against <a href="https://www.cea.gov.sg/consumers/engaging-a-property-agent/buying-or-selling/" rel="noopener">CEA's buying or selling guide</a> and <a href="https://intercom.help/99faq/en/articles/117729-do-i-need-to-pay-commission" rel="noopener">99.co's tenant-agent commission explanation</a>. Buying an HDB flat as well? Use the <a href="/calculator/">HDB loan calculator</a> for financing and keep any separately agreed agent fee in your wider cash budget.</p>
 
 <h2>What the 2% actually buys</h2>
 
@@ -590,6 +612,8 @@
     // Opt out immediately on this page load too, not just future ones — the
     // head snippet only checks the stored flag on the NEXT navigation.
     window['ga-disable-GT-KVFDZD5V']=true;
+    window['ga-disable-G-1YQE8JN66P']=true;
+    try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}
     try{if(typeof fbq==='function')fbq('consent','revoke');}catch(e){}
     banner.classList.remove('show');
   });

@@ -38,11 +38,20 @@ test('visible HDB FAQs exactly mirror FAQ structured data', () => {
   const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
 
   assert.ok(faq, 'missing FAQPage structured data');
-  assert.equal(faq.mainEntity.length, 4);
+  assert.equal(faq.mainEntity.length, 6);
   for (const entry of faq.mainEntity) {
     assert.ok(visible.includes(entry.name), `FAQ question is not visible: ${entry.name}`);
     assert.ok(visible.includes(entry.acceptedAnswer.text), `FAQ answer is not visible: ${entry.name}`);
   }
+});
+
+test('calculator addresses BTO and renovation queries without claiming unsupported capabilities', () => {
+  const html = read('calculator/index.html');
+  assert.match(html, /Can I use this HDB calculator for a BTO or resale flat\?/);
+  assert.match(html, /does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement/);
+  assert.match(html, /Is this an HDB renovation loan calculator\?/);
+  assert.match(html, /No\. This page estimates home-purchase financing, not a renovation loan\./);
+  assert.match(html, /href="\/insights\/property-agent-commission-singapore.html#buyer-agent-fees"/);
 });
 
 test('calculator cites current primary HDB guidance and its review date', () => {

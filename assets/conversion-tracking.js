@@ -2,6 +2,91 @@
 // Tracks lead form submissions, call taps, WhatsApp clicks, Calendly clicks, and Calendly bookings.
 // Google Ads direct conversion IDs/labels can be filled in after creating conversions in Google Ads.
 (function(){
+  var attributionKey = 'jt_lead_attribution_v1';
+  var attributionLifetime = 30 * 60 * 1000;
+  var campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+  function consentChoice(){
+    try{return localStorage.getItem('pdpa_consent');}catch(e){return null;}
+  }
+
+  function declined(){
+    return window._pdpaDeclined === true || window['ga-disable-GT-KVFDZD5V'] === true ||
+      window['ga-disable-G-1YQE8JN66P'] === true || consentChoice() === 'declined';
+  }
+
+  function clearAttribution(){
+    try{sessionStorage.removeItem(attributionKey);}catch(e){}
+  }
+
+  function safeCampaign(source){
+    var result = {};
+    campaignKeys.forEach(function(key){
+      var value = source && source[key];
+      // Campaign labels only: never persist arbitrary URLs, email addresses,
+      // free-text form values, or an entire query string.
+      if(typeof value === 'string' && /^[a-zA-Z0-9_.-]{1,120}$/.test(value)) result[key] = value;
+    });
+    return result;
+  }
+
+  function safePath(value){
+    return typeof value === 'string' && /^\/[a-zA-Z0-9/_.-]*$/.test(value) && value.length <= 300 ? value : '/';
+  }
+
+  var params = new URLSearchParams(location.search);
+  var currentCampaign = {};
+  campaignKeys.forEach(function(key){currentCampaign[key] = params.get(key);});
+  currentCampaign = safeCampaign(currentCampaign);
+
+  function savedAttribution(){
+    try{
+      var saved = JSON.parse(sessionStorage.getItem(attributionKey));
+      if(saved && Number.isFinite(saved.expiresAt) && saved.expiresAt > Date.now() &&
+        saved.expiresAt <= Date.now() + attributionLifetime){
+        return Object.assign({landing_page:safePath(saved.landing_page)}, safeCampaign(saved));
+      }
+    }catch(e){}
+    clearAttribution();
+    return null;
+  }
+
+  function captureAttribution(accepted){
+    if(!accepted || declined()) return;
+    // A tagged arrival replaces the whole campaign, never mixing old/new UTMs.
+    // Untagged internal navigation preserves the original entry path.
+    if(!Object.keys(currentCampaign).length && savedAttribution()) return;
+    try{
+      sessionStorage.setItem(attributionKey, JSON.stringify(Object.assign({
+        landing_page:safePath(location.pathname), expiresAt:Date.now() + attributionLifetime
+      }, currentCampaign)));
+    }catch(e){}
+  }
+
+  if(declined()) window['ga-disable-G-1YQE8JN66P'] = true;
+  if(consentChoice() === 'accepted') captureAttribution(true);
+  else clearAttribution();
+
+  window.jtGetLeadAttribution = function(){
+    if(declined()) {clearAttribution(); return {};}
+    if(consentChoice() === 'accepted'){
+      var saved = savedAttribution();
+      if(saved) return saved;
+    }
+    // No persistence before acceptance; current-page tags remain available.
+    return Object.assign({landing_page:safePath(location.pathname)}, currentCampaign);
+  };
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest) return;
+    if(e.target.closest('#cookieDecline, #jtConsentDecline')){
+      window['ga-disable-G-1YQE8JN66P'] = true;
+      clearAttribution();
+    }else if(e.target.closest('#cookieAccept, #jtConsentAccept')){
+      captureAttribution(true);
+    }
+  }, true);
+
   // Defensive gtag wrap: drop any conversion event whose send_to still contains
   // a PLACEHOLDER_ token. The inline onclick handlers across the site use
   // labels like AW-XXX/PLACEHOLDER_WHATSAPP that Google Ads silently rejects;
@@ -10,6 +95,7 @@
   if (typeof window.gtag === 'function') {
     var _gtagOriginal = window.gtag;
     window.gtag = function(){
+      if(arguments[0] === 'event' && declined()) return;
       if (arguments[0] === 'event' && arguments[1] === 'conversion') {
         var params = arguments[2];
         if (params && typeof params.send_to === 'string' && params.send_to.indexOf('PLACEHOLDER_') !== -1) {
@@ -36,6 +122,7 @@
   }
 
   window.jtTrackConversion = function(eventName, params){
+    if(declined()) {clearAttribution(); return;}
     var payload = clean(Object.assign({
       source_site: 'joetay.com',
       page_path: location.pathname,

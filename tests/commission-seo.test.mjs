@@ -18,9 +18,9 @@ test('commission article answers the Search Console query intent with sourced vi
   assert.match(html, /<h2>HDB, condo and buyer-agent fees at a glance<\/h2>/);
   assert.match(html, /<h3>What is the property agent commission for selling an HDB flat in Singapore\?<\/h3>/);
   assert.match(html, /<h3>Is condo seller agent commission fixed in Singapore\?<\/h3>/);
-  assert.match(html, /<h3>Who pays a dedicated buyer's agent in Singapore\?<\/h3>/);
+  assert.match(html, /<h3 id="buyer-agent-fees">Who pays a dedicated buyer's agent in Singapore\?<\/h3>/);
   assert.match(html, /<h3>When is property agent commission paid, and is GST added\?<\/h3>/);
-  assert.match(html, /<h2>Do you pay an agent fee if you found the property on 99\.co\?<\/h2>/);
+  assert.match(html, /<h2 id="portal-agent-fees">Do you pay an agent fee if you found the property on 99\.co\?<\/h2>/);
   assert.match(html, /https:\/\/www\.cea\.gov\.sg\/consumers\/engaging-a-property-agent\//);
   assert.match(html, /https:\/\/www\.hdb\.gov\.sg\/managing-my-home\/selling-a-flat\//);
   assert.match(html, /https:\/\/intercom\.help\/99faq\/en\/articles\/117729-do-i-need-to-pay-commission/);
@@ -41,6 +41,7 @@ test('commission FAQ schema mirrors the new HDB, condo, buyer-agent and payment 
       'Is condo seller agent commission fixed in Singapore?',
       "Who pays a dedicated buyer's agent in Singapore?",
       'When is property agent commission paid, and is GST added?',
+      'Do you pay an agent fee if you found the property on 99.co?',
     ],
   );
   assert.match(faq.mainEntity[0].acceptedAnswer.text, /no fixed HDB seller agent fee/i);
@@ -48,6 +49,12 @@ test('commission FAQ schema mirrors the new HDB, condo, buyer-agent and payment 
   assert.match(faq.mainEntity[2].acceptedAnswer.text, /cannot also represent or collect commission from the seller/i);
   assert.match(faq.mainEntity[2].acceptedAnswer.text, /Luxury or off-market searches do not have a separate CEA-prescribed fee structure/i);
   assert.match(faq.mainEntity[3].acceptedAnswer.text, /paid after the property transaction is completed/i);
+  assert.ok(html.includes(faq.mainEntity[4].acceptedAnswer.text), '99.co FAQ answer must be visible');
+  assert.match(faq.mainEntity[4].acceptedAnswer.text, /no universal 99\.co agent commission rate/);
+  for (const id of ['commissionToolTitle', 'buyer-agent-fees', 'portal-agent-fees']) {
+    assert.ok(html.includes(`href="#${id}"`));
+    assert.ok(html.includes(`id="${id}"`));
+  }
 });
 
 test('homepage commission claims match CEA guidance and the article', () => {

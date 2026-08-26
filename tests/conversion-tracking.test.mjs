@@ -1,0 +1,166 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import test from 'node:test';
+
+const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+const helper = read('assets/conversion-tracking.js');
+const key = 'jt_lead_attribution_v1';
+
+function harness({ consent, session = new Map(), search = '', pathname = '/', blocked = false, now = 1000000 } = {}) {
+  const local = new Map(consent ? [['pdpa_consent', consent]] : []);
+  const events = [], pixels = [], clicks = [], messages = [];
+  const storage = map => ({
+    getItem(k) { if (blocked) throw Error('blocked'); return map.get(k) ?? null; },
+    setItem(k, v) { if (blocked) throw Error('blocked'); map.set(k, v); },
+    removeItem(k) { if (blocked) throw Error('blocked'); map.delete(k); },
+  });
+  const context = vm.createContext({
+    URLSearchParams, Date: class extends Date {
+      constructor(...args) { super(...(args.length ? args : [now])); }
+      static now() { return now; }
+    },
+    localStorage: storage(local), sessionStorage: storage(session),
+    location: { pathname, search, href: `https://joetay.com${pathname}${search}` },
+    document: { addEventListener(type, callback) { if (type === 'click') clicks.push(callback); } },
+    gtag: (...args) => events.push(args), fbq: (...args) => pixels.push(args),
+    addEventListener(type, callback) { if (type === 'message') messages.push(callback); },
+  });
+  context.window = context;
+  vm.runInContext(helper, context);
+  return {
+    context, events, pixels, session, local,
+    attribution: () => JSON.parse(JSON.stringify(context.jtGetLeadAttribution())),
+    click(id) { clicks.forEach(fn => fn({ target: { closest: selector => selector.split(', ').includes(`#${id}`) ? {} : null } })); },
+    contact(href) {
+      const a = { href, textContent: 'Contact Joe', getAttribute: () => href };
+      clicks.forEach(fn => fn({ target: { closest: selector => selector === 'a[href]' ? a : null } }));
+    },
+    booking(origin) { messages.forEach(fn => fn({ origin, data: { event: 'calendly.event_scheduled' } })); },
+  };
+}
+
+test('one successful homepage form produces exactly one GA4 and one Meta lead', () => {
+  const h = harness();
+  const html = read('index.html');
+  const success = html.slice(html.indexOf('function showFormSuccess('), html.indexOf('function showFormError('));
+  vm.runInContext(success, h.context);
+  h.context.showFormSuccess({ innerHTML: '', querySelector: () => ({ focus() {} }) }, 'Done', 'Thanks', { lead_type: 'consultation' });
+  assert.equal(h.events.filter(e => e[1] === 'generate_lead').length, 1);
+  assert.equal(h.pixels.filter(e => e[1] === 'Lead').length, 1);
+});
+
+test('contact intent stays separate from leads and only genuine Calendly-origin messages count', () => {
+  const h = harness();
+  h.contact('https://wa.me/6581881488');
+  assert.equal(h.events[0][1], 'contact_click');
+  assert.equal(h.events[0][2].contact_method, 'whatsapp');
+  assert.equal(h.pixels[0][1], 'ContactClick');
+  h.booking('https://example.com');
+  assert.equal(h.events.length, 1);
+  h.booking('https://calendly.com');
+  assert.equal(h.events[1][1], 'generate_lead');
+  assert.equal(h.events[1][2].lead_type, 'calendly_booking');
+});
+
+test('decline disables the actual measurement ID, clears attribution and stops events on this page', () => {
+  for (const id of ['cookieDecline', 'jtConsentDecline']) {
+    const h = harness({ consent: 'accepted', search: '?utm_source=facebook' });
+    assert.ok(h.session.has(key));
+    h.click(id);
+    assert.equal(h.context['ga-disable-G-1YQE8JN66P'], true);
+    assert.equal(h.session.has(key), false);
+    h.context.gtag('event', 'inline_event', {});
+    h.context.jtTrackConversion('generate_lead', {});
+    h.contact('tel:+6581881488');
+    h.booking('https://calendly.com');
+    assert.equal(h.events.length, 0);
+    assert.equal(h.pixels.length, 0);
+    assert.deepEqual(h.attribution(), {});
+  }
+});
+
+test('returning declined visitors never enqueue helper conversion events', () => {
+  const h = harness({ consent: 'declined', search: '?utm_source=facebook' });
+  assert.equal(h.context['ga-disable-G-1YQE8JN66P'], true);
+  h.context.jtTrackConversion('generate_lead', {});
+  assert.equal(h.events.length, 0);
+  assert.equal(h.pixels.length, 0);
+  assert.equal(h.session.size, 0);
+});
+
+test('no campaign persistence until acceptance; both banners capture the current entry', () => {
+  for (const id of ['cookieAccept', 'jtConsentAccept']) {
+    const h = harness({ search: '?utm_source=facebook&utm_campaign=hdb_aug26', pathname: '/insights/hdb-income-ceiling-2026-ndr-changes.html' });
+    assert.equal(h.session.size, 0);
+    h.click(id);
+    assert.ok(h.session.has(key));
+    h.local.set('pdpa_consent', 'accepted');
+    assert.equal(h.attribution().utm_campaign, 'hdb_aug26');
+  }
+});
+
+test('accepted campaign survives article-to-homepage navigation without mixing later campaigns', () => {
+  const article = harness({ consent: 'accepted', pathname: '/insights/hdb-income-ceiling-2026-ndr-changes.html', search: '?utm_source=facebook&utm_medium=social&utm_campaign=hdb_aug26' });
+  const home = harness({ consent: 'accepted', session: article.session });
+  assert.deepEqual(home.attribution(), {
+    landing_page: '/insights/hdb-income-ceiling-2026-ndr-changes.html',
+    utm_source: 'facebook', utm_medium: 'social', utm_campaign: 'hdb_aug26',
+  });
+  const later = harness({ consent: 'accepted', session: article.session, pathname: '/calculator/', search: '?utm_source=newsletter' });
+  assert.deepEqual(later.attribution(), { landing_page: '/calculator/', utm_source: 'newsletter' });
+  assert.match(read('index.html'), /typeof window\.jtGetLeadAttribution==='function'\?window\.jtGetLeadAttribution\(\):_utm/);
+});
+
+test('homepage submission uses consented entry attribution in the actual request body', async () => {
+  const article = harness({ consent: 'accepted', pathname: '/insights/hdb-income-ceiling-2026-ndr-changes.html', search: '?utm_source=facebook&utm_campaign=hdb_aug26' });
+  const home = harness({ consent: 'accepted', session: article.session });
+  const html = read('index.html');
+  const submit = html.slice(html.indexOf("const FORM_ENDPOINT="), html.indexOf('function showFormSuccess('));
+  let body;
+  // In-memory stub only: never submits a production lead or sends an event.
+  home.context.fetch = async (url, options) => {
+    assert.equal(url, '/.netlify/functions/submit-lead');
+    body = JSON.parse(options.body);
+    return { ok: true, json: async () => ({ ok: true }) };
+  };
+  vm.runInContext(submit, home.context);
+  await home.context.submitLead({ lead_type: 'consultation' });
+  assert.equal(body.utm_source, 'facebook');
+  assert.equal(body.utm_campaign, 'hdb_aug26');
+  assert.equal(body.landing_page, '/insights/hdb-income-ceiling-2026-ndr-changes.html');
+  assert.equal(body.source_site, 'joetay.com');
+  assert.equal(home.events.length, 0);
+  home.click('cookieDecline');
+  await home.context.submitLead({ lead_type: 'consultation' });
+  assert.equal(body.utm_source, undefined);
+  assert.equal(body.landing_page, undefined);
+});
+
+test('malformed, expired and future-dated records are not reused', () => {
+  for (const raw of ['{', 'null', JSON.stringify({ expiresAt: 0, utm_source: 'stale' }), JSON.stringify({ expiresAt: 999999999, utm_source: 'future' })]) {
+    const h = harness({ consent: 'accepted', session: new Map([[key, raw]]) });
+    assert.deepEqual(h.attribution(), { landing_page: '/' });
+  }
+  const first = harness({ consent: 'accepted', search: '?utm_source=facebook' });
+  const expired = harness({ consent: 'accepted', session: first.session, now: 2800001 });
+  assert.deepEqual(expired.attribution(), { landing_page: '/' });
+});
+
+test('storage errors do not break forms, and unknown URL fields are never persisted', () => {
+  const h = harness({ blocked: true, search: '?utm_source=facebook' });
+  assert.equal(h.attribution().utm_source, 'facebook');
+  h.context.jtTrackConversion('generate_lead', {});
+  assert.equal(h.events.length, 1);
+  const filtered = harness({ consent: 'accepted', search: '?utm_source=facebook&utm_campaign=joe%40example.com&email=private%40example.com&gclid=secret&mobile=12345' });
+  assert.deepEqual(filtered.attribution(), { landing_page: '/', utm_source: 'facebook' });
+  assert.doesNotMatch(filtered.session.get(key), /example|gclid|mobile|secret/);
+});
+
+test('placeholder Ads conversions remain suppressed while valid labels still pass', () => {
+  const h = harness();
+  h.context.gtag('event', 'conversion', { send_to: 'AW-123/PLACEHOLDER_WHATSAPP' });
+  assert.equal(h.events.length, 0);
+  h.context.gtag('event', 'conversion', { send_to: 'AW-123/real-label' });
+  assert.equal(h.events.length, 1);
+});

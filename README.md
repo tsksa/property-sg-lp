@@ -175,14 +175,38 @@ GA4 request also filters `hostName` to `joetay.com`.
    - secret `GSC_SERVICE_ACCOUNT_JSON`: the complete service-account JSON;
    - repository variable `GSC_SITE_URL`: the exact Search Console property
      identifier, such as `sc-domain:joetay.com` or the exact URL-prefix value;
-   - repository variable `GA4_PROPERTY_ID`: the numeric GA4 property ID, not a
-     `G-` or `GT-` Google tag ID.
+   - the workflow pins `GA4_PROPERTY_ID` to `535131896`, the joetay.com property
+     verified on 26 August 2026 (stream `14658508834`, measurement ID
+     `G-1YQE8JN66P`, Google tag `GT-KVFDZD5V`). It intentionally does not read
+     the old repository variable, which pointed to a different property.
+     Local runs still need `GA4_PROPERTY_ID=535131896` in their environment.
 
-Each variable must match the property granted to the service account. Before
+Each configured property must be granted to the service account. Before
 querying report data, the workflow checks that both event-scoped custom
 dimensions are available. A missing definition, key, Viewer role, API, or
 mismatched property fails without writing a partial report or printing
 credentials.
+
+Before releasing the reporting repair, verify Viewer access and the two custom
+dimensions on **535131896**, not the old property. Do not fall back to the old
+property if access fails. After merge, run the workflow and reconcile its organic
+sessions and lead categories with GA4 using identical dates and hostname filters.
+
+### Enquiry tracking boundaries
+
+`generate_lead` is a recorded successful form/booking event, not proof of a unique
+delivered or qualified enquiry. `contact_click` is contact intent; do not add it
+to `whatsapp_click` or form events and call the sum enquiries. Keep newsletter
+sign-ups separate using `lead_type`. Changing GA4 key-event settings and verifying
+real inbox/CRM delivery are separate release checks; local tests do not do either.
+
+The shared conversion helper keeps allowlisted campaign tags and the entry path
+in session storage only after cookie acceptance, for up to 30 minutes. Homepage
+forms use that context across internal navigation. Declining clears it and stops
+helper events. The helper does not read contact fields or persist full URLs or
+click IDs; campaign labels must never contain personal information. This focused
+change does not redesign the site's pre-choice consent
+policy or retrofit campaign persistence into every other lead form.
 
 ### Run and interpret it
 

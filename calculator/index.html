@@ -141,6 +141,22 @@
         "@type": "Answer",
         "text": "No. This calculator is an independent planning tool. Your HDB Flat Eligibility letter confirms your housing grants, HDB loan eligibility and actual eligible loan amount."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this HDB calculator for a BTO or resale flat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this an HDB renovation loan calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result."
+      }
     }
   ]
 }
@@ -449,6 +465,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="calc-guide-inner">
     <h2 id="hdb-loan-guide-title">HDB loan calculator guide</h2>
     <p class="guide-intro">Use the estimate to set a realistic viewing budget, then confirm your eligibility and loan amount through an HDB Flat Eligibility (HFE) application before committing to a flat.</p>
+    <h3>Choose the right HDB calculator estimate</h3>
+    <p><strong>Already know your loan amount?</strong> Start with Monthly repayment to see the instalment, interest and balance schedule. <strong>Still choosing a flat budget?</strong> Select How much can I afford? and enter income, cash, CPF and existing debts. A repayment you can calculate is not automatically a loan you qualify for.</p>
+    <p>For a BTO or resale purchase, use the <a href="/insights/hdb-downpayment-cash-cpf-grants.html">HDB downpayment guide</a> to separate the purchase price, loan and upfront funds. Keep <a href="/insights/property-agent-commission-singapore.html#buyer-agent-fees">any separately agreed buyer-agent fee</a>, renovation and other moving costs outside the housing-loan estimate.</p>
     <div class="calc-faq">
       <details>
         <summary>How does this HDB loan calculator estimate affordability?</summary>
@@ -465,6 +484,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <details>
         <summary>Is this calculator the same as an HFE letter?</summary>
         <p>No. This calculator is an independent planning tool. Your HDB Flat Eligibility letter confirms your housing grants, HDB loan eligibility and actual eligible loan amount.</p>
+      </details>
+      <details>
+        <summary>Can I use this HDB calculator for a BTO or resale flat?</summary>
+        <p>Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement.</p>
+      </details>
+      <details>
+        <summary>Is this an HDB renovation loan calculator?</summary>
+        <p>No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result.</p>
       </details>
     </div>
     <div class="calc-faq" aria-labelledby="hdb-loan-reading-title">
@@ -790,6 +817,8 @@ recalc();
     // Opt out immediately on this page load too, not just future ones — the
     // head snippet only checks the stored flag on the NEXT navigation.
     window['ga-disable-GT-KVFDZD5V']=true;
+    window['ga-disable-G-1YQE8JN66P']=true;
+    try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}
     try{if(typeof fbq==='function')fbq('consent','revoke');}catch(e){}
     banner.classList.remove('show');
   });

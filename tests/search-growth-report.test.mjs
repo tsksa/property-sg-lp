@@ -1446,7 +1446,8 @@ test('workflow preserves the schedule, credentials, summary, and artifact contra
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /secrets\.GSC_SERVICE_ACCOUNT_JSON/);
   assert.match(workflow, /vars\.GSC_SITE_URL/);
-  assert.match(workflow, /vars\.GA4_PROPERTY_ID/);
+  assert.match(workflow, /GA4_PROPERTY_ID:\s*'535131896'/);
+  assert.doesNotMatch(workflow, /vars\.GA4_PROPERTY_ID/);
   assert.match(workflow, /permissions:\s*\n\s+contents:\s+read/);
   assert.match(workflow, /GITHUB_STEP_SUMMARY/);
   assert.match(workflow, /search-growth-report\.md/);

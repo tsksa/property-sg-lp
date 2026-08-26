@@ -61,7 +61,17 @@ test('the shared consent banner writes the same localStorage key the tracker gat
 test('the shared consent banner disables GA and revokes Pixel consent on decline', () => {
   const block = consentBannerHtml();
   assert.match(block, /ga-disable-GT-KVFDZD5V['"]\]\s*=\s*true/);
+  assert.match(block, /ga-disable-G-1YQE8JN66P['"]\]\s*=\s*true/);
+  assert.match(block, /sessionStorage\.removeItem\('jt_lead_attribution_v1'\)/);
   assert.match(block, /fbq\('consent','revoke'\)/);
+});
+
+test('all tracker-bearing pages disable the verified GA4 measurement destination', () => {
+  for (const rel of allHtmlFiles()) {
+    const html = read(rel);
+    if (!html.includes('ga-disable-GT-KVFDZD5V')) continue;
+    assert.match(html, /ga-disable-G-1YQE8JN66P['"]\]\s*=\s*true/, `${rel} lacks measurement-ID opt-out`);
+  }
 });
 
 test('sell/ and rent-out/ ad landers carry the consent banner too', () => {
