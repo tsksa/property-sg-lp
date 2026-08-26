@@ -29,6 +29,7 @@ import {
   querySearchAnalytics,
   renderMarkdown,
   selectOpportunities,
+  selectVisibilityWatchlist,
   serializeReport,
   verifyGa4CustomDimensions,
   writeReportArtifacts,
@@ -1011,6 +1012,46 @@ test('escapes Markdown cells and emits a successful explicit empty state', () =>
   const markdown = renderMarkdown(populated);
   assert.match(markdown, /query &#92;&#124; with line/);
   assert.match(markdown, /a&#124;b/);
+});
+
+test('full visibility watchlist retains sparse rows and flags the precise top-20 watch range', () => {
+  const rows = [20, 20.1, 24.1, 50, 50.1, null].map((position, index) => row({ query: `query ${index}`, position, impressions: 9, clicks: 0 }));
+  const watchlist = selectVisibilityWatchlist([
+    ...rows,
+    row({ query: 'joe tay', impressions: 90 }),
+    row({ query: 'zero impressions', impressions: 0 }),
+  ]);
+  assert.equal(watchlist.length, 6);
+  assert.deepEqual(watchlist.filter(item => item.nearTop20).map(item => item.position), [20.1, 24.1, 50]);
+  assert.ok(watchlist.every(item => item.confidence === 'low-volume'));
+  assert.equal(selectVisibilityWatchlist(Array.from({ length: 40 }, (_, i) => row({ query: `q${i}` }))).length, 40);
+  assert.equal(selectVisibilityWatchlist([row({ impressions: 50 })])[0].confidence, '50+ impressions');
+});
+
+test('organic landing pages remain visible when no query meets the opportunity threshold', async () => {
+  const report = buildReport({
+    siteUrl: 'sc-domain:example.test', ga4PropertyId: '123456789',
+    windows: calculateDateWindows(new Date('2026-08-26T02:00:00Z')),
+    generatedAt: '2026-08-26T02:00:00Z',
+    currentRows: [row({ query: 'loan | comparison', impressions: 9, clicks: 0, position: 24.1 })],
+    priorRows: [], currentSingaporeTotalRows: [], priorSingaporeTotalRows: [],
+    currentGlobalTotalRows: [], priorGlobalTotalRows: [],
+    currentGa4SessionRows: ga4Rows(await ga4Fixture('current-sessions'), ['landingPagePlusQueryString'], ['sessions', 'engagedSessions']),
+    currentGa4LeadRows: ga4Rows(await ga4Fixture('current-leads'), ['landingPagePlusQueryString', 'customEvent:lead_type'], ['eventCount']),
+    currentGa4ContactRows: ga4Rows(await ga4Fixture('current-contacts'), ['landingPagePlusQueryString', 'customEvent:contact_method'], ['eventCount']),
+  });
+  assert.equal(report.status, 'empty');
+  assert.equal(report.opportunities.length, 0);
+  assert.ok(report.ga4.landingPages.length > 0);
+  assert.ok(report.ga4.landingPages.some(item => item.current.organicSessions > 0));
+  assert.ok(report.ga4.landingPages.some(item => item.current.contactIntent.total > 0));
+  const markdown = renderMarkdown(report);
+  assert.match(markdown, /All organic landing pages, independent of ranking thresholds/);
+  assert.match(markdown, /loan &#124; comparison/);
+  assert.match(markdown, /low-volume/);
+  assert.match(markdown, /not restricted to Singapore/);
+  assert.match(markdown, /No ranked Search Console opportunity rows were available to enrich/);
+  assert.doesNotMatch(markdown, /No reportable organic landing-page rows/);
 });
 
 test('paginates query/page requests until an empty page and does not paginate totals', async () => {

@@ -28,7 +28,7 @@
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="article:author" content="Joe Tay">
 <meta property="article:published_time" content="2026-04-21">
-<meta property="article:modified_time" content="2026-08-25">
+<meta property="article:modified_time" content="2026-08-26">
 <meta property="article:section" content="Fees">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
@@ -42,7 +42,7 @@
  "description": "Compare Singapore property agent fees for HDB and condo sellers, buyer-agent fees, GST and payment timing, plus what Joe Tay's 2% service covers.",
  "image": "https://joetay.com/joetay-social-preview.jpg",
  "datePublished": "2026-04-21",
- "dateModified": "2026-08-25",
+ "dateModified": "2026-08-26",
  "inLanguage": "en-SG",
  "author": {
   "@type": "Person",
@@ -161,6 +161,7 @@
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
+<link rel="stylesheet" href="/assets/decision-tools.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -194,7 +195,7 @@
     <span class="dot" aria-hidden="true">·</span>
     <span>10 min read</span>
     <span class="dot">·</span>
-    <time datetime="2026-08-25">Updated Aug 25, 2026</time>
+    <time datetime="2026-08-26">Updated Aug 26, 2026</time>
   </div>
   <h1 id="article-title">Property agent commission in Singapore: what 2% covers</h1>
   <p class="article-lede">Property agent commission is not fixed by law in Singapore. This guide compares HDB and condo seller fees, dedicated buyer-agent fees, GST and payment timing, then explains what my quoted 2% full-service seller engagement includes.</p>
@@ -224,6 +225,58 @@
 <p><strong>No.</strong> The Council for Estate Agencies (CEA) does not prescribe commission rates. Consumers and agents are free to negotiate the fee and its components, and HDB tells sellers to agree the commission, service terms, representation period, exclusivity and advertising expenses with their salesperson.</p>
 
 <p>Put those terms in writing before marketing starts. The percentage alone is not enough: compare the work included, who represents whom, what happens if the property does not sell, and which expenses require separate approval.</p>
+
+<section class="decision-tool" aria-labelledby="commissionToolTitle">
+<h2 id="commissionToolTitle">Compare two property agent commission quotes</h2>
+<p>Enter your sale price and the rates you negotiated. The starting numbers are illustrative examples, not quotes or standard fees. No personal details are needed; calculations stay in your browser.</p>
+<form id="commissionForm" novalidate>
+  <div class="decision-field">
+    <label for="commissionPrice">Sale price (S$)</label>
+    <input type="number" id="commissionPrice" min="0" max="100000000" step="0.01" value="600000" inputmode="decimal" required aria-describedby="commissionError">
+  </div>
+  <div class="decision-grid">
+    <fieldset>
+      <legend>Quote A</legend>
+      <div class="decision-field"><label for="commissionRateA">Commission rate (%) — A</label><input type="number" id="commissionRateA" min="0" max="100" step="0.01" value="1" inputmode="decimal" required aria-describedby="commissionError"></div>
+      <div class="decision-field"><label for="commissionGstA">GST on commission — A</label><select id="commissionGstA"><option value="exclusive">Add 9% GST</option><option value="inclusive">9% GST included</option><option value="none">No GST</option></select></div>
+      <div class="decision-field"><label for="commissionExtrasA">All-in extras (S$) — A</label><input type="number" id="commissionExtrasA" min="0" max="1000000" step="0.01" value="0" inputmode="decimal" required aria-describedby="commissionExtrasHelp commissionError"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Quote B</legend>
+      <div class="decision-field"><label for="commissionRateB">Commission rate (%) — B</label><input type="number" id="commissionRateB" min="0" max="100" step="0.01" value="2" inputmode="decimal" required aria-describedby="commissionError"></div>
+      <div class="decision-field"><label for="commissionGstB">GST on commission — B</label><select id="commissionGstB"><option value="exclusive">Add 9% GST</option><option value="inclusive">9% GST included</option><option value="none">No GST</option></select></div>
+      <div class="decision-field"><label for="commissionExtrasB">All-in extras (S$) — B</label><input type="number" id="commissionExtrasB" min="0" max="1000000" step="0.01" value="0" inputmode="decimal" required aria-describedby="commissionExtrasHelp commissionError"></div>
+    </fieldset>
+  </div>
+  <p class="decision-help" id="commissionExtrasHelp">Extras must be the final payable amount, including any applicable GST, for items not included in commission. The tool does not add GST to extras again. Confirm the agency's GST registration and whether the quoted percentage includes GST.</p>
+  <p id="commissionError" class="decision-error" role="alert"></p>
+  <button type="submit">Compare quote costs</button>
+</form>
+<noscript><p>Enable JavaScript for the comparison. To compare manually: sale price × agreed percentage, plus applicable GST and the final payable extras.</p></noscript>
+<div id="commissionOutput" hidden>
+  <div class="decision-table-wrap" role="region" aria-label="Commission quote results" tabindex="0">
+    <table>
+      <caption>Estimated quote costs in S$</caption>
+      <thead><tr><th scope="col">Cost</th><th scope="col">Quote A</th><th scope="col">Quote B</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Fee before GST</th><td id="commissionFeeA"></td><td id="commissionFeeB"></td></tr>
+        <tr><th scope="row">GST on fee</th><td id="commissionTaxA"></td><td id="commissionTaxB"></td></tr>
+        <tr><th scope="row">All-in extras</th><td id="commissionExtrasTotalA"></td><td id="commissionExtrasTotalB"></td></tr>
+        <tr><th scope="row">Total payable</th><td id="commissionTotalA"></td><td id="commissionTotalB"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p id="commissionDifference" class="decision-summary" role="status"></p>
+</div>
+<h3>Ask for the same scope in both quotes</h3>
+<ul>
+  <li>Photography, floor plans, staging and any separately charged preparation.</li>
+  <li>Advertising channels, portal spend and who approves extra spending.</li>
+  <li>Viewing arrangements, negotiation, paperwork and the representation period.</li>
+  <li>Payment timing, cancellation terms, GST and other exclusions in writing.</li>
+</ul>
+<p class="decision-help">The checklist is for comparing proposals, not a promise that either quote includes every item. Commission rates are negotiable. GST handling checked 26 August 2026 against <a href="https://www.iras.gov.sg/media/docs/default-source/e-tax/gst-real-estate-agency-industry-%282nd-edition%29.pdf" rel="noopener">IRAS guidance for the real estate agency industry</a> and <a href="https://www.iras.gov.sg/taxes/goods-services-tax-%28gst%29/charging-gst-%28output-tax%29/when-to-charge-goods-and-services-tax-%28gst%29" rel="noopener">IRAS guidance on the 9% rate</a>. Estimates are rounded to cents; the agreed invoice governs.</p>
+</section>
 
 <h2>HDB, condo and buyer-agent fees at a glance</h2>
 
@@ -484,6 +537,7 @@
   </div>
 </footer>
 
+<script type="module" src="/assets/commission-comparison.mjs"></script>
 <script src="/assets/conversion-tracking.js" defer></script>
 
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
