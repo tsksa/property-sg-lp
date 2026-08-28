@@ -59,6 +59,66 @@ function getCorsHeaders(origin) {
   };
 }
 
+const OBSERVABILITY_MARKER = 'ENQUIRY_OUTCOME';
+const KNOWN_LEAD_TYPES = new Set([
+  'consultation',
+  'final_cta_consultation',
+  'landlord_consult',
+  'new_launch_registration',
+  'newsletter_signup',
+  'seller_consult',
+  'valuation',
+]);
+
+function classifyLeadType(value) {
+  if (!value) return 'unknown';
+  return KNOWN_LEAD_TYPES.has(value) ? value : 'other';
+}
+
+function normalizeSpamReason(reason) {
+  if (reason.startsWith('submitted_too_fast:')) return 'submitted_too_fast';
+  if (reason.startsWith('recaptcha_low_score:')) return 'recaptcha_low_score';
+  return reason;
+}
+
+function deliveryState(result) {
+  if (result == null) return 'not_attempted';
+  return result.ok === true ? 'succeeded' : 'failed';
+}
+
+// Build a deliberately low-cardinality event. Only the explicitly selected
+// fields below can reach Netlify logs; names, contact details, IP addresses,
+// free text, URLs, user agents and provider response bodies are excluded.
+function buildEnquiryOutcome(outcome, details = {}) {
+  const event = {
+    event: 'enquiry_outcome',
+    outcome,
+    timestamp: new Date().toISOString(),
+  };
+
+  if (Object.hasOwn(details, 'leadType')) {
+    event.lead_type = classifyLeadType(details.leadType);
+  }
+  if (details.reason) event.reason = normalizeSpamReason(details.reason);
+  if (Number.isInteger(details.statusCode)) event.http_status = details.statusCode;
+  if (typeof details.reviewRequired === 'boolean') {
+    event.review_required = details.reviewRequired;
+  }
+  if (Object.hasOwn(details, 'webhookResult')) {
+    event.webhook = deliveryState(details.webhookResult);
+  }
+  if (Object.hasOwn(details, 'twilioResult')) {
+    event.twilio = deliveryState(details.twilioResult);
+  }
+
+  return event;
+}
+exports.buildEnquiryOutcome = buildEnquiryOutcome;
+
+function logEnquiryOutcome(outcome, details) {
+  console.log(OBSERVABILITY_MARKER + ' ' + JSON.stringify(buildEnquiryOutcome(outcome, details)));
+}
+
 exports.handler = async (event) => {
   // Hydrate Netlify Blobs for the legacy function signature — without this,
   // getStore() in checkRateLimit throws and the rate limit silently fails
@@ -73,10 +133,12 @@ exports.handler = async (event) => {
   const OK_RESPONSE = { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 
   if (event.httpMethod === 'OPTIONS') {
+    logEnquiryOutcome('preflight', { statusCode: 204 });
     return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
+    logEnquiryOutcome('method_rejected', { statusCode: 405 });
     return {
       statusCode: 405,
       headers: corsHeaders,
@@ -88,6 +150,7 @@ exports.handler = async (event) => {
   try {
     payload = JSON.parse(event.body || '{}');
   } catch {
+    logEnquiryOutcome('validation_rejected', { reason: 'invalid_json', statusCode: 400 });
     return {
       statusCode: 400,
       headers: corsHeaders,
@@ -132,6 +195,11 @@ exports.handler = async (event) => {
   const isNewsletterOnly = payload.lead_type === 'newsletter_signup';
   const fieldError = validateRequiredFields(payload, isNewsletterOnly);
   if (fieldError) {
+    logEnquiryOutcome('validation_rejected', {
+      leadType: payload.lead_type,
+      reason: 'missing_required_field',
+      statusCode: 400,
+    });
     return {
       statusCode: 400,
       headers: corsHeaders,
@@ -142,6 +210,11 @@ exports.handler = async (event) => {
   // ─── Gate 2b: Singapore phone format ───────────────────────────────
   // Real 400 with friendly message — humans see it and can retry.
   if (!isNewsletterOnly && !isValidSingaporePhone(payload.mobile_number)) {
+    logEnquiryOutcome('validation_rejected', {
+      leadType: payload.lead_type,
+      reason: 'invalid_phone',
+      statusCode: 400,
+    });
     return {
       statusCode: 400,
       headers: corsHeaders,
@@ -463,23 +536,6 @@ exports.handler = async (event) => {
     }
   }
 
-  console.log('✅ REAL LEAD', {
-    name: enriched.full_name,
-    phone: enriched.mobile_number,
-    score: recaptchaScore,
-    ip,
-    lead_type: enriched.lead_type,
-    source_site: enriched.source_site,
-    review_required: reviewRequired,
-    webhook_ok: webhookResult?.ok,
-    webhook_status: webhookResult?.status,
-    twilio_ok: twilioResult?.ok ?? 'skipped',
-    twilio_status: twilioResult?.status ?? null,
-    twilio_body: twilioResult?.body ? String(twilioResult.body).slice(0, 500) : null,
-    tasks: results.length,
-    timestamp: new Date().toISOString(),
-  });
-
   // Partial-success policy: return 200 OK if EITHER the webhook (Sheets) or
   // Twilio (WhatsApp) reached Joe. Only fail back to the user if BOTH paths
   // are down — then they get an error and can retry.
@@ -490,11 +546,17 @@ exports.handler = async (event) => {
   // Joe gets the lead twice, the user is confused, and the duplicate burns
   // one of his Meta-approved template quota slots.
   //
-  // Function logs (line 350 above) always record the lead regardless of
-  // delivery channel, so partial failures are visible to Joe in Netlify's
-  // function-log dashboard even when the response says 200.
+  // The structured outcome log below records each attempted channel without
+  // putting lead PII or provider response bodies into Netlify's logs.
   const everythingFailed = computeEverythingFailed(webhookResult, twilioResult);
   if (everythingFailed) {
+    logEnquiryOutcome('delivery_failed', {
+      leadType: enriched.lead_type,
+      statusCode: 502,
+      reviewRequired,
+      webhookResult,
+      twilioResult,
+    });
     return {
       statusCode: 502,
       headers: corsHeaders,
@@ -502,6 +564,14 @@ exports.handler = async (event) => {
     };
   }
 
+  const deliveryAttempted = webhookResult != null || twilioResult != null;
+  logEnquiryOutcome(deliveryAttempted ? 'accepted' : 'delivery_not_configured', {
+    leadType: enriched.lead_type,
+    statusCode: 200,
+    reviewRequired,
+    webhookResult,
+    twilioResult,
+  });
   return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
 
@@ -838,5 +908,9 @@ async function logSpam(event, payload, reason, ip) {
       console.warn('Spam-log webhook failed:', err.message);
     }
   }
-  console.log('🤖 BLOCKED [' + reason + ']', { ip, timestamp, ...spamRecord.payload });
+  logEnquiryOutcome('blocked', {
+    leadType: payload.lead_type,
+    reason,
+    statusCode: 200,
+  });
 }
