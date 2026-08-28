@@ -324,6 +324,7 @@
     modalIntent.value = intent;
     // Show project-select only when we don't already know the project
     modal.querySelector('#nlModalProjectRow').hidden = !!project;
+    modalForm.project_select.disabled = !!project;
     // Remember what to focus on close (typically the trigger button).
     modal._returnFocusEl = document.activeElement;
     modalOpenedAt = Date.now();
@@ -349,14 +350,22 @@
 
   function submitModal(){
     if(modalForm.company_website.value) return;
+    if(typeof window.jtValidateLeadForm === 'function' && !window.jtValidateLeadForm(modalForm, [
+      {name:'name',message:'Please enter your name.'},
+      {name:'phone',message:'Enter an 8-digit Singapore phone number starting with 6, 8, or 9.'},
+      {name:'email',message:'Enter a valid email address.'},
+      {name:'project_select',message:'Select a project.'},
+      {name:'interest',message:'Select your bedroom preference.'}
+    ])) return;
+    if(typeof window.jtValidateLeadForm !== 'function' && !modalForm.reportValidity()) return;
     // Must be >= submit-lead.js's time-on-form floor (currently 3000ms) — see
     // tests/homepage-lead-timing.test.mjs. Without this, a fast/autofilled submit is
     // shown success while the server silently drops it as spam.
-    if(modalOpenedAt && Date.now() - modalOpenedAt < 3000) return;
-    // The form has novalidate, so call reportValidity() explicitly to surface
-    // the inputs' required/pattern/type=email constraints via native tooltips
-    // instead of sending empty fields to the server only to alert() on the 400.
-    if(!modalForm.reportValidity()) return;
+    if(modalOpenedAt && typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(modalForm,modalOpenedAt,3000,submitModal)) return;
+    if(modalOpenedAt && typeof window.jtWaitForSpamFloor !== 'function' && Date.now() - modalOpenedAt < 3000){
+      setTimeout(submitModal,3000-(Date.now()-modalOpenedAt));
+      return;
+    }
     var original = modalSubmit.textContent;
     modalSubmit.disabled = true;
     modalSubmit.textContent = 'Submitting...';

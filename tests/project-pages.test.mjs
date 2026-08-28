@@ -187,14 +187,25 @@ test("project-page-form.js never lets a submit through before submit-lead.js's t
   assert.ok(serverFloor, 'could not find the server time-on-form floor to compare against');
 
   const client = read('new-launches/project-page-form.js');
-  const clientGate = client.match(/Date\.now\(\)\s*-\s*loadedAt\s*<\s*(\d+)\)\s*return;/);
-  assert.ok(clientGate, 'could not find the client time-on-form gate');
+  const clientGate = client.match(/jtWaitForSpamFloor\(form,\s*loadedAt,\s*(\d+)/);
+  assert.ok(clientGate, 'could not find the queued client time-on-form gate');
 
   assert.ok(
     Number(clientGate[1]) >= Number(serverFloor[1]),
     `client allows submit at ${clientGate[1]}ms but the server floor is ${serverFloor[1]}ms — ` +
       'a real submission in that gap gets shown "Enquiry received" while the lead is silently dropped',
   );
+});
+
+test('shared project form exposes persistent validation and an announced, focused success state', () => {
+  const client = read('new-launches/project-page-form.js');
+  const validation = client.indexOf('jtValidateLeadForm(form');
+  const wait = client.indexOf('jtWaitForSpamFloor(form,loadedAt,3000');
+  assert.ok(validation !== -1, 'shared project form persistent validation helper missing');
+  assert.ok(wait > validation, 'shared project form waits before validating');
+  assert.match(client, /class="pf-success" role="status" aria-live="polite"/);
+  assert.match(client, /<h3 tabindex="-1">Enquiry received\.<\/h3>/);
+  assert.match(client, /successHeading\.focus\(\)/);
 });
 
 // Project pages submit through one of two handlers: the shared project-page-form.js,

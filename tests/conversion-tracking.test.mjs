@@ -112,6 +112,90 @@ test('form recovery keeps fields in place and exposes a tracked WhatsApp fallbac
   assert.equal(h.events[0][2].lead_type, 'valuation');
 });
 
+test('shared lead validation persists field errors and moves focus to the first invalid field', () => {
+  const h = harness();
+  const nodes = [];
+  const makeNode = tagName => ({
+    tagName: tagName.toUpperCase(), attrs: {}, hidden: false, style: {}, textContent: '',
+    setAttribute(name, value) { this.attrs[name] = String(value); },
+    getAttribute(name) { return this.attrs[name] ?? null; },
+    removeAttribute(name) { delete this.attrs[name]; },
+  });
+  const parent = {
+    insertBefore(node) { nodes.push(node); node.parentNode = this; },
+  };
+  const field = {
+    parentNode: parent, nextSibling: null, valid: false, focused: false, attrs: {},
+    checkValidity() { return this.valid; },
+    focus() { this.focused = true; },
+    setAttribute(name, value) { this.attrs[name] = String(value); },
+    getAttribute(name) { return this.attrs[name] ?? null; },
+    removeAttribute(name) { delete this.attrs[name]; },
+  };
+  const submit = { parentNode: parent };
+  const form = {
+    id: 'testForm', elements: {name: field},
+    querySelector(selector) {
+      if(selector === 'button[type="submit"]') return submit;
+      if(selector === '[data-jt-validation-summary]') return nodes.find(node => 'data-jt-validation-summary' in node.attrs) || null;
+      const match = selector.match(/\[data-jt-field-error="(.+)"\]/);
+      return match ? nodes.find(node => node.attrs['data-jt-field-error'] === match[1]) || null : null;
+    },
+    appendChild(node) { nodes.push(node); },
+  };
+  h.context.document.createElement = makeNode;
+
+  assert.equal(h.context.jtValidateLeadForm(form, [{name:'name',message:'Please enter your name.'}]), false);
+  const error = nodes.find(node => node.attrs['data-jt-field-error'] === 'name');
+  const summary = nodes.find(node => 'data-jt-validation-summary' in node.attrs);
+  assert.equal(field.attrs['aria-invalid'], 'true');
+  assert.equal(field.attrs['aria-describedby'], 'testForm-name-error');
+  assert.equal(error.textContent, 'Please enter your name.');
+  assert.equal(error.hidden, false);
+  assert.equal(summary.attrs.role, 'alert');
+  assert.match(summary.textContent, /Please enter your name\./);
+  assert.equal(field.focused, true);
+
+  field.valid = true;
+  assert.equal(h.context.jtValidateLeadForm(form, [{name:'name'}]), true);
+  assert.equal(field.attrs['aria-invalid'], undefined);
+  assert.equal(field.attrs['aria-describedby'], undefined);
+  assert.equal(error.hidden, true);
+  assert.equal(summary.hidden, true);
+});
+
+test('shared spam-floor wait preserves a valid fast submission instead of dropping its click', () => {
+  const h = harness({now: 1000000});
+  let timer = null;
+  h.context.setTimeout = callback => { timer = callback; return 1; };
+  const nodes = [];
+  const makeNode = tagName => ({
+    tagName: tagName.toUpperCase(), attrs: {}, hidden: false, style: {}, textContent: '',
+    setAttribute(name, value) { this.attrs[name] = String(value); },
+  });
+  const parent = { insertBefore(node) { nodes.push(node); node.parentNode = this; } };
+  const submit = {parentNode: parent, innerHTML: 'Send', textContent: 'Send', disabled: false};
+  const form = {
+    querySelector(selector) {
+      if(selector === 'button[type="submit"]') return submit;
+      if(selector === '[data-jt-form-wait]') return nodes.find(node => 'data-jt-form-wait' in node.attrs) || null;
+      return null;
+    },
+    appendChild(node) { nodes.push(node); },
+  };
+  h.context.document.createElement = makeNode;
+  let retries = 0;
+
+  assert.equal(h.context.jtWaitForSpamFloor(form, 999900, 3000, () => { retries += 1; }), false);
+  assert.equal(submit.disabled, true);
+  assert.equal(nodes[0].attrs.role, 'status');
+  assert.equal(typeof timer, 'function');
+  timer();
+  assert.equal(retries, 1);
+  assert.equal(submit.disabled, false);
+  assert.equal(nodes[0].hidden, true);
+});
+
 test('high-intent form failures use the shared non-blocking recovery UI', () => {
   const directPaths = [
     'valuation.html',
