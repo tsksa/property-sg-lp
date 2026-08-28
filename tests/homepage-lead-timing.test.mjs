@@ -48,11 +48,29 @@ test('valuation.html never lets a submit through before the server time-on-form 
 
 test('new-launches.js registration modal never lets a submit through before the server time-on-form floor', () => {
   const client = read('new-launches/new-launches.js');
-  const gate = client.match(/Date\.now\(\)\s*-\s*modalOpenedAt\s*<\s*(\d+)\)\s*return;/);
-  assert.ok(gate, 'could not find a client time-on-form gate in new-launches.js submitModal()');
+  const gate = client.match(/jtWaitForSpamFloor\(modalForm,\s*modalOpenedAt,\s*(\d+)/);
+  assert.ok(gate, 'could not find the queued client time-on-form gate in new-launches.js submitModal()');
   assert.ok(
     Number(gate[1]) >= serverFloor(),
     `new-launches.js allows submit at ${gate[1]}ms but the server floor is ${serverFloor()}ms — ` +
       'a real submission in that gap gets shown success while the lead is silently dropped',
+  );
+});
+
+test('high-intent landing forms validate before queuing a fast valid submission', () => {
+  for(const file of ['sell/index.html', 'rent-out/index.html']){
+    const client = read(file);
+    const validation = client.indexOf('jtValidateLeadForm(form');
+    const wait = client.indexOf('jtWaitForSpamFloor(form,_pageLoadedAt,3000');
+    assert.ok(validation !== -1, `${file}: persistent validation helper missing`);
+    assert.ok(wait > validation, `${file}: spam-floor wait runs before validation`);
+    assert.match(client, /class="lp-form-success" role="status" aria-live="polite"/);
+    assert.match(client, /heading\.focus\(\)/);
+  }
+
+  const modal = read('new-launches/new-launches.js');
+  assert.ok(
+    modal.indexOf('jtWaitForSpamFloor(modalForm,modalOpenedAt,3000') > modal.indexOf('jtValidateLeadForm(modalForm'),
+    'new-launch modal must validate before it queues a fast submission',
   );
 });

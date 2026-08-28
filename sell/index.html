@@ -341,11 +341,13 @@ UTM_KEYS.forEach(k => utm[k] = params.get(k) || '');
 
 function showSuccess(form){
   form.innerHTML = `
-    <div class="lp-form-success" role="status">
+    <div class="lp-form-success" role="status" aria-live="polite">
       <div class="lp-form-success-icon" aria-hidden="true">✓</div>
       <h3 tabindex="-1">You're in — I'll be in touch.</h3>
       <p>I'll WhatsApp you within 10 minutes. No spam, no cold calls — just a straight answer to whatever you've asked.</p>
     </div>`;
+  const heading = form.querySelector('h3');
+  if(heading) heading.focus();
   if(typeof jtTrackConversion === 'function') jtTrackConversion('generate_lead',{
     method:'website_form',
     lead_type:'seller_consult',
@@ -355,10 +357,19 @@ function showSuccess(form){
 
 async function handleSubmit(form){
   if(form.company_website.value) return; // honeypot
+  if(typeof window.jtValidateLeadForm === 'function' && !window.jtValidateLeadForm(form, [
+    {name:'name',message:'Please enter your name.'},
+    {name:'phone',message:'Enter an 8-digit Singapore phone number starting with 6, 8, or 9.'},
+    {name:'propType',message:'Select your property type.'}
+  ])) return;
+  if(typeof window.jtValidateLeadForm !== 'function' && form.reportValidity && !form.reportValidity()) return;
   // The server silently discards submissions below its 3000ms time-on-form floor.
-  // Keep fast/autofilled visitors on the form instead of showing a false success.
-  if(Date.now()-_pageLoadedAt<3000) return;
-  if(form.reportValidity && !form.reportValidity()) return;
+  // Preserve a genuine fast/autofilled click and retry when the floor opens.
+  if(typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(form,_pageLoadedAt,3000,function(){handleSubmit(form);})) return;
+  if(typeof window.jtWaitForSpamFloor !== 'function' && Date.now()-_pageLoadedAt<3000){
+    setTimeout(function(){handleSubmit(form);},3000-(Date.now()-_pageLoadedAt));
+    return;
+  }
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
   btn.disabled = true;

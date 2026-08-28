@@ -17,8 +17,8 @@ function serverFloor() {
 for (const page of ['sell/index.html', 'rent-out/index.html']) {
   test(`${page} never submits before submit-lead.js's time-on-form floor`, () => {
     const html = read(page);
-    const match = html.match(/Date\.now\(\)\s*-\s*_pageLoadedAt\s*<\s*(\d+)\)\s*return;/);
-    assert.ok(match, `${page} has no client-side time-on-form gate`);
+    const match = html.match(/jtWaitForSpamFloor\(form,\s*_pageLoadedAt,\s*(\d+)/);
+    assert.ok(match, `${page} has no queued client-side time-on-form gate`);
     assert.ok(
       Number(match[1]) >= serverFloor(),
       `${page} allows submission at ${match[1]}ms, before the server accepts it`,

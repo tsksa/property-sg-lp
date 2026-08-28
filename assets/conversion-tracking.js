@@ -203,6 +203,111 @@
     return banner;
   };
 
+  window.jtValidateLeadForm = function(form, fields){
+    if(!form || !form.elements) return false;
+    fields = fields || [];
+
+    var submit = form.querySelector && form.querySelector('button[type="submit"]');
+    var summary = form.querySelector && form.querySelector('[data-jt-validation-summary]');
+    if(!summary){
+      summary = document.createElement('div');
+      summary.setAttribute('data-jt-validation-summary', '');
+      summary.setAttribute('role', 'alert');
+      summary.setAttribute('aria-live', 'assertive');
+      summary.hidden = true;
+      summary.style.cssText = 'margin-bottom:12px;padding:10px 12px;border:1px solid rgba(185,28,28,.3);border-radius:8px;background:rgba(254,226,226,.72);color:#991b1b;font-size:.86rem;line-height:1.45;';
+      if(submit && submit.parentNode) submit.parentNode.insertBefore(summary, submit);
+      else form.appendChild(summary);
+    }
+
+    var firstInvalid = null;
+    var errorCount = 0;
+    fields.forEach(function(spec){
+      var field = form.elements[spec.name];
+      if(!field || field.disabled) return;
+      var baseId = (form.id || 'jt-lead-form') + '-' + spec.name.replace(/[^a-z0-9_-]/gi, '-');
+      var errorId = baseId + '-error';
+      var error = form.querySelector && form.querySelector('[data-jt-field-error="' + spec.name + '"]');
+      if(!error){
+        error = document.createElement('p');
+        error.id = errorId;
+        error.setAttribute('data-jt-field-error', spec.name);
+        error.hidden = true;
+        error.style.cssText = 'grid-column:1/-1;width:100%;margin:5px 0 9px;color:#991b1b;font-size:.82rem;line-height:1.4;';
+        if(field.parentNode) field.parentNode.insertBefore(error, field.nextSibling);
+      }
+
+      var valid = typeof field.checkValidity === 'function' ? field.checkValidity() : !!field.value;
+      var describedBy = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+      describedBy = describedBy.filter(function(id){ return id !== errorId; });
+      if(valid){
+        field.removeAttribute('aria-invalid');
+        error.hidden = true;
+        error.textContent = '';
+      } else {
+        errorCount += 1;
+        if(!firstInvalid) firstInvalid = field;
+        field.setAttribute('aria-invalid', 'true');
+        describedBy.push(errorId);
+        error.textContent = spec.message || field.validationMessage || 'Please check this field.';
+        error.hidden = false;
+      }
+      if(describedBy.length) field.setAttribute('aria-describedby', describedBy.join(' '));
+      else field.removeAttribute('aria-describedby');
+    });
+
+    if(!errorCount){
+      summary.hidden = true;
+      summary.textContent = '';
+      return true;
+    }
+
+    summary.textContent = errorCount === 1
+      ? 'Please correct the highlighted field.'
+      : 'Please correct the ' + errorCount + ' highlighted fields.';
+    summary.hidden = false;
+    try{firstInvalid.focus({preventScroll:true});}catch(e){firstInvalid.focus();}
+    return false;
+  };
+
+  window.jtWaitForSpamFloor = function(form, startedAt, floorMs, retry){
+    floorMs = Number(floorMs) || 3000;
+    var remaining = floorMs - (Date.now() - startedAt);
+    if(remaining <= 0) return true;
+    if(form._jtSpamFloorTimer) return false;
+
+    var submit = form.querySelector && form.querySelector('button[type="submit"]');
+    var status = form.querySelector && form.querySelector('[data-jt-form-wait]');
+    if(!status){
+      status = document.createElement('p');
+      status.setAttribute('data-jt-form-wait', '');
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-live', 'polite');
+      status.style.cssText = 'margin:8px 0;color:#475569;font-size:.82rem;line-height:1.4;';
+      if(submit && submit.parentNode) submit.parentNode.insertBefore(status, submit);
+      else form.appendChild(status);
+    }
+    status.hidden = false;
+    status.textContent = 'Securing your enquiry…';
+
+    var original = submit ? submit.innerHTML : '';
+    if(submit){
+      submit.disabled = true;
+      submit.textContent = 'Please wait…';
+    }
+    form._jtSpamFloorTimer = setTimeout(function(){
+      form._jtSpamFloorTimer = null;
+      status.hidden = true;
+      status.textContent = '';
+      if(submit){
+        submit.disabled = false;
+        submit.innerHTML = original;
+      }
+      retry();
+    }, remaining);
+    return false;
+  };
+
   function classifyLink(a){
     var href = a.getAttribute('href') || '';
     if(/^tel:/i.test(href)) return 'phone_call';
