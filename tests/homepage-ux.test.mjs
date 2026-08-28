@@ -53,9 +53,26 @@ test('homepage navigation aligns with the Joe authority page', () => {
   const homepage = read('index.html');
   const profile = read('about-joe/index.html');
 
-  assert.match(homepage, /<a class="logo" href="\/" aria-label="PropertySG home">PropertySG<\/a>/);
+  assert.match(homepage, /aria-label="Joe Tay at PropertySG home"/);
+  assert.match(homepage, /<span class="logo-name">Joe Tay<\/span><span class="logo-brand">PropertySG<\/span>/);
   for (const label of ['Valuation', 'Insights', 'Sell with Joe']) {
     assert.ok(homepage.includes(`>${label}</a>`), `homepage is missing ${label}`);
     assert.ok(profile.includes(`>${label}</a>`), `profile is missing ${label}`);
   }
+});
+
+test('mobile contact bar stays out of the hero enquiry path', () => {
+  const homepage = read('index.html');
+
+  assert.match(homepage, /class="mobile-bar mobile-bar--hero"/);
+  assert.match(homepage, /mobileContactBar\.classList\.toggle\('mobile-bar--hero',entry\.isIntersecting\)/);
+  assert.match(homepage, /\.mobile-bar\.mobile-bar--hero\{[^}]*visibility:hidden;pointer-events:none/);
+});
+
+test('hero form uses concise, privacy-forward reassurance', () => {
+  const homepage = read('index.html');
+
+  assert.match(homepage, /Direct reply from Joe · No obligation/);
+  assert.match(homepage, /Spam-protected\. Your details stay private\./);
+  assert.doesNotMatch(homepage, /Typically replies in under 10 min/);
 });
