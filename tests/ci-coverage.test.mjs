@@ -8,6 +8,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const VALIDATE_WORKFLOW = path.join(ROOT, '.github', 'workflows', 'validate.yml');
 const workflow = fs.readFileSync(VALIDATE_WORKFLOW, 'utf8');
 const NODE_WORKFLOWS = [
+  'canary.yml',
   'data-freshness.yml',
   'refresh-estate-pages.yml',
   'search-growth-report.yml',
@@ -34,6 +35,13 @@ test('CI runs the full npm run check suite, not a hand-picked subset', () => {
       'script in package.json — not just the ones hand-picked into this workflow — ' +
       'runs on every PR',
   );
+});
+
+test('production canary is read-only and delegates form checks to the tested script', () => {
+  const canary = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'canary.yml'), 'utf8');
+
+  assert.match(canary, /node scripts\/production-form-health\.mjs/);
+  assert.doesNotMatch(canary, /-X\s+POST|--request\s+POST/, 'production canary must never submit a lead payload');
 });
 
 test('CI validates every pull request and push to main without fragile path filters', () => {
