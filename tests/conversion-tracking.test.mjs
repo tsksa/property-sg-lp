@@ -32,8 +32,12 @@ function harness({ consent, session = new Map(), search = '', pathname = '/', bl
     context, events, pixels, session, local,
     attribution: () => JSON.parse(JSON.stringify(context.jtGetLeadAttribution())),
     click(id) { clicks.forEach(fn => fn({ target: { closest: selector => selector.split(', ').includes(`#${id}`) ? {} : null } })); },
-    contact(href) {
-      const a = { href, textContent: 'Contact Joe', getAttribute: () => href };
+    contact(href, attributes = {}) {
+      const a = {
+        href,
+        textContent: 'Contact Joe',
+        getAttribute: name => name === 'href' ? href : (attributes[name] ?? null),
+      };
       clicks.forEach(fn => fn({ target: { closest: selector => selector === 'a[href]' ? a : null } }));
     },
     booking(origin) { messages.forEach(fn => fn({ origin, data: { event: 'calendly.event_scheduled' } })); },
@@ -61,6 +65,74 @@ test('contact intent stays separate from leads and only genuine Calendly-origin 
   h.booking('https://calendly.com');
   assert.equal(h.events[1][1], 'generate_lead');
   assert.equal(h.events[1][2].lead_type, 'calendly_booking');
+});
+
+test('form recovery keeps fields in place and exposes a tracked WhatsApp fallback', () => {
+  const h = harness();
+  let banner = null;
+  const makeNode = tagName => ({
+    tagName: tagName.toUpperCase(),
+    attrs: {}, children: [], style: {}, textContent: '', focused: false,
+    setAttribute(name, value) { this.attrs[name] = value; },
+    appendChild(child) { this.children.push(child); child.parentNode = this; },
+    focus() { this.focused = true; },
+  });
+  const container = {
+    insertBefore(child) { banner = child; child.parentNode = this; },
+  };
+  const submit = { parentNode: container, nextSibling: null };
+  const form = {
+    querySelector(selector) {
+      if(selector === 'button[type="submit"]') return submit;
+      if(selector === '[data-jt-form-recovery]') return banner;
+      return null;
+    },
+    appendChild(child) { banner = child; },
+  };
+  h.context.document.createElement = makeNode;
+  h.context.document.createTextNode = text => ({ textContent: text });
+
+  const result = h.context.jtShowFormRecovery(form, {
+    leadType: 'valuation',
+    ctaLocation: 'valuation_form_recovery',
+    whatsappText: 'Hi Joe, valuation help please',
+  });
+
+  assert.equal(result, banner);
+  assert.equal(banner.attrs.role, 'alert');
+  assert.equal(banner.attrs.tabindex, '-1');
+  assert.equal(banner.focused, true);
+  const link = banner.children.find(child => child.tagName === 'A');
+  assert.ok(link.href.includes('text=Hi%20Joe%2C%20valuation%20help%20please'));
+  assert.equal(link.attrs['data-cta-location'], 'valuation_form_recovery');
+  assert.equal(link.attrs['data-lead-type'], 'valuation');
+
+  h.contact(link.href, link.attrs);
+  assert.equal(h.events[0][2].cta_location, 'valuation_form_recovery');
+  assert.equal(h.events[0][2].lead_type, 'valuation');
+});
+
+test('high-intent form failures use the shared non-blocking recovery UI', () => {
+  const directPaths = [
+    'valuation.html',
+    'sell/index.html',
+    'rent-out/index.html',
+    'new-launches/new-launches.js',
+    'new-launches/project-page-form.js',
+  ];
+  for(const file of directPaths){
+    const source = read(file);
+    assert.match(source, /jtShowFormRecovery/, `${file}: shared recovery helper missing`);
+    assert.doesNotMatch(source, /alert\(["']Sorry, something went wrong/, `${file}: blocking failure alert remains`);
+  }
+
+  const launchDir = new URL('../new-launches/', import.meta.url);
+  for(const entry of fs.readdirSync(launchDir).filter(name => name.endsWith('.html'))){
+    const source = read(`new-launches/${entry}`);
+    if(!source.includes('id="projectForm"') || source.includes('project-page-form.js')) continue;
+    assert.match(source, /jtShowFormRecovery/, `${entry}: inline project form lacks shared recovery`);
+    assert.doesNotMatch(source, /alert\(["']Sorry, something went wrong/, `${entry}: blocking failure alert remains`);
+  }
 });
 
 test('decline disables the actual measurement ID, clears attribution and stops events on this page', () => {

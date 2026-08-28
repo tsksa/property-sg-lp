@@ -374,7 +374,12 @@ async function handleSubmit(form){
   } catch(err){
     btn.disabled = false;
     btn.innerHTML = original;
-    alert("Sorry, something went wrong. Please try again or WhatsApp me at +65 8188 1488.");
+    if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(form, {
+      submit: btn,
+      leadType: 'landlord_consult',
+      ctaLocation: 'landlord_form_recovery',
+      whatsappText: 'Hi Joe, I tried to request a landlord consultation on joetay.com but the form did not go through. Can you help?'
+    });
   }
 }
 

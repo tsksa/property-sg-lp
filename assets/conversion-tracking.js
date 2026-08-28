@@ -161,6 +161,48 @@
     }
   };
 
+  window.jtShowFormRecovery = function(form, options){
+    if(!form || typeof form.querySelector !== 'function') return null;
+    options = options || {};
+
+    var submit = options.submit || form.querySelector('button[type="submit"]');
+    var banner = form.querySelector('[data-jt-form-recovery]');
+    if(!banner){
+      banner = document.createElement('div');
+      banner.className = 'jt-form-recovery';
+      banner.setAttribute('data-jt-form-recovery', '');
+      banner.setAttribute('role', 'alert');
+      banner.setAttribute('tabindex', '-1');
+      if(submit && submit.parentNode) submit.parentNode.insertBefore(banner, submit.nextSibling);
+      else form.appendChild(banner);
+    }
+
+    banner.textContent = '';
+    banner.style.cssText = 'margin-top:12px;padding:11px 13px;border:1px solid rgba(185,28,28,.3);border-radius:8px;background:rgba(254,226,226,.72);color:#991b1b;font-size:.86rem;line-height:1.5;';
+    banner.appendChild(document.createTextNode(
+      (options.message || 'We could not send this enquiry just now. Your details are still here.') + ' '
+    ));
+
+    var retry = document.createElement('span');
+    retry.textContent = 'Try again, or ';
+    banner.appendChild(retry);
+
+    var link = document.createElement('a');
+    var whatsappText = options.whatsappText || 'Hi Joe, I tried to send an enquiry on joetay.com but it did not go through. Can you help?';
+    link.href = 'https://wa.me/6581881488?text=' + encodeURIComponent(whatsappText);
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'WhatsApp Joe directly';
+    link.style.cssText = 'color:#991b1b;font-weight:700;text-decoration:underline;';
+    link.setAttribute('data-cta-location', options.ctaLocation || 'form_recovery');
+    if(options.leadType) link.setAttribute('data-lead-type', options.leadType);
+    banner.appendChild(link);
+    banner.appendChild(document.createTextNode('.'));
+
+    try{banner.focus({preventScroll:true});}catch(e){banner.focus();}
+    return banner;
+  };
+
   function classifyLink(a){
     var href = a.getAttribute('href') || '';
     if(/^tel:/i.test(href)) return 'phone_call';
@@ -178,7 +220,9 @@
     window.jtTrackConversion('contact_click', {
       contact_method: method,
       link_url: a.href,
-      link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120)
+      link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120),
+      cta_location: a.getAttribute('data-cta-location') || '',
+      lead_type: a.getAttribute('data-lead-type') || ''
     });
   }, true);
 
