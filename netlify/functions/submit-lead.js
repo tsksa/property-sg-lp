@@ -6,8 +6,8 @@
 //   2b. Phone format (SG strict, or +CC international) → 400 with "Please enter a valid phone number"
 //   3. Suspicious email (disposable provider / gmail dot abuse / digit cluster /
 //      consonant cluster / vowel-less local) → silent 200
-//   4. Rate-limit: 3/IP/hour, 1/email/day (Netlify Blobs persistent store) → silent 200
-//   5. (Optional) reCAPTCHA v3 score — only enforced if RECAPTCHA_SECRET set:
+//   4. Rate-limit: 3/IP/hour, 3/email/day (Netlify Blobs persistent store) → silent 200
+//   5. (Optional) reCAPTCHA v3 score + action/hostname binding — only enforced if RECAPTCHA_SECRET set:
 //      < 0.5  → silent 200
 //      < 0.7  → forward but flag review_required (WhatsApp gets ⚠️ prefix)
 //      >= 0.7 → forward normally
@@ -26,8 +26,9 @@
 // Build per-request CORS headers based on the requesting Origin. Echoes the
 // Origin back only if it's in the allow-list (joetay.com production + the
 // deploy-preview / branch-deploy subdomains of this site, propertysg78 —
-// not any *.netlify.app, which anyone can register). Anything else gets no
-// Access-Control-Allow-Origin and the browser blocks the response.
+// not any *.netlify.app, which anyone can register). The handler also rejects
+// disallowed browser origins before delivery; CORS alone would not prevent
+// their POST from triggering side effects.
 //
 // Why echo instead of '*': '*' lets any third-party site embed a form that
 // POSTs to this endpoint and pollutes Joe's lead pipeline (his quota, his
@@ -37,12 +38,17 @@
 //
 // curl / Postman / cron jobs don't send an Origin header at all — those
 // bypass the check, which is fine: they're trusted server-to-server callers.
-function getCorsHeaders(origin) {
-  const allowed = (
+function isAllowedOrigin(origin) {
+  return (
     origin === 'https://joetay.com' ||
     origin === 'https://www.joetay.com' ||
     /^https:\/\/(?:[\w-]+--)?propertysg78\.netlify\.app$/.test(origin || '')
   );
+}
+exports.isAllowedOrigin = isAllowedOrigin;
+
+function getCorsHeaders(origin) {
+  const allowed = isAllowedOrigin(origin);
   return {
     'Access-Control-Allow-Origin': allowed ? origin : 'null',
     'Vary': 'Origin',
@@ -62,7 +68,8 @@ exports.handler = async (event) => {
     if (typeof blobs.connectLambda === 'function') blobs.connectLambda(event);
   } catch (e) { console.warn('Blobs hydration failed:', e.message); }
 
-  const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
+  const requestOrigin = event.headers.origin || event.headers.Origin || '';
+  const corsHeaders = getCorsHeaders(requestOrigin);
   const OK_RESPONSE = { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -90,6 +97,18 @@ exports.handler = async (event) => {
 
   const ip = getClientIp(event);
   const userAgent = event.headers['user-agent'] || '';
+
+  // CORS only controls whether a browser can read a response. It does not stop
+  // a cross-origin POST from reaching this function and triggering Joe's
+  // webhook / WhatsApp notifications. Silently reject browser submissions
+  // that are clearly from another site. Requests with no Origin remain
+  // available to intentional server-to-server callers and still pass through
+  // every other spam gate below.
+  const secFetchSite = event.headers['sec-fetch-site'] || event.headers['Sec-Fetch-Site'] || '';
+  if ((requestOrigin && !isAllowedOrigin(requestOrigin)) || secFetchSite === 'cross-site') {
+    await logSpam(event, payload, 'cross_site_submission', ip);
+    return OK_RESPONSE;
+  }
 
   // ─── Gate 1: Honeypot ──────────────────────────────────────────────
   if (payload.company_website || payload._honeypot || payload.website_url) {
@@ -162,14 +181,33 @@ exports.handler = async (event) => {
   // prefix on his Twilio WhatsApp template and can judge for himself.
   let recaptchaScore = null;
   let recaptchaError = null;
+  let recaptchaInvalidReason = null;
+  let recaptchaAction = null;
+  let recaptchaHostname = null;
   let recaptchaTokenMissing = false;
   if (process.env.RECAPTCHA_SECRET) {
     if (!payload.recaptcha_token) {
       recaptchaTokenMissing = true;
     } else {
-      const result = await verifyRecaptcha(payload.recaptcha_token, ip);
+      const result = await verifyRecaptcha(
+        payload.recaptcha_token,
+        ip,
+        expectedRecaptchaAction(payload)
+      );
       recaptchaScore = result.score;
       recaptchaError = result.error;
+      recaptchaInvalidReason = result.invalidReason;
+      recaptchaAction = result.action;
+      recaptchaHostname = result.hostname;
+
+      // An action/hostname mismatch is a valid token used in the wrong
+      // context, which is a stronger bot/replay signal than a transient
+      // verification error. Google explicitly recommends binding v3 tokens
+      // to the expected action on the backend.
+      if (recaptchaInvalidReason) {
+        await logSpam(event, payload, recaptchaInvalidReason, ip);
+        return OK_RESPONSE;
+      }
 
       // Only drop on a real bot-score signal (< 0.5). Verify errors fall
       // through to review-required just like a missing token.
@@ -200,6 +238,8 @@ exports.handler = async (event) => {
     referer: event.headers.referer || event.headers.referrer || '',
     client_ip: ip,
     recaptcha_score: recaptchaScore,
+    recaptcha_action: recaptchaAction,
+    recaptcha_hostname: recaptchaHostname,
     review_required: reviewRequired,
   };
 
@@ -692,7 +732,23 @@ async function checkRateLimit(ip, email) {
   return { blocked: false };
 }
 
-async function verifyRecaptcha(token, ip) {
+function expectedRecaptchaAction(payload) {
+  return payload.lead_type
+    ? String(payload.lead_type).replace(/[^a-zA-Z0-9_]/g, '_')
+    : 'lead_submit';
+}
+exports.expectedRecaptchaAction = expectedRecaptchaAction;
+
+function isAllowedRecaptchaHostname(hostname) {
+  return (
+    hostname === 'joetay.com' ||
+    hostname === 'www.joetay.com' ||
+    /^(?:[\w-]+--)?propertysg78\.netlify\.app$/.test(hostname || '')
+  );
+}
+exports.isAllowedRecaptchaHostname = isAllowedRecaptchaHostname;
+
+async function verifyRecaptcha(token, ip, expectedAction) {
   try {
     const body = new URLSearchParams({
       secret: process.env.RECAPTCHA_SECRET,
@@ -707,11 +763,47 @@ async function verifyRecaptcha(token, ip) {
     });
     const data = await res.json();
     if (!data.success) {
-      return { score: null, error: (data['error-codes'] || []).join(',') || 'unknown' };
+      return {
+        score: null,
+        error: (data['error-codes'] || []).join(',') || 'unknown',
+        invalidReason: null,
+        action: data.action || null,
+        hostname: data.hostname || null,
+      };
     }
-    return { score: data.score, error: null };
+    if (data.action !== expectedAction) {
+      return {
+        score: data.score,
+        error: null,
+        invalidReason: 'recaptcha_action_mismatch',
+        action: data.action || null,
+        hostname: data.hostname || null,
+      };
+    }
+    if (!isAllowedRecaptchaHostname(data.hostname)) {
+      return {
+        score: data.score,
+        error: null,
+        invalidReason: 'recaptcha_hostname_mismatch',
+        action: data.action || null,
+        hostname: data.hostname || null,
+      };
+    }
+    return {
+      score: data.score,
+      error: null,
+      invalidReason: null,
+      action: data.action,
+      hostname: data.hostname,
+    };
   } catch (err) {
-    return { score: null, error: err.message };
+    return {
+      score: null,
+      error: err.message,
+      invalidReason: null,
+      action: null,
+      hostname: null,
+    };
   }
 }
 
