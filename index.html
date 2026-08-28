@@ -291,7 +291,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* ── Primary navigation ── */
 .site-nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(6,20,48,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;color:#fff}
-.site-nav .logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px;color:#fff}
+.site-nav .logo{display:inline-flex;align-items:baseline;gap:7px;color:#fff;white-space:nowrap}
+.site-nav .logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
+.site-nav .logo-brand{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.62)}
 .site-nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:rgba(255,255,255,.76)}
 .site-nav .nav-links a:hover{color:#fff}
 .nav-burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:none;cursor:pointer;padding:0;margin-left:8px}
@@ -825,7 +827,7 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 @media(max-width:640px){.back-to-top{bottom:80px;right:18px}}
 
 /* ── Mobile Sticky CTA Bar ── */
-.mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid #eee;box-shadow:0 -4px 20px rgba(0,0,0,0.06);padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:10px}
+.mobile-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid #eee;box-shadow:0 -4px 20px rgba(0,0,0,0.06);padding:8px 12px calc(8px + env(safe-area-inset-bottom));gap:10px;transition:transform .24s ease,opacity .2s ease,visibility .2s ease}
 .mobile-bar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 12px;border-radius:12px;font-weight:600;font-size:0.92rem;transition:transform .15s,opacity .2s}
 .mobile-bar a:active{transform:scale(0.97)}
 .mobile-bar .mb-call{background:var(--navy);color:#fff}
@@ -833,13 +835,16 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 .mobile-bar svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
 @media(max-width:768px){
   .mobile-bar{display:flex}
+  .mobile-bar.mobile-bar--hero{transform:translateY(calc(100% + env(safe-area-inset-bottom)));opacity:0;visibility:hidden;pointer-events:none}
+  .mobile-bar a{padding:11px 12px}
+  .mobile-bar .mb-number{display:none}
   .wa-float{display:none}
   /* The mobile-bar adds env(safe-area-inset-bottom) to its own bottom
      padding so it sits above iOS's home-indicator. Mirror that inset on
      body's padding-bottom so the last row of content also clears the bar
      on notched iPhones — without this the final paragraph or CTA on
      mobile gets hidden behind the bar by however many points the inset is. */
-  body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
 }
 
 /* ── Scroll Animations ── */
@@ -859,6 +864,9 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 }
 @media(max-width:768px){
   .site-nav{padding:0 20px}
+  .site-nav .logo{gap:5px}
+  .site-nav .logo-brand{font-size:.58rem}
+  .site-nav .nav-cta{padding:10px 16px;font-size:.78rem;white-space:nowrap}
   .nav-burger{display:flex}
   .site-nav .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:rgba(6,20,48,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 16px 40px rgba(0,0,0,.28)}
   .site-nav .nav-links.open{display:flex}
@@ -1147,7 +1155,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
 <nav class="site-nav" aria-label="Primary">
-  <a class="logo" href="/" aria-label="PropertySG home">PropertySG</a>
+  <a class="logo" href="/" aria-label="Joe Tay at PropertySG home"><span class="logo-name">Joe Tay</span><span class="logo-brand">PropertySG</span></a>
   <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
     <span></span><span></span><span></span>
   </button>
@@ -1215,7 +1223,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <p class="hero-field-error" id="hero-proptype-error" hidden>Select your property type.</p>
         </div>
       </div>
-      <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
+      <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Send me the monthly Singapore property update.</span></label>
       <div class="hero-validation-summary" id="heroValidation" role="alert" aria-live="assertive" tabindex="-1" hidden>Please correct the highlighted fields.</div>
       <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
       <noscript>
@@ -1226,9 +1234,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
         </div>
       </noscript>
-      <span class="hero-response">Free · No obligation · Typically replies in under 10 min</span>
+      <span class="hero-response">Direct reply from Joe · No obligation</span>
       <button type="button" class="hero-valuation-link" id="heroValuationLink">Need a price estimate instead? Get a free valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
-      <p class="hero-form-note">By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
+      <p class="hero-form-note">Spam-protected. Your details stay private. By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
     </form>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
@@ -1891,7 +1899,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </footer>
 
 <!-- Mobile Sticky Bar -->
-<div class="mobile-bar" role="navigation" aria-label="Quick contact">
+<div class="mobile-bar mobile-bar--hero" role="navigation" aria-label="Quick contact">
   <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="mb-call" aria-label="Call Joe +65 8188 1488">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
     <span class="mb-stack">
@@ -2099,6 +2107,24 @@ async function handleFormSubmit(form,data,successTitle,successBody){
 // ── Hero form ──
 const heroForm=document.getElementById('heroForm');
 const heroValidation=document.getElementById('heroValidation');
+const mobileContactBar=document.querySelector('.mobile-bar');
+const heroSection=document.getElementById('main');
+
+// The fixed call/WhatsApp bar is useful once someone is browsing the page,
+// but it covers the enquiry reassurance and privacy copy while the hero form
+// is on screen. Keep it out of the conversion path, then reveal it as soon as
+// the visitor moves beyond the hero.
+if(mobileContactBar&&heroSection){
+  if('IntersectionObserver' in window){
+    const mobileContactObserver=new IntersectionObserver(([entry])=>{
+      mobileContactBar.classList.toggle('mobile-bar--hero',entry.isIntersecting);
+    },{threshold:0});
+    mobileContactObserver.observe(heroSection);
+  }else{
+    mobileContactBar.classList.remove('mobile-bar--hero');
+  }
+}
+
 const heroValidationFields=[
   {field:heroForm.elements.name,error:document.getElementById('hero-name-error'),valid:field=>field.value.trim().length>0},
   {field:heroForm.elements.phone,error:document.getElementById('hero-phone-error'),valid:field=>field.value.trim().length>0&&field.validity.valid},
