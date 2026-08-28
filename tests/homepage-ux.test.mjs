@@ -53,8 +53,10 @@ test('homepage navigation aligns with the Joe authority page', () => {
   const homepage = read('index.html');
   const profile = read('about-joe/index.html');
 
-  assert.match(homepage, /aria-label="Joe Tay at PropertySG home"/);
-  assert.match(homepage, /<span class="logo-name">Joe Tay<\/span><span class="logo-brand">PropertySG<\/span>/);
+  assert.match(
+    homepage,
+    /<a class="logo" href="\/">\s*<span class="logo-name">Joe Tay<\/span><span class="logo-brand">PropertySG<\/span>\s*<\/a>/,
+  );
   for (const label of ['Valuation', 'Insights', 'Sell with Joe']) {
     assert.ok(homepage.includes(`>${label}</a>`), `homepage is missing ${label}`);
     assert.ok(profile.includes(`>${label}</a>`), `profile is missing ${label}`);
