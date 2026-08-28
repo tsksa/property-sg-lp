@@ -222,6 +222,7 @@
 
     var firstInvalid = null;
     var errorCount = 0;
+    var messages = [];
     fields.forEach(function(spec){
       var field = form.elements[spec.name];
       if(!field || field.disabled) return;
@@ -233,7 +234,7 @@
         error.id = errorId;
         error.setAttribute('data-jt-field-error', spec.name);
         error.hidden = true;
-        error.style.cssText = 'grid-column:1/-1;width:100%;margin:5px 0 9px;color:#991b1b;font-size:.82rem;line-height:1.4;';
+        error.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
         if(field.parentNode) field.parentNode.insertBefore(error, field.nextSibling);
       }
 
@@ -250,6 +251,7 @@
         field.setAttribute('aria-invalid', 'true');
         describedBy.push(errorId);
         error.textContent = spec.message || field.validationMessage || 'Please check this field.';
+        messages.push(error.textContent);
         error.hidden = false;
       }
       if(describedBy.length) field.setAttribute('aria-describedby', describedBy.join(' '));
@@ -262,9 +264,10 @@
       return true;
     }
 
-    summary.textContent = errorCount === 1
+    var summaryLead = errorCount === 1
       ? 'Please correct the highlighted field.'
       : 'Please correct the ' + errorCount + ' highlighted fields.';
+    summary.textContent = summaryLead + ' ' + messages.join(' ');
     summary.hidden = false;
     try{firstInvalid.focus({preventScroll:true});}catch(e){firstInvalid.focus();}
     return false;

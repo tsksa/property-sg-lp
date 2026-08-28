@@ -153,6 +153,7 @@ test('shared lead validation persists field errors and moves focus to the first 
   assert.equal(error.textContent, 'Please enter your name.');
   assert.equal(error.hidden, false);
   assert.equal(summary.attrs.role, 'alert');
+  assert.match(summary.textContent, /Please enter your name\./);
   assert.equal(field.focused, true);
 
   field.valid = true;
