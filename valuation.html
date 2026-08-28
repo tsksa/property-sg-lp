@@ -689,7 +689,12 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Get My Free Valuation →';
-    alert("Sorry, something went wrong submitting your request. Please try again or WhatsApp me at +65 8188 1488.");
+    if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(f, {
+      submit: btn,
+      leadType: 'valuation',
+      ctaLocation: 'valuation_form_recovery',
+      whatsappText: 'Hi Joe, I tried to request a property valuation on joetay.com but the form did not go through. Can you help?'
+    });
   }
 });
 </script>

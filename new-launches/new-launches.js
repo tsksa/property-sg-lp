@@ -429,7 +429,12 @@
     }).catch(function(){
       modalSubmit.disabled = false;
       modalSubmit.textContent = original;
-      alert("Sorry, something went wrong. Please try again or WhatsApp me at +65 8188 1488.");
+      if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(modalForm, {
+        submit: modalSubmit,
+        leadType: 'new_launch_registration',
+        ctaLocation: 'new_launch_modal_recovery',
+        whatsappText: 'Hi Joe, I tried to enquire about ' + (projectVal || 'a new launch') + ' on joetay.com but the form did not go through. Can you help?'
+      });
     });
   }
 

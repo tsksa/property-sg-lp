@@ -66,14 +66,12 @@
     }).catch(function(){
       submit.disabled = false;
       submit.textContent = 'Send enquiry →';
-      var existing = form.querySelector('.pf-error');
-      if(!existing){
-        var error = document.createElement('p');
-        error.className = 'pf-error';
-        error.setAttribute('role', 'alert');
-        error.textContent = 'Could not send this enquiry. Please WhatsApp Joe on +65 8188 1488.';
-        form.appendChild(error);
-      }
+      if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(form, {
+        submit: submit,
+        leadType: 'new_launch_registration',
+        ctaLocation: 'project_form_recovery',
+        whatsappText: 'Hi Joe, I tried to enquire about ' + project + ' on joetay.com but the form did not go through. Can you help?'
+      });
     });
   });
 })();
