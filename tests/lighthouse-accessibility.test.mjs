@@ -60,6 +60,27 @@ test('visible mobile and cookie labels are included in their accessible names', 
   );
 });
 
+test('homepage logo uses its visible text as the accessible name', () => {
+  const html = read('index.html');
+  const logo = html.match(/<a class="logo"([^>]*)>([\s\S]*?)<\/a>/);
+
+  assert.ok(logo, 'missing homepage logo');
+  assert.doesNotMatch(logo[1], /aria-label=/);
+  assert.match(logo[2], /<span class="logo-name">Joe Tay<\/span>/);
+  assert.match(logo[2], /<span class="logo-brand">PropertySG<\/span>/);
+});
+
+test('calculator fonts avoid late swaps that shift the policy notice', () => {
+  const html = read('calculator/index.html');
+  const fontUrls = [...html.matchAll(/https:\/\/fonts\.googleapis\.com\/css2\?[^"']+/g)]
+    .map((match) => match[0]);
+
+  assert.ok(fontUrls.length >= 3, 'missing calculator font loading variants');
+  for (const url of fontUrls) {
+    assert.match(url, /[&?]display=optional(?:&|$)/);
+  }
+});
+
 test('insight cards use semantic list markup without invalid link roles', () => {
   const html = read('insights/index.html');
 
