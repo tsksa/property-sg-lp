@@ -166,7 +166,9 @@ GA4 request also filters `hostName` to `joetay.com`.
    account email, and grant it the **Viewer** role.
 5. In **GA4 Admin → Data display → Custom definitions**, create:
    - **Lead type** — scope **Event**, event parameter `lead_type`;
-   - **Contact method** — scope **Event**, event parameter `contact_method`.
+   - **Contact method** — scope **Event**, event parameter `contact_method`;
+   - **Form ID** — scope **Event**, event parameter `form_id` (used to compare
+     homepage form funnels in GA4 Explorations).
 
    New definitions can take **24–48 hours** to become reportable and do not
    backfill data from before GA4 made them available.
@@ -182,10 +184,11 @@ GA4 request also filters `hostName` to `joetay.com`.
      Local runs still need `GA4_PROPERTY_ID=535131896` in their environment.
 
 Each configured property must be granted to the service account. Before
-querying report data, the workflow checks that both event-scoped custom
-dimensions are available. A missing definition, key, Viewer role, API, or
-mismatched property fails without writing a partial report or printing
-credentials.
+querying report data, the workflow checks that the two report-required
+dimensions (`lead_type` and `contact_method`) are available. `form_id` supports
+manual funnel Explorations and is not part of that workflow gate. A missing
+required definition, key, Viewer role, API, or mismatched property fails without
+writing a partial report or printing credentials.
 
 Before releasing the reporting repair, verify Viewer access and the two custom
 dimensions on **535131896**, not the old property. Do not fall back to the old
@@ -199,6 +202,13 @@ delivered or qualified enquiry. `contact_click` is contact intent; do not add it
 to `whatsapp_click` or form events and call the sum enquiries. Keep newsletter
 sign-ups separate using `lead_type`. Changing GA4 key-event settings and verifying
 real inbox/CRM delivery are separate release checks; local tests do not do either.
+
+Homepage forms emit one privacy-safe event per observed funnel stage:
+`lead_form_start`, `lead_form_validation_error`, `lead_form_submit_attempt`,
+`lead_form_recovery`, and `lead_form_submit_success`. Compare their event counts
+by `form_id` and `lead_type`; never treat starts or attempts as completed leads.
+These events contain only fixed labels and counts, never names, contact details,
+field values, validation messages, or provider responses.
 
 The shared conversion helper keeps allowlisted campaign tags and the entry path
 in session storage only after cookie acceptance, for up to 30 minutes. Homepage

@@ -67,6 +67,79 @@ test('contact intent stays separate from leads and only genuine Calendly-origin 
   assert.equal(h.events[1][2].lead_type, 'calendly_booking');
 });
 
+test('lead form funnel records fixed stages without form values or duplicate starts', () => {
+  const h = harness();
+  const listeners = {};
+  const attrs = {};
+  const form = {
+    id: 'heroForm',
+    addEventListener(type, callback) { (listeners[type] ||= []).push(callback); },
+    setAttribute(name, value) { attrs[name] = value; },
+    getAttribute(name) { return attrs[name] ?? null; },
+  };
+  h.context.jtObserveLeadForm(form, {leadType:'consultation'});
+  listeners.input[0]({target:{value:'private name'}});
+  listeners.input[0]({target:{value:'private phone'}});
+  h.context.jtTrackLeadFormStage(form, 'start');
+  h.context.jtTrackLeadFormStage(form, 'submit_attempt');
+  h.context.jtTrackLeadFormStage(form, 'recovery', {failure_type:'submission_error'});
+  h.context.jtTrackLeadFormStage(form, 'success');
+
+  assert.deepEqual(h.events.map(event => event[1]), [
+    'lead_form_start',
+    'lead_form_submit_attempt',
+    'lead_form_recovery',
+    'lead_form_submit_success',
+  ]);
+  for(const event of h.events){
+    assert.equal(event[2].form_id, 'heroForm');
+    assert.equal(event[2].lead_type, 'consultation');
+    assert.doesNotMatch(JSON.stringify(event[2]), /private name|private phone/);
+  }
+  assert.equal(h.pixels.length, 0);
+});
+
+test('lead form funnel collapses native invalid fields into one validation event', () => {
+  const h = harness();
+  const listeners = {};
+  const attrs = {};
+  let timer;
+  h.context.setTimeout = callback => { timer = callback; return 1; };
+  const form = {
+    id: 'footerNewsletter',
+    addEventListener(type, callback) { (listeners[type] ||= []).push(callback); },
+    setAttribute(name, value) { attrs[name] = value; },
+    getAttribute(name) { return attrs[name] ?? null; },
+  };
+  h.context.jtObserveLeadForm(form, {leadType:'newsletter_signup'});
+  listeners.invalid[0]({});
+  listeners.invalid[0]({});
+  timer();
+
+  assert.deepEqual(h.events.map(event => event[1]), [
+    'lead_form_start',
+    'lead_form_validation_error',
+  ]);
+  assert.equal(h.events[1][2].error_count, 2);
+});
+
+test('homepage wires all lead forms to privacy-safe funnel stages', () => {
+  const html = read('index.html');
+  for(const [id, leadType] of [
+    ['heroForm','consultation'],
+    ['valPopupForm','valuation'],
+    ['exitForm','newsletter_signup'],
+    ['footerNewsletter','newsletter_signup'],
+    ['finalForm','final_cta_consultation'],
+  ]){
+    assert.match(html, new RegExp(`\\['${id}','${leadType}'\\]`));
+  }
+  assert.match(html, /jtTrackLeadFormStage\(form,'submit_attempt'/);
+  assert.match(html, /jtTrackLeadFormStage\(form,'success'/);
+  assert.match(html, /jtTrackLeadFormStage\(form,'recovery'/);
+  assert.doesNotMatch(html, /jtTrackLeadFormStage\([^)]*(?:full_name|mobile_number|email_address)/);
+});
+
 test('form recovery keeps fields in place and exposes a tracked WhatsApp fallback', () => {
   const h = harness();
   let banner = null;

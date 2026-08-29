@@ -38,7 +38,8 @@ test('homepage lead form provides persistent accessible field errors', () => {
   assert.match(homepage, /id="heroValidation" role="alert" aria-live="assertive"/);
   assert.match(homepage, /function renderHeroValidation\(focusFirst=false\)/);
   assert.match(homepage, /setAttribute\('aria-invalid',valid\?'false':'true'\)/);
-  assert.match(homepage, /if\(!renderHeroValidation\(true\)\)return;/);
+  assert.match(homepage, /if\(!renderHeroValidation\(true\)\)\{/);
+  assert.match(homepage, /jtTrackLeadFormStage\(heroForm,'validation_error'/);
 });
 
 test('consultation stays primary while valuation is a quiet secondary action', () => {
