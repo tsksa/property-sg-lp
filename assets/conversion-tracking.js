@@ -161,6 +161,67 @@
     }
   };
 
+  var leadFormEvents = {
+    start: 'lead_form_start',
+    validation_error: 'lead_form_validation_error',
+    submit_attempt: 'lead_form_submit_attempt',
+    recovery: 'lead_form_recovery',
+    success: 'lead_form_submit_success'
+  };
+
+  function safeFunnelLabel(value, fallback){
+    return typeof value === 'string' && /^[a-z0-9_-]{1,80}$/i.test(value) ? value : fallback;
+  }
+
+  // Records fixed, low-cardinality funnel labels only. Never pass field values,
+  // validation messages, contact details, or provider responses here.
+  window.jtTrackLeadFormStage = function(form, stage, params){
+    var eventName = leadFormEvents[stage];
+    if(!form || !eventName) return;
+    if(stage === 'start'){
+      if(form._jtFunnelStarted) return;
+      form._jtFunnelStarted = true;
+    }
+    params = params || {};
+    var formId = safeFunnelLabel(params.form_id || form.id, 'lead_form');
+    var leadType = safeFunnelLabel(params.lead_type || form.getAttribute('data-lead-type'), 'unclassified');
+    var payload = {form_id:formId, lead_type:leadType};
+    if(Number.isInteger(params.error_count) && params.error_count > 0 && params.error_count <= 20){
+      payload.error_count = params.error_count;
+    }
+    if(params.failure_type){
+      payload.failure_type = safeFunnelLabel(params.failure_type, 'unclassified');
+    }
+    window.jtTrackConversion(eventName, payload);
+  };
+
+  window.jtObserveLeadForm = function(form, options){
+    if(!form || typeof form.addEventListener !== 'function' || form._jtFunnelObserved) return;
+    options = options || {};
+    form._jtFunnelObserved = true;
+    form.setAttribute('data-lead-type', safeFunnelLabel(options.leadType, 'unclassified'));
+
+    function trackStart(){
+      window.jtTrackLeadFormStage(form, 'start');
+    }
+    form.addEventListener('input', trackStart, true);
+    form.addEventListener('change', trackStart, true);
+
+    // Native constraint validation may emit one invalid event per field before
+    // submit fires. Collapse that burst into one useful error-count event.
+    form.addEventListener('invalid', function(){
+      trackStart();
+      form._jtFunnelInvalidCount = (form._jtFunnelInvalidCount || 0) + 1;
+      if(form._jtFunnelInvalidTimer) return;
+      form._jtFunnelInvalidTimer = setTimeout(function(){
+        var count = form._jtFunnelInvalidCount;
+        form._jtFunnelInvalidCount = 0;
+        form._jtFunnelInvalidTimer = null;
+        window.jtTrackLeadFormStage(form, 'validation_error', {error_count:count});
+      }, 0);
+    }, true);
+  };
+
   window.jtShowFormRecovery = function(form, options){
     if(!form || typeof form.querySelector !== 'function') return null;
     options = options || {};

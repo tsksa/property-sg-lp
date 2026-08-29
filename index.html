@@ -2049,6 +2049,9 @@ async function submitLead(data){
 }
 
 function showFormSuccess(form,title,body,data){
+  if(typeof jtTrackLeadFormStage==='function') jtTrackLeadFormStage(form,'success',{
+    lead_type:data?.lead_type||'consultation'
+  });
   form.innerHTML=`<div class="form-success" role="status"><div class="form-success-icon" aria-hidden="true">✓</div><h3 tabindex="-1">${title}</h3><p>${body}</p></div>`;
   // Move focus to the success heading so keyboard / screen-reader users
   // aren't dropped to <body> when the submit button gets detached.
@@ -2073,6 +2076,9 @@ function showFormError(btn,originalHTML){
   // and gives screen-reader users an announceable message via role="alert".
   const form=btn.closest('form');
   if(!form){return;}
+  if(typeof jtTrackLeadFormStage==='function') jtTrackLeadFormStage(form,'recovery',{
+    failure_type:'submission_error'
+  });
   let banner=form.querySelector('.form-error-banner');
   if(!banner){
     banner=document.createElement('div');
@@ -2084,6 +2090,10 @@ function showFormError(btn,originalHTML){
 }
 
 async function handleFormSubmit(form,data,successTitle,successBody){
+  if(typeof jtTrackLeadFormStage==='function'){
+    jtTrackLeadFormStage(form,'start',{lead_type:data?.lead_type||'consultation'});
+    jtTrackLeadFormStage(form,'submit_attempt',{lead_type:data?.lead_type||'consultation'});
+  }
   // Must be >= submit-lead.js's time-on-form floor (currently 3000ms). The server
   // returns a silent HTTP 200 for anything under it — indistinguishable from a real
   // success — so with no client-side gate at all, a real visitor whose autofill fills
@@ -2155,7 +2165,13 @@ heroForm.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
   heroForm.dataset.validationAttempted='true';
-  if(!renderHeroValidation(true))return;
+  if(!renderHeroValidation(true)){
+    if(typeof jtTrackLeadFormStage==='function') jtTrackLeadFormStage(heroForm,'validation_error',{
+      lead_type:'consultation',
+      error_count:heroValidationFields.filter(item=>!item.valid(item.field)).length
+    });
+    return;
+  }
   handleFormSubmit(f,{
     lead_type:'consultation',
     full_name:f.name.value.trim(),
@@ -2186,7 +2202,14 @@ let valContext={fullName:'',mobile:'',propType:'',newsletter_opt_in:0};
 
 const valContactWrap=document.getElementById('valContactWrap');
 const valPopupErr=document.getElementById('valPopupErr');
-function showValErr(msg,field){valPopupErr.textContent=msg;valPopupErr.style.display='block';if(field)field.focus();}
+function showValErr(msg,field){
+  valPopupErr.textContent=msg;
+  valPopupErr.style.display='block';
+  if(typeof jtTrackLeadFormStage==='function') jtTrackLeadFormStage(valPopupForm,'validation_error',{
+    lead_type:'valuation',error_count:1
+  });
+  if(field)field.focus();
+}
 function clearValErr(){valPopupErr.textContent='';valPopupErr.style.display='none';}
 function updateValConditionals(propType){
   valHdbTypeWrap.style.display=propType==='HDB'?'flex':'none';
@@ -2387,6 +2410,19 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
   },
   "Thanks — your consultation is booked.",
   "I'll call you back shortly.");
+});
+
+// Start events come from the first real input/change, not focus, so opening a
+// modal or tabbing through the page does not inflate the funnel.
+document.addEventListener('DOMContentLoaded',()=>{
+  if(typeof jtObserveLeadForm!=='function') return;
+  [
+    ['heroForm','consultation'],
+    ['valPopupForm','valuation'],
+    ['exitForm','newsletter_signup'],
+    ['footerNewsletter','newsletter_signup'],
+    ['finalForm','final_cta_consultation']
+  ].forEach(([id,leadType])=>jtObserveLeadForm(document.getElementById(id),{leadType}));
 });
 
 // Mobile nav (hamburger)
