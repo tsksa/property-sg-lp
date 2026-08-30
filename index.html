@@ -863,12 +863,14 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .hero-form{margin:0 auto}
 }
 @media(max-width:768px){
+  body.mobile-nav-open{overflow:hidden}
+  body.mobile-nav-open .cookie-banner.show{visibility:hidden;pointer-events:none}
   .site-nav{padding:0 20px}
   .site-nav .logo{gap:5px}
   .site-nav .logo-brand{font-size:.58rem}
   .site-nav .nav-cta{padding:10px 16px;font-size:.78rem;white-space:nowrap}
   .nav-burger{display:flex}
-  .site-nav .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;padding:6px 20px 14px;background:rgba(6,20,48,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+  .site-nav .nav-links{display:none;position:absolute;top:100%;right:0;left:0;height:calc(100dvh - 100% - 3px);flex-direction:column;gap:0;padding:10px 20px max(24px,env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;background:rgba(6,20,48,.985);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 16px 40px rgba(0,0,0,.28)}
   .site-nav .nav-links.open{display:flex}
   .site-nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.08);font-size:0.95rem;color:rgba(255,255,255,.88)}
   .site-nav .nav-links a:last-child{border-bottom:none}
@@ -2429,16 +2431,37 @@ document.addEventListener('DOMContentLoaded',()=>{
 const navBurger=document.getElementById('navBurger');
 const navLinksEl=document.getElementById('navLinks');
 if(navBurger&&navLinksEl){
-  const setNav=open=>{
+  const navCta=document.querySelector('.site-nav .nav-cta');
+  const mobileNavQuery=window.matchMedia('(max-width: 768px)');
+  const navFocusable=()=>[navBurger,...navLinksEl.querySelectorAll('a[href],button:not([disabled])'),navCta].filter(Boolean);
+  const setNav=(open,restoreFocus=false)=>{
+    open=Boolean(open&&mobileNavQuery.matches);
     navLinksEl.classList.toggle('open',open);
     navBurger.classList.toggle('open',open);
     navBurger.setAttribute('aria-expanded',open?'true':'false');
     navBurger.setAttribute('aria-label',open?'Close menu':'Open menu');
+    document.body.classList.toggle('mobile-nav-open',open);
+    if(open) navLinksEl.querySelector('a[href],button:not([disabled])')?.focus();
+    else if(restoreFocus) navBurger.focus();
   };
-  navBurger.addEventListener('click',()=>setNav(!navLinksEl.classList.contains('open')));
+  navBurger.addEventListener('click',()=>setNav(!navLinksEl.classList.contains('open'),true));
   navLinksEl.addEventListener('click',e=>{if(e.target.tagName==='A')setNav(false);});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navLinksEl.classList.contains('open'))setNav(false);});
+  document.addEventListener('keydown',e=>{
+    if(!navLinksEl.classList.contains('open')) return;
+    if(e.key==='Escape'){
+      setNav(false,true);
+      return;
+    }
+    if(e.key==='Tab'){
+      const focusable=navFocusable();
+      const first=focusable[0];
+      const last=focusable[focusable.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  });
   document.addEventListener('click',e=>{if(navLinksEl.classList.contains('open')&&!e.target.closest('.site-nav'))setNav(false);});
+  mobileNavQuery.addEventListener('change',e=>{if(!e.matches)setNav(false);});
 }
 
 // Progress bar + nav intensify
@@ -2503,7 +2526,7 @@ if(statsSection)statsObserver.observe(statsSection);
 // ── Dark Mode Toggle ──
 const dt=document.getElementById('darkToggle');
 if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');
-function updateToggleIcon(){const isDark=document.body.classList.contains('dark-mode');dt.innerHTML='<span aria-hidden="true">'+(isDark?'☀️':'🌙')+'</span>';dt.setAttribute('aria-pressed',isDark?'true':'false');dt.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');}
+function updateToggleIcon(){const isDark=document.body.classList.contains('dark-mode');dt.innerHTML='<span aria-hidden="true">'+(isDark?'☀️':'🌙')+'</span><span class="dark-toggle-label">'+(isDark?'Light mode':'Dark mode')+'</span>';dt.setAttribute('aria-pressed',isDark?'true':'false');dt.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');}
 updateToggleIcon();
 dt.addEventListener('click',()=>{
   document.body.classList.toggle('dark-mode');

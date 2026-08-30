@@ -23,6 +23,14 @@ test('mobile navigation state is scoped to the primary header', () => {
   const homepage = read('index.html');
 
   assert.match(homepage, /\.site-nav \.nav-links\.open\{display:flex\}/);
+  assert.match(homepage, /body\.mobile-nav-open\{overflow:hidden\}/);
+  assert.match(homepage, /body\.mobile-nav-open \.cookie-banner\.show\{visibility:hidden;pointer-events:none\}/);
+  assert.match(homepage, /\.site-nav \.nav-links\{display:none;position:absolute;top:100%;right:0;left:0;height:calc\(100dvh - 100% - 3px\);/);
+  assert.match(homepage, /document\.body\.classList\.toggle\('mobile-nav-open',open\)/);
+  assert.match(homepage, /if\(e\.key==='Escape'\)\{\s*setNav\(false,true\)/);
+  assert.match(homepage, /if\(e\.key==='Tab'\)\{/);
+  assert.match(homepage, /mobileNavQuery\.addEventListener\('change',e=>\{if\(!e\.matches\)setNav\(false\);\}\)/);
+  assert.match(homepage, /<span class="dark-toggle-label">'\+\(isDark\?'Light mode':'Dark mode'\)\+'<\/span>/);
   assert.match(homepage, /e\.target\.closest\('\.site-nav'\)/);
   assert.match(homepage, /document\.querySelector\('\.site-nav'\)/);
   assert.doesNotMatch(homepage, /e\.target\.closest\('nav'\)/);
