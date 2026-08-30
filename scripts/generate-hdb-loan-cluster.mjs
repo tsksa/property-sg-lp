@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
+import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import { hdbPolicyArticle, policySources } from './content/hdb-policy-august-2026.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -325,6 +326,7 @@ ${schemas(article)}
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+${mobileHeaderAssetsHtml()}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>

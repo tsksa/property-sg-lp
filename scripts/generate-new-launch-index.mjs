@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { consentBannerHtml } from './lib/consent-banner.mjs';
+import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -345,6 +346,7 @@ function headHtml({ title, description, canonical, itemList, soldOut }) {
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
+${mobileHeaderAssetsHtml()}
 </head>`;
 }
 
