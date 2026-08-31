@@ -38,7 +38,7 @@ jobs:
         run: cat "$RUNNER_TEMP/search-growth-report/search-growth-report.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Markdown and JSON reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: search-growth-report-${{ github.run_id }}
           path: |
