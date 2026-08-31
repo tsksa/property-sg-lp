@@ -149,7 +149,7 @@ const ARTICLES = [
 
 <h2>Should you empty the OA?</h2>
 <p>CPF Board highlights the option to retain up to $20,000 in the OA at the point of purchase. Keeping a buffer can protect monthly instalments during job changes or unexpected expenses and preserves retirement compounding.</p>
-<p>Compare a larger CPF downpayment with a smaller loan using the <a href="/calculator/">HDB loan calculator</a>. The lowest loan is not automatically the best outcome if it leaves no liquidity.</p>
+<p>Compare a larger CPF downpayment with a smaller loan using the <a href="/calculator/">HDB loan calculator</a>. The lowest loan is not automatically the best outcome if it leaves no liquidity. One thing CPF cannot pay for is renovation — budget that separately with the <a href="/renovation-loan-calculator/">renovation loan calculator</a>.</p>
 
 <h2>Monthly instalments and Home Protection Scheme</h2>
 <p>CPF OA can be used for eligible HDB housing-loan instalments. HDB flat owners using CPF for monthly instalments must generally be insured under the Home Protection Scheme, subject to HPS eligibility and coverage rules.</p>
@@ -179,7 +179,7 @@ const ARTICLES = [
   <tr><td>HDB housing loan</td><td>25%</td><td>CPF OA, cash or both, subject to CPF rules and available savings</td></tr>
   <tr><td>Bank housing loan</td><td>25%</td><td>At least 5% of the lower purchase price or valuation in cash; the balance may use CPF OA or cash</td></tr>
 </table>
-<p>The actual loan may be below 75% after age, lease, income, debts and credit assessment. A lower approved loan increases the amount you must fund.</p>
+<p>The actual loan may be below 75% after age, lease, income, debts and credit assessment. A lower approved loan increases the amount you must fund. Work the numbers for a new flat with the <a href="/bto-calculator/">BTO calculator</a> — it shows the 25% downpayment and option fee at your budget.</p>
 
 <h2>Cash items buyers often miss</h2>
 <ul>

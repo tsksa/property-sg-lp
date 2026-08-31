@@ -209,6 +209,9 @@ a:hover{text-decoration:underline}
 .calc-field .hint{font-size:0.72rem;color:#767676;font-weight:400;margin-left:6px}
 .calc-field input,.calc-field select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #ddd;font-family:inherit;font-size:0.95rem;outline:none;transition:border .15s;background:#fff}
 .calc-field input:focus,.calc-field select:focus{border-color:var(--emerald)}
+/* Below 16px iOS zooms the viewport on focus and breaks the layout mid-entry. */
+@media(max-width:768px){.calc-field input,.calc-field select{font-size:16px}}
+
 .calc-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .calc-loan-type{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:22px}
 .calc-loan-type input{position:absolute;width:1px;height:1px;opacity:0}
@@ -295,6 +298,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <a href="/" class="calc-logo">PropertySG</a>
     <nav class="calc-nav" aria-label="Primary">
       <a href="/">Home</a>
+      <a href="/bto-calculator/">BTO</a>
       <a href="/stamp-duty-calculator/">Stamp Duty</a>
       <a href="/insights/">Insights</a>
       <a href="/valuation.html">Free Valuation</a>
@@ -307,7 +311,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="calc-hero-inner">
     <div class="eyebrow">HDB Loan Calculator Singapore</div>
     <h1 id="page-hero-title">HDB loan calculator: estimate your monthly repayment</h1>
-    <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount.</p>
+    <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount. Buying at a launch? Try the <a href="/bto-calculator/">BTO calculator</a> — and budget the works with the <a href="/renovation-loan-calculator/">renovation loan calculator</a>.</p>
   </div>
 </section>
 
@@ -522,6 +526,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li><a href="/neighbour-prices/">Your block's sold prices</a></li>
         <li><a href="/hdb-prices/">HDB prices by town</a></li>
         <li><a href="/calculator/">Affordability calculator</a></li>
+        <li><a href="/bto-calculator/">BTO calculator</a></li>
+        <li><a href="/renovation-loan-calculator/">Renovation loan calculator</a></li>
         <li><a href="/stamp-duty-calculator/">Stamp duty calculator</a></li>
       </ul>
     </div>

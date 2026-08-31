@@ -106,3 +106,5 @@
 ## Other pages
 
 - [PropertySG | Singapore Property Agent — HDB, Condo & Landed](https://joetay.com/)
+- [HDB BTO Calculator — Budget & Downpayment 2026](https://joetay.com/bto-calculator/)
+- [Renovation Loan Calculator Singapore 2026](https://joetay.com/renovation-loan-calculator/)
