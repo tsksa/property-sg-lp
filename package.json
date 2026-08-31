@@ -76,6 +76,6 @@
     "test:renovation-loan": "node --test tests/renovation-loan-rules.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.0.1"
+    "@netlify/blobs": "^11.0.2"
   }
 }
