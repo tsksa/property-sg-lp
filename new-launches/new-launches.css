@@ -2,7 +2,7 @@
 /* ── Shared styles for /new-launches/ pages ── */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#777;--line:#eee;--line-soft:#f2f2f2}
+:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--gold-text:#8a6a2d;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#777;--line:#eee;--line-soft:#f2f2f2}
 html{scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden}
 section[id],[id^="projectForm"]{scroll-margin-top:80px}
 body{font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden;width:100%;max-width:100%}
@@ -32,7 +32,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-hero{padding:72px 24px 64px;text-align:center;background:linear-gradient(180deg,var(--cream) 0%,#fff 100%);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
 .nl-hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:1000px;height:500px;background:radial-gradient(ellipse,rgba(201,166,97,0.12),transparent 60%);pointer-events:none}
 .nl-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;min-width:0}
-.nl-hero .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.08);border:1px solid rgba(201,166,97,0.25);border-radius:100px;margin-bottom:20px}
+.nl-hero .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--gold-text);letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.08);border:1px solid rgba(201,166,97,0.25);border-radius:100px;margin-bottom:20px}
 .nl-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:600;letter-spacing:-1px;line-height:1.08;margin-bottom:20px;color:var(--navy);font-variation-settings:"opsz" 144;overflow-wrap:anywhere}
 .nl-hero p{font-size:1.05rem;color:var(--ink-soft);line-height:1.65;max-width:680px;margin:0 auto;overflow-wrap:break-word}
 .nl-hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:14px 30px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border-radius:10px;text-decoration:none;transition:all .25s;box-shadow:0 6px 24px rgba(16,185,129,0.35)}

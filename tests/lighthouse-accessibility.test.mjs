@@ -171,3 +171,17 @@ test('calculator and insights expose one skip link that appears on focus', () =>
     );
   }
 });
+
+test('every insights page exposes exactly one skip link', () => {
+  const insightPages = fs
+    .readdirSync(path.join(ROOT, 'insights'))
+    .filter((file) => file.endsWith('.html'));
+
+  for (const file of insightPages) {
+    const html = read(path.join('insights', file));
+    const skipLinks =
+      html.match(/<a\b(?=[^>]*\bhref="#main")[^>]*>/g) || [];
+
+    assert.equal(skipLinks.length, 1, `${file}: expected one skip link`);
+  }
+});
