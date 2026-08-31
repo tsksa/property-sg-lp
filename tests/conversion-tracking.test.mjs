@@ -7,7 +7,7 @@ const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'ut
 const helper = read('assets/conversion-tracking.js');
 const key = 'jt_lead_attribution_v1';
 
-function harness({ consent, session = new Map(), search = '', pathname = '/', blocked = false, now = 1000000 } = {}) {
+function harness({ consent = 'accepted', session = new Map(), search = '', pathname = '/', blocked = false, now = 1000000 } = {}) {
   const local = new Map(consent ? [['pdpa_consent', consent]] : []);
   const events = [], pixels = [], clicks = [], messages = [];
   const storage = map => ({
@@ -318,9 +318,18 @@ test('returning declined visitors never enqueue helper conversion events', () =>
   assert.equal(h.session.size, 0);
 });
 
+test('visitors who have not answered the consent prompt do not enqueue conversion events', () => {
+  const h = harness({ consent: null });
+  h.context.jtTrackConversion('generate_lead', {});
+  h.contact('https://wa.me/6581881488');
+  h.booking('https://calendly.com');
+  assert.equal(h.events.length, 0);
+  assert.equal(h.pixels.length, 0);
+});
+
 test('no campaign persistence until acceptance; both banners capture the current entry', () => {
   for (const id of ['cookieAccept', 'jtConsentAccept']) {
-    const h = harness({ search: '?utm_source=facebook&utm_campaign=hdb_aug26', pathname: '/insights/hdb-income-ceiling-2026-ndr-changes.html' });
+    const h = harness({ consent: null, search: '?utm_source=facebook&utm_campaign=hdb_aug26', pathname: '/insights/hdb-income-ceiling-2026-ndr-changes.html' });
     assert.equal(h.session.size, 0);
     h.click(id);
     assert.ok(h.session.has(key));
@@ -380,7 +389,7 @@ test('storage errors do not break forms, and unknown URL fields are never persis
   const h = harness({ blocked: true, search: '?utm_source=facebook' });
   assert.equal(h.attribution().utm_source, 'facebook');
   h.context.jtTrackConversion('generate_lead', {});
-  assert.equal(h.events.length, 1);
+  assert.equal(h.events.length, 0);
   const filtered = harness({ consent: 'accepted', search: '?utm_source=facebook&utm_campaign=joe%40example.com&email=private%40example.com&gclid=secret&mobile=12345' });
   assert.deepEqual(filtered.attribution(), { landing_page: '/', utm_source: 'facebook' });
   assert.doesNotMatch(filtered.session.get(key), /example|gclid|mobile|secret/);
