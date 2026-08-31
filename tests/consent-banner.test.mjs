@@ -37,7 +37,7 @@ test('every page that loads GA4/Meta Pixel offers a PDPA consent choice', () => 
   const missing = [];
   for (const rel of allHtmlFiles()) {
     const html = read(rel);
-    if (!html.includes('ga-disable-GT-KVFDZD5V')) continue; // doesn't load trackers
+    if (!html.includes('ga-disable-GT-KVFDZD5V') && !html.includes('/assets/analytics-loader.js')) continue; // doesn't load trackers
     const hasSharedBanner = html.includes(CONSENT_BANNER_MARKER);
     // index.html carries a hand-authored equivalent instead of the shared block.
     const hasHomepageBanner = rel === 'index.html' && html.includes('id="cookieBanner"');
@@ -51,11 +51,21 @@ test('the shared consent banner writes the same localStorage key the tracker gat
   assert.match(block, /localStorage\.setItem\('pdpa_consent','declined'\)/);
   assert.match(block, /localStorage\.setItem\('pdpa_consent','accepted'\)/);
 
-  // Sample a page that has the shared banner and confirm the head-of-page
-  // tracker gate reads the exact same key — a mismatched key name would
-  // silently break the whole contract.
+  // Sample a page that has the shared banner and confirm the shared loader
+  // reads the exact same key — a mismatched key name would break the contract.
   const sample = read('valuation.html');
-  assert.match(sample, /localStorage\.getItem\('pdpa_consent'\)===['"]declined['"]/);
+  const loader = read('assets/analytics-loader.js');
+  assert.match(sample, /\/assets\/analytics-loader\.js/);
+  assert.match(loader, /localStorage\.getItem\(consentKey\) === 'accepted'/);
+});
+
+test('high-traffic core pages use the deferred loader instead of embedding vendor URLs', () => {
+  for (const rel of ['index.html', 'valuation.html']) {
+    const html = read(rel);
+    assert.match(html, /\/assets\/analytics-loader\.js/, `${rel} should use the shared analytics loader`);
+    assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js/, `${rel} embeds the Google vendor URL`);
+    assert.doesNotMatch(html, /connect\.facebook\.net\/en_US\/fbevents\.js/, `${rel} embeds the Meta vendor URL`);
+  }
 });
 
 test('the shared consent banner disables GA and revokes Pixel consent on decline', () => {

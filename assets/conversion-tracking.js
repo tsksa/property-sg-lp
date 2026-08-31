@@ -15,6 +15,10 @@
       window['ga-disable-G-1YQE8JN66P'] === true || consentChoice() === 'declined';
   }
 
+  function analyticsAllowed(){
+    return consentChoice() === 'accepted' && !declined();
+  }
+
   function clearAttribution(){
     try{sessionStorage.removeItem(attributionKey);}catch(e){}
   }
@@ -95,7 +99,7 @@
   if (typeof window.gtag === 'function') {
     var _gtagOriginal = window.gtag;
     window.gtag = function(){
-      if(arguments[0] === 'event' && declined()) return;
+      if(arguments[0] === 'event' && !analyticsAllowed()) return;
       if (arguments[0] === 'event' && arguments[1] === 'conversion') {
         var params = arguments[2];
         if (params && typeof params.send_to === 'string' && params.send_to.indexOf('PLACEHOLDER_') !== -1) {
@@ -122,7 +126,10 @@
   }
 
   window.jtTrackConversion = function(eventName, params){
-    if(declined()) {clearAttribution(); return;}
+    if(!analyticsAllowed()) {
+      if(declined()) clearAttribution();
+      return;
+    }
     var payload = clean(Object.assign({
       source_site: 'joetay.com',
       page_path: location.pathname,

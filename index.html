@@ -27,10 +27,7 @@
 <link rel="preload" as="image" href="joetay-social-preview-1280.webp" type="image/webp" fetchpriority="high" media="(min-width:641px) and (max-width:1280px)">
 <link rel="preload" as="image" href="joetay-social-preview-1920.webp" type="image/webp" fetchpriority="high" media="(min-width:1281px)">
 <link rel="preload" as="image" href="joetay-social-preview-640.webp" type="image/webp" fetchpriority="high" media="(max-width:640px)">
-<link rel="preload" as="style" href="https://assets.calendly.com/assets/external/widget.css">
-<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css"></noscript>
-<!-- Calendly widget.js is lazy-loaded when the booking section nears the viewport (see script near openCalendly handler) -->
+<!-- Calendly CSS and JS are loaded together when the booking section nears the viewport. -->
 
 <script type="application/ld+json">
 {
@@ -241,30 +238,11 @@
 <meta name="twitter:description" content="Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.">
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 
-<!-- GA4 — shared with freevaluation.sg, auto-segments by hostname -->
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
-<script>
-window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());
-gtag('config','GT-KVFDZD5V',{'send_page_view':true});
-</script>
-
-<!-- Meta Pixel — shared pixel, events tagged with hostname -->
-<script>
-if(!window._pdpaDeclined){
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];var l=function(){var t=b.createElement(e);t.async=!0;t.src=v;var s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};('requestIdleCallback' in window)?requestIdleCallback(l,{timeout:4000}):setTimeout(l,3000)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','3279494272146114');
-fbq('track','PageView');
-}
-</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3279494272146114&ev=PageView&noscript=1" alt=""></noscript>
+<!-- Consent-aware GA4 + Meta loader; queues conversions before vendor download. -->
+<script src="/assets/analytics-loader.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet"></noscript>
@@ -2564,6 +2542,10 @@ let calendlyRequested=false;
 function loadCalendlyScript(){
   if(calendlyRequested)return;
   calendlyRequested=true;
+  const css=document.createElement('link');
+  css.rel='stylesheet';
+  css.href='https://assets.calendly.com/assets/external/widget.css';
+  document.head.appendChild(css);
   const s=document.createElement('script');
   s.src='https://assets.calendly.com/assets/external/widget.js';
   s.async=true;
