@@ -249,6 +249,12 @@ const cases = [
     background: '#ffffff',
   },
   {
+    name: 'insights article metadata',
+    file: 'insights/blog.css',
+    foreground: ['.article-meta-top', 'color'],
+    background: '#ffffff',
+  },
+  {
     name: 'insights card category',
     file: 'insights/blog.css',
     foreground: ['.blog-card-meta .cat', 'color'],
@@ -277,6 +283,12 @@ const cases = [
     file: 'insights/blog.css',
     foreground: ['.blog-footer .creds', 'color'],
     background: ['.blog-footer', 'background'],
+  },
+  {
+    name: 'new-launch hero eyebrow',
+    file: 'new-launches/new-launches.css',
+    foreground: ['.nl-hero .eyebrow', 'color'],
+    background: ['.nl-hero .eyebrow', 'background', '#ffffff'],
   },
 ];
 

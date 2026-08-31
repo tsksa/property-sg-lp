@@ -50,7 +50,7 @@ a:hover{text-decoration:underline}
 .article-breadcrumb a{color:#666;text-decoration:none}
 .article-breadcrumb a:hover{color:var(--emerald);text-decoration:none}
 .article-breadcrumb .sep{margin:0 8px;color:#ccc}
-.article-meta-top{display:flex;gap:10px;font-size:0.74rem;font-weight:600;color:#888;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;align-items:center}
+.article-meta-top{display:flex;gap:10px;font-size:0.74rem;font-weight:600;color:#666;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;align-items:center}
 .article-meta-top .cat{color:var(--emerald-aa)}
 .article-meta-top .dot{color:#ccc}
 .article h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;color:var(--navy);letter-spacing:-0.8px;line-height:1.15;margin-bottom:20px}
