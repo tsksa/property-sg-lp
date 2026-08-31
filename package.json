@@ -73,7 +73,8 @@
     "test:insights-feed": "node --test tests/insights-feed-integrity.test.mjs",
     "test:refresh-workflow": "node --test tests/refresh-workflow.test.mjs",
     "test:bto-calculator": "node --test tests/bto-calculator-rules.test.mjs",
-    "test:renovation-loan": "node --test tests/renovation-loan-rules.test.mjs"
+    "test:renovation-loan": "node --test tests/renovation-loan-rules.test.mjs",
+    "probe:ura": "node scripts/probe-ura.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^11.0.2"
