@@ -22,6 +22,8 @@ const LINK_GROUPS = [
     ['/neighbour-prices/', "Your block's sold prices"],
     ['/hdb-prices/', 'HDB prices by town'],
     ['/calculator/', 'Affordability calculator'],
+    ['/bto-calculator/', 'BTO calculator'],
+    ['/renovation-loan-calculator/', 'Renovation loan calculator'],
     ['/stamp-duty-calculator/', 'Stamp duty calculator'],
   ]],
   ['Browse', [

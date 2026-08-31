@@ -50,7 +50,7 @@ const ARTICLES = [
 <h2>How much can HDB lend?</h2>
 <p>For applications covered by the current rules, the HDB LTV limit is up to <strong>75% of the purchase price</strong> for a new flat, or up to 75% of the lower of the resale price and HDB value for a resale flat. That is a ceiling, not an entitlement.</p>
 <p>The loan period is capped at the shortest of 25 years, 65 years minus the applicants' average age, or the remaining flat lease minus 20 years. HDB also considers income, job stability, existing debts, repayment records and cash savings.</p>
-<p>Use the <a href="/calculator/">HDB loan calculator</a> to model the 25-year ceiling, the 30% MSR constraint and the current assessment assumptions before you shortlist flats.</p>
+<p>Use the <a href="/calculator/">HDB loan calculator</a> to model the 25-year ceiling, the 30% MSR constraint and the current assessment assumptions before you shortlist flats. Buying at a launch instead of resale? The <a href="/bto-calculator/">BTO calculator</a> applies the same MSR and tenure rules to a new flat.</p>
 
 <h2>Why your approved amount can be lower than 75%</h2>
 <ul>
