@@ -130,6 +130,11 @@
   },
   {
    "@type": "Question",
+   "name": "How much is the Enhanced CPF Housing Grant (EHG)?",
+   "acceptedAnswer": {"@type": "Answer", "text": "Up to $120,000 for first-timer families with average monthly household income of $1,500 or less, stepping down HDB’s published table to $5,000 at $8,501–$9,000; above $9,000 there is no EHG. It is paid into your CPF Ordinary Account and can fund the downpayment. Tick the first-timer box above to include it in your budget — full conditions are in the EHG guide."}
+  },
+  {
+   "@type": "Question",
    "name": "Why does this calculator use a 3% rate when the HDB rate is 2.6%?",
    "acceptedAnswer": {"@type": "Answer", "text": "HDB assesses how much you can borrow using an interest floor of 3%, even though the concessionary rate you actually pay has been 2.6% since 1999. This calculator does the same: your loan eligibility is computed at 3%, and the monthly repayment shown uses the 2.6% rate you would pay today."}
   }
@@ -302,6 +307,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <label for="loanBank">Bank loan</label>
       </div>
     </div>
+
+    <div class="calc-field">
+      <label for="firstTimer" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+        <input type="checkbox" id="firstTimer" style="width:auto;min-width:18px;min-height:18px">
+        <span>First-timer family — include the Enhanced CPF Housing Grant <span class="hint">needs 12 months&#39; continuous employment; conditions apply</span></span>
+      </label>
+    </div>
   </div>
 
   <aside class="calc-results" aria-live="polite">
@@ -317,6 +329,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <div class="calc-result-label">Loan amount</div>
       <div class="calc-result-value" id="loanAmount">$—</div>
       <div class="calc-result-detail" id="loanDetail"></div>
+    </div>
+
+    <div class="calc-result" id="ehgRow" hidden>
+      <div class="calc-result-label">Enhanced CPF Housing Grant</div>
+      <div class="calc-result-value" id="ehgValue">$—</div>
+      <div class="calc-result-detail" id="ehgDetail"></div>
     </div>
 
     <div class="calc-result">
@@ -372,6 +390,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <details>
     <summary>What income ceiling applies to BTO flats?</summary>
     <p>The household income ceiling is $14,000 a month for families buying a new flat ($21,000 for extended or multi-generation families, $7,000 for singles buying a 2-room Flexi). You also need a valid HDB Flat Eligibility (HFE) letter before you can apply.</p>
+  </details>
+  <details>
+    <summary>How much is the Enhanced CPF Housing Grant (EHG)?</summary>
+    <p>Up to $120,000 for first-timer families with average monthly household income of $1,500 or less, stepping down HDB’s published table to $5,000 at $8,501–$9,000; above $9,000 there is no EHG. It is paid into your CPF Ordinary Account and can fund the downpayment. Tick the first-timer box above to include it in your budget — full conditions are in the EHG guide.</p>
   </details>
   <details>
     <summary>Why does this calculator use a 3% rate when the HDB rate is 2.6%?</summary>
@@ -460,6 +482,38 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 // administrative details, Oct 2025).
 // ─────────────────────────────────────────────────────────
 
+// Enhanced CPF Housing Grant for first-timer FAMILIES, by average monthly
+// household income. Source: HDB, "EHG amount for first-timer households"
+// (EHG-amount-Families.pdf, current table since 20 Aug 2024; endpoints
+// cross-checked against /insights/enhanced-cpf-housing-grant-singapore.html).
+// The steps are NOT uniform — do not interpolate; look the band up.
+// Singles and FT/ST couples use different tables and are out of scope here.
+const EHG_FAMILY_TIERS = [
+  { upTo: 1500, grant: 120000 },
+  { upTo: 2000, grant: 110000 },
+  { upTo: 2500, grant: 105000 },
+  { upTo: 3000, grant: 95000 },
+  { upTo: 3500, grant: 90000 },
+  { upTo: 4000, grant: 80000 },
+  { upTo: 4500, grant: 70000 },
+  { upTo: 5000, grant: 65000 },
+  { upTo: 5500, grant: 55000 },
+  { upTo: 6000, grant: 50000 },
+  { upTo: 6500, grant: 40000 },
+  { upTo: 7000, grant: 30000 },
+  { upTo: 7500, grant: 25000 },
+  { upTo: 8000, grant: 20000 },
+  { upTo: 8500, grant: 10000 },
+  { upTo: 9000, grant: 5000 },
+];
+
+function ehgFamilyGrant(income) {
+  for (const tier of EHG_FAMILY_TIERS) {
+    if (income <= tier.upTo) return tier.grant;
+  }
+  return 0; // above the $9,000 EHG income ceiling
+}
+
 const fmt = (n) => {
   if (!isFinite(n) || n < 0) return '$0';
   return '$' + Math.round(n).toLocaleString('en-SG');
@@ -493,21 +547,36 @@ function recalc() {
   const msrMax = income * 0.30;
   const maxLoan = income > 0 ? amortisedLoan(msrMax, annualRate, tenure) : 0;
 
+  // The EHG is disbursed into CPF OA and can fund the downpayment, so it
+  // behaves like extra savings in the budget arithmetic.
+  const firstTimer = document.getElementById('firstTimer').checked;
+  const ehg = firstTimer ? ehgFamilyGrant(income) : 0;
+  const funds = savings + ehg;
+
   const ltv = 0.75;
-  // The buyer can always put down MORE than 25%, so savings extend the budget
+  // The buyer can always put down MORE than 25%, so funds extend the budget
   // beyond the LTV point — but the downpayment can never fall below 25%, so
-  // savings alone also cap the price at savings / 0.25.
-  const maxPrice = Math.min(maxLoan + savings, savings / (1 - ltv));
+  // funds alone also cap the price at funds / 0.25.
+  const maxPrice = Math.min(maxLoan + funds, funds / (1 - ltv));
   const loan = Math.min(maxLoan, maxPrice * ltv);
   const downpayment = maxPrice - loan;
   const monthly = loan > 0 ? monthlyInstalment(loan, marketRate, tenure) : 0;
+
+  const ehgRow = document.getElementById('ehgRow');
+  ehgRow.hidden = !firstTimer;
+  if (firstTimer) {
+    document.getElementById('ehgValue').textContent = fmt(ehg);
+    document.getElementById('ehgDetail').textContent = ehg > 0
+      ? 'paid into CPF OA — included in your budget above'
+      : 'income above the $9,000 EHG ceiling';
+  }
 
   document.getElementById('maxBudget').textContent = fmt(maxPrice);
   document.getElementById('loanAmount').textContent = fmt(loan);
   document.getElementById('monthlyPay').textContent = fmt(monthly);
 
-  if (income > 0 && savings > 0) {
-    const bound = maxPrice === savings / (1 - ltv) ? 'limited by your 25% downpayment' : 'limited by what you can borrow';
+  if (income > 0 && funds > 0) {
+    const bound = maxPrice === funds / (1 - ltv) ? 'limited by your 25% downpayment' : 'limited by what you can borrow';
     document.getElementById('maxBudgetDetail').textContent = bound;
     document.getElementById('loanDetail').textContent =
       `${loanType} loan, ${tenure}-year tenure, eligibility at ${(annualRate * 100).toFixed(1)}%`;
@@ -544,6 +613,7 @@ function scheduleRecalc() {
 ['income', 'savings', 'age'].forEach((id) =>
   document.getElementById(id).addEventListener('input', scheduleRecalc));
 document.getElementById('flatType').addEventListener('change', recalc);
+document.getElementById('firstTimer').addEventListener('change', recalc);
 document.querySelectorAll('[name="loanType"]').forEach((el) => el.addEventListener('change', recalc));
 
 let engaged = false;
