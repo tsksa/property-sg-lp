@@ -54,7 +54,7 @@ test('budget maths: downpayment-bound and loan-bound regimes both correct', () =
   const maxLoan = amortisedLoan(income * 0.30, 0.03, 25);
   const maxPrice = Math.min(maxLoan + savings, savings / 0.25);
   assert.equal(maxPrice, 240000, 'with $60k savings the 25% downpayment must bind at $240k');
-  assert.match(html, /Math\.min\(maxLoan \+ savings, savings \/ \(1 - ltv\)\)/);
+  assert.match(html, /Math\.min\(maxLoan \+ funds, funds \/ \(1 - ltv\)\)/);
 
   // savings-rich: the loan binds instead, and the buyer over-downpays legally
   const richPrice = Math.min(maxLoan + 400000, 400000 / 0.25);
@@ -82,4 +82,49 @@ test('every FAQPage answer is rendered visibly on the page, verbatim', () => {
 
 test('mobile inputs are 16px so iOS does not zoom on focus', () => {
   assert.match(html, /@media\(max-width:768px\)\{\.calc-field input,\.calc-field select\{font-size:16px\}\}/);
+});
+
+// ── Enhanced CPF Housing Grant (JOE-13) ──
+// The 16-band family table from HDB's "EHG amount for first-timer households"
+// PDF (current since 20 Aug 2024). Steps are NOT uniform, so every band is
+// pinned — an interpolated or drifted table produces wrong money for a live
+// buyer at 10 of the 16 bands.
+const EHG_EXPECTED = [
+  [1500, 120000], [2000, 110000], [2500, 105000], [3000, 95000],
+  [3500, 90000], [4000, 80000], [4500, 70000], [5000, 65000],
+  [5500, 55000], [6000, 50000], [6500, 40000], [7000, 30000],
+  [7500, 25000], [8000, 20000], [8500, 10000], [9000, 5000],
+];
+
+test('the EHG family table matches HDB, band for band', () => {
+  for (const [upTo, grant] of EHG_EXPECTED) {
+    assert.match(
+      html,
+      new RegExp(`\\{ upTo: ${upTo}, grant: ${grant} \\}`),
+      `EHG band ≤$${upTo} must be $${grant}`,
+    );
+  }
+  assert.equal((html.match(/\{ upTo: \d+, grant: \d+ \}/g) || []).length, 16,
+    'the table must have exactly 16 bands');
+});
+
+test('EHG lookup semantics: boundaries inclusive, ceiling above $9,000', () => {
+  // Mirrors the page's ehgFamilyGrant()
+  const grant = (income) => {
+    for (const [upTo, g] of EHG_EXPECTED) if (income <= upTo) return g;
+    return 0;
+  };
+  assert.equal(grant(1500), 120000);
+  assert.equal(grant(1501), 110000, 'band boundary must be inclusive of upTo');
+  assert.equal(grant(9000), 5000);
+  assert.equal(grant(9001), 0, 'no EHG above the $9,000 ceiling');
+  assert.match(html, /return 0; \/\/ above the \$9,000 EHG income ceiling/);
+});
+
+test('EHG is opt-in and behaves as CPF-payable funds in the budget', () => {
+  assert.match(html, /<input type="checkbox" id="firstTimer"/);
+  assert.match(html, /const ehg = firstTimer \? ehgFamilyGrant\(income\) : 0/);
+  assert.match(html, /const funds = savings \+ ehg/);
+  // conditions caveat is visible where the user ticks the box
+  assert.match(html, /needs 12 months(&#39;|')s? continuous employment/);
 });
