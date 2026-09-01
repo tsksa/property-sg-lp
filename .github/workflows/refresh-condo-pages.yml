@@ -1,0 +1,65 @@
+name: Refresh condo price pages
+
+# Regenerates /condo-prices/ from URA caveat data and opens a PR for review.
+# Mirrors refresh-estate-pages.yml, including its hard-learned rules: never
+# merge automatically, never open drafts, and never swallow gh failures.
+
+on:
+  schedule:
+    - cron: "17 2 7 * *" # monthly, offset from the estate refresh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Regenerate condo pages from URA
+        env:
+          URA_ACCESS_KEY: ${{ secrets.URA_ACCESS_KEY }}
+        run: node scripts/generate-condo-pages.mjs
+
+      - name: Re-apply shared page furniture and refresh metadata
+        run: |
+          node scripts/apply-site-footer.mjs
+          node scripts/apply-header-nav.mjs
+          node scripts/apply-mobile-header.mjs
+          node scripts/apply-consent-banner.mjs
+          node scripts/refresh-sitemap-lastmod.mjs
+          node scripts/generate-llms-txt.mjs
+
+      - name: Consistency guard
+        run: node scripts/check-consistency.mjs
+
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet; then echo "No data changes this month."; exit 0; fi
+          BRANCH="auto/condo-refresh-$(date -u +%Y-%m)"
+          git config user.name "condo-refresh-bot"
+          git config user.email "actions@github.com"
+          git checkout -B "$BRANCH"
+          git add condo-prices/ sitemap.xml llms.txt
+          git commit -m "Monthly condo-page refresh from URA ($(date -u +%Y-%m))"
+          git push -f origin "$BRANCH"
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #${existing} already open for ${BRANCH} — updated by the force-push above."
+            exit 0
+          fi
+          gh pr create --base main --head "$BRANCH" \
+            --title "Monthly condo-page data refresh ($(date -u +%Y-%m))" \
+            --body "Automated regeneration of /condo-prices/ from URA caveat data. Consistency guard passed in this workflow. Review the diff (medians + recent-transactions tables) and merge."
