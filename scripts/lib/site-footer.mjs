@@ -21,6 +21,7 @@ const LINK_GROUPS = [
     ['/valuation.html', 'Free valuation'],
     ['/neighbour-prices/', "Your block's sold prices"],
     ['/hdb-prices/', 'HDB prices by town'],
+    ['/condo-prices/', 'Condo prices by district'],
     ['/calculator/', 'Affordability calculator'],
     ['/bto-calculator/', 'BTO calculator'],
     ['/renovation-loan-calculator/', 'Renovation loan calculator'],
