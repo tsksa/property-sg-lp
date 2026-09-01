@@ -109,25 +109,26 @@ a:hover{text-decoration:underline}
 .topbar .back:hover{color:#fff;text-decoration:none}
 
 /* Main layout */
-main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:1200px;margin:0 auto;padding:48px 24px;gap:64px;align-items:start;width:100%;min-width:0}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"intro card" "proof card";max-width:1200px;margin:0 auto;padding:48px 24px;gap:28px 64px;align-items:start;width:100%;min-width:0}
 main>*{min-width:0}
-@media(max-width:900px){main{grid-template-columns:1fr;gap:32px;padding:32px 20px}}
+@media(max-width:900px){main{grid-template-columns:1fr;grid-template-areas:"intro" "card" "proof";gap:24px;padding:32px 20px}}
 
 /* Intro column */
-.val-intro{position:sticky;top:96px}
+.val-intro{grid-area:intro}
 .val-eyebrow{display:inline-block;background:rgba(16,185,129,0.12);color:var(--emerald-aa);padding:6px 14px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
 .val-intro h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,3rem);font-weight:600;letter-spacing:-0.5px;line-height:1.1;margin-bottom:16px;color:var(--navy);overflow-wrap:anywhere}
 .val-lede{font-size:1.05rem;color:#555;line-height:1.65;margin-bottom:28px;max-width:460px;overflow-wrap:break-word}
-.val-benefits{list-style:none;padding:0;margin:0 0 32px;max-width:460px}
+.val-proof{grid-area:proof;max-width:460px}
+.val-benefits{list-style:none;padding:0;margin:0 0 24px;max-width:460px}
 .val-benefits li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;font-size:0.95rem;color:#333;border-bottom:1px solid rgba(11,30,63,0.08)}
 .val-benefits li::before{content:"";flex-shrink:0;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--emerald) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/60% no-repeat}
 .val-cea{display:flex;align-items:center;gap:14px;padding:16px 20px;background:#fff;border-radius:12px;border:1px solid rgba(11,30,63,0.08);max-width:460px;font-size:0.85rem;color:#666;min-width:0}
 .val-cea>div{min-width:0}
 .val-cea strong{color:var(--navy);font-weight:600;display:block;margin-bottom:2px}
-@media(max-width:900px){.val-intro{position:static}}
+@media(max-width:900px){.val-proof{max-width:none}.val-lede{margin-bottom:0}}
 
 /* Form card */
-.val-card{background:#fff;border-radius:20px;padding:44px 40px;box-shadow:0 30px 80px -20px rgba(11,30,63,0.2),0 4px 12px rgba(11,30,63,0.04);border:1px solid rgba(11,30,63,0.06);width:100%;max-width:100%;min-width:0}
+.val-card{grid-area:card;background:#fff;border-radius:20px;padding:44px 40px;box-shadow:0 30px 80px -20px rgba(11,30,63,0.2),0 4px 12px rgba(11,30,63,0.04);border:1px solid rgba(11,30,63,0.06);width:100%;max-width:100%;min-width:0;scroll-margin-top:92px}
 @media(max-width:500px){.val-card{padding:32px 24px}}
 
 /* Progress */
@@ -136,6 +137,7 @@ main>*{min-width:0}
 .val-progress-fill{height:100%;background:var(--emerald);width:33.33%;transition:width .3s ease;border-radius:100px}
 .val-progress-text{font-size:0.78rem;color:#767676;font-weight:500;letter-spacing:0.5px}
 .val-progress-text span{color:var(--navy);font-weight:600}
+.val-progress[hidden]{display:none}
 
 /* Steps */
 .val-step{display:none}
@@ -146,7 +148,7 @@ main>*{min-width:0}
 .val-sub{font-size:0.85rem;color:#888;margin:-2px 0 20px;line-height:1.55}
 
 /* Fields */
-.val-step input[type=text],.val-step input[type=tel],.val-step input[type=email],.val-step select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-top:8px}
+.val-step input[type=text],.val-step input[type=tel],.val-step input[type=email],.val-step input[type=number],.val-step select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-top:8px}
 .val-step input:focus,.val-step select:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
 .val-step input::placeholder{color:#bbb}
 .val-step label:not(.sr-only):not(.val-radio):not(.val-consent){display:block;font-size:0.82rem;font-weight:600;color:var(--navy);margin-top:16px;letter-spacing:0.2px}
@@ -232,6 +234,12 @@ main>*{min-width:0}
 /* Honeypot */
 .val-honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
+/* Final review */
+.val-review{display:grid;gap:10px;margin:0 0 24px;padding:16px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px}
+.val-review-row{display:flex;justify-content:space-between;gap:18px;font-size:.88rem;line-height:1.45}
+.val-review-row span{color:#64748b}
+.val-review-row strong{color:var(--navy);font-weight:600;text-align:right;overflow-wrap:anywhere}
+
 /* Focus */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.val-radio:has(input:focus-visible){outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
 
@@ -253,6 +261,8 @@ footer a{color:rgba(255,255,255,0.8)}
   .val-chip{white-space:normal}
   .val-nav{flex-wrap:wrap}
   .val-next,.val-submit{flex:1 1 100%}
+  .val-review-row{display:block}
+  .val-review-row strong{display:block;text-align:left;margin-top:2px}
 }
 @media(max-width:380px){
   .topbar{padding-left:14px;padding-right:14px}
@@ -314,22 +324,24 @@ footer a{color:rgba(255,255,255,0.8)}
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>
     <p class="val-lede">Answer 3 short sections (~2 min). I'll WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
-    <ul class="val-benefits">
-      <li>Based on actual recent transactions in your block/estate</li>
-      <li>Reply within 24 hours via WhatsApp</li>
-      <li>Zero obligation, zero spam</li>
-      <li>Works for HDB, Condo, Landed &amp; Commercial</li>
-    </ul>
-    <div class="val-cea">
-      <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <div><strong>CEA Reg. No. R009618D · Agency Lic. No. L3002382K</strong>Joe Tay, District Director at ERA Realty Network Pte Ltd</div>
-    </div>
   </div>
 
   <div class="val-card">
-    <form id="valForm" novalidate aria-label="Free property valuation form">
-      <!-- Single-step form: property, contact, go. Matches the hero popup for consistency. -->
-      <div class="val-step active" data-step="1">
+    <form id="valForm" novalidate aria-label="Free property valuation form" data-lead-type="valuation">
+      <div class="val-progress" id="valProgress">
+        <div class="val-progress-bar" id="valProgressBar" role="progressbar" aria-label="Valuation request progress" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Step 1 of 3: Property details">
+          <div class="val-progress-fill" id="progFill"></div>
+        </div>
+        <div class="val-progress-text" aria-live="polite">Step <span id="stepNum">1</span> of 3 · <span id="stepName">Property details</span></div>
+      </div>
+
+      <section class="val-step active" data-step="1" data-step-name="Property details" aria-labelledby="valStep1Title">
+        <div class="val-chapter-head">
+          <div class="val-chapter-title">
+            <span class="num">Property details</span>
+            <h2 id="valStep1Title" tabindex="-1">Tell me about the property</h2>
+          </div>
+        </div>
 
         <div class="val-group">
           <span class="val-group-label" id="propTypeLabel">Property type</span>
@@ -355,7 +367,6 @@ footer a{color:rgba(255,255,255,0.8)}
         <div class="val-address-detected" id="addrDetected" style="display:none"></div>
         <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
 
-        <!-- Conditional: HDB flat type -->
         <div class="val-group" id="hdbTypeGroup" style="display:none">
           <span class="val-group-label" id="hdbTypeLabel">HDB flat type</span>
           <div class="val-chips" role="radiogroup" aria-labelledby="hdbTypeLabel">
@@ -368,11 +379,24 @@ footer a{color:rgba(255,255,255,0.8)}
           </div>
         </div>
 
-        <!-- Conditional: Year built (Landed) -->
         <div class="val-group" id="yearBuiltGroup" style="display:none">
           <label class="val-group-label" for="yearBuilt">Year built</label>
           <input id="yearBuilt" name="yearBuilt" type="number" inputmode="numeric" min="1900" max="2030" placeholder="e.g. 1995">
         </div>
+
+        <div class="val-nav">
+          <button type="button" class="val-next" data-next>Continue to contact details →</button>
+        </div>
+      </section>
+
+      <section class="val-step" data-step="2" data-step-name="Contact details" aria-labelledby="valStep2Title">
+        <div class="val-chapter-head">
+          <div class="val-chapter-title">
+            <span class="num">Contact details</span>
+            <h2 id="valStep2Title" tabindex="-1">Where should I send the valuation?</h2>
+          </div>
+        </div>
+        <p class="val-sub">I’ll reply personally on WhatsApp. Your email is used as a backup copy.</p>
 
         <div class="val-group">
           <label class="val-group-label" for="fullName">Full name</label>
@@ -393,6 +417,26 @@ footer a{color:rgba(255,255,255,0.8)}
           </div>
         </div>
 
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Property</button>
+          <button type="button" class="val-next" data-next>Review request →</button>
+        </div>
+      </section>
+
+      <section class="val-step" data-step="3" data-step-name="Review and send" aria-labelledby="valStep3Title">
+        <div class="val-chapter-head">
+          <div class="val-chapter-title">
+            <span class="num">Review and send</span>
+            <h2 id="valStep3Title" tabindex="-1">Confirm your request</h2>
+          </div>
+        </div>
+
+        <div class="val-review" aria-label="Valuation request summary">
+          <div class="val-review-row"><span>Property</span><strong id="reviewProperty">—</strong></div>
+          <div class="val-review-row"><span>Location</span><strong id="reviewLocation">—</strong></div>
+          <div class="val-review-row"><span>Reply to</span><strong id="reviewContact">—</strong></div>
+        </div>
+
         <label class="val-consent">
           <input type="checkbox" name="consent" required>
           <span>By submitting, I agree to be contacted regarding my valuation request and to PropertySG's <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
@@ -401,7 +445,10 @@ footer a{color:rgba(255,255,255,0.8)}
 
         <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
+        <div class="val-nav">
+          <button type="button" class="val-prev" data-prev>← Contact details</button>
+          <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
+        </div>
         <noscript>
           <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
             <strong>JavaScript is required for this form.</strong> Enable JS in your browser, or message Joe directly:
@@ -410,16 +457,28 @@ footer a{color:rgba(255,255,255,0.8)}
             <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
           </div>
         </noscript>
-      </div>
+      </section>
 
-      <!-- Success -->
-      <div class="val-step val-success" data-step="success" role="status" aria-live="polite">
+      <section class="val-step val-success" data-step="success" role="status" aria-live="polite">
         <div class="val-success-icon" aria-hidden="true">✓</div>
         <h2 tabindex="-1">I'm on it.</h2>
         <p>Your valuation request is in. I'll WhatsApp you within 24 hours with a detailed valuation and a summary of recent transactions in your area.</p>
         <a href="index.html" class="val-back-home">← Back to home</a>
-      </div>
+      </section>
     </form>
+  </div>
+
+  <div class="val-proof" aria-label="Why request a valuation from Joe Tay">
+    <ul class="val-benefits">
+      <li>Based on actual recent transactions in your block/estate</li>
+      <li>Reply within 24 hours via WhatsApp</li>
+      <li>Zero obligation, zero spam</li>
+      <li>Works for HDB, Condo, Landed &amp; Commercial</li>
+    </ul>
+    <div class="val-cea">
+      <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div><strong>CEA Reg. No. R009618D · Agency Lic. No. L3002382K</strong>Joe Tay, District Director at ERA Realty Network Pte Ltd</div>
+    </div>
   </div>
 </main>
 
@@ -527,6 +586,66 @@ document.querySelectorAll('[name="propType"]').forEach(r=>{
 });
 updateConditionalFields(); // run once for pre-filled state
 
+// ── Three-step funnel ──
+const form = document.getElementById('valForm');
+const steps = [...form.querySelectorAll('.val-step[data-step]')].filter(step=>step.dataset.step!=='success');
+const progress = document.getElementById('valProgress');
+const progressBar = document.getElementById('valProgressBar');
+const progressFill = document.getElementById('progFill');
+const stepNum = document.getElementById('stepNum');
+const stepName = document.getElementById('stepName');
+const trackedSteps = new Set();
+let current = 0;
+
+function trackStep(index){
+  if(trackedSteps.has(index) || typeof window.jtTrackConversion !== 'function') return;
+  trackedSteps.add(index);
+  window.jtTrackConversion('lead_form_step_view',{
+    form_id:'valForm',
+    lead_type:'valuation',
+    step_number:index+1,
+    step_name:steps[index].dataset.stepName.toLowerCase().replaceAll(' ','_')
+  });
+}
+
+function updateReview(){
+  const propType=form.propType.value || 'Not selected';
+  const hdbType=form.querySelector('[name="hdbType"]:checked')?.value;
+  document.getElementById('reviewProperty').textContent=hdbType ? `${propType} · ${hdbType}` : propType;
+  const postal=form.postalCode.value.trim();
+  const unit=form.unitNumber.value.trim();
+  document.getElementById('reviewLocation').textContent=detectedAddress || [postal,unit].filter(Boolean).join(' · ') || 'Not provided';
+  const contact=[form.fullName.value.trim(),form.mobile.value.trim(),form.email.value.trim()].filter(Boolean);
+  document.getElementById('reviewContact').textContent=contact.join(' · ') || 'Not provided';
+}
+
+function showStep(index, focusHeading=true){
+  current=Math.max(0,Math.min(index,steps.length-1));
+  steps.forEach((step,idx)=>{
+    const active=idx===current;
+    step.classList.toggle('active',active);
+    step.setAttribute('aria-hidden',active?'false':'true');
+  });
+  const label=steps[current].dataset.stepName;
+  stepNum.textContent=String(current+1);
+  stepName.textContent=label;
+  progressFill.style.width=`${((current+1)/steps.length)*100}%`;
+  progressBar.setAttribute('aria-valuenow',String(current+1));
+  progressBar.setAttribute('aria-valuetext',`Step ${current+1} of ${steps.length}: ${label}`);
+  if(current===steps.length-1) updateReview();
+  trackStep(current);
+  if(focusHeading){
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelector('.val-card').scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'});
+    steps[current].querySelector('h2')?.focus({preventScroll:true});
+  }
+}
+
+document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>{
+  if(validateStep(current)) showStep(current+1);
+}));
+document.querySelectorAll('[data-prev]').forEach(button=>button.addEventListener('click',()=>showStep(current-1)));
+
 // ── OneMap postal code lookup (Singapore) ─────────────
 function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
 
@@ -572,9 +691,9 @@ postalEl.addEventListener('input', debounce(async ()=>{
 // Errors are programmatically associated with their fields (WCAG 3.3.1/4.1.3):
 // each shown .val-error-msg gets an id, the field gets aria-describedby +
 // aria-invalid, and the message carries role=alert so SRs announce it.
-function clearErrors(){
-  document.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
-  document.querySelectorAll('#valForm [aria-invalid]').forEach(f=>{f.removeAttribute('aria-invalid');f.removeAttribute('aria-describedby');});
+function clearErrors(scope=form){
+  scope.querySelectorAll('.val-error-msg').forEach(e=>e.classList.remove('show'));
+  scope.querySelectorAll('[aria-invalid]').forEach(f=>{f.removeAttribute('aria-invalid');f.removeAttribute('aria-describedby');});
 }
 function showFieldError(form, field){
   const msg=form.querySelector(`[data-error-for="${field.name}"]`);
@@ -593,24 +712,27 @@ function showFieldError(form, field){
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   (target.closest('.val-group')||target).scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
 }
-function validate(){
-  clearErrors();
-  const form = document.getElementById('valForm');
-  const required = form.querySelectorAll('[required]');
+function validateStep(index){
+  const step=steps[index];
+  clearErrors(step);
+  const required = step.querySelectorAll('[required]');
   for(const field of required){
     if(field.type === 'radio'){
       const group = form.querySelectorAll(`[name="${field.name}"]`);
       if(![...group].some(r=>r.checked)){
         showFieldError(form, field);
+        if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'validation_error',{error_count:1});
         return false;
       }
     } else if(field.type === 'checkbox'){
       if(!field.checked){
         showFieldError(form, field);
+        if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'validation_error',{error_count:1});
         return false;
       }
     } else if(!field.value.trim() || !field.checkValidity()){
       showFieldError(form, field);
+      if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'validation_error',{error_count:1});
       return false;
     }
   }
@@ -624,9 +746,11 @@ function showSuccess(data){
     property_type:data?.property_type,
     landing_page:'/valuation.html'
   });
-  document.querySelector('[data-step="1"]').classList.remove('active');
+  if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'success');
+  steps.forEach(step=>step.classList.remove('active'));
   const successStep=document.querySelector('[data-step="success"]');
   successStep.classList.add('active');
+  progress.hidden=true;
   // Focus the success heading so keyboard / SR users have an anchor
   // (the submit button they were on is gone). role=status above
   // announces the heading + body via aria-live.
@@ -638,13 +762,20 @@ function showSuccess(data){
 // ── Submit ──
 document.getElementById('valForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  if(!validate()) return;
+  if(current < steps.length-1){
+    if(validateStep(current)) showStep(current+1);
+    return;
+  }
+  if(!validateStep(current)) return;
   const f = e.target;
   if(f._honeypot.value) return; // honeypot
   // Must be >= submit-lead.js's time-on-form floor (currently 3000ms) — see
   // tests/homepage-lead-timing.test.mjs. Without this, a fast/autofilled submit is
   // shown success while the server silently drops it as spam.
-  if(Date.now() - PAGE_LOADED_AT < 3000) return;
+  if(typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(form,PAGE_LOADED_AT,3000,()=>form.requestSubmit())) return;
+  if(typeof window.jtWaitForSpamFloor !== 'function' && Date.now() - PAGE_LOADED_AT < 3000) return;
+
+  if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'submit_attempt');
 
   const propType = f.propType.value;
   const data = {
@@ -694,6 +825,12 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
     });
   }
 });
+
+document.addEventListener('DOMContentLoaded',()=>{
+  if(typeof window.jtObserveLeadForm==='function') window.jtObserveLeadForm(form,{leadType:'valuation'});
+  trackStep(0);
+});
+showStep(0,false);
 </script>
 
 <script src="/assets/conversion-tracking.js" defer></script>
