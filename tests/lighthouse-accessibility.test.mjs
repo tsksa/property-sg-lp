@@ -144,12 +144,12 @@ test('insights footer links are distinguishable without relying on colour', () =
   );
 });
 
-test('calculator prose links are underlined without hover in both guidance and repayment content', () => {
+test('calculator prose links are underlined without hover in hero, guidance, and repayment content', () => {
   const html = read('calculator/index.html');
 
   assert.match(
     html,
-    /\.calc-guide p a,#repaymentPanel p a\{[^}]*text-decoration:underline[^}]*\}/,
+    /\.calc-hero p a,\.calc-guide p a,#repaymentPanel p a\{[^}]*text-decoration:underline[^}]*\}/,
   );
   assert.match(html, /a:focus-visible[^{}]*\{[^}]*outline:2px solid[^}]*\}/);
 });
