@@ -60,17 +60,30 @@ test('the shared consent banner writes the same localStorage key the tracker gat
 });
 
 test('high-traffic core pages use the deferred loader instead of embedding vendor URLs', () => {
-  for (const rel of ['index.html', 'valuation.html', 'calculator/index.html']) {
+  for (const rel of [
+    'index.html',
+    'valuation.html',
+    'calculator/index.html',
+    'bto-calculator/index.html',
+    'stamp-duty-calculator/index.html',
+  ]) {
     const html = read(rel);
     assert.match(html, /\/assets\/analytics-loader\.js/, `${rel} should use the shared analytics loader`);
     assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js/, `${rel} embeds the Google vendor URL`);
     assert.doesNotMatch(html, /connect\.facebook\.net\/en_US\/fbevents\.js/, `${rel} embeds the Meta vendor URL`);
+    assert.doesNotMatch(html, /<link[^>]+rel="preconnect"[^>]+googletagmanager/, `${rel} connects to Google before consent`);
   }
 });
 
-test('calculator keeps its existing Google-only analytics scope', () => {
-  const html = read('calculator/index.html');
-  assert.match(html, /\/assets\/analytics-loader\.js[^>]+data-meta="false"/);
+test('calculator pages keep their existing Google-only analytics scope', () => {
+  for (const rel of [
+    'calculator/index.html',
+    'bto-calculator/index.html',
+    'stamp-duty-calculator/index.html',
+  ]) {
+    const html = read(rel);
+    assert.match(html, /\/assets\/analytics-loader\.js[^>]+data-meta="false"/, `${rel} should not load Meta Pixel`);
+  }
 });
 
 test('the shared consent banner disables GA and revokes Pixel consent on decline', () => {
