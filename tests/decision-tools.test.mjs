@@ -123,3 +123,19 @@ test('repayment and affordability stay separate with keyboard-accessible modes',
   assert.match(html, /does not assess MSR, TDSR, CPF usage or loan approval/);
   assert.match(html, /not guaranteed for the whole term/);
 });
+
+test('repayment results offer privacy-safe next actions', () => {
+  const html = fs.readFileSync(new URL('../calculator/index.html', import.meta.url), 'utf8');
+  const js = fs.readFileSync(new URL('../assets/repayment-calculator.mjs', import.meta.url), 'utf8');
+
+  assert.match(html, /id="repaymentWhatsapp"/);
+  assert.match(html, /data-cta-location="calculator_repayment_result"/);
+  assert.match(html, /id="repaymentBooking"/);
+  assert.match(html, /id="copyRepaymentSummary"/);
+  assert.match(html, /id="repaymentCopyStatus"[^>]+role="status"[^>]+aria-live="polite"/);
+  assert.match(js, /navigator\.clipboard\.writeText\(lastSummaryText\)/);
+  assert.match(js, /calculator_result_generated/);
+  assert.match(js, /calculator_result_action/);
+  assert.match(js, /calculator_result_copied/);
+  assert.doesNotMatch(js, /calculator_result_(?:generated|copied)'[^;]+(?:principal|annualRatePercent|years|paymentCents)/);
+});

@@ -67,6 +67,15 @@ test('contact intent stays separate from leads and only genuine Calendly-origin 
   assert.equal(h.events[1][2].lead_type, 'calendly_booking');
 });
 
+test('contact tracking strips prefilled message content from WhatsApp URLs', () => {
+  const h = harness();
+  h.contact('https://wa.me/6581881488?text=Loan%20amount%20S%24300%2C000');
+
+  assert.equal(h.events[0][1], 'contact_click');
+  assert.equal(h.events[0][2].link_url, 'https://wa.me/6581881488');
+  assert.doesNotMatch(JSON.stringify(h.events[0][2]), /300|Loan%20amount/);
+});
+
 test('lead form funnel records fixed stages without form values or duplicate starts', () => {
   const h = harness();
   const listeners = {};

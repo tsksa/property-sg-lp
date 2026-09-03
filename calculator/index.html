@@ -365,7 +365,25 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
           </table>
         </div>
       </details>
-      <p><a href="/#book">Discuss your housing budget with Joe</a> or <a href="/insights/hdb-loan-eligibility-singapore.html">check the HDB eligibility guide</a> before deciding what to borrow.</p>
+      <div class="repayment-result-actions" aria-labelledby="repaymentActionsTitle">
+        <h3 id="repaymentActionsTitle">Want a second opinion on these numbers?</h3>
+        <p>Share this estimate with Joe or keep a copy for later. Nothing leaves your browser unless you choose an action below.</p>
+        <div class="repayment-action-grid">
+          <a href="https://wa.me/6581881488"
+             id="repaymentWhatsapp"
+             class="repayment-action repayment-action-primary"
+             target="_blank"
+             rel="noopener"
+             data-cta-location="calculator_repayment_result"
+             data-lead-type="calculator_repayment">
+            WhatsApp Joe about this estimate
+          </a>
+          <a href="/#book" id="repaymentBooking" class="repayment-action repayment-action-secondary">Book a free 30-min call</a>
+          <button type="button" id="copyRepaymentSummary" class="repayment-copy">Copy result summary</button>
+        </div>
+        <p id="repaymentCopyStatus" class="repayment-copy-status" role="status" aria-live="polite" hidden></p>
+        <p class="repayment-next-guide">Still checking eligibility? <a href="/insights/hdb-loan-eligibility-singapore.html">Read the HDB eligibility guide</a> before deciding what to borrow.</p>
+      </div>
     </div>
     <h3>How this repayment estimate works</h3>
     <p>For a constant rate, the monthly instalment is P × r ÷ (1 − (1 + r)<sup>−n</sup>), where P is the loan amount, r is the annual rate divided by 12 and n is the number of months. At 0% interest, divide P by n.</p>
