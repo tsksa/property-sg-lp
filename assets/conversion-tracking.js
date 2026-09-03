@@ -388,6 +388,15 @@
     return '';
   }
 
+  function analyticsSafeLinkUrl(a, method){
+    var href = a.href || '';
+    // Prefilled WhatsApp and email messages can contain visitor-entered or
+    // calculated details. Keep those query strings out of analytics.
+    return method === 'whatsapp' || method === 'email'
+      ? href.replace(/[?#].*$/, '')
+      : href;
+  }
+
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href]');
     if(!a) return;
@@ -395,7 +404,7 @@
     if(!method) return;
     window.jtTrackConversion('contact_click', {
       contact_method: method,
-      link_url: a.href,
+      link_url: analyticsSafeLinkUrl(a, method),
       link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120),
       cta_location: a.getAttribute('data-cta-location') || '',
       lead_type: a.getAttribute('data-lead-type') || ''

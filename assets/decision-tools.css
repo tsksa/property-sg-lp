@@ -15,6 +15,19 @@
 .decision-summary dl{display:grid;grid-template-columns:1fr auto;gap:10px;margin:0}
 .decision-summary dt{font-size:.9rem}
 .decision-summary dd{font-weight:700;text-align:right;margin:0;overflow-wrap:anywhere}
+.repayment-result-actions{margin-top:20px;padding:20px;background:#f7fbf9;border:1px solid #c7ddd4;border-radius:12px}
+.repayment-result-actions h3{margin:0 0 6px;font-size:1.08rem}
+.repayment-result-actions>p{margin:0;color:#46576b;font-size:.9rem}
+.repayment-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 12px}
+.repayment-action{display:flex;align-items:center;justify-content:center;min-height:48px;padding:11px 16px;border-radius:8px;font-weight:700;text-align:center;text-decoration:none!important;line-height:1.35}
+.repayment-action-primary{background:#087a5b;color:#fff}
+.repayment-action-primary:hover{background:#066a4f;color:#fff;text-decoration:none}
+.repayment-action-secondary{background:#fff;color:#0b1e3f;border:1px solid #9cc8b6}
+.repayment-action-secondary:hover{background:#eef8f4;text-decoration:none}
+.decision-tool .repayment-copy{grid-column:1/-1;background:transparent;color:#065f46;border:1px solid #9cc8b6}
+.decision-tool .repayment-copy:hover{background:#eef8f4}
+.repayment-copy-status{font-weight:700;color:#065f46!important}
+.repayment-next-guide{margin-top:12px!important}
 .decision-table-wrap{max-width:100%;overflow-x:auto;margin:18px 0}
 .decision-tool table{width:100%;border-collapse:collapse;font-size:.85rem;font-variant-numeric:tabular-nums}
 .decision-tool caption{text-align:left;font-weight:700;margin-bottom:10px}
@@ -29,4 +42,4 @@
 .decision-modes input{width:20px;height:20px;accent-color:#087a5b}
 #repaymentPanel{grid-column:1/-1}
 #repaymentPanel[hidden],#affordabilityForm[hidden],#affordabilityResults[hidden],#affordabilityDisclaimer[hidden],.decision-tool [hidden],.decision-modes[hidden]{display:none!important}
-@media(max-width:600px){.decision-tool{padding:20px 16px}.decision-grid{grid-template-columns:1fr}.decision-summary{padding:16px}.decision-summary dl{grid-template-columns:1fr}.decision-summary dd{text-align:left;margin-bottom:8px}.decision-tool th,.decision-tool td{padding:10px 5px}.decision-modes{gap:8px}}
+@media(max-width:600px){.decision-tool{padding:20px 16px}.decision-grid{grid-template-columns:1fr}.decision-summary{padding:16px}.decision-summary dl{grid-template-columns:1fr}.decision-summary dd{text-align:left;margin-bottom:8px}.decision-tool th,.decision-tool td{padding:10px 5px}.decision-modes{gap:8px}.repayment-result-actions{padding:18px 16px}.repayment-action-grid{grid-template-columns:1fr}.decision-tool .repayment-copy{grid-column:auto}}
