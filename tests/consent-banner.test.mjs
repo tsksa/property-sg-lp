@@ -60,12 +60,17 @@ test('the shared consent banner writes the same localStorage key the tracker gat
 });
 
 test('high-traffic core pages use the deferred loader instead of embedding vendor URLs', () => {
-  for (const rel of ['index.html', 'valuation.html']) {
+  for (const rel of ['index.html', 'valuation.html', 'calculator/index.html']) {
     const html = read(rel);
     assert.match(html, /\/assets\/analytics-loader\.js/, `${rel} should use the shared analytics loader`);
     assert.doesNotMatch(html, /googletagmanager\.com\/gtag\/js/, `${rel} embeds the Google vendor URL`);
     assert.doesNotMatch(html, /connect\.facebook\.net\/en_US\/fbevents\.js/, `${rel} embeds the Meta vendor URL`);
   }
+});
+
+test('calculator keeps its existing Google-only analytics scope', () => {
+  const html = read('calculator/index.html');
+  assert.match(html, /\/assets\/analytics-loader\.js[^>]+data-meta="false"/);
 });
 
 test('the shared consent banner disables GA and revokes Pixel consent on decline', () => {

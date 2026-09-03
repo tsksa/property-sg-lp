@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 const loader = fs.readFileSync(new URL('../assets/analytics-loader.js', import.meta.url), 'utf8');
 
-function harness({ consent = null, readyState = 'loading' } = {}) {
+function harness({ consent = null, readyState = 'loading', meta = true } = {}) {
   const storage = new Map(consent ? [['pdpa_consent', consent]] : []);
   const nodes = [];
   const documentListeners = new Map();
@@ -25,6 +25,7 @@ function harness({ consent = null, readyState = 'loading' } = {}) {
 
   const document = {
     readyState,
+    currentScript: { dataset: { meta: String(meta) } },
     head: { appendChild(node) { nodes.push(node); } },
     createElement(tagName) { return { tagName: tagName.toUpperCase() }; },
     getElementById(id) { return nodes.find(node => node.id === id) || null; },
@@ -109,4 +110,14 @@ test('same-page acceptance loads vendors after the banner stores consent', () =>
   });
   assert.equal(h.scriptSources().length, 2);
   assert.equal(h.queuedGoogleCalls().filter(call => call[0] === 'config').length, 1);
+});
+
+test('a Google-only page never queues or downloads the Meta pixel', () => {
+  const h = harness({ consent: 'accepted', meta: false });
+  h.fireDocument('pointerdown');
+
+  assert.deepEqual(h.scriptSources(), [
+    'https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V',
+  ]);
+  assert.equal(h.context.fbq, undefined);
 });

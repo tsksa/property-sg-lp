@@ -9,6 +9,7 @@
   var googleTagId = 'GT-KVFDZD5V';
   var measurementId = 'G-1YQE8JN66P';
   var metaPixelId = '3279494272146114';
+  var loadMeta = !document.currentScript || document.currentScript.dataset.meta !== 'false';
   var fallbackDelay = 6000;
   var loaded = false;
   var fallbackTimer = null;
@@ -69,11 +70,13 @@
     window.gtag('config', googleTagId, {send_page_view:true});
     injectScript('jt-google-tag', 'https://www.googletagmanager.com/gtag/js?id=' + googleTagId);
 
-    ensureMetaQueue();
-    window.fbq('consent', 'grant');
-    window.fbq('init', metaPixelId);
-    window.fbq('track', 'PageView');
-    injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
+    if(loadMeta){
+      ensureMetaQueue();
+      window.fbq('consent', 'grant');
+      window.fbq('init', metaPixelId);
+      window.fbq('track', 'PageView');
+      injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
+    }
     return true;
   }
 
@@ -84,7 +87,7 @@
 
   function scheduleAcceptedVisitor(){
     if(!consentAccepted() || loaded) return;
-    ensureMetaQueue();
+    if(loadMeta) ensureMetaQueue();
     interactionEvents.forEach(function(eventName){
       document.addEventListener(eventName, loadVendors, true);
     });
