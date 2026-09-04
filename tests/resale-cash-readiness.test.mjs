@@ -5,6 +5,15 @@ import { resaleCashReadiness } from '../assets/resale-cash-readiness.mjs';
 
 const example = { price: 280000, valuation: 280000, loan: 210000, cpf: 50000, deposit: 0, cash: 20000, reserve: 3800 };
 
+test('calculator choices and downpayment guide link to the focusable cash breakdown', () => {
+  const html = fs.readFileSync(new URL('../calculator/index.html', import.meta.url), 'utf8');
+  const guide = fs.readFileSync(new URL('../insights/hdb-downpayment-cash-cpf-grants.html', import.meta.url), 'utf8');
+  assert.match(html, /href="#resaleCashPanel"[^>]*>Check resale cash needed<\/a>/);
+  assert.ok(html.indexOf('href="#resaleCashPanel"') < html.indexOf('id="repaymentPanel"'));
+  assert.match(html, /id="resaleCashPanel"[^>]*tabindex="-1"/);
+  assert.match(guide, /href="\/calculator\/#resaleCashPanel">Check resale cash needed<\/a>/);
+});
+
 test('purchase funds reconcile and stamp-duty reserve exposes the shortfall', () => {
   const r = resaleCashReadiness(example);
   assert.equal(r.cashForPrice, 2000000);
