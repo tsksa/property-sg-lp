@@ -604,7 +604,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 // Everything runs client-side.
 //
 // Rates (verified April 2026):
-//   - HDB loan: 2.6% concessionary rate (CPF OA + 0.1%). No stress test.
+//   - HDB loan: 2.6% concessionary rate; 3% floor for loan eligibility.
 //   - Bank loan: 4.0% MAS stress rate (what banks approve against).
 //     Actual 2026 market rates are ~2.5% (fixed) / 2.2-2.5% (SORA floating),
 //     so users' real monthly payment will be ~25% lower than shown.
@@ -713,11 +713,11 @@ function recalc(){
   // Render
   document.getElementById('maxPrice').textContent = fmt(maxPrice);
   document.getElementById('maxLoan').textContent = fmt(actualLoan);
-  document.getElementById('monthlyPayment').textContent = fmt(actualMonthly);
+  document.getElementById('monthlyPayment').textContent = fmt(loanType === 'HDB' ? marketMonthly : actualMonthly);
   document.getElementById('downpayment').textContent = fmt(downpayment);
 
   document.getElementById('maxPriceDetail').textContent = income > 0
-    ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.${loanType==='Bank' ? ' (MAS stress rate)' : ''}`
+    ? `Based on ${loanType} loan, ${tenure}-year tenure at ${(annualRate*100).toFixed(2)}% p.a.${loanType==='Bank' ? ' (MAS stress rate)' : ' (eligibility assessment rate, not repayment rate)'}`
     : 'Enter your monthly income to calculate';
 
   // Name the constraint that actually caps the price, so changing an input
@@ -740,11 +740,11 @@ function recalc(){
   document.getElementById('monthlyDetail').textContent = actualMonthly > 0
     ? loanType === 'Bank'
         ? `At 4% stress rate · At today's ~2.5% market: ${fmt(marketMonthly)}/mo (${(marketMonthly / income * 100).toFixed(1)}% of income)`
-        : `${(actualMonthly / income * 100).toFixed(1)}% of your gross income`
+        : `Estimated at 2.6% p.a. · ${(marketMonthly / income * 100).toFixed(1)}% of your gross income. At the 3% assessment rate: ${fmt(actualMonthly)}/mo. Rates may change.`
     : '';
   document.getElementById('downpaymentDetail').textContent = income > 0
     ? loanType === 'HDB'
-        ? `Can be fully covered by CPF OA (${fmt(cpfOA)} available)`
+        ? `Estimated contribution: ${fmt(Math.min(cpfOA, downpayment))} CPF OA + ${fmt(Math.max(0, downpayment - cpfOA))} cash. Assumes all entered CPF is usable and resale price equals valuation. Excludes stamp duty, fees and cash-over-valuation; this is not the initial option deposit.`
         : `Min 5% cash (${fmt(maxPrice*0.05)}) + remainder cash or CPF`
     : '';
 
