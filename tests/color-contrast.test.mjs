@@ -293,6 +293,12 @@ const cases = [
 ];
 
 for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
+  cases.push({
+    name: `${file} copy confirmation on navy results panel`,
+    file,
+    foreground: ['.calc-copy-status', 'color'],
+    background: '#0b1e3f',
+  });
   for (const state of ['', ':hover']) {
     cases.push({
       name: `${file} WhatsApp CTA${state}`,
