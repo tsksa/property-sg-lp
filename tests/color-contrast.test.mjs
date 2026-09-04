@@ -292,6 +292,17 @@ const cases = [
   },
 ];
 
+for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
+  for (const state of ['', ':hover']) {
+    cases.push({
+      name: `${file} WhatsApp CTA${state}`,
+      file,
+      foreground: ['.calc-cta a.calc-cta-whatsapp', 'color'],
+      background: [`.calc-cta a.calc-cta-whatsapp${state}`, 'background'],
+    });
+  }
+}
+
 for (const contrastCase of cases) {
   test(`${contrastCase.name} meets WCAG AA contrast`, () => {
     const foreground = cssColour(
