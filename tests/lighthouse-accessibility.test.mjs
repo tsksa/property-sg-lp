@@ -70,16 +70,24 @@ test('homepage logo uses its visible text as the accessible name', () => {
   assert.match(logo[2], /<span class="logo-brand">PropertySG<\/span>/);
 });
 
-test('calculator fonts avoid late swaps that shift the policy notice', () => {
-  const html = read('calculator/index.html');
-  const fontUrls = [...html.matchAll(/https:\/\/fonts\.googleapis\.com\/css2\?[^"']+/g)]
-    .map((match) => match[0]);
+for (const file of ['calculator/index.html', 'bto-calculator/index.html']) {
+  test(`${file}: fonts avoid late swaps that shift content`, () => {
+    const html = read(file);
+    const fontUrls = [...html.matchAll(/https:\/\/fonts\.googleapis\.com\/css2\?[^"']+/g)]
+      .map((match) => match[0]);
 
-  assert.ok(fontUrls.length >= 3, 'missing calculator font loading variants');
-  for (const url of fontUrls) {
-    assert.match(url, /[&?]display=optional(?:&|$)/);
-  }
-});
+    assert.ok(fontUrls.length >= 3, 'missing calculator font loading variants');
+    for (const url of fontUrls) {
+      assert.match(url, /[&?]display=optional(?:&|$)/);
+    }
+  });
+}
+
+for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
+  test(`${file}: inline links remain distinguishable without colour`, () => {
+    assert.match(read(file), /\.calc-hero p a,\.calc-disclaimer a\{text-decoration:underline;/);
+  });
+}
 
 test('insight cards use semantic list markup without invalid link roles', () => {
   const html = read('insights/index.html');
