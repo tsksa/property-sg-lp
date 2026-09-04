@@ -183,7 +183,8 @@ a:hover{text-decoration:underline}
 @media(max-width:768px){.calc-field input,.calc-field select{font-size:16px}}
 
 .calc-count{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:22px}
-.calc-count input{display:none}
+.calc-count input{position:absolute;width:1px;height:1px;opacity:0}
+.calc-count input:focus-visible+label{outline:3px solid var(--emerald-aa);outline-offset:3px}
 .calc-count label{display:flex;align-items:center;justify-content:center;padding:12px 8px;border:1.5px solid #ddd;border-radius:10px;cursor:pointer;transition:all .15s;text-align:center;font-size:0.85rem;font-weight:600;color:#555}
 .calc-count input:checked + label{border-color:var(--emerald);background:rgba(16,185,129,0.06);color:var(--navy)}
 .calc-count.disabled{opacity:0.4;pointer-events:none}

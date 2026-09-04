@@ -81,7 +81,8 @@ for (const page of ['bto-calculator', 'stamp-duty-calculator']) {
       return nodes.get(id);
     };
     let config;
-    const document = { getElementById: get, querySelector: selector => ({ value: selector.includes('loanType') ? 'HDB' : '1' }), querySelectorAll: () => [] };
+    const countInputs = [element(), element(), element()];
+    const document = { getElementById: get, querySelector: selector => ({ value: selector.includes('loanType') ? 'HDB' : '1' }), querySelectorAll: selector => selector === '[name="count"]' ? countInputs : [] };
     vm.runInNewContext(code, { document, attachResultCopy: c => { config = c; }, setTimeout, clearTimeout });
     const summary = config.buildSummary();
     assert.match(summary, /Planning estimate only/);
@@ -92,6 +93,15 @@ for (const page of ['bto-calculator', 'stamp-duty-calculator']) {
       assert.match(config.buildSummary(), /BSD: \$69,600/);
       get('profile').value = 'FR';
       assert.match(config.buildSummary(), /not applicable to the flat ABSD rate/);
+      assert.ok(countInputs.every(input => input.disabled));
+      get('profile').value = 'EN';
+      config.buildSummary();
+      assert.ok(countInputs.every(input => input.disabled));
+      for (const profile of ['SC', 'PR']) {
+        get('profile').value = profile;
+        config.buildSummary();
+        assert.ok(countInputs.every(input => !input.disabled));
+      }
     } else {
       assert.ok(summary.includes(get('maxBudget').textContent));
       get('income').value = '0';
