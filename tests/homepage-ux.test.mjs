@@ -7,6 +7,25 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 
+test('Ms Lai review is first, sourced and consistent with its structured data', () => {
+  const html = read('index.html');
+  const card = html.match(/id="review-ms-lai">([\s\S]*?)<\/blockquote>/)?.[1];
+  assert.ok(card);
+  assert.match(card, /aria-label="5 out of 5 stars"/);
+  const quote = card.match(/<blockquote>"([\s\S]*?)"$/)?.[1];
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const business = schemas.find(schema => Array.isArray(schema.review));
+  assert.equal(business.review[0].author.name, 'Ms Lai');
+  assert.equal(business.review[0].reviewBody, quote);
+  assert.equal(business.review[0].datePublished, '2026-09-04');
+  assert.equal(business.review[0].reviewRating.ratingValue, '5');
+  assert.equal(business.aggregateRating.reviewCount, '7');
+  assert.match(html, /Ms Lai<\/div>\s*<div class="testi-role">4 Sep 2026 · PropertyGuru review excerpt/);
+  assert.match(html, /Joe confirmed the display name Ms Lai/);
+  assert.equal(business.review[0].url, 'https://www.propertyguru.com.sg/agent/joe-tay-80979');
+  assert.match(html, /\.testi-card\{transform:none!important\}/);
+});
+
 test('only the primary homepage navigation is fixed', () => {
   const homepage = read('index.html');
 
