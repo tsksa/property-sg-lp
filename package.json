@@ -32,7 +32,7 @@
     "test:hdb-grants-content-cluster": "node --test tests/hdb-grants-content-cluster.test.mjs",
     "test:stamp-duty": "node --test tests/stamp-duty-rules.test.mjs",
     "test:contrast": "node --test tests/color-contrast.test.mjs",
-    "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs",
+    "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs tests/calculator-result-copy.test.mjs",
     "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs tests/new-launch-request-type.test.mjs",
     "test:project-pages": "node --test tests/project-pages.test.mjs",
     "test:search-growth": "node --test tests/search-growth-report.test.mjs",
