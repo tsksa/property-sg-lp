@@ -107,6 +107,12 @@ function cssColour(file, selector, property, backdrop) {
 
 const cases = [
   {
+    name: 'HDB inline stamp-duty link',
+    file: 'calculator/index.html',
+    foreground: ['.calc-cta p a', 'color'],
+    background: ['.calc-cta', 'background'],
+  },
+  {
     name: 'valuation eyebrow',
     file: 'valuation.html',
     foreground: ['.val-eyebrow', 'color'],

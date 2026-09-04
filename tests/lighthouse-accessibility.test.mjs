@@ -180,6 +180,27 @@ test('calculator and insights expose one skip link that appears on focus', () =>
   }
 });
 
+test('calculator choice groups retain native keyboard access and visible label focus', () => {
+  for (const page of ['bto-calculator', 'stamp-duty-calculator']) {
+    const html = read(`${page}/index.html`);
+    assert.match(html, /\.calc-count input\{position:absolute;width:1px;height:1px;opacity:0\}/);
+    assert.match(html, /\.calc-count input:focus-visible\+label\{outline:3px solid var\(--emerald-aa\);outline-offset:3px\}/);
+    assert.doesNotMatch(html, /\.calc-count input\{[^}]*display:none/);
+    assert.match(html, /role="radiogroup" aria-labelledby="(?:loanTypeLabel|countLabel)"/);
+    for (const [, id] of html.matchAll(/<input type="radio" id="([^"]+)"/g)) {
+      assert.ok(html.includes(`for="${id}"`), `missing label for ${id}`);
+    }
+  }
+});
+
+test('HDB inline stamp-duty link is not styled as a white CTA button', () => {
+  const html = read('calculator/index.html');
+  assert.match(html, /\.calc-cta>a\{[^}]*background:#fff/);
+  assert.doesNotMatch(html, /\.calc-cta a(?::hover)?\{/);
+  assert.match(html, /\.calc-cta p a\{color:#fff;text-decoration:underline/);
+  assert.match(html, /Try the <a href="\/stamp-duty-calculator\/">stamp duty calculator/);
+});
+
 test('every insights page exposes exactly one skip link', () => {
   const insightPages = fs
     .readdirSync(path.join(ROOT, 'insights'))
