@@ -203,6 +203,9 @@ a:hover{text-decoration:underline}
 .calc-cta a:hover{background:#f0faf5;text-decoration:none}
 .calc-cta a.calc-cta-whatsapp{margin-top:10px;background:#087a3c;color:#fff}
 .calc-cta a.calc-cta-whatsapp:hover{background:#06713a}
+.calc-copy{display:block;width:100%;min-height:44px;margin-top:12px;padding:11px 18px;border:1px solid #0b1e3f;border-radius:8px;background:#fff;color:#0b1e3f;font:inherit;font-weight:700;cursor:pointer}
+.calc-copy[hidden]{display:none}.calc-copy:focus-visible{outline:3px solid #fff;outline-offset:3px}.calc-copy:disabled{cursor:wait}
+.calc-copy-status{font-size:0.875rem;line-height:1.5;color:#fff;margin-top:8px;min-height:3em}
 
 .calc-disclaimer{max-width:1000px;margin:0 auto;padding:0 24px 48px;font-size:0.82rem;color:#666;line-height:1.6;text-align:center}
 .calc-disclaimer strong{color:#555}
@@ -363,6 +366,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         WhatsApp Joe your numbers →
       </a>
     </div>
+    <button type="button" id="copyResult" class="calc-copy" aria-describedby="copyResultStatus" hidden>Copy result</button>
+    <p id="copyResultStatus" class="calc-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
   </aside>
 
 </main>
@@ -465,7 +470,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <p class="creds">CEA Reg. No. R009618D · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="mailto:joe@joetay.com">joe@joetay.com</a></p>
 </footer>
 
-<script>
+<script type="module">
+import { attachResultCopy } from '/assets/calculator-result-copy.mjs';
 // ─────────────────────────────────────────────────────────
 // HDB BTO budget calculator. Everything runs client-side.
 //
@@ -530,6 +536,7 @@ const monthlyInstalment = (principal, annualRate, years) => {
   return principal * r / (1 - (1 + r) ** -n);
 };
 
+let resultSummary = '';
 function recalc() {
   const income = Math.max(0, parseFloat(document.getElementById('income').value) || 0);
   const savings = Math.max(0, parseFloat(document.getElementById('savings').value) || 0);
@@ -595,6 +602,17 @@ function recalc() {
   }
 
   const waLink = document.getElementById('calcWhatsapp');
+  resultSummary = income > 0 && maxPrice > 0 ? [
+    'Joe Tay BTO budget estimate (SGD)',
+    `Maximum flat budget: ${fmt(maxPrice)}`,
+    `Estimated EHG included: ${fmt(ehg)}`,
+    `Estimated loan: ${fmt(loan)} (${loanType}, ${tenure} years)`,
+    `Eligibility interest rate: ${(annualRate * 100).toFixed(1)}% p.a.`,
+    `Estimated downpayment: ${fmt(downpayment)}`,
+    `Estimated monthly repayment: ${fmt(monthly)} at ${(marketRate * 100).toFixed(1)}% p.a.`,
+    'Planning estimate only; EHG eligibility is not verified. HFE/lender approval determines actual financing. Stamp duty and other costs are not included.',
+    'https://joetay.com/bto-calculator/',
+  ].join('\n') : '';
   if (waLink) {
     const waText = income > 0 && maxPrice > 0
       ? `Hi Joe, the BTO calculator shows my max budget is ~${fmt(maxPrice)} (${loanType} loan, ${tenure}-year tenure). Can you help me plan my application?`
@@ -626,6 +644,13 @@ document.querySelectorAll('input, select').forEach((el) => {
 });
 
 recalc();
+attachResultCopy({
+  button: document.getElementById('copyResult'),
+  status: document.getElementById('copyResultStatus'),
+  fields: [...document.querySelectorAll('.calc-form input, .calc-form select')],
+  buildSummary: () => { recalc(); return resultSummary; },
+  calculator: 'bto',
+});
 </script>
 
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
