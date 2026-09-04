@@ -69,11 +69,19 @@
  "aggregateRating": {
   "@type": "AggregateRating",
   "ratingValue": "5",
-  "reviewCount": "6",
+  "reviewCount": "7",
   "bestRating": "5",
   "worstRating": "1"
  },
  "review": [
+  {
+   "@type": "Review",
+   "author": { "@type": "Person", "name": "Ms Lai" },
+   "datePublished": "2026-09-04",
+   "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+   "reviewBody": "He can explain n give me a peace of mind regards time . I am very happy w his service",
+   "url": "https://www.propertyguru.com.sg/agent/joe-tay-80979"
+  },
   {
    "@type": "Review",
    "author": {
@@ -878,6 +886,7 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .problem-grid{grid-template-columns:1fr;gap:0}
   .solution-grid{grid-template-columns:1fr;gap:0}
   .testi-list{grid-template-columns:1fr}
+  .testi-card{transform:none!important}
   .stats .container{gap:40px}
   footer{flex-direction:column;gap:12px;text-align:center;padding:32px 20px}
   .logo-bar .logos{gap:24px}
@@ -1578,6 +1587,20 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <h2 id="testimonials-title" class="reveal">Don't take my word for it.</h2>
     <p class="lead reveal">Real results from real homeowners across Singapore.</p>
     <div class="testi-list" role="list" aria-label="Customer reviews">
+      <!-- PropertyGuru lists this 4 Sep 2026 review as Reviewer; Joe confirmed the display name Ms Lai. -->
+      <div class="testi-card reveal" role="listitem" id="review-ms-lai">
+        <div class="testi-stars" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★<span class="testi-rating">5.0</span></span></div>
+        <blockquote>"He can explain n give me a peace of mind regards time . I am very happy w his service"</blockquote>
+        <div class="testi-result">Flat seller · Referred by her sibling · September 2026</div>
+        <div class="testi-meta">
+          <div class="testi-avatar" aria-hidden="true">L</div>
+          <div class="testi-meta-text">
+            <div class="testi-author">Ms Lai</div>
+            <div class="testi-role">4 Sep 2026 · PropertyGuru review excerpt</div>
+            <a href="https://www.propertyguru.com.sg/agent/joe-tay-80979" target="_blank" rel="noopener" style="text-decoration:underline">Read reviews on PropertyGuru</a>
+          </div>
+        </div>
+      </div>
       <div class="testi-card reveal" role="listitem">
         <div class="testi-stars">★★★★★<span class="testi-rating">5.0</span></div>
         <blockquote>"We knew Joe since he helped us sell our condo a few years back. I recommended him to my siblings to market our parent's HDB flat and he was very professional and was able to help us find a buyer fast. He negotiated a good deal for us and guided us along the way. We are lucky to have Joe to represent us."</blockquote>
