@@ -323,6 +323,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <label><input type="radio" name="calculatorMode" value="affordability"> How much can I afford?</label>
   </fieldset>
 
+  <p class="decision-help" style="grid-column:1/-1"><a href="#resaleCashPanel" style="display:inline-block;min-height:44px;padding:10px 0;text-decoration:underline">Check resale cash needed</a> — use your confirmed loan, usable CPF and cost reserves.</p>
+
   <section class="decision-tool" id="repaymentPanel" aria-labelledby="repaymentTitle">
     <h2 id="repaymentTitle">Calculate your loan repayment</h2>
     <p>Enter the amount you plan to borrow, not the property price. No contact details are needed; these calculations stay in your browser.</p>
@@ -481,7 +483,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
   </aside>
 
-  <section class="decision-tool" id="resaleCashPanel" aria-labelledby="resaleCashTitle" style="grid-column:1/-1">
+  <section class="decision-tool" id="resaleCashPanel" aria-labelledby="resaleCashTitle" tabindex="-1" style="grid-column:1/-1">
     <h2 id="resaleCashTitle">Resale cash-readiness breakdown</h2>
     <p>Already choosing a resale flat? Check the remaining cash needed using your confirmed financing. This does not calculate loan eligibility, grant entitlement, stamp duty or CPF usage limits.</p>
     <p class="decision-help">Enter amounts in Singapore dollars. Calculations stay in your browser. Cash-over-valuation is cash-only. Usable CPF is a purchase allocation, not your full OA balance. <a href="/stamp-duty-calculator/">Estimate stamp duty separately</a> and include any unpaid cash-funded duty in the reserve below.</p>
