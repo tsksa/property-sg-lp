@@ -27,6 +27,20 @@ test('the authority page identifies Joe and exposes independently verifiable cre
   assert.match(page, /href="https:\/\/www\.cea\.gov\.sg\/aceas\/public-register\/ea"/);
 });
 
+test('the authority page presents review-derived client stories without promising results', () => {
+  const page = read('about-joe/index.html');
+  const homepage = read('index.html');
+
+  assert.match(page, /id="client-stories"/);
+  assert.match(page, /not independently audited results or a promise of the same outcome/);
+  assert.match(page, /Mr Ng[\s\S]*S\$18,000 above HDB valuation/);
+  assert.match(page, /previous condo client[\s\S]*siblings marketing their parent’s HDB flat/);
+  assert.match(page, /Joseph and Karen[\s\S]*Persistence, frequent communication and honest feedback/);
+  assert.match(page, /no exact timing or price was published/);
+  assert.match(page, /no rental amount or timing was published/);
+  assert.match(homepage, /href="\/about-joe\/#client-stories">Read three client-reported property journeys<\/a>/);
+});
+
 test('HomeLah is absent from the published HTML and legacy URLs redirect internally', () => {
   const offenders = publishedHtmlFiles()
     .filter((file) => /homelah/i.test(fs.readFileSync(file, 'utf8')))

@@ -5,6 +5,20 @@ const output = document.getElementById('resaleCashOutput');
 const error = document.getElementById('resaleCashError');
 const fields = [...form.querySelectorAll('input')];
 const money = cents => 'S$' + (cents / 100).toLocaleString('en-SG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const copyButton = document.getElementById('copyResaleCashSummary');
+const copyStatus = document.getElementById('resaleCashCopyStatus');
+const booking = document.getElementById('resaleCashBooking');
+let lastSummaryText = '';
+let resultRevision = 0;
+
+function resetResultActions() {
+  resultRevision += 1;
+  lastSummaryText = '';
+  if (copyStatus) {
+    copyStatus.hidden = true;
+    copyStatus.textContent = '';
+  }
+}
 
 // Fail closed if the calculation module cannot load: never submit these amounts.
 form.addEventListener('keydown', event => {
@@ -18,6 +32,7 @@ form.addEventListener('input', () => {
   output.hidden = true;
   error.textContent = 'Inputs changed. Calculate again to update the breakdown.';
   fields.forEach(field => field.removeAttribute('aria-invalid'));
+  resetResultActions();
 });
 
 form.addEventListener('submit', event => {
@@ -40,6 +55,16 @@ form.addEventListener('submit', event => {
     document.getElementById('resaleCashStatus').textContent = result.shortfall > 0
       ? `Additional cash needed: ${money(result.shortfall)}`
       : 'No cash shortfall for the amounts entered — not a loan or purchase approval.';
+    lastSummaryText = [
+      'Joe Tay resale cash-readiness estimate',
+      `Purchase price: ${money(result.price)}`,
+      `Confirmed loan: ${money(result.loan)}`,
+      `Deposit already paid: ${money(result.deposit)}`,
+      `CPF applied: ${money(result.cpfApplied)}`,
+      `Cash needed from now: ${money(result.cashRequired)}`,
+      `Additional cash shortfall: ${money(result.shortfall)}`,
+      'Planning estimate only. Confirm the financing, CPF allocation, grants, costs and payment dates with HDB, your lender or solicitor.'
+    ].join('\n');
     error.textContent = '';
     output.hidden = false;
     if (typeof window.jtTrackConversion === 'function') {
@@ -50,4 +75,37 @@ form.addEventListener('submit', event => {
     error.focus();
   }
 });
+
+copyButton?.addEventListener('click', async () => {
+  if (!lastSummaryText) return;
+  const copiedRevision = resultRevision;
+  const summary = lastSummaryText;
+  copyButton.disabled = true;
+  try {
+    await navigator.clipboard.writeText(summary);
+  } catch {
+    if (resultRevision === copiedRevision) {
+      copyStatus.textContent = 'Could not copy automatically. Please try again.';
+      copyStatus.hidden = false;
+    }
+    return;
+  } finally {
+    copyButton.disabled = false;
+  }
+  if (resultRevision !== copiedRevision) return;
+  copyStatus.textContent = 'Private result copied. You decide where to paste it.';
+  copyStatus.hidden = false;
+  try {
+    window.jtTrackConversion?.('calculator_result_copied', { calculator: 'resale_cash_readiness' });
+  } catch {
+    // Analytics must not change the copy result.
+  }
+});
+
+booking?.addEventListener('click', () => {
+  if (typeof window.jtTrackConversion === 'function') {
+    window.jtTrackConversion('calculator_result_action', { calculator: 'resale_cash_readiness', action: 'book_call' });
+  }
+});
+
 document.getElementById('resaleCashSubmit').disabled = false;

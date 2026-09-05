@@ -547,6 +547,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <dt>Entered CPF not needed for the remaining price</dt><dd id="resale-unusedCpf"></dd>
       </dl>
       <p class="decision-help">The deposit reduces the purchase balance; it is not added to the costs again. A zero shortfall depends on complete cost reserves and confirmed funding. It does not prove that early option fees can be paid on time. Confirm CPF allocation, loan drawdown, grants and payment dates with HDB or your solicitor. Unused CPF here does not establish a right to retain it under HDB loan rules.</p>
+      <div class="repayment-result-actions" aria-labelledby="resaleCashActionsTitle">
+        <h3 id="resaleCashActionsTitle">Want help reviewing your cash plan?</h3>
+        <p>Keep a private copy or ask Joe to review the assumptions. Financial figures are not placed in the WhatsApp or booking links.</p>
+        <div class="repayment-action-grid">
+          <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20used%20your%20resale%20cash-readiness%20tool%20and%20would%20like%20help%20reviewing%20my%20assumptions."
+             id="resaleCashWhatsapp"
+             class="repayment-action repayment-action-primary"
+             target="_blank"
+             rel="noopener"
+             data-cta-location="calculator_resale_cash_result"
+             data-lead-type="calculator_resale_cash">
+            WhatsApp Joe without figures
+          </a>
+          <a href="/#book" id="resaleCashBooking" class="repayment-action repayment-action-secondary">Book a free 30-min call</a>
+          <button type="button" id="copyResaleCashSummary" class="repayment-copy">Copy private result summary</button>
+        </div>
+        <p id="resaleCashCopyStatus" class="repayment-copy-status" role="status" aria-live="polite" hidden></p>
+      </div>
     </div>
     <p class="decision-help">Sources: <a href="https://www.hdb.gov.sg/buying-a-flat/resale-flats/process-for-buying-a-resale-flat/option-to-purchase">HDB resale deposit</a> · <a href="https://www.cpf.gov.sg/member/infohub/educational-resources/3-differences-between-hdb-loan-and-bank-loan">CPF and financing rules</a>. Checked 4 September 2026.</p>
   </section>
