@@ -42,6 +42,8 @@ test('homepage light mode has visibly light navigation and form surfaces', () =>
   assert.match(css, /html:not\(\.jt-theme-dark\) \.site-nav\{background:rgba\(250,246,236,\.96\)/);
   assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-form\{background:rgba\(255,255,255,\.94\)/);
   assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-form input/);
+  assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-valuation-link\{color:#43506a\}/);
+  assert.match(css, /body:has\(\.cookie-banner\.show\) \.jt-theme-toggle\{opacity:1;visibility:visible;pointer-events:auto\}/);
   assert.match(homepage, /data-jt-theme-toggle/);
   assert.doesNotMatch(homepage, /const dt=document\.getElementById\('darkToggle'\)/);
 });

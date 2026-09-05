@@ -15,12 +15,14 @@ html:not(.jt-theme-dark) .hero-form{background:rgba(255,255,255,.94);border-colo
 html:not(.jt-theme-dark) .hero-form-heading{color:#0b1e3f}
 html:not(.jt-theme-dark) .hero-form-intro,html:not(.jt-theme-dark) .hero-form .newsletter-optin,html:not(.jt-theme-dark) .hero-form-note{color:#5d687b}
 html:not(.jt-theme-dark) .hero-form-note a{color:#0b1e3f}
+html:not(.jt-theme-dark) .hero-valuation-link{color:#43506a}
 html:not(.jt-theme-dark) .hero-form input,html:not(.jt-theme-dark) .hero-form select{background:#fff;border-color:#cfd6df;color:#0b1e3f}
 html:not(.jt-theme-dark) .hero-form input::placeholder{color:#737d8c}
 html:not(.jt-theme-dark) .hero-form select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%230b1e3f' stroke-width='1.6' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 html:not(.jt-theme-dark) .hero-form select option{background:#fff;color:#0b1e3f}
 html:not(.jt-theme-dark) .hero-field-error{color:#991b1b}
 html:not(.jt-theme-dark) .hero-validation-summary{background:#fef2f2;border-color:#fca5a5;color:#7f1d1d}
+body:has(.cookie-banner.show) .jt-theme-toggle{opacity:1;visibility:visible;pointer-events:auto}
 
 /* Internal pages use the same light header language instead of looking permanently dark. */
 html:not(.jt-theme-dark) :is(.calc-topbar,.topbar,.blog-topbar,.nl-topbar,.nl-topbar.scrolled,.site-head){background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom-color:rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.1)}
