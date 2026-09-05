@@ -1137,6 +1137,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </style>
 <link rel="alternate" type="application/atom+xml" title="PropertySG Insights" href="https://joetay.com/insights/feed.xml">
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -1156,7 +1158,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <a href="/stamp-duty-calculator/">Stamp Duty</a>
     <a href="/about-joe/">About Joe</a>
     <a href="/insights/">Insights</a>
-    <button class="dark-toggle" id="darkToggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode"><span aria-hidden="true">🌙</span><span class="dark-toggle-label">Dark mode</span></button>
+    <button class="dark-toggle jt-theme-toggle" id="darkToggle" type="button" data-jt-theme-toggle aria-label="Switch to dark mode" aria-pressed="false"><span data-jt-theme-icon aria-hidden="true">☾</span><span class="dark-toggle-label" data-jt-theme-label>Dark</span></button>
   </div>
   <div class="nav-right">
     <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="nav-phone" aria-label="Call Joe at +65 8188 1488">
@@ -2526,17 +2528,6 @@ const statsObserver=new IntersectionObserver((entries)=>{
 },{threshold:0.3});
 const statsSection=document.querySelector('.stats');
 if(statsSection)statsObserver.observe(statsSection);
-
-// ── Dark Mode Toggle ──
-const dt=document.getElementById('darkToggle');
-if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');
-function updateToggleIcon(){const isDark=document.body.classList.contains('dark-mode');dt.innerHTML='<span aria-hidden="true">'+(isDark?'☀️':'🌙')+'</span><span class="dark-toggle-label">'+(isDark?'Light mode':'Dark mode')+'</span>';dt.setAttribute('aria-pressed',isDark?'true':'false');dt.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');}
-updateToggleIcon();
-dt.addEventListener('click',()=>{
-  document.body.classList.toggle('dark-mode');
-  localStorage.setItem('darkMode',document.body.classList.contains('dark-mode'));
-  updateToggleIcon();
-});
 
 // ── Parallax on Testimonials ──
 const testiSection=document.querySelector('.testimonials');

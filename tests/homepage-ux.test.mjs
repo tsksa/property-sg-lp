@@ -49,7 +49,8 @@ test('mobile navigation state is scoped to the primary header', () => {
   assert.match(homepage, /if\(e\.key==='Escape'\)\{\s*setNav\(false,true\)/);
   assert.match(homepage, /if\(e\.key==='Tab'\)\{/);
   assert.match(homepage, /mobileNavQuery\.addEventListener\('change',e=>\{if\(!e\.matches\)setNav\(false\);\}\)/);
-  assert.match(homepage, /<span class="dark-toggle-label">'\+\(isDark\?'Light mode':'Dark mode'\)\+'<\/span>/);
+  assert.match(homepage, /id="darkToggle"[^>]*data-jt-theme-toggle[^>]*aria-label="Switch to dark mode"[^>]*aria-pressed="false"/);
+  assert.match(homepage, /<span class="dark-toggle-label" data-jt-theme-label>Dark<\/span>/);
   assert.match(homepage, /e\.target\.closest\('\.site-nav'\)/);
   assert.match(homepage, /document\.querySelector\('\.site-nav'\)/);
   assert.doesNotMatch(homepage, /e\.target\.closest\('nav'\)/);
