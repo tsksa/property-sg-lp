@@ -86,3 +86,21 @@ test('UI requires explicit amounts and hides stale results when inputs change', 
   assert.doesNotMatch(ui, /jtTrackConversion\('calculator_result_generated',\s*\{[^}]*\b(?:price|valuation|loan|cpf|deposit|cash|reserve|shortfall)\b/i);
   assert.doesNotMatch(ui, /fetch\(|localStorage|gtag\(/);
 });
+
+test('result actions keep financial figures private and copy only on request', () => {
+  const html = fs.readFileSync(new URL('../calculator/index.html', import.meta.url), 'utf8');
+  const ui = fs.readFileSync(new URL('../assets/resale-cash-readiness-ui.mjs', import.meta.url), 'utf8');
+  const whatsapp = html.match(/<a href="([^"]+)"\s+id="resaleCashWhatsapp"/)?.[1] ?? '';
+  const whatsappMessage = new URL(whatsapp).searchParams.get('text') ?? '';
+
+  assert.match(html, /id="copyResaleCashSummary"/);
+  assert.match(html, /id="resaleCashBooking"[^>]*href="\/#book"|href="\/#book"[^>]*id="resaleCashBooking"/);
+  assert.match(whatsappMessage, /I used your resale cash-readiness tool/);
+  assert.doesNotMatch(whatsappMessage, /(?:S\$|\$|price|loan|deposit|cpf|shortfall|\d)/i);
+  assert.match(ui, /navigator\.clipboard\.writeText\(summary\)/);
+  assert.match(ui, /const copiedRevision = resultRevision/);
+  assert.match(ui, /if \(resultRevision !== copiedRevision\) return/);
+  assert.match(ui, /calculator_result_copied', \{ calculator: 'resale_cash_readiness' \}/);
+  assert.match(ui, /calculator_result_action', \{ calculator: 'resale_cash_readiness', action: 'book_call' \}/);
+  assert.doesNotMatch(ui, /jtTrackConversion\('calculator_result_(?:copied|action)',\s*\{[^}]*\b(?:price|valuation|loan|cpf|deposit|cash|reserve|shortfall)\b/i);
+});
