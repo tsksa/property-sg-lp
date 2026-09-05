@@ -346,6 +346,8 @@ function headHtml({ title, description, canonical, itemList, soldOut }) {
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 ${mobileHeaderAssetsHtml()}
 </head>`;
 }
