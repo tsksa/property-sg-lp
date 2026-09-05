@@ -8,10 +8,10 @@ const example = { price: 280000, valuation: 280000, loan: 210000, cpf: 50000, de
 test('calculator choices and downpayment guide link to the focusable cash breakdown', () => {
   const html = fs.readFileSync(new URL('../calculator/index.html', import.meta.url), 'utf8');
   const guide = fs.readFileSync(new URL('../insights/hdb-downpayment-cash-cpf-grants.html', import.meta.url), 'utf8');
-  assert.match(html, /href="#resaleCashPanel"[^>]*>Check resale cash needed<\/a>/);
+  assert.match(html, /href="#resaleCashPanel"[^>]*data-calculator="resale_cash_readiness"[^>]*data-entry-point="calculator_choices"[^>]*>Check resale cash needed<\/a>/);
   assert.ok(html.indexOf('href="#resaleCashPanel"') < html.indexOf('id="repaymentPanel"'));
   assert.match(html, /id="resaleCashPanel"[^>]*tabindex="-1"/);
-  assert.match(guide, /href="\/calculator\/#resaleCashPanel">Check resale cash needed<\/a>/);
+  assert.match(guide, /href="\/calculator\/#resaleCashPanel"[^>]*data-calculator="resale_cash_readiness"[^>]*data-entry-point="downpayment_guide"[^>]*>Check resale cash needed<\/a>/);
 });
 
 test('purchase funds reconcile and stamp-duty reserve exposes the shortfall', () => {
@@ -82,5 +82,7 @@ test('UI requires explicit amounts and hides stale results when inputs change', 
   assert.match(ui, /addEventListener\('input',[\s\S]*?output.hidden = true/);
   assert.match(ui, /invalid.focus\(\)/);
   assert.match(html, /id="resaleCashSubmit" disabled/);
+  assert.match(ui, /calculator_result_generated', \{ calculator: 'resale_cash_readiness' \}/);
+  assert.doesNotMatch(ui, /jtTrackConversion\('calculator_result_generated',\s*\{[^}]*\b(?:price|valuation|loan|cpf|deposit|cash|reserve|shortfall)\b/i);
   assert.doesNotMatch(ui, /fetch\(|localStorage|gtag\(/);
 });

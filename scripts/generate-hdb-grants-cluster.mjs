@@ -207,7 +207,7 @@ const ARTICLES = [
   <li>Check available CPF OA and whether you want to retain a buffer.</li>
   <li>Separate mandatory cash items from CPF-eligible costs.</li>
   <li>Estimate the remaining loan and payment using the <a href="/calculator/">HDB loan calculator</a>.</li>
-  <li><a href="/calculator/#resaleCashPanel">Check resale cash needed</a> using your purchase price, valuation, confirmed loan, usable CPF and cost reserves. Include any deposit already paid only once.</li>
+  <li><a href="/calculator/#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="downpayment_guide">Check resale cash needed</a> using your purchase price, valuation, confirmed loan, usable CPF and cost reserves. Include any deposit already paid only once.</li>
   <li>Keep a contingency below the maximum affordable price.</li>
 </ol>
 
