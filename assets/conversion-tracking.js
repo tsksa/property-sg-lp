@@ -400,6 +400,15 @@
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href]');
     if(!a) return;
+    var calculator = a.getAttribute('data-calculator');
+    var entryPoint = a.getAttribute('data-entry-point');
+    if(calculator && entryPoint){
+      window.jtTrackConversion('calculator_engaged', {
+        calculator: safeFunnelLabel(calculator, 'unclassified'),
+        action: 'open',
+        entry_point: safeFunnelLabel(entryPoint, 'unclassified')
+      });
+    }
     var method = classifyLink(a);
     if(!method) return;
     window.jtTrackConversion('contact_click', {

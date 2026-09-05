@@ -76,6 +76,23 @@ test('contact tracking strips prefilled message content from WhatsApp URLs', () 
   assert.doesNotMatch(JSON.stringify(h.events[0][2]), /300|Loan%20amount/);
 });
 
+test('calculator entry links record fixed labels without financial values', () => {
+  const h = harness();
+  h.contact('/calculator/#resaleCashPanel', {
+    'data-calculator': 'resale_cash_readiness',
+    'data-entry-point': 'downpayment_guide',
+  });
+
+  assert.equal(h.events.length, 1);
+  assert.equal(h.events[0][1], 'calculator_engaged');
+  assert.equal(h.events[0][2].calculator, 'resale_cash_readiness');
+  assert.equal(h.events[0][2].action, 'open');
+  assert.equal(h.events[0][2].entry_point, 'downpayment_guide');
+  for (const key of ['price', 'valuation', 'loan', 'cpf', 'deposit', 'cash', 'reserve', 'shortfall']) {
+    assert.equal(key in h.events[0][2], false);
+  }
+});
+
 test('lead form funnel records fixed stages without form values or duplicate starts', () => {
   const h = harness();
   const listeners = {};

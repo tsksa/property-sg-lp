@@ -42,6 +42,9 @@ form.addEventListener('submit', event => {
       : 'No cash shortfall for the amounts entered — not a loan or purchase approval.';
     error.textContent = '';
     output.hidden = false;
+    if (typeof window.jtTrackConversion === 'function') {
+      window.jtTrackConversion('calculator_result_generated', { calculator: 'resale_cash_readiness' });
+    }
   } catch (cause) {
     error.textContent = cause.message;
     error.focus();
