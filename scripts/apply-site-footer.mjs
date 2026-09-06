@@ -21,6 +21,7 @@ const checkOnly = process.argv.includes('--check');
 // noindex utility pages with nothing to gain.
 const EXCLUDED = new Set([
   'sell/index.html',
+  'sell-hdb/singapore/index.html',
   'rent-out/index.html',
   '404.html',
   'privacy-policy.html',

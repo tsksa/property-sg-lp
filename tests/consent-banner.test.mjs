@@ -102,11 +102,11 @@ test('all tracker-bearing pages disable the verified GA4 measurement destination
   }
 });
 
-test('sell/ and rent-out/ ad landers carry the consent banner too', () => {
+test('sell/, sell-hdb/singapore/ and rent-out/ ad landers carry the consent banner too', () => {
   // These are excluded from the shared site footer (paid-traffic leak
   // concern) but they load the same trackers, so they must not be excluded
   // from consent — that would be the highest-exposure gap, not the lowest.
-  for (const rel of ['sell/index.html', 'rent-out/index.html']) {
+  for (const rel of ['sell/index.html', 'sell-hdb/singapore/index.html', 'rent-out/index.html']) {
     const html = read(rel);
     assert.ok(html.includes('ga-disable-GT-KVFDZD5V'), `${rel} expected to load trackers`);
     assert.ok(html.includes(CONSENT_BANNER_MARKER), `${rel} is missing the PDPA consent banner`);
