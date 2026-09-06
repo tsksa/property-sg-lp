@@ -67,7 +67,8 @@ Browser form
          ├─ Gate 5: reCAPTCHA v3 score (silent 200 if <0.5)
          └─ Forward:
               ├─ POST → LEAD_WEBHOOK_URL (Google Apps Script → Sheets)
-              └─ POST → Twilio WhatsApp template (Joe's phone)
+              ├─ POST → Twilio WhatsApp template (Joe's phone)
+              └─ POST → AGENTOS_LEAD_URL (AgentOS /lead; soft-fail, no visitor impact)
 ```
 
 Spam-blocked submissions get logged to `LEAD_SPAM_WEBHOOK_URL` (separate sheet)
@@ -83,6 +84,7 @@ Set in Netlify → Site settings → Build & deploy → Environment.
 |---|---|---|
 | `LEAD_WEBHOOK_URL` | optional | Google Apps Script endpoint for Sheets sync |
 | `LEAD_SPAM_WEBHOOK_URL` | optional | Separate spam-log endpoint |
+| `AGENTOS_LEAD_URL` | optional | AgentOS `POST /lead` URL including `?token=` (Railway `LEAD_WEBHOOK_SECRET`). Already set on Netlify `propertysg78`. Confirm the token matches Railway — never commit it. Soft-fail; skips `newsletter_signup`. |
 | `RECAPTCHA_SECRET` | optional | Enables reCAPTCHA v3 enforcement (site key is in `js/recaptcha-helper.js`) |
 | `TWILIO_ACCOUNT_SID` | recommended | WhatsApp delivery |
 | `TWILIO_AUTH_TOKEN` | recommended | WhatsApp delivery |

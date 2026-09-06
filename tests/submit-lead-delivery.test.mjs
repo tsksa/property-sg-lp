@@ -58,11 +58,13 @@ test('delivery outcome exposes channel health without provider bodies', () => {
     reviewRequired: false,
     webhookResult: { ok: true, status: 200, body: 'private webhook response' },
     twilioResult: { ok: false, status: 400, body: 'private Twilio response' },
+    agentosResult: { ok: false, status: 503, error: 'private agentos error' },
   });
 
   assert.equal(outcome.webhook, 'succeeded');
   assert.equal(outcome.twilio, 'failed');
-  assert.doesNotMatch(JSON.stringify(outcome), /private webhook response|private Twilio response/);
+  assert.equal(outcome.agentos, 'failed');
+  assert.doesNotMatch(JSON.stringify(outcome), /private webhook response|private Twilio response|private agentos error/);
 });
 
 test('handler logs accepted and completely failed deliveries without lead PII', async () => {
@@ -71,6 +73,7 @@ test('handler logs accepted and completely failed deliveries without lead PII', 
   const originalLog = console.log;
   const originalEnv = {
     LEAD_WEBHOOK_URL: process.env.LEAD_WEBHOOK_URL,
+    AGENTOS_LEAD_URL: process.env.AGENTOS_LEAD_URL,
     RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
@@ -81,6 +84,7 @@ test('handler logs accepted and completely failed deliveries without lead PII', 
   let webhookSucceeds = true;
 
   process.env.LEAD_WEBHOOK_URL = 'https://webhook.example.test/lead';
+  delete process.env.AGENTOS_LEAD_URL;
   delete process.env.RECAPTCHA_SECRET;
   delete process.env.TWILIO_ACCOUNT_SID;
   delete process.env.TWILIO_AUTH_TOKEN;
@@ -125,10 +129,10 @@ test('handler logs accepted and completely failed deliveries without lead PII', 
       .map(parseOutcome);
     assert.deepEqual(outcomes.map(({ outcome }) => outcome), ['accepted', 'delivery_failed']);
     assert.deepEqual(
-      outcomes.map(({ webhook, twilio }) => ({ webhook, twilio })),
+      outcomes.map(({ webhook, twilio, agentos }) => ({ webhook, twilio, agentos })),
       [
-        { webhook: 'succeeded', twilio: 'not_attempted' },
-        { webhook: 'failed', twilio: 'not_attempted' },
+        { webhook: 'succeeded', twilio: 'not_attempted', agentos: 'not_attempted' },
+        { webhook: 'failed', twilio: 'not_attempted', agentos: 'not_attempted' },
       ],
     );
     const serialized = JSON.stringify(outcomes);
@@ -136,6 +140,157 @@ test('handler logs accepted and completely failed deliveries without lead PII', 
       serialized,
       /Private Person|91234567|private@example\.com|203\.0\.113\.(25|26)|private provider response/,
     );
+  } finally {
+    global.fetch = originalFetch;
+    console.warn = originalWarn;
+    console.log = originalLog;
+    for (const [key, value] of Object.entries(originalEnv)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+function leadEvent(overrides = {}) {
+  return {
+    httpMethod: 'POST',
+    headers: {
+      'user-agent': 'test-agent',
+      'x-nf-client-connection-ip': '203.0.113.40',
+      ...overrides.headers,
+    },
+    body: JSON.stringify({
+      full_name: 'Private Person',
+      mobile_number: '91234567',
+      email: 'private@example.com',
+      lead_type: 'valuation',
+      time_on_form_ms: 10000,
+      ...overrides.body,
+    }),
+  };
+}
+
+test('AgentOS POST fires in parallel with Sheet and soft-fails without blocking 200', async () => {
+  const originalFetch = global.fetch;
+  const originalWarn = console.warn;
+  const originalLog = console.log;
+  const originalEnv = {
+    LEAD_WEBHOOK_URL: process.env.LEAD_WEBHOOK_URL,
+    AGENTOS_LEAD_URL: process.env.AGENTOS_LEAD_URL,
+    RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
+    TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
+    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
+    TWILIO_WHATSAPP_FROM: process.env.TWILIO_WHATSAPP_FROM,
+    TWILIO_WHATSAPP_TO: process.env.TWILIO_WHATSAPP_TO,
+  };
+  const logs = [];
+  const warns = [];
+  const fetches = [];
+
+  process.env.LEAD_WEBHOOK_URL = 'https://webhook.example.test/lead';
+  process.env.AGENTOS_LEAD_URL = 'https://agentos.example.test/lead?token=placeholder';
+  delete process.env.RECAPTCHA_SECRET;
+  delete process.env.TWILIO_ACCOUNT_SID;
+  delete process.env.TWILIO_AUTH_TOKEN;
+  delete process.env.TWILIO_WHATSAPP_FROM;
+  delete process.env.TWILIO_WHATSAPP_TO;
+  console.warn = (...args) => warns.push(args.join(' '));
+  console.log = (...args) => logs.push(args.join(' '));
+  global.fetch = async (url, options = {}) => {
+    fetches.push({ url, method: options.method, body: options.body });
+    if (String(url).includes('agentos.example.test')) {
+      return { ok: false, status: 503, text: async () => 'private agentos body' };
+    }
+    return { ok: true, status: 200, text: async () => 'private webhook response' };
+  };
+
+  try {
+    const response = await handler(leadEvent());
+    assert.equal(response.statusCode, 200);
+    assert.equal(JSON.parse(response.body).ok, true);
+
+    const agentosCalls = fetches.filter((call) => String(call.url).includes('agentos.example.test'));
+    const sheetCalls = fetches.filter((call) => String(call.url).includes('webhook.example.test'));
+    assert.equal(agentosCalls.length, 1);
+    assert.equal(sheetCalls.length, 1);
+    assert.equal(agentosCalls[0].method, 'POST');
+    const agentosBody = JSON.parse(agentosCalls[0].body);
+    assert.equal(agentosBody.full_name, 'Private Person');
+    assert.equal(agentosBody.mobile_number, '91234567');
+    assert.equal(agentosBody.source_site, 'joetay.com');
+
+    assert.equal(
+      warns.some((line) => line.includes('AgentOS intake failed (non-blocking)')),
+      true,
+    );
+
+    const outcomes = logs
+      .filter((line) => line.startsWith('ENQUIRY_OUTCOME '))
+      .map(parseOutcome);
+    assert.equal(outcomes.length, 1);
+    assert.equal(outcomes[0].outcome, 'accepted');
+    assert.equal(outcomes[0].webhook, 'succeeded');
+    assert.equal(outcomes[0].agentos, 'failed');
+    assert.doesNotMatch(
+      JSON.stringify(outcomes),
+      /Private Person|91234567|private@example\.com|placeholder|private agentos body|private webhook response/,
+    );
+  } finally {
+    global.fetch = originalFetch;
+    console.warn = originalWarn;
+    console.log = originalLog;
+    for (const [key, value] of Object.entries(originalEnv)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+test('newsletter_signup does not POST AgentOS', async () => {
+  const originalFetch = global.fetch;
+  const originalWarn = console.warn;
+  const originalLog = console.log;
+  const originalEnv = {
+    LEAD_WEBHOOK_URL: process.env.LEAD_WEBHOOK_URL,
+    AGENTOS_LEAD_URL: process.env.AGENTOS_LEAD_URL,
+    RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
+    TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
+    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
+    TWILIO_WHATSAPP_FROM: process.env.TWILIO_WHATSAPP_FROM,
+    TWILIO_WHATSAPP_TO: process.env.TWILIO_WHATSAPP_TO,
+  };
+  const fetches = [];
+
+  process.env.LEAD_WEBHOOK_URL = 'https://webhook.example.test/lead';
+  process.env.AGENTOS_LEAD_URL = 'https://agentos.example.test/lead?token=placeholder';
+  delete process.env.RECAPTCHA_SECRET;
+  delete process.env.TWILIO_ACCOUNT_SID;
+  delete process.env.TWILIO_AUTH_TOKEN;
+  delete process.env.TWILIO_WHATSAPP_FROM;
+  delete process.env.TWILIO_WHATSAPP_TO;
+  console.warn = () => {};
+  console.log = () => {};
+  global.fetch = async (url, options = {}) => {
+    fetches.push({ url, method: options.method });
+    return { ok: true, status: 200, text: async () => 'ok' };
+  };
+
+  try {
+    const response = await handler({
+      httpMethod: 'POST',
+      headers: {
+        'user-agent': 'test-agent',
+        'x-nf-client-connection-ip': '203.0.113.41',
+      },
+      body: JSON.stringify({
+        email_address: 'nurture@example.com',
+        lead_type: 'newsletter_signup',
+        time_on_form_ms: 10000,
+      }),
+    });
+    assert.equal(response.statusCode, 200);
+    assert.equal(fetches.some((call) => String(call.url).includes('agentos.example.test')), false);
+    assert.equal(fetches.some((call) => String(call.url).includes('webhook.example.test')), true);
   } finally {
     global.fetch = originalFetch;
     console.warn = originalWarn;
