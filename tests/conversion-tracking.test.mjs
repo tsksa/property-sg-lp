@@ -299,6 +299,7 @@ test('high-intent form failures use the shared non-blocking recovery UI', () => 
   const directPaths = [
     'valuation.html',
     'sell/index.html',
+    'sell-hdb/singapore/index.html',
     'rent-out/index.html',
     'new-launches/new-launches.js',
     'new-launches/project-page-form.js',

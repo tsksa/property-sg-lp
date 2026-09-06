@@ -58,7 +58,7 @@ test('new-launches.js registration modal never lets a submit through before the 
 });
 
 test('high-intent landing forms validate before queuing a fast valid submission', () => {
-  for(const file of ['sell/index.html', 'rent-out/index.html']){
+  for(const file of ['sell/index.html', 'sell-hdb/singapore/index.html', 'rent-out/index.html']){
     const client = read(file);
     const validation = client.indexOf('jtValidateLeadForm(form');
     const wait = client.indexOf('jtWaitForSpamFloor(form,_pageLoadedAt,3000');

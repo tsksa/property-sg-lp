@@ -14,7 +14,7 @@ function serverFloor() {
   return Number(match[1]);
 }
 
-for (const page of ['sell/index.html', 'rent-out/index.html']) {
+for (const page of ['sell/index.html', 'sell-hdb/singapore/index.html', 'rent-out/index.html']) {
   test(`${page} never submits before submit-lead.js's time-on-form floor`, () => {
     const html = read(page);
     const match = html.match(/jtWaitForSpamFloor\(form,\s*_pageLoadedAt,\s*(\d+)/);
