@@ -13,6 +13,8 @@
 //      >= 0.7 → forward normally
 //   6. Forward to LEAD_WEBHOOK_URL (Google Apps Script → Sheets + email)
 //   7. Send Twilio WhatsApp via category-specific Meta template (with plain-text fallback)
+//   8. Fire-and-forget POST AGENTOS_LEAD_URL (AgentOS /lead) — soft-fail, never
+//      affects Sheet/Twilio or the visitor response. Skips newsletter_signup.
 //
 // Spam-rejected submissions are logged to LEAD_SPAM_WEBHOOK_URL (separate Sheet)
 // if set; otherwise to LEAD_WEBHOOK_URL with is_spam:true, otherwise to console.
@@ -109,6 +111,9 @@ function buildEnquiryOutcome(outcome, details = {}) {
   }
   if (Object.hasOwn(details, 'twilioResult')) {
     event.twilio = deliveryState(details.twilioResult);
+  }
+  if (Object.hasOwn(details, 'agentosResult')) {
+    event.agentos = deliveryState(details.agentosResult);
   }
 
   return event;
@@ -529,8 +534,9 @@ exports.handler = async (event) => {
   const webhookResult = process.env.LEAD_WEBHOOK_URL ? results[0] : null;
   const twilioResult = process.env.LEAD_WEBHOOK_URL ? results[1] : results[0];
 
+  let agentosResult = null;
   if (agentosTask) {
-    const agentosResult = await agentosTask;
+    agentosResult = await agentosTask;
     if (!agentosResult.ok) {
       console.warn('AgentOS intake failed (non-blocking):', JSON.stringify(agentosResult));
     }
@@ -556,6 +562,7 @@ exports.handler = async (event) => {
       reviewRequired,
       webhookResult,
       twilioResult,
+      agentosResult,
     });
     return {
       statusCode: 502,
@@ -571,6 +578,7 @@ exports.handler = async (event) => {
     reviewRequired,
     webhookResult,
     twilioResult,
+    agentosResult,
   });
   return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
