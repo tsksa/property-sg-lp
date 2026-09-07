@@ -85,6 +85,6 @@
     "test:self-hosted-fonts": "node --test tests/self-hosted-fonts.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.0.2"
+    "@netlify/blobs": "^11.0.3"
   }
 }
