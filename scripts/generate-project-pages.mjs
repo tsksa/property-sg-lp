@@ -432,6 +432,43 @@ function availabilitySection(project) {
 </section>`;
 }
 
+// "chuan grove launch date" is the second-largest query on this page (23
+// impressions, position 24 in the 7 Sep 2026 audit) and the page answered it
+// with a single sentence. This renders a dated timeline from projects.json so
+// the answer survives every refresh and never carries a date the data lacks.
+function formatTimelineDate(value) {
+  if (!value) return 'Not announced';
+  const quarter = value.match(/^(\d{4})-Q([1-4])$/);
+  if (quarter) return `Q${quarter[2]} ${quarter[1]}`;
+  return formatDate(value);
+}
+
+function launchTimelineSection(project) {
+  const timeline = project.launchTimeline;
+  if (!timeline?.steps?.length) return '';
+  const sourceLinks = (timeline.sourceIds || [])
+    .map((id) => sourcesById.get(id))
+    .filter(Boolean)
+    .map((source) => `<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.name)}</a>`)
+    .join(' · ');
+  const steps = timeline.steps.map((step) => {
+    const when = step.date
+      ? `<time datetime="${esc(step.date)}">${esc(formatTimelineDate(step.date))}</time>`
+      : `<span class="project-timeline-tbc">${esc(formatTimelineDate(step.date))}</span>`;
+    return `      <li class="project-timeline-step is-${esc(step.status)}">${when}<div><h3>${esc(step.label)}</h3><p>${esc(step.detail)}</p></div></li>`;
+  }).join('\n');
+  return `\n<section class="project-availability project-timeline reveal" aria-labelledby="timeline-${esc(project.slug)}">
+  <div class="project-availability-inner">
+    <div class="project-eyebrow">Launch date and timeline · checked ${esc(formatDate(timeline.asOf))}</div>
+    <h2 id="timeline-${esc(project.slug)}">${esc(project.name)} launch date: what is confirmed, what is not.</h2>
+    <ol class="project-timeline-list">
+${steps}
+    </ol>
+    <p class="project-availability-note"><strong>Confirmed</strong> steps come from the developer's SGX filings. <strong>Expected</strong> means the developer has stated a plan, not a date. Nothing here is estimated by this site.${sourceLinks ? ` <strong>Sources checked:</strong> ${sourceLinks}` : ''}</p>
+  </div>
+</section>`;
+}
+
 function layoutStatusSection(project) {
   if (project.layoutStatus?.topic !== 'dual-key' || project.layoutStatus.state !== 'not-confirmed') return '';
   const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
@@ -585,7 +622,7 @@ function renderNewPage(project) {
 <section class="project-hero" id="main" tabindex="-1" aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>
 ${verificationStrip(project)}
 ${factsheetSection(project)}
-${availabilitySection(project)}
+${availabilitySection(project)}${launchTimelineSection(project)}
 ${layoutStatusSection(project)}
 ${searchIntentSection(project)}
 ${takeSection(project)}

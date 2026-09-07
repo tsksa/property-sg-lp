@@ -93,7 +93,14 @@ test('Chuan Grove answers balance-unit intent without inventing pre-launch inven
   assert.equal(project.availabilityStatus.state, 'pre-launch');
   assert.ok(project.seoTitle.length <= 60);
   assert.ok(project.seoDescription.length <= 155);
-  assert.match(html, /<title>Chuan Grove Balance Units &amp; Launch Status \| PropertySG<\/title>/);
+  assert.match(html, /<title>Chuan Grove Balance Units &amp; Launch Date \| PropertySG<\/title>/);
+  // Dated launch timeline, every date sourced from SGX filings in projects.json.
+  assert.match(html, /Chuan Grove launch date: what is confirmed, what is not\./);
+  assert.match(html, /<time datetime="2025-07-17">17 Jul 2025<\/time>/);
+  assert.match(html, /<time datetime="2025-09-10">10 Sept 2025<\/time>/);
+  assert.match(html, /<time datetime="2027-Q1">Q1 2027<\/time>/);
+  assert.match(html, /class="project-timeline-step is-pending"/);
+  assert.doesNotMatch(html, /is-expected"><time datetime="20\d\d-\d\d-\d\d"/, 'an expected step must not carry an exact date');
   assert.match(html, /Chuan Grove balance units and availability/);
   assert.match(html, /No official balance-unit count has been published/);
   assert.match(html, /plans to launch by Q1 2027/);
