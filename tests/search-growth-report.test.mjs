@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
 import {
   aggregateGa4Window,
   buildReport,
+  readIndexablePages,
+  summarizeCoverage,
   buildGa4ContactRequest,
   buildGa4LeadRequest,
   buildGa4SessionRequest,
@@ -1466,4 +1468,42 @@ test('workflow preserves the schedule, credentials, summary, and artifact contra
   assert.match(readme, /GA4_PROPERTY_ID/);
   assert.match(readme, /hostName.*joetay\.com/);
   assert.match(readme, /Run workflow/);
+});
+
+test('coverage counts indexable pages with impressions and lists the silent ones', () => {
+  const sitemap = `<?xml version="1.0"?><urlset>
+    <url><loc>https://joetay.com/</loc></url>
+    <url><loc>https://joetay.com/calculator/</loc></url>
+    <url><loc>https://joetay.com/hdb-prices/tampines/</loc></url>
+    <url><loc>https://joetay.com/insights/hdb-loan-vs-bank-loan-singapore.html</loc></url>
+  </urlset>`;
+  const indexablePages = readIndexablePages(sitemap);
+  assert.deepEqual(indexablePages, ['/', '/calculator', '/hdb-prices/tampines', '/insights/hdb-loan-vs-bank-loan-singapore.html']);
+
+  const row = (page, impressions) => ({ query: 'q', page, clicks: 0, impressions, ctr: 0, position: 40 });
+  const coverage = summarizeCoverage(
+    [row('https://joetay.com/calculator/', 81), row('https://joetay.com/calculator/?utm=x', 3), row('https://joetay.com/', 2), row('https://joetay.com/not-in-sitemap.html', 9), row('https://joetay.com/hdb-prices/tampines/', 0)],
+    [row('https://joetay.com/calculator/', 50), row('https://joetay.com/insights/hdb-loan-vs-bank-loan-singapore.html', 4)],
+    indexablePages,
+  );
+  assert.equal(coverage.indexablePages, 4);
+  assert.deepEqual(coverage.current, { pagesWithImpressions: 2, share: 0.5 });
+  assert.deepEqual(coverage.prior, { pagesWithImpressions: 2, share: 0.5 });
+  assert.deepEqual(coverage.newlyVisible, ['/']);
+  assert.deepEqual(coverage.droppedOut, ['/insights/hdb-loan-vs-bank-loan-singapore.html']);
+  assert.deepEqual(coverage.silent, ['/hdb-prices/tampines', '/insights/hdb-loan-vs-bank-loan-singapore.html']);
+  assert.equal(summarizeCoverage([], [], null), null, 'no sitemap means no coverage block, not a zero');
+
+  const report = buildReport({
+    siteUrl: 'https://joetay.com/', ga4PropertyId: '123456789',
+    windows: { current: { startDate: '2026-06-27', endDate: '2026-07-24' }, prior: { startDate: '2026-05-30', endDate: '2026-06-26' } },
+    generatedAt: '2026-07-27T02:15:00.000Z',
+    currentRows: [row('https://joetay.com/calculator/', 81)], priorRows: [],
+    currentSingaporeTotalRows: [], priorSingaporeTotalRows: [], currentGlobalTotalRows: [], priorGlobalTotalRows: [],
+    indexablePages,
+  });
+  const markdown = renderMarkdown(report);
+  assert.match(markdown, /## Coverage: indexable pages earning impressions/);
+  assert.match(markdown, /\| Current \| 1 \| 4 \| 25\.0% \|/);
+  assert.match(markdown, /### Silent this window \(3 of 4\)/);
 });
