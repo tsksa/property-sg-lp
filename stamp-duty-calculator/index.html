@@ -12,14 +12,12 @@
 <link rel="canonical" href="https://joetay.com/stamp-duty-calculator/">
 <link rel="alternate" hreflang="en-SG" href="https://joetay.com/stamp-duty-calculator/">
 <link rel="alternate" hreflang="x-default" href="https://joetay.com/stamp-duty-calculator/">
-
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
 <meta property="og:title" content="Singapore Stamp Duty Calculator — BSD + ABSD | Joe Tay">
 <meta property="og:description" content="Calculate your Buyer's Stamp Duty and ABSD in seconds — for Citizens, PRs, foreigners and entities. Free tool, current IRAS rates.">
 <meta property="og:url" content="https://joetay.com/stamp-duty-calculator/">
 <meta property="og:locale" content="en_SG">
-
 <meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
@@ -30,13 +28,9 @@
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/site.webmanifest">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
-
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -130,7 +124,6 @@
 }
 </script>
 <script src="/assets/analytics-loader.js" defer data-meta="false"></script>
-
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -242,7 +235,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="calc-topbar">
   <div class="calc-topbar-inner">
     <a href="/" class="calc-logo">PropertySG</a>
@@ -255,7 +247,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </nav>
   </div>
 </header>
-
 <section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">
     <div class="eyebrow">Stamp Duty Calculator</div>
@@ -263,18 +254,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <p>Enter the purchase price and your buyer profile. See your Buyer's Stamp Duty (BSD) and Additional Buyer's Stamp Duty (ABSD) instantly — current IRAS rates, for HDB or private property.</p>
   </div>
 </section>
-
 <main id="main" tabindex="-1" class="calc-main">
-
   <div class="calc-form">
     <h2>Your purchase</h2>
     <p class="sub">All calculations happen locally in your browser — nothing is sent or stored.</p>
-
     <div class="calc-field">
       <label for="price">Purchase price <span class="hint">or market valuation, whichever higher</span></label>
       <input type="number" id="price" min="0" step="10000" inputmode="numeric" value="1000000" placeholder="e.g. 1000000">
     </div>
-
     <div class="calc-field">
       <label for="profile">Buyer profile</label>
       <select id="profile">
@@ -284,7 +271,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <option value="EN">Company / Trustee (entity)</option>
       </select>
     </div>
-
     <div class="calc-field">
       <label id="countLabel">Which property is this for you? <span class="hint">counts all residential property you own</span></label>
       <div class="calc-count" id="countGroup" role="radiogroup" aria-labelledby="countLabel">
@@ -297,28 +283,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
     </div>
   </div>
-
   <aside class="calc-results" aria-live="polite">
     <div class="calc-results-head">Stamp duty payable</div>
-
     <div class="calc-result">
       <div class="calc-result-label">Total stamp duty</div>
       <div class="calc-result-value big" id="totalDuty">$—</div>
       <div class="calc-result-detail" id="totalDutyDetail">Enter a purchase price</div>
     </div>
-
     <div class="calc-result">
       <div class="calc-result-label">Buyer's Stamp Duty (BSD)</div>
       <div class="calc-result-value" id="bsdValue">$—</div>
       <div class="calc-result-detail" id="bsdDetail"></div>
     </div>
-
     <div class="calc-result">
       <div class="calc-result-label">Additional Buyer's Stamp Duty (ABSD)</div>
       <div class="calc-result-value" id="absdValue">$—</div>
       <div class="calc-result-detail" id="absdDetail"></div>
     </div>
-
     <div class="calc-cta">
       <p>Buying, upgrading, or not sure whether ABSD applies to your situation? I'll walk through your numbers with you — free, no obligation.</p>
       <a href="/#book">Book a free 30-min call →</a>
@@ -335,13 +316,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <button type="button" id="copyResult" class="calc-copy" aria-describedby="copyResultStatus" hidden>Copy result</button>
     <p id="copyResultStatus" class="calc-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
   </aside>
-
 </main>
-
 <div class="calc-disclaimer">
   <p><strong>Estimates only. BSD and ABSD are each rounded down to the nearest dollar, subject to IRAS's $1 minimum duty.</strong> BSD uses IRAS's tiered residential schedule (1%–6%, in effect since 15 Feb 2023). ABSD uses IRAS's rate table by buyer profile and property count (in effect since 27 Apr 2023, unchanged as of 2026). This tool does not account for remissions — including spousal transfers, the ABSD refund on selling your existing HDB within 6 months of a new purchase, or the Free Trade Agreement treatment that lets US, Iceland, Liechtenstein, Norway and Switzerland nationals pay Citizen-rate ABSD — nor Seller's Stamp Duty or Additional Conveyance Duties for entities. Verify your final figure at <a href="https://www.iras.gov.sg/quick-links/tax-rates/stamp-duty" target="_blank" rel="noopener">iras.gov.sg</a> or with me before making an offer. Budgeting the purchase itself? Use the <a href="/bto-calculator/">BTO calculator</a> or <a href="/renovation-loan-calculator/">renovation loan calculator</a> next.</p>
 </div>
-
 <div class="calc-faq">
   <h2>Common questions</h2>
   <details>
@@ -361,7 +339,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <p>No. BSD uses the same tiered rate table — 1% to 6% depending on price — for both HDB resale flats and private residential property. ABSD, where it applies, is calculated on top of BSD.</p>
   </details>
 </div>
-
 <div class="calc-faq calc-plan" aria-labelledby="plan-financing-title">
   <h2 id="plan-financing-title">Plan the financing</h2>
   <ul class="calc-links">
@@ -371,7 +348,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <li><a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan</a><span>The 5% cash rule on bank loans changes the total.</span></li>
   </ul>
 </div>
-
 <footer class="calc-footer">
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -438,7 +414,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <p>&copy; 2026 PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K</p>
   <p class="creds">CEA Reg. No. R009618D · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="mailto:joe@joetay.com">joe@joetay.com</a></p>
 </footer>
-
 <script type="module">
 import { attachResultCopy } from '/assets/calculator-result-copy.mjs';
 // ─────────────────────────────────────────────────────────
@@ -577,7 +552,6 @@ attachResultCopy({
   calculator: 'stamp-duty',
 });
 </script>
-
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
 </button>

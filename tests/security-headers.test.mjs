@@ -36,8 +36,7 @@ test('the site-wide header block ships a report-only CSP', () => {
     ['script-src', 'https://www.googletagmanager.com'], // GA4
     ['script-src', 'https://connect.facebook.net'], // Meta Pixel
     ['script-src', 'https://assets.calendly.com'], // Calendly inline widget
-    ['style-src', 'https://fonts.googleapis.com'],
-    ['font-src', 'https://fonts.gstatic.com'],
+    ['font-src', "'self'"], // self-hosted DM Sans + Fraunces (scripts/lib/self-hosted-fonts.mjs)
     ['connect-src', 'https://data.gov.sg'], // /neighbour-prices/, /hdb-prices/ live queries
     ['connect-src', 'https://www.onemap.gov.sg'], // postal code lookup
     ['frame-src', 'https://my.matterport.com'], // virtual tours

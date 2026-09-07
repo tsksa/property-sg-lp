@@ -6,6 +6,7 @@ import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = path.join(ROOT, 'new-launches', 'projects.json');
@@ -325,12 +326,8 @@ function headHtml({ title, description, canonical, itemList, soldOut }) {
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json">${jsonForHtml(itemList)}</script>
 <script type="application/ld+json">${jsonForHtml(breadcrumbJson(soldOut))}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinksHtml()}
 <link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"></noscript>
 <link rel="stylesheet" href="new-launches.css">
 <!-- reCAPTCHA v3 helper — the registration modal in new-launches.js POSTs to
      submit-lead. Without this every lead arrives with no token, is flagged
