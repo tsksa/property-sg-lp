@@ -532,3 +532,5 @@ body.nl-modal-open{overflow:hidden}
 /* Screen-reader-only utility for live-region announcements
    (e.g. #nlFilterStatus updates as filter changes). */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Below 16px iOS zooms the viewport on focus, shifting the enquiry form mid-entry. */
+@media(max-width:768px){.pf input,.pf select{font-size:16px}}
