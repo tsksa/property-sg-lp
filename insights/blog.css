@@ -33,6 +33,15 @@ a:hover{text-decoration:underline}
 .blog-guide-steps span{display:block;font-size:.88rem}
 .blog-guide-tools{margin:18px 0 0;font-size:.92rem;color:var(--navy)}
 .blog-guide-tools a{color:#047857;font-weight:600;text-decoration:underline;text-underline-offset:.15em}
+/* Condo district cluster on the hub: three region columns of district links. */
+.blog-districts-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 28px}
+.blog-districts-col h3{margin:0 0 10px;font-size:.92rem;color:var(--navy);line-height:1.3}
+.blog-districts-col h3 span{display:block;font-size:.76rem;font-weight:500;color:#5b6472;letter-spacing:.02em}
+.blog-districts-col ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.blog-districts-col li{font-size:.9rem;line-height:1.4;color:#3c4656}
+.blog-districts-col li a{color:var(--navy);font-weight:700;text-decoration:underline;text-underline-offset:.15em}
+.blog-districts-col li span{display:block;font-size:.82rem}
+@media(max-width:680px){.blog-districts-cols{grid-template-columns:1fr;gap:20px}}
 @media(max-width:680px){.blog-guide{padding:20px 18px}.blog-guide-steps{grid-template-columns:1fr}}
 
 

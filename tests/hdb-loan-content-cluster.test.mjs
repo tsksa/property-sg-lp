@@ -78,3 +78,18 @@ test('every calculator and the hub link into the financing cluster from outside 
     assert.ok(guide.includes(`href="${slug}.html"`), `reading path missing ${slug}`);
   }
 });
+
+// Condo district pages went live 1 Sep 2026 with a single inbound path (the
+// /condo-prices/ hub). This mirrors the financing reading path: every live
+// district page is linked from the insights hub, grouped by region.
+test('the insights hub links every live condo district page', () => {
+  const hub = read('insights/index.html');
+  const section = hub.match(/<section class="blog-guide blog-districts" id="condo-districts"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'hub missing the #condo-districts cluster');
+  const live = fs.readdirSync(path.join(ROOT, 'condo-prices')).filter((name) => /^d\d\d$/.test(name));
+  assert.ok(live.length >= 20, `only ${live.length} district pages found`);
+  for (const dir of live) assert.ok(section.includes(`href="/condo-prices/${dir}/"`), `hub cluster missing ${dir}`);
+  const linked = [...section.matchAll(/href="\/condo-prices\/(d\d\d)\/"/g)].map((m) => m[1]);
+  assert.deepEqual([...new Set(linked)].sort(), live.sort(), 'hub links a district that has no page');
+  assert.match(section, /href="\/condo-prices\/"/);
+});
