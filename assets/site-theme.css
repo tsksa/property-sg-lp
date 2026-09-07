@@ -27,7 +27,9 @@ body:has(.cookie-banner.show) .jt-theme-toggle{opacity:1;visibility:visible;poin
 /* Internal pages use the same light header language instead of looking permanently dark. */
 html:not(.jt-theme-dark) :is(.calc-topbar,.topbar,.blog-topbar,.nl-topbar,.nl-topbar.scrolled,.site-head){background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom-color:rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.1)}
 html:not(.jt-theme-dark) :is(.calc-logo,.topbar .logo,.blog-logo,.nl-logo,.site-head .brand){color:#0b1e3f}
-html:not(.jt-theme-dark) :is(.calc-topbar,.topbar,.blog-topbar,.nl-topbar,.site-head) .jt-mh-logo-brand{color:rgba(11,30,63,.58)}
+/* .58 navy on the cream header measured 4.08:1 at 8.96px bold — under WCAG AA and the
+   reason the Lighthouse gate stayed red on every light-header template. .82 → ~7.5:1. */
+html:not(.jt-theme-dark) :is(.calc-topbar,.topbar,.blog-topbar,.nl-topbar,.site-head) .jt-mh-logo-brand{color:rgba(11,30,63,.82)}
 html:not(.jt-theme-dark) :is(.calc-topbar,.topbar,.blog-topbar,.nl-topbar,.site-head) .jt-mh-toggle{color:#0b1e3f}
 html:not(.jt-theme-dark) :is(.calc-nav,.jt-hn,.blog-nav,.nl-nav,.site-head .nav-links)>a:not([class*="cta"]){color:#243653}
 html:not(.jt-theme-dark) :is(.calc-nav,.jt-hn,.blog-nav,.nl-nav,.site-head .nav-links)>a:not([class*="cta"]):hover{color:#047857}
