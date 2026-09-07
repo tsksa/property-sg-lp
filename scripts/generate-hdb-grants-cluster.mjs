@@ -9,6 +9,7 @@ import { siteFooterHtml } from './lib/site-footer.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import { policySources } from './content/hdb-policy-august-2026.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
+import { injectToc } from './lib/article-toc.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -345,7 +346,7 @@ ${consentBannerHtml()}
 let changed = 0;
 for (const article of ARTICLES) {
   const file = path.join(OUT_DIR, `${article.slug}.html`);
-  const output = page(article);
+  const output = injectToc(page(article));
   const current = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
   if (current === output) continue;
   if (checkOnly) {

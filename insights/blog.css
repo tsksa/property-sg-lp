@@ -73,6 +73,16 @@ a:hover{text-decoration:underline}
 .article-byline strong{color:var(--navy);font-weight:600}
 
 /* ── Article body ── */
+/* "On this page" section map (scripts/lib/article-toc.mjs). Numbered because
+   guides are written to be read in order; two columns so 9–14 entries stay
+   under a screen on desktop. */
+.article-toc{margin:0 0 32px;padding:18px 22px 16px;background:var(--cream);border:1px solid rgba(11,30,63,.08);border-radius:12px}
+.article-toc-title{margin:0 0 10px;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy)}
+.article-toc ol{margin:0;padding:0 0 0 1.3em;columns:2;column-gap:32px;font-size:.92rem;line-height:1.45}
+.article-toc li{break-inside:avoid;margin:0 0 7px;padding-left:.15em}
+.article-toc a{color:var(--navy);text-decoration:underline;text-underline-offset:.15em}
+.article-toc a:hover{color:#047857}
+@media(max-width:680px){.article-toc{padding:16px 18px 12px}.article-toc ol{columns:1}}
 .article-body{font-size:1.02rem;line-height:1.72;color:#2a2a2a}
 .article-body h2{font-family:'Fraunces',Georgia,serif;font-size:1.55rem;font-weight:600;color:var(--navy);letter-spacing:-0.3px;margin:48px 0 16px;line-height:1.2}
 .article-body h3{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--navy);margin:36px 0 12px;letter-spacing:-0.2px}

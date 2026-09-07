@@ -52,9 +52,9 @@ test('hub, calculator, sitemap and feeds discover the whole cluster', () => {
 // outside-in links and the sections that answer those three queries.
 test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks for', () => {
   const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
-  assert.match(html, /<h2>HDB bank loan interest rate: how bank packages are priced<\/h2>/);
-  assert.match(html, /<h2>HDB mortgage loan: which loans an HDB flat can take<\/h2>/);
-  assert.match(html, /<h2>Bank loan for an HDB flat: what the bank will ask for<\/h2>/);
+  assert.match(html, /<h2[^>]*>HDB bank loan interest rate: how bank packages are priced<\/h2>/);
+  assert.match(html, /<h2[^>]*>HDB mortgage loan: which loans an HDB flat can take<\/h2>/);
+  assert.match(html, /<h2[^>]*>Bank loan for an HDB flat: what the bank will ask for<\/h2>/);
   assert.match(html, /<h3>Does the 30% MSR apply to a bank loan for an HDB flat\?<\/h3>/);
   assert.match(html, /<h3>What is the bank loan interest rate for an HDB flat\?<\/h3>/);
   assert.doesNotMatch(html, /\d\.\d{1,2}% (?:fixed|floating|bank package)/i, 'bank rates must never be quoted');
