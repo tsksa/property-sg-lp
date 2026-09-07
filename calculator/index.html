@@ -146,7 +146,7 @@
       "name": "Can I use this HDB calculator for a BTO or resale flat?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement."
+        "text": "This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement. For a new-flat budget that includes grants, use the HDB BTO calculator instead."
       }
     },
     {
@@ -154,7 +154,23 @@
       "name": "Is this an HDB renovation loan calculator?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result."
+        "text": "No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result. To estimate a renovation instalment, use the renovation loan calculator on this site."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is eligible for an HDB housing loan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At least one applicant must be a Singapore Citizen, with no more than one previous HDB housing loan, no disqualifying private-property interest, and average gross monthly household income within the ceiling: $16,000 for families, $24,000 for extended families or $8,000 for eligible singles, for HFE applications from 24 August 2026. HDB confirms eligibility through your HFE letter, not through this calculator. Full HDB loan eligibility guide"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is an HDB loan at 2.6% cheaper than a bank loan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not always. The HDB concessionary rate of 2.6% moves with the CPF Ordinary Account rate and is reviewed quarterly, while bank packages price off market rates and are assessed at a 4% stress rate under the 55% TDSR limit. Compare total interest over your tenure and the cash and CPF you must put down before choosing. Read the HDB loan vs bank loan comparison for the current trade-offs and switching rules."
       }
     }
   ]
@@ -191,6 +207,8 @@ a:hover{text-decoration:underline}
 .calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 .calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:14px;color:var(--navy)}
 .calc-hero p{font-size:1rem;color:#555;line-height:1.55;max-width:560px;margin:0 auto}
+.calc-tools{margin-top:14px!important;font-size:.92rem}
+.calc-tools a{color:#047857;font-weight:600}
 
 /* Main wrapper */
 .calc-main{max-width:1000px;margin:0 auto;padding:48px 24px 72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:36px}
@@ -313,6 +331,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="eyebrow">HDB Loan Calculator Singapore</div>
     <h1 id="page-hero-title">HDB loan calculator: estimate your monthly repayment</h1>
     <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount. Buying at a launch? Try the <a href="/bto-calculator/">BTO calculator</a> — and budget the works with the <a href="/renovation-loan-calculator/">renovation loan calculator</a>.</p>
+    <p class="calc-tools">Looking for a different estimate? <a href="/bto-calculator/">HDB BTO calculator</a> · <a href="/renovation-loan-calculator/">Renovation loan calculator</a> · <a href="/stamp-duty-calculator/">Stamp duty calculator</a></p>
   </div>
 </section>
 
@@ -597,11 +616,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </details>
       <details>
         <summary>Can I use this HDB calculator for a BTO or resale flat?</summary>
-        <p>Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement.</p>
+        <p>Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement. For a new-flat budget that includes grants, use the <a href="/bto-calculator/">HDB BTO calculator</a> instead.</p>
       </details>
       <details>
         <summary>Is this an HDB renovation loan calculator?</summary>
-        <p>No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result.</p>
+        <p>No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result. To estimate a renovation instalment, use the <a href="/renovation-loan-calculator/">renovation loan calculator</a> on this site.</p>
+      </details>
+      <details>
+        <summary>Who is eligible for an HDB housing loan?</summary>
+        <p>At least one applicant must be a Singapore Citizen, with no more than one previous HDB housing loan, no disqualifying private-property interest, and average gross monthly household income within the ceiling: $16,000 for families, $24,000 for extended families or $8,000 for eligible singles, for HFE applications from 24 August 2026. HDB confirms eligibility through your HFE letter, not through this calculator. <a href="/insights/hdb-loan-eligibility-singapore.html">Full HDB loan eligibility guide</a></p>
+      </details>
+      <details>
+        <summary>Is an HDB loan at 2.6% cheaper than a bank loan?</summary>
+        <p>Not always. The HDB concessionary rate of 2.6% moves with the CPF Ordinary Account rate and is reviewed quarterly, while bank packages price off market rates and are assessed at a 4% stress rate under the 55% TDSR limit. Compare total interest over your tenure and the cash and CPF you must put down before choosing. Read the <a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan comparison</a> for the current trade-offs and switching rules.</p>
       </details>
     </div>
     <div class="calc-faq" aria-labelledby="hdb-loan-reading-title">

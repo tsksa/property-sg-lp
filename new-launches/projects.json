@@ -552,7 +552,46 @@
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/chuan-grove.html",
       "verifiedAt": "2026-08-25",
-      "seoTitle": "Chuan Grove Balance Units & Launch Status | PropertySG",
+      "seoTitle": "Chuan Grove Balance Units & Launch Date | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-08-25",
+        "sourceIds": [
+          "sing-holdings-chuan-grove-award",
+          "sing-holdings-chuan-grove-launch-2027"
+        ],
+        "steps": [
+          {
+            "date": "2025-07-17",
+            "status": "confirmed",
+            "label": "First land parcel awarded",
+            "detail": "The Urban Redevelopment Authority awarded the first Chuan Grove parcel to the Sing Holdings and Sunway Developments joint venture."
+          },
+          {
+            "date": "2025-09-10",
+            "status": "confirmed",
+            "label": "Second land parcel awarded",
+            "detail": "URA awarded the adjoining parcel to the same joint venture. Chuan Grove Pte. Ltd. is the approved developer for both, and the two parcels cost S$1,327,510,000 in total, about S$1,355 per square foot of gross floor area."
+          },
+          {
+            "date": "2026-08-25",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No preview date, booking date, price list or balance-unit count has been published by the developer."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch for sale",
+            "detail": "Sing Holdings told shareholders it plans to launch Chuan Grove for sale by the first quarter of 2027. An exact launch date has not been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. This timeline is updated when the developer publishes them, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      },
       "seoDescription": "Chuan Grove has no balance-unit count before launch, now expected by Q1 2027. Check the verified developer, 1,055-unit plan and availability updates.",
       "availabilityStatus": {
         "state": "pre-launch",

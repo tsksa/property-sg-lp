@@ -277,6 +277,20 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-availability article{background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:14px;padding:24px;box-shadow:0 14px 38px -30px rgba(11,30,63,0.45)}
 .project-availability h3{color:var(--navy);font-size:1rem;line-height:1.4;margin:0 0 10px}
 .project-availability p{color:#3c4656;font-size:0.92rem;line-height:1.65;margin:0}
+/* Launch timeline (project pages with launchTimeline data). Dates sit on a rail;
+   confirmed steps are filled, expected/pending steps are hollow. */
+.project-timeline-list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.project-timeline-step{display:grid;grid-template-columns:112px 1fr;gap:18px;position:relative;padding:0 0 26px 0}
+.project-timeline-step time,.project-timeline-tbc{font-weight:700;color:var(--navy);font-size:.92rem;line-height:1.5;padding-top:2px}
+.project-timeline-tbc{color:#4b5563}
+.project-timeline-step div{position:relative;padding-left:26px;border-left:2px solid rgba(11,30,63,.14)}
+.project-timeline-step:last-child div{border-left-color:transparent}
+.project-timeline-step div::before{content:"";position:absolute;left:-8px;top:4px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--emerald-aa,#047857)}
+.project-timeline-step.is-confirmed div::before{background:var(--emerald-aa,#047857)}
+.project-timeline-step.is-pending div::before{border-color:#9aa3b2}
+.project-timeline-step h3{margin:0 0 6px;font-size:1rem;color:var(--navy);line-height:1.4}
+.project-timeline-step p{margin:0;color:#3c4656;font-size:.92rem;line-height:1.65}
+@media(max-width:600px){.project-timeline-step{grid-template-columns:1fr;gap:6px}.project-timeline-step div{margin-left:0}}
 .project-availability-note{margin-top:20px!important;padding:18px 20px;border-left:4px solid var(--emerald);background:rgba(16,185,129,0.07);border-radius:0 10px 10px 0;color:var(--navy)!important}
 .project-market-callout{display:flex;flex-direction:column;gap:4px;margin-top:22px;padding:16px 18px;border-radius:12px;background:rgba(16,185,129,.08);color:var(--navy)}
 .project-market-callout span{font-size:.78rem;color:var(--ink-soft)}

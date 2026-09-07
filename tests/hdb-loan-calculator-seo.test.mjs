@@ -38,7 +38,7 @@ test('visible HDB FAQs exactly mirror FAQ structured data', () => {
   const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
 
   assert.ok(faq, 'missing FAQPage structured data');
-  assert.equal(faq.mainEntity.length, 6);
+  assert.equal(faq.mainEntity.length, 8);
   for (const entry of faq.mainEntity) {
     assert.ok(visible.includes(entry.name), `FAQ question is not visible: ${entry.name}`);
     assert.ok(visible.includes(entry.acceptedAnswer.text), `FAQ answer is not visible: ${entry.name}`);
@@ -51,6 +51,13 @@ test('calculator addresses BTO and renovation queries without claiming unsupport
   assert.match(html, /does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement/);
   assert.match(html, /Is this an HDB renovation loan calculator\?/);
   assert.match(html, /No\. This page estimates home-purchase financing, not a renovation loan\./);
+  // The renovation and BTO queries that land here (71 and 47 impressions in the
+  // 7 Sep 2026 audit) get a one-click path to the tool that actually answers them.
+  assert.match(html, /<p class="calc-tools">[^]*?href="\/bto-calculator\/"[^]*?href="\/renovation-loan-calculator\/"/);
+  assert.match(html, /<a href="\/bto-calculator\/">HDB BTO calculator<\/a> instead\./);
+  assert.match(html, /<a href="\/renovation-loan-calculator\/">renovation loan calculator<\/a> on this site\./);
+  assert.match(html, /Who is eligible for an HDB housing loan\?/);
+  assert.match(html, /Is an HDB loan at 2\.6% cheaper than a bank loan\?/);
   assert.match(html, /href="\/insights\/property-agent-commission-singapore.html#buyer-agent-fees"/);
 });
 
