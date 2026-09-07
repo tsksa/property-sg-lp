@@ -31,7 +31,7 @@ const ARTICLES = [
   {
     slug: 'enhanced-cpf-housing-grant-singapore',
     modified: '2026-08-26',
-    title: 'Enhanced CPF Housing Grant Singapore (2026) | Joe Tay',
+    title: 'Enhanced CPF Housing Grant Singapore (2026) | PropertySG',
     headline: 'Enhanced CPF Housing Grant: amounts and eligibility in 2026',
     description: 'Check 2026 Enhanced CPF Housing Grant amounts, income and employment rules, lease requirements and how EHG works for HDB buyers.',
     category: 'Housing grants',
@@ -72,7 +72,7 @@ const ARTICLES = [
   {
     slug: 'hdb-resale-grants-singapore',
     modified: '2026-08-26',
-    title: 'HDB Resale Grants Singapore (2026): Amounts | Joe Tay',
+    title: 'HDB Resale Grants Singapore (2026): Amounts | PropertySG',
     headline: 'HDB resale grants in 2026: family, singles and proximity amounts',
     description: 'Compare current HDB resale grants for families and singles, including CPF Housing Grant, EHG and Proximity Housing Grant amounts.',
     category: 'Resale grants',
@@ -120,7 +120,7 @@ const ARTICLES = [
   },
   {
     slug: 'use-cpf-buy-hdb-flat-singapore',
-    title: 'Using CPF to Buy an HDB Flat (2026) | Joe Tay',
+    title: 'Using CPF to Buy an HDB Flat (2026) | PropertySG',
     headline: 'Using CPF to buy an HDB flat: downpayment, limits and refunds',
     description: 'Learn how CPF OA can fund an HDB downpayment, monthly instalments, stamp and legal fees, plus valuation and withdrawal limits.',
     category: 'CPF planning',
@@ -167,7 +167,7 @@ const ARTICLES = [
   },
   {
     slug: 'hdb-downpayment-cash-cpf-grants',
-    title: 'HDB Downpayment: Cash, CPF and Grants (2026) | Joe Tay',
+    title: 'HDB Downpayment: Cash, CPF and Grants (2026) | PropertySG',
     headline: 'HDB downpayment in 2026: how cash, CPF and grants fit together',
     description: 'Plan an HDB downpayment using cash, CPF OA and housing grants, including HDB versus bank loan requirements and resale cash costs.',
     category: 'Purchase budget',

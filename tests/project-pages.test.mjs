@@ -93,7 +93,7 @@ test('Chuan Grove answers balance-unit intent without inventing pre-launch inven
   assert.equal(project.availabilityStatus.state, 'pre-launch');
   assert.ok(project.seoTitle.length <= 60);
   assert.ok(project.seoDescription.length <= 155);
-  assert.match(html, /<title>Chuan Grove Balance Units &amp; Launch Status \| Joe Tay<\/title>/);
+  assert.match(html, /<title>Chuan Grove Balance Units &amp; Launch Status \| PropertySG<\/title>/);
   assert.match(html, /Chuan Grove balance units and availability/);
   assert.match(html, /No official balance-unit count has been published/);
   assert.match(html, /plans to launch by Q1 2027/);
@@ -111,7 +111,7 @@ test('Thomson Reserve answers dual-key intent without inventing a layout', () =>
   assert.equal(project.layoutStatus.state, 'not-confirmed');
   assert.ok(project.seoTitle.length <= 60);
   assert.ok(project.seoDescription.length <= 155);
-  assert.match(html, /<title>Thomson Reserve Dual Key Status &amp; Launch \| Joe Tay<\/title>/);
+  assert.match(html, /<title>Thomson Reserve Dual Key Status &amp; Launch \| PropertySG<\/title>/);
   assert.match(html, /Does Thomson Reserve have dual-key units\?/);
   assert.match(html, /No—not in an official source yet/);
   assert.match(html, /expected to preview in Q4 2026/);
@@ -132,7 +132,7 @@ test('Keppel Bay Plot 6 answers launch and project-status intent from current pr
   assert.equal(project.searchIntent.state, 'pre-launch');
   assert.ok(project.seoTitle.length <= 60);
   assert.ok(project.seoDescription.length <= 155);
-  assert.match(html, /<title>Keppel Bay Plot 6 Launch &amp; Project Status \| Joe Tay<\/title>/);
+  assert.match(html, /<title>Keppel Bay Plot 6 Launch &amp; Project Status \| PropertySG<\/title>/);
   assert.match(html, /Keppel Bay Plot 6 launch, units and project status/);
   assert.match(html, /latest annual-report property schedule proposes 84 units/);
   assert.match(html, /older PropNex launch pipeline lists 86/);

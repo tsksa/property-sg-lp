@@ -10,7 +10,7 @@ export const hdbPolicyArticle = {
   slug: 'hdb-income-ceiling-2026-ndr-changes',
   published: '2026-08-26',
   modified: '2026-08-26',
-  title: 'HDB Income Ceiling 2026: $16,000 HDB, $18,000 EC | Joe Tay',
+  title: 'HDB Income Ceiling 2026: $16k HDB, $18k EC | PropertySG',
   headline: 'HDB income ceiling 2026: $16,000 for families, $18,000 for qualifying ECs',
   description: 'Understand the 24 August 2026 HDB income-ceiling changes, singles and EC limits, existing HFE letters, November BTO timing and 2027 ballot chances.',
   category: 'Housing policy',

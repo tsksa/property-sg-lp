@@ -20,7 +20,7 @@ test('calculator targets HDB loan calculator search intent', () => {
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
   const description = html.match(/<meta name="description" content="([^"]+)">/)?.[1];
 
-  assert.equal(title, 'HDB Loan Calculator Singapore (2026) | Joe Tay');
+  assert.equal(title, 'HDB Loan Calculator Singapore (2026) | PropertySG');
   assert.ok(title.length <= 60, `title is ${title.length} characters`);
   assert.ok(description.length <= 155, `description is ${description.length} characters`);
   assert.match(description, /HDB loan calculator/i);

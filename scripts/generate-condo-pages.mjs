@@ -81,6 +81,13 @@ for (const [d, recs] of [...byDistrict.entries()].sort()) {
   else console.log(`  skip D${d} (only ${cur.n} tx in 12m)`);
 }
 
+// Google truncates titles at roughly 60 characters. Long area names (Upper Bukit
+// Timah, Upper Thomson) fall back to the D-number shorthand Singaporeans use.
+function fitTitle(preferred, short) {
+  const decoded = preferred.replace(/&amp;/g, '&');
+  return decoded.length <= 60 ? preferred : short;
+}
+
 function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema, waMessage }) {
   const canonical = `${SITE}${pagePath}`;
   const wa = encodeURIComponent(waMessage);
@@ -280,7 +287,7 @@ ${faqHtml(extraSchema[1], esc)}`;
   fs.mkdirSync(`${OUT}/d${d}`, { recursive: true });
   fs.writeFileSync(`${OUT}/d${d}/index.html`, pageShell({
     path: `/condo-prices/d${d}/`,
-    titleTag: `District ${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`,
+    titleTag: fitTitle(`District ${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`, `D${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`),
     desc: esc(`Median condo resale price and $psf in District ${dn} (${areaName}) from official URA caveats — by size, with recent transactions. Updated monthly.`).slice(0, 158),
     h1: `District ${dn} condo resale prices`,
     lede: `${areaName}. Every figure comes from caveats actually lodged with URA — no estimates, no modelling.`,
@@ -319,7 +326,7 @@ const hubSchemaFaq = {
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(`${OUT}/index.html`, pageShell({
   path: '/condo-prices/',
-  titleTag: 'Singapore Condo Resale Prices by District — URA Data | PropertySG',
+  titleTag: 'Singapore Condo Resale Prices by District | PropertySG',
   desc: `Median condo resale prices for ${indexRows.length} Singapore districts from official URA caveats — by size, with recent transactions. Updated monthly.`,
   h1: 'Condo resale prices, district by district',
   lede: 'Pick your district for medians by size and the latest caveats lodged — straight from official URA data.',

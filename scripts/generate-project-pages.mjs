@@ -531,8 +531,17 @@ function formCard(project) {
 </div>`;
 }
 
+// Titles are budgeted at 60 characters. The old "| Verified D01 New Launch |" form
+// pushed four project pages past that, and the marketing name of W Residences
+// carries a " - Singapore" suffix that only wastes title width.
+function titleFor(project) {
+  if (project.seoTitle) return project.seoTitle;
+  const name = project.name.replace(/\s+[-–—]\s+Singapore$/, '');
+  return `${name} New Launch — ${project.district} | PropertySG`;
+}
+
 function head(project) {
-  const title = project.seoTitle || `${project.name} | Verified ${project.district} New Launch | PropertySG`;
+  const title = titleFor(project);
   const meta = metaDescription(project);
   const availabilityFaq = availabilityFaqJson(project);
   const layoutFaq = layoutFaqJson(project);
@@ -625,7 +634,7 @@ function refreshFormCard(html, project) {
 }
 
 function refreshExistingPage(html, project) {
-  const title = `${project.name} | Verified ${project.district} New Launch | PropertySG`;
+  const title = titleFor(project);
   const meta = metaDescription(project);
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(meta)}">`);
