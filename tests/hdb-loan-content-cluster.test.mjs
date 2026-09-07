@@ -45,3 +45,36 @@ test('hub, calculator, sitemap and feeds discover the whole cluster', () => {
     for (const surface of surfaces) assert.ok(surface.includes(slug), `${slug} missing from a discovery surface`);
   }
 });
+
+// 7 Sep 2026 audit: the cluster earned 103 impressions ("hdb mortgage loan",
+// "hdb bank loan interest rate", "hdb bank loan singapore") at positions 73-87
+// while every inbound link came from inside the cluster itself. These pin the
+// outside-in links and the sections that answer those three queries.
+test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks for', () => {
+  const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
+  assert.match(html, /<h2>HDB bank loan interest rate: how bank packages are priced<\/h2>/);
+  assert.match(html, /<h2>HDB mortgage loan: which loans an HDB flat can take<\/h2>/);
+  assert.match(html, /<h2>Bank loan for an HDB flat: what the bank will ask for<\/h2>/);
+  assert.match(html, /<h3>Does the 30% MSR apply to a bank loan for an HDB flat\?<\/h3>/);
+  assert.match(html, /<h3>What is the bank loan interest rate for an HDB flat\?<\/h3>/);
+  assert.doesNotMatch(html, /\d\.\d{1,2}% (?:fixed|floating|bank package)/i, 'bank rates must never be quoted');
+  assert.match(html, /"dateModified": "2026-09-07"/);
+});
+
+test('every calculator and the hub link into the financing cluster from outside it', () => {
+  for (const page of ['bto-calculator', 'renovation-loan-calculator', 'stamp-duty-calculator']) {
+    const html = read(`${page}/index.html`);
+    const block = html.match(/<div class="calc-faq calc-plan"[\s\S]*?<\/div>/)?.[0];
+    assert.ok(block, `${page}: missing "Plan the financing" block`);
+    const links = [...block.matchAll(/href="\/insights\/([a-z0-9-]+)\.html"/g)].map((m) => m[1]);
+    assert.ok(links.length >= 4, `${page}: only ${links.length} cluster links`);
+    assert.ok(links.includes('hdb-loan-vs-bank-loan-singapore'), `${page}: must link the HDB-vs-bank guide`);
+  }
+  const hub = read('insights/index.html');
+  const guide = hub.match(/<section class="blog-guide" id="hdb-financing"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(guide, 'hub missing the #hdb-financing reading path');
+  assert.equal((guide.match(/<li>/g) || []).length, 8);
+  for (const slug of [...slugs.filter((s) => s !== 'hdb-income-ceiling-2026-ndr-changes'), 'hdb-downpayment-cash-cpf-grants', 'use-cpf-buy-hdb-flat-singapore', 'enhanced-cpf-housing-grant-singapore', 'hdb-resale-grants-singapore']) {
+    assert.ok(guide.includes(`href="${slug}.html"`), `reading path missing ${slug}`);
+  }
+});
