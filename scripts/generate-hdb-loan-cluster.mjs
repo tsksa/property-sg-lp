@@ -26,7 +26,7 @@ const SOURCES = {
 const ARTICLES = [
   {
     slug: 'hdb-loan-eligibility-singapore',
-    title: 'HDB Loan Eligibility Singapore (2026) | Joe Tay',
+    title: 'HDB Loan Eligibility Singapore (2026) | PropertySG',
     headline: 'HDB loan eligibility in Singapore: the 2026 requirements',
     description: 'Check HDB loan eligibility, income ceilings, LTV, tenure, MSR and HFE requirements using current official HDB rules, then estimate affordability.',
     category: 'Home financing',
@@ -78,7 +78,7 @@ const ARTICLES = [
   },
   {
     slug: 'hfe-letter-singapore-guide',
-    title: 'HFE Letter Singapore: Application Guide (2026) | Joe Tay',
+    title: 'HFE Letter Singapore: Application Guide (2026) | PropertySG',
     headline: 'HFE letter Singapore: what it covers and when to apply',
     description: 'A current HFE letter guide covering eligibility checks, HDB loan and grant outcomes, application timing, validity, documents and bank IPA options.',
     category: 'HFE letter',
@@ -136,7 +136,7 @@ const ARTICLES = [
   },
   {
     slug: 'msr-vs-tdsr-singapore',
-    title: 'MSR vs TDSR Singapore: HDB Loan Limits Explained | Joe Tay',
+    title: 'MSR vs TDSR Singapore: HDB Loan Limits | PropertySG',
     headline: 'MSR vs TDSR in Singapore: how both limit your home loan',
     description: 'Understand Singapore MSR and TDSR limits, the 30% and 55% thresholds, worked examples and how existing debts affect HDB affordability.',
     category: 'Affordability',
@@ -182,7 +182,7 @@ const ARTICLES = [
   },
   {
     slug: 'hdb-loan-vs-bank-loan-singapore',
-    title: 'HDB Loan vs Bank Loan Singapore (2026) | Joe Tay',
+    title: 'HDB Loan vs Bank Loan Singapore (2026) | PropertySG',
     headline: 'HDB loan vs bank loan in Singapore: a 2026 comparison',
     description: 'Compare HDB and bank housing loans by interest rate, downpayment, CPF use, lock-in, early repayment and refinancing before choosing.',
     category: 'Loan comparison',

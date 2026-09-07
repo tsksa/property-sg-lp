@@ -93,6 +93,14 @@ function stats(recs, monthsSet) {
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// Google truncates titles at roughly 60 characters (about 600px). Prefer the
+// fuller wording and fall back to the shorter form only when a long town name
+// (Kallang/Whampoa) would push past the budget. Measured on the decoded text.
+function fitTitle(preferred, short) {
+  const decoded = preferred.replace(/&amp;/g, '&');
+  return decoded.length <= 60 ? preferred : short;
+}
+
 function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema, leadScripts, leadCapture }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
@@ -302,7 +310,7 @@ ${faqHtml(extraSchema[1], esc)}`;
   fs.mkdirSync(path.join(OUT, s), { recursive: true });
   fs.writeFileSync(path.join(OUT, s, 'index.html'), pageShell({
     path: `/hdb-prices/${s}/`,
-    titleTag: `${t} HDB Resale Prices — Median &amp; Recent Sales | PropertySG`,
+    titleTag: fitTitle(`${t} HDB Resale Prices &amp; Recent Sales | PropertySG`, `${t} HDB Resale Prices &amp; Sales | PropertySG`),
     desc: esc(desc),
     h1: `${t} HDB resale prices`,
     lede: `Every figure on this page comes from actual registered resale transactions in ${t} — no estimates, no modelling.`,
@@ -320,7 +328,7 @@ const grid = indexRows.map((r) => `    <a class="town-card" href="/hdb-prices/${
 const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API });
 fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   path: '/hdb-prices/',
-  titleTag: 'HDB Resale Prices by Town — Official Medians, Updated Monthly | PropertySG',
+  titleTag: 'HDB Resale Prices by Town — Updated Monthly | PropertySG',
   desc: `Median HDB resale prices for all ${indexRows.length} towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.`,
   h1: 'HDB resale prices, town by town',
   lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',

@@ -397,7 +397,7 @@ export function buildCatalogPages(data) {
     data.projects.filter((project) => project.status === 'sold-out'),
     'newest',
   );
-  const activeTitle = 'Singapore New Launch Projects 2026 | Verified Condo & EC Catalog';
+  const activeTitle = 'New Launch Condos & ECs Singapore 2026 | PropertySG';
   const activeDescription = 'Search verified selling and upcoming Singapore new launch condos, ECs and landed projects by status, region, tenure, developer and location.';
   const soldTitle = 'Sold-out Singapore New Launch Projects | PropertySG';
   const soldDescription = 'Browse the verified archive of sold-out Singapore new launch projects and return to the current catalog for active alternatives.';
