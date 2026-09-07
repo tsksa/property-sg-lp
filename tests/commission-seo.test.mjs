@@ -14,8 +14,8 @@ test('commission article answers the Search Console query intent with sourced vi
 
   assert.match(html, new RegExp(`<title>${ARTICLE_TITLE}</title>`));
   assert.match(html, /<h1[^>]*>Property agent commission in Singapore: what 2% covers<\/h1>/);
-  assert.match(html, /<h2>Are property agent commission rates fixed in Singapore\?<\/h2>/);
-  assert.match(html, /<h2>HDB, condo and buyer-agent fees at a glance<\/h2>/);
+  assert.match(html, /<h2[^>]*>Are property agent commission rates fixed in Singapore\?<\/h2>/);
+  assert.match(html, /<h2[^>]*>HDB, condo and buyer-agent fees at a glance<\/h2>/);
   assert.match(html, /<h3>What is the property agent commission for selling an HDB flat in Singapore\?<\/h3>/);
   assert.match(html, /<h3>Is condo seller agent commission fixed in Singapore\?<\/h3>/);
   assert.match(html, /<h3 id="buyer-agent-fees">Who pays a dedicated buyer's agent in Singapore\?<\/h3>/);
