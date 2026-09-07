@@ -1,7 +1,7 @@
 .jt-mh-toggle,.jt-mh-panel{display:none}
 .jt-mh-logo{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
 .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px}
-.jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+.jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.88)}
 
 @media(max-width:768px){
   body.jt-mobile-nav-open{overflow:hidden}
