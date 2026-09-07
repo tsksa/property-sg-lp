@@ -1114,6 +1114,36 @@ body.dark-mode .objection-item p{color:rgba(232,236,243,0.85)}
 .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.04),transparent 60%)}
 body.dark-mode .faq-item:hover{background:rgba(16,185,129,0.04)}
 body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.06),transparent 60%)}
+
+/* ── Mobile length diet ──
+   Measured 7 Sep 2026: 21,139 px tall at 375 px wide, with reviews alone at
+   4,152 px. Nothing is removed. Reviews become a swipeable row, the four
+   concern cards and the process steps lose their desktop padding, and the
+   section rhythm tightens from 72 px to 56 px. */
+@media(max-width:720px){
+  .section{padding:56px 20px}
+  .problem-grid{margin-top:36px}
+  .process{padding:60px 20px}
+  .process-lede{margin-bottom:32px}
+  .process-step{padding:24px 20px 22px}
+  .compare{padding:56px 20px}
+  .stats{padding:48px 20px}
+  .stats .container{gap:28px 40px}
+  .advisor{padding:60px 20px}
+  .advisor .container{gap:32px}
+  .book-section{padding:48px 16px}
+  .objections{padding:56px 20px}
+  .objections-lede{margin-bottom:24px}
+  .objection-list{gap:12px}
+  .objection-item{padding:16px 18px}
+  .testi-list{margin-top:28px;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:4px 4px 14px;margin-left:-4px;margin-right:-4px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .testi-card{flex:0 0 86%;min-width:0;scroll-snap-align:start;padding:26px 22px}
+  .testi-card:hover{transform:none}
+  .testi-card blockquote{margin-bottom:18px}
+  .testimonials .lead::after{content:" Swipe sideways to read all seven."}
+  .testi-note{margin-top:16px}
+  .faq-item{scroll-margin-top:80px}
+}
 </style>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
