@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { buildCatalogPages, dateKey, filterProjects, sortProjects } from '../scripts/generate-new-launch-index.mjs';
+import { buildCatalogPages, dateKey, filterProjects, sortProjects, alternativesFor } from '../scripts/generate-new-launch-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
@@ -22,6 +22,22 @@ test('all active projects render statically and sold-out projects use the archiv
   assert.doesNotMatch(pages.index, /href="#register"/);
   assert.doesNotMatch(pages.index, /data-status="sold-out"/);
   assert.match(pages.soldOut, /data-status="sold-out"/);
+});
+
+test('the sold-out archive pairs every sold-out project with alternatives still selling', () => {
+  const section = pages.soldOut.match(/<section class="nl-alternatives[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'sold-out page has no alternatives section');
+  assert.doesNotMatch(section, /data-catalog-item/, 'alternatives must not join the archive count');
+  assert.doesNotMatch(section, /data-status="sold-out"/, 'alternatives must be selling or upcoming');
+  for (const project of pages.soldOutProjects) {
+    assert.match(section, new RegExp(`<h3>Instead of ${project.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\(`));
+    const alternatives = alternativesFor(project, pages.active);
+    assert.equal(alternatives.length, 3);
+    assert.ok(alternatives.every((candidate) => candidate.slug !== project.slug));
+    const sameRegion = pages.active.filter((candidate) => candidate.region === project.region);
+    if (sameRegion.length >= 3) assert.ok(alternatives.every((candidate) => candidate.region === project.region), 'region matches must come before the rest of the catalog');
+  }
+  assert.doesNotMatch(pages.index, /nl-alternatives/);
 });
 
 test('search and each requested filter operate on the canonical data', () => {

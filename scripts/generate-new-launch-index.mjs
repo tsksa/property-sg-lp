@@ -349,10 +349,55 @@ ${mobileHeaderAssetsHtml()}
 </head>`;
 }
 
-function bodyHtml(projects, { soldOut }) {
+// Sold-out archive (7 Sep 2026 audit: the page listed the sold-out project
+// and stopped). A searcher landing here has already missed that launch, so
+// the page now answers the next question: what is still selling nearby.
+// Matched by district first, then region, then the rest of the catalog.
+export function alternativesFor(project, active, limit = 3) {
+  const picks = [];
+  const pools = [
+    active.filter((candidate) => candidate.district === project.district),
+    active.filter((candidate) => candidate.region === project.region),
+    active,
+  ];
+  for (const pool of pools) {
+    for (const candidate of pool) {
+      if (candidate.slug !== project.slug && !picks.includes(candidate)) picks.push(candidate);
+      if (picks.length >= limit) return picks;
+    }
+  }
+  return picks;
+}
+
+function soldOutAlternativesHtml(soldOutProjects, active) {
+  if (!soldOutProjects.length || !active.length) return '';
+  const groups = soldOutProjects.map((project) => {
+    const cards = alternativesFor(project, active)
+      .map(cardHtml)
+      // Not part of the archive's own filterable catalog: the result count
+      // and the catalog script must keep counting only sold-out items.
+      .map((card) => card.replace(' data-catalog-item', ''))
+      .join('\n\n');
+    return `    <div class="nl-alternatives-group">
+      <h3>Instead of ${esc(project.name)} (${esc(project.district)}, ${esc(project.region)})</h3>
+      <ul class="nl-grid" aria-label="Alternatives to ${esc(project.name)}">
+${cards}
+      </ul>
+    </div>`;
+  }).join('\n');
+  return `  <section class="nl-alternatives reveal" aria-labelledby="nl-alternatives-title">
+    <p class="nl-controls-eyebrow">Still selling</p>
+    <h2 id="nl-alternatives-title">Missed it? Here is what is still selling nearby.</h2>
+    <p class="nl-alternatives-lede">Once a project sells out, the only way in is a resale or sub-sale unit from an owner, priced by that owner rather than by the developer. These are the closest verified alternatives in the catalog today, matched by district first, then region.</p>
+${groups}
+  </section>
+`;
+}
+
+function bodyHtml(projects, { soldOut, alternativesPool = [] }) {
   const title = soldOut ? 'Sold-out Singapore new launches.' : 'Singapore new launch projects, verified.';
   const intro = soldOut
-    ? 'A reference archive of projects marked sold out in the verified catalog. For currently selling and upcoming launches, return to the main directory.'
+    ? 'Projects marked sold out in the verified catalog, each paired with the closest launches still selling. For the full directory of selling and upcoming projects, return to the main catalog.'
     : 'Search every verified selling and upcoming project by name, developer or location. Compare status, tenure, units, launch timing and current source-backed market data.';
   const breadcrumb = soldOut
     ? '<a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span aria-current="page">Sold out</span>'
@@ -373,7 +418,7 @@ ${soldOut ? '' : controlsHtml(projects)}
   <ul id="catalog" class="nl-grid reveal-stagger" aria-label="${soldOut ? 'Sold-out Singapore projects' : 'Singapore new launch projects'}">
 ${cards}
   </ul>
-</main>
+${soldOut ? soldOutAlternativesHtml(projects, alternativesPool) : ''}</main>
 <section class="nl-register-band reveal" id="register" aria-label="Talk to Joe about new launches"><div class="nl-register-band-inner"><h3>${soldOut ? 'Looking for a current alternative?' : 'Need the latest price list and floor plans?'}</h3><p>I’ll help you shortlist current launches against your budget, timeline and exit plan—with source-backed facts and a direct answer on availability.</p><a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20help%20me%20shortlist%20current%20new%20launch%20projects." target="_blank" rel="noopener">WhatsApp Joe →</a></div></section>
 <button type="button" class="nl-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg></button>
 <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20information%20on%20current%20new%20launch%20projects." target="_blank" rel="noopener" class="nl-wa-float" aria-label="WhatsApp Joe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
@@ -400,7 +445,7 @@ export function buildCatalogPages(data) {
   const soldDescription = 'Browse the verified archive of sold-out Singapore new launch projects and return to the current catalog for active alternatives.';
   return {
     index: `${headHtml({ title: activeTitle, description: activeDescription, canonical: 'https://joetay.com/new-launches/', itemList: itemListJson(active, 'https://joetay.com/new-launches/', activeTitle), soldOut: false })}\n${bodyHtml(active, { soldOut: false })}`,
-    soldOut: `${headHtml({ title: soldTitle, description: soldDescription, canonical: 'https://joetay.com/new-launches/sold-out.html', itemList: itemListJson(soldOut, 'https://joetay.com/new-launches/sold-out.html', soldTitle), soldOut: true })}\n${bodyHtml(soldOut, { soldOut: true })}`,
+    soldOut: `${headHtml({ title: soldTitle, description: soldDescription, canonical: 'https://joetay.com/new-launches/sold-out.html', itemList: itemListJson(soldOut, 'https://joetay.com/new-launches/sold-out.html', soldTitle), soldOut: true })}\n${bodyHtml(soldOut, { soldOut: true, alternativesPool: active })}`,
     active,
     soldOutProjects: soldOut,
   };

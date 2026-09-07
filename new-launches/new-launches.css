@@ -270,6 +270,12 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-cta{font-size:0.86rem;color:var(--navy);margin-top:20px;line-height:1.55}
 .project-factsheet-cta a{color:var(--emerald-dark);font-weight:600;text-decoration:underline}
 .project-factsheet-note{font-size:0.8rem;color:var(--ink-muted);margin-top:20px;line-height:1.55;font-style:italic;padding-top:20px;border-top:1px solid rgba(11,30,63,0.08)}
+/* Sold-out archive: alternatives still selling (generate-new-launch-index.mjs). */
+.nl-alternatives{margin-top:48px;padding-top:36px;border-top:1px solid var(--line)}
+.nl-alternatives h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.5rem,2.6vw,2rem);line-height:1.15;margin:6px 0 12px}
+.nl-alternatives-lede{color:#3c4656;font-size:.98rem;line-height:1.65;max-width:68ch;margin:0 0 26px}
+.nl-alternatives-group{margin-top:22px}
+.nl-alternatives-group h3{color:var(--navy);font-size:1.05rem;margin:0 0 14px}
 .project-availability{padding:64px 24px;background:var(--cream);border-bottom:1px solid var(--line)}
 .project-availability-inner{max-width:1080px;margin:0 auto}
 .project-availability h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.8rem,3vw,2.45rem);line-height:1.15;margin:8px 0 28px}
