@@ -85,11 +85,9 @@
  }
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -292,7 +290,6 @@ footer a{color:rgba(255,255,255,0.8)}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="logo">PropertySG</a>
@@ -320,14 +317,12 @@ footer a{color:rgba(255,255,255,0.8)}
 </style>
   </div>
 </header>
-
 <main id="main" tabindex="-1">
   <div class="val-intro">
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>
     <p class="val-lede">Answer 3 short sections (~2 min). I'll WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
   </div>
-
   <div class="val-card">
     <form id="valForm" novalidate aria-label="Free property valuation form" data-lead-type="valuation">
       <div class="val-progress" id="valProgress">
@@ -336,7 +331,6 @@ footer a{color:rgba(255,255,255,0.8)}
         </div>
         <div class="val-progress-text" aria-live="polite">Step <span id="stepNum">1</span> of 3 · <span id="stepName">Property details</span></div>
       </div>
-
       <section class="val-step active" data-step="1" data-step-name="Property details" aria-labelledby="valStep1Title">
         <div class="val-chapter-head">
           <div class="val-chapter-title">
@@ -344,7 +338,6 @@ footer a{color:rgba(255,255,255,0.8)}
             <h2 id="valStep1Title" tabindex="-1">Tell me about the property</h2>
           </div>
         </div>
-
         <div class="val-group">
           <span class="val-group-label" id="propTypeLabel">Property type</span>
           <div class="val-chips" role="radiogroup" aria-labelledby="propTypeLabel" aria-required="true">
@@ -355,7 +348,6 @@ footer a{color:rgba(255,255,255,0.8)}
           </div>
           <p class="val-error-msg" data-error-for="propType">Please select a property type.</p>
         </div>
-
         <div class="val-row">
           <div class="val-group">
             <label class="val-group-label" for="postalCode">Postal code</label>
@@ -368,7 +360,6 @@ footer a{color:rgba(255,255,255,0.8)}
         </div>
         <div class="val-address-detected" id="addrDetected" style="display:none"></div>
         <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
-
         <div class="val-group" id="hdbTypeGroup" style="display:none">
           <span class="val-group-label" id="hdbTypeLabel">HDB flat type</span>
           <div class="val-chips" role="radiogroup" aria-labelledby="hdbTypeLabel">
@@ -380,17 +371,14 @@ footer a{color:rgba(255,255,255,0.8)}
             <label class="val-chip"><input type="radio" name="hdbType" value="Jumbo"><span>Jumbo</span></label>
           </div>
         </div>
-
         <div class="val-group" id="yearBuiltGroup" style="display:none">
           <label class="val-group-label" for="yearBuilt">Year built</label>
           <input id="yearBuilt" name="yearBuilt" type="number" inputmode="numeric" min="1900" max="2030" placeholder="e.g. 1995">
         </div>
-
         <div class="val-nav">
           <button type="button" class="val-next" data-next>Continue to contact details →</button>
         </div>
       </section>
-
       <section class="val-step" data-step="2" data-step-name="Contact details" aria-labelledby="valStep2Title">
         <div class="val-chapter-head">
           <div class="val-chapter-title">
@@ -399,13 +387,11 @@ footer a{color:rgba(255,255,255,0.8)}
           </div>
         </div>
         <p class="val-sub">I’ll reply personally on WhatsApp. Your email is used as a backup copy.</p>
-
         <div class="val-group">
           <label class="val-group-label" for="fullName">Full name</label>
           <input id="fullName" name="fullName" type="text" placeholder="Your full name" autocomplete="name" required autocapitalize="words">
           <p class="val-error-msg" data-error-for="fullName">Please enter your name.</p>
         </div>
-
         <div class="val-row">
           <div class="val-group">
             <label class="val-group-label" for="mobile">Mobile</label>
@@ -418,13 +404,11 @@ footer a{color:rgba(255,255,255,0.8)}
             <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
           </div>
         </div>
-
         <div class="val-nav">
           <button type="button" class="val-prev" data-prev>← Property</button>
           <button type="button" class="val-next" data-next>Review request →</button>
         </div>
       </section>
-
       <section class="val-step" data-step="3" data-step-name="Review and send" aria-labelledby="valStep3Title">
         <div class="val-chapter-head">
           <div class="val-chapter-title">
@@ -432,21 +416,17 @@ footer a{color:rgba(255,255,255,0.8)}
             <h2 id="valStep3Title" tabindex="-1">Confirm your request</h2>
           </div>
         </div>
-
         <div class="val-review" aria-label="Valuation request summary">
           <div class="val-review-row"><span>Property</span><strong id="reviewProperty">—</strong></div>
           <div class="val-review-row"><span>Location</span><strong id="reviewLocation">—</strong></div>
           <div class="val-review-row"><span>Reply to</span><strong id="reviewContact">—</strong></div>
         </div>
-
         <label class="val-consent">
           <input type="checkbox" name="consent" required>
           <span>By submitting, I agree to be contacted regarding my valuation request and to PropertySG's <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
         </label>
         <p class="val-error-msg" data-error-for="consent">Please confirm consent to proceed.</p>
-
         <input type="text" name="_honeypot" class="val-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-
         <div class="val-nav">
           <button type="button" class="val-prev" data-prev>← Contact details</button>
           <button type="submit" class="val-submit" id="submitBtn">Get My Free Valuation →</button>
@@ -460,7 +440,6 @@ footer a{color:rgba(255,255,255,0.8)}
           </div>
         </noscript>
       </section>
-
       <section class="val-step val-success" data-step="success" role="status" aria-live="polite">
         <div class="val-success-icon" aria-hidden="true">✓</div>
         <h2 tabindex="-1">I'm on it.</h2>
@@ -469,7 +448,6 @@ footer a{color:rgba(255,255,255,0.8)}
       </section>
     </form>
   </div>
-
   <div class="val-proof" aria-label="Why request a valuation from Joe Tay">
     <ul class="val-benefits">
       <li>Based on actual recent transactions in your block/estate</li>
@@ -483,7 +461,6 @@ footer a{color:rgba(255,255,255,0.8)}
     </div>
   </div>
 </main>
-
 <footer>
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -549,7 +526,6 @@ footer a{color:rgba(255,255,255,0.8)}
 </style>
   <span>&copy; 2026 PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D · <a href="privacy-policy.html">Privacy Policy</a></span>
 </footer>
-
 <script>
 // ── Config ─────────────────────────────────────────────
 const FORM_ENDPOINT = '/.netlify/functions/submit-lead';
@@ -835,7 +811,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 showStep(0,false);
 </script>
-
 <script src="/assets/conversion-tracking.js" defer></script>
 <div class="jt-cb" data-jt-consent-banner id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
   <p><strong id="jtConsentBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="/privacy-policy.html">Privacy Policy</a>.</p>

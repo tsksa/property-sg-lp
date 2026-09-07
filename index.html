@@ -28,7 +28,6 @@
 <link rel="preload" as="image" href="joetay-social-preview-1920.webp" type="image/webp" fetchpriority="high" media="(min-width:1281px)">
 <link rel="preload" as="image" href="joetay-social-preview-640.webp" type="image/webp" fetchpriority="high" media="(max-width:640px)">
 <!-- Calendly CSS and JS are loaded together when the booking section nears the viewport. -->
-
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -208,7 +207,6 @@
  }
 }
 </script>
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -245,15 +243,11 @@
 <meta name="twitter:title" content="PropertySG — Sell & Rent Smarter in Singapore">
 <meta name="twitter:description" content="Precision pricing, premium listing exposure, and a dedicated advisor from listing to closing.">
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
-
 <!-- Consent-aware GA4 + Meta loader; queues conversions before vendor download. -->
 <script src="/assets/analytics-loader.js" defer></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -1120,7 +1114,6 @@ body.dark-mode .objection-item p{color:rgba(232,236,243,0.85)}
 .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.04),transparent 60%)}
 body.dark-mode .faq-item:hover{background:rgba(16,185,129,0.04)}
 body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0.06),transparent 60%)}
-
 </style>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
@@ -1143,9 +1136,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-
 <nav class="site-nav" aria-label="Primary">
   <a class="logo" href="/"><span class="logo-name">Joe Tay</span><span class="logo-brand">PropertySG</span></a>
   <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
@@ -1170,7 +1161,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   </div>
 </nav>
 </header>
-
 <!-- Hero -->
 <section class="hero" id="main" tabindex="-1" aria-label="Hero — free property valuation">
   <div class="hero-bg" role="img" aria-label="Staged Singapore home interior prepared for property sale or rental viewing"></div>
@@ -1236,7 +1226,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
   </a>
 </section>
-
 <!-- Trust Strip -->
 <section class="trust-strip" aria-label="Track record">
   <div class="trust-strip-inner" role="list">
@@ -1247,7 +1236,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <div class="trust-badge" role="listitem"><span class="trust-num">4.9★</span> Average Rating</div>
   </div>
 </section>
-
 <!-- Recently completed activity band — update cards monthly as transactions close -->
 <section class="recent-activity" aria-label="Recently completed transactions">
   <div class="recent-activity-inner">
@@ -1276,7 +1264,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Logo Bar -->
 <section class="logo-bar reveal" aria-label="Listing portals">
   <p>Your listing goes live on</p>
@@ -1287,7 +1274,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <span>EdgeProp</span>
   </div>
 </section>
-
 <!-- Problem -->
 <section class="section problem" id="problem" aria-labelledby="problem-title">
   <div class="container">
@@ -1322,7 +1308,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Solution -->
 <section class="section" id="solution" aria-labelledby="solution-title">
   <div class="container">
@@ -1356,7 +1341,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Process: How we work -->
 <section class="process" id="process" aria-labelledby="process-title">
   <div class="container">
@@ -1395,7 +1379,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Compare: Typical agent vs PropertySG -->
 <section class="compare" id="compare" aria-labelledby="compare-title">
   <div class="container">
@@ -1436,7 +1419,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Stats -->
 <section class="stats" aria-label="Track record statistics">
   <div class="container">
@@ -1458,7 +1440,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Meet Your Advisor -->
 <section class="advisor" id="advisor" aria-labelledby="advisor-title">
   <div class="container">
@@ -1502,7 +1483,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Book: three-choice CTA -->
 <section class="book-section" id="book" aria-labelledby="book-title">
   <div class="container">
@@ -1537,7 +1517,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         <p class="book-choice-avail">9am–9pm · 7 days a week</p>
       </a>
     </div>
-
     <!-- Inline Calendly widget — pick a slot without leaving the page -->
     <div class="calendly-inline-wrap reveal reveal-delay-2">
       <div class="calendly-inline-wrap-head">Or pick a slot right now</div>
@@ -1554,14 +1533,12 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Objection handler: kill hesitation before the final form -->
 <section class="objections" id="concerns" aria-labelledby="concerns-title">
   <div class="objections-inner">
     <div class="section-eyebrow reveal" style="text-align:center;margin-bottom:18px">Common concerns</div>
     <h2 id="concerns-title" class="reveal">Thinking about it? Let me answer before you ask.</h2>
     <p class="objections-lede reveal">The four questions I get most often before a first consultation — answered upfront so you don't have to awkwardly bring them up.</p>
-
     <div class="objection-list" role="list" aria-label="Frequently raised concerns">
       <div class="objection-item reveal" role="listitem">
         <h3>"Is 2% commission really what I should pay?"</h3>
@@ -1582,7 +1559,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </section>
-
 <!-- Testimonials -->
 <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
   <div class="container">
@@ -1680,7 +1656,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <p class="testi-note reveal"><a href="/about-joe/#client-stories">Read three client-reported property journeys</a>. If you'd like to speak with a past client before engaging, I'll put you in touch.</p>
   </div>
 </section>
-
 <!-- FAQ -->
 <section class="section faq" id="faq" aria-labelledby="faq-title">
   <div class="container">
@@ -1747,7 +1722,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <p class="faq-footer reveal" style="text-align:center;margin-top:32px;font-size:0.9rem;color:#888">Still have questions? <a href="#book" style="color:var(--emerald);font-weight:600">Book a free 30-min call →</a></p>
   </div>
 </section>
-
 <!-- Final CTA -->
 <section class="section final-cta" id="cta-final" aria-labelledby="cta-final-title">
   <div class="final-cta-centered">
@@ -1811,7 +1785,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </form>
   </div>
 </section>
-
 <footer>
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -1907,7 +1880,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </div>
   </div>
 </footer>
-
 <!-- Mobile Sticky Bar -->
 <div class="mobile-bar mobile-bar--hero" role="navigation" aria-label="Quick contact">
   <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="mb-call" aria-label="Call Joe +65 8188 1488">
@@ -1922,13 +1894,11 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     WhatsApp
   </a>
 </div>
-
 <!-- Floating WhatsApp CTA (desktop only) -->
 <a onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'floating-button'});" href="https://wa.me/6581881488" target="_blank" rel="noopener" class="wa-float" aria-label="Chat with Joe on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
   <span class="wa-float-tip">Chat with Joe</span>
 </a>
-
 <!-- PDPA Cookie Consent Banner -->
 <div class="cookie-banner" id="cookieBanner" role="region" aria-labelledby="cookieBannerHeading">
   <p><strong id="cookieBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
@@ -1937,7 +1907,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     <button type="button" id="cookieAccept" aria-label="Accept cookies">Accept</button>
   </div>
 </div>
-
 <!-- Valuation Popup: opens when hero form intent = "Get valuation" -->
 <div class="val-popup" id="valPopup" role="dialog" aria-labelledby="valPopupTitle" aria-modal="true">
   <div class="val-popup-inner">
@@ -1978,7 +1947,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
         </label>
       </div>
       <div class="val-popup-addr" id="valAddrDetected" style="display:none" aria-live="polite"></div>
-
       <label id="valHdbTypeWrap" style="display:none">
         <span>HDB flat type</span>
         <select name="hdb_type" id="valHdbType">
@@ -1991,21 +1959,16 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <option>Jumbo</option>
         </select>
       </label>
-
       <label id="valYearBuiltWrap" style="display:none">
         <span>Year built</span>
         <input type="number" name="year_built" id="valYearBuilt" min="1900" max="2050" step="1" inputmode="numeric" placeholder="e.g. 1995">
       </label>
-
       <label>
         <span>Email address</span>
         <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="off" autocorrect="off">
       </label>
-
       <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-
       <div class="val-popup-err" id="valPopupErr" role="alert"></div>
-
       <button type="submit">Get Free Valuation</button>
       <noscript>
         <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
@@ -2018,7 +1981,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </form>
   </div>
 </div>
-
 <!-- Exit Intent Popup: lead magnet — 2026 Seller's Checklist PDF -->
 <div class="exit-popup" id="exitPopup" role="dialog" aria-modal="true" aria-labelledby="exitFormTitle">
   <div class="exit-popup-inner">
@@ -2039,7 +2001,6 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
     </form>
   </div>
 </div>
-
 <script>
 // All forms POST to the Netlify Function, which runs Twilio + Google Sheets + email
 // server-side. No wa.me redirect — user stays on the page and sees a success message.

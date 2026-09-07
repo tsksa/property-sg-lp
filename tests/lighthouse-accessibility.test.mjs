@@ -73,13 +73,11 @@ test('homepage logo uses its visible text as the accessible name', () => {
 for (const file of ['calculator/index.html', 'bto-calculator/index.html']) {
   test(`${file}: fonts avoid late swaps that shift content`, () => {
     const html = read(file);
-    const fontUrls = [...html.matchAll(/https:\/\/fonts\.googleapis\.com\/css2\?[^"']+/g)]
-      .map((match) => match[0]);
-
-    assert.ok(fontUrls.length >= 3, 'missing calculator font loading variants');
-    for (const url of fontUrls) {
-      assert.match(url, /[&?]display=optional(?:&|$)/);
-    }
+    // Self-hosted since 7 Sep 2026: the calculators keep font-display:optional
+    // so a slow font never swaps in after the numbers have painted.
+    assert.match(html, /<style data-jt-fonts="optional">/);
+    assert.equal((html.match(/font-display:optional/g) || []).length, 2);
+    assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
   });
 }
 

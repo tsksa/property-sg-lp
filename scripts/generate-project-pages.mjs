@@ -6,6 +6,7 @@ import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = path.join(ROOT, 'new-launches', 'projects.json');
@@ -686,8 +687,8 @@ ${availabilityFaq ? `<script type="application/ld+json">${jsonForHtml(availabili
 ${layoutFaq ? `<script type="application/ld+json">${jsonForHtml(layoutFaq)}</script>` : ''}
 ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchIntentFaq)}</script>` : ''}
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
+${fontLinksHtml()}
+<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>

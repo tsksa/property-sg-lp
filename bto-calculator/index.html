@@ -12,14 +12,12 @@
 <link rel="canonical" href="https://joetay.com/bto-calculator/">
 <link rel="alternate" hreflang="en-SG" href="https://joetay.com/bto-calculator/">
 <link rel="alternate" hreflang="x-default" href="https://joetay.com/bto-calculator/">
-
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
 <meta property="og:title" content="HDB BTO Calculator — Budget & Downpayment | Joe Tay">
 <meta property="og:description" content="See your maximum BTO budget, downpayment split, option fee and monthly repayment in seconds — current HDB rules, free tool.">
 <meta property="og:url" content="https://joetay.com/bto-calculator/">
 <meta property="og:locale" content="en_SG">
-
 <meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="og:image:width" content="1920">
 <meta property="og:image:height" content="1080">
@@ -30,13 +28,9 @@
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/site.webmanifest">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=optional">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=optional" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=optional"></noscript>
-
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="optional">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:optional;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:optional;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -141,7 +135,6 @@
 }
 </script>
 <script src="/assets/analytics-loader.js" defer data-meta="false"></script>
-
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -253,7 +246,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="calc-topbar">
   <div class="calc-topbar-inner">
     <a href="/" class="calc-logo">PropertySG</a>
@@ -266,7 +258,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </nav>
   </div>
 </header>
-
 <section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">
     <div class="eyebrow">HDB BTO Calculator</div>
@@ -274,28 +265,22 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <p>Enter your income, savings and age. See your maximum flat budget, the 25% downpayment, your option fee and monthly repayment — on current HDB rules. Buying resale instead? Use the <a href="/calculator/">HDB loan calculator</a>, and check <a href="/stamp-duty-calculator/">stamp duty</a> for either.</p>
   </div>
 </section>
-
 <main id="main" tabindex="-1" class="calc-main">
-
   <div class="calc-form">
     <h2>Your numbers</h2>
     <p class="sub">All calculations happen locally in your browser — nothing is sent or stored.</p>
-
     <div class="calc-field">
       <label for="income">Monthly household income <span class="hint">gross, before CPF</span></label>
       <input type="number" id="income" min="0" step="100" inputmode="numeric" value="7000" placeholder="e.g. 7000">
     </div>
-
     <div class="calc-field">
       <label for="savings">Savings for downpayment <span class="hint">cash + CPF Ordinary Account</span></label>
       <input type="number" id="savings" min="0" step="1000" inputmode="numeric" value="60000" placeholder="e.g. 60000">
     </div>
-
     <div class="calc-field">
       <label for="age">Age of oldest applicant</label>
       <input type="number" id="age" min="21" max="65" step="1" inputmode="numeric" value="30">
     </div>
-
     <div class="calc-field">
       <label for="flatType">Flat type <span class="hint">sets your option fee</span></label>
       <select id="flatType">
@@ -305,7 +290,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <option value="2000">5-room / 3Gen</option>
       </select>
     </div>
-
     <div class="calc-field">
       <label id="loanTypeLabel">Financing</label>
       <div class="calc-count" role="radiogroup" aria-labelledby="loanTypeLabel" style="grid-template-columns:1fr 1fr">
@@ -315,7 +299,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <label for="loanBank">Bank loan</label>
       </div>
     </div>
-
     <div class="calc-field">
       <label for="firstTimer" style="display:flex;align-items:center;gap:10px;cursor:pointer">
         <input type="checkbox" id="firstTimer" style="width:auto;min-width:18px;min-height:18px">
@@ -323,34 +306,28 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </label>
     </div>
   </div>
-
   <aside class="calc-results" aria-live="polite">
     <div class="calc-results-head">Your BTO budget</div>
-
     <div class="calc-result">
       <div class="calc-result-label">Maximum flat budget</div>
       <div class="calc-result-value big" id="maxBudget">$—</div>
       <div class="calc-result-detail" id="maxBudgetDetail">Enter your income and savings</div>
     </div>
-
     <div class="calc-result">
       <div class="calc-result-label">Loan amount</div>
       <div class="calc-result-value" id="loanAmount">$—</div>
       <div class="calc-result-detail" id="loanDetail"></div>
     </div>
-
     <div class="calc-result" id="ehgRow" hidden>
       <div class="calc-result-label">Enhanced CPF Housing Grant</div>
       <div class="calc-result-value" id="ehgValue">$—</div>
       <div class="calc-result-detail" id="ehgDetail"></div>
     </div>
-
     <div class="calc-result">
       <div class="calc-result-label">Monthly repayment</div>
       <div class="calc-result-value" id="monthlyPay">$—</div>
       <div class="calc-result-detail" id="monthlyDetail"></div>
     </div>
-
     <div class="calc-result">
       <div class="calc-result-label">Payment timeline</div>
       <div class="calc-result-detail" id="timelineDetail" style="margin-top:2px">
@@ -359,7 +336,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <span id="tlKeys">—</span>
       </div>
     </div>
-
     <div class="calc-cta">
       <p>Planning a BTO application, or weighing BTO against resale? I'll walk through your numbers with you — free, no obligation.</p>
       <a href="/#book">Book a free 30-min call →</a>
@@ -376,13 +352,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <button type="button" id="copyResult" class="calc-copy" aria-describedby="copyResultStatus" hidden>Copy result</button>
     <p id="copyResultStatus" class="calc-copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
   </aside>
-
 </main>
-
 <div class="calc-disclaimer">
   <p><strong>Estimates only — not an offer of finance and not an HFE assessment.</strong> Loan eligibility is computed at HDB's 3% interest floor with the 30% Mortgage Servicing Ratio; the repayment shown uses the 2.6% concessionary rate (unchanged since 1999). The loan-to-value limit is 75% for both HDB and bank loans (HDB loans since 20 Aug 2024); bank loans additionally require at least 5% of the price in cash, and banks assess eligibility on their own stress rates. Your actual limits are set by your <a href="https://www.hdb.gov.sg/" target="_blank" rel="noopener">HDB Flat Eligibility (HFE) letter</a>. Grants such as the Enhanced CPF Housing Grant can add to your budget — see the <a href="/insights/enhanced-cpf-housing-grant-singapore.html">EHG guide</a> — and are not included above. Verify your final figures with HDB or with me before you apply.</p>
 </div>
-
 <div class="calc-faq">
   <h2>Common questions</h2>
   <details>
@@ -410,7 +383,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <p>HDB assesses how much you can borrow using an interest floor of 3%, even though the concessionary rate you actually pay has been 2.6% since 1999. This calculator does the same: your loan eligibility is computed at 3%, and the monthly repayment shown uses the 2.6% rate you would pay today.</p>
   </details>
 </div>
-
 <div class="calc-faq calc-plan" aria-labelledby="plan-financing-title">
   <h2 id="plan-financing-title">Plan the financing</h2>
   <ul class="calc-links">
@@ -421,7 +393,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <li><a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">HDB income ceiling 2026</a><span>What changed on 24 August and who it affects.</span></li>
   </ul>
 </div>
-
 <footer class="calc-footer">
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -488,7 +459,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <p>&copy; 2026 PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K</p>
   <p class="creds">CEA Reg. No. R009618D · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="mailto:joe@joetay.com">joe@joetay.com</a></p>
 </footer>
-
 <script type="module">
 import { attachResultCopy } from '/assets/calculator-result-copy.mjs';
 // ─────────────────────────────────────────────────────────
@@ -671,7 +641,6 @@ attachResultCopy({
   calculator: 'bto',
 });
 </script>
-
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
 </button>

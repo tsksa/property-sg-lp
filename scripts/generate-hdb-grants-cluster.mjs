@@ -8,6 +8,7 @@ import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
 import { policySources } from './content/hdb-policy-august-2026.mjs';
+import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -305,9 +306,7 @@ function page(article) {
 <meta property="article:modified_time" content="${article.modified || published}">
 <meta property="article:section" content="${esc(article.category)}">
 ${schemas(article)}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
+${fontLinksHtml()}
 <link rel="stylesheet" href="blog.css">
 <style>.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}</style>
 <link rel="alternate" type="application/atom+xml" title="PropertySG Insights" href="https://joetay.com/insights/feed.xml">

@@ -25,7 +25,6 @@
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/site.webmanifest">
-
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -60,19 +59,17 @@
   ]
 }
 </script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <link rel="preconnect" href="https://data.gov.sg">
 <link rel="preconnect" href="https://www.onemap.gov.sg">
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
+
+
 
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
-
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -176,7 +173,6 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="logo">PropertySG</a>
@@ -204,13 +200,11 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
 </style>
   </div>
 </header>
-
 <main id="main" tabindex="-1">
   <span class="np-eyebrow">Free · Official HDB data · No sign-up</span>
   <h1>What did your neighbour's flat sell for?</h1>
   <p class="np-lede">Enter your postal code and see the actual resale transactions in your block and street — real prices, real dates, straight from HDB's official records.</p>
   <p class="np-source">Source: <strong>HDB Resale Flat Prices</strong> via data.gov.sg · updated monthly · Jan 2017 onwards · or browse <a href="/hdb-prices/">town-level medians &amp; trends</a></p>
-
   <div class="np-card">
     <form id="npForm" novalidate>
       <label for="npPostal">Your postal code</label>
@@ -224,7 +218,6 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
       <p class="np-loading" id="npLoading" role="status">Pulling official transaction records…</p>
     </form>
   </div>
-
   <section id="results" aria-live="polite">
     <h2 class="np-results-head" id="resultsHead" tabindex="-1"></h2>
     <p class="np-results-sub" id="resultsSub"></p>
@@ -248,7 +241,6 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
     </div>
     <div class="np-table-wrap" id="streetTableWrap"></div>
     <p class="np-note">Prices are the actual amounts registered with HDB. $psf is computed from the recorded floor area. Storey shown as a range to protect seller privacy — HDB publishes it that way.</p>
-
     <div class="np-cta">
       <h2>So… what could <em>your</em> unit fetch today?</h2>
       <p>These are your neighbours' numbers. Your floor, renovation, and timing change yours. I'll WhatsApp you a straight answer — what your unit is realistically worth right now, and whether it's a good time to move.</p>
@@ -261,14 +253,12 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
       </div>
     </div>
   </section>
-
   <section class="np-how">
     <h2>Where does this data come from?</h2>
     <p>Every HDB resale transaction is registered with the Housing &amp; Development Board and published as open data. This tool queries that official dataset live — nothing is estimated, scraped, or modelled. If a sale shows here, it happened.</p>
     <p>Contains information from the <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" target="_blank" rel="noopener">HDB Resale Flat Prices</a> dataset accessed via data.gov.sg, made available under the <a href="https://data.gov.sg/open-data-licence" target="_blank" rel="noopener">Singapore Open Data Licence v1.0</a>.</p>
   </section>
 </main>
-
 <footer>
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -335,7 +325,6 @@ footer .creds{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px}
   <p>&copy; 2026 PropertySG · <a href="/">Home</a> · <a href="/valuation.html">Free Valuation</a> · <a href="/privacy-policy.html">Privacy Policy</a></p>
   <p class="creds">Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D</p>
 </footer>
-
 <script>
 (function(){
 'use strict';

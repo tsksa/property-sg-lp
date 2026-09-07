@@ -10,12 +10,12 @@
 <meta name="theme-color" content="#0b1e3f">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%230b1e3f'/%3E%3Ctext x='50' y='70' font-family='Georgia,serif' font-size='60' font-weight='700' text-anchor='middle' fill='%2310b981'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"></noscript>
+
+
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -74,26 +74,21 @@ footer a{color:#666}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
 <header class="topbar">
   <div class="topbar-inner">
     <div class="logo">PropertySG</div>
     <a href="index.html" class="back">← Back to home</a>
   </div>
 </header>
-
 <main id="main" tabindex="-1">
   <h1>Privacy Policy</h1>
   <p class="lede">How PropertySG collects, uses, discloses and protects your personal data.</p>
   <p class="updated">Last updated: 11 June 2026</p>
-
   <div class="callout">
     This policy is issued in accordance with the Singapore <strong>Personal Data Protection Act 2012 (PDPA)</strong>. By submitting your details through our website, forms, WhatsApp, or scheduled consultations, you consent to the collection and use of your personal data as described below.
   </div>
-
   <h2>1. Who we are</h2>
   <p>PropertySG is the trade name of Joe Tay (CEA Reg. No. <strong>R009618D</strong>), a CEA-registered property advisor operating under <strong>ERA Realty Network Pte Ltd</strong> (Estate Agent Lic. No. <strong>L3002382K</strong>), licensed by the Council for Estate Agencies (CEA) of Singapore. In this policy, "we", "us" and "our" refer to Joe Tay / PropertySG.</p>
-
   <h2>2. Personal data we collect</h2>
   <p>When you interact with us, we may collect:</p>
   <ul>
@@ -102,7 +97,6 @@ footer a{color:#666}
     <li><strong>Communication records</strong> — messages exchanged via WhatsApp, email, phone calls and consultation notes.</li>
     <li><strong>Technical data</strong> — basic web analytics such as browser type, device, referring page. We do not use invasive tracking cookies.</li>
   </ul>
-
   <h2>3. How we use your data</h2>
   <p>The purposes for which we may use your personal data, in and outside Singapore, include:</p>
   <ul>
@@ -121,7 +115,6 @@ footer a{color:#666}
     <li>Any purposes directly related or incidental to the above.</li>
   </ul>
   <p>You may withdraw consent or opt out of marketing communications at any time by contacting our Data Protection Officer (see Section 11).</p>
-
   <h2>4. Disclosure to third parties</h2>
   <p>We only share your data with third parties where necessary to deliver our service or to operate this website, and under appropriate confidentiality and data-protection safeguards:</p>
   <ul>
@@ -135,13 +128,10 @@ footer a{color:#666}
     <li><strong>Regulators and law enforcement</strong> — where required by Singapore law.</li>
   </ul>
   <p>We do not sell your personal data.</p>
-
   <h2>5. How we protect your data</h2>
   <p>We take reasonable administrative, physical and technical measures to safeguard your personal data, including access controls, encrypted storage where practical, and limiting access on a need-to-know basis. Despite these measures, no system is completely secure, and we cannot guarantee absolute security.</p>
-
   <h2>6. How long we keep your data</h2>
   <p>We retain your personal data only as long as necessary to fulfil the purposes above, or as required by Singapore law (including CEA record-keeping rules, typically 5 years from the end of the transaction). Afterwards, we anonymise or securely dispose of it.</p>
-
   <h2>7. Your rights under the PDPA</h2>
   <p>You have the right to:</p>
   <ul>
@@ -150,7 +140,6 @@ footer a{color:#666}
     <li><strong>Withdraw consent</strong> for our continued use of your data at any time. Note that withdrawal may mean we can no longer provide certain services to you.</li>
   </ul>
   <p>Requests can be sent to our contact below. We will respond within 30 days as required by the PDPA.</p>
-
   <h2>8. Cookies, analytics and conversion tracking</h2>
   <p>Our website uses cookies and local storage for three purposes:</p>
   <ul>
@@ -160,13 +149,10 @@ footer a{color:#666}
   </ul>
   <p>You can opt out of Google Analytics across all sites by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-Out browser add-on</a>, or by blocking cookies for <code>google-analytics.com</code> and <code>googletagmanager.com</code> in your browser settings. Blocking these does not affect your ability to use the site.</p>
   <p>We do not run remarketing pixels, behavioural ad targeting, or third-party advertising cookies on this site.</p>
-
   <h2>9. Children's data</h2>
   <p>Our services are directed at adults aged 21 and above (the minimum age for property transactions in Singapore). We do not knowingly collect data from minors.</p>
-
   <h2>10. Changes to this policy</h2>
   <p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date at the top of this page. Continued use of our services after changes constitutes acceptance of the revised policy.</p>
-
   <h2>11. Contact — Data Protection Officer</h2>
   <address class="contact-box">
     <p style="margin-bottom:8px"><strong>Joe Tay · PropertySG — Data Protection Enquiries</strong></p>
@@ -177,13 +163,10 @@ footer a{color:#666}
     <p style="margin-bottom:0">ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K</p>
   </address>
 </main>
-
 <footer>
   <p>&copy; 2026 PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · <a href="index.html">Home</a></p>
 </footer>
-
 <script src="/assets/conversion-tracking.js" defer></script>
-
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14"/></svg>
 </button>
