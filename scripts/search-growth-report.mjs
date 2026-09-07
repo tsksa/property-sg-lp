@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createSign } from 'node:crypto';
-import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +15,7 @@ const SEARCH_ANALYTICS_BASE_URL =
   'https://www.googleapis.com/webmasters/v3/sites';
 const GA4_DATA_BASE_URL = 'https://analyticsdata.googleapis.com/v1beta';
 const GA4_HOST_NAME = 'joetay.com';
+const SITEMAP_URL = new URL('../sitemap.xml', import.meta.url);
 const REPORT_TIME_ZONE = 'Asia/Singapore';
 const MAX_ROW_LIMIT = 25_000;
 const MAX_GA4_ROW_LIMIT = 100_000;
@@ -1467,6 +1468,54 @@ function unmatchedGa4LandingPages(opportunities, currentGa4, priorGa4) {
     });
 }
 
+/**
+ * Every canonical URL in sitemap.xml, as a normalized path. The sitemap is the
+ * site's own definition of "indexable": every generator and the
+ * sitemap-completeness test keep it exact, so it is the right denominator.
+ */
+export function readIndexablePages(sitemapXml) {
+  const paths = new Set();
+  for (const match of String(sitemapXml).matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)) {
+    const normalized = normalizePagePath(match[1]);
+    if (normalized) paths.add(normalized);
+  }
+  return [...paths].sort(compareText);
+}
+
+/**
+ * Coverage KPI (7 Sep 2026 audit): the share of indexable pages that earned
+ * at least one impression in the window. Six of 108 at the time. It answers
+ * "is Google showing the site at all" separately from position or clicks,
+ * which is the question the P1 title, FAQ and internal-link work was meant
+ * to move. Rows are the Singapore query/page rows already fetched for the
+ * opportunity ranking, so the figure is bounded by Search Analytics'
+ * top-rows behaviour like everything else in this report.
+ */
+export function summarizeCoverage(currentRows, priorRows, indexablePages) {
+  if (!Array.isArray(indexablePages)) return null;
+  const indexable = new Set(indexablePages);
+  const visible = (rows) => {
+    const pages = new Set();
+    for (const row of rows) {
+      if (row.impressions <= 0) continue;
+      const normalized = normalizePagePath(row.page);
+      if (normalized && indexable.has(normalized)) pages.add(normalized);
+    }
+    return pages;
+  };
+  const current = visible(currentRows);
+  const prior = visible(priorRows);
+  const share = (count) => (indexable.size > 0 ? count / indexable.size : null);
+  return {
+    indexablePages: indexable.size,
+    current: { pagesWithImpressions: current.size, share: share(current.size) },
+    prior: { pagesWithImpressions: prior.size, share: share(prior.size) },
+    newlyVisible: [...current].filter((page) => !prior.has(page)).sort(compareText),
+    droppedOut: [...prior].filter((page) => !current.has(page)).sort(compareText),
+    silent: indexablePages.filter((page) => !current.has(page)).sort(compareText),
+  };
+}
+
 export function buildReport({
   siteUrl,
   ga4PropertyId,
@@ -1484,6 +1533,7 @@ export function buildReport({
   priorGa4LeadRows = [],
   currentGa4ContactRows = [],
   priorGa4ContactRows = [],
+  indexablePages = null,
 }) {
   const currentGa4 = aggregateGa4Window({
     sessionRows: currentGa4SessionRows,
@@ -1569,6 +1619,7 @@ export function buildReport({
     opportunities,
     visibilitySnapshot,
     visibilityWatchlist,
+    coverage: summarizeCoverage(currentRows, priorRows, indexablePages),
     emptyStateMessage:
       opportunities.length === 0 ?
         'No qualifying non-branded Singapore query/page opportunities were found for this window.'
@@ -1757,6 +1808,37 @@ function invalidGa4RowDetail(row) {
   return `contact_method=${escapeMarkdownCell(row.contactMethod)}, events=${formatInteger(row.eventCount)}`;
 }
 
+function coverageSection(coverage) {
+  if (!coverage) return [];
+  const pct = (value) => (value == null ? 'n/a' : formatPercent(value));
+  const list = (pages, limit = 25) =>
+    pages.length === 0 ? ['- none', ''] : [
+      ...pages.slice(0, limit).map((page) => `- ${escapeMarkdownCell(page)}`),
+      ...(pages.length > limit ? [`- … and ${formatInteger(pages.length - limit)} more`] : []),
+      '',
+    ];
+  return [
+    '## Coverage: indexable pages earning impressions',
+    '',
+    'Share of sitemap URLs with at least one Singapore impression in the window. This is the KPI for whether Google shows the site at all, independent of position or clicks.',
+    '',
+    '| Period | Pages with impressions | Indexable pages | Coverage |',
+    '|---|---:|---:|---:|',
+    `| Current | ${formatInteger(coverage.current.pagesWithImpressions)} | ${formatInteger(coverage.indexablePages)} | ${pct(coverage.current.share)} |`,
+    `| Prior | ${formatInteger(coverage.prior.pagesWithImpressions)} | ${formatInteger(coverage.indexablePages)} | ${pct(coverage.prior.share)} |`,
+    '',
+    `### Newly visible (${formatInteger(coverage.newlyVisible.length)})`,
+    '',
+    ...list(coverage.newlyVisible),
+    `### Dropped out (${formatInteger(coverage.droppedOut.length)})`,
+    '',
+    ...list(coverage.droppedOut),
+    `### Silent this window (${formatInteger(coverage.silent.length)} of ${formatInteger(coverage.indexablePages)})`,
+    '',
+    ...list(coverage.silent),
+  ];
+}
+
 export function renderMarkdown(report) {
   const lines = [
     '# Weekly Search Console organic-growth report',
@@ -1794,6 +1876,7 @@ export function renderMarkdown(report) {
       report.totals.global.prior,
     ),
     '',
+    ...coverageSection(report.coverage),
     '## Opportunity definitions',
     '',
     ...report.opportunityDefinitions.map(
@@ -2052,8 +2135,12 @@ export async function main({
   argv = process.argv.slice(2),
   fetchImpl = globalThis.fetch,
   now = new Date(),
+  sitemapXml = null,
 } = {}) {
   const { outputDirectory } = parseArguments(argv);
+  const indexablePages = readIndexablePages(
+    sitemapXml ?? (await readFile(SITEMAP_URL, 'utf8')),
+  );
   const credentials = parseServiceAccount(env.GSC_SERVICE_ACCOUNT_JSON);
   const siteUrl = parseSiteUrl(env.GSC_SITE_URL);
   const ga4PropertyId = parseGa4PropertyId(env.GA4_PROPERTY_ID);
@@ -2167,6 +2254,7 @@ export async function main({
     priorGa4LeadRows,
     currentGa4ContactRows,
     priorGa4ContactRows,
+    indexablePages,
   });
   const paths = await writeReportArtifacts(report, outputDirectory);
   console.log(

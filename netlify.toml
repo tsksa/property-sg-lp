@@ -59,6 +59,22 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 # Friendly alias so the form can POST to /api/submit-lead as well
+# Collapse the www chain to one hop. Netlify's automatic alias redirect sent
+# http://www → https://www → https://joetay.com (two 301s on every bare-www
+# visit, measured 7 Sep 2026). Domain-level rules with an explicit scheme let
+# the edge answer both www forms with the canonical host directly.
+[[redirects]]
+  from = "http://www.joetay.com/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.joetay.com/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
