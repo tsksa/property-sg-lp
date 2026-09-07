@@ -97,6 +97,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .lp-form-redirect p{margin:0 0 12px;color:#334155;font-size:.95rem}
 .lp-form-redirect a{font-weight:700;text-decoration:underline}
 .lp-form-redirect .lp-cta{display:inline-block;width:auto;margin-top:6px}
+/* The business logo asset in Google Ads is this exact "joe tay." mark; showing
+   it in the header is what lets the logo pass the relevance review. It replaces
+   the shared stylesheet's decorative dot. */
+.lp-logo::before{display:none}
+.lp-logo-mark{width:36px;height:36px;border-radius:50%;flex-shrink:0}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -113,7 +118,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <!-- Compact topbar — no full nav, single-focus landing page -->
 <header class="lp-topbar">
   <div class="lp-topbar-inner">
-    <a href="/" class="lp-logo">Joe Tay · PropertySG</a>
+    <a href="/" class="lp-logo"><img src="joe-tay-logo.png" alt="Joe Tay logo" width="36" height="36" class="lp-logo-mark">Joe Tay · PropertySG</a>
     <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="lp-phone" aria-label="Call Joe at +65 8188 1488">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
       <span>+65 8188 1488</span>
