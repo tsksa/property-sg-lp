@@ -183,10 +183,11 @@ const ARTICLES = [
   {
     slug: 'hdb-loan-vs-bank-loan-singapore',
     title: 'HDB Loan vs Bank Loan Singapore (2026) | PropertySG',
+    modified: '2026-09-07',
     headline: 'HDB loan vs bank loan in Singapore: a 2026 comparison',
     description: 'Compare HDB and bank housing loans by interest rate, downpayment, CPF use, lock-in, early repayment and refinancing before choosing.',
     category: 'Loan comparison',
-    readTime: '9 min read',
+    readTime: '11 min read',
     lede: 'The cheapest advertised rate is not the whole decision. Cash downpayment, rate resets, lock-in clauses and the one-way switch away from HDB matter too.',
     body: `
 <table aria-label="HDB housing loan and bank loan comparison">
@@ -221,12 +222,29 @@ const ARTICLES = [
 <h2>Downpayment example</h2>
 <p>At a $600,000 flat price and 75% LTV, the minimum downpayment is $150,000. With an HDB loan, it may be paid using CPF OA, cash or both. With a bank loan, at least $30,000 (5% of the flat price) must be cash, while the remaining $120,000 can be cash or CPF OA, subject to applicable rules.</p>
 
+<h2>HDB bank loan interest rate: how bank packages are priced</h2>
+<p>Banks do not publish a single "HDB bank loan interest rate". A package is either fixed for a stated period, typically one to three years, and then floating, or floating from day one, pegged to a reference rate such as 3-month compounded SORA plus the bank's spread. Once the fixed period ends the rate resets to the floating formula, so the year-one rate and the year-four rate can differ a great deal. No bank rate is quoted on this page because packages change; ask each bank for a written offer that states the fixed-period rate, the follow-on formula and the lock-in.</p>
+<p>Whatever the package rate, the bank assesses whether you can pay at a higher stress-test rate (4% for residential property loans under MAS rules), within the 55% Total Debt Servicing Ratio and, because the property is an HDB flat, the 30% Mortgage Servicing Ratio as well. <a href="msr-vs-tdsr-singapore.html">MSR vs TDSR</a> explains how the two ratios cap the loan.</p>
+
+<h2>HDB mortgage loan: which loans an HDB flat can take</h2>
+<p>Both options are mortgage loans secured on the flat. With an HDB housing loan the flat is mortgaged to HDB at the concessionary rate. With a bank loan it is mortgaged to the bank at the package rate. A flat carries one or the other, never both, and a flat already financed by a bank cannot move back to an HDB housing loan. An executive condominium bought from the developer and any private property cannot take an HDB housing loan at all, so for those the bank route is the only route.</p>
+
+<h2>Bank loan for an HDB flat: what the bank will ask for</h2>
+<ul>
+  <li>At least 5% of the flat price in cash, with the rest of the 25% downpayment in cash or CPF Ordinary Account savings.</li>
+  <li>Income documents to assess the 30% MSR and 55% TDSR at the stress-test rate, counting existing car, renovation and personal loans.</li>
+  <li>Your HFE letter for the flat purchase, plus the bank's own in-principle approval for the loan. Read the <a href="hfe-letter-singapore-guide.html">HFE letter guide</a> for timing.</li>
+  <li>A valuation of the flat. The loan is capped at 75% of the lower of price and valuation, so any cash-over-valuation is paid in cash on top of the downpayment.</li>
+</ul>
+
 <h2>Official sources and review date</h2>
-<p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.rate}" rel="noopener">interest-rate page</a> and CPF Board's current <a href="${SOURCES.compare}" rel="noopener">HDB loan or bank loan comparison</a>. Bank packages are not quoted because they change; obtain current written offers.</p>`,
+<p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.rate}" rel="noopener">interest-rate page</a> and CPF Board's current <a href="${SOURCES.compare}" rel="noopener">HDB loan or bank loan comparison</a>. The sections on bank pricing and bank requirements were added 7 September 2026 and rely on the same sources plus CPF Board's <a href="${SOURCES.ratios}" rel="noopener">home-buying guide</a>. Bank packages are not quoted because they change; obtain current written offers.</p>`,
     faqs: [
       ['What is the HDB housing loan interest rate in 2026?', 'HDB publishes a 2.6% concessionary rate for 1 July to 30 September 2026. The rate is pegged 0.1 percentage point above the prevailing CPF Ordinary Account rate and can be reviewed quarterly.'],
       ['Can I switch from a bank loan back to an HDB loan?', 'No. CPF Board states that a flat already financed with a bank loan cannot switch back to an HDB housing loan for that property.'],
       ['How much cash is required for an HDB flat with a bank loan?', 'At 75% LTV, the 25% downpayment includes at least 5% of the flat price in cash. The remaining 20% can be paid with cash or CPF OA, subject to the applicable rules.'],
+      ['Does the 30% MSR apply to a bank loan for an HDB flat?', 'Yes. The Mortgage Servicing Ratio applies to housing loans for HDB flats and executive condominiums whether the lender is HDB or a bank, and a bank loan must also pass the 55% Total Debt Servicing Ratio at the stress-test rate.'],
+      ['What is the bank loan interest rate for an HDB flat?', 'There is no single rate. Banks price HDB flat loans as fixed-then-floating or floating packages, usually pegged to SORA plus a spread, and the rate resets after any fixed period. Compare written offers on the follow-on formula, lock-in and fees, not only the headline rate.'],
     ],
   },
   hdbPolicyArticle,

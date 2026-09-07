@@ -31,6 +31,7 @@ const LINK_GROUPS = [
     ['/about-joe/', 'About Joe'],
     ['/new-launches/', 'New launches'],
     ['/insights/', 'Guides & insights'],
+    ['/insights/#hdb-financing', 'HDB financing guides'],
     ['/glossary/', 'Property glossary'],
   ]],
   ['Popular now', [

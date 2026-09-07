@@ -25,7 +25,7 @@ test('the shared footer links every lead-generating tool page', () => {
 });
 
 test('the shared footer links every content/browse section', () => {
-  const expected = ['/new-launches/', '/insights/', '/glossary/'];
+  const expected = ['/new-launches/', '/insights/', '/insights/#hdb-financing', '/glossary/'];
   for (const href of expected) {
     assert.match(html, new RegExp(`href="${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`), `footer missing link to ${href}`);
   }
