@@ -176,73 +176,68 @@ function breadcrumbJson(project) {
   };
 }
 
+function availabilityFaqEntries(project) {
+  const launch = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+  return [
+    [
+      `Are ${project.name} balance units available?`,
+      `No official balance-unit count has been published because ${project.name} has not launched for sale. The developer plans to launch by ${launch}.`,
+    ],
+    [
+      `When will ${project.name} launch?`,
+      `The developer plans to launch ${project.name} for sale by ${launch}. Exact preview and booking dates have not been announced.`,
+    ],
+    [
+      `How many homes are planned at ${project.name}?`,
+      `${project.name} is planned as approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals.`,
+    ],
+  ];
+}
+
 function availabilityFaqJson(project) {
   if (project.availabilityStatus?.state !== 'pre-launch') return null;
-  const launch = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `Are ${project.name} balance units available?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `No official balance-unit count has been published because ${project.name} has not launched for sale. The developer plans to launch by ${launch}.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `When will ${project.name} launch?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `The developer plans to launch ${project.name} for sale by ${launch}. Exact preview and booking dates have not been announced.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `How many homes are planned at ${project.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `${project.name} is planned as approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals.`,
-        },
-      },
-    ],
+    mainEntity: availabilityFaqEntries(project).map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   };
 }
 
+function layoutFaqEntries(project) {
+  const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
+  return [
+    [
+      `Does ${project.name} have dual-key units?`,
+      `Dual-key units are not officially confirmed for ${project.name}. No official floor plan or developer release checked as of ${formatDate(project.layoutStatus.asOf)} identifies a dual-key layout.`,
+    ],
+    [
+      `When will ${project.name} floor plans be available?`,
+      `${project.name} is expected to preview in ${launch}. Exact floor-plan release, preview and booking dates have not been announced.`,
+    ],
+    [
+      'What should buyers verify in a dual-key floor plan?',
+      'Check the official plan for separate entrances, the internal connection, cooking facilities, bedroom and bathroom access, and how the space works for the intended household.',
+    ],
+  ];
+}
+
+// The visible section below renders the same entries verbatim: FAQPage markup
+// is only valid when the Q&A is on the page, and before 7 Sep 2026 the two had
+// drifted (different question wording, an emphasised answer).
 function layoutFaqJson(project) {
   if (project.layoutStatus?.topic !== 'dual-key' || project.layoutStatus.state !== 'not-confirmed') return null;
-  const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: `Does ${project.name} have dual-key units?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Dual-key units are not officially confirmed for ${project.name}. No official floor plan or developer release checked as of ${formatDate(project.layoutStatus.asOf)} identifies a dual-key layout.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `When will ${project.name} floor plans be available?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `${project.name} is expected to preview in ${launch}. Exact floor-plan release, preview and booking dates have not been announced.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `What should buyers verify in a dual-key floor plan?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Check the official plan for separate entrances, the internal connection, cooking facilities, bedroom and bathroom access, and how the space works for the intended household.',
-        },
-      },
-    ],
+    mainEntity: layoutFaqEntries(project).map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   };
 }
 
@@ -257,6 +252,97 @@ function searchIntentFaqJson(project) {
       acceptedAnswer: { '@type': 'Answer', text: answer },
     })),
   };
+}
+
+// Generic, data-only FAQ for the 23 launch pages that had no FAQPage at all
+// (7 Sep 2026 audit: only Chuan Grove, Keppel Bay Plot 6 and Thomson Reserve
+// carried one). Every answer is built from fields already verified in
+// projects.json; nothing is estimated, and pages that already carry a
+// hand-tuned FAQ (availability, dual-key, search intent) keep theirs so a page
+// never ships two FAQPage blocks.
+const REGION_LABELS = {
+  CCR: 'the Core Central Region',
+  RCR: 'the Rest of Central Region',
+  OCR: 'the Outside Central Region',
+};
+
+function hasSpecialFaq(project) {
+  return Boolean(availabilityFaqJson(project) || layoutFaqJson(project) || searchIntentFaqJson(project));
+}
+
+function projectFaqEntries(project) {
+  const name = project.name;
+  const checked = formatDate(project.verifiedAt);
+  const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
+  const region = REGION_LABELS[project.region] || project.region;
+  let status;
+  if (project.status === 'sold-out') {
+    status = `As of ${checked}, ${name} is recorded as sold out. Joe can suggest current alternatives in the same district.`;
+  } else if (project.status === 'upcoming') {
+    status = `As of ${checked}, ${name} has not launched for sale. ${launchCopy(project)}. Preview and booking dates appear here only once the developer confirms them.`;
+  } else {
+    status = `As of ${checked}, ${name} is selling. Balance-unit counts change week to week and are not published here unless verified, so ask Joe for the current unit list.`;
+  }
+  let price;
+  if (project.status === 'sold-out') {
+    price = `${name} is sold out, so there is no current developer pricing to show. Joe can compare alternatives that are selling nearby.`;
+  } else if (isFresh(project.priceFrom)) {
+    price = `The verified entry price for ${name} is from ${formatMoney(project.priceFrom.value)} as of ${formatDate(project.priceFrom.asOf)}. Prices change with each developer release, so ask Joe for current pricing before comparing.`;
+  } else {
+    price = `No verified price is published on this page for ${name}. Prices change with each developer release, so Joe confirms current pricing on request rather than showing an estimate.`;
+  }
+  return [
+    [`Where is ${name}?`, `${name} is at ${project.location} in ${project.district}, ${region} of Singapore.`],
+    [`Who is the developer of ${name}?`, `${name} is developed by ${project.developer}.`],
+    [`How many units does ${name} have?`, `${name} has ${units} units. It is a ${PROPERTY_TYPES[project.propertyType].toLowerCase()} development on a ${TENURES[project.tenure].toLowerCase()} title.`],
+    [`Is ${name} still available?`, status],
+    [`What is the price of ${name}?`, price],
+  ];
+}
+
+function projectFaqJson(project) {
+  if (hasSpecialFaq(project)) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: projectFaqEntries(project).map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  };
+}
+
+function projectFaqSection(project) {
+  if (hasSpecialFaq(project)) return '';
+  const checked = formatDate(project.verifiedAt);
+  return `<section class="project-availability project-faq reveal" aria-labelledby="faq-${esc(project.slug)}">
+  <div class="project-availability-inner">
+    <div class="project-eyebrow">Quick answers · checked ${esc(checked)}</div>
+    <h2 id="faq-${esc(project.slug)}">${esc(project.name)}: the questions buyers ask first.</h2>
+    <div class="project-availability-grid">
+${projectFaqEntries(project).map(([question, answer]) => `      <article><h3>${esc(question)}</h3><p>${esc(answer)}</p></article>`).join('\n')}
+    </div>
+    <p class="project-availability-note">Every answer above comes from the dataset-backed facts on this page, verified ${esc(checked)}. Nothing is estimated.</p>
+  </div>
+</section>`;
+}
+
+function upsertFaqJsonLd(html, faq) {
+  if (!faq) return html;
+  const script = `<script type="application/ld+json">${jsonForHtml(faq)}</script>`;
+  let replaced = false;
+  html = html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (block, rawJson) => {
+    if (replaced) return block;
+    try {
+      if (JSON.parse(rawJson)['@type'] === 'FAQPage') {
+        replaced = true;
+        return script;
+      }
+    } catch {}
+    return block;
+  });
+  return replaced ? html : html.replace('</head>', `${script}\n</head>`);
 }
 
 function alternativesFor(project) {
@@ -417,15 +503,12 @@ ${project.searchIntent.faqs.map(({ question, answer }) => `      <article><h3>${
 
 function availabilitySection(project) {
   if (project.availabilityStatus?.state !== 'pre-launch') return '';
-  const launch = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
   return `<section class="project-availability reveal" aria-labelledby="availability-${esc(project.slug)}">
   <div class="project-availability-inner">
     <div class="project-eyebrow">Launch and unit status · checked ${esc(formatDate(project.availabilityStatus.asOf))}</div>
     <h2 id="availability-${esc(project.slug)}">${esc(project.name)} balance units and availability.</h2>
     <div class="project-availability-grid">
-      <article><h3>Are ${esc(project.name)} balance units available?</h3><p><strong>No official balance-unit count has been published.</strong> ${esc(project.name)} has not launched for sale, and the developer plans to launch by ${esc(launch)}. Any website showing a live balance-unit number now should be treated as unverified.</p></article>
-      <article><h3>When will ${esc(project.name)} launch?</h3><p>Sing Holdings plans to launch the project for sale by ${esc(launch)}. Exact preview and booking dates have not been announced, so this page will not invent a registration deadline.</p></article>
-      <article><h3>How many homes are planned?</h3><p>The combined development is planned for approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals. That is the planned project size—not a balance-unit figure.</p></article>
+${availabilityFaqEntries(project).map(([question, answer]) => `      <article><h3>${esc(question)}</h3><p>${esc(answer)}</p></article>`).join('\n')}
     </div>
     <p class="project-availability-note">A balance-unit count becomes meaningful only after booking begins. Ask Joe to verify the first official unit release, price list and floor plans when the developer publishes them.</p>
   </div>
@@ -471,15 +554,12 @@ ${steps}
 
 function layoutStatusSection(project) {
   if (project.layoutStatus?.topic !== 'dual-key' || project.layoutStatus.state !== 'not-confirmed') return '';
-  const launch = project.launchWindow?.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1') || 'a date to be confirmed';
   return `<section class="project-availability project-layout-status reveal" aria-labelledby="layout-status-${esc(project.slug)}">
   <div class="project-availability-inner">
     <div class="project-eyebrow">Floor-plan status · checked ${esc(formatDate(project.layoutStatus.asOf))}</div>
-    <h2 id="layout-status-${esc(project.slug)}">Does ${esc(project.name)} have dual-key units?</h2>
+    <h2 id="layout-status-${esc(project.slug)}">${esc(project.name)} dual-key units: what is confirmed.</h2>
     <div class="project-availability-grid">
-      <article><h3>Are dual-key units confirmed?</h3><p><strong>No—not in an official source yet.</strong> No developer release or official floor plan checked as of ${esc(formatDate(project.layoutStatus.asOf))} identifies a dual-key layout. Treat third-party layout claims as unverified until the developer publishes the plans.</p></article>
-      <article><h3>When should floor plans arrive?</h3><p>${esc(project.name)} is expected to preview in ${esc(launch)}. Exact floor-plan release, preview and booking dates have not been announced.</p></article>
-      <article><h3>What makes a layout dual-key?</h3><p>Check the official plan for separate entrances, the internal connection, cooking facilities, bedroom and bathroom access, and whether the arrangement fits the intended household.</p></article>
+${layoutFaqEntries(project).map(([question, answer]) => `      <article><h3>${esc(question)}</h3><p>${esc(answer)}</p></article>`).join('\n')}
     </div>
     <p class="project-availability-note">Want a factual answer when plans are released? Ask Joe to verify the official layout labels and plan details before relying on a marketing claim.</p>
   </div>
@@ -583,6 +663,7 @@ function head(project) {
   const availabilityFaq = availabilityFaqJson(project);
   const layoutFaq = layoutFaqJson(project);
   const searchIntentFaq = searchIntentFaqJson(project);
+  const projectFaq = projectFaqJson(project);
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>
@@ -604,6 +685,7 @@ function head(project) {
 ${availabilityFaq ? `<script type="application/ld+json">${jsonForHtml(availabilityFaq)}</script>` : ''}
 ${layoutFaq ? `<script type="application/ld+json">${jsonForHtml(layoutFaq)}</script>` : ''}
 ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchIntentFaq)}</script>` : ''}
+${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
@@ -625,6 +707,7 @@ ${factsheetSection(project)}
 ${availabilitySection(project)}${launchTimelineSection(project)}
 ${layoutStatusSection(project)}
 ${searchIntentSection(project)}
+${projectFaqSection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}
@@ -691,6 +774,13 @@ function refreshExistingPage(html, project) {
   html = replaceSection(html, 'project-location');
   html = replaceSection(html, 'project-section');
   html = replaceSection(html, 'project-factsheet', factsheetSection(project));
+  html = upsertFaqJsonLd(html, projectFaqJson(project));
+  const faqSection = projectFaqSection(project);
+  if (/<section class="project-availability project-faq/.test(html)) {
+    html = html.replace(/<section class="project-availability project-faq[\s\S]*?<\/section>\s*/, faqSection ? `${faqSection}\n` : '');
+  } else if (faqSection) {
+    html = html.replace(/<section class="project-take/, `${faqSection}\n<section class="project-take`);
+  }
   html = replaceSection(html, 'project-take', takeSection(project));
   html = replaceSection(html, 'project-related', relatedSection(project));
   html = replaceSection(html, 'nl-register-band', contactSection(project));

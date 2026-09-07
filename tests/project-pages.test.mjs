@@ -120,7 +120,7 @@ test('Thomson Reserve answers dual-key intent without inventing a layout', () =>
   assert.ok(project.seoDescription.length <= 155);
   assert.match(html, /<title>Thomson Reserve Dual Key Status &amp; Launch \| PropertySG<\/title>/);
   assert.match(html, /Does Thomson Reserve have dual-key units\?/);
-  assert.match(html, /No—not in an official source yet/);
+  assert.match(html, /Dual-key units are not officially confirmed for Thomson Reserve/);
   assert.match(html, /expected to preview in Q4 2026/);
   assert.match(html, /"@type": "FAQPage"/);
   assert.match(html, /Ask Joe to verify dual-key layouts/);
@@ -312,5 +312,26 @@ test('every retained legacy record has a canonical project page', () => {
     assert.ok(project, `${review.slug}: retained record missing`);
     assert.ok(MANIFEST.slugs.includes(project.slug), `${review.slug}: missing from manifest`);
     assert.ok(fs.existsSync(path.join(ROOT, new URL(project.canonicalUrl).pathname)), `${review.slug}: canonical page missing`);
+  }
+});
+
+// 7 Sep 2026 audit: 23 of 26 launch pages carried no FAQPage at all. Every
+// launch page now ships exactly one, built only from verified projects.json
+// fields, and every question and answer must be visible on the page.
+test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
+  const decode = (s) => s.replaceAll('&amp;', '&').replaceAll('&#39;', "'").replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    const schemas = [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map((m) => JSON.parse(m[1]));
+    const faqs = schemas.filter((schema) => schema['@type'] === 'FAQPage');
+    assert.equal(faqs.length, 1, `${slug}: expected exactly one FAQPage, found ${faqs.length}`);
+    assert.ok(faqs[0].mainEntity.length >= 3, `${slug}: FAQ too thin`);
+    const visible = decode(html);
+    for (const entry of faqs[0].mainEntity) {
+      assert.ok(visible.includes(`<h3>${entry.name}</h3>`), `${slug}: question not visible: ${entry.name}`);
+      assert.ok(visible.includes(`<p>${entry.acceptedAnswer.text}</p>`), `${slug}: answer not visible: ${entry.name}`);
+      assert.doesNotMatch(entry.acceptedAnswer.text, /\bestimated at\b|\bapproximately \$/i, `${slug}: answers must not estimate figures`);
+    }
   }
 });
