@@ -1,0 +1,133 @@
+name: Record GitHub activity in Notion
+on:
+  push:
+    branches: ['**']
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, review_requested, closed]
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: notion-sync-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # No checkout, external actions, dependency installs, or execution of PR code.
+      # pull_request_target reads event metadata with the trusted base workflow.
+      - name: Record event
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        shell: bash
+        run: |
+          python3 - <<'PYTHON'
+          """Record GitHub event metadata in Notion; never execute repository code."""
+          import json
+          import os
+          import time
+          import urllib.error
+          import urllib.request
+          from datetime import datetime, timezone
+          
+          ACTIVITY = '2e3e30f5-bceb-4803-9b8e-a981101312bd'
+          PROJECTS = 'ea03967d-1ba1-453e-8b68-d016e6e435e6'
+          
+          
+          def rich(value):
+              return [{'type': 'text', 'text': {'content': str(value)[:1900]}}] if value else []
+          
+          
+          def properties(event, env):
+              repo = env['GITHUB_REPOSITORY']
+              url = 'https://github.com/' + repo
+              kind = env['GITHUB_EVENT_NAME']
+              run = env['GITHUB_RUN_ID']
+              now = datetime.now(timezone.utc).isoformat()
+              branch, commit, state, link, occurred = '', '', '', url, now
+              if kind == 'push':
+                  label = 'Push'
+                  branch = event.get('ref', '')
+                  commit = event.get('after', '')
+                  state = 'Deleted' if event.get('deleted') else 'Pushed'
+                  if state == 'Deleted':
+                      commit = ''
+                  link = url + '/commit/' + commit if commit else url
+                  occurred = (event.get('head_commit') or {}).get('timestamp') or now
+                  title = f'{repo}: {state.lower()} {branch}'
+              elif kind == 'pull_request_target':
+                  label = 'Pull Request'
+                  pr = event['pull_request']
+                  state = 'Merged' if pr.get('merged') else event.get('action', pr['state'])
+                  branch, commit = pr['head']['ref'], pr['head']['sha']
+                  link = pr['html_url']
+                  occurred = pr.get('merged_at') or pr.get('updated_at') or now
+                  title = f"{repo} PR #{pr['number']}: {state}"
+              elif kind == 'release':
+                  label = 'Release'
+                  release = event['release']
+                  state, branch = event.get('action', 'published'), release['tag_name']
+                  link, occurred = release['html_url'], release.get('published_at') or now
+                  title = f'{repo}: release {branch}'
+              elif kind == 'workflow_dispatch':
+                  label, state, title = 'Sync Check', 'Verified', f'{repo}: connection check'
+              else:
+                  raise ValueError('Unsupported event type')
+              # Run ID is unchanged on retry; no run-attempt suffix. Separate events keep separate rows.
+              return {
+                  'Activity': {'title': rich(title)},
+                  'Event Key': {'rich_text': rich(f'{repo}:{run}')},
+                  'Repository': {'url': url}, 'Event': {'select': {'name': label}},
+                  'State': {'rich_text': rich(state)}, 'Branch': {'rich_text': rich(branch)},
+                  'Commit': {'rich_text': rich(commit)}, 'Link': {'url': link},
+                  'Occurred': {'date': {'start': occurred}},
+                  'Workflow Run': {'url': url + '/actions/runs/' + run},
+              }
+          
+          
+          def api(path, body):
+              token = os.environ.get('NOTION_TOKEN')
+              if not token:
+                  raise RuntimeError('Set the NOTION_TOKEN Actions secret and grant the integration access to both Notion databases.')
+              request = urllib.request.Request('https://api.notion.com/v1/' + path,
+                  data=json.dumps(body).encode(), method='POST', headers={
+                      'Authorization': 'Bearer ' + token, 'Notion-Version': '2025-09-03',
+                      'Content-Type': 'application/json'})
+              for attempt in range(5):
+                  try:
+                      with urllib.request.urlopen(request, timeout=30) as response:
+                          return json.load(response)
+                  except urllib.error.HTTPError as exc:
+                      # Only retry explicit rate limiting. An ambiguous create must be reconciled by key on rerun.
+                      if exc.code == 429 and attempt < 4:
+                          time.sleep(min(float(exc.headers.get('Retry-After', '3')), 30))
+                          continue
+                      raise RuntimeError(f'Notion returned HTTP {exc.code}; check access/schema or rerun after an outage.') from None
+              raise RuntimeError('Notion rate limit retry budget exhausted')
+          
+          
+          def sync(event, env, call=api):
+              props = properties(event, env)
+              key = props['Event Key']['rich_text'][0]['text']['content']
+              existing = call(f'data_sources/{ACTIVITY}/query', {
+                  'filter': {'property': 'Event Key', 'rich_text': {'equals': key}}, 'page_size': 2})
+              if existing['results']:
+                  return 'Already recorded'
+              projects = call(f'data_sources/{PROJECTS}/query', {
+                  'filter': {'property': 'Repository', 'url': {'equals': props['Repository']['url']}}, 'page_size': 2})
+              if len(projects['results']) != 1:
+                  raise RuntimeError('Expected exactly one Notion project matching this repository URL.')
+              props['Project'] = {'relation': [{'id': projects['results'][0]['id']}]}
+              result = call('pages', {'parent': {'type': 'data_source_id', 'data_source_id': ACTIVITY}, 'properties': props})
+              if not result.get('id'):
+                  raise RuntimeError('Notion did not confirm the created page')
+              return 'GitHub activity recorded'
+          
+          
+          if __name__ == '__main__':
+              with open(os.environ['GITHUB_EVENT_PATH']) as f:
+                  event = json.load(f)
+              print(sync(event, os.environ))
+          PYTHON
