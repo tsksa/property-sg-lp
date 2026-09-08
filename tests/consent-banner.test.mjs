@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 import { consentBannerHtml, CONSENT_BANNER_MARKER } from '../scripts/lib/consent-banner.mjs';
@@ -11,6 +12,47 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 function read(rel) {
   return fs.readFileSync(path.join(ROOT, rel), 'utf8');
 }
+
+test('consent copy discloses optional advertising and does not imply consent from browsing', () => {
+  for (const html of [consentBannerHtml(), read('index.html')]) {
+    assert.match(html, /Google\/Meta advertising, including personalization/);
+    assert.match(html, /Browsing is not consent/);
+    assert.doesNotMatch(html, /By continuing to browse, you agree/);
+  }
+  const policy = read('privacy-policy.html');
+  assert.match(policy, /Meta Pixel/);
+  assert.match(policy, /advertising user data and personalization/);
+  assert.doesNotMatch(policy, /We do not run remarketing pixels/);
+  assert.match(policy, /id="withdrawCookieConsent"/);
+  assert.match(policy, /ad_personalization:'denied'/);
+  assert.match(policy, /window\.location\.reload\(\)/);
+});
+
+test('privacy withdrawal persists decline, revokes vendors and reloads before further browsing', () => {
+  const policy = read('privacy-policy.html');
+  const script = policy.match(/<script>\s*(document\.getElementById\('withdrawCookieConsent'\)[\s\S]*?)<\/script>/)[1];
+  let click;
+  let reloaded = false;
+  const storage = new Map([['pdpa_consent', 'accepted']]);
+  const session = new Map([['jt_lead_attribution_v1', 'test-attribution']]);
+  const calls = [];
+  const window = { location: { reload() { reloaded = true; } } };
+  vm.runInNewContext(script, {
+    window,
+    document: { getElementById() { return { addEventListener(type, fn) { assert.equal(type, 'click'); click = fn; } }; } },
+    localStorage: { setItem(key, value) { storage.set(key, value); } },
+    sessionStorage: { removeItem(key) { session.delete(key); } },
+    gtag: (...args) => calls.push(args),
+    fbq: (...args) => calls.push(args),
+  });
+  click();
+  assert.equal(storage.get('pdpa_consent'), 'declined');
+  assert.equal(session.has('jt_lead_attribution_v1'), false);
+  assert.equal(window['ga-disable-G-1YQE8JN66P'], true);
+  assert.equal(calls[0][2].ad_personalization, 'denied');
+  assert.deepEqual(calls[1], ['consent', 'revoke']);
+  assert.equal(reloaded, true);
+});
 
 function allHtmlFiles() {
   const out = [];

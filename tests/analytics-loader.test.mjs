@@ -121,3 +121,18 @@ test('a Google-only page never queues or downloads the Meta pixel', () => {
   ]);
   assert.equal(h.context.fbq, undefined);
 });
+
+test('declined consent never loads vendors, including after interaction and fallback', () => {
+  const h = harness({ consent: 'declined', readyState: 'complete' });
+  h.fireDocument('pointerdown');
+  h.runTimers();
+  assert.deepEqual(h.scriptSources(), []);
+});
+
+test('withdrawal before deferred load prevents a pending interaction or fallback from loading vendors', () => {
+  const h = harness({ consent: 'accepted', readyState: 'complete' });
+  h.storage.set('pdpa_consent', 'declined');
+  h.fireDocument('pointerdown');
+  h.runTimers();
+  assert.deepEqual(h.scriptSources(), []);
+});

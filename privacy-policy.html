@@ -83,7 +83,7 @@ footer a{color:#666}
 <main id="main" tabindex="-1">
   <h1>Privacy Policy</h1>
   <p class="lede">How PropertySG collects, uses, discloses and protects your personal data.</p>
-  <p class="updated">Last updated: 11 June 2026</p>
+  <p class="updated">Last updated: 8 September 2026</p>
   <div class="callout">
     This policy is issued in accordance with the Singapore <strong>Personal Data Protection Act 2012 (PDPA)</strong>. By submitting your details through our website, forms, WhatsApp, or scheduled consultations, you consent to the collection and use of your personal data as described below.
   </div>
@@ -95,7 +95,7 @@ footer a{color:#666}
     <li><strong>Contact details</strong> — name, mobile number, email address.</li>
     <li><strong>Property details</strong> — property type (HDB/Condo/Landed/Commercial), intent (sell/rent/buy/valuation), address or area if you share it.</li>
     <li><strong>Communication records</strong> — messages exchanged via WhatsApp, email, phone calls and consultation notes.</li>
-    <li><strong>Technical data</strong> — basic web analytics such as browser type, device, referring page. We do not use invasive tracking cookies.</li>
+    <li><strong>Technical data</strong> — browser type, device, referring page and, if you accept optional cookies, analytics and advertising identifiers and interaction events. See Section 8 for the providers and your choices.</li>
   </ul>
   <h2>3. How we use your data</h2>
   <p>The purposes for which we may use your personal data, in and outside Singapore, include:</p>
@@ -123,7 +123,7 @@ footer a{color:#666}
     <li><strong>Messaging platforms</strong> (WhatsApp / Meta) — when you initiate contact via those channels. Outbound notifications to our team are delivered via <strong>Twilio</strong> (WhatsApp Business API provider).</li>
     <li><strong>Form processing &amp; lead routing</strong> — form submissions are handled by <strong>Netlify Functions</strong> (hosting, including transient rate-limit storage of IP and email) and forwarded to a private Google Sheet for record-keeping.</li>
     <li><strong>Bot &amp; abuse prevention</strong> — submissions are scored by <strong>Google reCAPTCHA v3</strong> to filter automated traffic; this involves Google receiving your IP address, browser fingerprint, and on-page interaction signals per <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
-    <li><strong>Analytics &amp; advertising measurement</strong> — anonymous usage statistics and conversion events are collected via <strong>Google Analytics 4</strong> and <strong>Google Ads conversion tracking</strong>; further detail in Section 8.</li>
+    <li><strong>Analytics &amp; advertising</strong> — after optional-cookie consent, usage and conversion events may be shared with <strong>Google Analytics 4</strong>, <strong>Google Ads</strong> and <strong>Meta Pixel</strong>. These can include cookie identifiers, page URLs and interaction information; they should not be treated as anonymous. See Section 8.</li>
     <li><strong>Professional service providers</strong> — conveyancing lawyers, valuers and photographers engaged for your transaction.</li>
     <li><strong>Regulators and law enforcement</strong> — where required by Singapore law.</li>
   </ul>
@@ -144,15 +144,31 @@ footer a{color:#666}
   <p>Our website uses cookies and local storage for three purposes:</p>
   <ul>
     <li><strong>Essential</strong> — remembering whether you closed a popup, dark-mode preference, and similar UI state. Set in your browser only, not shared with any third party.</li>
-    <li><strong>Analytics</strong> — <strong>Google Analytics 4</strong> sets first-party <code>_ga</code> / <code>_ga_*</code> cookies to measure page views and session activity in aggregate. We have configured GA4 to anonymise IP addresses where supported.</li>
-    <li><strong>Conversion tracking</strong> — when you arrive via a Google Ads click, <strong>Google Ads conversion tracking</strong> sets <code>_gcl_*</code> cookies so we can measure whether the click resulted in a phone call, WhatsApp message, valuation enquiry or consultation booking. This is aggregated measurement only — we do not use it for cross-site behavioural advertising on this site.</li>
+    <li><strong>Analytics</strong> — after you accept optional cookies, <strong>Google Analytics 4</strong> can use <code>_ga</code> / <code>_ga_*</code> cookies to measure page views, sessions and interactions. We review aggregate reports; Google receives device and online identifiers as part of this measurement.</li>
+    <li><strong>Advertising</strong> — after you accept, <strong>Google Ads</strong> and, on pages where enabled, <strong>Meta Pixel</strong> can measure visits and contact actions using advertising cookies and identifiers (such as <code>_gcl_*</code> and <code>_fbp</code>). The Google consent settings also permit advertising user data and personalization. Meta receives page-view and supported interaction events. Depending on provider/account settings, this data may support personalized advertising or remarketing as well as conversion measurement. Read <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google's partner-site data explanation</a> and <a href="https://www.facebook.com/privacy/policies/cookies/" target="_blank" rel="noopener">Meta's cookie policy</a>.</li>
   </ul>
   <p>You can opt out of Google Analytics across all sites by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-Out browser add-on</a>, or by blocking cookies for <code>google-analytics.com</code> and <code>googletagmanager.com</code> in your browser settings. Blocking these does not affect your ability to use the site.</p>
-  <p>We do not run remarketing pixels, behavioural ad targeting, or third-party advertising cookies on this site.</p>
+  <p><strong>Your choice:</strong> optional analytics and advertising scripts load only after you choose Accept. No thanks keeps them off; simply browsing is not consent. You can withdraw optional-cookie consent below without disabling calculators or enquiry forms. Withdrawal stops optional tracking on subsequent page loads; it does not undo data already received by providers. You can remove existing cookies using your browser settings.</p>
+  <style>
+  #withdrawCookieConsent{min-height:44px;background:#047857;color:#fff;border:0;border-radius:8px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
+  #withdrawCookieConsent:hover{background:#065f46}
+  #withdrawCookieConsent:focus-visible{outline:3px solid #0b1e3f;outline-offset:3px}
+  </style>
+  <button type="button" id="withdrawCookieConsent">Withdraw optional-cookie consent</button>
+  <script>
+  document.getElementById('withdrawCookieConsent').addEventListener('click',function(){
+    try{localStorage.setItem('pdpa_consent','declined');sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}
+    window['ga-disable-GT-KVFDZD5V']=true;
+    window['ga-disable-G-1YQE8JN66P']=true;
+    try{if(typeof gtag==='function')gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});}catch(e){}
+    try{if(typeof fbq==='function')fbq('consent','revoke');}catch(e){}
+    window.location.reload();
+  });
+  </script>
   <h2>9. Children's data</h2>
   <p>Our services are directed at adults aged 21 and above (the minimum age for property transactions in Singapore). We do not knowingly collect data from minors.</p>
   <h2>10. Changes to this policy</h2>
-  <p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date at the top of this page. Continued use of our services after changes constitutes acceptance of the revised policy.</p>
+  <p>We may update this policy from time to time. Material changes will be reflected by updating the "Last updated" date at the top of this page. A policy update does not change your stored optional-cookie choice; where a new consent is needed, we will ask for it.</p>
   <h2>11. Contact — Data Protection Officer</h2>
   <address class="contact-box">
     <p style="margin-bottom:8px"><strong>Joe Tay · PropertySG — Data Protection Enquiries</strong></p>
@@ -181,7 +197,7 @@ footer a{color:#666}
 })();
 </script>
 <div class="jt-cb" data-jt-consent-banner id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
-  <p><strong id="jtConsentBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+  <p><strong id="jtConsentBannerHeading">Your cookie choice</strong> — Accept optional cookies for Google analytics and Google/Meta advertising, including personalization. No thanks keeps optional tracking off. Browsing is not consent. <a href="/privacy-policy.html">Privacy Policy &amp; withdrawal</a>.</p>
   <div class="jt-cb-actions">
     <button type="button" class="jt-cb-decline" id="jtConsentDecline" aria-label="No thanks — decline non-essential cookies">No thanks</button>
     <button type="button" id="jtConsentAccept" aria-label="Accept cookies">Accept</button>

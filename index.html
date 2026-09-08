@@ -843,7 +843,7 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .hero-testimonial{margin:0 auto;text-align:center;border-left:0;padding-left:0}
   .hero-form{margin:0 auto}
 }
-@media(max-width:768px){
+@media(max-width:1024px){
   body.mobile-nav-open{overflow:hidden}
   body.mobile-nav-open .cookie-banner.show{visibility:hidden;pointer-events:none}
   .site-nav{padding:0 20px}
@@ -858,6 +858,8 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .site-nav .nav-links .dark-toggle{position:static;width:100%;height:44px;justify-content:flex-start;gap:10px;border:0;border-radius:0;border-top:1px solid rgba(255,255,255,.08);background:transparent;box-shadow:none;font-size:.95rem;color:#fff}
   .site-nav .nav-links .dark-toggle:hover{transform:none;color:var(--emerald)}
   .site-nav .nav-links .dark-toggle-label{display:inline;font-size:.82rem;font-weight:600}
+}
+@media(max-width:768px){
   /* 92px still leaves 25px of clear space below the 67px-tall fixed nav; the
      reclaimed 12px is what brings the submit button clear of the sticky call bar. */
   .hero{padding:92px 20px 72px;min-height:100svh}
@@ -1931,7 +1933,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </a>
 <!-- PDPA Cookie Consent Banner -->
 <div class="cookie-banner" id="cookieBanner" role="region" aria-labelledby="cookieBannerHeading">
-  <p><strong id="cookieBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
+  <p><strong id="cookieBannerHeading">Your cookie choice</strong> — Accept optional cookies for Google analytics and Google/Meta advertising, including personalization. No thanks keeps optional tracking off. Browsing is not consent. <a href="privacy-policy.html">Privacy Policy &amp; withdrawal</a>.</p>
   <div class="cookie-actions">
     <button type="button" id="cookieDecline" aria-label="No thanks — decline non-essential cookies">No thanks</button>
     <button type="button" id="cookieAccept" aria-label="Accept cookies">Accept</button>
@@ -2431,7 +2433,7 @@ const navBurger=document.getElementById('navBurger');
 const navLinksEl=document.getElementById('navLinks');
 if(navBurger&&navLinksEl){
   const navCta=document.querySelector('.site-nav .nav-cta');
-  const mobileNavQuery=window.matchMedia('(max-width: 768px)');
+  const mobileNavQuery=window.matchMedia('(max-width: 1024px)');
   const navFocusable=()=>[navBurger,...navLinksEl.querySelectorAll('a[href],button:not([disabled])'),navCta].filter(Boolean);
   const setNav=(open,restoreFocus=false)=>{
     open=Boolean(open&&mobileNavQuery.matches);

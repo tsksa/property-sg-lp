@@ -328,6 +328,7 @@ exports.handler = async (event) => {
     tasks.push(
       fetch(process.env.LEAD_WEBHOOK_URL, {
         method: 'POST',
+        signal: AbortSignal.timeout(8000),
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(enriched),
       })
@@ -501,6 +502,7 @@ exports.handler = async (event) => {
         'https://api.twilio.com/2010-04-01/Accounts/' + process.env.TWILIO_ACCOUNT_SID + '/Messages.json',
         {
           method: 'POST',
+          signal: AbortSignal.timeout(8000),
           headers: {
             Authorization: 'Basic ' + auth,
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -574,12 +576,19 @@ exports.handler = async (event) => {
   const deliveryAttempted = webhookResult != null || twilioResult != null;
   logEnquiryOutcome(deliveryAttempted ? 'accepted' : 'delivery_not_configured', {
     leadType: enriched.lead_type,
-    statusCode: 200,
+    statusCode: deliveryAttempted ? 200 : 503,
     reviewRequired,
     webhookResult,
     twilioResult,
     agentosResult,
   });
+  if (!deliveryAttempted) {
+    return {
+      statusCode: 503,
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: false, error: 'Enquiry delivery is temporarily unavailable. Please contact Joe directly.' }),
+    };
+  }
   return { statusCode: 200, headers: corsHeaders, body: JSON.stringify({ ok: true }) };
 };
 

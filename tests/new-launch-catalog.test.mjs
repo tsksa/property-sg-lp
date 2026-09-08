@@ -10,6 +10,20 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
 const pages = buildCatalogPages(DATA);
 
+test('secondary filters use a keyboard-accessible disclosure without hiding search or reset', () => {
+  for (const html of [pages.index]) {
+    assert.match(html, /<details class="nl-secondary-filters">\s*<summary>Filters and sort/);
+    const details = html.match(/<details class="nl-secondary-filters">[\s\S]*?<\/details>/)[0];
+    assert.doesNotMatch(details, /nlCatalogSearch|type="reset"/);
+    for (const id of ['nlStatusFilter','nlRegionFilter','nlTypeFilter','nlTenureFilter','nlSort']) {
+      assert.ok(details.includes(`id="${id}"`));
+    }
+  }
+  const js = fs.readFileSync(path.join(ROOT, 'new-launches/new-launches.js'), 'utf8');
+  assert.match(js, /catalogForm\.addEventListener\('submit'/);
+  assert.match(js, /activeFilters\.textContent = selectedCount/);
+});
+
 test('all active projects render statically and sold-out projects use the archive', () => {
   assert.equal(pages.active.length, 25);
   assert.equal(pages.soldOutProjects.length, 1);
