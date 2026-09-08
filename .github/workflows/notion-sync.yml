@@ -31,15 +31,15 @@ jobs:
           import urllib.error
           import urllib.request
           from datetime import datetime, timezone
-          
+
           ACTIVITY = '2e3e30f5-bceb-4803-9b8e-a981101312bd'
           PROJECTS = 'ea03967d-1ba1-453e-8b68-d016e6e435e6'
-          
-          
+
+
           def rich(value):
               return [{'type': 'text', 'text': {'content': str(value)[:1900]}}] if value else []
-          
-          
+
+
           def properties(event, env):
               repo = env['GITHUB_REPOSITORY']
               url = 'https://github.com/' + repo
@@ -85,8 +85,8 @@ jobs:
                   'Occurred': {'date': {'start': occurred}},
                   'Workflow Run': {'url': url + '/actions/runs/' + run},
               }
-          
-          
+
+
           def api(path, body):
               token = os.environ.get('NOTION_TOKEN')
               if not token:
@@ -106,8 +106,8 @@ jobs:
                           continue
                       raise RuntimeError(f'Notion returned HTTP {exc.code}; check access/schema or rerun after an outage.') from None
               raise RuntimeError('Notion rate limit retry budget exhausted')
-          
-          
+
+
           def sync(event, env, call=api):
               props = properties(event, env)
               key = props['Event Key']['rich_text'][0]['text']['content']
@@ -124,8 +124,8 @@ jobs:
               if not result.get('id'):
                   raise RuntimeError('Notion did not confirm the created page')
               return 'GitHub activity recorded'
-          
-          
+
+
           if __name__ == '__main__':
               with open(os.environ['GITHUB_EVENT_PATH']) as f:
                   event = json.load(f)
