@@ -26,6 +26,11 @@ jobs:
         with:
           node-version: "22"
 
+      # Squash merges can land on a later UTC day than the reviewed PR.
+      # Validate the same generated sitemap that Netlify publishes.
+      - name: Prepare deployment sitemap
+        run: node scripts/prepare-sitemap.mjs
+
       - name: Full check suite (npm run check)
         # `npm run check` is the full gate this repo asks contributors to run
         # before every push (AGENTS.md) — generator drift, header/footer nav,
