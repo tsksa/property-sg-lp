@@ -37,7 +37,7 @@
     "test:project-pages": "node --test tests/project-pages.test.mjs",
     "test:search-growth": "node --test tests/search-growth-report.test.mjs",
     "generate:estate-pages": "node scripts/generate-estate-pages.mjs",
-    "test:sitemap-lastmod": "node --test tests/sitemap-lastmod.test.mjs",
+    "test:sitemap-lastmod": "node --test tests/sitemap-lastmod.test.mjs tests/sitemap-build.test.mjs",
     "test:estate-windows": "node --test tests/estate-windows.test.mjs",
     "test:estate-schema": "node --test tests/estate-schema.test.mjs",
     "test:estate-lead-form": "node --test tests/estate-lead-form.test.mjs",

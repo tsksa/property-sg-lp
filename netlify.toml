@@ -2,6 +2,7 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
+  command = "node scripts/prepare-sitemap.mjs"
   publish = "."
   functions = "netlify/functions"
 
