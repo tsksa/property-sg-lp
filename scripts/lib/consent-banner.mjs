@@ -62,7 +62,7 @@ const SCRIPT = `<script>
 /** The block injected before </body> on each tracker-bearing page. Stable output — it is diffed. */
 export function consentBannerHtml() {
   return `<div class="jt-cb" ${CONSENT_BANNER_MARKER} id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
-  <p><strong id="jtConsentBannerHeading">Cookie notice</strong> — This site uses cookies for basic analytics and to remember preferences. By continuing to browse, you agree to my <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+  <p><strong id="jtConsentBannerHeading">Your cookie choice</strong> — Accept optional cookies for Google analytics and Google/Meta advertising, including personalization. No thanks keeps optional tracking off. Browsing is not consent. <a href="/privacy-policy.html">Privacy Policy &amp; withdrawal</a>.</p>
   <div class="jt-cb-actions">
     <button type="button" class="jt-cb-decline" id="jtConsentDecline" aria-label="No thanks — decline non-essential cookies">No thanks</button>
     <button type="button" id="jtConsentAccept" aria-label="Accept cookies">Accept</button>

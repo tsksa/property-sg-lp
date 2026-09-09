@@ -15,6 +15,7 @@ html:not(.jt-theme-dark) .hero-form{background:rgba(255,255,255,.94);border-colo
 html:not(.jt-theme-dark) .hero-form-heading{color:#0b1e3f}
 html:not(.jt-theme-dark) .hero-form-intro,html:not(.jt-theme-dark) .hero-form .newsletter-optin,html:not(.jt-theme-dark) .hero-form-note{color:#5d687b}
 html:not(.jt-theme-dark) .hero-form-note a{color:#0b1e3f}
+html:not(.jt-theme-dark) .hero-form .hero-response{color:#047857}
 html:not(.jt-theme-dark) .hero-valuation-link{color:#43506a}
 html:not(.jt-theme-dark) .hero-form input,html:not(.jt-theme-dark) .hero-form select{background:#fff;border-color:#cfd6df;color:#0b1e3f}
 html:not(.jt-theme-dark) .hero-form input::placeholder{color:#737d8c}
@@ -62,6 +63,29 @@ html.jt-theme-dark .blog-card:hover,html.jt-theme-dark .nl-card:hover{border-col
   html:not(.jt-theme-dark) .site-nav .nav-links{background:rgba(250,246,236,.99);border-bottom-color:rgba(11,30,63,.12)}
   html:not(.jt-theme-dark) .site-nav .nav-links a{border-bottom-color:rgba(11,30,63,.1);color:#0b1e3f}
   html:not(.jt-theme-dark) .site-nav .nav-links .jt-theme-toggle{border-top-color:rgba(11,30,63,.1);color:#0b1e3f}
+}
+
+/* Conversion controls keep their own text colour in both themes. A generic
+   dark-mode main-link colour must not wash out a filled CTA. */
+html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent){background:#047857;color:#fff}
+html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent):hover:not(:disabled){background:#065f46;color:#fff}
+html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent):focus-visible{outline:3px solid #0b1e3f;outline-offset:3px;box-shadow:0 0 0 3px #fff}
+html.jt-theme-dark main a.button-primary{background:#12b886;color:#052e22}
+html.jt-theme-dark main a.button-primary:hover{background:#6ee7c1;color:#052e22}
+html.jt-theme-dark main a.button-secondary{color:#fff}
+
+/* Keep desktop navigation labels on one line; use the existing accessible
+   menu at tablet widths instead of squeezing its links. */
+@media(min-width:1025px){
+  .site-nav .nav-links{gap:clamp(12px,1.4vw,24px);align-items:center}
+  .site-nav .nav-links a,.site-nav .nav-phone,.site-nav .nav-cta{white-space:nowrap}
+  .site-nav .nav-right{flex-shrink:0}
+}
+@media(min-width:769px) and (max-width:1400px){.site-nav .nav-phone{display:none}}
+@media(min-width:769px) and (max-width:1024px){
+  html:not(.jt-theme-dark) .site-nav .nav-links{background:rgba(250,246,236,.99);border-bottom-color:rgba(11,30,63,.12)}
+  html:not(.jt-theme-dark) .site-nav .nav-links a{border-bottom-color:rgba(11,30,63,.1);color:#0b1e3f}
+  html:not(.jt-theme-dark) .site-nav .nav-links .jt-theme-toggle{color:#0b1e3f}
 }
 
 @media(prefers-reduced-motion:reduce){.jt-theme-toggle{transition:none}}

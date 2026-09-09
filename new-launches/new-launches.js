@@ -67,6 +67,7 @@
     var resultCount = document.getElementById('nlResultCount');
     var emptyState = document.getElementById('nlEmptyState');
     var emptyReset = document.getElementById('nlEmptyReset');
+    var activeFilters = document.getElementById('nlActiveFilters');
 
     function compareText(a, b){
       return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
@@ -107,6 +108,11 @@
         catalog.appendChild(card);
       });
       resultCount.textContent = shown;
+      if(activeFilters){
+        var selectedCount = [statusFilter, regionFilter, typeFilter, tenureFilter].filter(function(control){ return !!control.value; }).length;
+        activeFilters.textContent = selectedCount ? '(' + selectedCount + ' active)' : '';
+        if(sortControl.value !== 'default') activeFilters.textContent += ' · sorted';
+      }
       emptyState.hidden = shown !== 0;
       catalog.hidden = shown === 0;
       if(announce && filterStatus){
@@ -117,6 +123,7 @@
     }
 
     catalogForm.addEventListener('input', function(){ applyCatalogControls(true); });
+    catalogForm.addEventListener('submit', function(event){ event.preventDefault(); applyCatalogControls(true); });
     catalogForm.addEventListener('change', function(){ applyCatalogControls(true); });
     catalogForm.addEventListener('reset', function(){
       window.setTimeout(function(){ applyCatalogControls(true); }, 0);

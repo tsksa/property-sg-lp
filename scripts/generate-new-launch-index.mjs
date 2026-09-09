@@ -283,11 +283,16 @@ function controlsHtml(projects) {
     </div>
     <form id="nlCatalogControls" class="nl-controls-form" role="search">
       <label class="nl-search-field"><span>Search</span><input id="nlCatalogSearch" type="search" placeholder="Project, developer or location" autocomplete="off"></label>
+      <details class="nl-secondary-filters">
+      <summary>Filters and sort <span id="nlActiveFilters"></span></summary>
+      <div class="nl-filter-fields">
       <label><span>Status</span><select id="nlStatusFilter"><option value="">All statuses</option>${options(statuses, STATUS_LABELS)}</select></label>
       <label><span>Region</span><select id="nlRegionFilter"><option value="">All regions</option>${options(regions, {})}</select></label>
       <label><span>Property type</span><select id="nlTypeFilter"><option value="">All property types</option>${options(propertyTypes, PROPERTY_TYPE_LABELS)}</select></label>
       <label><span>Tenure</span><select id="nlTenureFilter"><option value="">All tenures</option>${options(tenures, TENURE_LABELS)}</select></label>
       <label><span>Sort</span><select id="nlSort"><option value="default">Recommended</option><option value="newest">Newest launch</option><option value="price">Lowest verified entry price</option></select></label>
+      </div>
+      </details>
       <button type="reset" class="nl-reset">Reset</button>
     </form>
   </div>

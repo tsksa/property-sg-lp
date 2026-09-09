@@ -60,7 +60,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-controls-heading h2,.nl-results-head h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.3rem,2.5vw,1.7rem);line-height:1.2}
 .nl-controls-eyebrow{color:var(--emerald);font-size:.68rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:4px}
 .nl-archive-link{font-size:.84rem;font-weight:700;white-space:nowrap}
-.nl-controls-form{display:grid;grid-template-columns:minmax(220px,2fr) repeat(5,minmax(120px,1fr)) auto;gap:12px;align-items:end}
+.nl-controls-form{display:grid;grid-template-columns:minmax(220px,2fr) minmax(220px,1fr) auto;gap:12px;align-items:start}
+.nl-secondary-filters{min-width:0;border:1px solid #d9d9d9;border-radius:9px;background:#fff;color:#0b1e3f}
+.nl-secondary-filters summary{min-height:44px;padding:12px;cursor:pointer;font-weight:700;font-size:.86rem}
+.nl-secondary-filters summary:focus-visible{outline:3px solid #047857;outline-offset:3px}
+.nl-filter-fields{display:grid;gap:12px;padding:0 12px 12px}
+html.jt-theme-dark .nl-secondary-filters{background:#07172f;color:#f8fafc;border-color:#52627a}
 .nl-controls-form label{display:flex;flex-direction:column;gap:6px;color:var(--ink-soft);font-size:.72rem;font-weight:700;letter-spacing:.5px}
 .nl-controls-form input,.nl-controls-form select{width:100%;min-height:44px;padding:10px 12px;border:1px solid #d9d9d9;border-radius:9px;background:#fff;color:var(--ink);font:500 .86rem 'DM Sans',sans-serif}
 .nl-controls-form input:hover,.nl-controls-form select:hover{border-color:var(--emerald)}
@@ -524,7 +529,7 @@ body.nl-modal-open{overflow:hidden}
   .nl-main{padding-top:28px;padding-bottom:56px}
   .nl-controls-heading,.nl-results-head{align-items:flex-start;flex-direction:column}
   .nl-controls-form{grid-template-columns:1fr 1fr}
-  .nl-search-field,.nl-reset{grid-column:1/-1}
+  .nl-search-field,.nl-secondary-filters,.nl-reset{grid-column:1/-1}
   .nl-grid{gap:18px}
   .nl-mobile-cta{gap:6px;padding-left:8px;padding-right:8px}
   .nl-mobile-cta a{font-size:0.74rem;padding:11px 4px;gap:4px}

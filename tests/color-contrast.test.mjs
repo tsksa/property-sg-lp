@@ -107,6 +107,30 @@ function cssColour(file, selector, property, backdrop) {
 
 const cases = [
   {
+    name: 'light hero reassurance text',
+    file: 'assets/site-theme.css',
+    foreground: ['html:not(.jt-theme-dark) .hero-form .hero-response', 'color'],
+    background: '#f0f0f0',
+  },
+  {
+    name: 'shared conversion buttons in both themes',
+    file: 'assets/site-theme.css',
+    foreground: ['html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent)', 'color'],
+    background: ['html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent)', 'background'],
+  },
+  {
+    name: 'shared conversion button hover',
+    file: 'assets/site-theme.css',
+    foreground: ['html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent):hover:not(:disabled)', 'color'],
+    background: ['html :is(.hero-form .cta-submit,.np-row button,.np-alert button,#withdrawCookieConsent):hover:not(:disabled)', 'background'],
+  },
+  {
+    name: 'dark profile filled CTA',
+    file: 'assets/site-theme.css',
+    foreground: ['html.jt-theme-dark main a.button-primary', 'color'],
+    background: ['html.jt-theme-dark main a.button-primary', 'background'],
+  },
+  {
     name: 'HDB inline stamp-duty link',
     file: 'calculator/index.html',
     foreground: ['.calc-cta p a', 'color'],

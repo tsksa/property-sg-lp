@@ -47,8 +47,70 @@ test('only Twilio configured and it succeeds -> not everythingFailed', () => {
   assert.equal(computeEverythingFailed(null, { ok: true }), false);
 });
 
-test('neither channel configured or attempted -> not everythingFailed (nothing to report)', () => {
+test('neither channel attempted is handled separately as delivery_not_configured', () => {
   assert.equal(computeEverythingFailed(null, null), false);
+});
+
+test('handler bounds delivery requests, preserves partial success and rejects missing delivery', async (t) => {
+  const keys = ['LEAD_WEBHOOK_URL','AGENTOS_LEAD_URL','RECAPTCHA_SECRET','TWILIO_ACCOUNT_SID','TWILIO_AUTH_TOKEN','TWILIO_WHATSAPP_FROM','TWILIO_WHATSAPP_TO'];
+  const originalEnv = Object.fromEntries(keys.map(key => [key, process.env[key]]));
+  const logs = [];
+  t.mock.method(console, 'warn', () => {});
+  t.mock.method(console, 'log', (...args) => logs.push(args.join(' ')));
+  t.mock.method(AbortSignal, 'timeout', (ms) => {
+    assert.equal(ms, 8000, 'delivery timeout must remain bounded at eight seconds');
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(new Error('test timeout')), 5);
+    return controller.signal;
+  });
+  let scenario;
+  t.mock.method(global, 'fetch', async (url, options) => {
+    assert.ok(options.signal instanceof AbortSignal);
+    const channel = String(url).includes('twilio.com') ? 'twilio' : 'webhook';
+    if (scenario[channel] === 'timeout') {
+      return new Promise((resolve, reject) => {
+        options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true });
+      });
+    }
+    // Also exercise a body which stalls after successful response headers.
+    return { ok: true, status: 200, text: () => scenario[channel] === 'body-timeout'
+      ? new Promise((resolve, reject) => options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true }))
+      : Promise.resolve('private response') };
+  });
+  try {
+    const scenarios = [
+      { status: 503, outcome: 'delivery_not_configured' },
+      { webhook: 'timeout', status: 502, outcome: 'delivery_failed' },
+      { twilio: 'timeout', status: 502, outcome: 'delivery_failed' },
+      { webhook: 'timeout', twilio: 'ok', status: 200, outcome: 'accepted' },
+      { webhook: 'ok', twilio: 'timeout', status: 200, outcome: 'accepted' },
+      { webhook: 'timeout', twilio: 'timeout', status: 502, outcome: 'delivery_failed' },
+      { webhook: 'body-timeout', status: 502, outcome: 'delivery_failed' },
+    ];
+    for (const [index, item] of scenarios.entries()) {
+      scenario = item;
+      for (const key of keys) delete process.env[key];
+      if (scenario.webhook) process.env.LEAD_WEBHOOK_URL = 'https://webhook.example.test/lead';
+      if (scenario.twilio) {
+        process.env.TWILIO_ACCOUNT_SID = 'test';
+        process.env.TWILIO_AUTH_TOKEN = 'test';
+        process.env.TWILIO_WHATSAPP_FROM = 'whatsapp:+6500000000';
+        process.env.TWILIO_WHATSAPP_TO = 'whatsapp:+6500000001';
+      }
+      logs.length = 0;
+      const response = await handler(leadEvent({ headers: { 'x-nf-client-connection-ip': `203.0.113.${100 + index}` }, body: { email: '' } }));
+      assert.equal(response.statusCode, scenario.status, JSON.stringify(scenario));
+      assert.equal(JSON.parse(response.body).ok, scenario.status === 200);
+      const outcome = parseOutcome(logs.find(line => line.startsWith('ENQUIRY_OUTCOME ')));
+      assert.equal(outcome.outcome, scenario.outcome);
+      assert.equal(outcome.http_status, scenario.status);
+      assert.doesNotMatch(JSON.stringify(outcome), /private response|Private Person|91234567/);
+    }
+  } finally {
+    for (const [key, value] of Object.entries(originalEnv)) {
+      if (value === undefined) delete process.env[key]; else process.env[key] = value;
+    }
+  }
 });
 
 test('delivery outcome exposes channel health without provider bodies', () => {
