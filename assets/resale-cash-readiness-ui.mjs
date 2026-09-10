@@ -29,6 +29,7 @@ form.addEventListener('keydown', event => {
 });
 
 form.addEventListener('input', () => {
+  window.jtTrackCalculator?.('resale_cash_readiness', 'start');
   output.hidden = true;
   error.textContent = 'Inputs changed. Calculate again to update the breakdown.';
   fields.forEach(field => field.removeAttribute('aria-invalid'));
@@ -67,8 +68,8 @@ form.addEventListener('submit', event => {
     ].join('\n');
     error.textContent = '';
     output.hidden = false;
-    if (typeof window.jtTrackConversion === 'function') {
-      window.jtTrackConversion('calculator_result_generated', { calculator: 'resale_cash_readiness' });
+    if (typeof window.jtTrackCalculator === 'function') {
+      window.jtTrackCalculator('resale_cash_readiness', 'result');
     }
   } catch (cause) {
     error.textContent = cause.message;

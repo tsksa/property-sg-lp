@@ -382,6 +382,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <div class="repayment-action-grid">
           <a href="https://wa.me/6581881488"
              id="repaymentWhatsapp"
+             data-contact-calculator="repayment"
              class="repayment-action repayment-action-primary"
              target="_blank"
              rel="noopener"
@@ -469,6 +470,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <a href="/#book">Book a free 30-min call →</a>
       <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20used%20the%20affordability%20calculator"
          id="calcWhatsapp"
+         data-contact-calculator="affordability"
          class="calc-cta-whatsapp"
          target="_blank"
          rel="noopener"
@@ -546,6 +548,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <div class="repayment-action-grid">
           <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20used%20your%20resale%20cash-readiness%20tool%20and%20would%20like%20help%20reviewing%20my%20assumptions."
              id="resaleCashWhatsapp"
+             data-contact-calculator="resale_cash_readiness"
              class="repayment-action repayment-action-primary"
              target="_blank"
              rel="noopener"
@@ -722,7 +725,7 @@ function calcMonthlyPayment(principal, annualRate, years){
   return principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
 }
 
-function recalc(){
+function recalc(trackResult = false){
   const loanType = document.querySelector('[name="loanType"]:checked').value;
   const income = Math.max(0, parseFloat(document.getElementById('income').value) || 0);
   const cash = Math.max(0, parseFloat(document.getElementById('cash').value) || 0);
@@ -843,6 +846,10 @@ function recalc(){
       : 'Hi Joe, I used the affordability calculator';
     waLink.href = `https://wa.me/6581881488?text=${encodeURIComponent(waText)}`;
   }
+  const trackingFields = trackResult ? [...document.querySelectorAll('#affordabilityForm input[type="number"]')] : [];
+  if (trackResult && trackingFields.every(el => el.value.trim() !== '' && el.validity.valid) && income > 0 && Number.isFinite(maxPrice)) {
+    window.jtTrackCalculator?.('affordability', 'result');
+  }
 }
 
 // Debounce recalc so the aria-live results region doesn't re-announce
@@ -851,7 +858,7 @@ function recalc(){
 let recalcTimer = null;
 function scheduleRecalc(){
   if(recalcTimer) clearTimeout(recalcTimer);
-  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(); }, 250);
+  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(true); }, 250);
 }
 
 document.querySelectorAll('#income, #cash, #cpfOA, #age, #tenure, #otherDebt').forEach(el=>{
@@ -862,14 +869,9 @@ document.querySelectorAll('[name="loanType"]').forEach(el=>{
 });
 
 // GA4 event when user engages meaningfully (after first tweak)
-let engaged = false;
-document.querySelectorAll('#affordabilityForm input').forEach(el=>{
-  el.addEventListener('change', ()=>{
-    if(!engaged){
-      engaged = true;
-      if(typeof gtag==='function') gtag('event','calculator_engaged',{calculator:'affordability'});
-    }
-  });
+document.querySelectorAll('#affordabilityForm input, #affordabilityForm select').forEach(el => {
+  el.addEventListener('input', () => window.jtTrackCalculator?.('affordability', 'start'));
+  el.addEventListener('change', () => window.jtTrackCalculator?.('affordability', 'start'));
 });
 
 // Initial render

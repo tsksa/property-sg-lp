@@ -341,6 +341,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <a href="/#book">Book a free 30-min call →</a>
       <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20used%20the%20BTO%20calculator"
          id="calcWhatsapp"
+         data-contact-calculator="bto"
          class="calc-cta-whatsapp"
          target="_blank"
          rel="noopener"
@@ -526,7 +527,7 @@ const monthlyInstalment = (principal, annualRate, years) => {
 };
 
 let resultSummary = '';
-function recalc() {
+function recalc(trackResult = false) {
   const income = Math.max(0, parseFloat(document.getElementById('income').value) || 0);
   const savings = Math.max(0, parseFloat(document.getElementById('savings').value) || 0);
   const age = Math.max(21, Math.min(65, parseFloat(document.getElementById('age').value) || 30));
@@ -608,12 +609,16 @@ function recalc() {
       : 'Hi Joe, I used the BTO calculator';
     waLink.href = `https://wa.me/6581881488?text=${encodeURIComponent(waText)}`;
   }
+  const trackingFields = trackResult ? [...document.querySelectorAll('.calc-form input[type="number"]')] : [];
+  if (trackResult && trackingFields.every(el => el.value.trim() !== '' && el.validity.valid) && income > 0 && funds > 0 && Number.isFinite(maxPrice)) {
+    window.jtTrackCalculator?.('bto', 'result');
+  }
 }
 
 let recalcTimer = null;
 function scheduleRecalc() {
   if (recalcTimer) clearTimeout(recalcTimer);
-  recalcTimer = setTimeout(() => { recalcTimer = null; recalc(); }, 250);
+  recalcTimer = setTimeout(() => { recalcTimer = null; recalc(true); }, 250);
 }
 
 ['income', 'savings', 'age'].forEach((id) =>
@@ -622,14 +627,9 @@ document.getElementById('flatType').addEventListener('change', recalc);
 document.getElementById('firstTimer').addEventListener('change', recalc);
 document.querySelectorAll('[name="loanType"]').forEach((el) => el.addEventListener('change', recalc));
 
-let engaged = false;
-document.querySelectorAll('input, select').forEach((el) => {
-  el.addEventListener('change', () => {
-    if (!engaged) {
-      engaged = true;
-      if (typeof gtag === 'function') gtag('event', 'calculator_engaged', { calculator: 'bto' });
-    }
-  });
+document.querySelectorAll('.calc-form input, .calc-form select').forEach(el => {
+  el.addEventListener('input', () => window.jtTrackCalculator?.('bto', 'start'));
+  el.addEventListener('change', () => window.jtTrackCalculator?.('bto', 'start'));
 });
 
 recalc();

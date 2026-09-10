@@ -68,13 +68,14 @@ function calculate(trackResult = false) {
     copyStatus.textContent = '';
   }
   output.hidden = false;
-  if (trackResult && typeof window.jtTrackConversion === 'function') {
-    window.jtTrackConversion('calculator_result_generated', { calculator: 'repayment' });
+  if (trackResult && typeof window.jtTrackCalculator === 'function') {
+    window.jtTrackCalculator('repayment', 'result');
   }
 }
 
 form.addEventListener('submit', event => { event.preventDefault(); calculate(true); });
 form.addEventListener('input', () => {
+  window.jtTrackCalculator?.('repayment', 'start');
   output.hidden = true;
   error.textContent = '';
   fields.forEach(field => field.removeAttribute('aria-invalid'));
