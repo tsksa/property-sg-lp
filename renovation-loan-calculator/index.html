@@ -452,7 +452,7 @@ function renoMonthly(principal, flatAnnualRate, years) {
   return (principal + principal * flatAnnualRate * years) / months;
 }
 
-function recalc() {
+function recalc(trackResult = false) {
   const income = Math.max(0, parseFloat(document.getElementById('income').value) || 0);
   const requested = Math.max(0, parseFloat(document.getElementById('amount').value) || 0);
   const rate = Math.max(0, Math.min(20, parseFloat(document.getElementById('rate').value) || 0)) / 100;
@@ -490,26 +490,25 @@ function recalc() {
       : 'Hi Joe, I used the renovation loan calculator';
     waLink.href = `https://wa.me/6581881488?text=${encodeURIComponent(waText)}`;
   }
+  const trackingFields = trackResult ? [...document.querySelectorAll('.calc-form input[type="number"]')] : [];
+  if (trackResult && trackingFields.every(el => el.value.trim() !== '' && el.validity.valid) && income > 0 && requested > 0 && Number.isFinite(monthly)) {
+    window.jtTrackCalculator?.('renovation-loan', 'result');
+  }
 }
 
 let recalcTimer = null;
 function scheduleRecalc() {
   if (recalcTimer) clearTimeout(recalcTimer);
-  recalcTimer = setTimeout(() => { recalcTimer = null; recalc(); }, 250);
+  recalcTimer = setTimeout(() => { recalcTimer = null; recalc(true); }, 250);
 }
 
 ['income', 'amount', 'rate'].forEach((id) =>
   document.getElementById(id).addEventListener('input', scheduleRecalc));
 document.querySelectorAll('[name="tenure"]').forEach((el) => el.addEventListener('change', recalc));
 
-let engaged = false;
-document.querySelectorAll('input, select').forEach((el) => {
-  el.addEventListener('change', () => {
-    if (!engaged) {
-      engaged = true;
-      if (typeof gtag === 'function') gtag('event', 'calculator_engaged', { calculator: 'renovation-loan' });
-    }
-  });
+document.querySelectorAll('.calc-form input, .calc-form select').forEach(el => {
+  el.addEventListener('input', () => window.jtTrackCalculator?.('renovation-loan', 'start'));
+  el.addEventListener('change', () => window.jtTrackCalculator?.('renovation-loan', 'start'));
 });
 
 recalc();

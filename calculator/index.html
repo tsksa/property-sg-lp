@@ -722,7 +722,7 @@ function calcMonthlyPayment(principal, annualRate, years){
   return principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
 }
 
-function recalc(){
+function recalc(trackResult = false){
   const loanType = document.querySelector('[name="loanType"]:checked').value;
   const income = Math.max(0, parseFloat(document.getElementById('income').value) || 0);
   const cash = Math.max(0, parseFloat(document.getElementById('cash').value) || 0);
@@ -843,6 +843,10 @@ function recalc(){
       : 'Hi Joe, I used the affordability calculator';
     waLink.href = `https://wa.me/6581881488?text=${encodeURIComponent(waText)}`;
   }
+  const trackingFields = trackResult ? [...document.querySelectorAll('#affordabilityForm input[type="number"]')] : [];
+  if (trackResult && trackingFields.every(el => el.value.trim() !== '' && el.validity.valid) && income > 0 && Number.isFinite(maxPrice)) {
+    window.jtTrackCalculator?.('affordability', 'result');
+  }
 }
 
 // Debounce recalc so the aria-live results region doesn't re-announce
@@ -851,7 +855,7 @@ function recalc(){
 let recalcTimer = null;
 function scheduleRecalc(){
   if(recalcTimer) clearTimeout(recalcTimer);
-  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(); }, 250);
+  recalcTimer = setTimeout(()=>{ recalcTimer = null; recalc(true); }, 250);
 }
 
 document.querySelectorAll('#income, #cash, #cpfOA, #age, #tenure, #otherDebt').forEach(el=>{
@@ -862,14 +866,9 @@ document.querySelectorAll('[name="loanType"]').forEach(el=>{
 });
 
 // GA4 event when user engages meaningfully (after first tweak)
-let engaged = false;
-document.querySelectorAll('#affordabilityForm input').forEach(el=>{
-  el.addEventListener('change', ()=>{
-    if(!engaged){
-      engaged = true;
-      if(typeof gtag==='function') gtag('event','calculator_engaged',{calculator:'affordability'});
-    }
-  });
+document.querySelectorAll('#affordabilityForm input, #affordabilityForm select').forEach(el => {
+  el.addEventListener('input', () => window.jtTrackCalculator?.('affordability', 'start'));
+  el.addEventListener('change', () => window.jtTrackCalculator?.('affordability', 'start'));
 });
 
 // Initial render

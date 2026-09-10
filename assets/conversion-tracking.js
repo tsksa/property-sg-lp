@@ -125,6 +125,25 @@
     return out;
   }
 
+  var calculatorState = {};
+  var activeCalculator = null;
+  var calculatorNames = ['affordability', 'bto', 'stamp-duty', 'renovation-loan', 'repayment', 'resale_cash_readiness'];
+  // Per-page, consent-gated funnel. No amounts, form values or persistent IDs.
+  window.jtTrackCalculator = function(calculator, action){
+    if(!analyticsAllowed() || calculatorNames.indexOf(calculator) < 0 ||
+      ['start', 'result'].indexOf(action) < 0) return;
+    activeCalculator = calculator;
+    var state = calculatorState[calculator] || (calculatorState[calculator] = {});
+    if(!state.start){
+      window.jtTrackConversion('calculator_started', {calculator:calculator, action:'start', entry_point:'tool_input', funnel_version:'2'});
+      state.start = true;
+    }
+    if(action === 'result' && !state.result){
+      window.jtTrackConversion('calculator_result_generated', {calculator:calculator, action:'result', entry_point:'tool_input', funnel_version:'2'});
+      state.result = true;
+    }
+  };
+
   window.jtTrackConversion = function(eventName, params){
     if(!analyticsAllowed()) {
       if(declined()) clearAttribution();
@@ -403,7 +422,7 @@
     var calculator = a.getAttribute('data-calculator');
     var entryPoint = a.getAttribute('data-entry-point');
     if(calculator && entryPoint){
-      window.jtTrackConversion('calculator_engaged', {
+      window.jtTrackConversion('calculator_entry_click', {
         calculator: safeFunnelLabel(calculator, 'unclassified'),
         action: 'open',
         entry_point: safeFunnelLabel(entryPoint, 'unclassified')
@@ -412,6 +431,8 @@
     var method = classifyLink(a);
     if(!method) return;
     window.jtTrackConversion('contact_click', {
+      calculator: activeCalculator || undefined,
+      funnel_version: activeCalculator ? '2' : undefined,
       contact_method: method,
       link_url: analyticsSafeLinkUrl(a, method),
       link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120),

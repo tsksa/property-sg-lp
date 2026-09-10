@@ -84,12 +84,48 @@ test('calculator entry links record fixed labels without financial values', () =
   });
 
   assert.equal(h.events.length, 1);
-  assert.equal(h.events[0][1], 'calculator_engaged');
+  assert.equal(h.events[0][1], 'calculator_entry_click');
   assert.equal(h.events[0][2].calculator, 'resale_cash_readiness');
   assert.equal(h.events[0][2].action, 'open');
   assert.equal(h.events[0][2].entry_point, 'downpayment_guide');
   for (const key of ['price', 'valuation', 'loan', 'cpf', 'deposit', 'cash', 'reserve', 'shortfall']) {
     assert.equal(key in h.events[0][2], false);
+  }
+});
+
+test('calculator v2 tracks consented starts and results once per tool, never from link clicks', () => {
+  const h = harness();
+  h.context.jtTrackCalculator('affordability', 'start');
+  h.context.jtTrackCalculator('affordability', 'start');
+  h.context.jtTrackCalculator('affordability', 'result');
+  h.context.jtTrackCalculator('affordability', 'result');
+  assert.deepEqual(h.events.map(e => e[1]), ['calculator_started', 'calculator_result_generated']);
+  assert.equal(h.events[1][2].funnel_version, '2');
+  h.contact('https://wa.me/6581881488?text=private');
+  assert.equal(h.events[2][2].calculator, 'affordability');
+  assert.doesNotMatch(JSON.stringify(h.events), /private/);
+  h.context.jtTrackCalculator('repayment', 'result');
+  assert.deepEqual(h.events.slice(3).map(e => e[1]), ['calculator_started', 'calculator_result_generated']);
+  const before = h.events.length;
+  h.context.jtTrackCalculator('private financial data', 'result');
+  h.context.jtTrackCalculator('repayment', 'unknown');
+  assert.equal(h.events.length, before);
+});
+
+test('calculator v2 does not consume stages before consent and stops on withdrawal', () => {
+  for (const consent of [null, 'declined']) {
+    const h = harness({consent});
+    h.context.jtTrackCalculator('bto', 'result');
+    assert.equal(h.events.length, 0);
+    h.local.set('pdpa_consent', 'accepted');
+    // A full decline also sets the GA disable guard; require a fresh page for reacceptance.
+    if (consent === null) {
+      h.context.jtTrackCalculator('bto', 'result');
+      assert.equal(h.events.length, 2);
+      h.local.set('pdpa_consent', 'declined');
+      h.context.jtTrackCalculator('repayment', 'result');
+      assert.equal(h.events.length, 2);
+    }
   }
 });
 

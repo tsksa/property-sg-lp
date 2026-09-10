@@ -134,7 +134,7 @@ test('repayment results offer privacy-safe next actions', () => {
   assert.match(html, /id="copyRepaymentSummary"/);
   assert.match(html, /id="repaymentCopyStatus"[^>]+role="status"[^>]+aria-live="polite"/);
   assert.match(js, /navigator\.clipboard\.writeText\(lastSummaryText\)/);
-  assert.match(js, /calculator_result_generated/);
+  assert.match(js, /jtTrackCalculator\('repayment', 'result'\)/);
   assert.match(js, /calculator_result_action/);
   assert.match(js, /calculator_result_copied/);
   assert.doesNotMatch(js, /calculator_result_(?:generated|copied)'[^;]+(?:principal|annualRatePercent|years|paymentCents)/);

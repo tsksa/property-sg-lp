@@ -16,7 +16,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(ROOT, 'calculator', 'index.html'), 'utf8');
 
 // Execute the actual production calculation/rendering, not a duplicate formula.
-function renderAffordability(overrides = {}, loanType = 'HDB') {
+function renderAffordability(overrides = {}, loanType = 'HDB', tracking = {}) {
   const values = { income: 8000, cash: 20000, cpfOA: 50000, age: 35, tenure: 25, otherDebt: 0, ...overrides };
   const elements = new Map(Object.entries(values).map(([id, value]) => [id, { value: String(value) }]));
   const document = {
@@ -25,10 +25,13 @@ function renderAffordability(overrides = {}, loanType = 'HDB') {
       return elements.get(id);
     },
     querySelector: () => ({ value: loanType }),
+    querySelectorAll: () => Object.values(values).map(value => ({value: String(value), validity: {valid: tracking.valid !== false}})),
     activeElement: null,
   };
   const source = html.slice(html.indexOf('const fmt ='), html.indexOf('// Debounce recalc'));
-  vm.runInNewContext(source + '\nrecalc();', { document });
+  vm.runInNewContext(source + `\nrecalc(${tracking.interacted === true});`, {
+    document, window: {jtTrackCalculator: (...args) => tracking.events?.push(args)},
+  });
   return id => elements.get(id).textContent;
 }
 
@@ -42,6 +45,16 @@ test('HDB renders the actual-rate repayment and the correct CPF/cash split', () 
   assert.match(result('maxPriceDetail'), /eligibility assessment rate, not repayment rate/);
   assert.match(result('downpaymentDetail'), /\$50,000 CPF OA \+ \$20,000 cash/);
   assert.match(result('downpaymentDetail'), /Excludes stamp duty, fees and cash-over-valuation/);
+});
+
+test('result tracking excludes defaults, blank inputs and invalid inputs', () => {
+  const events = [];
+  renderAffordability({}, 'HDB', {events});
+  renderAffordability({}, 'HDB', {events, interacted: true, valid: false});
+  renderAffordability({cash: ''}, 'HDB', {events, interacted: true});
+  assert.equal(events.length, 0);
+  renderAffordability({}, 'HDB', {events, interacted: true});
+  assert.deepEqual(events, [['affordability', 'result']]);
 });
 
 test('HDB contribution handles CPF-only, cash-only and zero funds without false coverage claims', () => {

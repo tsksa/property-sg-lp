@@ -82,7 +82,7 @@ test('UI requires explicit amounts and hides stale results when inputs change', 
   assert.match(ui, /addEventListener\('input',[\s\S]*?output.hidden = true/);
   assert.match(ui, /invalid.focus\(\)/);
   assert.match(html, /id="resaleCashSubmit" disabled/);
-  assert.match(ui, /calculator_result_generated', \{ calculator: 'resale_cash_readiness' \}/);
+  assert.match(ui, /jtTrackCalculator\('resale_cash_readiness', 'result'\)/);
   assert.doesNotMatch(ui, /jtTrackConversion\('calculator_result_generated',\s*\{[^}]*\b(?:price|valuation|loan|cpf|deposit|cash|reserve|shortfall)\b/i);
   assert.doesNotMatch(ui, /fetch\(|localStorage|gtag\(/);
 });
