@@ -430,9 +430,12 @@
     }
     var method = classifyLink(a);
     if(!method) return;
+    var contactCalculator = a.getAttribute('data-contact-calculator');
+    contactCalculator = contactCalculator === null ? activeCalculator :
+      (calculatorNames.indexOf(contactCalculator) !== -1 ? contactCalculator : null);
     window.jtTrackConversion('contact_click', {
-      calculator: activeCalculator || undefined,
-      funnel_version: activeCalculator ? '2' : undefined,
+      calculator: contactCalculator || undefined,
+      funnel_version: contactCalculator ? '2' : undefined,
       contact_method: method,
       link_url: analyticsSafeLinkUrl(a, method),
       link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120),

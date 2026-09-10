@@ -112,6 +112,47 @@ test('calculator v2 tracks consented starts and results once per tool, never fro
   assert.equal(h.events.length, before);
 });
 
+test('tool contact buttons keep their own calculator after cross-tool interaction', () => {
+  const buttons = [
+    ['calculator/index.html', 'calcWhatsapp', 'affordability'],
+    ['calculator/index.html', 'repaymentWhatsapp', 'repayment'],
+    ['calculator/index.html', 'resaleCashWhatsapp', 'resale_cash_readiness'],
+    ['bto-calculator/index.html', 'calcWhatsapp', 'bto'],
+    ['stamp-duty-calculator/index.html', 'calcWhatsapp', 'stamp-duty'],
+    ['renovation-loan-calculator/index.html', 'calcWhatsapp', 'renovation-loan'],
+  ];
+  for (const [file, id, calculator] of buttons) {
+    const tag = read(file).match(new RegExp(`<a\\b[^>]*\\bid="${id}"[^>]*>`))?.[0];
+    assert.ok(tag, `${file}: ${id} exists`);
+    const label = tag.match(/data-contact-calculator="([^"]+)"/)?.[1];
+    assert.equal(label, calculator);
+    const h = harness();
+    h.context.jtTrackCalculator(calculator, 'result');
+    h.context.jtTrackCalculator(calculator === 'repayment' ? 'affordability' : 'repayment', 'result');
+    h.contact('https://wa.me/6581881488?text=private', { 'data-contact-calculator': label });
+    const contacts = h.events.filter(e => e[1] === 'contact_click');
+    assert.equal(contacts.length, 1);
+    assert.equal(contacts[0][2].calculator, calculator);
+    assert.equal(contacts[0][2].funnel_version, '2');
+    assert.equal(h.events.filter(e => e[1] === 'calculator_entry_click').length, 0);
+    assert.doesNotMatch(JSON.stringify(contacts), /private/);
+  }
+});
+
+test('explicit contact labels work before interaction, reject unknown labels and respect consent', () => {
+  const h = harness();
+  h.contact('tel:+6581881488', { 'data-contact-calculator': 'affordability' });
+  assert.equal(h.events[0][2].calculator, 'affordability');
+  assert.equal(h.events.length, 1); // Contact does not fabricate start or result stages.
+  h.context.jtTrackCalculator('repayment', 'result');
+  h.contact('tel:+6581881488', { 'data-contact-calculator': 'private-value' });
+  assert.equal(h.events.at(-1)[2].calculator, undefined);
+  assert.doesNotMatch(JSON.stringify(h.events), /private-value/);
+  const declined = harness({ consent: 'declined' });
+  declined.contact('tel:+6581881488', { 'data-contact-calculator': 'affordability' });
+  assert.equal(declined.events.length, 0);
+});
+
 test('calculator v2 does not consume stages before consent and stops on withdrawal', () => {
   for (const consent of [null, 'declined']) {
     const h = harness({consent});

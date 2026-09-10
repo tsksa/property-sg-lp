@@ -11,9 +11,10 @@ report; its mixed `calculator_engaged` definition is not comparable with v2.
 - `calculator_result_generated`: first valid result rendered after interaction,
   not the initial default render. `action=result`.
 - These two stages carry `calculator`, `entry_point=tool_input`, `funnel_version=2`.
-- `contact_click` carries the last interacted calculator on that page and
-  `funnel_version=2`. This is intent only, not a submitted enquiry. Generic links
-  before any calculator interaction are not assigned a calculator.
+- `contact_click` uses the tool button's explicit `data-contact-calculator` label
+  and `funnel_version=2`, even after interacting with another tool. Generic links
+  fall back to the last interacted calculator on that page; before any interaction
+  they are not assigned a calculator. This is intent only, not a submitted enquiry.
 - Labels: affordability, bto, stamp-duty, renovation-loan, repayment,
   resale_cash_readiness. No financial values are added to events.
 - Stages are once per calculator per page visit, not unique people or sessions.
