@@ -1944,7 +1944,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   <div class="val-popup-inner">
     <button type="button" class="val-popup-close" id="valPopupClose" aria-label="Close"><span aria-hidden="true">✕</span></button>
     <h3 id="valPopupTitle">Get your free valuation</h3>
-    <p class="val-popup-sub" id="valPopupSub">Quick one — postal code, unit number, and your email. I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
+    <p class="val-popup-sub" id="valPopupSub">I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.</p>
     <form class="val-popup-form" id="valPopupForm" novalidate>
       <div id="valContactWrap" style="display:none">
         <div class="val-popup-row">
@@ -1974,8 +1974,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
           <input type="text" name="postal_code" id="valPostalCode" inputmode="numeric" pattern="\d{6}" maxlength="6" placeholder="e.g. 520123" required autocomplete="postal-code" spellcheck="false">
         </label>
         <label>
-          <span>Unit number</span>
-          <input type="text" name="unit_number" id="valUnitNumber" placeholder="e.g. #12-34" required>
+          <span>Unit number (optional)</span>
+          <input type="text" name="unit_number" id="valUnitNumber" placeholder="e.g. #12-34">
         </label>
       </div>
       <div class="val-popup-addr" id="valAddrDetected" style="display:none" aria-live="polite"></div>
@@ -1997,7 +1997,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
       </label>
       <label>
         <span>Email address</span>
-        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="off" autocorrect="off">
+        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="off" autocorrect="off" aria-describedby="valEmailHelp">
+        <span id="valEmailHelp">Your email is used as a backup copy. Joe replies personally on WhatsApp.</span>
       </label>
       <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
       <div class="val-popup-err" id="valPopupErr" role="alert"></div>
@@ -2237,7 +2238,7 @@ function openValPopup(fullName,mobile,propType,newsletter){
   const haveContact=!!(fullName&&mobile&&propType);
   valContactWrap.style.display=haveContact?'none':'block';
   document.getElementById('valPopupSub').textContent=(haveContact
-    ?'Quick one — postal code, unit number, and your email. '
+    ?'Quick one — postal code and your email; unit number is optional. '
     :'Quick one — your details plus the address. ')+
     "I'll WhatsApp you a detailed valuation within 24 hours, backed by real transacted prices in your area.";
   if(!haveContact){
@@ -2323,7 +2324,6 @@ valPopupForm.addEventListener('submit',e=>{
     if(!propType){showValErr('Please select your property type.',f.contact_prop_type);return;}
   }
   if(!/^\d{6}$/.test(postal)){showValErr('Please enter a valid 6-digit postal code.',valPostalInput);return;}
-  if(!unit){showValErr('Please enter your unit number.',f.unit_number);return;}
   if(!email||!f.email.checkValidity()){showValErr('Please enter a valid email address.',f.email);return;}
   const data={
     lead_type:'valuation',
