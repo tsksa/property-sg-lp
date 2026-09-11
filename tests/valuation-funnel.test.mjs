@@ -2,10 +2,46 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(ROOT, 'valuation.html'), 'utf8');
+const homepage = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+
+test('both valuation entry points mark unit number optional and retain required email', () => {
+  for (const [source, unitId, emailId] of [[homepage, 'valUnitNumber', 'valEmail'], [html, 'unitNumber', 'email']]) {
+    const unit = source.match(new RegExp(`<input[^>]*id="${unitId}"[^>]*>`))?.[0];
+    assert.ok(unit);
+    assert.doesNotMatch(unit, /\brequired\b/);
+    assert.match(source.match(new RegExp(`<input[^>]*id="${emailId}"[^>]*>`))?.[0] || '', /\brequired\b/);
+    assert.match(source, /email is used as a backup copy/);
+  }
+  assert.match(homepage, /Unit number \(optional\)/);
+  assert.match(homepage, /aria-describedby="valEmailHelp"/);
+  assert.match(html, /Unit no\. <span[^>]*>\(optional\)/);
+});
+
+test('popup submits a blank unit once and retains postal and email validation', () => {
+  const handler = homepage.match(/valPopupForm\.addEventListener\('submit',e=>\{([\s\S]*?)\n\}\);/)?.[1];
+  assert.ok(handler);
+  for (const [unit, postal, emailValid, expectedError] of [
+    ['', '520123', true, null], ['#12-34', '520123', true, null],
+    ['', '123', true, /postal code/], ['', '520123', false, /email address/],
+  ]) {
+    const errors = [], submissions = [];
+    const form = {company_website:{value:''}, postal_code:{value:postal}, unit_number:{value:unit}, email:{value:'test@example.com',checkValidity:()=>emailValid}};
+    vm.runInNewContext(`(e=>{${handler}})({target:form,preventDefault(){}})`, {
+      form, valContactWrap:{style:{display:'none'}},
+      valContext:{fullName:'Test',mobile:'81234567',propType:'Condo',newsletter_opt_in:0},
+      valDetectedAddress:'', valPostalInput:form.postal_code,
+      clearValErr(){}, showValErr:message=>errors.push(message),
+      handleFormSubmit:(_form,data)=>submissions.push(data),
+    });
+    if (expectedError) { assert.match(errors[0], expectedError); assert.equal(submissions.length,0); }
+    else { assert.equal(errors.length,0); assert.equal(submissions.length,1); assert.equal(submissions[0].unit_number,unit); }
+  }
+});
 
 function step(number) {
   const match = html.match(
@@ -60,4 +96,3 @@ test('fast valid submissions wait for the spam floor instead of appearing stuck'
     /jtWaitForSpamFloor\(form,PAGE_LOADED_AT,3000,\(\)=>form\.requestSubmit\(\)\)/,
   );
 });
-
