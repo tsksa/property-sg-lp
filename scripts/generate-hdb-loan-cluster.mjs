@@ -253,6 +253,7 @@ const ARTICLES = [
 ];
 
 const EXISTING_GUIDES = [
+  ['ec-vs-private-condo-2027', 'EC vs private condo in 2027: which to buy'],
   ['singapore-mega-launches-2027', 'Singapore’s 2027 mega launches: Hougang Central Residences and the pipeline'],
   ['hdb-valuation-explained', 'HDB valuation explained'],
   ['how-long-to-sell-hdb-singapore-2026', 'How long it takes to sell an HDB flat'],
