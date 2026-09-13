@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-09-13T00:00:00+08:00</updated>
+  <updated>2026-09-14T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -14,12 +14,20 @@
   </author>
   <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
   <entry>
+    <title>EC vs Private Condo in 2027: Which to Buy</title>
+    <link href="https://joetay.com/insights/ec-vs-private-condo-2027.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/ec-vs-private-condo-2027.html</id>
+    <published>2026-09-14T00:00:00+08:00</published><updated>2026-09-14T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">None of the four upcoming ECs qualifies for the $18,000 ceiling. EC vs private condo rules, 2026 launch and resale prices, grants and financing, and who should buy which.</summary>
+  </entry>
+  <entry>
     <title>2027 Mega Launches: Hougang Central Residences</title>
     <link href="https://joetay.com/insights/singapore-mega-launches-2027.html" rel="alternate" type="text/html"/>
     <id>https://joetay.com/insights/singapore-mega-launches-2027.html</id>
     <published>2026-09-13T00:00:00+08:00</published><updated>2026-09-13T00:00:00+08:00</updated>
     <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
-    <summary type="text">Hougang Central Residences (830 homes above Hougang MRT), the Chuan Grove cluster and the Q1 2027 EC wave — the 2027 launch pipeline and how HDB upgraders should time it.</summary>
+    <summary type="text">Hougang Central Residences (830 homes above Hougang MRT), the Chuan Grove cluster and the late-2026 EC wave — the 2027 launch pipeline and how HDB upgraders should time it.</summary>
   </entry>
   <entry>
     <title>HDB Income Ceiling 2026: $16k HDB, $18k EC</title>
