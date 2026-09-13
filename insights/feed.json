@@ -16,6 +16,16 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/singapore-mega-launches-2027.html",
+      "url": "https://joetay.com/insights/singapore-mega-launches-2027.html",
+      "title": "2027 Mega Launches: Hougang Central Residences",
+      "summary": "Hougang Central Residences (835 homes above Hougang MRT), the Chuan Grove cluster and the Q1 2027 EC wave — the 2027 launch pipeline and how HDB upgraders should time it.",
+      "content_text": "Hougang Central Residences (835 homes above Hougang MRT), the Chuan Grove cluster and the Q1 2027 EC wave — the 2027 launch pipeline and how HDB upgraders should time it.",
+      "date_published": "2026-09-13T00:00:00+08:00",
+      "date_modified": "2026-09-13T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}]
+    },
+    {
       "id": "https://joetay.com/insights/hdb-income-ceiling-2026-ndr-changes.html",
       "url": "https://joetay.com/insights/hdb-income-ceiling-2026-ndr-changes.html",
       "title": "HDB Income Ceiling 2026: $16k HDB, $18k EC",
