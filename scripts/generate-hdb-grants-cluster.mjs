@@ -232,6 +232,7 @@ const LOAN_GUIDES = [
 ];
 
 const EDITORIAL_GUIDES = [
+  ['singapore-mega-launches-2027', 'Singapore’s 2027 mega launches: Hougang Central Residences and the pipeline'],
   ['hdb-valuation-explained', 'HDB valuation explained'],
   ['how-long-to-sell-hdb-singapore-2026', 'How long it takes to sell an HDB flat'],
   ['property-agent-commission-singapore', 'Property agent commission in Singapore'],
