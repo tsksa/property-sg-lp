@@ -59,9 +59,15 @@ for (const rel of pages) {
   }
 
   const stripped = html.replace(existingRe, '');
-  // Insert immediately after the opening <footer …> tag so the block leads the
-  // footer, ahead of each page's own copyright and licence lines.
-  const injected = stripped.replace(/(<footer[^>]*>)/, `$1\n${block}`);
+  // Insert immediately after the opening tag of the page's LAST <footer>, so the
+  // block leads the page-level footer ahead of the copyright and licence lines.
+  // Four legacy articles also carry an inner <footer class="article-footer">
+  // (their "Related reads" block) inside the 732px article column; targeting
+  // the first footer put the nav in there, narrower than the credits below it.
+  const opens = [...stripped.matchAll(/<footer[^>]*>/g)];
+  const last = opens[opens.length - 1];
+  const at = last.index + last[0].length;
+  const injected = `${stripped.slice(0, at)}\n${block}${stripped.slice(at)}`;
 
   if (injected === html) continue;
 
