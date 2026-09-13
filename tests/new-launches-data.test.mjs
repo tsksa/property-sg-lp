@@ -21,7 +21,7 @@ test('the verified new-launch dataset passes its contract', () => {
   assert.deepEqual(validate(clone()), []);
 });
 
-test('all 23 approved 2026 projects appear exactly once', () => {
+test('all 24 approved 2026 projects appear exactly once', () => {
   const names = DATA.projects
     .filter((project) => project.inventoryYear === 2026)
     .map((project) => project.name)

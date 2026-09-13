@@ -658,4 +658,10 @@
     <priority>0.6</priority>
   </url>
   <!-- condo-prices:end -->
+  <url>
+    <loc>https://joetay.com/new-launches/hougang-central-residences.html</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

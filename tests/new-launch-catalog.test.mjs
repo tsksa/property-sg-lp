@@ -25,9 +25,9 @@ test('secondary filters use a keyboard-accessible disclosure without hiding sear
 });
 
 test('all active projects render statically and sold-out projects use the archive', () => {
-  assert.equal(pages.active.length, 25);
+  assert.equal(pages.active.length, 26);
   assert.equal(pages.soldOutProjects.length, 1);
-  assert.equal((pages.index.match(/data-catalog-item/g) || []).length, 25);
+  assert.equal((pages.index.match(/data-catalog-item/g) || []).length, 26);
   assert.equal((pages.soldOut.match(/data-catalog-item/g) || []).length, 1);
   for (const project of pages.active) {
     assert.match(pages.index, new RegExp(`href="${new URL(project.canonicalUrl).pathname.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`));
@@ -106,6 +106,6 @@ test('metadata, canonical URLs and structured lists are data-derived', () => {
   assert.match(pages.index, /<link rel="canonical" href="https:\/\/joetay\.com\/new-launches\/">/);
   assert.match(pages.index, /"@type": "BreadcrumbList"/);
   assert.match(pages.index, /"@type": "ItemList"/);
-  assert.match(pages.index, /"numberOfItems": 25/);
+  assert.match(pages.index, /"numberOfItems": 26/);
   assert.match(pages.soldOut, /"numberOfItems": 1/);
 });
