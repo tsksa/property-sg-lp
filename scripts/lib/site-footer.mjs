@@ -35,6 +35,7 @@ const LINK_GROUPS = [
     ['/glossary/', 'Property glossary'],
   ]],
   ['Popular now', [
+    ['/new-launches/hougang-central-residences.html', 'Hougang Central Residences updates'],
     ['/new-launches/chuan-grove.html', 'Chuan Grove updates'],
     ['/calculator/', 'HDB loan calculator'],
     ['/insights/property-agent-commission-singapore.html', 'Property agent commission guide'],

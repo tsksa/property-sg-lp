@@ -30,7 +30,7 @@ test('manifest pages expose the verified dataset contract', () => {
     assert.match(html, new RegExp(`<link rel="canonical" href="${project.canonicalUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`));
     assert.match(html, /"@type"\s*:\s*"Residence"/);
     assert.match(html, /"@type"\s*:\s*"BreadcrumbList"/);
-    assert.match(html, /Verified \d{1,2} [A-Z][a-z]{2} 2026/);
+    assert.match(html, /Verified \d{1,2} [A-Z][a-z]{2,4} 2026/);
     assert.match(html, /Verification source categories/);
   }
 });

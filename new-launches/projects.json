@@ -156,6 +156,30 @@
       "category": "portal-corroboration",
       "url": "https://wresidencesmarinaview.newhomessg.com/units",
       "checkedAt": "2026-08-03"
+    },
+    "capitaland-hougang-central-award": {
+      "name": "CapitaLand news release: CICT and consortium awarded Hougang Central site (14 January 2026)",
+      "category": "developer",
+      "url": "https://www.capitaland.com/en/about-capitaland/newsroom/news-releases/international/2026/january/CICT-and-consortium-awarded-hougang-central-site.html",
+      "checkedAt": "2026-09-13"
+    },
+    "uol-1h2026-results-presentation": {
+      "name": "UOL Group 1H2026 Results Presentation filed with SGX (12 August 2026)",
+      "category": "corporate-filing",
+      "url": "https://links.sgx.com/1.0.0/corporate-announcements/3CFDCDH76FO4QD3O/900463_UOL%201H2026%20Results%20Presentation.pdf",
+      "checkedAt": "2026-09-13"
+    },
+    "uol-homes-site-at-hougang-central": {
+      "name": "UOL Homes project listing: Site at Hougang Central",
+      "category": "developer",
+      "url": "https://uolhomes.com.sg/project/site-at-hougang-central/",
+      "checkedAt": "2026-09-13"
+    },
+    "edge-hougang-central-award-report": {
+      "name": "The Edge Singapore via Yahoo Finance: consortium comprising UOL Group awarded tender for Hougang Central",
+      "category": "publisher-reporting",
+      "url": "https://sg.finance.yahoo.com/news/consortium-comprising-uol-group-awarded-021608380.html",
+      "checkedAt": "2026-09-13"
     }
   },
   "projects": [
@@ -545,6 +569,7 @@
       "tenure": "99-year",
       "developer": "Sing Holdings / Sunway Developments",
       "unitCount": 1055,
+      "massing": "five blocks of up to 27 storeys",
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
@@ -991,6 +1016,81 @@
         "checkedAt": "2026-08-03",
         "sourceIds": ["ioi-properties-2025-annual-report", "w-residences-developer-site", "w-current-inventory-directory"]
       }
+    },
+    {
+      "slug": "hougang-central-residences",
+      "name": "Hougang Central Residences",
+      "location": "Hougang Avenue 10 / Hougang Central",
+      "district": "D19",
+      "region": "OCR",
+      "propertyType": "condominium",
+      "tenure": "99-year",
+      "developer": "CapitaLand Development / UOL Group",
+      "unitCount": 830,
+      "inventoryYear": 2026,
+      "previewDate": null,
+      "bookingDate": null,
+      "launchWindow": "2027-Q4",
+      "status": "upcoming",
+      "canonicalUrl": "https://joetay.com/new-launches/hougang-central-residences.html",
+      "verifiedAt": "2026-09-13",
+      "seoTitle": "Hougang Central Residences Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-09-13",
+        "sourceIds": [
+          "capitaland-hougang-central-award",
+          "uol-1h2026-results-presentation",
+          "uol-homes-site-at-hougang-central"
+        ],
+        "steps": [
+          {
+            "date": "2026-01-14",
+            "status": "confirmed",
+            "label": "Site awarded to the CapitaLand and UOL consortium",
+            "detail": "CapitaLand Integrated Commercial Trust, CapitaLand Development and UOL Group were awarded the Hougang Central site, tendered in December 2025, at about S$1.5 billion or S$1,179 per square foot per plot ratio. CICT develops and keeps the retail; CapitaLand Development and UOL build the homes for sale."
+          },
+          {
+            "date": "2026-08-12",
+            "status": "confirmed",
+            "label": "Launch guidance in UOL's half-year results",
+            "detail": "UOL's 1H 2026 results presentation lists the Hougang Central residential component, over 800 homes, with a target launch in the second half of 2027."
+          },
+          {
+            "date": "2026-09-13",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "UOL still lists the project as \u201cSite at Hougang Central\u201d: no project name, unit mix, floor plans, preview date, price list or balance-unit count has been published. \u201cHougang Central Residences\u201d is the working name used in the market."
+          },
+          {
+            "date": "2027-Q4",
+            "status": "expected",
+            "label": "Planned launch in the second half of 2027",
+            "detail": "UOL's guidance is a second-half-2027 launch, so the sale is expected by the fourth quarter of 2027. The quarter has not been narrowed and no preview date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview, booking and completion dates",
+            "detail": "Not announced. CapitaLand guides completion around 2030 to 2031, when the Cross Island Line interchange at Hougang is also due. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      },
+      "seoDescription": "Hougang Central Residences: about 830 homes above Hougang MRT by CapitaLand and UOL, launch targeted for 2H 2027. No price list or balance units yet.",
+      "availabilityStatus": {
+        "state": "pre-launch",
+        "asOf": "2026-09-13",
+        "sourceId": "uol-homes-site-at-hougang-central"
+      },
+      "priceFrom": { "value": null, "asOf": null },
+      "averagePsf": { "value": null, "asOf": null },
+      "soldPercent": { "value": null, "asOf": null },
+      "provenance": {
+        "facts": ["capitaland-hougang-central-award", "uol-homes-site-at-hougang-central", "edge-hougang-central-award-report"],
+        "timing": ["uol-1h2026-results-presentation"],
+        "status": ["uol-homes-site-at-hougang-central", "capitaland-hougang-central-award"],
+        "dynamics": ["uol-1h2026-results-presentation"]
+      },
+      "legacyInventoryEvidence": null
     }
   ],
   "legacyReview": [

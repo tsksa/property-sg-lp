@@ -190,7 +190,7 @@ function availabilityFaqEntries(project) {
     ],
     [
       `How many homes are planned at ${project.name}?`,
-      `${project.name} is planned as approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes across five blocks of up to 27 storeys, subject to final approvals.`,
+      `${project.name} is planned as approximately ${new Intl.NumberFormat('en-SG').format(project.unitCount)} homes${project.massing ? ` across ${project.massing}` : ''}, subject to final approvals.`,
     ],
   ];
 }
@@ -712,7 +712,7 @@ ${projectFaqSection(project)}
 ${takeSection(project)}
 ${relatedSection(project)}
 ${contactSection(project)}
-<section class="project-disclaimer"><div class="project-disclaimer-inner"><p>Project information is source-backed and verified as dated above, but remains subject to developer and authority confirmation. “Joe’s Take” was approved by Joe Tay on 2 Aug 2026 and is general commentary, not financial or legal advice.</p></div></section>
+<section class="project-disclaimer"><div class="project-disclaimer-inner"><p>Project information is source-backed and verified as dated above, but remains subject to developer and authority confirmation.${content[project.slug] ? ' “Joe’s Take” was approved by Joe Tay on 2 Aug 2026 and is general commentary, not financial or legal advice.' : ''}</p></div></section>
 <footer class="nl-footer">\n${siteFooterHtml()}<div class="nl-footer-inner"><p>&copy; 2026 PropertySG · Joe Tay · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · <a href="/privacy-policy.html">Privacy Policy</a></p><p class="creds">CEA Reg. No. R009618D · joe@joetay.com · +65 8188 1488</p></div></footer>
 <script src="/assets/conversion-tracking.js" defer></script>
 ${consentBannerHtml()}

@@ -31,6 +31,7 @@ export const EXPECTED_2026_PROJECTS = [
   'Upper Thomson Road',
   'Senja Close EC',
   'Keppel Bay Plot 6',
+  'Hougang Central Residences',
 ];
 
 const REQUIRED_STRING_FIELDS = [
