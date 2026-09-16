@@ -17,6 +17,7 @@ const ERA_SNAPSHOT_PATH = path.join(ROOT, 'new-launches', 'era-snapshot.json');
 const GEO_PATH = path.join(ROOT, 'new-launches', 'project-geo.json');
 const STATIONS_PATH = path.join(ROOT, 'new-launches', 'mrt-stations.json');
 const MAP_DIR = path.join(ROOT, 'new-launches', 'img', 'maps');
+const GALLERY_PATH = path.join(ROOT, 'new-launches', 'project-gallery.json');
 
 const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
 const content = JSON.parse(fs.readFileSync(CONTENT_PATH, 'utf8'));
@@ -26,6 +27,9 @@ const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
 const eraSnapshot = JSON.parse(fs.readFileSync(ERA_SNAPSHOT_PATH, 'utf8'));
 const projectGeo = JSON.parse(fs.readFileSync(GEO_PATH, 'utf8'));
 const mrtStations = JSON.parse(fs.readFileSync(STATIONS_PATH, 'utf8'));
+// Developer marketing images chosen by hand from ERA's listings (see
+// scripts/build-project-gallery.py). Joe confirmed usage rights on 2026-09-16.
+const gallery = fs.existsSync(GALLERY_PATH) ? JSON.parse(fs.readFileSync(GALLERY_PATH, 'utf8')) : { projects: {} };
 const sourceNames = new Map(
   Object.entries(data.sources).map(([id, source]) => [id, source.name]),
 );
@@ -172,7 +176,12 @@ function projectJson(project) {
     },
     numberOfAccommodationUnits: project.unitCount,
     ...(projectGeo[project.slug] ? { geo: { '@type': 'GeoCoordinates', latitude: projectGeo[project.slug].lat, longitude: projectGeo[project.slug].lng } } : {}),
-    ...(hasMap(project) ? { image: `https://joetay.com${mapPath(project, 'jpg')}` } : {}),
+    ...((galleryFor(project) || hasMap(project))
+      ? { image: [
+          ...(galleryFor(project) || []).filter((image) => image.kind !== 'site-plan').slice(0, 3).map((image) => `https://joetay.com${galleryPath(project, `${image.file}-lg.webp`)}`),
+          ...(hasMap(project) ? [`https://joetay.com${mapPath(project, 'jpg')}`] : []),
+        ] }
+      : {}),
     ...(project.formerName ? { alternateName: project.formerName } : {}),
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Status', value: STATUSES[project.status] },
@@ -376,6 +385,46 @@ function alternativesFor(project) {
 }
 
 const eraFor = (project) => eraSnapshot.projects[project.slug] || null;
+const galleryFor = (project) => gallery.projects[project.slug]?.images?.length ? gallery.projects[project.slug].images : null;
+const galleryPath = (project, file) => `/new-launches/img/gallery/${project.slug}/${file}`;
+
+// A 2x2 featured tile plus five more fills a three-column grid exactly (and, with the featured tile at normal size, a two-column one on phones).
+const GALLERY_VISIBLE = 6;
+
+function gallerySection(project) {
+  const images = galleryFor(project);
+  if (!images) return '';
+  const era = eraFor(project);
+  const items = images.map((image, index) => {
+    const hidden = index >= GALLERY_VISIBLE;
+    const featured = index === 0 ? ' project-gallery-item-featured' : '';
+    const more = index === GALLERY_VISIBLE - 1 && images.length > GALLERY_VISIBLE
+      ? `<span class="project-gallery-count">+${images.length - GALLERY_VISIBLE} more</span>`
+      : '';
+    return `      <a href="${esc(galleryPath(project, `${image.file}-lg.webp`))}" class="project-gallery-item${featured}" data-gallery-item${hidden ? ' hidden' : ''}><img src="${esc(galleryPath(project, `${image.file}-sm.webp`))}" width="${image.smallWidth}" height="${image.smallHeight}" alt="${esc(image.alt)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>${more}</a>`;
+  }).join('\n');
+  const hasSitePlan = images.some((image) => image.kind === 'site-plan');
+  const kinds = [
+    images.some((image) => image.kind === 'render') && "artist's impressions",
+    images.some((image) => image.kind === 'showflat') && 'showflat photos',
+    images.some((image) => image.kind === 'photo') && 'site photos',
+  ].filter(Boolean);
+  const kindCopy = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')} and ${kinds.at(-1)}` : (kinds[0] || 'images');
+  return `<section class="project-gallery-wrap reveal" aria-labelledby="gallery-${esc(project.slug)}" data-gallery-source="era">
+  <div class="project-gallery-inner">
+    <div class="project-gallery-head">
+      <div class="project-gallery-head-left">
+        <div class="project-eyebrow">Gallery</div>
+        <h2 id="gallery-${esc(project.slug)}" class="project-section-title">${esc(project.name)} in pictures.</h2>
+      </div>
+    </div>
+    <div class="project-gallery-grid">
+${items}
+    </div>
+    <p class="project-gallery-note">${images.length} image${images.length === 1 ? '' : 's'}${hasSitePlan ? ', including the site plan' : ''}. ${kindCopy.charAt(0).toUpperCase()}${kindCopy.slice(1)} from the developer's marketing materials, via ERA${era ? ` (<a href="${esc(era.detailUrl)}" target="_blank" rel="noopener">project listing</a>)` : ''}. The completed development may differ; the developer's sales brochure and plans are decisive.</p>
+  </div>
+</section>`;
+}
 const hasMap = (project) => fs.existsSync(path.join(MAP_DIR, `${project.slug}.webp`));
 const mapPath = (project, ext) => `/new-launches/img/maps/${project.slug}.${ext}`;
 const nf = new Intl.NumberFormat('en-SG');
@@ -814,7 +863,28 @@ function titleFor(project) {
   return `${name} New Launch — ${project.district} | PropertySG`;
 }
 
+function heroImage(project) {
+  const images = galleryFor(project)?.filter((image) => image.kind !== 'site-plan');
+  if (!images?.length) return null;
+  return { lg: galleryPath(project, `${images[0].file}-lg.webp`), sm: galleryPath(project, `${images[0].file}-sm.webp`) };
+}
+
+function heroAttrs(project) {
+  const hero = heroImage(project);
+  return hero
+    ? { className: 'project-hero project-hero-image', style: ` style="--bg-image:url('${hero.lg}');--bg-image-sm:url('${hero.sm}')"` }
+    : { className: 'project-hero', style: '' };
+}
+
+// The hero photo is the largest paint on the page, so fetch the right size early.
+function heroPreloadHtml(project) {
+  const hero = heroImage(project);
+  if (!hero) return '';
+  return `<link rel="preload" as="image" href="${hero.lg}" media="(min-width: 901px)" fetchpriority="high"><link rel="preload" as="image" href="${hero.sm}" media="(max-width: 900px)" fetchpriority="high">`;
+}
+
 function ogImage(project) {
+  if (galleryFor(project)) return `https://joetay.com${galleryPath(project, 'og.jpg')}`;
   return hasMap(project) ? `https://joetay.com${mapPath(project, 'jpg')}` : 'https://joetay.com/joetay-social-preview.jpg';
 }
 
@@ -848,8 +918,9 @@ ${layoutFaq ? `<script type="application/ld+json">${jsonForHtml(layoutFaq)}</scr
 ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchIntentFaq)}</script>` : ''}
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 ${fontLinksHtml()}
+${heroPreloadHtml(project)}
 <link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script src="/js/recaptcha-helper.js" defer></script>
+<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 ${mobileHeaderAssetsHtml()}
@@ -863,7 +934,8 @@ function renderNewPage(project) {
 <header class="nl-topbar"><div class="nl-topbar-inner"><a href="/" class="nl-logo">PropertySG</a><nav class="nl-nav" aria-label="Primary"><a href="/">Home</a><a href="/new-launches/">All Launches</a><a href="/insights/">Insights</a><a href="/#book" class="nl-nav-cta">Book a Call</a></nav></div></header>
 <nav class="nl-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span aria-current="page">${esc(project.name)}</span></nav>
 <main id="main" tabindex="-1">
-<section class="project-hero" aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>
+<section class="${heroAttrs(project).className}"${heroAttrs(project).style} aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>
+${gallerySection(project)}
 ${visualSection(project)}
 ${verificationStrip(project)}
 ${unitMixSection(project)}
@@ -937,12 +1009,25 @@ function refreshExistingPage(html, project) {
   html = html.replace(/<div class="project-hero-ctas">[\s\S]*?<\/div>/, heroCtas(project));
   html = html.replace(/<div class="project-stats"[\s\S]*?<\/div>\s*<\/div>\s*<div class="project-form-card">/, `${statsHtml(project)}\n    </div>\n\n    <div class="project-form-card">`);
   html = refreshFormCard(html, project);
-  for (const className of ['project-visual', 'project-unitmix', 'project-facilities', 'project-connect']) html = replaceSection(html, className);
-  const addedSections = [visualSection(project), unitMixSection(project), facilitiesSection(project), connectivitySection(project)].filter(Boolean).join('\n');
+  // The hand-built galleries hotlinked img.singmap.com; the self-hosted gallery replaces them.
+  // project-siteplan held a hotlinked location screenshot; the gallery now carries the
+  // official site plan and the map section covers location.
+  for (const className of ['project-gallery-wrap', 'project-siteplan', 'project-visual', 'project-unitmix', 'project-facilities', 'project-connect']) html = replaceSection(html, className);
+  const addedSections = [gallerySection(project), visualSection(project), unitMixSection(project), facilitiesSection(project), connectivitySection(project)].filter(Boolean).join('\n');
   html = replaceSection(html, 'project-dev-strip', `${verificationStrip(project)}\n${addedSections}`);
   html = html.replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${esc(ogImage(project))}">`);
   html = html.replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${esc(ogImage(project))}">`);
   if (!html.includes('src="project-live.js"')) html = html.replace('</head>', '<script defer src="project-live.js"></script>\n</head>');
+  if (!html.includes('src="project-gallery.js"')) html = html.replace('</head>', '<script defer src="project-gallery.js"></script>\n</head>');
+  // Hand-built heroes used a photo hotlinked from img.singmap.com; swap in the self-hosted one.
+  const hero = heroImage(project);
+  html = html.replace(/<link rel="preconnect" href="https:\/\/img\.singmap\.com"[^>]*>\s*/g, '');
+  html = html.replace(/<link rel="preload" as="image" href="https:\/\/img\.singmap\.com[^>]*>\s*/g, hero ? `${heroPreloadHtml(project)}\n` : '');
+  if (hero) {
+    html = html.replace(/style="--bg-image:url\('[^']*'\)(?:;--bg-image-sm:url\('[^']*'\))?"/, `style="--bg-image:url('${hero.lg}');--bg-image-sm:url('${hero.sm}')"`);
+  } else {
+    html = html.replace(/ class="project-hero project-hero-image"(\s*id="main"[^>]*?)?\s*style="--bg-image:url\('https:\/\/img\.singmap\.com[^']*'\)"/, (match, rest = '') => ` class="project-hero"${rest}`);
+  }
   html = replaceSection(html, 'project-location');
   html = replaceSection(html, 'project-section');
   html = replaceSection(html, 'project-factsheet', factsheetSection(project));
@@ -996,6 +1081,8 @@ export function validateProjectPage(html, project) {
   }
   if ((html.match(/class="project-related-card"/g) || []).length !== 3) errors.push(`${project.slug}: expected three alternatives`);
   if (hasMap(project) && !html.includes(`src="${mapPath(project, 'jpg')}"`)) errors.push(`${project.slug}: location map missing`);
+  if (galleryFor(project) && (html.match(/data-gallery-item/g) || []).length !== galleryFor(project).length) errors.push(`${project.slug}: gallery does not list every image`);
+  if (/img\.singmap\.com/.test(html)) errors.push(`${project.slug}: still hotlinks img.singmap.com`);
   if (eraFor(project)?.unitTypes?.length && project.status !== 'sold-out' && !html.includes('data-project-live')) errors.push(`${project.slug}: live unit-mix table missing`);
   if (projectGeo[project.slug] && !html.includes('class="project-connect')) errors.push(`${project.slug}: nearest-station section missing`);
   return errors;
