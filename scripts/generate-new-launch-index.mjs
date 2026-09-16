@@ -194,6 +194,11 @@ function localCanonicalPath(project) {
 // without one keep the monogram, so a missing asset never shows a broken image.
 const hasMapThumb = (project) =>
   fs.existsSync(path.join(path.dirname(DATA_PATH), 'img', 'maps', `${project.slug}-600.webp`));
+// A developer render reads better than a map on a catalog card; fall back to the map.
+const cardImage = (project) => {
+  if (fs.existsSync(path.join(path.dirname(DATA_PATH), 'img', 'gallery', project.slug, 'card-600.webp'))) return `/new-launches/img/gallery/${project.slug}/card-600.webp`;
+  return hasMapThumb(project) ? `/new-launches/img/maps/${project.slug}-600.webp` : null;
+};
 
 function cardHtml(project, index) {
   const search = [project.name, project.developer, project.location]
@@ -204,9 +209,9 @@ function cardHtml(project, index) {
   const dynamic = dynamicCopy(project);
   return `    <li class="nl-card-item" data-catalog-item data-name="${esc(project.name.toLowerCase())}" data-search="${esc(search)}" data-status="${esc(project.status)}" data-region="${esc(project.region)}" data-property-type="${esc(project.propertyType)}" data-tenure="${esc(project.tenure)}" data-launch-date="${esc(launchDate)}" data-price="${esc(price)}" data-default-order="${index}">
       <a href="${esc(localCanonicalPath(project))}" class="nl-card">
-        <div class="nl-card-img${hasMapThumb(project) ? '' : ' nl-card-img-data'}" aria-hidden="true">
-          ${hasMapThumb(project)
-            ? `<img src="/new-launches/img/maps/${esc(project.slug)}-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">`
+        <div class="nl-card-img${cardImage(project) ? '' : ' nl-card-img-data'}" aria-hidden="true">
+          ${cardImage(project)
+            ? `<img src="${esc(cardImage(project))}" width="600" height="315" alt="" loading="lazy" decoding="async">`
             : `<span class="nl-card-monogram">${esc(project.name.slice(0, 2).toUpperCase())}</span>`}
           <span class="nl-card-badge ${project.status === 'upcoming' ? 'new' : ''}">${esc(STATUS_LABELS[project.status])}</span>
         </div>

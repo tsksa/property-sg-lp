@@ -1,0 +1,1185 @@
+{
+ "source": "Developers' marketing images from ERA Realty Network project listings (propertyportal.era.com.sg); ERA watermarks retained",
+ "permission": "Joe Tay confirmed on 2026-09-16 that he has permission to use the developers' marketing images",
+ "retrievedAt": "2026-09-16",
+ "projects": {
+  "amberwood-at-holland": {
+   "eraId": "52114377",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/9470d59fb66f0d1eca9a8719bbc9279293479521.jpg",
+     "alt": "Amberwood at Holland aerial view of the low-rise blocks and pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "V02_Overall View 06"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/97f2ac1d33d808eb3e5599e27bbd6b39031cb193.jpg",
+     "alt": "Amberwood at Holland view from Holland Green Linear Park, artist's impression",
+     "kind": "render",
+     "eraLabel": "V01_View From Holland Green Linear Park"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/eee53c09bbaaeaba2293d81760a19e358d79996e.jpg",
+     "alt": "Amberwood at Holland arrival plaza, artist's impression",
+     "kind": "render",
+     "eraLabel": "V5_Arrival Plaza"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/cb508c90c151579a82adc6aa5feb04e2eb8fad12.jpg",
+     "alt": "Amberwood at Holland hilltop lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "V11_Hilltop Lap Pool"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/e01d3024e72fe16f0d1c5f6463e2c5adc124c081.jpg",
+     "alt": "Amberwood at Holland lakeside pool at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "V08 Lakeside Pool"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/8e6aab78f8cee9c3759dd1f917896a1f248027cb.jpg",
+     "alt": "Amberwood at Holland pool deck, artist's impression",
+     "kind": "render",
+     "eraLabel": "V10_Pool Deck"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/5fc44737385a04662beebdf633c5791e87ccac30.jpg",
+     "alt": "Amberwood at Holland water terrace, artist's impression",
+     "kind": "render",
+     "eraLabel": "V06_Water Terrace"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/23fb705b144ad63fb1447976728b2ab476e8e738.jpg",
+     "alt": "Amberwood at Holland day lounges by the pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "V09_Day Lounges"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/4b7f6edf007a35d7163edd6cfb99198ff7dea52c.jpg",
+     "alt": "Amberwood at Holland thermal bath and outdoor bath, artist's impression",
+     "kind": "render",
+     "eraLabel": "V12_Thermal Bath and Outdoor Bath"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/8d04e3fa17d5cbd97bbbc62875c75aaa52914582.jpg",
+     "alt": "Amberwood at Holland function studio, artist's impression",
+     "kind": "render",
+     "eraLabel": "V07_Function Studio"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/e7448c28bfdddd1d89245beb0d53e972735a8229.jpg",
+     "alt": "Amberwood at Holland balcony view towards Holland Plain, artist's impression",
+     "kind": "render",
+     "eraLabel": "V04_Balcony towards Holland Plain"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/aa2933d235b63f1a3e0b2e55fd738de4512bd5a6.jpg",
+     "alt": "Amberwood at Holland view towards Old Holland Road, artist's impression",
+     "kind": "render",
+     "eraLabel": "V03_View Towards Old Holland Road"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/amberwood_at_holland/media/53a3df61b4d7d1b332ff86fffab1b9429b87f0bb.png",
+     "alt": "Amberwood at Holland site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "coastal-cabana": {
+   "eraId": "28177825",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/e0b2ad30c0cbb31e3f89e58b2df9e00351bccfb0.jpg",
+     "alt": "Coastal Cabana towers with the sea beyond, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-V1-3 copy_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/1cd0adaf0b02998774a7764e896452aa857dff79.jpg",
+     "alt": "Coastal Cabana aerial view along the Pasir Ris coast, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-V19-5_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/9ca5b757d0443f62c4f04ec73a3f84435ffee999.jpg",
+     "alt": "Coastal Cabana main pool and clubhouse, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v13_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/c5d20ee0c449005f86dbe6ca09ceab68987e4289.jpg",
+     "alt": "Coastal Cabana pool deck, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-V6-4_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/242fd9cdad312875d1764a1c38838c2d0401bb59.jpg",
+     "alt": "Coastal Cabana lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v12-5 copy_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/3d3797bef82f2859d647cbe437f419d40a46ad06.jpg",
+     "alt": "Coastal Cabana clubhouse at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v11_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/4ca1d86153071d63ffc99796b5b996f00290108e.jpg",
+     "alt": "Coastal Cabana pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v8-5 op2_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/aa2e0a3c2d61eca8cfbda4f51d6fd86cc53f7197.jpg",
+     "alt": "Coastal Cabana sky terrace at sunset, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v17-15 (1)_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/f2a0af1b97d7826efda2e0b0a260e78fa9d9978e.jpg",
+     "alt": "Coastal Cabana sea-view terrace, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v15-6_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/96b57661f5132005029c08c654374d825fbcaac5.jpg",
+     "alt": "Coastal Cabana sky lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v16-6_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/4fb7abb3ea908792131b1bc137ad297e92a020c1.jpg",
+     "alt": "Coastal Cabana arrival court, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v18_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/0c2cd2c66068e70e7b84d2c5f80fbef73fefe3b7.jpg",
+     "alt": "Coastal Cabana children's water play, artist's impression",
+     "kind": "render",
+     "eraLabel": "083-Loyang EC perspective-v14-3_text"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/coastal_cabana/media/8f30c7670d9697faf6399e6310308f21f3c760ae.jpg",
+     "alt": "Coastal Cabana site plan",
+     "kind": "site-plan",
+     "eraLabel": "Coastal_Cabana-Site_Plan"
+    }
+   ]
+  },
+  "dunearn-house": {
+   "eraId": "52114376",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/8d4e33897c7e30f947b7d0b97139fe9160032599.jpg",
+     "alt": "Dunearn House towers at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Hero"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/a82058c244cdf60fcba271be458656a555707f7a.jpg",
+     "alt": "Dunearn House daytime view with pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Hero_Day"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/3629dbe54440c43d760c5ddb8531d07fa841750a.jpg",
+     "alt": "Dunearn House blocks at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Hero_2"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/6068213d6394a8f4d4971b33209d7618606d5188.jpg",
+     "alt": "Dunearn House grand arrival, artist's impression",
+     "kind": "render",
+     "eraLabel": "Grand_Arrival"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/277a2b9eddd312dc2e430ad75d1dddd3eefd46e8.jpg",
+     "alt": "Dunearn House 50m lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_50m_Lap_Pool"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/dca2d70749e1af74967c5c606a537b1fc757186a.jpg",
+     "alt": "Dunearn House wellness pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Wellness_Pool"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/878633ccaa637c0455dca8d4b9215733075d9ee2.jpg",
+     "alt": "Dunearn House Dunearn Club pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_Club"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/1563e0ee6c527c7f00d8aa2fbfdd95395320978f.jpg",
+     "alt": "Dunearn House waterfall pod, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Waterfall_Pod"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/f64b14a1241ce4b8ca89b66c0d4980433cba6b4c.jpg",
+     "alt": "Dunearn House play garden, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Play_Garden"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/fee64ce048e86dd379cfaa4d715431f5ccc97337.jpg",
+     "alt": "Dunearn House Dunearn Club interior, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Dunearn_Club_(interior)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/63cffad5cd96ed42324587d6ff92e97aed6fe0a9.jpg",
+     "alt": "Dunearn House Waterfall Club, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Waterfall_Club___Waterfall_Deck"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/6cde4da011397a079bb7de9685706bcf23c477f8.jpg",
+     "alt": "Dunearn House facade, artist's impression",
+     "kind": "render",
+     "eraLabel": "Dunearn_House_Facade"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/dunearn_house/media/cc53af375c6ec8414f93bcc5eacf8cdb1d2f269c.png",
+     "alt": "Dunearn House site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "faber-residence": {
+   "eraId": "39506271",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/faber_residence/media/2b52ae7cf0204adb57ed7bedff2fab1fe6f29e00.jpg",
+     "alt": "Faber Residence blocks along the park connector, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2025-09-16_at_13.34.11_(1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/faber_residence/media/06f9b1fb7b8ee095ce4c1a2234098cdb735175e9.jpg",
+     "alt": "Faber Residence garden and swing, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2025-09-16_at_13.34.11_(2)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/faber_residence/media/289fde3d1f66953431d2deb902d7dca1bf84aab5.jpg",
+     "alt": "Faber Residence pool and pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2025-09-16_at_13.34.11"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/faber_residence/media/84b4c87189230f04e138f001e3f4ef286f542328.jpg",
+     "alt": "Faber Residence drone photo of the site",
+     "kind": "photo",
+     "eraLabel": "Site_view_drone"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/faber_residence/media/b8556753e73c04809eb79e5465c9a0ba983ce38d.jpg",
+     "alt": "Faber Residence site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "hudson-place-residences": {
+   "eraId": "50337019",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/e2965634cf985aa560b07d27f468bc745c110211.jpg",
+     "alt": "Hudson Place Residences towers at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v2-night-5_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/75c1c5b24f561ea240492441e3773d1bdc146772.jpg",
+     "alt": "Hudson Place Residences pool deck, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v4-5_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/4870a25cae03f756b62bd4fac90efd76f684f0be.jpg",
+     "alt": "Hudson Place Residences lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-V6-9_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/06d9fcf9de381be7b83183bb638166362e793613.jpg",
+     "alt": "Hudson Place Residences sky terrace pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-V10-12_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/e952655e509180c45937ec9eeed76c6dd037d81c.jpg",
+     "alt": "Hudson Place Residences pool at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v13-5_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/0285d52f6356493553a2dac7737e5fabab2e93a1.jpg",
+     "alt": "Hudson Place Residences clubhouse and pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v8-3_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/c7ac9ad64e5c0e40b2fd17134d66e697b5898d4b.jpg",
+     "alt": "Hudson Place Residences pool under the block, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v7-5_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/2b51295cde8a534b16c0b03f9a4f14c85ba99b83.jpg",
+     "alt": "Hudson Place Residences leisure pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v15-3_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/619de63713a8571bab2120abedc2fcb198f5d7a1.jpg",
+     "alt": "Hudson Place Residences garden lawn, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v14-4_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/49f6de67a0a7e640f7bea38d7e78652c3c0f4fad.jpg",
+     "alt": "Hudson Place Residences dining garden, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-V11-6_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/3da491ab5e917383788c0bfe48cd1203b45c24e5.jpg",
+     "alt": "Hudson Place Residences arrival walkway, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v9_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/4da3a27aa3322e4c6f79f71ac21671335bd12f0d.jpg",
+     "alt": "Hudson Place Residences city view at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "217-Media_Circle_Parcel_A-v16-night_"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/hudson_place_residences/media/bafa52c105f5be8106c443ea82fdd82e381ea2f2.png",
+     "alt": "Hudson Place Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "lentor-gardens-residences": {
+   "eraId": "52114379",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/d0453f8b2d9dc05b573c1f73435d7304c8fc3f2b.jpg",
+     "alt": "Lentor Gardens Residences aerial view, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-v13-20260519"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/d6860b35fbcc6f58f697bbfe8ff9755eaab14329.jpg",
+     "alt": "Lentor Gardens Residences towers at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-v1-20260519"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/9268bb48188af1cb4c0df5c30a18bfab31a23c90.jpg",
+     "alt": "Lentor Gardens Residences infinity pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-v9-20260519"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/c801c96caf08690f7b47fc2d695775412b49ecc6.jpg",
+     "alt": "Lentor Gardens Residences pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-V4-20230331"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/2a44ba4f4df0ec437d9bca255f87e04d1d8adbf4.jpg",
+     "alt": "Lentor Gardens Residences pool and cabanas, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-v8-20260518"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/fa2e8d997f8498f2b562ecf6bb2fb41acef08eb6.png",
+     "alt": "Lentor Gardens Residences aerial view of the Lentor estate, artist's impression",
+     "kind": "render",
+     "eraLabel": "133-Lentor_Gardens-v15"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lentor_gardens_residences/media/54ff0eff5f759b865fb7fac04d0fd5109cfe1c74.png",
+     "alt": "Lentor Gardens Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "lucerne-grand": {
+   "eraId": "52114378",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/0c6bad557231e62636364568c31e5362d84662cd.jpg",
+     "alt": "Lucerne Grand blocks by the waterway, artist's impression",
+     "kind": "render",
+     "eraLabel": "Overall_view_v03_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/712fb7b1110ba4bce34b1f3a1d1c51d60627ba79.jpg",
+     "alt": "Lucerne Grand view over Jurong Lake Gardens, artist's impression",
+     "kind": "render",
+     "eraLabel": "Facade_view_v04_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/901f04c924d7d2216edff19066a35a6b2499900f.jpg",
+     "alt": "Lucerne Grand aerial view of Jurong Lake Gardens, artist's impression",
+     "kind": "render",
+     "eraLabel": "Aerial_view_-_Jurong_Lake_Gardens_page-0001"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/30702a04205dce70db40de2bfff79b5ceb2c4446.jpg",
+     "alt": "Lucerne Grand pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "Night_pool_view_v05_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/3a17e53ae5f969f54ee17b11063cecfc3ba56ded.jpg",
+     "alt": "Lucerne Grand children's pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Kids_pool_v10_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/11568668d62cf9990512c9f67acf8a9659649554.jpg",
+     "alt": "Lucerne Grand gym and function room, artist's impression",
+     "kind": "render",
+     "eraLabel": "Gym_Function_room_v09_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/1a1af3b03ea236515c0e7592df92386545718cd7.jpg",
+     "alt": "Lucerne Grand gourmet pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "Gourmet_Pavilion_v11_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/ef96db5a227b53c971c982254910c25b0bfe66e6.jpg",
+     "alt": "Lucerne Grand wellness valley, artist's impression",
+     "kind": "render",
+     "eraLabel": "Wellness_Valley_v12_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/590a56fb8a457c52b76284fe8d4162a80be81683.jpg",
+     "alt": "Lucerne Grand retail podium, artist's impression",
+     "kind": "render",
+     "eraLabel": "Retail_v06_LR-1Sept2026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/511dd3284385928e42aa540f8d97bcb3dcb0e964.jpg",
+     "alt": "Lucerne Grand retail and sky bridge, artist's impression",
+     "kind": "render",
+     "eraLabel": "Retail_view_v07_MR"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/lucerne_grand/media/deed547ab0f6983e58e0ef2baf9ae15e5a687c01.jpg",
+     "alt": "Lucerne Grand site plan",
+     "kind": "site-plan",
+     "eraLabel": "Lucerne_Grand-Site_Plan_MR"
+    }
+   ]
+  },
+  "narra-residences": {
+   "eraId": "50337020",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/c8e206b43506cc8cc0c9caaeaa98bfcdc1865bda.jpg",
+     "alt": "Narra Residences facade, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 13"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/727618a1ffdfca0040946728389a16d0d4fd936b.jpg",
+     "alt": "Narra Residences aerial view, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 3"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/b6905842241cab981fd0d453b90a527778e5f63d.jpg",
+     "alt": "Narra Residences pool and blocks, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 6"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/b3d386b312e6049b2282910e7a1480f459bbeaf8.jpg",
+     "alt": "Narra Residences main pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 2"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/42cef44c79301afdb03334b8830381185c246b26.jpg",
+     "alt": "Narra Residences clubhouse, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 4"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/c61f7bbb55190ee796617007c6f08105bdbdb457.jpg",
+     "alt": "Narra Residences arrival, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 10"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/d9bcacf77d90ec719f604824b4a6cbc1f2a3bf55.jpg",
+     "alt": "Narra Residences leisure pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 8"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/c3feb2f4242646d9672cc7ab7d04185232cc04cc.jpg",
+     "alt": "Narra Residences nature trail, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 1"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/32ec00a0f44c51a6ee2cf391700a632ba9022755.jpg",
+     "alt": "Narra Residences pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 9"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/f0d65d210ce24d11fdea6c3224bc5ce7972b1a37.jpg",
+     "alt": "Narra Residences retail frontage, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 7"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/18062176b732ee4a28acbc01dae1c88e7f80bcf8.jpg",
+     "alt": "Narra Residences pool at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 12"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/bb1afa7f9bf8a0f1a31bc23733f52231fdf30ded.jpg",
+     "alt": "Narra Residences tower and pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Narra Residences Image 11"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/narra_residences/media/080da94da1fb5e751cd9b5cab2e8ae27d923f9a6.png",
+     "alt": "Narra Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "newport-residences": {
+   "eraId": "15928",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/138b18277c0f4149b3528a640139ac38.jpg",
+     "alt": "Newport Residences tower from the sea, artist's impression",
+     "kind": "render",
+     "eraLabel": "NPR_Aerial View from Sea cropped (with AI)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/3a9517039ee735f5e90ae2cfa994e7c64aa7fd61.jpg",
+     "alt": "Newport Residences tower at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.49 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/831e723704900882a28b124477da792b03254842.jpg",
+     "alt": "Newport Residences tower at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.49"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/56d0886ac0c7420ba24a725b8784b4ee.jpg",
+     "alt": "Newport Residences sky pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "NPR_Sky Pool (with AI)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/61420af37c28d4a3f27bae1dddc062aa40ad6e3d.jpg",
+     "alt": "Newport Residences living room with city view, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.47 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/3e93597fc359c103adddacf20269d3b9cc917875.jpg",
+     "alt": "Newport Residences sky terrace dining, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.52 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/26c9cd8302d4e7a0181224dad1307eba6e694532.jpg",
+     "alt": "Newport Residences sky garden, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.52"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/05d06d43f3c7c3de9df1cc0ea2aae83d9abcf77b.jpg",
+     "alt": "Newport Residences gym, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.53"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/973fd60490499e9e9bd820ae53fb39a8e076aa53.jpg",
+     "alt": "Newport Residences private dining room, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.51"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/1b75ea5a050a9c636015c33e018b9b1e293b22e6.jpg",
+     "alt": "Newport Residences lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.50"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/9c2f16ca0a046419b863c431eb44bdcc8e169227.jpg",
+     "alt": "Newport Residences sky garden lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-11-06 at 15.57.54"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/d14545f7552cd1f6abf1780196c529f61ffb0424.jpg",
+     "alt": "Newport Residences rooftop club, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2025-11-06_at_15.57.45"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/newport_residences/media/3fea4060782a407f8034b547c061ec67.png",
+     "alt": "Newport Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "pinery-residences": {
+   "eraId": "69692558",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/643b8c51fc2d4e03f97cc2613d7511125f25e482.jpg",
+     "alt": "Pinery Residences aerial view, artist's impression",
+     "kind": "render",
+     "eraLabel": "Aerial_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/27ed96b483f487964465fac70a1ffb605ce6c51f.jpg",
+     "alt": "Pinery Residences facade and Pinery Mall, artist's impression",
+     "kind": "render",
+     "eraLabel": "Pinery_Facade_Artist_Impression.jpg"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/3994bf1ba22dd1e2df2a29ca3cc8612e2cc0e564.jpg",
+     "alt": "Pinery Residences 50m lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "50m Lap Pool_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/56b886cb9a0a07052ef59e4c223e32c58f3981bc.jpg",
+     "alt": "Pinery Residences family pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Family Pool_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/4ec3dcf8d91a09cab21550d848832f9f755d0729.jpg",
+     "alt": "Pinery Residences hydrotherapy pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Hydrotheraphy Pool_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/407e40a7fdcdf22fc15215b1dc5150316d861516.jpg",
+     "alt": "Pinery Residences pavilion at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "Pavilion Night_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/d1b3e592179696f10d3604bf138d7ba9ac639624.jpg",
+     "alt": "Pinery Residences tranquil garden, artist's impression",
+     "kind": "render",
+     "eraLabel": "Tranquil Garden_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/26851e0d27d172215df51f91092a27b694f41386.jpg",
+     "alt": "Pinery Residences Pinery Mall entrance, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-03-05 at 15.10.20"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/b5c5cbfbc303b671bf1b6fd0687baff75630c98a.jpg",
+     "alt": "Pinery Residences arrival plaza, artist's impression",
+     "kind": "render",
+     "eraLabel": "Arrival Plaza_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/df34c853782cad0f56391f0239dae02a805320a5.jpg",
+     "alt": "Pinery Residences gym, artist's impression",
+     "kind": "render",
+     "eraLabel": "Gym_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/6db8592081ae0207d43a0169f4bb82579f145af2.jpg",
+     "alt": "Pinery Residences kids' party room, artist's impression",
+     "kind": "render",
+     "eraLabel": "Kids Party Room_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/bad111e409a76399e1e7612618da0c7a7b1679f3.jpg",
+     "alt": "Pinery Residences games lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "Games Lounge_Artist Impression"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/pinery_residences/media/ea312b4b6302488904b4760dabfa4d8eac0f33d1.png",
+     "alt": "Pinery Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "river-modern": {
+   "eraId": "50337021",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/0ad756f03239604ce4d8837354affb177c827067.jpg",
+     "alt": "River Modern towers by the Singapore River, artist's impression",
+     "kind": "render",
+     "eraLabel": "1.HERO"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/320abe70ee46cee5593be11e9bb81b3c4bee47f4.jpg",
+     "alt": "River Modern towers from the river, artist's impression",
+     "kind": "render",
+     "eraLabel": "9. HERO_2"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/1b3aea97c7a44c944577db2bb15fa213197ccec8.jpg",
+     "alt": "River Modern pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "13. POOL_NIGHT"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/a5d2a4d886a3ede0781a074b15e472af6a2311f7.jpg",
+     "alt": "River Modern main pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "2.POOL"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/1d783a244c3d6769151594aeab4906c1576b0a8e.jpg",
+     "alt": "River Modern podium and river view, artist's impression",
+     "kind": "render",
+     "eraLabel": "4.PODIUM"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/be00bcbbca23d8b6897f372a9734e3d8733e21de.jpg",
+     "alt": "River Modern play pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "16. PLAY POOL"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/a6b0fd11d3613c5f2a75482cfcbc187d077bb2ae.jpg",
+     "alt": "River Modern balcony view, artist's impression",
+     "kind": "render",
+     "eraLabel": "6._BALCONY"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/78570603795e6dd839c441ad12c3a6f910f5b871.jpg",
+     "alt": "River Modern gym, artist's impression",
+     "kind": "render",
+     "eraLabel": "14. GYM"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/4f85524e0d5982b70c989b1a5e21bfc088dcb35f.jpg",
+     "alt": "River Modern pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "12. PAVILION"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/c50deb123822399eeb2ec0e8bcbf0c2c67077eb4.jpg",
+     "alt": "River Modern tennis court, artist's impression",
+     "kind": "render",
+     "eraLabel": "8.TENNIS_COURT"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/967f11f1b38ade9f209ef31febd41eda837fe6bc.jpg",
+     "alt": "River Modern riverside garden, artist's impression",
+     "kind": "render",
+     "eraLabel": "15. RIVERSIDE GARDEN"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/e42417d18f12d89d707a1b1f1097b3bbbe6e49e4.jpg",
+     "alt": "River Modern arrival lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "5. ARRIVAL LOUGE"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/river_modern/media/6e754c962b7df21abc3a50c7e01a135ec8cfc89e.png",
+     "alt": "River Modern site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "the-serra-residences": {
+   "eraId": "87664608",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/5ef570f31f9630d59dfa9c08190c23e0bd1a94a8.jpg",
+     "alt": "The Serra Residences tower, artist's impression",
+     "kind": "render",
+     "eraLabel": "20260904_TSR Hero Perspective [FINAL]"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/8442adb4c830eea153451894030049252ce2f98f.jpg",
+     "alt": "The Serra Residences tower looking up, artist's impression",
+     "kind": "render",
+     "eraLabel": "H_03_LookingUp 20082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/4021d52d8ff670de83989962637e82c1b8a9e491.jpg",
+     "alt": "The Serra Residences arrival, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_01_Arrival 26082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/855cfabdcc54713773c1239fbfeb6a23c252cad3.jpg",
+     "alt": "The Serra Residences pool deck, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_08_Pool Deck 26082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/94ef0f0f643e53e0d4400b965da543646e3dd1f0.jpg",
+     "alt": "The Serra Residences pool at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2026-08-21_at_18.54.08_(1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/a28e04610a111071ee8ae991b58cc552edd743d9.jpg",
+     "alt": "The Serra Residences BBQ pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_05_BBQ Pavilion 26082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/7d19d04aea2b9a94897e9de875d2e9fb9f5c7332.jpg",
+     "alt": "The Serra Residences kids' pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_04_Kids Pool 20082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/16d69401c42a33431a658dcac8e9cb2982222048.jpg",
+     "alt": "The Serra Residences retreat lounge and zen deck, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_12_Retreat Lounge and Zen Deck 27082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/70371f4622e79ecf7d7a0f531ab6625aa687dd9d.jpg",
+     "alt": "The Serra Residences dining room, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_07_Dining Room 27082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/6509b55100e9b82380655af7c75ee0bb91f64fd3.jpg",
+     "alt": "The Serra Residences social lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_09_Social Lounge 20082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/a41c9947275e1f1116e83ac9ace842d4d0ca8a5c.jpg",
+     "alt": "The Serra Residences fitness room, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_06_Fitness Room 26082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/898db237a927f928b8d849bd80ecda71cff31933.jpg",
+     "alt": "The Serra Residences tennis court, artist's impression",
+     "kind": "render",
+     "eraLabel": "E_10_Tennis Court 31082026"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/the_serra_residences/media/99212355df374833620a6c98bef7a90218a5ea43.jpg",
+     "alt": "The Serra Residences site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "thomson-reserve": {
+   "eraId": "28177823",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/c8369770b80a8db55cb9f8d00ff9ac852baa3e3f.jpg",
+     "alt": "Thomson Reserve towers, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp_Image_2026-07-28_at_12.36.14"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/af4dec52b989a7f6596698e3ebfc31de7f065a80.png",
+     "alt": "Thomson Reserve infinity lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Infinity Lap Pool (50m)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/ac5ac323a740fcedc4d07c5c976c7a1bc61f5d6b.png",
+     "alt": "Thomson Reserve leisure pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Leisure Pool"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/78f9a35824d5e2d09e6f3fd4d01055478c172799.png",
+     "alt": "Thomson Reserve canopy lap pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Canopy Lap Pool (50m) and Hammock Cove"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/dd512a44ebe099f5c2d61a065e56f1c54695311a.png",
+     "alt": "Thomson Reserve grand lawn pavilion, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Grand Lawn Pavilion and Grand Lawn"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/17713f459729ff76585c16b25329689435bc2280.png",
+     "alt": "Thomson Reserve grand arrival, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Grand Arrival"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/5198d0e3d1c9f567e0be41143768713d850a6cf4.png",
+     "alt": "Thomson Reserve hydro spa pool, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Hydro Spa Pool and Wellness Pods"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/add96d290c3a8b7e2d87c6ce36c32722e35a34c2.png",
+     "alt": "Thomson Reserve view from a private enclosed space, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - View Out from PES"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/7663a41b9ecd362a8773a09ca4473b9cb1f4b999.png",
+     "alt": "Thomson Reserve grand function room, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Grand Function Room"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/f4f836e82a0dd7ff844beb7a93dd64b3361ec868.png",
+     "alt": "Thomson Reserve Olive Lounge, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Olive Lounge (Social Lounge 2)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/c8700495df137d4171b04497a0b460228da82f7c.png",
+     "alt": "Thomson Reserve main gym, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Main Gym"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/thomson_reserve/media/3accf61ab3f320de667383c623afd6ea98f4b9c2.png",
+     "alt": "Thomson Reserve children's explorer nook, artist's impression",
+     "kind": "render",
+     "eraLabel": "Thomson Reserve - Little Explorer Nook (Kids Play Room)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/former_thomson_view/media/c331e779c1d0d49468aa1e23d563f14c795a6fcb.jpg",
+     "alt": "Thomson Reserve schematic site plan",
+     "kind": "site-plan",
+     "eraLabel": "WhatsApp_Image_2026-04-26_at_12.27.48"
+    }
+   ]
+  },
+  "vela-bay": {
+   "eraId": "52114373",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/9b9a38e4850fd3fba5b81bab8774ff7be5b6a36e.jpg",
+     "alt": "Vela Bay aerial view at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.03"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/40039a4a7b7e36e63a8c8f58271afa8f24c28425.jpg",
+     "alt": "Vela Bay aerial view by the East Coast, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.07"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/f09f63b48c0238dfc126a6e05388e35cc35e707a.jpg",
+     "alt": "Vela Bay towers, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.05"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/e6397f5e34b1600a83cbe313e5fc30c205de295f.jpg",
+     "alt": "Vela Bay towers from the street, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.04"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/c8f6afde41605b24435b000f7eefbe1639b32273.jpg",
+     "alt": "Vela Bay sea view, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.03 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/0bd6fed0c59bb4dc6daed96b4131c56574ab1110.jpg",
+     "alt": "Vela Bay pool at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.06 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/e75422b372faf563b965d0c8d7b7b04276aece29.jpg",
+     "alt": "Vela Bay arrival, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.06"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/ed86e195292a1d2214020d0883fc991637d0fe40.jpg",
+     "alt": "Vela Bay streetscape, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2026-04-04 at 13.41.07 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/vela_bay/media/b46c6b72fd388d9c9fa6fcdd01d95efb1e4eb4cf.png",
+     "alt": "Vela Bay site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "w-residences-marina-view": {
+   "eraId": "34576139",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/a5a74bbf785f413d9db50cabfc3fbfcb.jpg",
+     "alt": "W Residences Marina View tower, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2024-09-30 at 11.45.33 PM (2)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/837fa9a1c8f14729b167c7b7a1dcfc8a.jpg",
+     "alt": "W Residences Marina View Marina Bay skyline at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2024-09-30 at 11.45.33 PM (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/b7844833f2534b0ca1ab4b3e0e813bd3.jpg",
+     "alt": "W Residences Marina View city view from the tower, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2024-09-30 at 11.45.33 PM"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/c223c22f143144d5b83eba1521eef5e4.jpg",
+     "alt": "W Residences Marina View 5-bedroom showflat living and dining",
+     "kind": "showflat",
+     "eraLabel": "5 Bedroom (Main)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/62c82215cd364502bc6abe9b350ac556.jpg",
+     "alt": "W Residences Marina View 5-bedroom showflat living room",
+     "kind": "showflat",
+     "eraLabel": "5 Bedroom (Living Room)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/6336706a0f2d4a428c255c35827036ed.jpg",
+     "alt": "W Residences Marina View 3-bedroom showflat living room",
+     "kind": "showflat",
+     "eraLabel": "3 Bedroom (Living Room)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/1c80684912084c8aa12b4843707ffd0b.jpg",
+     "alt": "W Residences Marina View 5-bedroom showflat balcony",
+     "kind": "showflat",
+     "eraLabel": "5 Bedroom (Balcony)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/0956b8d9f829426faed253b548230311.jpg",
+     "alt": "W Residences Marina View 3-bedroom showflat master bedroom",
+     "kind": "showflat",
+     "eraLabel": "3 Bedroom (Master Bedroom 2)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/25cddcd5bd1c4838a99a0cedea5ec5cc.jpg",
+     "alt": "W Residences Marina View 3-bedroom showflat dining room",
+     "kind": "showflat",
+     "eraLabel": "3 Bedroom (Dinning Room)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/7e276bdbddfd4924be517a516160d0f6.jpg",
+     "alt": "W Residences Marina View 3-bedroom showflat kitchen and living",
+     "kind": "showflat",
+     "eraLabel": "3 Bedroom (Kitchen & Living)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/974694a39a6045bba62a62518df70fb1.jpg",
+     "alt": "W Residences Marina View 1-bedroom showflat living room",
+     "kind": "showflat",
+     "eraLabel": "1 Bedroom (Living Room)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/d6d8a8966c684876abd19b778bae071f.jpg",
+     "alt": "W Residences Marina View 5-bedroom showflat master bathroom",
+     "kind": "showflat",
+     "eraLabel": "5 Bedroom (Master Bathroom)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/w_residences_marina_view___singapore/media/607e8c1e99e3472c800cba4aac363c9a.png",
+     "alt": "W Residences Marina View site plan",
+     "kind": "site-plan",
+     "eraLabel": "Site plan"
+    }
+   ]
+  },
+  "zyon-grand": {
+   "eraId": "28177830",
+   "images": [
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/d4cc0d187f6167008dbe06a8e898634bf4b4c95e.jpg",
+     "alt": "Zyon Grand towers, artist's impression",
+     "kind": "render",
+     "eraLabel": "Zyon_Grand_Hero_Perspective_(Day)_AI"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/3fac922c9f6943b3386c1e68e6fe1602e52fe4e0.jpg",
+     "alt": "Zyon Grand towers at night, artist's impression",
+     "kind": "render",
+     "eraLabel": "Zyon_Grand_Hero_Perspective_(Evening)_AI"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/dd88c3c711074d4bbc4bbf0d5f44389c.jpg",
+     "alt": "Zyon Grand towers at dusk, artist's impression",
+     "kind": "render",
+     "eraLabel": "WhatsApp Image 2025-07-22 at 19.52.08 (1)"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/980fe0499bc23367d778beaaa40db8e9ed4301f7.jpg",
+     "alt": "Zyon Grand lap pool at sunset, artist's impression",
+     "kind": "render",
+     "eraLabel": "Zyon_Grand_Lap_Pool_(Sunset)_AI"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/071cdbaccc206cec2f33c09d3792fb384d0e90f0.jpg",
+     "alt": "Zyon Grand waterfall cove, artist's impression",
+     "kind": "render",
+     "eraLabel": "Zyon_Grand_Waterfall_Cove_AI"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/74e04bb58a053c24fc39ba28d419a0d6412f0523.jpg",
+     "alt": "Zyon Grand relaxation lagoon, artist's impression",
+     "kind": "render",
+     "eraLabel": "Zyon_Grand_Relaxation_Lagoon_(Day)_AI"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/dbce56893762eafa02cac6772a94d53bda6f9134.jpg",
+     "alt": "Zyon Grand gym, artist's impression",
+     "kind": "render",
+     "eraLabel": "IMG-20250913-WA0054"
+    },
+    {
+     "url": "https://salesplus-public-asset-prd.s3.ap-southeast-1.amazonaws.com/projects/zyon_grand/media/71ba8cf8cfc0f9a34e8c2653dd15d31899e1854a.jpg",
+     "alt": "Zyon Grand site plan",
+     "kind": "site-plan",
+     "eraLabel": "Zyon_Grand_-_Site_Plan_(22_Sep)"
+    }
+   ]
+  }
+ }
+}
