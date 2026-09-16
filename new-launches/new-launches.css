@@ -2,7 +2,7 @@
 /* ── Shared styles for /new-launches/ pages ── */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--gold-text:#8a6a2d;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#777;--line:#eee;--line-soft:#f2f2f2}
+:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--emerald-aa:#047857;--emerald-aa-dark:#065f46;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--gold-text:#8a6a2d;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#666;--line:#eee;--line-soft:#f2f2f2}
 html{scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden}
 section[id],[id^="projectForm"]{scroll-margin-top:80px}
 body{font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden;width:100%;max-width:100%}
@@ -24,8 +24,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-nav{display:flex;gap:22px;align-items:center;min-width:0;flex-shrink:1}
 .nl-nav a{color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;transition:color .15s}
 .nl-nav a:hover{color:#fff;text-decoration:none}
-.nl-nav .nl-nav-cta{background:var(--emerald);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem;box-shadow:0 4px 14px rgba(16,185,129,0.28)}
-.nl-nav .nl-nav-cta:hover{background:var(--emerald-dark);text-decoration:none;transform:translateY(-1px)}
+.nl-nav .nl-nav-cta{background:var(--emerald-aa);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem;box-shadow:0 4px 14px rgba(16,185,129,0.28)}
+.nl-nav .nl-nav-cta:hover{background:var(--emerald-aa-dark);text-decoration:none;transform:translateY(-1px)}
 @media(max-width:720px){.nl-nav a:not(.nl-nav-cta){display:none}}
 
 /* ── Hero (index) ── */
@@ -49,7 +49,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* ── Breadcrumb ── */
 .nl-breadcrumb{max-width:1180px;margin:0 auto;padding:20px 24px 0;font-size:0.8rem;color:var(--ink-muted)}
-.nl-breadcrumb a{color:var(--ink-soft)}
+.nl-breadcrumb a{color:var(--ink-soft);text-decoration:underline}
 .nl-breadcrumb a:hover{color:var(--emerald);text-decoration:none}
 .nl-breadcrumb .sep{margin:0 8px;color:#ccc}
 
@@ -455,7 +455,8 @@ body.nl-modal-open{overflow:hidden}
 .nl-footer{background:var(--cream);border-top:1px solid var(--line);padding:40px 24px;text-align:center;font-size:0.82rem;color:var(--ink-muted);line-height:1.65}
 .nl-footer a{color:#555}
 .nl-footer-inner{max-width:1180px;margin:0 auto}
-.nl-footer .creds{font-size:0.72rem;color:#aaa;margin-top:8px}
+.nl-footer-inner p a{text-decoration:underline}
+.nl-footer .creds{font-size:0.72rem;color:var(--ink-muted);margin-top:8px}
 
 /* ── Floating WhatsApp ── */
 .nl-wa-float{position:fixed;bottom:24px;right:24px;z-index:99;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,0.45);transition:transform .2s}
