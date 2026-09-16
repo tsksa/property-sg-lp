@@ -1,0 +1,1151 @@
+{
+  "fetchedAt": "2026-09-16",
+  "source": "https://propertyportal.era.com.sg/new-launches",
+  "projects": {
+    "amberwood-at-holland": {
+      "eraId": "52114377",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114377",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [
+        {
+          "type": "3 Bedroom",
+          "minArea": 872,
+          "maxArea": 872,
+          "units": 8
+        },
+        {
+          "type": "3 Bedroom Flexi",
+          "minArea": 958,
+          "maxArea": 958,
+          "units": 18
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 893,
+          "maxArea": 893,
+          "units": 30
+        },
+        {
+          "type": "3 Bedroom Study",
+          "minArea": 980,
+          "maxArea": 980,
+          "units": 18
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 1076,
+          "maxArea": 1087,
+          "units": 24
+        },
+        {
+          "type": "4 Bedroom Flexi",
+          "minArea": 1141,
+          "maxArea": 1141,
+          "units": 18
+        },
+        {
+          "type": "4 Bedroom Luxe",
+          "minArea": 1313,
+          "maxArea": 1313,
+          "units": 8
+        },
+        {
+          "type": "4 Bedroom Premium",
+          "minArea": 1227,
+          "maxArea": 1259,
+          "units": 24
+        },
+        {
+          "type": "5 Bedroom Luxe",
+          "minArea": 1496,
+          "maxArea": 1572,
+          "units": 40
+        },
+        {
+          "type": "5 Bedroom Premium",
+          "minArea": 1324,
+          "maxArea": 1335,
+          "units": 24
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Jacuzzi / spa pool",
+        "Gym",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "chencharu-close": {
+      "eraId": "52114374",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114374",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "chuan-grove": {
+      "eraId": "52114375",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114375",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "coastal-cabana": {
+      "eraId": "28177825",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/28177825",
+      "launched": true,
+      "expectedTop": "2029-03-30",
+      "unitTypes": [
+        {
+          "type": "3 Bedroom Deluxe",
+          "minArea": 872,
+          "maxArea": 872,
+          "units": 46
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 915,
+          "maxArea": 915,
+          "units": 139
+        },
+        {
+          "type": "3 Bedroom Premium + Study",
+          "minArea": 915,
+          "maxArea": 915,
+          "units": 165
+        },
+        {
+          "type": "4 Bedroom Classic",
+          "minArea": 990,
+          "maxArea": 990,
+          "units": 59
+        },
+        {
+          "type": "4 Bedroom Deluxe",
+          "minArea": 1012,
+          "maxArea": 1012,
+          "units": 142
+        },
+        {
+          "type": "4 Bedroom Premium",
+          "minArea": 1055,
+          "maxArea": 1055,
+          "units": 59
+        },
+        {
+          "type": "4 Bedroom Premium + Flexi",
+          "minArea": 1206,
+          "maxArea": 1206,
+          "units": 48
+        },
+        {
+          "type": "4 Bedroom Premium + Study",
+          "minArea": 1163,
+          "maxArea": 1216,
+          "units": 68
+        },
+        {
+          "type": "5 Bedroom Premium",
+          "minArea": 1367,
+          "maxArea": 1421,
+          "units": 22
+        }
+      ],
+      "facilities": [
+        "Leisure pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Clubhouse",
+        "Function room",
+        "BBQ pavilion",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "dunearn-house": {
+      "eraId": "52114376",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114376",
+      "launched": true,
+      "expectedTop": "2030-12-30",
+      "unitTypes": [
+        {
+          "type": "2 Bedroom",
+          "minArea": 527,
+          "maxArea": 527,
+          "units": 40
+        },
+        {
+          "type": "2 Bedroom + Study",
+          "minArea": 657,
+          "maxArea": 678,
+          "units": 59
+        },
+        {
+          "type": "2 Bedroom Premium",
+          "minArea": 614,
+          "maxArea": 614,
+          "units": 77
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 872,
+          "maxArea": 872,
+          "units": 20
+        },
+        {
+          "type": "3 Bedroom + Flexi",
+          "minArea": 936,
+          "maxArea": 936,
+          "units": 20
+        },
+        {
+          "type": "3 Bedroom + Study",
+          "minArea": 947,
+          "maxArea": 969,
+          "units": 20
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 1001,
+          "maxArea": 1001,
+          "units": 36
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 1184,
+          "maxArea": 1184,
+          "units": 36
+        },
+        {
+          "type": "4 Bedroom Premium",
+          "minArea": 1302,
+          "maxArea": 1313,
+          "units": 36
+        },
+        {
+          "type": "4 Bedroom Premium + Study",
+          "minArea": 1378,
+          "maxArea": 1378,
+          "units": 36
+        }
+      ],
+      "facilities": [
+        "50m lap pool",
+        "Leisure pool",
+        "Children's pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Outdoor fitness",
+        "Clubhouse",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna",
+        "Co-working / meeting pods"
+      ]
+    },
+    "faber-residence": {
+      "eraId": "39506271",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/39506271",
+      "launched": true,
+      "expectedTop": "2029-03-30",
+      "unitTypes": [
+        {
+          "type": "2 Bedroom (Standard)",
+          "minArea": 646,
+          "maxArea": 646,
+          "units": 80
+        },
+        {
+          "type": "3 Bedroom (Basic)",
+          "minArea": 797,
+          "maxArea": 818,
+          "units": 93
+        },
+        {
+          "type": "3 Bedroom (Plus)",
+          "minArea": 1033,
+          "maxArea": 1044,
+          "units": 50
+        },
+        {
+          "type": "3 Bedroom (Standard)",
+          "minArea": 861,
+          "maxArea": 861,
+          "units": 56
+        },
+        {
+          "type": "4 Bedroom (Basic)",
+          "minArea": 1119,
+          "maxArea": 1119,
+          "units": 40
+        },
+        {
+          "type": "4 Bedroom (Standard)",
+          "minArea": 1206,
+          "maxArea": 1270,
+          "units": 60
+        },
+        {
+          "type": "5 Bedroom (Standard)",
+          "minArea": 1485,
+          "maxArea": 1485,
+          "units": 20
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Leisure pool",
+        "Children's pool",
+        "Jacuzzi / spa pool",
+        "Gym",
+        "Outdoor fitness",
+        "Clubhouse",
+        "Children's playground",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "hudson-place-residences": {
+      "eraId": "50337019",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/50337019",
+      "launched": true,
+      "expectedTop": "2029-09-29",
+      "unitTypes": [
+        {
+          "type": "2 BEDROOM PREMIUM",
+          "minArea": 646,
+          "maxArea": 646,
+          "units": 105
+        },
+        {
+          "type": "2 BEDROOM PREMIUM + STUDY",
+          "minArea": 689,
+          "maxArea": 689,
+          "units": 78
+        },
+        {
+          "type": "3 BEDROOM DELUXE",
+          "minArea": 893,
+          "maxArea": 893,
+          "units": 14
+        },
+        {
+          "type": "3 BEDROOM PREMIUM",
+          "minArea": 1012,
+          "maxArea": 1023,
+          "units": 36
+        },
+        {
+          "type": "3 BEDROOM PREMIUM + STUDY",
+          "minArea": 1055,
+          "maxArea": 1055,
+          "units": 21
+        },
+        {
+          "type": "4 BEDROOM PREMIUM",
+          "minArea": 1152,
+          "maxArea": 1152,
+          "units": 26
+        },
+        {
+          "type": "4 BEDROOM SUITE + FLEXI",
+          "minArea": 1432,
+          "maxArea": 1432,
+          "units": 42
+        },
+        {
+          "type": "5 BR + Study",
+          "minArea": 1744,
+          "maxArea": 1744,
+          "units": 1
+        },
+        {
+          "type": "5BR + Entertainment Room + Flexi",
+          "minArea": 1755,
+          "maxArea": 1755,
+          "units": 1
+        },
+        {
+          "type": "5BR + Study",
+          "minArea": 1765,
+          "maxArea": 1765,
+          "units": 1
+        },
+        {
+          "type": "6BR + Entertainment rm + pte lift",
+          "minArea": 2164,
+          "maxArea": 2196,
+          "units": 2
+        }
+      ],
+      "facilities": [
+        "Leisure pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Outdoor fitness",
+        "Clubhouse",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna"
+      ]
+    },
+    "keppel-bay-plot-6": {
+      "eraId": "11737678",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/11737678",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "lentor-gardens-residences": {
+      "eraId": "52114379",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114379",
+      "launched": true,
+      "expectedTop": "2029-09-29",
+      "unitTypes": [
+        {
+          "type": "2 BEDROOM + STUDY",
+          "minArea": 732,
+          "maxArea": 732,
+          "units": 147
+        },
+        {
+          "type": "2 BEDROOM PREMIUM",
+          "minArea": 646,
+          "maxArea": 678,
+          "units": 75
+        },
+        {
+          "type": "2 BEDROOM PREMIUM (HS)",
+          "minArea": 689,
+          "maxArea": 689,
+          "units": 30
+        },
+        {
+          "type": "3 BEDROOM COMPACT",
+          "minArea": 872,
+          "maxArea": 872,
+          "units": 15
+        },
+        {
+          "type": "3 BEDROOM COMPACT + STUDY",
+          "minArea": 936,
+          "maxArea": 936,
+          "units": 15
+        },
+        {
+          "type": "3 BEDROOM PREMIUM",
+          "minArea": 1001,
+          "maxArea": 1012,
+          "units": 77
+        },
+        {
+          "type": "3 BEDROOM PREMIUM + STUDY",
+          "minArea": 969,
+          "maxArea": 969,
+          "units": 32
+        },
+        {
+          "type": "4 BEDROOM COMPACT",
+          "minArea": 1184,
+          "maxArea": 1184,
+          "units": 60
+        },
+        {
+          "type": "4 BEDROOM PREMIUM",
+          "minArea": 1346,
+          "maxArea": 1356,
+          "units": 45
+        },
+        {
+          "type": "Shop",
+          "minArea": 463,
+          "maxArea": 463,
+          "units": 3
+        },
+        {
+          "type": "STRATA TERRACE HOUSE",
+          "minArea": 1496,
+          "maxArea": 1496,
+          "units": 3
+        }
+      ],
+      "facilities": []
+    },
+    "lucerne-grand": {
+      "eraId": "52114378",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114378",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [
+        {
+          "type": "2 Bedroom",
+          "minArea": 624,
+          "maxArea": 624,
+          "units": 96
+        },
+        {
+          "type": "2 Bedroom + Study",
+          "minArea": 667,
+          "maxArea": 710,
+          "units": 126
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 872,
+          "maxArea": 904,
+          "units": 125
+        },
+        {
+          "type": "3 Bedroom Premium + Study",
+          "minArea": 947,
+          "maxArea": 1001,
+          "units": 128
+        },
+        {
+          "type": "4 Bedroom Premium",
+          "minArea": 1152,
+          "maxArea": 1195,
+          "units": 47
+        },
+        {
+          "type": "4 Bedroom Premium + Entertainment",
+          "minArea": 1432,
+          "maxArea": 1432,
+          "units": 32
+        },
+        {
+          "type": "4 Bedroom Premium + Study",
+          "minArea": 1345,
+          "maxArea": 1345,
+          "units": 16
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Children's pool",
+        "Gym",
+        "Outdoor fitness",
+        "Clubhouse",
+        "Steam room / sauna",
+        "Co-working / meeting pods",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "narra-residences": {
+      "eraId": "50337020",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/50337020",
+      "launched": true,
+      "expectedTop": "2029-03-30",
+      "unitTypes": [
+        {
+          "type": "1 BEDROOM with STUDY",
+          "minArea": 517,
+          "maxArea": 517,
+          "units": 3
+        },
+        {
+          "type": "2 BEDROOM COMPACT",
+          "minArea": 560,
+          "maxArea": 560,
+          "units": 30
+        },
+        {
+          "type": "2 BEDROOM PREMIUM",
+          "minArea": 646,
+          "maxArea": 646,
+          "units": 58
+        },
+        {
+          "type": "2 BEDROOM with HS",
+          "minArea": 689,
+          "maxArea": 700,
+          "units": 66
+        },
+        {
+          "type": "2 BEDROOM with HS & STUDY",
+          "minArea": 721,
+          "maxArea": 721,
+          "units": 24
+        },
+        {
+          "type": "2 BEDROOM with STUDY",
+          "minArea": 721,
+          "maxArea": 721,
+          "units": 87
+        },
+        {
+          "type": "3 BEDROOM COMPACT",
+          "minArea": 818,
+          "maxArea": 818,
+          "units": 28
+        },
+        {
+          "type": "3 BEDROOM FLEXI",
+          "minArea": 872,
+          "maxArea": 872,
+          "units": 31
+        },
+        {
+          "type": "3 BEDROOM PREMIUM",
+          "minArea": 990,
+          "maxArea": 1023,
+          "units": 101
+        },
+        {
+          "type": "3 BEDROOM with STUDY",
+          "minArea": 1152,
+          "maxArea": 1173,
+          "units": 25
+        },
+        {
+          "type": "4 BEDROOM COMPACT",
+          "minArea": 1152,
+          "maxArea": 1152,
+          "units": 35
+        },
+        {
+          "type": "4 BEDROOM PREMIUM",
+          "minArea": 1378,
+          "maxArea": 1378,
+          "units": 26
+        },
+        {
+          "type": "5 BEDROOM with PRIVATE LIFT",
+          "minArea": 1658,
+          "maxArea": 1679,
+          "units": 26
+        },
+        {
+          "type": "Shop",
+          "minArea": 377,
+          "maxArea": 377,
+          "units": 4
+        }
+      ],
+      "facilities": []
+    },
+    "newport-residences": {
+      "eraId": "15928",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/15928",
+      "launched": true,
+      "expectedTop": "2027-06-29",
+      "unitTypes": [
+        {
+          "type": "1 Bedroom",
+          "minArea": 431,
+          "maxArea": 495,
+          "units": 86
+        },
+        {
+          "type": "1 Bedroom + Study",
+          "minArea": 581,
+          "maxArea": 581,
+          "units": 22
+        },
+        {
+          "type": "2 Bedroom",
+          "minArea": 646,
+          "maxArea": 753,
+          "units": 24
+        },
+        {
+          "type": "2 Bedroom Premium",
+          "minArea": 689,
+          "maxArea": 710,
+          "units": 30
+        },
+        {
+          "type": "2 Bedroom Premium + Ensuite Study",
+          "minArea": 818,
+          "maxArea": 926,
+          "units": 33
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 980,
+          "maxArea": 980,
+          "units": 7
+        },
+        {
+          "type": "3 Bedroom + Study",
+          "minArea": 1227,
+          "maxArea": 1227,
+          "units": 10
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 1206,
+          "maxArea": 1206,
+          "units": 15
+        },
+        {
+          "type": "4 Bedroom Premium",
+          "minArea": 2067,
+          "maxArea": 2067,
+          "units": 18
+        },
+        {
+          "type": "Super Penthouse",
+          "minArea": 12960,
+          "maxArea": 12960,
+          "units": 1
+        }
+      ],
+      "facilities": []
+    },
+    "pinery-residences": {
+      "eraId": "69692558",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/69692558",
+      "launched": true,
+      "expectedTop": "2030-04-29",
+      "unitTypes": [
+        {
+          "type": "2 Bedroom",
+          "minArea": 624,
+          "maxArea": 667,
+          "units": 180
+        },
+        {
+          "type": "2 Bedroom Premium + Study",
+          "minArea": 700,
+          "maxArea": 700,
+          "units": 72
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 807,
+          "maxArea": 807,
+          "units": 48
+        },
+        {
+          "type": "3 Bedroom Deluxe",
+          "minArea": 861,
+          "maxArea": 872,
+          "units": 48
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 990,
+          "maxArea": 1023,
+          "units": 48
+        },
+        {
+          "type": "3 Bedroom Premium + Study",
+          "minArea": 1055,
+          "maxArea": 1055,
+          "units": 60
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 1141,
+          "maxArea": 1141,
+          "units": 24
+        },
+        {
+          "type": "4 Bedroom Luxury + Study",
+          "minArea": 1389,
+          "maxArea": 1389,
+          "units": 12
+        },
+        {
+          "type": "4 Bedroom Premium + Study",
+          "minArea": 1195,
+          "maxArea": 1238,
+          "units": 84
+        },
+        {
+          "type": "5 Bedroom Luxury",
+          "minArea": 1475,
+          "maxArea": 1475,
+          "units": 12
+        }
+      ],
+      "facilities": [
+        "50m lap pool",
+        "Leisure pool",
+        "Jacuzzi / spa pool",
+        "Gym",
+        "Outdoor fitness",
+        "Function room",
+        "BBQ pavilion",
+        "Children's playground",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "river-modern": {
+      "eraId": "50337021",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/50337021",
+      "launched": true,
+      "expectedTop": "2030-06-29",
+      "unitTypes": [
+        {
+          "type": "2 Bedroom",
+          "minArea": 538,
+          "maxArea": 689,
+          "units": 175
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 797,
+          "maxArea": 1109,
+          "units": 210
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 1464,
+          "maxArea": 1830,
+          "units": 70
+        }
+      ],
+      "facilities": [
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Clubhouse",
+        "Children's playground",
+        "Steam room / sauna"
+      ]
+    },
+    "sembawang-road-ec": {
+      "eraId": "52114380",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114380",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "senja-close-ec": {
+      "eraId": "52114381",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114381",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "the-serra-residences": {
+      "eraId": "87664608",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/87664608",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [
+        {
+          "type": "2 BEDROOM + STUDY",
+          "minArea": 710,
+          "maxArea": 721,
+          "units": 39
+        },
+        {
+          "type": "3 BEDROOM",
+          "minArea": 764,
+          "maxArea": 904,
+          "units": 39
+        },
+        {
+          "type": "4 BEDROOM",
+          "minArea": 958,
+          "maxArea": 1216,
+          "units": 23
+        },
+        {
+          "type": "4 BEDROOM + STUDY",
+          "minArea": 1335,
+          "maxArea": 1335,
+          "units": 10
+        },
+        {
+          "type": "4 BEDROOM PREMIUM WITH PRIVATE LIFT",
+          "minArea": 1528,
+          "maxArea": 1528,
+          "units": 10
+        },
+        {
+          "type": "5 BEDROOM PREMIUM WITH PRIVATE LIFT",
+          "minArea": 1755,
+          "maxArea": 1755,
+          "units": 10
+        },
+        {
+          "type": "PENTHOUSE",
+          "minArea": 2648,
+          "maxArea": 2669,
+          "units": 2
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Children's pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "thomson-reserve": {
+      "eraId": "28177823",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/28177823",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "vela-bay": {
+      "eraId": "52114373",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
+      "launched": true,
+      "expectedTop": "2031-12-30",
+      "unitTypes": [
+        {
+          "type": "1 BEDROOM + STUDY",
+          "minArea": 484,
+          "maxArea": 484,
+          "units": 27
+        },
+        {
+          "type": "2 BEDROOM",
+          "minArea": 592,
+          "maxArea": 592,
+          "units": 84
+        },
+        {
+          "type": "2 BEDROOM PREMIUM",
+          "minArea": 678,
+          "maxArea": 689,
+          "units": 113
+        },
+        {
+          "type": "3 BEDROOM",
+          "minArea": 883,
+          "maxArea": 893,
+          "units": 87
+        },
+        {
+          "type": "3 BEDROOM PREMIUM",
+          "minArea": 1033,
+          "maxArea": 1033,
+          "units": 88
+        },
+        {
+          "type": "4 BEDROOM",
+          "minArea": 1173,
+          "maxArea": 1173,
+          "units": 62
+        },
+        {
+          "type": "4 BEDROOM (PRIVATE LIFT)",
+          "minArea": 1378,
+          "maxArea": 1378,
+          "units": 26
+        },
+        {
+          "type": "5 BEDROOM (PRIVATE LIFT)",
+          "minArea": 1582,
+          "maxArea": 1582,
+          "units": 26
+        },
+        {
+          "type": "PENTHOUSE 1",
+          "minArea": 1765,
+          "maxArea": 1765,
+          "units": 1
+        },
+        {
+          "type": "PENTHOUSE 2",
+          "minArea": 1765,
+          "maxArea": 1765,
+          "units": 1
+        }
+      ],
+      "facilities": [
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Outdoor fitness",
+        "Clubhouse",
+        "Function room",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "w-residences-marina-view": {
+      "eraId": "34576139",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/34576139",
+      "launched": true,
+      "expectedTop": "2028-06-29",
+      "unitTypes": [
+        {
+          "type": "1 Bedroom",
+          "minArea": 538,
+          "maxArea": 570,
+          "units": 171
+        },
+        {
+          "type": "2 Bedroom",
+          "minArea": 710,
+          "maxArea": 710,
+          "units": 102
+        },
+        {
+          "type": "2 Bedroom Premium",
+          "minArea": 797,
+          "maxArea": 850,
+          "units": 208
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 1195,
+          "maxArea": 1195,
+          "units": 68
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 1249,
+          "maxArea": 1249,
+          "units": 35
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 2250,
+          "maxArea": 2250,
+          "units": 32
+        },
+        {
+          "type": "5 Bedroom",
+          "minArea": 2809,
+          "maxArea": 2809,
+          "units": 64
+        },
+        {
+          "type": "Penthouse Duplex",
+          "minArea": 5350,
+          "maxArea": 5350,
+          "units": 2
+        },
+        {
+          "type": "Penthouse Simplex",
+          "minArea": 5199,
+          "maxArea": 5199,
+          "units": 2
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Jacuzzi / spa pool",
+        "Gym",
+        "Clubhouse",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    },
+    "woodlands-drive-17-ec": {
+      "eraId": "52114382",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114382",
+      "launched": false,
+      "expectedTop": null,
+      "unitTypes": [],
+      "facilities": []
+    },
+    "zyon-grand": {
+      "eraId": "28177830",
+      "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/28177830",
+      "launched": true,
+      "expectedTop": "2032-09-29",
+      "unitTypes": [
+        {
+          "type": "1 Bedroom + Study",
+          "minArea": 474,
+          "maxArea": 474,
+          "units": 59
+        },
+        {
+          "type": "2 Bedroom",
+          "minArea": 538,
+          "maxArea": 538,
+          "units": 59
+        },
+        {
+          "type": "2 Bedroom Premium",
+          "minArea": 646,
+          "maxArea": 646,
+          "units": 59
+        },
+        {
+          "type": "2 Bedroom Premium + Study",
+          "minArea": 721,
+          "maxArea": 721,
+          "units": 118
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 818,
+          "maxArea": 818,
+          "units": 59
+        },
+        {
+          "type": "3 Bedroom Deluxe",
+          "minArea": 861,
+          "maxArea": 861,
+          "units": 118
+        },
+        {
+          "type": "3 Bedroom Premium + Study",
+          "minArea": 1055,
+          "maxArea": 1076,
+          "units": 116
+        },
+        {
+          "type": "4 Bedroom Premium (With Private Lift)",
+          "minArea": 1421,
+          "maxArea": 1421,
+          "units": 40
+        },
+        {
+          "type": "4 Bedroom Supreme (With Private Lift)",
+          "minArea": 1518,
+          "maxArea": 1518,
+          "units": 40
+        },
+        {
+          "type": "4 Bedroom Supreme + Study (With Private Lift)",
+          "minArea": 1615,
+          "maxArea": 1615,
+          "units": 18
+        },
+        {
+          "type": "5 Bedroom Supreme (With Private Lift)",
+          "minArea": 1819,
+          "maxArea": 1819,
+          "units": 18
+        },
+        {
+          "type": "Penthouse (5 Bedroom With Private Lift)",
+          "minArea": 2659,
+          "maxArea": 2756,
+          "units": 2
+        }
+      ],
+      "facilities": [
+        "50m lap pool",
+        "Leisure pool",
+        "Children's pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Pickleball court",
+        "Clubhouse",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
+    }
+  }
+}

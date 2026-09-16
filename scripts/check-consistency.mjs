@@ -49,13 +49,9 @@ const DESCRIPTION_MAX = 160;
 // this guard's own CI environment doesn't have reason to require — so instead of
 // silently passing, the remaining pages are a named, shrinking exception. Delete a file's
 // entry here in the same commit its og:image moves to /new-launches/img/ (JOE-289).
-const KNOWN_HOTLINKED_OG_IMAGES = new Set([
-  'new-launches/river-modern.html',
-  'new-launches/narra-residences.html',
-  'new-launches/vela-bay.html',
-  'new-launches/newport-residences.html',
-  'new-launches/dunearn-house.html',
-]);
+// Emptied 2026-09-16 (JOE-387): all five pages now use a self-hosted location map
+// rendered by scripts/render-project-maps.py. Keep the mechanism for any future exception.
+const KNOWN_HOTLINKED_OG_IMAGES = new Set([]);
 
 // Pages behind a forced 301 in _redirects never reach a crawler — Netlify serves the
 // redirect instead of the file. Reading the set from _redirects keeps this in step
