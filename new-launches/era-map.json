@@ -1,0 +1,27 @@
+{
+ "note": "Explicit slug -> ERA new-launch id map. Matched by hand on 2026-09-16, not by name: ERA lists the two CDL ECs under their marketing names (Solano Grand = senja-close-ec, Wynwood Grand = woodlands-drive-17-ec) and GLS sites with a \"GLS\" suffix. Rivelle Tampines, Tengah Garden Residences, Dorset Road, Upper Thomson Road and Hougang Central Residences are not listed on ERA.",
+ "projects": {
+  "amberwood-at-holland": "52114377",
+  "chencharu-close": "52114374",
+  "chuan-grove": "52114375",
+  "coastal-cabana": "28177825",
+  "dunearn-house": "52114376",
+  "faber-residence": "39506271",
+  "hudson-place-residences": "50337019",
+  "keppel-bay-plot-6": "11737678",
+  "lentor-gardens-residences": "52114379",
+  "lucerne-grand": "52114378",
+  "narra-residences": "50337020",
+  "newport-residences": "15928",
+  "pinery-residences": "69692558",
+  "river-modern": "50337021",
+  "sembawang-road-ec": "52114380",
+  "senja-close-ec": "52114381",
+  "the-serra-residences": "87664608",
+  "thomson-reserve": "28177823",
+  "vela-bay": "52114373",
+  "w-residences-marina-view": "34576139",
+  "woodlands-drive-17-ec": "52114382",
+  "zyon-grand": "28177830"
+ }
+}

@@ -190,6 +190,11 @@ function localCanonicalPath(project) {
   return new URL(project.canonicalUrl).pathname;
 }
 
+// Location map thumbnails rendered by scripts/render-project-maps.py (JOE-387). Cards
+// without one keep the monogram, so a missing asset never shows a broken image.
+const hasMapThumb = (project) =>
+  fs.existsSync(path.join(path.dirname(DATA_PATH), 'img', 'maps', `${project.slug}-600.webp`));
+
 function cardHtml(project, index) {
   const search = [project.name, project.developer, project.location]
     .join(' ')
@@ -199,8 +204,10 @@ function cardHtml(project, index) {
   const dynamic = dynamicCopy(project);
   return `    <li class="nl-card-item" data-catalog-item data-name="${esc(project.name.toLowerCase())}" data-search="${esc(search)}" data-status="${esc(project.status)}" data-region="${esc(project.region)}" data-property-type="${esc(project.propertyType)}" data-tenure="${esc(project.tenure)}" data-launch-date="${esc(launchDate)}" data-price="${esc(price)}" data-default-order="${index}">
       <a href="${esc(localCanonicalPath(project))}" class="nl-card">
-        <div class="nl-card-img nl-card-img-data" aria-hidden="true">
-          <span class="nl-card-monogram">${esc(project.name.slice(0, 2).toUpperCase())}</span>
+        <div class="nl-card-img${hasMapThumb(project) ? '' : ' nl-card-img-data'}" aria-hidden="true">
+          ${hasMapThumb(project)
+            ? `<img src="/new-launches/img/maps/${esc(project.slug)}-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">`
+            : `<span class="nl-card-monogram">${esc(project.name.slice(0, 2).toUpperCase())}</span>`}
           <span class="nl-card-badge ${project.status === 'upcoming' ? 'new' : ''}">${esc(STATUS_LABELS[project.status])}</span>
         </div>
         <div class="nl-card-body">

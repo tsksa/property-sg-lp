@@ -25,11 +25,11 @@ export const EXPECTED_2026_PROJECTS = [
   'Amberwood at Holland',
   'The Serra Residences',
   'Dorset Road',
-  'Woodlands Drive 17 EC',
+  'Wynwood Grand',
   'Chencharu Close',
   'Sembawang Road EC',
   'Upper Thomson Road',
-  'Senja Close EC',
+  'Solano Grand',
   'Keppel Bay Plot 6',
   'Hougang Central Residences',
 ];

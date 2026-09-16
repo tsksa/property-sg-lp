@@ -13,10 +13,19 @@ const DATA_PATH = path.join(ROOT, 'new-launches', 'projects.json');
 const CONTENT_PATH = path.join(ROOT, 'new-launches', 'project-page-content.json');
 const MANIFEST_PATH = path.join(ROOT, 'new-launches', 'project-page-manifest.json');
 const SITEMAP_PATH = path.join(ROOT, 'sitemap.xml');
+const ERA_SNAPSHOT_PATH = path.join(ROOT, 'new-launches', 'era-snapshot.json');
+const GEO_PATH = path.join(ROOT, 'new-launches', 'project-geo.json');
+const STATIONS_PATH = path.join(ROOT, 'new-launches', 'mrt-stations.json');
+const MAP_DIR = path.join(ROOT, 'new-launches', 'img', 'maps');
 
 const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
 const content = JSON.parse(fs.readFileSync(CONTENT_PATH, 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+// ERA supplies the listing link, unit types and facility highlights; prices and
+// availability are fetched live by project-live.js (see netlify/functions/era-prices.js).
+const eraSnapshot = JSON.parse(fs.readFileSync(ERA_SNAPSHOT_PATH, 'utf8'));
+const projectGeo = JSON.parse(fs.readFileSync(GEO_PATH, 'utf8'));
+const mrtStations = JSON.parse(fs.readFileSync(STATIONS_PATH, 'utf8'));
 const sourceNames = new Map(
   Object.entries(data.sources).map(([id, source]) => [id, source.name]),
 );
@@ -70,7 +79,10 @@ function launchCopy(project) {
   if (project.previewDate) parts.push(`Preview ${formatDate(project.previewDate)}`);
   if (project.bookingDate) parts.push(`Booking ${formatDate(project.bookingDate)}`);
   if (!parts.length && project.launchWindow) {
-    const label = project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+    const month = project.launchWindow.match(/^(\d{4})-(\d{2})$/);
+    const label = month
+      ? new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`))
+      : project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
     parts.push(project.availabilityStatus?.state === 'pre-launch'
       ? `Expected launch by ${label}`
       : `Provisional launch window: ${label}`);
@@ -100,6 +112,9 @@ function marketCopy(project) {
   if (project.layoutStatus?.state === 'not-confirmed') {
     return `${launchCopy(project)} · floor plans not released`;
   }
+  // Upcoming launches with a confirmed date or window should say so up front;
+  // "Ask for latest price" answered a question nobody could yet ask.
+  if (project.status === 'upcoming' && (project.previewDate || project.bookingDate || project.launchWindow)) return launchCopy(project);
   if (project.status === 'selling') return 'Selling now—check availability.';
   if (project.status === 'sold-out') return 'Sold out—ask for current alternatives.';
   return 'Ask for latest price';
@@ -156,6 +171,9 @@ function projectJson(project) {
       addressCountry: 'SG',
     },
     numberOfAccommodationUnits: project.unitCount,
+    ...(projectGeo[project.slug] ? { geo: { '@type': 'GeoCoordinates', latitude: projectGeo[project.slug].lat, longitude: projectGeo[project.slug].lng } } : {}),
+    ...(hasMap(project) ? { image: `https://joetay.com${mapPath(project, 'jpg')}` } : {}),
+    ...(project.formerName ? { alternateName: project.formerName } : {}),
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Status', value: STATUSES[project.status] },
       { '@type': 'PropertyValue', name: 'Tenure', value: TENURES[project.tenure] },
@@ -357,6 +375,142 @@ function alternativesFor(project) {
     .slice(0, 3);
 }
 
+const eraFor = (project) => eraSnapshot.projects[project.slug] || null;
+const hasMap = (project) => fs.existsSync(path.join(MAP_DIR, `${project.slug}.webp`));
+const mapPath = (project, ext) => `/new-launches/img/maps/${project.slug}.${ext}`;
+const nf = new Intl.NumberFormat('en-SG');
+
+function metresBetween(a, b) {
+  const rad = (deg) => (deg * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * 6_371_000 * Math.asin(Math.sqrt(h));
+}
+
+export function nearestStations(project, count = 3) {
+  const point = projectGeo[project.slug];
+  if (!point) return [];
+  return mrtStations.stations
+    .map((station) => ({ ...station, metres: metresBetween(point, station) }))
+    .sort((a, b) => a.metres - b.metres)
+    .slice(0, count);
+}
+
+function distanceLabel(metres) {
+  return metres < 1000 ? `${Math.round(metres / 10) * 10} m` : `${(metres / 1000).toFixed(1)} km`;
+}
+
+function expectedTop(project) {
+  const era = eraFor(project);
+  return era?.launched && era.expectedTop ? era.expectedTop : null;
+}
+
+function visualSection(project) {
+  if (!hasMap(project)) return '';
+  const point = projectGeo[project.slug];
+  const era = eraFor(project);
+  const nearest = nearestStations(project, 1)[0];
+  const approx = point?.approximate
+    ? ' The pin marks the approximate site; the developer has not published an exact plot outline.'
+    : '';
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`;
+  const media = era
+    ? `<a class="project-visual-card" href="${esc(era.detailUrl)}" target="_blank" rel="noopener" data-cta="era-gallery"><span class="project-visual-card-eyebrow">Official media</span><strong>See the renders, video and virtual tour</strong><span>Developer materials for ${esc(project.name)} on ERA's project listing →</span></a>`
+    : `<a class="project-visual-card" href="https://wa.me/6581881488?text=${encodeURIComponent(`Hi Joe, please send me the official brochure and renders for ${project.name}.`)}" target="_blank" rel="noopener" data-cta="brochure-request"><span class="project-visual-card-eyebrow">Official media</span><strong>Ask for the brochure and renders</strong><span>Joe will send the developer's current materials for ${esc(project.name)} →</span></a>`;
+  return `<section class="project-visual reveal" aria-labelledby="visual-${esc(project.slug)}">
+  <div class="project-visual-inner">
+    <figure class="project-map">
+      <picture><source type="image/webp" srcset="${mapPath(project, 'webp')}"><img src="${mapPath(project, 'jpg')}" width="1200" height="630" alt="Map of ${esc(project.name)} at ${esc(project.location)}, ${esc(project.district)}${nearest ? `, ${esc(distanceLabel(nearest.metres))} from ${esc(nearest.name)} ${esc(nearest.kind)}` : ''}" decoding="async" fetchpriority="high"></picture>
+      <figcaption>Location of ${esc(project.name)}, ${esc(project.location)}.${approx} Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>; station positions from LTA via data.gov.sg.</figcaption>
+    </figure>
+    <div class="project-visual-side">
+      <h2 id="visual-${esc(project.slug)}" class="project-section-title">Where ${esc(project.name)} is.</h2>
+      ${nearest ? `<p class="project-visual-lede">${esc(distanceLabel(nearest.metres))} in a straight line from <strong>${esc(nearest.name)} ${esc(nearest.kind)}</strong>, in ${esc(project.district)} (${esc(REGION_LABELS[project.region] || project.region)}).</p>` : ''}
+      ${media}
+      <a class="project-visual-link" href="${esc(mapsUrl)}" target="_blank" rel="noopener">Open in Google Maps →</a>
+    </div>
+  </div>
+</section>`;
+}
+
+function unitMixSection(project) {
+  const era = eraFor(project);
+  if (project.status === 'sold-out') return '';
+  if (!era?.unitTypes?.length) {
+    if (!era) return '';
+    return `<section class="project-unitmix reveal" aria-labelledby="unitmix-${esc(project.slug)}">
+  <div class="project-unitmix-inner">
+    <div class="project-eyebrow">Unit mix and prices</div>
+    <h2 id="unitmix-${esc(project.slug)}" class="project-section-title">${esc(project.name)} unit types and prices.</h2>
+    <p class="project-unitmix-note">The developer has not released the unit mix or price list yet. Prices appear here automatically once ERA publishes them after launch — or ask Joe to send them the day they are out.</p>
+  </div>
+</section>`;
+  }
+  const rows = era.unitTypes.map((row) => {
+    const size = row.minArea && row.maxArea && row.minArea !== row.maxArea
+      ? `${nf.format(row.minArea)}–${nf.format(row.maxArea)}`
+      : row.minArea ? nf.format(row.minArea) : '—';
+    return `        <tr data-unit-type="${esc(row.type)}"><th scope="row">${esc(row.type)}</th><td>${esc(size)}</td><td>${row.units ? nf.format(row.units) : '—'}</td><td data-live="price">—</td><td data-live="psf">—</td><td data-live="available">—</td></tr>`;
+  }).join('\n');
+  const totalUnits = era.unitTypes.reduce((sum, row) => sum + (row.units || 0), 0);
+  return `<section class="project-unitmix reveal" aria-labelledby="unitmix-${esc(project.slug)}" data-project-live data-slug="${esc(project.slug)}">
+  <div class="project-unitmix-inner">
+    <div class="project-eyebrow">Unit mix and prices</div>
+    <h2 id="unitmix-${esc(project.slug)}" class="project-section-title">${esc(project.name)} unit types, sizes and prices.</h2>
+    <div class="project-live-summary" data-live-summary hidden>
+      <div class="project-live-stat"><span data-live-total="soldPercent">—</span><small>sold</small></div>
+      <div class="project-live-stat"><span data-live-total="available">—</span><small>units left</small></div>
+      <div class="project-live-stat"><span data-live-total="from">—</span><small>starting price</small></div>
+      <div class="project-live-stat"><span data-live-total="psf">—</span><small>psf range</small></div>
+      <div class="project-live-bar" aria-hidden="true"><span data-live-bar></span></div>
+    </div>
+    <div class="project-unitmix-table-wrap" tabindex="0" role="region" aria-label="${esc(project.name)} unit mix table">
+      <table class="project-unitmix-table">
+        <thead><tr><th scope="col">Unit type</th><th scope="col">Size (sq ft)</th><th scope="col">Units</th><th scope="col">From</th><th scope="col">PSF</th><th scope="col">Available</th></tr></thead>
+        <tbody>
+${rows}
+        </tbody>
+        <tfoot><tr><th scope="row">Total</th><td></td><td>${totalUnits ? nf.format(totalUnits) : '—'}</td><td colspan="3"></td></tr></tfoot>
+      </table>
+    </div>
+    <p class="project-unitmix-note" data-live-status>Unit types and sizes as listed on ${esc(formatDate(eraSnapshot.fetchedAt))}. Live prices and availability load from <a href="${esc(era.detailUrl)}" target="_blank" rel="noopener">ERA's project listing</a>; if they do not appear, <a href="https://wa.me/6581881488?text=${encodeURIComponent(`Hi Joe, please send me the latest ${project.name} price list and available units.`)}" target="_blank" rel="noopener">ask Joe for today's price list</a>.</p>
+    <p class="project-unitmix-disclaimer">Indicative starting prices per unit type, not an offer. Prices, availability and the unit list change daily and are confirmed only by the developer's official price list and booking.</p>
+  </div>
+</section>`;
+}
+
+function facilitiesSection(project) {
+  const facilities = eraFor(project)?.facilities || [];
+  if (facilities.length < 3) return '';
+  return `<section class="project-facilities reveal" aria-labelledby="facilities-${esc(project.slug)}">
+  <div class="project-facilities-inner">
+    <div class="project-eyebrow">Facilities</div>
+    <h2 id="facilities-${esc(project.slug)}" class="project-section-title">What residents get at ${esc(project.name)}.</h2>
+    <ul class="project-facilities-list">
+${facilities.map((item) => `      <li>${esc(item)}</li>`).join('\n')}
+    </ul>
+    <p class="project-unitmix-note">Highlights from the developer's facilities schedule as listed on ERA. The final schedule is in the official brochure.</p>
+  </div>
+</section>`;
+}
+
+function connectivitySection(project) {
+  const stations = nearestStations(project, 3);
+  if (!stations.length) return '';
+  const top = expectedTop(project);
+  return `<section class="project-connect reveal" aria-labelledby="connect-${esc(project.slug)}">
+  <div class="project-connect-inner">
+    <div class="project-eyebrow">Getting around</div>
+    <h2 id="connect-${esc(project.slug)}" class="project-section-title">Nearest MRT and LRT stations to ${esc(project.name)}.</h2>
+    <ol class="project-connect-list">
+${stations.map((station) => `      <li><strong>${esc(station.name)} ${esc(station.kind)}</strong><span>${esc(distanceLabel(station.metres))}</span></li>`).join('\n')}
+    </ol>
+    <p class="project-unitmix-note">Straight-line distances from the site to each station's nearest cluster of exits, calculated from LTA's station exit data. Walking routes are longer.${top ? ` Expected completion (TOP): ${esc(formatDate(top))}, as listed on ERA.` : ''}</p>
+  </div>
+</section>`;
+}
+
 function sourceSection(project) {
   const categories = [
     ['Project facts', project.provenance.facts],
@@ -375,7 +529,8 @@ function statsHtml(project) {
   <div class="project-stat" role="listitem"><div class="project-stat-label">District</div><div class="project-stat-value">${esc(project.district)} · ${esc(project.region)}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Tenure</div><div class="project-stat-value">${esc(TENURES[project.tenure])}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Units</div><div class="project-stat-value">${new Intl.NumberFormat('en-SG').format(project.unitCount)}</div></div>
-</div>`;
+${expectedTop(project) ? `  <div class="project-stat" role="listitem"><div class="project-stat-label">Expected TOP</div><div class="project-stat-value">${esc(formatDate(expectedTop(project)).replace(/^\d+\s/, ''))}</div></div>
+` : ''}</div>`;
 }
 
 function heroCtas(project) {
@@ -441,7 +596,8 @@ function verificationStrip(project) {
       <div class="project-dev-item"><span class="project-dev-item-label">Location</span><span class="project-dev-item-value">${esc(project.location)}</span></div>
       <div class="project-dev-item"><span class="project-dev-item-label">Property type</span><span class="project-dev-item-value">${esc(PROPERTY_TYPES[project.propertyType])}</span></div>
       <div class="project-dev-item"><span class="project-dev-item-label">Launch timing</span><span class="project-dev-item-value">${esc(launchCopy(project))}</span></div>
-    </div>
+${project.formerName ? `      <div class="project-dev-item"><span class="project-dev-item-label">Previously listed as</span><span class="project-dev-item-value">${esc(project.formerName)}</span></div>
+` : ''}    </div>
   </div>
 </section>`;
 }
@@ -658,6 +814,10 @@ function titleFor(project) {
   return `${name} New Launch — ${project.district} | PropertySG`;
 }
 
+function ogImage(project) {
+  return hasMap(project) ? `https://joetay.com${mapPath(project, 'jpg')}` : 'https://joetay.com/joetay-social-preview.jpg';
+}
+
 function head(project) {
   const title = titleFor(project);
   const meta = metaDescription(project);
@@ -678,8 +838,8 @@ function head(project) {
 <link rel="alternate" hreflang="en-SG" href="${esc(project.canonicalUrl)}">
 <link rel="alternate" hreflang="x-default" href="${esc(project.canonicalUrl)}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="PropertySG">
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(meta)}"><meta property="og:url" content="${esc(project.canonicalUrl)}"><meta property="og:locale" content="en_SG"><meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(meta)}"><meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(meta)}"><meta property="og:url" content="${esc(project.canonicalUrl)}"><meta property="og:locale" content="en_SG"><meta property="og:image" content="${esc(ogImage(project))}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(meta)}"><meta name="twitter:image" content="${esc(ogImage(project))}">
 <link rel="manifest" href="/site.webmanifest">
 <script type="application/ld+json">${jsonForHtml(projectJson(project))}</script>
 <script type="application/ld+json">${jsonForHtml(breadcrumbJson(project))}</script>
@@ -689,7 +849,7 @@ ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchInte
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 ${fontLinksHtml()}
 <link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script src="/js/recaptcha-helper.js" defer></script>
+<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script src="/js/recaptcha-helper.js" defer></script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 ${mobileHeaderAssetsHtml()}
@@ -704,7 +864,11 @@ function renderNewPage(project) {
 <nav class="nl-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span aria-current="page">${esc(project.name)}</span></nav>
 <main id="main" tabindex="-1">
 <section class="project-hero" aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>
+${visualSection(project)}
 ${verificationStrip(project)}
+${unitMixSection(project)}
+${facilitiesSection(project)}
+${connectivitySection(project)}
 ${factsheetSection(project)}
 ${availabilitySection(project)}${launchTimelineSection(project)}
 ${layoutStatusSection(project)}
@@ -773,7 +937,12 @@ function refreshExistingPage(html, project) {
   html = html.replace(/<div class="project-hero-ctas">[\s\S]*?<\/div>/, heroCtas(project));
   html = html.replace(/<div class="project-stats"[\s\S]*?<\/div>\s*<\/div>\s*<div class="project-form-card">/, `${statsHtml(project)}\n    </div>\n\n    <div class="project-form-card">`);
   html = refreshFormCard(html, project);
-  html = replaceSection(html, 'project-dev-strip', verificationStrip(project));
+  for (const className of ['project-visual', 'project-unitmix', 'project-facilities', 'project-connect']) html = replaceSection(html, className);
+  const addedSections = [visualSection(project), unitMixSection(project), facilitiesSection(project), connectivitySection(project)].filter(Boolean).join('\n');
+  html = replaceSection(html, 'project-dev-strip', `${verificationStrip(project)}\n${addedSections}`);
+  html = html.replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${esc(ogImage(project))}">`);
+  html = html.replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${esc(ogImage(project))}">`);
+  if (!html.includes('src="project-live.js"')) html = html.replace('</head>', '<script defer src="project-live.js"></script>\n</head>');
   html = replaceSection(html, 'project-location');
   html = replaceSection(html, 'project-section');
   html = replaceSection(html, 'project-factsheet', factsheetSection(project));
@@ -826,6 +995,9 @@ export function validateProjectPage(html, project) {
     errors.push(`${project.slug}: evidence-led assessment marker missing`);
   }
   if ((html.match(/class="project-related-card"/g) || []).length !== 3) errors.push(`${project.slug}: expected three alternatives`);
+  if (hasMap(project) && !html.includes(`src="${mapPath(project, 'jpg')}"`)) errors.push(`${project.slug}: location map missing`);
+  if (eraFor(project)?.unitTypes?.length && project.status !== 'sold-out' && !html.includes('data-project-live')) errors.push(`${project.slug}: live unit-mix table missing`);
+  if (projectGeo[project.slug] && !html.includes('class="project-connect')) errors.push(`${project.slug}: nearest-station section missing`);
   return errors;
 }
 

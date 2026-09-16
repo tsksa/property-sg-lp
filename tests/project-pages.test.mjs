@@ -72,7 +72,13 @@ test('market figures obey freshness fallbacks and each page links three active a
       project.searchIntent?.state !== 'pre-launch' &&
       project.layoutStatus?.state !== 'not-confirmed'
     ) {
-      assert.match(html, /Ask for latest price/);
+      // An upcoming launch with a verified preview, booking or launch window leads
+      // with that timing; only one with none of them falls back to asking for a price.
+      if (project.previewDate || project.bookingDate || project.launchWindow) {
+        assert.match(html, /<div class="project-hero-price"><strong>(Preview|Booking|Provisional launch window|Expected launch)/, `${slug}: upcoming hero should state launch timing`);
+      } else {
+        assert.match(html, /Ask for latest price/);
+      }
     }
     const related = [...html.matchAll(/class="project-related-card"/g)];
     assert.equal(related.length, 3, `${slug}: expected three alternatives`);

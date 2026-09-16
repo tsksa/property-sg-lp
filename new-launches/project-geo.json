@@ -1,0 +1,169 @@
+{
+ "coastal-cabana": {
+  "lat": 1.376886,
+  "lng": 103.957314,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "newport-residences": {
+  "lat": 1.273188,
+  "lng": 103.843697,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "narra-residences": {
+  "lat": 1.367555,
+  "lng": 103.774902,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "river-modern": {
+  "lat": 1.293191,
+  "lng": 103.834793,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "pinery-residences": {
+  "lat": 1.343924,
+  "lng": 103.939201,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "vela-bay": {
+  "lat": 1.312077,
+  "lng": 103.941589,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "hudson-place-residences": {
+  "lat": 1.293406,
+  "lng": 103.795158,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "lentor-gardens-residences": {
+  "lat": 1.384627,
+  "lng": 103.83181,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "dunearn-house": {
+  "lat": 1.333331,
+  "lng": 103.79332,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "thomson-reserve": {
+  "lat": 1.356567,
+  "lng": 103.830764,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "lucerne-grand": {
+  "lat": 1.343251,
+  "lng": 103.720215,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "chuan-grove": {
+  "lat": 1.351744,
+  "lng": 103.859387,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "amberwood-at-holland": {
+  "lat": 1.328181,
+  "lng": 103.787361,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "the-serra-residences": {
+  "lat": 1.322975,
+  "lng": 103.847824,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "chencharu-close": {
+  "lat": 1.416566,
+  "lng": 103.82863,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "sembawang-road-ec": {
+  "lat": 1.436572,
+  "lng": 103.826203,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "keppel-bay-plot-6": {
+  "lat": 1.264075,
+  "lng": 103.812819,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "faber-residence": {
+  "lat": 1.322513,
+  "lng": 103.753174,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "zyon-grand": {
+  "lat": 1.290572,
+  "lng": 103.833664,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "w-residences-marina-view": {
+  "lat": 1.276659,
+  "lng": 103.849831,
+  "source": "era-new-launch-search",
+  "checkedBy": "openstreetmap-address-match"
+ },
+ "senja-close-ec": {
+  "lat": 1.38939,
+  "lng": 103.762377,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "woodlands-drive-17-ec": {
+  "lat": 1.42598,
+  "lng": 103.791328,
+  "source": "era-new-launch-search",
+  "checkedBy": "nearest-mrt-distance-consistent-with-reporting"
+ },
+ "rivelle-tampines": {
+  "lat": 1.34059,
+  "lng": 103.939817,
+  "source": "openstreetmap-nominatim",
+  "query": "Tampines Street 95, Singapore",
+  "approximate": true
+ },
+ "tengah-garden-residences": {
+  "lat": 1.353326,
+  "lng": 103.733121,
+  "source": "openstreetmap-nominatim",
+  "query": "Tengah Garden Avenue, Singapore",
+  "approximate": true
+ },
+ "dorset-road": {
+  "lat": 1.314162,
+  "lng": 103.851359,
+  "source": "openstreetmap-nominatim",
+  "query": "Dorset Road, Singapore",
+  "approximate": true
+ },
+ "upper-thomson-road": {
+  "lat": 1.396253,
+  "lng": 103.818708,
+  "source": "openstreetmap-nominatim",
+  "query": "Upper Thomson Road, Springleaf, Singapore",
+  "approximate": true
+ },
+ "hougang-central-residences": {
+  "lat": 1.370835,
+  "lng": 103.892534,
+  "source": "openstreetmap-nominatim",
+  "query": "Hougang Bus Interchange, Singapore",
+  "approximate": true
+ }
+}
