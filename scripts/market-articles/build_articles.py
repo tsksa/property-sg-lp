@@ -26,7 +26,7 @@ PUB_H = 'Sep 17, 2026'
 
 tpl = (INS / 'ec-vs-private-condo-2027.html').read_text()
 HEAD_ASSETS = tpl[tpl.index('<link rel="preload" as="font"'):tpl.index('</head>')]
-TOPBAR = re.search(r'<header class="blog-topbar">.*?</header>', tpl, re.S).group(0)
+TOPBAR = re.search(r'<header class="jt-sh" data-jt-site-header>.*?</style>\s*</header>', tpl, re.S).group(0)
 TAIL = tpl[tpl.index('<footer class="blog-footer">'):]
 BYLINE = re.search(r'<div class="article-byline">.*?</div></div>', tpl, re.S).group(0)
 DISCLAIMER_TPL = '<div class="callout"><strong>Important</strong><p>{}</p></div>'

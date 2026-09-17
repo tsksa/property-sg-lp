@@ -62,12 +62,12 @@ test('visible mobile and cookie labels are included in their accessible names', 
 
 test('homepage logo uses its visible text as the accessible name', () => {
   const html = read('index.html');
-  const logo = html.match(/<a class="logo"([^>]*)>([\s\S]*?)<\/a>/);
+  const logo = html.match(/<a href="\/" class="jt-sh-logo"([^>]*)>([\s\S]*?)<\/a>/);
 
   assert.ok(logo, 'missing homepage logo');
   assert.doesNotMatch(logo[1], /aria-label=/);
-  assert.match(logo[2], /<span class="logo-name">Joe Tay<\/span>/);
-  assert.match(logo[2], /<span class="logo-brand">PropertySG<\/span>/);
+  assert.match(logo[2], /<span class="jt-mh-logo-name">Joe Tay<\/span>/);
+  assert.match(logo[2], /<span class="jt-mh-logo-brand">PropertySG<\/span>/);
 });
 
 for (const file of ['calculator/index.html', 'bto-calculator/index.html']) {

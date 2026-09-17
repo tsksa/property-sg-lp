@@ -34,7 +34,7 @@ jobs:
       - name: Re-apply shared page furniture and refresh metadata
         run: |
           node scripts/apply-site-footer.mjs
-          node scripts/apply-header-nav.mjs
+          node scripts/apply-site-header.mjs
           node scripts/apply-mobile-header.mjs
           node scripts/apply-consent-banner.mjs
           node scripts/apply-conversion-tracking.mjs

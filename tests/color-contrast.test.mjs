@@ -161,10 +161,10 @@ const cases = [
     background: '#f7f5ef',
   },
   {
-    name: 'calculator navigation CTA',
+    name: 'calculator shared header CTA',
     file: 'calculator/index.html',
-    foreground: ['.calc-nav .calc-nav-cta', 'color'],
-    background: ['.calc-nav .calc-nav-cta', 'background'],
+    foreground: ['.jt-sh-nav>a.jt-sh-cta', 'color'],
+    background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
   },
   {
     name: 'calculator eyebrow',
@@ -245,20 +245,26 @@ const cases = [
     background: ['.cookie-banner button', 'background'],
   },
   {
-    // The shared header nav (scripts/lib/header-nav.mjs) sits on the estate
-    // pages' navy gradient. Its colours are pinned literals rather than var()
-    // references, so nothing else in the page can correct them — assert both the
-    // plain links and the CTA here so a palette edit cannot quietly fail AA.
-    name: 'estate header nav links',
+    // The shared header (scripts/lib/site-header.mjs) is cream in light mode and
+    // navy in dark mode. Its colours are pinned literals rather than var()
+    // references, so nothing else in the page can correct them — assert the
+    // links in both themes and the CTA so a palette edit cannot quietly fail AA.
+    name: 'shared header links, light',
     file: 'hdb-prices/ang-mo-kio/index.html',
-    foreground: ['.jt-hn a', 'color'],
+    foreground: ['.jt-sh-nav>a', 'color'],
+    background: '#faf6ec',
+  },
+  {
+    name: 'shared header links, dark',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['html.jt-theme-dark .jt-sh-nav>a', 'color'],
     background: '#061430',
   },
   {
-    name: 'estate header nav CTA',
+    name: 'shared header CTA',
     file: 'hdb-prices/ang-mo-kio/index.html',
-    foreground: ['.jt-hn a.jt-hn-cta', 'color'],
-    background: ['.jt-hn a.jt-hn-cta', 'background'],
+    foreground: ['.jt-sh-nav>a.jt-sh-cta', 'color'],
+    background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
   },
   {
     name: 'insights skip link',
@@ -267,10 +273,10 @@ const cases = [
     background: '#ffffff',
   },
   {
-    name: 'insights navigation CTA',
-    file: 'insights/blog.css',
-    foreground: ['.blog-nav .blog-nav-cta', 'color'],
-    background: ['.blog-nav .blog-nav-cta', 'background'],
+    name: 'insights shared header CTA',
+    file: 'insights/index.html',
+    foreground: ['.jt-sh-nav>a.jt-sh-cta', 'color'],
+    background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
   },
   {
     name: 'insights card metadata',

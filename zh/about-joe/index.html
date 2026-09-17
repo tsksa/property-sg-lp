@@ -41,8 +41,6 @@
 <style>
 .case-detail{margin-top:16px}.case-detail dt{color:var(--navy);font-weight:800}.case-detail dd{color:var(--muted);margin:2px 0 13px}.case-source{border-top:1px solid var(--line);padding-top:14px;font-size:.86rem}.case-source a{font-weight:750}
 </style>
-<link rel="stylesheet" href="/assets/site-theme.css">
-<script src="/assets/site-theme.js"></script>
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -116,19 +114,58 @@
 }
 </script>
 <style data-jt-zh-fonts>body,h1,h2,h3,h4,button,input,select,textarea,.lp-form-redirect h3,.lp-form-card h2,.article h1,.article h2,.article h3,.article-cta h3{font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Noto Sans CJK SC","Source Han Sans SC","Microsoft YaHei",system-ui,-apple-system,sans-serif}html{-webkit-font-smoothing:antialiased}.jt-zh-nav{margin:0;padding:10px 0;font-size:.86rem;line-height:1.5}.jt-zh-nav-inner{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center}.jt-zh-nav a{text-decoration:none;font-weight:600}.jt-zh-nav a:hover{text-decoration:underline}.jt-zh-nav [aria-current]{opacity:.7;font-weight:500}@media(max-width:600px){.jt-zh-nav a{display:inline-block;padding:8px 0}}</style>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+<style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
+<link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
+<script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
 <body>
 <a class="skip-link" href="#main">跳到主要内容</a>
-<header class="site-head">
-  <nav class="nav wrap" aria-label="主导航">
-    <a class="brand" href="/">PropertySG</a>
-    <div class="nav-links">
-      <a href="/valuation.html">免费估价</a>
-      <a href="/zh/new-launches/">新盘</a>
-      <a href="/zh/sell-hdb/">卖组屋</a>
-      <a href="/about-joe/" lang="en-SG" hreflang="en-SG">English</a>
-    </div>
-  </nav>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
+      <a href="/insights/">Insights</a>
+      <a href="/calculator/">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
+    </nav>
+  </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <nav class="jt-zh-nav" aria-label="中文页面"><div class="jt-zh-nav-inner"><span>中文页面：</span><a href="/zh/sell-hdb/">出售组屋</a><a href="/zh/new-launches/">新盘一览</a><a href="/zh/insights/ec-vs-private-condo-2027.html">EC vs 私人公寓</a><a href="/zh/insights/hdb-valuation-explained.html">组屋估价详解</a><span aria-current="page">关于 Joe</span><a href="/about-joe/" lang="en-SG" hreflang="en-SG" style="margin-left:auto">English version</a></div></nav>
 <main id="main">
