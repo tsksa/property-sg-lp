@@ -157,21 +157,47 @@
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fdfbf6;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:20px 24px}
-.topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
-.logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+
+.vc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start;background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:18px;padding:26px 28px;margin:26px 0 34px;box-shadow:0 1px 2px rgba(11,30,63,0.04),0 8px 28px rgba(11,30,63,0.06)}
+.vc-main{min-width:0}
+.vc .vc-k{font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a;margin:0}
+.vc-v{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.3rem,6vw,3.1rem);font-weight:700;letter-spacing:-1px;line-height:1.05;color:var(--navy);margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.vc-range{color:#3d4756;font-size:0.95rem}
+.vc-range strong{color:var(--navy);font-variant-numeric:tabular-nums}
+.vc-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 12px;padding-top:16px;border-top:1px solid rgba(11,30,63,0.08)}
+.vc-facts dt{font-size:0.7rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:#6b6b6b}
+.vc-facts dd{font-family:'Fraunces',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-top:2px;font-variant-numeric:tabular-nums}
+.vc-facts dd.up{color:var(--emerald-dark)}.vc-facts dd.down{color:#b45309}
+.vc-note{font-size:0.78rem;color:#6b6b6b}
+.vc-chart{margin:0;min-width:0}
+.vc-chart figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.vc-ck{font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a}
+.vc-cs{font-size:0.78rem;color:#6b6b6b}
+.vc-svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.vc-svg .vc-grid{stroke:rgba(11,30,63,0.09);stroke-width:1}
+.vc-svg .vc-axis{fill:#6b6b6b;font-family:'DM Sans',sans-serif;font-size:10.5px;font-variant-numeric:tabular-nums}
+.vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
+.vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
+.vc-trend{font-size:0.85rem;color:#3d4756;margin-top:6px}
+@media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
+@media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
+html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd){color:#f8fafc}
+html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
+html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
+html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-grid{stroke:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-axis{fill:#c1cad8}
+html.jt-theme-dark .vc-svg .vc-line{stroke:#34d399}
+html.jt-theme-dark .vc-svg .vc-area{fill:rgba(52,211,153,0.14)}
+html.jt-theme-dark .vc-svg .vc-dot{fill:#34d399;stroke:#102447}
+
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
@@ -269,11 +295,32 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <h1>Pasir Ris HDB resale prices</h1>
   <p class="lede">Every figure on this page comes from actual registered resale transactions in Pasir Ris — no estimates, no modelling.</p>
   <p class="src">Source: HDB Resale Flat Prices via data.gov.sg · latest full month 2026-08 · figures below use the last 12 months unless stated.</p>
-  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">$720,000</div><div class="d">749 transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$560</div><div class="d">all flat types</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v up">+1.6%</div><div class="d">median price change</div></div>
-  </div>
+  <section class="vc" data-jt-value-card aria-labelledby="vc-h">
+    <div class="vc-main">
+      <h2 class="vc-k" id="vc-h">Typical HDB resale price in Pasir Ris</h2>
+      <p class="vc-v" data-vc-median>$720,000</p>
+      <p class="vc-range">Half of all sales fell between <strong>$638,000</strong> and <strong>$840,000</strong></p>
+      <dl class="vc-facts">
+        <div><dt>Year on year</dt><dd class="up">+1.6%</dd></div>
+        <div><dt>Median $psf</dt><dd>$560</dd></div>
+        <div><dt>Sales</dt><dd>749</dd></div>
+      </dl>
+      <p class="vc-note">Median of 749 sales in the 12 months to Aug 2026, all flat types.</p>
+    </div>
+    <figure class="vc-chart">
+      <figcaption><span class="vc-ck">Price per sq ft</span><span class="vc-cs">3-month rolling median</span></figcaption>
+      <svg class="vc-svg" viewBox="0 0 320 150" role="img" aria-labelledby="vc-t" preserveAspectRatio="xMidYMid meet">
+      <title id="vc-t">Median price per square foot by month, Sep 2025 to Aug 2026, each point pooling that month with the two before it. Latest $562 psf.</title>
+      <line class="vc-grid" x1="46" x2="308" y1="124" y2="124"/><text class="vc-axis" x="40" y="128" text-anchor="end">$500</text><line class="vc-grid" x1="46" x2="308" y1="68" y2="68"/><text class="vc-axis" x="40" y="72" text-anchor="end">$600</text><line class="vc-grid" x1="46" x2="308" y1="12" y2="12"/><text class="vc-axis" x="40" y="16" text-anchor="end">$700</text>
+      <path class="vc-area" d="M46 124 L46 89.8 L69.8 90.4 L93.6 88.9 L117.5 90.9 L141.3 88.1 L165.1 90.2 L188.9 89.3 L212.7 89.9 L236.5 91.2 L260.4 90.8 L284.2 91.8 L308 89.4 L308 124 Z"/>
+      <path class="vc-line" d="M46 89.8 L69.8 90.4 L93.6 88.9 L117.5 90.9 L141.3 88.1 L165.1 90.2 L188.9 89.3 L212.7 89.9 L236.5 91.2 L260.4 90.8 L284.2 91.8 L308 89.4"/>
+      <circle class="vc-dot" cx="308" cy="89.4" r="4"/>
+      <text class="vc-axis" x="46" y="144" text-anchor="start">Sep 2025</text>
+      <text class="vc-axis" x="308" y="144" text-anchor="end">Aug 2026</text>
+    </svg>
+      <p class="vc-trend">Up 0.2% from $561 psf in Sep 2025 to $562 psf in Aug 2026.</p>
+    </figure>
+  </section>
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Flat type</th><th>Median price</th><th>Median size</th><th>Sales</th></tr></thead>
@@ -290,17 +337,17 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <thead><tr><th>Month</th><th style="text-align:left">Flat</th><th>Storey</th><th>Price</th></tr></thead>
     <tbody>
       <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 637 Pasir Ris Dr 1</td><td>10 TO 12</td><td>$568,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 637 Pasir Ris Dr 1</td><td>07 TO 09</td><td>$615,000</td></tr>
       <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 469 Pasir Ris Dr 6</td><td>01 TO 03</td><td>$620,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 476 Pasir Ris Dr 6</td><td>07 TO 09</td><td>$586,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 428 Pasir Ris Dr 6</td><td>04 TO 06</td><td>$585,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 429 Pasir Ris Dr 6</td><td>04 TO 06</td><td>$605,000</td></tr>
       <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 181 Pasir Ris St 11</td><td>04 TO 06</td><td>$618,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 273 Pasir Ris St 21</td><td>07 TO 09</td><td>$610,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 524B Pasir Ris St 51</td><td>01 TO 03</td><td>$710,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 743 Pasir Ris St 71</td><td>10 TO 12</td><td>$623,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 745 Pasir Ris St 71</td><td>01 TO 03</td><td>$590,000</td></tr>
       <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 614 Elias Rd</td><td>16 TO 18</td><td>$865,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 706 Pasir Ris Dr 10</td><td>07 TO 09</td><td>$703,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 113 Pasir Ris St 11</td><td>10 TO 12</td><td>$718,888</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 106 Pasir Ris St 12</td><td>01 TO 03</td><td>$750,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 257 Pasir Ris St 21</td><td>07 TO 09</td><td>$785,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">Executive · Blk 603 Elias Rd</td><td>10 TO 12</td><td>$940,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">Executive · Blk 210 Pasir Ris St 21</td><td>07 TO 09</td><td>$830,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">2 Room · Blk 527D Pasir Ris St 51</td><td>04 TO 06</td><td>$410,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 5 Changi Village Rd</td><td>01 TO 03</td><td>$303,888</td></tr>
     </tbody>
   </table></div>
   <h2>Nearby towns</h2>

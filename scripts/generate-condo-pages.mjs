@@ -21,6 +21,7 @@ import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
 } from './lib/condo-stats.mjs';
+import { valueCardHtml, rollingPsfSeries, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const OUT = 'condo-prices';
 const SITE = 'https://joetay.com';
@@ -151,12 +152,7 @@ main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+${VALUE_CARD_CSS}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
@@ -246,11 +242,18 @@ for (const [d, cur] of live) {
 
   const extraSchema = buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy });
 
-  const body = `  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">${money(cur.med)}</div><div class="d">${cur.n} resale transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$${Math.round(cur.psf)}</div><div class="d">condos &amp; apartments</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v ${yoy !== null && yoy < 0 ? 'down' : 'up'}">${yoy === null ? '—' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</div><div class="d">median price change</div></div>
-  </div>
+  const series = rollingPsfSeries(window12, recs, (r) => toYearMonth(r.contractDate), psf);
+  const body = `${valueCardHtml({
+    heading: `Typical condo resale price in District ${dn}`,
+    prices: cur.inWin.map((r) => Number(r.price)),
+    med: cur.med,
+    psf: cur.psf,
+    n: cur.n,
+    yoy,
+    latestFullMonth: generatedAt,
+    scope: 'resale condos and apartments',
+    series,
+  })}
   <h2>Median price by size (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Size</th><th>Median price</th><th>Median $psf</th><th>Sales</th></tr></thead>

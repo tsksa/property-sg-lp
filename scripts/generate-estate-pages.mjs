@@ -3,6 +3,8 @@
 // official HDB Resale Flat Prices dataset on data.gov.sg (Open Data Licence).
 //
 // Run: node scripts/generate-estate-pages.mjs
+// Dev: node scripts/generate-estate-pages.mjs --cache /tmp/hdb-cache.json
+//      (reads the file if it exists, otherwise fetches and writes it)
 // Refreshed monthly by .github/workflows/refresh-estate-pages.yml (opens a PR).
 //
 // Pages are generated to comply with scripts/check-consistency.mjs invariants.
@@ -24,6 +26,7 @@ import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
 import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
+import { valueCardHtml, rollingPsfSeries, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -54,13 +57,21 @@ async function fetchMonth(month) {
   return j.result.records;
 }
 
-console.log(`Fetching ${MONTHS_FETCHED} months from data.gov.sg…`);
 const months = monthsBack(MONTHS_FETCHED);
-const all = [];
-for (const m of months) {
-  const recs = await fetchMonth(m);
-  all.push(...recs);
-  process.stdout.write(`  ${m}: ${recs.length}\n`);
+const cacheIdx = process.argv.indexOf('--cache');
+const cacheFile = cacheIdx !== -1 ? process.argv[cacheIdx + 1] : null;
+let all = [];
+if (cacheFile && fs.existsSync(cacheFile)) {
+  console.log(`Using cached data.gov.sg payload: ${cacheFile}`);
+  all = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+} else {
+  console.log(`Fetching ${MONTHS_FETCHED} months from data.gov.sg…`);
+  for (const m of months) {
+    const recs = await fetchMonth(m);
+    all.push(...recs);
+    process.stdout.write(`  ${m}: ${recs.length}\n`);
+  }
+  if (cacheFile) fs.writeFileSync(cacheFile, JSON.stringify(all));
 }
 if (all.length < 5000) throw new Error(`suspiciously few records (${all.length}) — aborting rather than generating empty pages`);
 
@@ -165,12 +176,7 @@ main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+${VALUE_CARD_CSS}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}${LEAD_CAPTURE_CSS}
@@ -267,11 +273,23 @@ for (const town of towns) {
 
   const desc = `${t} HDB resale prices from official data: 12-month median ${money(cur.med)} across ${cur.n} sales, median ${'$' + Math.round(cur.psf)} psf. Updated monthly.`.slice(0, 158);
 
-  const body = `  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">${money(cur.med)}</div><div class="d">${cur.n} transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$${Math.round(cur.psf)}</div><div class="d">all flat types</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v ${yoy >= 0 ? 'up' : 'down'}">${yoy === null ? '—' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</div><div class="d">median price change</div></div>
-  </div>
+  const series = rollingPsfSeries(
+    window12,
+    recs,
+    (r) => r.month,
+    (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
+  );
+  const body = `${valueCardHtml({
+    heading: `Typical HDB resale price in ${t}`,
+    prices: cur.inWin.map((r) => Number(r.resale_price)).filter(Number.isFinite),
+    med: cur.med,
+    psf: cur.psf,
+    n: cur.n,
+    yoy,
+    latestFullMonth: generatedAt,
+    scope: 'all flat types',
+    series,
+  })}
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Flat type</th><th>Median price</th><th>Median size</th><th>Sales</th></tr></thead>

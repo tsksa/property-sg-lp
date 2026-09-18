@@ -32,8 +32,11 @@ jobs:
       - name: Refresh the homepage market line
         run: node scripts/generate-market-pulse.mjs
 
+      # The generator emits a bare page shell. Re-apply every piece of shared
+      # furniture (header, theme, mobile menu, footer, tracking, consent banner,
+      # fonts) or the refresh PR strips them from all 27 pages.
       - name: Re-apply shared page furniture
-        run: node scripts/apply-conversion-tracking.mjs
+        run: node scripts/apply-page-furniture.mjs
 
       - name: Consistency guard on the result
         run: node scripts/check-consistency.mjs
