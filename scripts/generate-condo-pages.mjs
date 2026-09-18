@@ -21,7 +21,7 @@ import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
 } from './lib/condo-stats.mjs';
-import { valueCardHtml, rollingPsfSeries, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { valueCardHtml, rollingPsfSeries, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const OUT = 'condo-prices';
 const SITE = 'https://joetay.com';
@@ -81,6 +81,16 @@ for (const [d, recs] of [...byDistrict.entries()].sort()) {
   const cur = windowStats(recs, window12);
   if (cur.n >= MIN_TX_12M) live.set(d, cur);
   else console.log(`  skip D${d} (only ${cur.n} tx in 12m)`);
+}
+
+// Like-for-like tenure group for the trend line: freehold (and 999-year) in
+// one group, leaseholds by the year their lease started, which tracks the
+// building's age. URA writes e.g. "99 yrs lease commencing from 2012".
+function tenureBand(tenure) {
+  const t = String(tenure ?? '');
+  if (/freehold|999/i.test(t)) return 'freehold';
+  const y = t.match(/(19|20)\d{2}/);
+  return y ? leaseBand(y[0]) : '?';
 }
 
 // Google truncates titles at roughly 60 characters. Long area names (Upper Bukit
@@ -242,7 +252,12 @@ for (const [d, cur] of live) {
 
   const extraSchema = buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy });
 
-  const series = rollingPsfSeries(window12, recs, (r) => toYearMonth(r.contractDate), psf);
+  const series = rollingPsfSeries(window12, recs, {
+    monthOf: (r) => toYearMonth(r.contractDate),
+    psfOf: psf,
+    stratumOf: (r) => `${bandFor(r)?.label}|${tenureBand(r.tenure)}`,
+    level: cur.psf,
+  });
   const body = `${valueCardHtml({
     heading: `Typical condo resale price in District ${dn}`,
     prices: cur.inWin.map((r) => Number(r.price)),
@@ -253,6 +268,7 @@ for (const [d, cur] of live) {
     latestFullMonth: generatedAt,
     scope: 'resale condos and apartments',
     series,
+    mixNote: 'Weighted to the year’s mix of unit sizes and tenures, so a run of bigger or newer units selling does not show up as a price rise.',
   })}
   <h2>Median price by size (last 12 months)</h2>
   <div class="tbl"><table>

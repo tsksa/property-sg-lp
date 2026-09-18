@@ -68,7 +68,7 @@
   {
    "@type": "Dataset",
    "name": "District 5 condo resale prices — 12-month dataset",
-   "description": "Median resale price, price per square foot, and transaction count for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang), computed from 769 caveats lodged in the 12 months to 2026-08.",
+   "description": "Median resale price, price per square foot, and transaction count for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang), computed from 787 caveats lodged in the 12 months to 2026-08.",
    "url": "https://joetay.com/condo-prices/d05/",
    "license": "https://eservice.ura.gov.sg/maps/api/#terms",
    "isAccessibleForFree": true,
@@ -91,19 +91,19 @@
     {
      "@type": "PropertyValue",
      "name": "Median resale price",
-     "value": 1710000,
+     "value": 1700000,
      "unitText": "SGD"
     },
     {
      "@type": "PropertyValue",
      "name": "Median price per square foot",
-     "value": 1884,
+     "value": 1885,
      "unitText": "SGD per square foot"
     },
     {
      "@type": "PropertyValue",
      "name": "Transaction count",
-     "value": 769,
+     "value": 787,
      "unitText": "count"
     }
    ]
@@ -116,7 +116,7 @@
      "name": "What is the median condo resale price in District 5?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The median resale price for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang) is $1,710,000, based on 769 caveats lodged in the 12 months to 2026-08."
+      "text": "The median resale price for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang) is $1,700,000, based on 787 caveats lodged in the 12 months to 2026-08."
      }
     },
     {
@@ -124,7 +124,7 @@
      "name": "What is the median price per square foot (psf) for condos in District 5?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The median price is $1884 psf across resale condominiums and apartments, based on caveats lodged in the 12 months to 2026-08."
+      "text": "The median price is $1885 psf across resale condominiums and apartments, based on caveats lodged in the 12 months to 2026-08."
      }
     },
     {
@@ -132,7 +132,7 @@
      "name": "Have condo prices in District 5 gone up or down over the past year?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Median condo resale prices in District 5 have risen 7.7% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period."
+      "text": "Median condo resale prices in District 5 have risen 7.0% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period."
      }
     }
    ]
@@ -149,21 +149,47 @@
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fdfbf6;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:20px 24px}
-.topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
-.logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+
+.vc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start;background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:18px;padding:26px 28px;margin:26px 0 34px;box-shadow:0 1px 2px rgba(11,30,63,0.04),0 8px 28px rgba(11,30,63,0.06)}
+.vc-main{min-width:0}
+.vc .vc-k{font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a;margin:0}
+.vc-v{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.3rem,6vw,3.1rem);font-weight:700;letter-spacing:-1px;line-height:1.05;color:var(--navy);margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.vc-range{color:#3d4756;font-size:0.95rem}
+.vc-range strong{color:var(--navy);font-variant-numeric:tabular-nums}
+.vc-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 12px;padding-top:16px;border-top:1px solid rgba(11,30,63,0.08)}
+.vc-facts dt{font-size:0.7rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:#6b6b6b}
+.vc-facts dd{font-family:'Fraunces',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-top:2px;font-variant-numeric:tabular-nums}
+.vc-facts dd.up{color:var(--emerald-dark)}.vc-facts dd.down{color:#b45309}
+.vc-note{font-size:0.78rem;color:#6b6b6b}
+.vc-chart{margin:0;min-width:0}
+.vc-chart figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.vc-ck{font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a}
+.vc-cs{font-size:0.78rem;color:#6b6b6b}
+.vc-svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.vc-svg .vc-grid{stroke:rgba(11,30,63,0.09);stroke-width:1}
+.vc-svg .vc-axis{fill:#6b6b6b;font-family:'DM Sans',sans-serif;font-size:10.5px;font-variant-numeric:tabular-nums}
+.vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
+.vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
+.vc-trend{font-size:0.85rem;color:#3d4756;margin-top:6px}
+@media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
+@media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
+html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd){color:#f8fafc}
+html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
+html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
+html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-grid{stroke:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-axis{fill:#c1cad8}
+html.jt-theme-dark .vc-svg .vc-line{stroke:#34d399}
+html.jt-theme-dark .vc-svg .vc-area{fill:rgba(52,211,153,0.14)}
+html.jt-theme-dark .vc-svg .vc-dot{fill:#34d399;stroke:#102447}
+
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
@@ -249,19 +275,40 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <h1>District 5 condo resale prices</h1>
   <p class="lede">Buona Vista, Clementi, Pasir Panjang. Every figure comes from caveats actually lodged with URA — no estimates, no modelling.</p>
   <p class="src">Source: URA private residential caveats (PMI_Resi_Transaction) · latest full month 2026-08 · resale condominiums and apartments only, single-unit deals · figures use the last 12 months unless stated.</p>
-  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">$1,710,000</div><div class="d">769 resale transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$1884</div><div class="d">condos &amp; apartments</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v up">+7.7%</div><div class="d">median price change</div></div>
-  </div>
+  <section class="vc" data-jt-value-card aria-labelledby="vc-h">
+    <div class="vc-main">
+      <h2 class="vc-k" id="vc-h">Typical condo resale price in District 5</h2>
+      <p class="vc-v" data-vc-median>$1,700,000</p>
+      <p class="vc-range">Half of all sales fell between <strong>$1,314,000</strong> and <strong>$2,220,000</strong></p>
+      <dl class="vc-facts">
+        <div><dt>Year on year</dt><dd class="up">+7.0%</dd></div>
+        <div><dt>Median $psf</dt><dd>$1,885</dd></div>
+        <div><dt>Sales</dt><dd>787</dd></div>
+      </dl>
+      <p class="vc-note">Median of 787 sales in the 12 months to Aug 2026, resale condos and apartments.</p>
+    </div>
+    <figure class="vc-chart">
+      <figcaption><span class="vc-ck">Price per sq ft</span><span class="vc-cs">3-month rolling median</span></figcaption>
+      <svg class="vc-svg" viewBox="0 0 320 150" role="img" aria-labelledby="vc-t" preserveAspectRatio="xMidYMid meet">
+      <title id="vc-t">Median price per square foot by month, Sep 2025 to Aug 2026, each point pooling that month with the two before it. Latest $1,909 psf.</title>
+      <line class="vc-grid" x1="46" x2="308" y1="124" y2="124"/><text class="vc-axis" x="40" y="128" text-anchor="end">$1,600</text><line class="vc-grid" x1="46" x2="308" y1="86.7" y2="86.7"/><text class="vc-axis" x="40" y="90.7" text-anchor="end">$1,800</text><line class="vc-grid" x1="46" x2="308" y1="49.3" y2="49.3"/><text class="vc-axis" x="40" y="53.3" text-anchor="end">$2,000</text><line class="vc-grid" x1="46" x2="308" y1="12" y2="12"/><text class="vc-axis" x="40" y="16" text-anchor="end">$2,200</text>
+      <path class="vc-area" d="M46 124 L46 78.5 L69.8 75.3 L93.6 79.5 L117.5 68.6 L141.3 75.8 L165.1 69.9 L188.9 74.9 L212.7 69.9 L236.5 68.8 L260.4 67 L284.2 65.8 L308 66.3 L308 124 Z"/>
+      <path class="vc-line" d="M46 78.5 L69.8 75.3 L93.6 79.5 L117.5 68.6 L141.3 75.8 L165.1 69.9 L188.9 74.9 L212.7 69.9 L236.5 68.8 L260.4 67 L284.2 65.8 L308 66.3"/>
+      <circle class="vc-dot" cx="308" cy="66.3" r="4"/>
+      <text class="vc-axis" x="46" y="144" text-anchor="start">Sep 2025</text>
+      <text class="vc-axis" x="308" y="144" text-anchor="end">Aug 2026</text>
+    </svg>
+      <p class="vc-trend">Up 3.6% from $1,844 psf in Sep 2025 to $1,909 psf in Aug 2026.</p>
+    </figure>
+  </section>
   <h2>Median price by size (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Size</th><th>Median price</th><th>Median $psf</th><th>Sales</th></tr></thead>
     <tbody>
-      <tr><td>Up to 700 sqft</td><td>$990,000</td><td>$1898</td><td>189</td></tr>
-      <tr><td>701–1,000 sqft</td><td>$1,582,500</td><td>$2004</td><td>255</td></tr>
-      <tr><td>1,001–1,400 sqft</td><td>$2,150,000</td><td>$1796</td><td>218</td></tr>
-      <tr><td>Above 1,400 sqft</td><td>$2,880,000</td><td>$1691</td><td>107</td></tr>
+      <tr><td>Up to 700 sqft</td><td>$1,000,888</td><td>$1903</td><td>195</td></tr>
+      <tr><td>701–1,000 sqft</td><td>$1,582,500</td><td>$2004</td><td>261</td></tr>
+      <tr><td>1,001–1,400 sqft</td><td>$2,153,000</td><td>$1797</td><td>222</td></tr>
+      <tr><td>Above 1,400 sqft</td><td>$2,880,000</td><td>$1689</td><td>109</td></tr>
     </tbody>
   </table></div>
   <h2>Most recent transactions</h2>
@@ -269,15 +316,15 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <thead><tr><th>Month</th><th style="text-align:left">Project</th><th>Size</th><th>Floor</th><th>Price</th></tr></thead>
     <tbody>
       <tr><td>2026-08</td><td style="text-align:left">ISLAND VIEW</td><td>3,358 sqft</td><td>01-05</td><td>$4,480,000</td></tr>
+      <tr><td>2026-08</td><td style="text-align:left">CARABELLE</td><td>2,110 sqft</td><td>11-15</td><td>$3,368,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">BOTANNIA</td><td>1,561 sqft</td><td>06-10</td><td>$2,926,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">THE PEAK@BALMEG</td><td>1,507 sqft</td><td>01-05</td><td>$2,910,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">WHISTLER GRAND</td><td>1,442 sqft</td><td>01-05</td><td>$2,770,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">THE PEAK@BALMEG</td><td>1,507 sqft</td><td>01-05</td><td>$2,720,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">BOTANNIA</td><td>1,636 sqft</td><td>01-05</td><td>$2,650,000</td></tr>
+      <tr><td>2026-08</td><td style="text-align:left">WHISTLER GRAND</td><td>1,270 sqft</td><td>21-25</td><td>$2,550,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">MONTEREY PARK CONDOMINIUM</td><td>1,367 sqft</td><td>01-05</td><td>$2,500,000</td></tr>
       <tr><td>2026-08</td><td style="text-align:left">CARABELLE</td><td>1,259 sqft</td><td>06-10</td><td>$2,390,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">WHISTLER GRAND</td><td>1,066 sqft</td><td>21-25</td><td>$2,300,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">WHISTLER GRAND</td><td>1,066 sqft</td><td>06-10</td><td>$2,181,000</td></tr>
     </tbody>
   </table></div>
   <h2>Nearby districts</h2>
@@ -292,9 +339,9 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <p class="src" style="margin-top:18px">Buying an HDB instead? See <a href="/hdb-prices/">HDB prices by town</a>. Check what a purchase really costs with the <a href="/stamp-duty-calculator/">stamp duty calculator</a> and <a href="/calculator/">affordability calculator</a>, or look terms up in the <a href="/glossary/">glossary</a>. Back to <a href="/condo-prices/">all districts</a>.</p>
   <h2>Common questions</h2>
   <div class="faq">
-      <details class="faq-item"><summary>What is the median condo resale price in District 5?</summary><p>The median resale price for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang) is $1,710,000, based on 769 caveats lodged in the 12 months to 2026-08.</p></details>
-      <details class="faq-item"><summary>What is the median price per square foot (psf) for condos in District 5?</summary><p>The median price is $1884 psf across resale condominiums and apartments, based on caveats lodged in the 12 months to 2026-08.</p></details>
-      <details class="faq-item"><summary>Have condo prices in District 5 gone up or down over the past year?</summary><p>Median condo resale prices in District 5 have risen 7.7% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period.</p></details>
+      <details class="faq-item"><summary>What is the median condo resale price in District 5?</summary><p>The median resale price for private condominiums and apartments in District 5 (Buona Vista, Clementi, Pasir Panjang) is $1,700,000, based on 787 caveats lodged in the 12 months to 2026-08.</p></details>
+      <details class="faq-item"><summary>What is the median price per square foot (psf) for condos in District 5?</summary><p>The median price is $1885 psf across resale condominiums and apartments, based on caveats lodged in the 12 months to 2026-08.</p></details>
+      <details class="faq-item"><summary>Have condo prices in District 5 gone up or down over the past year?</summary><p>Median condo resale prices in District 5 have risen 7.0% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period.</p></details>
   </div>
   <div class="cta">
     <h2>Thinking of selling — or hunting in this district?</h2>

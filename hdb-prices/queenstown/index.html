@@ -184,11 +184,12 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
 .vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
-.vc-trend{font-size:0.85rem;color:#3d4756;margin-top:6px}
+.vc-trend{font-size:0.82rem;color:#3d4756;margin-top:6px;line-height:1.5}
+.vc-trend strong{color:var(--navy)}
 @media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
 @media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
 html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
-html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd){color:#f8fafc}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd,.vc-trend strong){color:#f8fafc}
 html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
 html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
 html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}
@@ -301,24 +302,24 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <p class="vc-v" data-vc-median>$839,445</p>
       <p class="vc-range">Half of all sales fell between <strong>$459,000</strong> and <strong>$1,059,000</strong></p>
       <dl class="vc-facts">
-        <div><dt>Year on year</dt><dd class="up">+7.6%</dd></div>
+        <div><dt>Median, year on year</dt><dd class="up">+7.6%</dd></div>
         <div><dt>Median $psf</dt><dd>$971</dd></div>
         <div><dt>Sales</dt><dd>726</dd></div>
       </dl>
       <p class="vc-note">Median of 726 sales in the 12 months to Aug 2026, all flat types.</p>
     </div>
     <figure class="vc-chart">
-      <figcaption><span class="vc-ck">Price per sq ft</span><span class="vc-cs">3-month rolling median</span></figcaption>
+      <figcaption><span class="vc-ck">Price per sq ft, like for like</span><span class="vc-cs">3-month rolling</span></figcaption>
       <svg class="vc-svg" viewBox="0 0 320 150" role="img" aria-labelledby="vc-t" preserveAspectRatio="xMidYMid meet">
-      <title id="vc-t">Median price per square foot by month, Sep 2025 to Aug 2026, each point pooling that month with the two before it. Latest $1,059 psf.</title>
+      <title id="vc-t">Price per square foot, like for like, Sep 2025 to Aug 2026: 3-month rolling medians weighted to the year's mix of sales. Latest $990 psf.</title>
       <line class="vc-grid" x1="46" x2="308" y1="124" y2="124"/><text class="vc-axis" x="40" y="128" text-anchor="end">$800</text><line class="vc-grid" x1="46" x2="308" y1="86.7" y2="86.7"/><text class="vc-axis" x="40" y="90.7" text-anchor="end">$900</text><line class="vc-grid" x1="46" x2="308" y1="49.3" y2="49.3"/><text class="vc-axis" x="40" y="53.3" text-anchor="end">$1,000</text><line class="vc-grid" x1="46" x2="308" y1="12" y2="12"/><text class="vc-axis" x="40" y="16" text-anchor="end">$1,100</text>
-      <path class="vc-area" d="M46 124 L46 75.8 L69.8 79.4 L93.6 78.1 L117.5 72.1 L141.3 62.6 L165.1 62.4 L188.9 59.3 L212.7 63.3 L236.5 62.4 L260.4 48.5 L284.2 38.2 L308 27.3 L308 124 Z"/>
-      <path class="vc-line" d="M46 75.8 L69.8 79.4 L93.6 78.1 L117.5 72.1 L141.3 62.6 L165.1 62.4 L188.9 59.3 L212.7 63.3 L236.5 62.4 L260.4 48.5 L284.2 38.2 L308 27.3"/>
-      <circle class="vc-dot" cx="308" cy="27.3" r="4"/>
+      <path class="vc-area" d="M46 124 L46 67.6 L69.8 67.6 L93.6 61.5 L117.5 63 L141.3 55.3 L165.1 61.3 L188.9 56.4 L212.7 59.8 L236.5 59 L260.4 60.8 L284.2 55.2 L308 53.2 L308 124 Z"/>
+      <path class="vc-line" d="M46 67.6 L69.8 67.6 L93.6 61.5 L117.5 63 L141.3 55.3 L165.1 61.3 L188.9 56.4 L212.7 59.8 L236.5 59 L260.4 60.8 L284.2 55.2 L308 53.2"/>
+      <circle class="vc-dot" cx="308" cy="53.2" r="4"/>
       <text class="vc-axis" x="46" y="144" text-anchor="start">Sep 2025</text>
       <text class="vc-axis" x="308" y="144" text-anchor="end">Aug 2026</text>
     </svg>
-      <p class="vc-trend">Up 14.0% from $929 psf in Sep 2025 to $1,059 psf in Aug 2026.</p>
+      <p class="vc-trend"><strong>Up 4.0%</strong> like for like between Sep 2025 and Aug 2026. Weighted to the year’s mix of flat types and lease ages, so a run of newer flats selling does not show up as a price rise.</p>
     </figure>
   </section>
   <h2>Median price by flat type (last 12 months)</h2>

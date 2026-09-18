@@ -45,35 +45,91 @@ function median(values) {
 }
 
 /**
- * Rolling median $psf, one point per month of the window.
+ * Mix-adjusted rolling $psf, one point per month of the window.
  *
- * A single month's median swings with the mix of flats that happened to sell
- * (a month heavy in 5-room flats looks like a price jump), so each point pools
- * that month with the two before it. $psf rather than price for the same
- * reason: it is far less sensitive to the size mix than the median price.
+ * A plain monthly median measures which flats happened to sell, not what flats
+ * are worth. In Toa Payoh (12 months to Aug 2026) flats leased from 2018 rose
+ * from 23% to 39% of sales; the plain median psf went up 23% while older flats
+ * alone fell 8%. So each point is a stratified median: sales are grouped into
+ * like-for-like strata (flat type × lease age for HDB, size × tenure for
+ * condos), each stratum's median is taken, and the strata are weighted by
+ * their share of sales across the whole window, the same weights at every
+ * point. Each point also pools its month with the two before it, because a
+ * single month is too thin to split this way.
+ *
+ * Strata with fewer than `minStratum` sales in a point's pool are left out and
+ * the remaining weights renormalised; a point whose surviving strata cover less
+ * than `minCoverage` of the window's sales is a gap rather than a guess.
+ *
+ * The series is scaled so its average equals `level` (the card's 12-month
+ * median $psf), so the line reads in the same dollars as the card beside it.
  *
  * @param {string[]} window12  the page's 12 reporting months, any order
  * @param {Array} recs         the area's transactions (any span)
- * @param {(r) => string} monthOf  record → 'YYYY-MM'
- * @param {(r) => number} psfOf    record → $psf
- * @param {{span?: number, minN?: number}} opts  points with fewer than minN
- *   sales in their pooled months are left as gaps rather than drawn from noise
+ * @param {object} o
+ * @param {(r) => string} o.monthOf   record → 'YYYY-MM'
+ * @param {(r) => number} o.psfOf     record → $psf
+ * @param {(r) => string} o.stratumOf record → like-for-like group key
+ * @param {number} [o.level]          rescale target; omitted = unscaled
  */
-export function rollingPsfSeries(window12, recs, monthOf, psfOf, { span = 3, minN = 5 } = {}) {
+export function rollingPsfSeries(window12, recs, {
+  monthOf, psfOf, stratumOf, level, span = 3, minStratum = 3, minCoverage = 0.6,
+}) {
+  const months = [...window12].sort();
+  const pooledMonths = (m) => Array.from({ length: span }, (_, i) => shiftMonth(m, -i));
+  const inScope = new Set(months.flatMap(pooledMonths));
+
   const byMonth = new Map();
+  const weights = new Map();
+  let total = 0;
   for (const r of recs) {
     const m = monthOf(r);
-    if (!m) continue;
     const v = psfOf(r);
-    if (!Number.isFinite(v)) continue;
+    if (!m || !inScope.has(m) || !Number.isFinite(v)) continue;
+    const k = stratumOf(r);
     if (!byMonth.has(m)) byMonth.set(m, []);
-    byMonth.get(m).push(v);
+    byMonth.get(m).push({ k, v });
+    weights.set(k, (weights.get(k) ?? 0) + 1);
+    total += 1;
   }
-  return [...window12].sort().map((month) => {
-    const pooled = [];
-    for (let i = 0; i < span; i += 1) pooled.push(...(byMonth.get(shiftMonth(month, -i)) ?? []));
-    return { month, n: pooled.length, psf: pooled.length >= minN ? median(pooled) : null };
+
+  const raw = months.map((month) => {
+    const groups = new Map();
+    let n = 0;
+    for (const pm of pooledMonths(month)) {
+      for (const { k, v } of byMonth.get(pm) ?? []) {
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(v);
+        n += 1;
+      }
+    }
+    let covered = 0;
+    let sum = 0;
+    for (const [k, vals] of groups) {
+      if (vals.length < minStratum) continue;
+      covered += weights.get(k);
+      sum += weights.get(k) * median(vals);
+    }
+    const psf = total && covered / total >= minCoverage ? sum / covered : null;
+    return { month, n, psf };
   });
+
+  const drawn = raw.filter((p) => p.psf !== null);
+  if (!level || !drawn.length) return raw;
+  const mean = drawn.reduce((a, p) => a + p.psf, 0) / drawn.length;
+  return raw.map((p) => ({ ...p, psf: p.psf === null ? null : (p.psf * level) / mean }));
+}
+
+/** Lease-commencement band for like-for-like grouping. */
+export function leaseBand(year) {
+  const y = Number(year);
+  if (!Number.isFinite(y)) return '?';
+  if (y < 1980) return '<1980';
+  if (y < 1990) return '1980s';
+  if (y < 2000) return '1990s';
+  if (y < 2010) return '2000s';
+  if (y < 2018) return '2010-17';
+  return '2018+';
 }
 
 /** Round outward to a step that gives tidy axis labels. */
@@ -145,7 +201,7 @@ export function trendSvg(series, { idBase = 'vc' } = {}) {
   const final = series[n - 1];
 
   return `<svg class="vc-svg" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${idBase}-t" preserveAspectRatio="xMidYMid meet">
-      <title id="${idBase}-t">Median price per square foot by month, ${escHtml(monthLabel(first.month))} to ${escHtml(monthLabel(final.month))}, each point pooling that month with the two before it. Latest ${money(last.psf)} psf.</title>
+      <title id="${idBase}-t">Price per square foot, like for like, ${escHtml(monthLabel(first.month))} to ${escHtml(monthLabel(final.month))}: 3-month rolling medians weighted to the year's mix of sales. Latest ${money(last.psf)} psf.</title>
       ${grid}
       ${areas}
       <path class="vc-line" d="${line}"/>
@@ -179,8 +235,9 @@ const pctText = (p) => `${p >= 0 ? '+' : '−'}${Math.abs(p).toFixed(1)}%`;
  * @param {string} o.latestFullMonth  'YYYY-MM'
  * @param {string} o.scope      e.g. "all flat types"
  * @param {Array} o.series      from rollingPsfSeries()
+ * @param {string} o.mixNote    one sentence on how the line is adjusted
  */
-export function valueCardHtml({ heading, prices, med, psf, n, yoy, latestFullMonth, scope, series }) {
+export function valueCardHtml({ heading, prices, med, psf, n, yoy, latestFullMonth, scope, series, mixNote }) {
   const p25 = quantile(prices, 0.25);
   const p75 = quantile(prices, 0.75);
   // Round the range to the nearest $1,000: the quartiles are interpolated, and
@@ -192,7 +249,7 @@ export function valueCardHtml({ heading, prices, med, psf, n, yoy, latestFullMon
     ? '<dd>—</dd>'
     : `<dd class="${yoy < 0 ? 'down' : 'up'}">${pctText(yoy)}</dd>`;
   const trendLine = change
-    ? `<p class="vc-trend">${change.pct >= 0 ? 'Up' : 'Down'} ${Math.abs(change.pct).toFixed(1)}% from ${money(change.from.psf)} psf in ${monthLabel(change.from.month)} to ${money(change.to.psf)} psf in ${monthLabel(change.to.month)}.</p>`
+    ? `<p class="vc-trend"><strong>${change.pct >= 0 ? 'Up' : 'Down'} ${Math.abs(change.pct).toFixed(1)}%</strong> like for like between ${monthLabel(change.from.month)} and ${monthLabel(change.to.month)}. ${escHtml(mixNote)}</p>`
     : '';
 
   return `  <section class="vc" data-jt-value-card aria-labelledby="vc-h">
@@ -201,14 +258,14 @@ export function valueCardHtml({ heading, prices, med, psf, n, yoy, latestFullMon
       <p class="vc-v" data-vc-median>${money(med)}</p>
       <p class="vc-range">Half of all sales fell between <strong>${k(p25)}</strong> and <strong>${k(p75)}</strong></p>
       <dl class="vc-facts">
-        <div><dt>Year on year</dt>${yoyHtml}</div>
+        <div><dt>Median, year on year</dt>${yoyHtml}</div>
         <div><dt>Median $psf</dt><dd>${money(psf)}</dd></div>
         <div><dt>Sales</dt><dd>${n.toLocaleString('en-SG')}</dd></div>
       </dl>
       <p class="vc-note">Median of ${n.toLocaleString('en-SG')} sales in the 12 months to ${monthLabel(latestFullMonth)}, ${escHtml(scope)}.</p>
     </div>${svg ? `
     <figure class="vc-chart">
-      <figcaption><span class="vc-ck">Price per sq ft</span><span class="vc-cs">3-month rolling median</span></figcaption>
+      <figcaption><span class="vc-ck">Price per sq ft, like for like</span><span class="vc-cs">3-month rolling</span></figcaption>
       ${svg}
       ${trendLine}
     </figure>` : ''}
@@ -237,11 +294,12 @@ export const VALUE_CARD_CSS = `
 .vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
 .vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
-.vc-trend{font-size:0.85rem;color:#3d4756;margin-top:6px}
+.vc-trend{font-size:0.82rem;color:#3d4756;margin-top:6px;line-height:1.5}
+.vc-trend strong{color:var(--navy)}
 @media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
 @media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
 html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
-html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd){color:#f8fafc}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd,.vc-trend strong){color:#f8fafc}
 html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
 html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
 html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}

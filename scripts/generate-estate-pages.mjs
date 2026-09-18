@@ -26,7 +26,7 @@ import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
 import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
-import { valueCardHtml, rollingPsfSeries, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { valueCardHtml, rollingPsfSeries, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -273,12 +273,12 @@ for (const town of towns) {
 
   const desc = `${t} HDB resale prices from official data: 12-month median ${money(cur.med)} across ${cur.n} sales, median ${'$' + Math.round(cur.psf)} psf. Updated monthly.`.slice(0, 158);
 
-  const series = rollingPsfSeries(
-    window12,
-    recs,
-    (r) => r.month,
-    (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
-  );
+  const series = rollingPsfSeries(window12, recs, {
+    monthOf: (r) => r.month,
+    psfOf: (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
+    stratumOf: (r) => `${r.flat_type}|${leaseBand(r.lease_commence_date)}`,
+    level: cur.psf,
+  });
   const body = `${valueCardHtml({
     heading: `Typical HDB resale price in ${t}`,
     prices: cur.inWin.map((r) => Number(r.resale_price)).filter(Number.isFinite),
@@ -289,6 +289,7 @@ for (const town of towns) {
     latestFullMonth: generatedAt,
     scope: 'all flat types',
     series,
+    mixNote: 'Weighted to the year’s mix of flat types and lease ages, so a run of newer flats selling does not show up as a price rise.',
   })}
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>
