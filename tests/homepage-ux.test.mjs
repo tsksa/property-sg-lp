@@ -111,3 +111,50 @@ test('hero form uses concise, privacy-forward reassurance', () => {
   assert.match(homepage, /Spam-protected\. Your details stay private\./);
   assert.doesNotMatch(homepage, /Typically replies in under 10 min/);
 });
+
+// ── JOE-393: the shorter homepage ────────────────────────────────────────────
+
+const schemasOf = (html) => [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map((m) => JSON.parse(m[1]));
+const textOf = (html) => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/\s+/g, ' ');
+
+test('the homepage keeps proof near the top and drops the sections that repeated it', () => {
+  const homepage = read('index.html');
+  const order = ['class="hero"', 'class="trust-strip"', 'id="testimonials"', 'id="process"', 'id="advisor"', 'id="book"', 'id="faq"', 'id="latest-guides"', 'id="cta-final"'];
+  const positions = order.map((marker) => homepage.indexOf(marker));
+  positions.forEach((pos, i) => assert.ok(pos > -1, `missing ${order[i]}`));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, 'homepage sections out of order');
+  for (const gone of ['id="problem"', 'id="solution"', 'id="compare"', 'id="concerns"', 'class="recent-activity"', 'class="stats"', 'class="stat-number"']) {
+    assert.ok(!homepage.includes(gone), `${gone} should no longer be on the homepage`);
+  }
+  const strip = homepage.match(/<section class="trust-strip"[\s\S]*?<\/section>/)[0];
+  for (const figure of ['500+', '$200M+', '$8M+', '5.0★']) assert.ok(strip.includes(figure), `stat row missing ${figure}`);
+  for (const id of ['heroForm', 'finalForm', 'valPopupForm', 'exitForm', 'footerNewsletter']) assert.match(homepage, new RegExp(`id="${id}"`), `lead form ${id} missing`);
+});
+
+test('homepage and sell-page FAQ structured data match their visible questions and answers', () => {
+  for (const [rel, count] of [['index.html', 7], ['sell/index.html', 6]]) {
+    const html = read(rel);
+    const faq = schemasOf(html).find((s) => s['@type'] === 'FAQPage');
+    assert.ok(faq, `${rel}: FAQPage missing`);
+    assert.equal(faq.mainEntity.length, count, `${rel}: FAQ count`);
+    const visible = textOf(html);
+    for (const q of faq.mainEntity) {
+      assert.ok(visible.includes(q.name), `${rel}: question not visible: ${q.name}`);
+      assert.ok(visible.includes(q.acceptedAnswer.text), `${rel}: answer not visible: ${q.name}`);
+    }
+  }
+  assert.match(read('index.html'), /href="\/sell\/#seller-questions"/);
+  assert.match(read('sell/index.html'), /<section class="lp-section" id="seller-questions"/);
+  assert.match(read('sell/index.html'), /<th scope="row">After OTP signed<\/th>/);
+});
+
+test('the Calendly calendar loads only after the visitor asks for it', () => {
+  const homepage = read('index.html');
+  assert.match(homepage, /<button type="button" class="calendly-show" id="calendlyShow" aria-controls="calendlyInline" aria-expanded="false">/);
+  assert.match(homepage, /<div class="calendly-inline-widget" id="calendlyInline" hidden /);
+  // The button's own display rule would otherwise beat the hidden attribute.
+  assert.match(homepage, /\.calendly-show\[hidden\],\.calendly-inline-widget\[hidden\]\{display:none!important\}/);
+  assert.doesNotMatch(homepage, /calObs|IntersectionObserver\(entries=>\{\s*if\(entries\.some\(en=>en\.isIntersecting\)\)\{loadCalendlyScript/, 'no scroll-triggered Calendly load');
+  assert.match(homepage, /getElementById\('calendlyShow'\)\?\.addEventListener\('click'[\s\S]{0,400}loadCalendlyScript\(\)/);
+  assert.doesNotMatch(homepage, /<script[^>]+src="https:\/\/assets\.calendly\.com/, 'Calendly script must not be in the page source');
+});

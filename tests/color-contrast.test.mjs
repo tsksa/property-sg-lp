@@ -209,16 +209,17 @@ const cases = [
     background: ['.calc-footer', 'background'],
   },
   {
-    name: 'homepage recent activity heading',
-    file: 'index.html',
-    foreground: ['.recent-activity-head', 'color'],
-    background: ['.recent-activity', 'background'],
+    // The seller comparison table moved from the homepage to /sell/ (JOE-393).
+    name: 'sell page comparison header',
+    file: 'sell/ads-landing.css',
+    foreground: ['.lp-compare thead th', 'color'],
+    background: ['.lp-compare thead th', 'background'],
   },
   {
-    name: 'homepage recent activity badge',
-    file: 'index.html',
-    foreground: ['.recent-card-badge', 'color'],
-    background: ['.recent-card-badge', 'background', '#ffffff'],
+    name: 'sell page comparison typical-agent column',
+    file: 'sell/ads-landing.css',
+    foreground: ['.lp-compare tbody td:nth-child(2)', 'color'],
+    background: '#ffffff',
   },
   {
     name: 'homepage newsletter description',
