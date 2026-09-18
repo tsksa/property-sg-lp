@@ -51,7 +51,7 @@ test('mobile navigation and the theme toggle come from the shared assets', () =>
 test('homepage lead form provides persistent accessible field errors', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /<form class="hero-form" id="heroForm"[^>]*novalidate>/);
+  assert.match(homepage, /<form class="hero-consult" id="heroForm"[^>]*novalidate hidden>/);
   for (const id of ['hero-name-error', 'hero-phone-error', 'hero-proptype-error']) {
     assert.match(homepage, new RegExp(`id="${id}" hidden>`));
   }
@@ -62,12 +62,27 @@ test('homepage lead form provides persistent accessible field errors', () => {
   assert.match(homepage, /jtTrackLeadFormStage\(heroForm,'validation_error'/);
 });
 
-test('consultation stays primary while valuation is a quiet secondary action', () => {
+test('the hero leads with the sold-prices lookup and keeps the consultation one click away', () => {
   const homepage = read('index.html');
+  const card = homepage.match(/<div class="hero-form hero-card" id="heroCard">[\s\S]*?<\/form>\n    <\/div>/)?.[0] ?? '';
+  assert.ok(card, 'hero card missing');
 
-  assert.match(homepage, /class="cta-submit">Get Free Consultation/);
-  assert.match(homepage, /Need a price estimate instead\? Get a free valuation/);
-  assert.doesNotMatch(homepage, /hero-or-divider/);
+  // Estimate first: a postal-code form that works without JavaScript by
+  // falling back to the full sold-prices page, and no contact field before it.
+  assert.match(card, /data-jt-estimate data-context="home"/);
+  assert.match(card, /<h2 class="jte-heading" id="heroEstimateTitle">What did flats in your block sell for\?<\/h2>/);
+  assert.match(card, /<form class="jte-form" action="\/neighbour-prices\/" method="get"/);
+  assert.match(card, /id="heroPostal" name="postal"[^>]*inputmode="numeric"[^>]*autocomplete="postal-code"/);
+  assert.ok(card.indexOf('id="heroPostal"') < card.indexOf('id="hero-name"'), 'postal code must come before the name field');
+
+  // Consultation: still the same tracked form, hidden until asked for.
+  assert.match(card, /<form class="hero-consult" id="heroForm"[^>]*hidden>/);
+  assert.match(card, /class="cta-submit">Get Free Consultation/);
+  assert.match(card, /id="heroTalkLink">Rather talk to Joe first\?/);
+  assert.match(card, /id="heroBackToEstimate">[\s\S]*Back to sold prices<\/button>/);
+  assert.match(homepage, /heroEstimate\.addEventListener\('jte:valuation'/);
+  assert.match(homepage, /<script type="module" src="\/assets\/block-estimate\.js"><\/script>/);
+  assert.match(homepage, /<link rel="stylesheet" href="\/assets\/block-estimate\.css">/);
 });
 
 test('homepage navigation is the same header the Joe authority page uses', () => {

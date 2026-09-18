@@ -674,6 +674,15 @@ form.addEventListener('submit', function(e){
       setError('The official data service didn’t respond just now. Try again in a minute — or WhatsApp me at +65 8188 1488 and I’ll send you your block’s numbers directly.');
     });
 });
+
+// ?postal=520123 arrives from the homepage and valuation-page sold-prices widget
+// (and from its no-JavaScript fallback): run the lookup straight away.
+var presetPostal = (new URLSearchParams(location.search).get('postal') || '').replace(/\D/g, '');
+if(/^\d{6}$/.test(presetPostal)){
+  postalInput.value = presetPostal;
+  if(form.requestSubmit) form.requestSubmit();
+  else form.dispatchEvent(new Event('submit', {cancelable: true}));
+}
 })();
 </script>
 <script src="/assets/conversion-tracking.js" defer></script>

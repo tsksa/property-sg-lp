@@ -117,6 +117,10 @@ main>*{min-width:0}
 .val-intro h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,4.5vw,3rem);font-weight:600;letter-spacing:-0.5px;line-height:1.1;margin-bottom:16px;color:var(--navy);overflow-wrap:anywhere}
 .val-lede{font-size:1.05rem;color:#555;line-height:1.65;margin-bottom:28px;max-width:460px;overflow-wrap:break-word}
 .val-proof{grid-area:proof;max-width:460px}
+.val-estimate{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:16px;padding:22px;max-width:460px;margin-top:4px}
+.val-estimate .jte-heading{font-size:1.2rem}
+@media(max-width:900px){.val-estimate{max-width:none;margin-top:20px}}
+html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,255,.12)}
 .val-benefits{list-style:none;padding:0;margin:0 0 24px;max-width:460px}
 .val-benefits li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;font-size:0.95rem;color:#333;border-bottom:1px solid rgba(11,30,63,0.08)}
 .val-benefits li::before{content:"";flex-shrink:0;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--emerald) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/60% no-repeat}
@@ -283,6 +287,8 @@ footer a{color:rgba(255,255,255,0.8)}
   }
 }
 </style>
+<link rel="preconnect" href="https://data.gov.sg">
+<link rel="stylesheet" href="/assets/block-estimate.css">
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
@@ -338,6 +344,21 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>
     <p class="val-lede">Answer 3 short sections (~2 min). I'll WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
+    <div class="val-estimate jte" data-jt-estimate data-context="valuation" id="valEstimate">
+      <h2 class="jte-heading" id="valEstimateTitle">Check your block's recent sales first</h2>
+      <p class="jte-intro">Real HDB sales and an indicative range, before you share any details.</p>
+      <form class="jte-form" action="/neighbour-prices/" method="get" novalidate aria-labelledby="valEstimateTitle">
+        <label class="jte-label" for="valEstimatePostal">Your postal code</label>
+        <div class="jte-row">
+          <input class="jte-input" id="valEstimatePostal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="postal-code" placeholder="e.g. 560123" required>
+          <button type="submit" class="jte-go">Show sold prices</button>
+        </div>
+        <p class="jte-error" role="alert" hidden></p>
+        <p class="jte-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="jte-pulse" data-jte-pulse hidden></p>
+      <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
+    </div>
   </div>
   <div class="val-card">
     <form id="valForm" novalidate aria-label="Free property valuation form" data-lead-type="valuation">
@@ -559,7 +580,10 @@ const PAGE_LOADED_AT = Date.now();
 
 // ── Pre-fill from URL params (e.g. redirected from hero form) ──
 const params = new URLSearchParams(location.search);
-['fullName','mobile','email','propType'].forEach(key=>{
+// ?postal=520123 arrives from the sold-prices widget and the neighbour-prices page.
+const presetPostal=(params.get('postal')||'').replace(/\D/g,'');
+if(/^\d{6}$/.test(presetPostal)){ const el=document.getElementById('postalCode'); if(el) el.value=presetPostal; }
+['fullName','mobile','email','propType','hdbType'].forEach(key=>{
   const val = params.get(key);
   if(!val) return;
   const el = document.querySelector(`[name="${key}"]`);
@@ -657,6 +681,24 @@ function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f
 let detectedAddress = '';
 const postalEl = document.getElementById('postalCode');
 const addrBox = document.getElementById('addrDetected');
+
+// "Get Joe's valuation" from the sold-prices widget (JOE-392): carry the postal
+// code, property type and flat type into step 1 so the visitor only confirms.
+const HDB_TYPE_VALUE={'2 ROOM':'2-room','3 ROOM':'3-room','4 ROOM':'4-room','5 ROOM':'5-room','EXECUTIVE':'Executive'};
+document.getElementById('valEstimate')?.addEventListener('jte:valuation',e=>{
+  const d=e.detail||{};
+  postalEl.value=d.postal||'';
+  postalEl.dispatchEvent(new Event('input',{bubbles:true}));
+  const type=document.querySelector(`[name="propType"][value="${d.propType==='HDB'?'HDB':'Condo / Apartment'}"]`);
+  if(type){ type.checked=true; type.dispatchEvent(new Event('change',{bubbles:true})); }
+  const flat=HDB_TYPE_VALUE[d.flatType]&&document.querySelector(`[name="hdbType"][value="${HDB_TYPE_VALUE[d.flatType]}"]`);
+  if(flat) flat.checked=true;
+  const card=document.querySelector('.val-card');
+  card.scrollIntoView({behavior:'smooth',block:'start'});
+  card.querySelector('[data-next]')?.focus({preventScroll:true});
+});
+// Run address detection for a ?postal= preset once the listener below is attached.
+setTimeout(()=>{ if(postalEl.value) postalEl.dispatchEvent(new Event('input',{bubbles:true})); },0);
 
 postalEl.addEventListener('input', debounce(async ()=>{
   const code = postalEl.value.trim();
@@ -837,6 +879,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 showStep(0,false);
 </script>
+<script type="module" src="/assets/block-estimate.js"></script>
 <script src="/assets/conversion-tracking.js" defer></script>
 <div class="jt-cb" data-jt-consent-banner id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
   <p><strong id="jtConsentBannerHeading">Your cookie choice</strong> — Accept optional cookies for Google analytics and Google/Meta advertising, including personalization. No thanks keeps optional tracking off. Browsing is not consent. <a href="/privacy-policy.html">Privacy Policy &amp; withdrawal</a>.</p>
