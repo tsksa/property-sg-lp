@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
+import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
@@ -923,6 +924,7 @@ ${heroPreloadHtml(project)}
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
+${SITE_THEME_ASSETS_HTML}
 ${mobileHeaderAssetsHtml()}
 </head>`;
 }
@@ -931,7 +933,7 @@ function renderNewPage(project) {
   return `${head(project)}
 <body data-generated-project-page="true" data-project-slug="${esc(project.slug)}">
 <a class="skip-link" href="#main">Skip to content</a><div class="nl-progress" aria-hidden="true"></div>
-<header class="nl-topbar"><div class="nl-topbar-inner"><a href="/" class="nl-logo">PropertySG</a><nav class="nl-nav" aria-label="Primary"><a href="/">Home</a><a href="/new-launches/">All Launches</a><a href="/insights/">Insights</a><a href="/#book" class="nl-nav-cta">Book a Call</a></nav></div></header>
+${siteHeaderHtml({ pagePath: `/new-launches/${project.slug}.html` })}
 <nav class="nl-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/new-launches/">New Launches</a><span class="sep">›</span><span aria-current="page">${esc(project.name)}</span></nav>
 <main id="main" tabindex="-1">
 <section class="${heroAttrs(project).className}"${heroAttrs(project).style} aria-labelledby="page-hero-title"><div class="project-hero-inner"><div><div class="district-tag">${esc(project.district)} · ${esc(project.region)} · ${esc(PROPERTY_TYPES[project.propertyType])}</div><h1 id="page-hero-title">${esc(project.name)}</h1><p class="project-hero-desc">${esc(description(project))}</p><div class="project-hero-price"><strong>${esc(marketCopy(project))}</strong></div>${heroCtas(project)}${statsHtml(project)}</div>${formCard(project)}</div></section>

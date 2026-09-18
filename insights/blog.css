@@ -8,16 +8,6 @@ a{color:var(--emerald-aa);text-decoration:none}
 a:hover{text-decoration:underline}
 
 /* ── Topbar ── */
-.blog-topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,0.06)}
-.blog-topbar-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
-.blog-logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.18rem;letter-spacing:-0.5px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
-.blog-logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
-.blog-nav{display:flex;gap:24px;align-items:center}
-.blog-nav a{color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;text-decoration:none;transition:color .15s}
-.blog-nav a:hover{color:#fff;text-decoration:none}
-.blog-nav .blog-nav-cta{background:var(--emerald-aa);color:#fff;padding:9px 18px;border-radius:8px;font-weight:600;font-size:0.85rem;transition:background .2s}
-.blog-nav .blog-nav-cta:hover{background:var(--emerald-dark)}
-@media(max-width:720px){.blog-nav a:not(.blog-nav-cta){display:none}}
 
 /* ── Page layout ── */
 .blog-main{max-width:780px;margin:0 auto;padding:56px 24px 96px}
@@ -142,8 +132,6 @@ a:hover{text-decoration:underline}
 /* ── Print styles — clean reading copy for paper / PDF ── */
 @media print {
   /* Hide site chrome and CTAs that have no meaning on paper */
-  .blog-topbar,
-  .blog-nav,
   .blog-footer,
   .article-cta,
   .cta-block {

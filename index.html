@@ -269,23 +269,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .skip-to-content{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip-to-content:focus{position:fixed;left:16px;top:16px;width:auto;height:auto;padding:12px 20px;background:var(--emerald);color:#fff;font-weight:600;text-decoration:none;border-radius:8px;z-index:1000;box-shadow:0 4px 24px rgba(0,0,0,0.3);outline:2px solid #fff;outline-offset:2px}
 
-/* ── Primary navigation ── */
-.site-nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(6,20,48,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;color:#fff}
-.site-nav .logo{display:inline-flex;align-items:baseline;gap:7px;color:#fff;white-space:nowrap}
-.site-nav .logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.5px}
-.site-nav .logo-brand{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.62)}
-.site-nav .nav-links{display:flex;gap:32px;font-size:0.85rem;font-weight:500;color:rgba(255,255,255,.76)}
-.site-nav .nav-links a:hover{color:#fff}
-.nav-burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;background:none;border:none;cursor:pointer;padding:0;margin-left:8px}
-.nav-burger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .25s ease}
-.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-burger.open span:nth-child(2){opacity:0}
-.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.site-nav .nav-cta{background:var(--emerald);color:#062d24;padding:10px 24px;border-radius:100px;font-size:0.82rem;font-weight:700;transition:all .25s}
-.site-nav .nav-cta:hover{background:#6ee7b7;transform:scale(1.02)}
-
 /* ── Hero ── */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:128px 32px 88px;position:relative;overflow:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05080f;padding:72px 32px 88px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:0;background-image:url('joetay-social-preview-640.webp');background-size:cover;background-position:center;transform:scale(1.05);animation:heroZoom 20s ease-out forwards}
 @media(min-width:641px){.hero-bg{background-image:url('joetay-social-preview-1280.webp')}}
 @media(min-width:1281px){.hero-bg{background-image:url('joetay-social-preview-1920.webp')}}
@@ -559,11 +544,6 @@ footer{background:var(--cream);border-top:1px solid #eee;padding:40px 48px;displ
 
 /* ── Dark Mode (brand-aligned navy + emerald) ── */
 body.dark-mode{background:#030a1a;color:#e8ecf3}
-body.dark-mode .site-nav{background:rgba(6,20,48,0.94);border-bottom-color:rgba(16,185,129,0.14)}
-body.dark-mode .site-nav .logo{color:#fff}
-body.dark-mode .site-nav .nav-links{color:rgba(232,236,243,0.7)}
-body.dark-mode .site-nav .nav-links a:hover{color:var(--emerald)}
-body.dark-mode .nav-burger span{background:#e8ecf3}
 body.dark-mode .logo-bar{background:var(--navy);border-bottom-color:rgba(255,255,255,0.05)}
 body.dark-mode .logo-bar p{color:rgba(232,236,243,0.45)}
 body.dark-mode .logo-bar .logos span{color:#fff}
@@ -685,11 +665,6 @@ body.dark-mode .footer-newsletter-form button:hover{background:#0ea371}
 }
 body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 
-/* ── Dark Mode Toggle ── */
-.dark-toggle{position:static;width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:transform .25s,opacity .2s,visibility .2s}
-.dark-toggle-label{display:none}
-.dark-toggle:hover{transform:scale(1.1)}
-body.dark-mode .dark-toggle{background:#13294d;border-color:rgba(16,185,129,0.25);color:#fff}
 
 /* ── Micro-interactions ── */
 .micro-bounce{transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
@@ -779,8 +754,6 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 .cookie-banner button{flex-shrink:0;background:var(--emerald-aa);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:background .2s}
 .cookie-banner #cookieDecline{background:transparent;border:1px solid rgba(255,255,255,0.35);font-weight:600;color:rgba(255,255,255,0.85)}
 .cookie-banner #cookieDecline:hover{border-color:rgba(255,255,255,0.6)}
-/* Keep first-visit controls from competing while consent needs a decision. */
-body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-events:none}
 .cookie-banner button:hover{background:var(--emerald-dark)}
 /* Anchored to the top on mobile. Bottom-anchored, it sat just above the sticky call
    bar — which is exactly where the hero form's submit button sits — so the banner
@@ -843,26 +816,10 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
   .hero-testimonial{margin:0 auto;text-align:center;border-left:0;padding-left:0}
   .hero-form{margin:0 auto}
 }
-@media(max-width:1024px){
-  body.mobile-nav-open{overflow:hidden}
-  body.mobile-nav-open .cookie-banner.show{visibility:hidden;pointer-events:none}
-  .site-nav{padding:0 20px}
-  .site-nav .logo{gap:5px}
-  .site-nav .logo-brand{font-size:.58rem}
-  .site-nav .nav-cta{padding:10px 16px;font-size:.78rem;white-space:nowrap}
-  .nav-burger{display:flex}
-  .site-nav .nav-links{display:none;position:absolute;top:100%;right:0;left:0;height:calc(100dvh - 100% - 3px);flex-direction:column;gap:0;padding:10px 20px max(24px,env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;background:rgba(6,20,48,.985);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 16px 40px rgba(0,0,0,.28)}
-  .site-nav .nav-links.open{display:flex}
-  .site-nav .nav-links a{display:flex;align-items:center;min-height:44px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.08);font-size:0.95rem;color:rgba(255,255,255,.88)}
-  .site-nav .nav-links a:last-child{border-bottom:none}
-  .site-nav .nav-links .dark-toggle{position:static;width:100%;height:44px;justify-content:flex-start;gap:10px;border:0;border-radius:0;border-top:1px solid rgba(255,255,255,.08);background:transparent;box-shadow:none;font-size:.95rem;color:#fff}
-  .site-nav .nav-links .dark-toggle:hover{transform:none;color:var(--emerald)}
-  .site-nav .nav-links .dark-toggle-label{display:inline;font-size:.82rem;font-weight:600}
-}
 @media(max-width:768px){
   /* 92px still leaves 25px of clear space below the 67px-tall fixed nav; the
      reclaimed 12px is what brings the submit button clear of the sticky call bar. */
-  .hero{padding:92px 20px 72px;min-height:100svh}
+  .hero{padding:56px 20px 72px;min-height:100svh}
   .hero h1{letter-spacing:-1px}
   .hero-inner{gap:28px}
   .hero-tag{margin-bottom:18px}
@@ -911,12 +868,6 @@ body:has(.cookie-banner.show) .dark-toggle{opacity:0;visibility:hidden;pointer-e
 @keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:0.45}50%{transform:translateX(-50%) translateY(6px);opacity:0.85}}
 @media(max-width:768px){.scroll-hint{display:none}}
 
-/* — Nav logomark dot + scroll intensify — */
-.site-nav .logo{display:inline-flex;align-items:center;gap:10px}
-.site-nav .logo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5);animation:logoPulse 2.6s ease-in-out infinite}
-@keyframes logoPulse{0%,100%{box-shadow:0 0 0 3px rgba(16,185,129,0.18),0 0 12px rgba(16,185,129,0.5)}50%{box-shadow:0 0 0 5px rgba(16,185,129,0.10),0 0 20px rgba(16,185,129,0.75)}}
-.site-nav.scrolled{background:rgba(6,20,48,.98);box-shadow:0 1px 20px rgba(0,0,0,.28);height:60px}
-body.dark-mode .site-nav.scrolled{background:rgba(6,20,48,0.98);box-shadow:0 1px 20px rgba(0,0,0,0.4)}
 
 /* — Trust strip: pulsing dots — */
 .trust-dot{animation:dotPulse 2s ease-in-out infinite}
@@ -993,14 +944,6 @@ body.dark-mode .problem::before,body.dark-mode .testimonials::before{background:
 .hero-testimonial em{font-style:italic;color:rgba(255,255,255,0.9);display:block}
 .hero-testimonial cite{font-style:normal;display:block;color:rgba(255,255,255,0.58);font-size:0.72rem;margin-top:7px;letter-spacing:0.2px}
 
-/* Nav — phone + CTA group */
-.nav-right{display:flex;align-items:center;gap:18px}
-.nav-phone{display:inline-flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,.86);transition:color .2s;letter-spacing:-0.1px}
-.nav-phone:hover{color:var(--emerald)}
-.nav-phone svg{width:13px;height:13px;fill:var(--emerald);flex-shrink:0}
-body.dark-mode .nav-phone{color:#fff}
-body.dark-mode .nav-phone:hover{color:var(--emerald)}
-@media(max-width:900px){.nav-phone{display:none}}
 
 /* Mobile sticky bar — show phone number */
 .mobile-bar .mb-call{flex-direction:row;gap:10px;align-items:center;text-align:left}
@@ -1165,33 +1108,54 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
+<link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
+<script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-<nav class="site-nav" aria-label="Primary">
-  <a class="logo" href="/"><span class="logo-name">Joe Tay</span><span class="logo-brand">PropertySG</span></a>
-  <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-links" id="navLinks">
-    <a href="/valuation.html">Valuation</a>
-    <a href="/neighbour-prices/">Sold Prices</a>
-    <a href="/new-launches/">New Launches</a>
-    <a href="/calculator/">Calculator</a>
-    <a href="/stamp-duty-calculator/">Stamp Duty</a>
-    <a href="/about-joe/">About Joe</a>
-    <a href="/insights/">Insights</a>
-    <button class="dark-toggle jt-theme-toggle" id="darkToggle" type="button" data-jt-theme-toggle aria-label="Switch to dark mode" aria-pressed="false"><span data-jt-theme-icon aria-hidden="true">☾</span><span class="dark-toggle-label" data-jt-theme-label>Dark</span></button>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
+      <a href="/insights/">Insights</a>
+      <a href="/calculator/">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
+    </nav>
   </div>
-  <div class="nav-right">
-    <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="nav-phone" aria-label="Call Joe at +65 8188 1488">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.57.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.57 1 1 0 01-.24 1.05l-2.21 2.17z"/></svg>
-      +65 8188 1488
-    </a>
-    <a href="#book" class="nav-cta">Sell with Joe</a>
-  </div>
-</nav>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <!-- Hero -->
 <section class="hero" id="main" tabindex="-1" aria-label="Hero — free property valuation">
@@ -2498,50 +2462,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   ].forEach(([id,leadType])=>jtObserveLeadForm(document.getElementById(id),{leadType}));
 });
 
-// Mobile nav (hamburger)
-const navBurger=document.getElementById('navBurger');
-const navLinksEl=document.getElementById('navLinks');
-if(navBurger&&navLinksEl){
-  const navCta=document.querySelector('.site-nav .nav-cta');
-  const mobileNavQuery=window.matchMedia('(max-width: 1024px)');
-  const navFocusable=()=>[navBurger,...navLinksEl.querySelectorAll('a[href],button:not([disabled])'),navCta].filter(Boolean);
-  const setNav=(open,restoreFocus=false)=>{
-    open=Boolean(open&&mobileNavQuery.matches);
-    navLinksEl.classList.toggle('open',open);
-    navBurger.classList.toggle('open',open);
-    navBurger.setAttribute('aria-expanded',open?'true':'false');
-    navBurger.setAttribute('aria-label',open?'Close menu':'Open menu');
-    document.body.classList.toggle('mobile-nav-open',open);
-    if(open) navLinksEl.querySelector('a[href],button:not([disabled])')?.focus();
-    else if(restoreFocus) navBurger.focus();
-  };
-  navBurger.addEventListener('click',()=>setNav(!navLinksEl.classList.contains('open'),true));
-  navLinksEl.addEventListener('click',e=>{if(e.target.tagName==='A')setNav(false);});
-  document.addEventListener('keydown',e=>{
-    if(!navLinksEl.classList.contains('open')) return;
-    if(e.key==='Escape'){
-      setNav(false,true);
-      return;
-    }
-    if(e.key==='Tab'){
-      const focusable=navFocusable();
-      const first=focusable[0];
-      const last=focusable[focusable.length-1];
-      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
-      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
-    }
-  });
-  document.addEventListener('click',e=>{if(navLinksEl.classList.contains('open')&&!e.target.closest('.site-nav'))setNav(false);});
-  mobileNavQuery.addEventListener('change',e=>{if(!e.matches)setNav(false);});
-}
 
-// Progress bar + nav intensify
-const _nav=document.querySelector('.site-nav');
+// Progress bar + back to top
 const _backToTop=document.getElementById('backToTop');
 window.addEventListener('scroll',()=>{
   const h=document.documentElement.scrollHeight-window.innerHeight;
   document.getElementById('progressBar').style.width=(window.scrollY/h*100)+'%';
-  if(_nav) _nav.classList.toggle('scrolled',window.scrollY>24);
   if(_backToTop) _backToTop.classList.toggle('visible',window.scrollY>600);
 },{passive:true});
 if(_backToTop){

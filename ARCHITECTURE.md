@@ -48,6 +48,7 @@ Browser ──► Netlify CDN ── 72 static HTML pages (no build step; publis
 |---|---|---|
 | Validate | `.github/workflows/validate.yml` | JSON-LD parse on every page, sitemap/feeds/manifest/function syntax |
 | Consistency guard | `scripts/check-consistency.mjs` (`npm run check`, in Validate) | the per-page invariants above; drift fails the build |
+| Shared header | `scripts/apply-site-header.mjs --check` (`npm run check`) | one header (`scripts/lib/site-header.mjs`) on every indexable page except the ad landers; replaced the nine per-template variants on 2026-09-17 |
 | Lighthouse | `.github/workflows/lighthouse.yml` | perf ≥0.85 warn, a11y ≥0.9 **error**, on push to main |
 | Canary | `.github/workflows/canary.yml` | live prod every 2h: pages, lead-function preflight/CORS/validation, SEO surfaces, NAS soft-check |
 

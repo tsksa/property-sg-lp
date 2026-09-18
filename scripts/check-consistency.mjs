@@ -328,11 +328,11 @@ for (const file of pages) {
     // scroll the whole page before anything asked for the lead. The header nav
     // carries the only above-the-fold conversion path, so assert it survives a
     // regeneration rather than trusting the generator.
-    const headerBlock = s.match(/<header class="topbar">[\s\S]*?<\/header>/)?.[0] || '';
-    if (!headerBlock.includes('data-jt-header-nav')) {
-      fail(file, 'estate page header is missing the shared nav (no above-the-fold conversion path)');
-    } else if (!headerBlock.includes('href="/valuation.html"')) {
-      fail(file, 'estate page header nav has no /valuation.html CTA');
+    const headerBlock = s.match(/<header class="jt-sh" data-jt-site-header>[\s\S]*?<\/header>/)?.[0] || '';
+    if (!headerBlock) {
+      fail(file, 'estate page is missing the shared site header (no above-the-fold conversion path)');
+    } else if (!headerBlock.includes('href="/valuation.html"') || !headerBlock.includes('wa.me/')) {
+      fail(file, 'estate page header has lost its valuation link or WhatsApp CTA');
     }
   }
 

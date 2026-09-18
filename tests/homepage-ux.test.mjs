@@ -26,34 +26,26 @@ test('Ms Lai review is first, sourced and consistent with its structured data', 
   assert.match(html, /\.testi-card\{transform:none!important\}/);
 });
 
-test('only the primary homepage navigation is fixed', () => {
+test('the homepage uses the shared sticky header and only the footer stays static', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /\.site-nav\{position:fixed;/);
+  assert.match(homepage, /<header class="jt-sh" data-jt-site-header>/);
+  assert.doesNotMatch(homepage, /\.site-nav\{|<nav class="site-nav"|id="navBurger"|mobile-nav-open|id="darkToggle"/);
   assert.doesNotMatch(homepage, /(?:^|\n)nav\{position:fixed;/);
-  assert.match(homepage, /<nav class="site-nav" aria-label="Primary">/);
   assert.match(homepage, /<nav class="jt-sf" data-jt-site-footer/);
 
   const footerRule = homepage.match(/\.jt-sf\{([^}]*)\}/)?.[1] ?? '';
   assert.doesNotMatch(footerRule, /position\s*:\s*fixed/);
 });
 
-test('mobile navigation state is scoped to the primary header', () => {
+test('mobile navigation and the theme toggle come from the shared assets', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /\.site-nav \.nav-links\.open\{display:flex\}/);
-  assert.match(homepage, /body\.mobile-nav-open\{overflow:hidden\}/);
-  assert.match(homepage, /body\.mobile-nav-open \.cookie-banner\.show\{visibility:hidden;pointer-events:none\}/);
-  assert.match(homepage, /\.site-nav \.nav-links\{display:none;position:absolute;top:100%;right:0;left:0;height:calc\(100dvh - 100% - 3px\);/);
-  assert.match(homepage, /document\.body\.classList\.toggle\('mobile-nav-open',open\)/);
-  assert.match(homepage, /if\(e\.key==='Escape'\)\{\s*setNav\(false,true\)/);
-  assert.match(homepage, /if\(e\.key==='Tab'\)\{/);
-  assert.match(homepage, /mobileNavQuery\.addEventListener\('change',e=>\{if\(!e\.matches\)setNav\(false\);\}\)/);
-  assert.match(homepage, /id="darkToggle"[^>]*data-jt-theme-toggle[^>]*aria-label="Switch to dark mode"[^>]*aria-pressed="false"/);
-  assert.match(homepage, /<span class="dark-toggle-label" data-jt-theme-label>Dark<\/span>/);
-  assert.match(homepage, /e\.target\.closest\('\.site-nav'\)/);
-  assert.match(homepage, /document\.querySelector\('\.site-nav'\)/);
-  assert.doesNotMatch(homepage, /e\.target\.closest\('nav'\)/);
+  assert.match(homepage, /<link rel="stylesheet" href="\/assets\/mobile-header\.css" data-jt-mobile-header-assets>/);
+  assert.match(homepage, /<script src="\/assets\/mobile-header\.js" defer data-jt-mobile-header-assets><\/script>/);
+  assert.match(homepage, /<script src="\/assets\/site-theme\.js"><\/script>/);
+  // The hero no longer pads for a fixed nav; the shared header is in flow.
+  assert.match(homepage, /\.hero\{[^}]*padding:72px 32px 88px/);
 });
 
 test('homepage lead form provides persistent accessible field errors', () => {
@@ -78,17 +70,14 @@ test('consultation stays primary while valuation is a quiet secondary action', (
   assert.doesNotMatch(homepage, /hero-or-divider/);
 });
 
-test('homepage navigation aligns with the Joe authority page', () => {
-  const homepage = read('index.html');
-  const profile = read('about-joe/index.html');
-
-  assert.match(
-    homepage,
-    /<a class="logo" href="\/">\s*<span class="logo-name">Joe Tay<\/span><span class="logo-brand">PropertySG<\/span>\s*<\/a>/,
-  );
-  for (const label of ['Valuation', 'Insights', 'Sell with Joe']) {
-    assert.ok(homepage.includes(`>${label}</a>`), `homepage is missing ${label}`);
-    assert.ok(profile.includes(`>${label}</a>`), `profile is missing ${label}`);
+test('homepage navigation is the same header the Joe authority page uses', () => {
+  const header = (rel) => read(rel).match(/<header class="jt-sh" data-jt-site-header>[\s\S]*?<\/style>\s*<\/header>/)?.[0].replace(/ aria-current="page"/g, '');
+  const homepage = header('index.html');
+  assert.ok(homepage);
+  assert.equal(header('about-joe/index.html'), homepage);
+  assert.match(homepage, /<span class="jt-mh-logo-name">Joe Tay<\/span><span class="jt-mh-logo-brand">PropertySG<\/span>/);
+  for (const label of ['Valuation', 'Insights', 'About Joe', 'WhatsApp Joe']) {
+    assert.ok(homepage.includes(`>${label}</a>`), `header is missing ${label}`);
   }
 });
 

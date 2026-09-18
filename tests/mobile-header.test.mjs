@@ -28,8 +28,9 @@ test('the shared mobile menu exposes every core destination', () => {
   }
 });
 
-test('all four audited hub families load the shared assets', () => {
+test('the hub families and the homepage load the shared assets', () => {
   for (const rel of [
+    'index.html',
     'new-launches/index.html',
     'neighbour-prices/index.html',
     'insights/index.html',

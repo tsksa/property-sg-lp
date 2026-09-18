@@ -3,7 +3,7 @@
 .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px}
 .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.88)}
 
-@media(max-width:768px){
+@media(max-width:1024px){
   body.jt-mobile-nav-open{overflow:hidden}
   body.jt-mobile-nav-open .jt-cb.show,
   body.jt-mobile-nav-open .cookie-banner.show{visibility:hidden;pointer-events:none}
