@@ -284,6 +284,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Hero Form */
 .hero-form{background:rgba(8,20,39,0.76);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:32px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:12px;width:100%;max-width:460px;margin:0 0 0 auto;box-shadow:0 28px 70px rgba(0,0,0,0.3)}
+.hero-consult{display:flex;flex-direction:column;gap:12px}
+.hero-consult[hidden]{display:none}
+.hero-card .hero-talk{align-self:flex-start;font-size:.85rem}
 .hero-form-heading{font-family:'Fraunces',Georgia,serif;font-size:1.45rem;line-height:1.2;color:#fff;margin-bottom:2px}
 .hero-form-intro{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.68);margin-bottom:6px}
 .hero-form-row{display:flex;gap:12px}
@@ -1106,6 +1109,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 </style>
 <link rel="alternate" type="application/atom+xml" title="PropertySG Insights" href="https://joetay.com/insights/feed.xml">
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
+<link rel="preconnect" href="https://www.onemap.gov.sg">
+<link rel="preconnect" href="https://data.gov.sg">
+<link rel="stylesheet" href="/assets/block-estimate.css">
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
@@ -1173,49 +1179,67 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <cite>Mr Ng · HDB Seller, Serangoon North · Verified</cite>
       </div>
     </div>
-    <form class="hero-form" id="heroForm" aria-labelledby="heroFormTitle" novalidate>
-      <h2 id="heroFormTitle" class="hero-form-heading">Plan your next property move</h2>
-      <p class="hero-form-intro">Tell me where you are now. I’ll reply personally with a practical next step.</p>
-      <div class="hero-form-row">
-        <div class="hero-field">
-          <label for="hero-name" class="sr-only">Your name</label>
-          <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words" aria-describedby="hero-name-error">
-          <p class="hero-field-error" id="hero-name-error" hidden>Please enter your name.</p>
-        </div>
-        <div class="hero-field">
-          <label for="hero-phone" class="sr-only">Phone number</label>
-          <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off" aria-describedby="hero-phone-error">
-          <p class="hero-field-error" id="hero-phone-error" hidden>Enter an 8-digit Singapore phone number starting with 6, 8, or 9.</p>
-        </div>
+    <div class="hero-form hero-card" id="heroCard">
+      <div class="jte" data-jt-estimate data-context="home" id="heroEstimate">
+        <h2 class="jte-heading" id="heroEstimateTitle">What did flats in your block sell for?</h2>
+        <p class="jte-intro">Enter your postal code for real sales and an indicative range in seconds. No name or phone needed.</p>
+        <form class="jte-form" action="/neighbour-prices/" method="get" novalidate aria-labelledby="heroEstimateTitle">
+          <label class="jte-label" for="heroPostal">Your postal code</label>
+          <div class="jte-row">
+            <input class="jte-input" id="heroPostal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="postal-code" placeholder="e.g. 560123" required>
+            <button type="submit" class="jte-go">Show sold prices</button>
+          </div>
+          <p class="jte-error" role="alert" hidden></p>
+          <p class="jte-status" role="status" aria-live="polite"></p>
+        </form>
+        <p class="jte-pulse" data-jte-pulse hidden></p>
+        <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
+        <button type="button" class="jte-link hero-talk" id="heroTalkLink">Rather talk to Joe first? Leave your number</button>
       </div>
-      <div class="hero-form-row">
-        <div class="hero-field">
-          <label for="hero-proptype" class="sr-only">Property type</label>
-          <select id="hero-proptype" name="propType" required aria-describedby="hero-proptype-error">
-            <option value="" disabled selected>Property type</option>
-            <option>HDB</option>
-            <option>Condo</option>
-            <option>Landed</option>
-            <option>Commercial</option>
-          </select>
-          <p class="hero-field-error" id="hero-proptype-error" hidden>Select your property type.</p>
+      <form class="hero-consult" id="heroForm" aria-labelledby="heroFormTitle" novalidate hidden>
+        <h2 id="heroFormTitle" class="hero-form-heading">Plan your next property move</h2>
+        <p class="hero-form-intro">Tell me where you are now. I’ll reply personally with a practical next step.</p>
+        <div class="hero-form-row">
+          <div class="hero-field">
+            <label for="hero-name" class="sr-only">Your name</label>
+            <input id="hero-name" type="text" name="name" placeholder="Your name" autocomplete="name" required autocapitalize="words" aria-describedby="hero-name-error">
+            <p class="hero-field-error" id="hero-name-error" hidden>Please enter your name.</p>
+          </div>
+          <div class="hero-field">
+            <label for="hero-phone" class="sr-only">Phone number</label>
+            <input id="hero-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off" aria-describedby="hero-phone-error">
+            <p class="hero-field-error" id="hero-phone-error" hidden>Enter an 8-digit Singapore phone number starting with 6, 8, or 9.</p>
+          </div>
         </div>
-      </div>
-      <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Send me the monthly Singapore property update.</span></label>
-      <div class="hero-validation-summary" id="heroValidation" role="alert" aria-live="assertive" tabindex="-1" hidden>Please correct the highlighted fields.</div>
-      <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
-      <noscript>
-        <div style="margin-top:14px;padding:12px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:8px;font-size:0.86rem;color:rgba(255,255,255,0.92);line-height:1.5">
-          <strong>JavaScript required.</strong> Enable JS to submit this form, or reach Joe directly:<br>
-          <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp +65 8188 1488</a>
-          ·
-          <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
+        <div class="hero-form-row">
+          <div class="hero-field">
+            <label for="hero-proptype" class="sr-only">Property type</label>
+            <select id="hero-proptype" name="propType" required aria-describedby="hero-proptype-error">
+              <option value="" disabled selected>Property type</option>
+              <option>HDB</option>
+              <option>Condo</option>
+              <option>Landed</option>
+              <option>Commercial</option>
+            </select>
+            <p class="hero-field-error" id="hero-proptype-error" hidden>Select your property type.</p>
+          </div>
         </div>
-      </noscript>
-      <span class="hero-response">Direct reply from Joe · No obligation</span>
-      <button type="button" class="hero-valuation-link" id="heroValuationLink">Need a price estimate instead? Get a free valuation <span class="arrow-sm" aria-hidden="true">→</span></button>
-      <p class="hero-form-note">Spam-protected. Your details stay private. By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
-    </form>
+        <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Send me the monthly Singapore property update.</span></label>
+        <div class="hero-validation-summary" id="heroValidation" role="alert" aria-live="assertive" tabindex="-1" hidden>Please correct the highlighted fields.</div>
+        <button type="submit" class="cta-submit">Get Free Consultation <span class="arrow">→</span></button>
+        <noscript>
+          <div style="margin-top:14px;padding:12px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);border-radius:8px;font-size:0.86rem;color:rgba(255,255,255,0.92);line-height:1.5">
+            <strong>JavaScript required.</strong> Enable JS to submit this form, or reach Joe directly:<br>
+            <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp +65 8188 1488</a>
+            ·
+            <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call</a>
+          </div>
+        </noscript>
+        <span class="hero-response">Direct reply from Joe · No obligation</span>
+        <button type="button" class="hero-valuation-link" id="heroBackToEstimate"><span class="arrow-sm" aria-hidden="true">←</span> Back to sold prices</button>
+        <p class="hero-form-note">Spam-protected. Your details stay private. By submitting you agree to my <a href="privacy-policy.html">Privacy Policy</a>.</p>
+      </form>
+    </div>
   </div>
   <a href="#problem" class="scroll-hint" aria-label="Scroll down">
     <span>Scroll</span>
@@ -2221,11 +2245,29 @@ heroForm.addEventListener('submit',e=>{
   "I'll WhatsApp you within 24 hours. No spam, no cold calls.");
 });
 
-// Secondary hero CTA — opens the valuation popup directly. Hero fields that are
-// already filled carry over; missing ones are collected inside the popup itself.
-document.getElementById('heroValuationLink').addEventListener('click',()=>{
-  const f=document.getElementById('heroForm');
-  openValPopup(f.name.value.trim(),f.phone.value.trim(),f.propType.value,f.newsletter_opt_in?.checked?1:0);
+// Estimate-first hero (JOE-392): the postal-code widget is the default view;
+// the consultation form is one click away and hands back to it.
+const heroEstimate=document.getElementById('heroEstimate');
+function showHeroConsult(show){
+  heroForm.hidden=!show;
+  heroEstimate.hidden=show;
+  (show?document.getElementById('hero-name'):document.getElementById('heroPostal')).focus();
+}
+document.getElementById('heroTalkLink').addEventListener('click',()=>{
+  try{if(typeof gtag==='function')gtag('event','estimate_cta',{cta:'talk'});}catch(_e){}
+  showHeroConsult(true);
+});
+document.getElementById('heroBackToEstimate').addEventListener('click',()=>showHeroConsult(false));
+// "Get Joe's valuation" from the estimate: open the valuation popup with the
+// postal code and flat type already filled, so the visitor only adds contact details.
+const HDB_TYPE_OPTION={'2 ROOM':'2-room','3 ROOM':'3-room','4 ROOM':'4-room','5 ROOM':'5-room','EXECUTIVE':'Executive'};
+heroEstimate.addEventListener('jte:valuation',e=>{
+  const d=e.detail||{};
+  openValPopup('','',d.propType==='HDB'?'HDB':'Condo',0);
+  valPostalInput.value=d.postal||'';
+  valPostalInput.dispatchEvent(new Event('input',{bubbles:true}));
+  const hdbType=document.getElementById('valHdbType');
+  if(HDB_TYPE_OPTION[d.flatType]) hdbType.value=HDB_TYPE_OPTION[d.flatType];
 });
 
 // ── Valuation Popup (from hero form "Get valuation") ──
@@ -2642,6 +2684,7 @@ document.addEventListener('keydown',e=>{
   });
 })();
 </script>
+<script type="module" src="/assets/block-estimate.js"></script>
 <script src="/assets/conversion-tracking.js" defer></script>
 <!-- Service worker for offline support (Singapore MRT tunnel reality check) -->
 <script>
