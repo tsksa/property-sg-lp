@@ -176,11 +176,12 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 .vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
 .vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
 .vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
-.vc-trend{font-size:0.85rem;color:#3d4756;margin-top:6px}
+.vc-trend{font-size:0.82rem;color:#3d4756;margin-top:6px;line-height:1.5}
+.vc-trend strong{color:var(--navy)}
 @media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
 @media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
 html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
-html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd){color:#f8fafc}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd,.vc-trend strong){color:#f8fafc}
 html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
 html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
 html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}
@@ -281,24 +282,24 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <p class="vc-v" data-vc-median>$1,220,000</p>
       <p class="vc-range">Half of all sales fell between <strong>$860,000</strong> and <strong>$1,586,000</strong></p>
       <dl class="vc-facts">
-        <div><dt>Year on year</dt><dd class="up">+30.1%</dd></div>
+        <div><dt>Median, year on year</dt><dd class="up">+30.1%</dd></div>
         <div><dt>Median $psf</dt><dd>$1,151</dd></div>
         <div><dt>Sales</dt><dd>93</dd></div>
       </dl>
       <p class="vc-note">Median of 93 sales in the 12 months to Aug 2026, resale condos and apartments.</p>
     </div>
     <figure class="vc-chart">
-      <figcaption><span class="vc-ck">Price per sq ft</span><span class="vc-cs">3-month rolling median</span></figcaption>
+      <figcaption><span class="vc-ck">Price per sq ft, like for like</span><span class="vc-cs">3-month rolling</span></figcaption>
       <svg class="vc-svg" viewBox="0 0 320 150" role="img" aria-labelledby="vc-t" preserveAspectRatio="xMidYMid meet">
-      <title id="vc-t">Median price per square foot by month, Sep 2025 to Aug 2026, each point pooling that month with the two before it. Latest $1,360 psf.</title>
+      <title id="vc-t">Price per square foot, like for like, Sep 2025 to Aug 2026: 3-month rolling medians weighted to the year's mix of sales. Latest $1,168 psf.</title>
       <line class="vc-grid" x1="46" x2="308" y1="124" y2="124"/><text class="vc-axis" x="40" y="128" text-anchor="end">$1,000</text><line class="vc-grid" x1="46" x2="308" y1="68" y2="68"/><text class="vc-axis" x="40" y="72" text-anchor="end">$1,200</text><line class="vc-grid" x1="46" x2="308" y1="12" y2="12"/><text class="vc-axis" x="40" y="16" text-anchor="end">$1,400</text>
-      <path class="vc-area" d="M46 124 L46 92.8 L69.8 94.7 L93.6 93 L117.5 74.6 L141.3 78.1 L165.1 95.2 L188.9 78.1 L212.7 81.2 L236.5 81.6 L260.4 78.2 L284.2 23.1 L308 23.1 L308 124 Z"/>
-      <path class="vc-line" d="M46 92.8 L69.8 94.7 L93.6 93 L117.5 74.6 L141.3 78.1 L165.1 95.2 L188.9 78.1 L212.7 81.2 L236.5 81.6 L260.4 78.2 L284.2 23.1 L308 23.1"/>
-      <circle class="vc-dot" cx="308" cy="23.1" r="4"/>
+      <path class="vc-area" d="M165.1 124 L165.1 70.4 L188.9 79.1 L212.7 88.5 L236.5 88.2 L260.4 77.8 L284.2 68.8 L308 77 L308 124 Z"/>
+      <path class="vc-line" d="M69.8 81.3 M117.5 103.6 M165.1 70.4 L188.9 79.1 L212.7 88.5 L236.5 88.2 L260.4 77.8 L284.2 68.8 L308 77"/>
+      <circle class="vc-dot" cx="308" cy="77" r="4"/>
       <text class="vc-axis" x="46" y="144" text-anchor="start">Sep 2025</text>
       <text class="vc-axis" x="308" y="144" text-anchor="end">Aug 2026</text>
     </svg>
-      <p class="vc-trend">Up 22.4% from $1,111 psf in Sep 2025 to $1,360 psf in Aug 2026.</p>
+      <p class="vc-trend"><strong>Up 1.3%</strong> like for like between Oct 2025 and Aug 2026. Weighted to the year’s mix of unit sizes and tenures, so a run of bigger or newer units selling does not show up as a price rise.</p>
     </figure>
   </section>
   <h2>Median price by size (last 12 months)</h2>

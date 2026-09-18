@@ -74,6 +74,11 @@ for (const r of rows) {
   byDistrict.get(r.district).push(r);
 }
 console.log(`${byDistrict.size} districts, ${rows.length} condo resale transactions, window to ${generatedAt}`);
+// The trend line groups sales by tenure. If URA ever drops or renames the
+// field, every sale lands in '?' and the line silently degrades to size-only
+// adjustment, so say how much of the data the grouping could read.
+const tenureRead = rows.filter((r) => tenureBand(r.tenure) !== '?').length;
+console.log(`tenure readable for ${((tenureRead / rows.length) * 100).toFixed(1)}% of sales (trend-line grouping)`);
 
 // Which districts clear the threshold and get a page (drives interlinking).
 const live = new Map(); // '01' -> stats
