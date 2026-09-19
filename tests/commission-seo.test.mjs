@@ -100,3 +100,17 @@ test('insights hub and feeds use the same search-focused title', () => {
   assert.ok(atom.includes(`<title>${ARTICLE_TITLE}</title>`));
   assert.equal(item?.title, ARTICLE_TITLE);
 });
+
+// The ad landers carried "2% is the Singapore industry standard" after the
+// homepage and article had been corrected. CEA does not fix commission rates,
+// so no page may present one as a standard (JOE-396).
+test('no seller or landlord page presents a commission rate as the industry standard', () => {
+  for (const file of ['index.html', 'sell/index.html', 'sell-hdb/singapore/index.html', 'zh/sell-hdb/index.html', 'rent-out/index.html']) {
+    const html = read(file);
+    assert.doesNotMatch(html, /industry[ -]standard|standard (commission|rate)|行业标准/i, `${file} presents a commission rate as a standard`);
+  }
+  for (const file of ['sell/index.html', 'sell-hdb/singapore/index.html']) {
+    assert.match(read(file), /No commission rate is fixed in Singapore/, `${file} lost the negotiable-commission wording`);
+  }
+  assert.match(read('zh/sell-hdb/index.html'), /中介佣金没有固定费率/);
+});
