@@ -112,8 +112,12 @@ test('glossary quick jumps use semantic list markup without invalid link roles',
   )?.[1];
 
   assert.ok(list, 'missing glossary table-of-contents list');
-  assert.equal((list.match(/<li>/g) || []).length, 18);
-  assert.equal((list.match(/<\/li>/g) || []).length, 18);
+  // One quick jump per glossary entry, each pointing at a real entry.
+  const termIds = [...html.matchAll(/<div class="g-term" id="([^"]+)">/g)].map((m) => m[1]);
+  assert.ok(termIds.length >= 18, `expected the glossary entries, found ${termIds.length}`);
+  assert.equal((list.match(/<li>/g) || []).length, termIds.length);
+  assert.equal((list.match(/<\/li>/g) || []).length, termIds.length);
+  assert.deepEqual([...list.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]), termIds, 'quick jumps must follow the entries in order');
   assert.doesNotMatch(list, /<a[^>]+role="listitem"/);
 });
 
