@@ -26,7 +26,7 @@ import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
 import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
-import { valueCardHtml, rollingPsfSeries, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -248,11 +248,18 @@ const indexRows = [];
 for (const town of towns) {
   const recs = byTown.get(town);
   const cur = stats(recs, window12);
-  const prev = stats(recs, prior12);
   if (cur.n < 20) { console.log(`  skip ${town} (only ${cur.n} tx in 12m)`); continue; }
   const t = title(town);
   const s = slug(town);
-  const yoy = prev.med ? ((cur.med - prev.med) / prev.med) * 100 : null;
+  // Like for like: the same flat types and lease ages compared with
+  // themselves, so a year with more newer flats selling is not reported as a
+  // price rise. See likeForLikeChange() in scripts/lib/value-card.mjs.
+  const likeForLike = {
+    monthOf: (r) => r.month,
+    psfOf: (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
+    stratumOf: (r) => `${r.flat_type}|${leaseBand(r.lease_commence_date)}`,
+  };
+  const yoy = likeForLikeChange(window12, prior12, recs, likeForLike);
 
   // per-flat-type table (12m)
   const types = ['2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM', 'EXECUTIVE', 'MULTI-GENERATION'];
@@ -273,12 +280,7 @@ for (const town of towns) {
 
   const desc = `${t} HDB resale prices from official data: 12-month median ${money(cur.med)} across ${cur.n} sales, median ${'$' + Math.round(cur.psf)} psf. Updated monthly.`.slice(0, 158);
 
-  const series = rollingPsfSeries(window12, recs, {
-    monthOf: (r) => r.month,
-    psfOf: (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
-    stratumOf: (r) => `${r.flat_type}|${leaseBand(r.lease_commence_date)}`,
-    level: cur.psf,
-  });
+  const series = rollingPsfSeries(window12, recs, { ...likeForLike, level: cur.psf });
   const body = `${valueCardHtml({
     heading: `Typical HDB resale price in ${t}`,
     prices: cur.inWin.map((r) => Number(r.resale_price)).filter(Number.isFinite),
