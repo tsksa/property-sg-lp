@@ -188,3 +188,11 @@ a:hover{text-decoration:underline}
   /* Images don't bleed past page margins */
   img { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
 }
+/* Article covers (JOE-398): the opening image, and the thumbnail on each
+   index card. Built by scripts/build-article-covers.mjs, placed by
+   scripts/apply-article-cover.mjs. */
+.article-cover{margin:-8px 0 36px}
+.article-cover img{display:block;width:100%;height:auto;border-radius:14px;background:#0b1e3f}
+.blog-card-img{display:block;margin:-32px -28px 22px;width:calc(100% + 56px)}
+.blog-card-img img{display:block;width:100%;height:auto;aspect-ratio:1200/630;border-radius:13px 13px 0 0;background:#0b1e3f}
+@media(max-width:600px){.article-cover{margin:-12px 0 28px}.article-cover img{border-radius:10px}}
