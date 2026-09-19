@@ -20,15 +20,19 @@ function resetResultActions() {
   }
 }
 
-function calculate(trackResult = false) {
+// The result updates as the visitor types (JOE-398), so `quiet` runs skip the
+// error message and never move focus mid-keystroke; pressing the button still
+// reports what is wrong and focuses the field.
+function calculate(trackResult = false, { quiet = false } = {}) {
   fields.forEach(field => field.removeAttribute('aria-invalid'));
   const invalid = fields.find(field => !field.validity.valid || field.value.trim() === '' || !Number.isFinite(field.valueAsNumber));
   if (invalid) {
     output.hidden = true;
+    if (quiet) return false;
     error.textContent = 'Enter a loan amount from S$0 to S$100,000,000, a rate from 0% to 100%, and a whole-number term from 1 to 25 years.';
     invalid.setAttribute('aria-invalid', 'true');
     invalid.focus();
-    return;
+    return false;
   }
   const principal = document.getElementById('repaymentPrincipal').valueAsNumber;
   const annualRatePercent = document.getElementById('repaymentRate').valueAsNumber;
@@ -71,22 +75,39 @@ function calculate(trackResult = false) {
   if (trackResult && typeof window.jtTrackCalculator === 'function') {
     window.jtTrackCalculator('repayment', 'result');
   }
+  return true;
+}
+
+// Live updates: recalculate shortly after typing stops. The first result the
+// visitor produces counts as a 'result' event, as the button press used to;
+// the defaults shown on load do not.
+let liveTimer;
+let liveTracked = false;
+function liveUpdate() {
+  clearTimeout(liveTimer);
+  liveTimer = setTimeout(() => {
+    const ok = calculate(false, { quiet: true });
+    if (ok && !liveTracked) {
+      liveTracked = true;
+      window.jtTrackCalculator?.('repayment', 'result');
+    }
+  }, 400);
 }
 
 form.addEventListener('submit', event => { event.preventDefault(); calculate(true); });
 form.addEventListener('input', () => {
   window.jtTrackCalculator?.('repayment', 'start');
-  output.hidden = true;
   error.textContent = '';
   fields.forEach(field => field.removeAttribute('aria-invalid'));
   resetResultActions();
+  liveUpdate();
 });
 document.getElementById('useHdbRate').addEventListener('click', () => {
   document.getElementById('repaymentRate').value = '2.6';
   document.getElementById('repaymentRate').removeAttribute('aria-invalid');
-  output.hidden = true;
   error.textContent = '';
   resetResultActions();
+  liveUpdate();
 });
 
 copyButton?.addEventListener('click', async () => {
