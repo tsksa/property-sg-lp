@@ -268,6 +268,50 @@ const cases = [
     background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
   },
   {
+    // Value card on the town and district price pages (JOE-394). The card is
+    // white in light mode and #102447 in dark mode.
+    name: 'value card small print, light',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.vc-note', 'color'],
+    background: '#ffffff',
+  },
+  {
+    name: 'value card labels, light',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.vc .vc-k', 'color'],
+    background: '#ffffff',
+  },
+  {
+    name: 'value card falling change, light',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.vc-facts dd.down', 'color'],
+    background: '#ffffff',
+  },
+  {
+    name: 'value card rising change, light',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.vc-facts dd.up', 'color'],
+    background: '#ffffff',
+  },
+  {
+    name: 'value card chart axis, light',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['.vc-svg .vc-axis', 'fill'],
+    background: '#ffffff',
+  },
+  {
+    name: 'value card chart axis, dark',
+    file: 'hdb-prices/ang-mo-kio/index.html',
+    foreground: ['html.jt-theme-dark .vc-svg .vc-axis', 'fill'],
+    background: ['html.jt-theme-dark .vc', 'background'],
+  },
+  {
+    name: 'value card falling change, dark',
+    file: 'condo-prices/d10/index.html',
+    foreground: ['html.jt-theme-dark .vc-facts dd.down', 'color'],
+    background: ['html.jt-theme-dark .vc', 'background'],
+  },
+  {
     name: 'insights skip link',
     file: 'insights/blog.css',
     foreground: ['a', 'color'],
