@@ -114,3 +114,11 @@ test('no seller or landlord page presents a commission rate as the industry stan
   }
   assert.match(read('zh/sell-hdb/index.html'), /中介佣金没有固定费率/);
 });
+
+// Joe's rental commission is paid by the landlord. /rent-out/ used to tell
+// landlords it "comes from the tenant, not you" (corrected 2026-09-19).
+test('the landlord page says the landlord pays the rental commission', () => {
+  const html = read('rent-out/index.html');
+  assert.doesNotMatch(html, /from the (<em>)?tenant|tenant pays|paid by the tenant/i);
+  assert.equal((html.match(/paid by you as the landlord/g) || []).length, 2);
+});
