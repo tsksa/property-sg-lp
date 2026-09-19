@@ -17,13 +17,16 @@ Builds the five data-led guides in `insights/` (JOE-389):
    python3 scripts/market-articles/analyse.py
    ```
 3. Compare `summary.json` with the prose in `build_articles.py` and rewrite every figure that changed. The official HDB and URA figures (price index, transaction counts, rental approvals, vacancy) come from the quarter's press releases, not from these datasets; update them and their source links by hand.
-4. Build, then re-apply the TOC and run the checks:
+4. Build, then redraw the covers (their charts and figures quote the articles), re-apply the TOC and covers, and run the checks:
    ```bash
    python3 scripts/market-articles/build_articles.py
+   node scripts/build-article-covers.mjs
    npm run apply:article-toc
+   npm run apply:article-cover
    npm run check
    ```
-5. For a new quarter, consider new slugs (for example `hdb-resale-prices-3q-2026-by-town`) and update the insights index, both feeds, the sitemap, llms.txt and the sibling-link lists in `generate-hdb-loan-cluster.mjs`, `generate-hdb-grants-cluster.mjs` and the hand-built articles.
+   A cover figure that no longer appears in its article stops the cover build; update `insights/article-covers.json` to match.
+5. For a new quarter, consider new slugs (for example `hdb-resale-prices-3q-2026-by-town`) and update `insights/article-covers.json`, the insights index, both feeds, the sitemap, llms.txt and the sibling-link lists in `generate-hdb-loan-cluster.mjs`, `generate-hdb-grants-cluster.mjs` and the hand-built articles.
 
 The launch calendar reads `new-launches/projects.json`; rebuild it whenever a launch date is confirmed or moves.
 

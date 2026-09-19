@@ -11,6 +11,7 @@ import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import { policySources } from './content/hdb-policy-august-2026.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { injectToc } from './lib/article-toc.mjs';
+import { injectCover, loadCover } from './lib/article-covers.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -355,7 +356,8 @@ ${consentBannerHtml()}
 let changed = 0;
 for (const article of ARTICLES) {
   const file = path.join(OUT_DIR, `${article.slug}.html`);
-  const output = injectToc(page(article));
+  // Same post-processing as the hand-built articles: TOC, then cover.
+  const output = injectCover(injectToc(page(article)), loadCover(article.slug));
   const current = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
   if (current === output) continue;
   if (checkOnly) {

@@ -1,0 +1,292 @@
+{
+  "_comment": "Opening image and share preview for each insights article (JOE-398). scripts/build-article-covers.mjs renders these to img/insights/; scripts/apply-article-cover.mjs puts them on the pages. Every figure value, and every chart label and value, must appear word for word in its article: the build refuses otherwise, so a cover can never say something the article does not.",
+  "covers": [
+    {
+      "slug": "hdb-resale-prices-2q-2026-by-town",
+      "title": "HDB resale prices, 2Q 2026",
+      "chart": {
+        "table": 2,
+        "labelColumn": "Town",
+        "valueColumn": "4-room",
+        "caption": "Median 4-room resale price by town, 2Q 2026",
+        "highlight": "ends"
+      }
+    },
+    {
+      "slug": "15-month-wait-out-removed-private-owners-hdb",
+      "title": "The 15-month wait-out is gone",
+      "figures": [
+        {
+          "value": "75%",
+          "label": "bank loan limit if you sell your private home first"
+        },
+        {
+          "value": "45%",
+          "label": "limit if a mortgage is still running"
+        }
+      ]
+    },
+    {
+      "slug": "cheapest-4-room-5-room-hdb-resale-flats",
+      "title": "Cheapest towns for a 4-room flat",
+      "chart": {
+        "table": 0,
+        "labelColumn": "Town",
+        "valueColumn": "Median price",
+        "caption": "Median 4-room resale price by town, March to August 2026",
+        "highlight": "lowest3"
+      }
+    },
+    {
+      "slug": "ec-vs-private-condo-2027",
+      "title": "EC or private condo in 2027?",
+      "figures": [
+        {
+          "value": "$16,000",
+          "label": "ceiling on every EC you can buy to 2027"
+        },
+        {
+          "value": "$18,000",
+          "label": "the new ceiling, which won't apply to them"
+        }
+      ]
+    },
+    {
+      "slug": "enhanced-cpf-housing-grant-singapore",
+      "title": "Enhanced CPF Housing Grant, 2026",
+      "figures": [
+        {
+          "value": "$120,000",
+          "label": "maximum for a first-timer family"
+        },
+        {
+          "value": "$60,000",
+          "label": "maximum for a single buying alone"
+        },
+        {
+          "value": "$9,000",
+          "label": "household income cap for families"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-downpayment-cash-cpf-grants",
+      "title": "Your HDB downpayment: cash, CPF and grants",
+      "figures": [
+        {
+          "value": "25%",
+          "label": "downpayment at a 75% loan"
+        },
+        {
+          "value": "5%",
+          "label": "at least, in cash, with a bank loan"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-income-ceiling-2026-ndr-changes",
+      "title": "HDB income ceilings, 2026",
+      "figures": [
+        {
+          "value": "$16,000",
+          "label": "families"
+        },
+        {
+          "value": "$8,000",
+          "label": "singles buying alone"
+        },
+        {
+          "value": "$18,000",
+          "label": "qualifying new ECs only"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-loan-eligibility-singapore",
+      "title": "Who qualifies for an HDB loan",
+      "figures": [
+        {
+          "value": "$16,000",
+          "label": "household income ceiling for families"
+        },
+        {
+          "value": "75%",
+          "label": "maximum loan-to-value"
+        },
+        {
+          "value": "30%",
+          "label": "of income: the MSR cap on instalments"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-loan-vs-bank-loan-singapore",
+      "title": "HDB loan or bank loan?",
+      "figures": [
+        {
+          "value": "2.6%",
+          "label": "HDB loan interest rate"
+        },
+        {
+          "value": "$150,000",
+          "label": "downpayment on a $600,000 flat"
+        },
+        {
+          "value": "$30,000",
+          "label": "at least, in cash, with a bank loan"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-resale-grants-singapore",
+      "title": "HDB resale grants in 2026",
+      "figures": [
+        {
+          "value": "$80,000",
+          "label": "CPF Housing Grant, 2- to 4-room"
+        },
+        {
+          "value": "$120,000",
+          "label": "Enhanced CPF Housing Grant"
+        },
+        {
+          "value": "$30,000",
+          "label": "Proximity Grant, living with parents"
+        }
+      ]
+    },
+    {
+      "slug": "hdb-valuation-explained",
+      "title": "How your HDB flat really gets priced",
+      "figures": [
+        {
+          "value": "$120",
+          "label": "HDB valuation fee, GST included"
+        }
+      ]
+    },
+    {
+      "slug": "hfe-letter-singapore-guide",
+      "title": "The HFE letter: what it covers and when to apply",
+      "figures": [
+        {
+          "value": "$16,000",
+          "label": "household income ceiling for families"
+        }
+      ]
+    },
+    {
+      "slug": "how-long-to-sell-hdb-singapore-2026",
+      "title": "How long it takes to sell an HDB flat",
+      "figures": [
+        {
+          "value": "21-day",
+          "label": "window to exercise the option"
+        },
+        {
+          "value": "8 weeks",
+          "label": "about, from HDB acceptance to completion"
+        },
+        {
+          "value": "S$5,000",
+          "label": "maximum option deposit"
+        }
+      ]
+    },
+    {
+      "slug": "msr-vs-tdsr-singapore",
+      "title": "MSR vs TDSR: the two limits on your loan",
+      "figures": [
+        {
+          "value": "30%",
+          "label": "MSR: housing instalment, of gross income"
+        },
+        {
+          "value": "55%",
+          "label": "TDSR: all monthly debt, of gross income"
+        }
+      ]
+    },
+    {
+      "slug": "new-condo-launches-2026-2027-calendar",
+      "title": "Every condo and EC launch to 2027",
+      "figures": [
+        {
+          "value": "7,047",
+          "label": "homes, roughly, due to launch"
+        },
+        {
+          "value": "5%",
+          "label": "booking fee on launch day"
+        }
+      ]
+    },
+    {
+      "slug": "property-agent-commission-singapore",
+      "title": "Agent commission in Singapore",
+      "figures": [
+        {
+          "value": "2%",
+          "label": "my quote for the full seller service"
+        },
+        {
+          "value": "9%",
+          "label": "GST, added to the commission"
+        }
+      ]
+    },
+    {
+      "slug": "selling-hdb-after-mop-singapore",
+      "title": "Selling your HDB after MOP, step by step",
+      "figures": [
+        {
+          "value": "2.5%",
+          "label": "a year: CPF accrued interest you refund"
+        },
+        {
+          "value": "S$5,000",
+          "label": "cap on the option deposit"
+        }
+      ]
+    },
+    {
+      "slug": "singapore-mega-launches-2027",
+      "title": "2027's mega launches",
+      "figures": [
+        {
+          "value": "830",
+          "label": "homes at Hougang Central Residences"
+        },
+        {
+          "value": "$1,179",
+          "label": "psf ppr: the land price"
+        }
+      ]
+    },
+    {
+      "slug": "singapore-rental-market-2q-2026",
+      "title": "HDB rents by town, 2Q 2026",
+      "chart": {
+        "table": 1,
+        "labelColumn": "Town",
+        "valueColumn": "4-room",
+        "caption": "Median 4-room HDB rent by town, 2Q 2026",
+        "highlight": "ends"
+      }
+    },
+    {
+      "slug": "use-cpf-buy-hdb-flat-singapore",
+      "title": "Using CPF to buy an HDB flat",
+      "figures": [
+        {
+          "value": "120%",
+          "label": "of the valuation limit, if you set aside the BRS"
+        },
+        {
+          "value": "$20,000",
+          "label": "you can choose to keep in your OA"
+        }
+      ]
+    }
+  ]
+}
