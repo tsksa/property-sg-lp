@@ -12,7 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  quantile, shiftMonth, monthLabel, rollingPsfSeries, trendSvg, seriesChange, valueCardHtml, leaseBand, MIN_SPAN,
+  quantile, shiftMonth, monthLabel, rollingPsfSeries, trendSvg, seriesChange, valueCardHtml, leaseBand, likeForLikeChange, MIN_SPAN,
 } from '../scripts/lib/value-card.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -91,6 +91,27 @@ test('the line is scaled to the card\'s median psf so the two agree', () => {
   assert.equal(leaseBand(1978), '<1980');
 });
 
+const PRIOR = WINDOW.map((m) => shiftMonth(m, -12));
+
+test('year-on-year change compares each group with itself, not the sales mix', () => {
+  // Old flats $600 -> $612 (+2%), new flats $900 -> $918 (+2%), but new flats
+  // go from 10% to 50% of sales. A plain median comparison would show a jump.
+  const recs = [
+    ...PRIOR.flatMap((m) => [...many(9, { m, v: 600, k: 'old' }), ...many(1, { m, v: 900, k: 'new' })]),
+    ...WINDOW.flatMap((m) => [...many(5, { m, v: 612, k: 'old' }), ...many(5, { m, v: 918, k: 'new' })]),
+  ];
+  const pct = likeForLikeChange(WINDOW, PRIOR, recs, opts);
+  assert.equal(Math.round(pct * 100) / 100, 2);
+});
+
+test('year-on-year change is null when too little of this year can be compared', () => {
+  const recs = [
+    ...PRIOR.flatMap((m) => many(1, { m, v: 600, k: 'old' })),
+    ...WINDOW.flatMap((m) => [...many(1, { m, v: 612, k: 'old' }), ...many(3, { m, v: 900, k: 'new-only-this-year' })]),
+  ];
+  assert.equal(likeForLikeChange(WINDOW, PRIOR, recs, opts), null, 'a group with no prior-year sales cannot be compared');
+});
+
 test('no chart is drawn from fewer than six points', () => {
   const values = [600, 610, 620, 630, 640, null, null, null, null, null, null, null];
   assert.equal(trendSvg(flatSeries(values)), '');
@@ -139,7 +160,7 @@ test('card rounds the range, signs the change and handles a missing prior year',
   const noPrior = valueCardHtml({
     heading: 'x', prices: [1, 2, 3], med: 2, psf: 1, n: 3, yoy: null, latestFullMonth: '2026-08', scope: 'x', series: [],
   });
-  assert.match(noPrior, /<dt>Median, year on year<\/dt><dd>—<\/dd>/);
+  assert.match(noPrior, /<dt>Year on year, like for like<\/dt><dd>—<\/dd>/);
   assert.doesNotMatch(noPrior, /<svg/, 'no chart without enough data');
 });
 
@@ -171,6 +192,16 @@ test('every town and district page leads with one value card that matches its FA
     const faq = ldNodes(html).find((n) => n['@type'] === 'FAQPage');
     const answer = faq.mainEntity[0].acceptedAnswer.text;
     assert.ok(answer.includes(`is ${cardMedian},`), `${file}: card says ${cardMedian} but the FAQ says "${answer}"`);
+    // The card's year-on-year figure and the FAQ answer must be the same number.
+    const cardYoy = html.match(/<dt>Year on year, like for like<\/dt><dd[^>]*>([^<]*)</)[1];
+    const yoyAnswer = faq.mainEntity[2].acceptedAnswer.text;
+    if (cardYoy === '—') {
+      assert.match(yoyAnswer, /isn't enough data/, `${file}: card has no change but the FAQ gives one`);
+    } else {
+      const [, sign, num] = cardYoy.match(/^([+−])([\d.]+)%$/);
+      assert.ok(yoyAnswer.includes(`${sign === '+' ? 'risen' : 'fallen'} ${num}%`), `${file}: card says ${cardYoy} but the FAQ says "${yoyAnswer}"`);
+      assert.match(yoyAnswer, /^Like for like/, `${file}: FAQ year-on-year answer must say it is like for like`);
+    }
     const card = html.slice(html.indexOf('data-jt-value-card'), html.indexOf('</section>', html.indexOf('data-jt-value-card')));
     if (card.includes('<svg')) assert.match(card, /role="img" aria-labelledby="vc-t"/, `${file}: chart has no text alternative`);
   }

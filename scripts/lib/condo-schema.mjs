@@ -33,8 +33,8 @@ export function buildDistrictSchema({ d, areaName, canonical, generatedAt, windo
   };
 
   const yoyText = yoy === null
-    ? `There isn't enough data in the prior 12-month window to compute a year-on-year change for District ${Number(d)}.`
-    : `Median condo resale prices in District ${Number(d)} have ${yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(yoy).toFixed(1)}% over the past year, comparing the 12 months to ${generatedAt} against the prior 12-month period.`;
+    ? `There isn't enough data to compare like with like across the two years in District ${Number(d)}, so no year-on-year change is given.`
+    : `Like for like, condo resale prices in District ${Number(d)} have ${yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(yoy).toFixed(1)}% over the past year. This compares the median price per square foot of the same unit sizes and tenures in the 12 months to ${generatedAt} against the prior 12 months, so a year when bigger or newer units sold does not count as a price rise.`;
 
   const faq = {
     '@type': 'FAQPage',

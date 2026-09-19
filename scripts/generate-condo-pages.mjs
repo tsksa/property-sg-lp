@@ -21,7 +21,7 @@ import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
 } from './lib/condo-stats.mjs';
-import { valueCardHtml, rollingPsfSeries, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const OUT = 'condo-prices';
 const SITE = 'https://joetay.com';
@@ -230,8 +230,14 @@ ${body}
 const indexRows = [];
 for (const [d, cur] of live) {
   const recs = byDistrict.get(d);
-  const prev = windowStats(recs, prior12);
-  const yoy = prev.med ? ((cur.med - prev.med) / prev.med) * 100 : null;
+  // Like for like: the same unit sizes and tenures compared with themselves.
+  // See likeForLikeChange() in scripts/lib/value-card.mjs.
+  const likeForLike = {
+    monthOf: (r) => toYearMonth(r.contractDate),
+    psfOf: psf,
+    stratumOf: (r) => `${bandFor(r)?.label}|${tenureBand(r.tenure)}`,
+  };
+  const yoy = likeForLikeChange(window12, prior12, recs, likeForLike);
   const areaName = DISTRICTS[d];
   const dn = Number(d);
   const canonical = `${SITE}/condo-prices/d${d}/`;
@@ -257,12 +263,7 @@ for (const [d, cur] of live) {
 
   const extraSchema = buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy });
 
-  const series = rollingPsfSeries(window12, recs, {
-    monthOf: (r) => toYearMonth(r.contractDate),
-    psfOf: psf,
-    stratumOf: (r) => `${bandFor(r)?.label}|${tenureBand(r.tenure)}`,
-    level: cur.psf,
-  });
+  const series = rollingPsfSeries(window12, recs, { ...likeForLike, level: cur.psf });
   const body = `${valueCardHtml({
     heading: `Typical condo resale price in District ${dn}`,
     prices: cur.inWin.map((r) => Number(r.price)),

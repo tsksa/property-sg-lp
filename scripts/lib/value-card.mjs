@@ -120,6 +120,49 @@ export function rollingPsfSeries(window12, recs, {
   return raw.map((p) => ({ ...p, psf: p.psf === null ? null : (p.psf * level) / mean }));
 }
 
+/**
+ * Like-for-like year-on-year change in $psf, as a percentage, or null.
+ *
+ * The plain comparison of two 12-month medians has the same flaw as a plain
+ * trend line: it moves with which flats sold (D25, 12 months to Aug 2026:
+ * +30.1% plain, +1.3% like for like). So compare each stratum with itself —
+ * its median $psf this year against the prior year — and weight the strata by
+ * their share of this year's sales. Strata need `minStratum` sales in both
+ * years; if the surviving strata cover less than `minCoverage` of this year's
+ * sales there is no honest figure and the answer is null.
+ */
+export function likeForLikeChange(window12, prior12, recs, {
+  monthOf, psfOf, stratumOf, minStratum = 5, minCoverage = 0.6,
+}) {
+  const cur = new Set(window12);
+  const prev = new Set(prior12);
+  const groups = new Map();
+  let total = 0;
+  for (const r of recs) {
+    const m = monthOf(r);
+    const v = psfOf(r);
+    if (!Number.isFinite(v)) continue;
+    const side = cur.has(m) ? 'cur' : prev.has(m) ? 'prev' : null;
+    if (!side) continue;
+    const k = stratumOf(r);
+    if (!groups.has(k)) groups.set(k, { cur: [], prev: [] });
+    groups.get(k)[side].push(v);
+    if (side === 'cur') total += 1;
+  }
+  let covered = 0;
+  let now = 0;
+  let before = 0;
+  for (const g of groups.values()) {
+    if (g.cur.length < minStratum || g.prev.length < minStratum) continue;
+    const w = g.cur.length;
+    covered += w;
+    now += w * median(g.cur);
+    before += w * median(g.prev);
+  }
+  if (!total || covered / total < minCoverage || !before) return null;
+  return ((now - before) / before) * 100;
+}
+
 /** Lease-commencement band for like-for-like grouping. */
 export function leaseBand(year) {
   const y = Number(year);
@@ -231,7 +274,7 @@ const pctText = (p) => `${p >= 0 ? '+' : '−'}${Math.abs(p).toFixed(1)}%`;
  * @param {number} o.med        12-month median price (the page's headline figure)
  * @param {number} o.psf        12-month median $psf
  * @param {number} o.n          sales in the window
- * @param {number|null} o.yoy   % change in median vs the prior 12 months
+ * @param {number|null} o.yoy   like-for-like % change vs the prior 12 months
  * @param {string} o.latestFullMonth  'YYYY-MM'
  * @param {string} o.scope      e.g. "all flat types"
  * @param {Array} o.series      from rollingPsfSeries()
@@ -258,7 +301,7 @@ export function valueCardHtml({ heading, prices, med, psf, n, yoy, latestFullMon
       <p class="vc-v" data-vc-median>${money(med)}</p>
       <p class="vc-range">Half of all sales fell between <strong>${k(p25)}</strong> and <strong>${k(p75)}</strong></p>
       <dl class="vc-facts">
-        <div><dt>Median, year on year</dt>${yoyHtml}</div>
+        <div><dt>Year on year, like for like</dt>${yoyHtml}</div>
         <div><dt>Median $psf</dt><dd>${money(psf)}</dd></div>
         <div><dt>Sales</dt><dd>${n.toLocaleString('en-SG')}</dd></div>
       </dl>
