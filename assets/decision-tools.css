@@ -41,5 +41,23 @@
 .decision-modes label{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer}
 .decision-modes input{width:20px;height:20px;accent-color:#087a5b}
 #repaymentPanel{grid-column:1/-1}
+/* Inputs on the left, the result on the right (JOE-398). The short repayment
+   result sticks while the inputs scroll (the resale breakdown is taller than a
+   laptop screen, so it scrolls normally); below 900px the two stack, inputs first.
+   The placeholder shows only while there is no result to show. */
+.decision-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:8px 32px;align-items:start}
+.decision-result{min-width:0}
+.decision-result>.decision-summary:first-child,.decision-result>div:first-child>.decision-summary:first-child{margin-top:20px}
+.decision-placeholder{margin:20px 0;padding:20px;border:1px dashed #b9cfc6;border-radius:12px;color:#46576b;font-size:.95rem;background:#fbfdfc}
+.decision-result>:not([hidden])~.decision-placeholder{display:none}
+#repaymentOutput .decision-summary dt:first-of-type{align-self:end;font-weight:700;color:#0b1e3f}
+#repaymentOutput .decision-summary dd:first-of-type{font-family:'Fraunces',Georgia,serif;font-size:1.65rem;line-height:1.1;color:#0b1e3f;font-variant-numeric:tabular-nums}
+@media(min-width:900px){
+.decision-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+.decision-layout .decision-grid{grid-template-columns:minmax(0,1fr)}
+#repaymentPanel .decision-result{position:sticky;top:88px}
+.decision-result .repayment-action-grid{grid-template-columns:minmax(0,1fr)}
+.decision-result .decision-tool .repayment-copy,.decision-result .repayment-copy{grid-column:auto}
+}
 #repaymentPanel[hidden],#affordabilityForm[hidden],#affordabilityResults[hidden],#affordabilityDisclaimer[hidden],.decision-tool [hidden],.decision-modes[hidden]{display:none!important}
 @media(max-width:600px){.decision-tool{padding:20px 16px}.decision-grid{grid-template-columns:1fr}.decision-summary{padding:16px}.decision-summary dl{grid-template-columns:1fr}.decision-summary dd{text-align:left;margin-bottom:8px}.decision-tool th,.decision-tool td{padding:10px 5px}.decision-modes{gap:8px}.repayment-result-actions{padding:18px 16px}.repayment-action-grid{grid-template-columns:1fr}.decision-tool .repayment-copy{grid-column:auto}}
