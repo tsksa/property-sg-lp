@@ -12,7 +12,7 @@
 
 import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
-import { headerNavHtml } from './lib/header-nav.mjs';
+import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
 import { faqHtml } from './lib/estate-schema.mjs';
 import { buildDistrictSchema } from './lib/condo-schema.mjs';
@@ -21,6 +21,7 @@ import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
 } from './lib/condo-stats.mjs';
+import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const OUT = 'condo-prices';
 const SITE = 'https://joetay.com';
@@ -73,6 +74,11 @@ for (const r of rows) {
   byDistrict.get(r.district).push(r);
 }
 console.log(`${byDistrict.size} districts, ${rows.length} condo resale transactions, window to ${generatedAt}`);
+// The trend line groups sales by tenure. If URA ever drops or renames the
+// field, every sale lands in '?' and the line silently degrades to size-only
+// adjustment, so say how much of the data the grouping could read.
+const tenureRead = rows.filter((r) => tenureBand(r.tenure) !== '?').length;
+console.log(`tenure readable for ${((tenureRead / rows.length) * 100).toFixed(1)}% of sales (trend-line grouping)`);
 
 // Which districts clear the threshold and get a page (drives interlinking).
 const live = new Map(); // '01' -> stats
@@ -80,6 +86,16 @@ for (const [d, recs] of [...byDistrict.entries()].sort()) {
   const cur = windowStats(recs, window12);
   if (cur.n >= MIN_TX_12M) live.set(d, cur);
   else console.log(`  skip D${d} (only ${cur.n} tx in 12m)`);
+}
+
+// Like-for-like tenure group for the trend line: freehold (and 999-year) in
+// one group, leaseholds by the year their lease started, which tracks the
+// building's age. URA writes e.g. "99 yrs lease commencing from 2012".
+function tenureBand(tenure) {
+  const t = String(tenure ?? '');
+  if (/freehold|999/i.test(t)) return 'freehold';
+  const y = t.match(/(19|20)\d{2}/);
+  return y ? leaseBand(y[0]) : '?';
 }
 
 // Google truncates titles at roughly 60 characters. Long area names (Upper Bukit
@@ -146,21 +162,12 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, nu
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fdfbf6;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:20px 24px}
-.topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
-.logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+${VALUE_CARD_CSS}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
@@ -194,12 +201,7 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="logo">PropertySG</a>
-    ${headerNavHtml()}
-  </div>
-</header>
+${siteHeaderHtml({ pagePath })}
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official URA caveat data · Updated monthly</div>
   <h1>${h1}</h1>
@@ -228,8 +230,14 @@ ${body}
 const indexRows = [];
 for (const [d, cur] of live) {
   const recs = byDistrict.get(d);
-  const prev = windowStats(recs, prior12);
-  const yoy = prev.med ? ((cur.med - prev.med) / prev.med) * 100 : null;
+  // Like for like: the same unit sizes and tenures compared with themselves.
+  // See likeForLikeChange() in scripts/lib/value-card.mjs.
+  const likeForLike = {
+    monthOf: (r) => toYearMonth(r.contractDate),
+    psfOf: psf,
+    stratumOf: (r) => `${bandFor(r)?.label}|${tenureBand(r.tenure)}`,
+  };
+  const yoy = likeForLikeChange(window12, prior12, recs, likeForLike);
   const areaName = DISTRICTS[d];
   const dn = Number(d);
   const canonical = `${SITE}/condo-prices/d${d}/`;
@@ -255,11 +263,19 @@ for (const [d, cur] of live) {
 
   const extraSchema = buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy });
 
-  const body = `  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">${money(cur.med)}</div><div class="d">${cur.n} resale transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$${Math.round(cur.psf)}</div><div class="d">condos &amp; apartments</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v ${yoy !== null && yoy < 0 ? 'down' : 'up'}">${yoy === null ? '—' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</div><div class="d">median price change</div></div>
-  </div>
+  const series = rollingPsfSeries(window12, recs, { ...likeForLike, level: cur.psf });
+  const body = `${valueCardHtml({
+    heading: `Typical condo resale price in District ${dn}`,
+    prices: cur.inWin.map((r) => Number(r.price)),
+    med: cur.med,
+    psf: cur.psf,
+    n: cur.n,
+    yoy,
+    latestFullMonth: generatedAt,
+    scope: 'resale condos and apartments',
+    series,
+    mixNote: 'Weighted to the year’s mix of unit sizes and tenures, so a run of bigger or newer units selling does not show up as a price rise.',
+  })}
   <h2>Median price by size (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Size</th><th>Median price</th><th>Median $psf</th><th>Sales</th></tr></thead>

@@ -62,12 +62,12 @@ test('visible mobile and cookie labels are included in their accessible names', 
 
 test('homepage logo uses its visible text as the accessible name', () => {
   const html = read('index.html');
-  const logo = html.match(/<a class="logo"([^>]*)>([\s\S]*?)<\/a>/);
+  const logo = html.match(/<a href="\/" class="jt-sh-logo"([^>]*)>([\s\S]*?)<\/a>/);
 
   assert.ok(logo, 'missing homepage logo');
   assert.doesNotMatch(logo[1], /aria-label=/);
-  assert.match(logo[2], /<span class="logo-name">Joe Tay<\/span>/);
-  assert.match(logo[2], /<span class="logo-brand">PropertySG<\/span>/);
+  assert.match(logo[2], /<span class="jt-mh-logo-name">Joe Tay<\/span>/);
+  assert.match(logo[2], /<span class="jt-mh-logo-brand">PropertySG<\/span>/);
 });
 
 for (const file of ['calculator/index.html', 'bto-calculator/index.html']) {
@@ -112,8 +112,12 @@ test('glossary quick jumps use semantic list markup without invalid link roles',
   )?.[1];
 
   assert.ok(list, 'missing glossary table-of-contents list');
-  assert.equal((list.match(/<li>/g) || []).length, 18);
-  assert.equal((list.match(/<\/li>/g) || []).length, 18);
+  // One quick jump per glossary entry, each pointing at a real entry.
+  const termIds = [...html.matchAll(/<div class="g-term" id="([^"]+)">/g)].map((m) => m[1]);
+  assert.ok(termIds.length >= 18, `expected the glossary entries, found ${termIds.length}`);
+  assert.equal((list.match(/<li>/g) || []).length, termIds.length);
+  assert.equal((list.match(/<\/li>/g) || []).length, termIds.length);
+  assert.deepEqual([...list.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]), termIds, 'quick jumps must follow the entries in order');
   assert.doesNotMatch(list, /<a[^>]+role="listitem"/);
 });
 

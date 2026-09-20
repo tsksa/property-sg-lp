@@ -44,7 +44,9 @@
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#cea", "name": "CEA", "alternateName": "Council for Estate Agencies", "description": "Singapore's regulator for real estate agencies and salespersons. Every practising agent must be CEA-registered and operate under a licensed estate agency.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#cea"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#cov", "name": "COV", "alternateName": "Cash Over Valuation", "description": "The amount an HDB buyer pays above the official valuation. Since CPF and HDB loan only cover up to the valuation amount, any excess must be paid in cash.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#cov"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#cpf", "name": "CPF", "alternateName": "Central Provident Fund", "description": "Singapore's mandatory savings system. The Ordinary Account (OA) is commonly used to fund property purchases; on sale you must refund CPF principal used plus 2.5% per annum accrued interest, compounded, back into your own OA.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#cpf"},
+    {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#decoupling", "name": "Decoupling", "alternateName": "Buying out a co-owner's share", "description": "One co-owner buys the other's share of a jointly owned home. Not possible for HDB flats: HDB does not allow a resale of part-share between a married couple. For a private home, a Singapore Citizen who owns only that home pays no ABSD on buying the co-owner's share, but BSD is payable on the share.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#decoupling"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#ec", "name": "EC", "alternateName": "Executive Condominium", "description": "Hybrid public-private housing. Sold like a condo but with HDB eligibility rules for the first 5 years (MOP). Becomes fully private after 10 years.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#ec"},
+    {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#foreign-buyers", "name": "Foreign buyers", "alternateName": "What non-citizens can buy", "description": "Foreigners can buy condominium units and private flats without approval; landed homes, including at Sentosa Cove, need Singapore Land Authority approval under the Residential Property Act. HDB resale flats are for Singapore Citizens and permanent residents only. Foreigners pay 60% ABSD, except nationals of countries with qualifying Free Trade Agreements.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#foreign-buyers"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#hdb", "name": "HDB", "alternateName": "Housing & Development Board", "description": "Singapore's public housing authority. Approximately 80% of Singapore residents live in HDB housing. Flat types include 2-room, 3-room, 4-room, 5-room, Executive, and Jumbo.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#hdb"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#hfe", "name": "HFE", "alternateName": "HDB Flat Eligibility Letter", "description": "Replaces the old HLE system since 2023. Required before a buyer can be granted an Option to Purchase. Confirms citizenship, income, existing property holdings, and loan eligibility.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#hfe"},
     {"@type": "DefinedTerm", "@id": "https://joetay.com/glossary/#ltv", "name": "LTV", "alternateName": "Loan-to-Value ratio", "description": "Percentage of property value a bank or HDB will lend. Typical LTV is 75% for a first HDB loan or bank loan, lower for subsequent properties.", "inDefinedTermSet": "https://joetay.com/glossary/#termset", "url": "https://joetay.com/glossary/#ltv"},
@@ -169,22 +171,56 @@ a:hover{text-decoration:underline}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <a href="#main" class="skip-to-content">Skip to main content</a>
-<header class="g-topbar">
-  <div class="g-topbar-inner">
-    <a href="/" class="g-logo">PropertySG</a>
-    <nav class="g-nav" aria-label="Primary">
-      <a href="/">Home</a>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
       <a href="/insights/">Insights</a>
-      <a href="/calculator/">Calculator</a>
-      <a href="/#book" class="g-nav-cta">Book a Call</a>
+      <a href="/calculator/">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
     </nav>
   </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <section class="g-hero" aria-labelledby="page-hero-title">
   <div class="g-hero-inner">
@@ -207,7 +243,9 @@ a:hover{text-decoration:underline}
       <li><a href="#cea">CEA</a></li>
       <li><a href="#cov">COV</a></li>
       <li><a href="#cpf">CPF</a></li>
+      <li><a href="#decoupling">Decoupling</a></li>
       <li><a href="#ec">EC</a></li>
+      <li><a href="#foreign-buyers">Foreign buyers</a></li>
       <li><a href="#hdb">HDB</a></li>
       <li><a href="#hfe">HFE</a></li>
       <li><a href="#ltv">LTV</a></li>
@@ -255,9 +293,26 @@ a:hover{text-decoration:underline}
   <dt><span class="g-abbr">CPF</span> <span class="g-full">Central Provident Fund</span></dt>
   <dd><p>Singapore's mandatory savings system. Your <strong>Ordinary Account (OA)</strong> is commonly used to fund property purchases. When you sell, you must refund the CPF principal used <em>plus 2.5% per annum accrued interest, compounded</em> — this money goes back into your own OA, not your cash pocket. Often catches first-time sellers off guard.</p></dd>
 </div>
+<div class="g-term" id="decoupling">
+  <dt><span class="g-abbr">Decoupling</span> <span class="g-full">Buying out a co-owner's share</span></dt>
+  <dd>
+    <p>One co-owner buys the other's share of a jointly owned home, so the co-owner who leaves the title can buy their next home as a first-time owner instead of paying ABSD on a second property.</p>
+    <p><strong>HDB flats:</strong> not possible. HDB does not allow a <a href="https://www.hdb.gov.sg/managing-my-home/home-ownership/change-of-flat-owners-or-occupiers/resale-of-part-share" target="_blank" rel="noopener">resale of part-share between a married couple</a>, and only approves a change in ownership without a sale for <a href="https://www.hdb.gov.sg/managing-my-home/home-ownership/change-of-flat-owners-or-occupiers/change-in-flat-ownership-not-through-a-sale/eligibility" target="_blank" rel="noopener">a change in the family, such as marriage, divorce or the death of an owner</a>.</p>
+    <p><strong>Private homes:</strong> IRAS counts any share you own as a whole property, and treats buying more of a home you already part-own as buying another property. But a Singapore Citizen who owns only that one home and buys the co-owner's share <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" target="_blank" rel="noopener">pays no ABSD on it</a>. BSD is still payable on the share, on the higher of the price or its market value. The co-owner who leaves then owns no residential property, so as a Singapore Citizen they pay no ABSD on their next home.</p>
+    <p>The numbers change if either of you owns another property or is not a citizen. Have a conveyancing lawyer check both of your property counts before anyone signs. <a href="/stamp-duty-calculator/">Estimate the BSD on the share →</a></p>
+  </dd>
+</div>
 <div class="g-term" id="ec">
   <dt><span class="g-abbr">EC</span> <span class="g-full">Executive Condominium</span></dt>
   <dd><p>Hybrid public-private housing. Sold like a condo but with HDB eligibility rules for the first 5 years (MOP). Becomes fully private after 10 years. Popular upgrade from HDB for dual-income households.</p></dd>
+</div>
+<div class="g-term" id="foreign-buyers">
+  <dt><span class="g-abbr">Foreign buyers</span> <span class="g-full">What non-citizens can buy</span></dt>
+  <dd>
+    <p><strong>Condos and apartments:</strong> foreigners can buy a condominium unit or a flat in a private development without approval. <strong>Landed homes</strong> (terrace, semi-detached and detached houses, townhouses and cluster houses outside an approved condominium, and landed homes at Sentosa Cove) need <a href="https://www.sla.gov.sg/regulatory/foreign-ownership-of-property/" target="_blank" rel="noopener">approval from the Singapore Land Authority</a> under the Residential Property Act. SLA assesses each case; its criteria include being a permanent resident for at least five years. Under the Act anyone who is not a Singapore Citizen is a foreign person, so permanent residents need approval for landed homes too.</p>
+    <p><strong>HDB resale flats:</strong> only <a href="https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/couples-and-families" target="_blank" rel="noopener">Singapore Citizens and permanent residents</a> can buy one, under HDB's eligibility rules.</p>
+    <p><strong>Stamp duty:</strong> foreigners pay <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" target="_blank" rel="noopener">60% ABSD</a> on any residential purchase made on or after 27 April 2023, on top of BSD. Nationals and permanent residents of Iceland, Liechtenstein, Norway and Switzerland, and nationals of the United States, <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/appeals-refunds-reliefs-and-remissions/common-stamp-duty-remissions-and-reliefs-for-property/foreigners-eligible-for-absd-remission-under-free-trade-agreements-(ftas)" target="_blank" rel="noopener">get the same stamp duty treatment as Singapore Citizens</a> under Free Trade Agreements. <a href="/stamp-duty-calculator/">Calculate the stamp duty →</a></p>
+  </dd>
 </div>
 <div class="g-term" id="hdb">
   <dt><span class="g-abbr">HDB</span> <span class="g-full">Housing &amp; Development Board</span></dt>

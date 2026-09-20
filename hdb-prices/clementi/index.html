@@ -138,7 +138,7 @@
      "name": "Have HDB prices in Clementi gone up or down over the past year?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Median resale prices in Clementi have risen 10.7% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period."
+      "text": "Like for like, HDB resale prices in Clementi have risen 3.2% over the past year. This compares the median price per square foot of the same flat types and lease ages in the 12 months to 2026-08 against the prior 12 months, so a year when more newer flats sold does not count as a price rise."
      }
     }
    ]
@@ -157,21 +157,48 @@
 :root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--cream:#faf6ec}
 body{font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fdfbf6;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--emerald);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:20px 24px}
-.topbar-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
-.logo{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:8px}
-.logo::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.18)}
 main{max-width:1000px;margin:0 auto;padding:40px 24px 72px}
 .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;padding:6px 14px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:100px;margin-bottom:16px}
 h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-0.8px;line-height:1.12;color:var(--navy);margin-bottom:12px}
 .lede{color:#555;max-width:640px;margin-bottom:8px}
 .src{font-size:0.78rem;color:#767676;margin-bottom:30px}
-.stat-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 34px}
-.stat{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px;padding:18px}
-.stat .k{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#767676}
-.stat .v{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:700;color:var(--navy);margin-top:4px}
-.stat .d{font-size:0.75rem;color:#767676;margin-top:2px}
-.up{color:var(--emerald-dark)}.down{color:#b45309}
+
+.vc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start;background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:18px;padding:26px 28px;margin:26px 0 34px;box-shadow:0 1px 2px rgba(11,30,63,0.04),0 8px 28px rgba(11,30,63,0.06)}
+.vc-main{min-width:0}
+.vc .vc-k{font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a;margin:0}
+.vc-v{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.3rem,6vw,3.1rem);font-weight:700;letter-spacing:-1px;line-height:1.05;color:var(--navy);margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.vc-range{color:#3d4756;font-size:0.95rem}
+.vc-range strong{color:var(--navy);font-variant-numeric:tabular-nums}
+.vc-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 12px;padding-top:16px;border-top:1px solid rgba(11,30,63,0.08)}
+.vc-facts dt{font-size:0.7rem;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:#6b6b6b}
+.vc-facts dd{font-family:'Fraunces',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--navy);margin-top:2px;font-variant-numeric:tabular-nums}
+.vc-facts dd.up{color:#047857}.vc-facts dd.down{color:#b45309}
+.vc-note{font-size:0.78rem;color:#6b6b6b}
+.vc-chart{margin:0;min-width:0}
+.vc-chart figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline;margin-bottom:6px}
+.vc-ck{font-size:0.74rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5f6b7a}
+.vc-cs{font-size:0.78rem;color:#6b6b6b}
+.vc-svg{display:block;width:100%;height:auto;max-width:100%;overflow:visible}
+.vc-svg .vc-grid{stroke:rgba(11,30,63,0.09);stroke-width:1}
+.vc-svg .vc-axis{fill:#6b6b6b;font-family:'DM Sans',sans-serif;font-size:10.5px;font-variant-numeric:tabular-nums}
+.vc-svg .vc-line{fill:none;stroke:#047857;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.vc-svg .vc-area{fill:rgba(16,185,129,0.1);stroke:none}
+.vc-svg .vc-dot{fill:#047857;stroke:#fff;stroke-width:2}
+.vc-trend{font-size:0.82rem;color:#3d4756;margin-top:6px;line-height:1.5}
+.vc-trend strong{color:var(--navy)}
+@media(max-width:760px){.vc{grid-template-columns:1fr;gap:22px;padding:22px 18px}}
+@media(max-width:420px){.vc-facts{gap:8px}.vc-facts dd{font-size:1.1rem}.vc-facts dt{font-size:0.64rem;letter-spacing:0.4px}}
+html.jt-theme-dark .vc{background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
+html.jt-theme-dark :is(.vc-v,.vc-range strong,.vc-facts dd,.vc-trend strong){color:#f8fafc}
+html.jt-theme-dark .vc-facts dd.up{color:#34d399}html.jt-theme-dark .vc-facts dd.down{color:#fbbf24}
+html.jt-theme-dark :is(.vc .vc-k,.vc-ck,.vc-facts dt,.vc-note,.vc-cs,.vc-range,.vc-trend){color:#c1cad8}
+html.jt-theme-dark .vc-facts{border-top-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-grid{stroke:rgba(255,255,255,.12)}
+html.jt-theme-dark .vc-svg .vc-axis{fill:#c1cad8}
+html.jt-theme-dark .vc-svg .vc-line{stroke:#34d399}
+html.jt-theme-dark .vc-svg .vc-area{fill:rgba(52,211,153,0.14)}
+html.jt-theme-dark .vc-svg .vc-dot{fill:#34d399;stroke:#102447}
+
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
 .faq{margin-top:8px}
@@ -213,37 +240,55 @@ footer{max-width:1000px;margin:0 auto;padding:0 24px 40px;font-size:0.78rem;colo
 a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
 .crumbs{max-width:1000px;margin:14px auto 0;padding:0 24px;font-size:0.82rem;color:#767676}.crumbs a{color:#767676}.crumbs a:hover{color:var(--emerald)}.link-list{list-style:none}.link-list li{padding:10px 0;border-bottom:1px solid rgba(11,30,63,0.06)}.link-list li:last-child{border-bottom:none}
 </style>
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="logo">PropertySG</a>
-    <nav class="jt-hn" data-jt-header-nav aria-label="Primary">
-      <a href="/">Home</a>
-      <a href="/hdb-prices/">HDB Prices</a>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
       <a href="/insights/">Insights</a>
-      <a class="jt-hn-cta" href="/valuation.html">Free Valuation</a>
-    </nav><style>
-.jt-hn{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end;min-width:0}
-.jt-hn a{color:#d8e2f0;font-size:.88rem;font-weight:500;text-decoration:none;white-space:nowrap}
-.jt-hn a:hover{color:#fff;text-decoration:underline}
-.jt-hn a.jt-hn-cta{background:#10b981;color:#04231a;font-weight:700;padding:10px 16px;border-radius:8px;display:inline-flex;align-items:center}
-.jt-hn a.jt-hn-cta:hover{background:#34d399;color:#04231a;text-decoration:none}
-/* On phones the plain links are dropped and only the CTA is kept, so the header
-   stays a single row instead of wrapping under the logo. Nothing is lost: the
-   logo already links home, and the breadcrumb trail immediately below the header
-   carries both "Home" and "HDB Prices by Town". WCAG 2.5.5: the CTA keeps a full
-   44px touch height. */
-@media(max-width:600px){
-.jt-hn{gap:14px}
-.jt-hn a:not(.jt-hn-cta){display:none}
-.jt-hn a.jt-hn-cta{min-height:44px;padding:10px 15px}
-}
-</style>
+      <a href="/calculator/">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
+    </nav>
   </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/hdb-prices/">HDB Prices by Town</a> &rsaquo; <span>Clementi</span></nav>
 <main id="main" tabindex="-1">
@@ -251,11 +296,32 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
   <h1>Clementi HDB resale prices</h1>
   <p class="lede">Every figure on this page comes from actual registered resale transactions in Clementi — no estimates, no modelling.</p>
   <p class="src">Source: HDB Resale Flat Prices via data.gov.sg · latest full month 2026-08 · figures below use the last 12 months unless stated.</p>
-  <div class="stat-band">
-    <div class="stat"><div class="k">12-month median</div><div class="v">$620,000</div><div class="d">519 transactions</div></div>
-    <div class="stat"><div class="k">Median $psf</div><div class="v">$635</div><div class="d">all flat types</div></div>
-    <div class="stat"><div class="k">Vs prior 12 months</div><div class="v up">+10.7%</div><div class="d">median price change</div></div>
-  </div>
+  <section class="vc" data-jt-value-card aria-labelledby="vc-h">
+    <div class="vc-main">
+      <h2 class="vc-k" id="vc-h">Typical HDB resale price in Clementi</h2>
+      <p class="vc-v" data-vc-median>$620,000</p>
+      <p class="vc-range">Half of all sales fell between <strong>$439,000</strong> and <strong>$960,000</strong></p>
+      <dl class="vc-facts">
+        <div><dt>Year on year, like for like</dt><dd class="up">+3.2%</dd></div>
+        <div><dt>Median $psf</dt><dd>$635</dd></div>
+        <div><dt>Sales</dt><dd>519</dd></div>
+      </dl>
+      <p class="vc-note">Median of 519 sales in the 12 months to Aug 2026, all flat types.</p>
+    </div>
+    <figure class="vc-chart">
+      <figcaption><span class="vc-ck">Price per sq ft, like for like</span><span class="vc-cs">3-month rolling</span></figcaption>
+      <svg class="vc-svg" viewBox="0 0 320 150" role="img" aria-labelledby="vc-t" preserveAspectRatio="xMidYMid meet">
+      <title id="vc-t">Price per square foot, like for like, Sep 2025 to Aug 2026: 3-month rolling medians weighted to the year's mix of sales. Latest $628 psf.</title>
+      <line class="vc-grid" x1="46" x2="308" y1="124" y2="124"/><text class="vc-axis" x="40" y="128" text-anchor="end">$500</text><line class="vc-grid" x1="46" x2="308" y1="68" y2="68"/><text class="vc-axis" x="40" y="72" text-anchor="end">$600</text><line class="vc-grid" x1="46" x2="308" y1="12" y2="12"/><text class="vc-axis" x="40" y="16" text-anchor="end">$700</text>
+      <path class="vc-area" d="M46 124 L46 51.9 L69.8 54.4 L93.6 55.5 L117.5 58.7 L141.3 54.2 L165.1 39.6 L188.9 42.7 L212.7 37.2 L236.5 46.7 L260.4 43.6 L284.2 45 L308 52.2 L308 124 Z"/>
+      <path class="vc-line" d="M46 51.9 L69.8 54.4 L93.6 55.5 L117.5 58.7 L141.3 54.2 L165.1 39.6 L188.9 42.7 L212.7 37.2 L236.5 46.7 L260.4 43.6 L284.2 45 L308 52.2"/>
+      <circle class="vc-dot" cx="308" cy="52.2" r="4"/>
+      <text class="vc-axis" x="46" y="144" text-anchor="start">Sep 2025</text>
+      <text class="vc-axis" x="308" y="144" text-anchor="end">Aug 2026</text>
+    </svg>
+      <p class="vc-trend"><strong>Down 0.1%</strong> like for like between Sep 2025 and Aug 2026. Weighted to the year’s mix of flat types and lease ages, so a run of newer flats selling does not show up as a price rise.</p>
+    </figure>
+  </section>
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Flat type</th><th>Median price</th><th>Median size</th><th>Sales</th></tr></thead>
@@ -272,17 +338,17 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
     <thead><tr><th>Month</th><th style="text-align:left">Flat</th><th>Storey</th><th>Price</th></tr></thead>
     <tbody>
       <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 331 Clementi Ave 2</td><td>07 TO 09</td><td>$450,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 330 Clementi Ave 2</td><td>04 TO 06</td><td>$435,000</td></tr>
       <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 450 Clementi Ave 3</td><td>04 TO 06</td><td>$532,000</td></tr>
-      <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 340 Clementi Ave 5</td><td>01 TO 03</td><td>$720,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 464B Clementi Ave 1</td><td>34 TO 36</td><td>$896,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 311B Clementi Ave 4</td><td>40 TO 42</td><td>$730,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 376 Clementi Ave 4</td><td>04 TO 06</td><td>$450,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 306 Clementi Ave 4</td><td>10 TO 12</td><td>$415,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 311A Clementi Ave 4</td><td>10 TO 12</td><td>$665,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 374 Clementi Ave 4</td><td>07 TO 09</td><td>$452,000</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 375 Clementi Ave 4</td><td>04 TO 06</td><td>$438,888</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 311A Clementi Ave 4</td><td>34 TO 36</td><td>$730,888</td></tr>
-      <tr><td>2026-08</td><td style="text-align:left">3 Room · Blk 312A Clementi Ave 4</td><td>34 TO 36</td><td>$792,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 449 Clementi Ave 3</td><td>01 TO 03</td><td>$445,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 440B Clementi Ave 3</td><td>28 TO 30</td><td>$851,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 434 Clementi Ave 3</td><td>04 TO 06</td><td>$455,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 304 Clementi Ave 4</td><td>04 TO 06</td><td>$405,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 345 Clementi Ave 5</td><td>10 TO 12</td><td>$418,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">3 Room · Blk 706 Clementi West St 2</td><td>07 TO 09</td><td>$390,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 312C Clementi Ave 4</td><td>19 TO 21</td><td>$1,100,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 312B Clementi Ave 4</td><td>31 TO 33</td><td>$1,130,000</td></tr>
+      <tr><td>2026-09</td><td style="text-align:left">4 Room · Blk 324 Clementi Ave 5</td><td>04 TO 06</td><td>$700,000</td></tr>
     </tbody>
   </table></div>
   <h2>Nearby towns</h2>
@@ -310,7 +376,7 @@ a:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radiu
   <div class="faq">
       <details class="faq-item"><summary>What is the median HDB resale price in Clementi?</summary><p>The median HDB resale price in Clementi is $620,000, based on 519 registered transactions in the 12 months to 2026-08.</p></details>
       <details class="faq-item"><summary>What is the median price per square foot (psf) for HDB flats in Clementi?</summary><p>The median price is $635 psf across all flat types, based on transactions in the 12 months to 2026-08.</p></details>
-      <details class="faq-item"><summary>Have HDB prices in Clementi gone up or down over the past year?</summary><p>Median resale prices in Clementi have risen 10.7% over the past year, comparing the 12 months to 2026-08 against the prior 12-month period.</p></details>
+      <details class="faq-item"><summary>Have HDB prices in Clementi gone up or down over the past year?</summary><p>Like for like, HDB resale prices in Clementi have risen 3.2% over the past year. This compares the median price per square foot of the same flat types and lease ages in the 12 months to 2026-08 against the prior 12 months, so a year when more newer flats sold does not count as a price rise.</p></details>
   </div>
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>

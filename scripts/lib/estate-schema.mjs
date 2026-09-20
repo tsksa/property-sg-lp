@@ -45,8 +45,8 @@ export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy,
   };
 
   const yoyText = yoy === null
-    ? `There isn't enough data in the prior 12-month window to compute a year-on-year change for ${t}.`
-    : `Median resale prices in ${t} have ${yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(yoy).toFixed(1)}% over the past year, comparing the 12 months to ${generatedAt} against the prior 12-month period.`;
+    ? `There isn't enough data to compare like with like across the two years in ${t}, so no year-on-year change is given.`
+    : `Like for like, HDB resale prices in ${t} have ${yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(yoy).toFixed(1)}% over the past year. This compares the median price per square foot of the same flat types and lease ages in the 12 months to ${generatedAt} against the prior 12 months, so a year when more newer flats sold does not count as a price rise.`;
 
   const faq = {
     '@type': 'FAQPage',

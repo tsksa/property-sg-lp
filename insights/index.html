@@ -94,16 +94,48 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="blog-topbar">
-  <div class="blog-topbar-inner">
-    <a href="/" class="blog-logo">PropertySG</a>
-    <nav class="blog-nav" aria-label="Primary">
-      <a href="/">Home</a>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
+      <a href="/insights/" aria-current="page">Insights</a>
+      <a href="/calculator/">Calculators</a>
       <a href="/about-joe/">About Joe</a>
-      <a href="/valuation.html">Free Valuation</a>
-      <a href="/#book" class="blog-nav-cta">Book a Call</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
     </nav>
   </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <section class="blog-hero" aria-labelledby="page-hero-title">
   <div class="blog-hero-inner">
@@ -185,6 +217,7 @@
   <ul class="blog-grid" aria-label="Insight articles">
     <li>
       <a href="sell-hdb-first-or-buy-condo-first.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/sell-hdb-first-or-buy-condo-first-640.webp"><img src="/img/insights/sell-hdb-first-or-buy-condo-first-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Buying</span><span class="dot" aria-hidden="true">·</span><span>6 min read</span></div>
         <h2>Sell your HDB first or buy a condo first?</h2>
         <p>Plan an HDB-to-condo upgrade: compare selling first and buying first, CPF refunds, ABSD conditions, cash timing and a worked budget example.</p>
@@ -192,7 +225,53 @@
       </a>
     </li>
     <li>
+      <a href="hdb-resale-prices-2q-2026-by-town.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-resale-prices-2q-2026-by-town-640.webp"><img src="/img/insights/hdb-resale-prices-2q-2026-by-town-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
+        <div class="blog-card-meta"><span class="cat">Market data</span><span class="dot" aria-hidden="true">·</span><span>8 min read</span></div>
+        <h2>HDB resale prices in 2Q 2026 by town: the index dipped, and town medians hide where</h2>
+        <p>The Resale Price Index fell 0.3%. Median 3-, 4- and 5-room prices for every town, million-dollar flats, and why some town medians mislead.</p>
+        <span class="read-more">Read the guide <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </li>
+    <li>
+      <a href="15-month-wait-out-removed-private-owners-hdb.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/15-month-wait-out-removed-private-owners-hdb-640.webp"><img src="/img/insights/15-month-wait-out-removed-private-owners-hdb-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
+        <div class="blog-card-meta"><span class="cat">Housing policy</span><span class="dot" aria-hidden="true">·</span><span>7 min read</span></div>
+        <h2>The 15-month wait-out is gone: what private owners and HDB sellers should do now</h2>
+        <p>Private owners can now buy any resale flat straight away. The conditions that remain, ABSD, bank loan limits and whether to sell or buy first.</p>
+        <span class="read-more">Read the guide <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </li>
+    <li>
+      <a href="cheapest-4-room-5-room-hdb-resale-flats.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/cheapest-4-room-5-room-hdb-resale-flats-640.webp"><img src="/img/insights/cheapest-4-room-5-room-hdb-resale-flats-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
+        <div class="blog-card-meta"><span class="cat">Buying</span><span class="dot" aria-hidden="true">·</span><span>7 min read</span></div>
+        <h2>The cheapest towns for 4-room and 5-room HDB resale flats in 2026, and when cheap means an old lease</h2>
+        <p>Every town ranked by median 4-room and 5-room price over six months, with lease left and like-for-like prices for flats with 70+ years.</p>
+        <span class="read-more">Read the guide <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </li>
+    <li>
+      <a href="singapore-rental-market-2q-2026.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/singapore-rental-market-2q-2026-640.webp"><img src="/img/insights/singapore-rental-market-2q-2026-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
+        <div class="blog-card-meta"><span class="cat">Renting out</span><span class="dot" aria-hidden="true">·</span><span>8 min read</span></div>
+        <h2>Singapore’s rental market in 2Q 2026: HDB rents by town, yields, and what landlords can expect</h2>
+        <p>Official HDB and URA figures, median HDB rents and gross yields for every town, and what landlords should expect for the rest of 2026.</p>
+        <span class="read-more">Read the guide <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </li>
+    <li>
+      <a href="new-condo-launches-2026-2027-calendar.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/new-condo-launches-2026-2027-calendar-640.webp"><img src="/img/insights/new-condo-launches-2026-2027-calendar-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
+        <div class="blog-card-meta"><span class="cat">New launches</span><span class="dot" aria-hidden="true">·</span><span>7 min read</span></div>
+        <h2>New condo and EC launches in Singapore, September 2026 to 2027: the launch calendar</h2>
+        <p>Every condo and EC launch expected to 2027, about 7,047 homes, with dates, districts, tenure and developers, plus what is still selling.</p>
+        <span class="read-more">Read the guide <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
+    </li>
+    <li>
       <a href="ec-vs-private-condo-2027.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/ec-vs-private-condo-2027-640.webp"><img src="/img/insights/ec-vs-private-condo-2027-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Buying</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>EC vs private condo in 2027: the $18,000 ceiling that won't apply, and who should buy which</h2>
         <p>HDB's own list shows every upcoming EC was tendered before the 24 August cut-off. The rules, 2026 prices against new and resale private condos, grants and financing.</p>
@@ -201,6 +280,7 @@
     </li>
     <li>
       <a href="singapore-mega-launches-2027.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/singapore-mega-launches-2027-640.webp"><img src="/img/insights/singapore-mega-launches-2027-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">New launches</span><span class="dot" aria-hidden="true">·</span><span>10 min read</span></div>
         <h2>Singapore's 2027 mega launches: Hougang Central Residences leads the biggest pipeline in years</h2>
         <p>830 homes above Hougang MRT with the town's largest mall, a ~2,000-unit Chuan Grove cluster and an EC wave in early 2027 — plus how an HDB upgrader should time it.</p>
@@ -209,6 +289,7 @@
     </li>
     <li>
       <a href="hdb-income-ceiling-2026-ndr-changes.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-income-ceiling-2026-ndr-changes-640.webp"><img src="/img/insights/hdb-income-ceiling-2026-ndr-changes-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Housing policy</span><span class="dot" aria-hidden="true">·</span><span>7 min read</span></div>
         <h2>HDB income ceiling 2026: $16,000 for families, $18,000 for qualifying ECs</h2>
         <p>The 24 August changes explained: singles, existing HFE letters, November BTO timing and February 2027 ballot chances.</p>
@@ -217,6 +298,7 @@
     </li>
     <li>
       <a href="enhanced-cpf-housing-grant-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/enhanced-cpf-housing-grant-singapore-640.webp"><img src="/img/insights/enhanced-cpf-housing-grant-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Housing grants</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>Enhanced CPF Housing Grant: amounts and eligibility in 2026</h2>
         <p>Current EHG maximums, income and employment rules, lease requirements and what happens to the grant when the flat is sold.</p>
@@ -225,6 +307,7 @@
     </li>
     <li>
       <a href="hdb-resale-grants-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-resale-grants-singapore-640.webp"><img src="/img/insights/hdb-resale-grants-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Resale grants</span><span class="dot" aria-hidden="true">·</span><span>10 min read</span></div>
         <h2>HDB resale grants in 2026: family, singles and proximity amounts</h2>
         <p>Compare CPF Housing Grant, EHG and Proximity Housing Grant amounts, then see how the layers fit into a resale-flat budget.</p>
@@ -233,6 +316,7 @@
     </li>
     <li>
       <a href="use-cpf-buy-hdb-flat-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/use-cpf-buy-hdb-flat-singapore-640.webp"><img src="/img/insights/use-cpf-buy-hdb-flat-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">CPF planning</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>Using CPF to buy an HDB flat: downpayment, limits and refunds</h2>
         <p>Understand what CPF OA can fund, how valuation and withdrawal limits work, and why keeping an OA buffer may matter.</p>
@@ -241,6 +325,7 @@
     </li>
     <li>
       <a href="hdb-downpayment-cash-cpf-grants.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-downpayment-cash-cpf-grants-640.webp"><img src="/img/insights/hdb-downpayment-cash-cpf-grants-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Purchase budget</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>HDB downpayment in 2026: how cash, CPF and grants fit together</h2>
         <p>Separate the headline 25% downpayment from mandatory cash items, CPF-eligible costs and confirmed housing grants.</p>
@@ -249,6 +334,7 @@
     </li>
     <li>
       <a href="hdb-loan-eligibility-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-loan-eligibility-singapore-640.webp"><img src="/img/insights/hdb-loan-eligibility-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Home financing</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>HDB loan eligibility in Singapore: the 2026 requirements</h2>
         <p>Current income ceilings, LTV, tenure, lease and credit-assessment rules — plus the practical path from an affordability estimate to your HFE outcome.</p>
@@ -257,6 +343,7 @@
     </li>
     <li>
       <a href="hfe-letter-singapore-guide.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hfe-letter-singapore-guide-640.webp"><img src="/img/insights/hfe-letter-singapore-guide-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">HFE letter</span><span class="dot" aria-hidden="true">·</span><span>8 min read</span></div>
         <h2>HFE letter Singapore: what it covers and when to apply</h2>
         <p>Application timing, nine-month validity, required information, HDB loan and grant outcomes, and the integrated bank IPA option.</p>
@@ -265,6 +352,7 @@
     </li>
     <li>
       <a href="msr-vs-tdsr-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/msr-vs-tdsr-singapore-640.webp"><img src="/img/insights/msr-vs-tdsr-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Affordability</span><span class="dot" aria-hidden="true">·</span><span>8 min read</span></div>
         <h2>MSR vs TDSR in Singapore: how both limit your home loan</h2>
         <p>Understand the 30% and 55% ceilings with worked examples showing when existing debts—not MSR—become the tighter constraint.</p>
@@ -273,6 +361,7 @@
     </li>
     <li>
       <a href="hdb-loan-vs-bank-loan-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-loan-vs-bank-loan-singapore-640.webp"><img src="/img/insights/hdb-loan-vs-bank-loan-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta"><span class="cat">Loan comparison</span><span class="dot" aria-hidden="true">·</span><span>9 min read</span></div>
         <h2>HDB loan vs bank loan in Singapore: a 2026 comparison</h2>
         <p>Compare interest, cash downpayment, CPF use, lock-ins, early repayment and the one-way switch from HDB financing to a bank.</p>
@@ -281,6 +370,7 @@
     </li>
     <li>
       <a href="how-long-to-sell-hdb-singapore-2026.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/how-long-to-sell-hdb-singapore-2026-640.webp"><img src="/img/insights/how-long-to-sell-hdb-singapore-2026-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta">
           <span class="cat">Selling</span>
           <span class="dot" aria-hidden="true">·</span>
@@ -293,6 +383,7 @@
     </li>
     <li>
       <a href="hdb-valuation-explained.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/hdb-valuation-explained-640.webp"><img src="/img/insights/hdb-valuation-explained-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta">
           <span class="cat">Valuation</span>
           <span class="dot" aria-hidden="true">·</span>
@@ -305,6 +396,7 @@
     </li>
     <li>
       <a href="selling-hdb-after-mop-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/selling-hdb-after-mop-singapore-640.webp"><img src="/img/insights/selling-hdb-after-mop-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta">
           <span class="cat">Selling</span>
           <span class="dot" aria-hidden="true">·</span>
@@ -317,6 +409,7 @@
     </li>
     <li>
       <a href="property-agent-commission-singapore.html" class="blog-card">
+        <picture class="blog-card-img" data-jt-card-cover><source type="image/webp" srcset="/img/insights/property-agent-commission-singapore-640.webp"><img src="/img/insights/property-agent-commission-singapore-640.jpg" width="640" height="336" alt="" loading="lazy" decoding="async"></picture>
         <div class="blog-card-meta">
           <span class="cat">Fees</span>
           <span class="dot" aria-hidden="true">·</span>

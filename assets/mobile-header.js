@@ -1,6 +1,6 @@
 (() => {
-  const HEADER_SELECTOR = 'header.nl-topbar,header.blog-topbar,header.calc-topbar,header.topbar';
-  const MOBILE_QUERY = window.matchMedia('(max-width: 768px)');
+  const HEADER_SELECTOR = 'header[data-jt-site-header]';
+  const MOBILE_QUERY = window.matchMedia('(max-width: 1024px)');
   const MENU_LINKS = [
     ['/valuation.html', 'Valuation'],
     ['/neighbour-prices/', 'Sold Prices'],

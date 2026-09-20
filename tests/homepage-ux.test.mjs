@@ -26,40 +26,32 @@ test('Ms Lai review is first, sourced and consistent with its structured data', 
   assert.match(html, /\.testi-card\{transform:none!important\}/);
 });
 
-test('only the primary homepage navigation is fixed', () => {
+test('the homepage uses the shared sticky header and only the footer stays static', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /\.site-nav\{position:fixed;/);
+  assert.match(homepage, /<header class="jt-sh" data-jt-site-header>/);
+  assert.doesNotMatch(homepage, /\.site-nav\{|<nav class="site-nav"|id="navBurger"|mobile-nav-open|id="darkToggle"/);
   assert.doesNotMatch(homepage, /(?:^|\n)nav\{position:fixed;/);
-  assert.match(homepage, /<nav class="site-nav" aria-label="Primary">/);
   assert.match(homepage, /<nav class="jt-sf" data-jt-site-footer/);
 
   const footerRule = homepage.match(/\.jt-sf\{([^}]*)\}/)?.[1] ?? '';
   assert.doesNotMatch(footerRule, /position\s*:\s*fixed/);
 });
 
-test('mobile navigation state is scoped to the primary header', () => {
+test('mobile navigation and the theme toggle come from the shared assets', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /\.site-nav \.nav-links\.open\{display:flex\}/);
-  assert.match(homepage, /body\.mobile-nav-open\{overflow:hidden\}/);
-  assert.match(homepage, /body\.mobile-nav-open \.cookie-banner\.show\{visibility:hidden;pointer-events:none\}/);
-  assert.match(homepage, /\.site-nav \.nav-links\{display:none;position:absolute;top:100%;right:0;left:0;height:calc\(100dvh - 100% - 3px\);/);
-  assert.match(homepage, /document\.body\.classList\.toggle\('mobile-nav-open',open\)/);
-  assert.match(homepage, /if\(e\.key==='Escape'\)\{\s*setNav\(false,true\)/);
-  assert.match(homepage, /if\(e\.key==='Tab'\)\{/);
-  assert.match(homepage, /mobileNavQuery\.addEventListener\('change',e=>\{if\(!e\.matches\)setNav\(false\);\}\)/);
-  assert.match(homepage, /id="darkToggle"[^>]*data-jt-theme-toggle[^>]*aria-label="Switch to dark mode"[^>]*aria-pressed="false"/);
-  assert.match(homepage, /<span class="dark-toggle-label" data-jt-theme-label>Dark<\/span>/);
-  assert.match(homepage, /e\.target\.closest\('\.site-nav'\)/);
-  assert.match(homepage, /document\.querySelector\('\.site-nav'\)/);
-  assert.doesNotMatch(homepage, /e\.target\.closest\('nav'\)/);
+  assert.match(homepage, /<link rel="stylesheet" href="\/assets\/mobile-header\.css" data-jt-mobile-header-assets>/);
+  assert.match(homepage, /<script src="\/assets\/mobile-header\.js" defer data-jt-mobile-header-assets><\/script>/);
+  assert.match(homepage, /<script src="\/assets\/site-theme\.js"><\/script>/);
+  // The hero no longer pads for a fixed nav; the shared header is in flow.
+  assert.match(homepage, /\.hero\{[^}]*padding:72px 32px 88px/);
 });
 
 test('homepage lead form provides persistent accessible field errors', () => {
   const homepage = read('index.html');
 
-  assert.match(homepage, /<form class="hero-form" id="heroForm"[^>]*novalidate>/);
+  assert.match(homepage, /<form class="hero-consult" id="heroForm"[^>]*novalidate hidden>/);
   for (const id of ['hero-name-error', 'hero-phone-error', 'hero-proptype-error']) {
     assert.match(homepage, new RegExp(`id="${id}" hidden>`));
   }
@@ -70,25 +62,37 @@ test('homepage lead form provides persistent accessible field errors', () => {
   assert.match(homepage, /jtTrackLeadFormStage\(heroForm,'validation_error'/);
 });
 
-test('consultation stays primary while valuation is a quiet secondary action', () => {
+test('the hero leads with the sold-prices lookup and keeps the consultation one click away', () => {
   const homepage = read('index.html');
+  const card = homepage.match(/<div class="hero-form hero-card" id="heroCard">[\s\S]*?<\/form>\n    <\/div>/)?.[0] ?? '';
+  assert.ok(card, 'hero card missing');
 
-  assert.match(homepage, /class="cta-submit">Get Free Consultation/);
-  assert.match(homepage, /Need a price estimate instead\? Get a free valuation/);
-  assert.doesNotMatch(homepage, /hero-or-divider/);
+  // Estimate first: a postal-code form that works without JavaScript by
+  // falling back to the full sold-prices page, and no contact field before it.
+  assert.match(card, /data-jt-estimate data-context="home"/);
+  assert.match(card, /<h2 class="jte-heading" id="heroEstimateTitle">What did flats in your block sell for\?<\/h2>/);
+  assert.match(card, /<form class="jte-form" action="\/neighbour-prices\/" method="get"/);
+  assert.match(card, /id="heroPostal" name="postal"[^>]*inputmode="numeric"[^>]*autocomplete="postal-code"/);
+  assert.ok(card.indexOf('id="heroPostal"') < card.indexOf('id="hero-name"'), 'postal code must come before the name field');
+
+  // Consultation: still the same tracked form, hidden until asked for.
+  assert.match(card, /<form class="hero-consult" id="heroForm"[^>]*hidden>/);
+  assert.match(card, /class="cta-submit">Get Free Consultation/);
+  assert.match(card, /id="heroTalkLink">Rather talk to Joe first\?/);
+  assert.match(card, /id="heroBackToEstimate">[\s\S]*Back to sold prices<\/button>/);
+  assert.match(homepage, /heroEstimate\.addEventListener\('jte:valuation'/);
+  assert.match(homepage, /<script type="module" src="\/assets\/block-estimate\.js"><\/script>/);
+  assert.match(homepage, /<link rel="stylesheet" href="\/assets\/block-estimate\.css">/);
 });
 
-test('homepage navigation aligns with the Joe authority page', () => {
-  const homepage = read('index.html');
-  const profile = read('about-joe/index.html');
-
-  assert.match(
-    homepage,
-    /<a class="logo" href="\/">\s*<span class="logo-name">Joe Tay<\/span><span class="logo-brand">PropertySG<\/span>\s*<\/a>/,
-  );
-  for (const label of ['Valuation', 'Insights', 'Sell with Joe']) {
-    assert.ok(homepage.includes(`>${label}</a>`), `homepage is missing ${label}`);
-    assert.ok(profile.includes(`>${label}</a>`), `profile is missing ${label}`);
+test('homepage navigation is the same header the Joe authority page uses', () => {
+  const header = (rel) => read(rel).match(/<header class="jt-sh" data-jt-site-header>[\s\S]*?<\/style>\s*<\/header>/)?.[0].replace(/ aria-current="page"/g, '');
+  const homepage = header('index.html');
+  assert.ok(homepage);
+  assert.equal(header('about-joe/index.html'), homepage);
+  assert.match(homepage, /<span class="jt-mh-logo-name">Joe Tay<\/span><span class="jt-mh-logo-brand">PropertySG<\/span>/);
+  for (const label of ['Valuation', 'Insights', 'About Joe', 'WhatsApp Joe']) {
+    assert.ok(homepage.includes(`>${label}</a>`), `header is missing ${label}`);
   }
 });
 
@@ -106,4 +110,51 @@ test('hero form uses concise, privacy-forward reassurance', () => {
   assert.match(homepage, /Direct reply from Joe · No obligation/);
   assert.match(homepage, /Spam-protected\. Your details stay private\./);
   assert.doesNotMatch(homepage, /Typically replies in under 10 min/);
+});
+
+// ── JOE-393: the shorter homepage ────────────────────────────────────────────
+
+const schemasOf = (html) => [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map((m) => JSON.parse(m[1]));
+const textOf = (html) => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").replace(/\s+/g, ' ');
+
+test('the homepage keeps proof near the top and drops the sections that repeated it', () => {
+  const homepage = read('index.html');
+  const order = ['class="hero"', 'class="trust-strip"', 'id="testimonials"', 'id="process"', 'id="advisor"', 'id="book"', 'id="faq"', 'id="latest-guides"', 'id="cta-final"'];
+  const positions = order.map((marker) => homepage.indexOf(marker));
+  positions.forEach((pos, i) => assert.ok(pos > -1, `missing ${order[i]}`));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions, 'homepage sections out of order');
+  for (const gone of ['id="problem"', 'id="solution"', 'id="compare"', 'id="concerns"', 'class="recent-activity"', 'class="stats"', 'class="stat-number"']) {
+    assert.ok(!homepage.includes(gone), `${gone} should no longer be on the homepage`);
+  }
+  const strip = homepage.match(/<section class="trust-strip"[\s\S]*?<\/section>/)[0];
+  for (const figure of ['500+', '$200M+', '$8M+', '5.0★']) assert.ok(strip.includes(figure), `stat row missing ${figure}`);
+  for (const id of ['heroForm', 'finalForm', 'valPopupForm', 'exitForm', 'footerNewsletter']) assert.match(homepage, new RegExp(`id="${id}"`), `lead form ${id} missing`);
+});
+
+test('homepage and sell-page FAQ structured data match their visible questions and answers', () => {
+  for (const [rel, count] of [['index.html', 7], ['sell/index.html', 6]]) {
+    const html = read(rel);
+    const faq = schemasOf(html).find((s) => s['@type'] === 'FAQPage');
+    assert.ok(faq, `${rel}: FAQPage missing`);
+    assert.equal(faq.mainEntity.length, count, `${rel}: FAQ count`);
+    const visible = textOf(html);
+    for (const q of faq.mainEntity) {
+      assert.ok(visible.includes(q.name), `${rel}: question not visible: ${q.name}`);
+      assert.ok(visible.includes(q.acceptedAnswer.text), `${rel}: answer not visible: ${q.name}`);
+    }
+  }
+  assert.match(read('index.html'), /href="\/sell\/#seller-questions"/);
+  assert.match(read('sell/index.html'), /<section class="lp-section" id="seller-questions"/);
+  assert.match(read('sell/index.html'), /<th scope="row">After OTP signed<\/th>/);
+});
+
+test('the Calendly calendar loads only after the visitor asks for it', () => {
+  const homepage = read('index.html');
+  assert.match(homepage, /<button type="button" class="calendly-show" id="calendlyShow" aria-controls="calendlyInline" aria-expanded="false">/);
+  assert.match(homepage, /<div class="calendly-inline-widget" id="calendlyInline" hidden /);
+  // The button's own display rule would otherwise beat the hidden attribute.
+  assert.match(homepage, /\.calendly-show\[hidden\],\.calendly-inline-widget\[hidden\]\{display:none!important\}/);
+  assert.doesNotMatch(homepage, /calObs|IntersectionObserver\(entries=>\{\s*if\(entries\.some\(en=>en\.isIntersecting\)\)\{loadCalendlyScript/, 'no scroll-triggered Calendly load');
+  assert.match(homepage, /getElementById\('calendlyShow'\)\?\.addEventListener\('click'[\s\S]{0,400}loadCalendlyScript\(\)/);
+  assert.doesNotMatch(homepage, /<script[^>]+src="https:\/\/assets\.calendly\.com/, 'Calendly script must not be in the page source');
 });

@@ -39,21 +39,21 @@ test('theme preference is applied before content and synchronized across control
 test('homepage light mode has visibly light navigation and form surfaces', () => {
   const css = read('assets/site-theme.css');
   const homepage = read('index.html');
-  assert.match(css, /html:not\(\.jt-theme-dark\) \.site-nav\{background:rgba\(250,246,236,\.96\)/);
   assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-form\{background:rgba\(255,255,255,\.94\)/);
   assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-form input/);
   assert.match(css, /html:not\(\.jt-theme-dark\) \.hero-valuation-link\{color:#43506a\}/);
   assert.match(css, /body:has\(\.cookie-banner\.show\) \.jt-theme-toggle\{opacity:1;visibility:visible;pointer-events:auto\}/);
-  assert.match(homepage, /data-jt-theme-toggle/);
-  assert.doesNotMatch(homepage, /const dt=document\.getElementById\('darkToggle'\)/);
+  assert.match(homepage, /<header class="jt-sh" data-jt-site-header>/);
+  assert.doesNotMatch(homepage, /id="darkToggle"|const dt=document\.getElementById\('darkToggle'\)/);
 });
 
-test('internal page headers use the shared light treatment', () => {
+test('the shared header carries its own light and dark treatment', () => {
+  const header = read('scripts/lib/site-header.mjs');
+  assert.match(header, /\.jt-sh\{position:sticky;top:0;[^}]*background:rgba\(250,246,236,\.97\)/);
+  assert.match(header, /html\.jt-theme-dark \.jt-sh\{background:rgba\(6,20,48,\.96\)/);
+  assert.match(header, /\.jt-sh \.jt-theme-toggle\{border-color:rgba\(11,30,63,\.18\);background:#fff;color:#0b1e3f\}/);
   const css = read('assets/site-theme.css');
-  assert.match(css, /html:not\(\.jt-theme-dark\) :is\(\.calc-topbar,\.topbar,\.blog-topbar,\.nl-topbar,\.nl-topbar\.scrolled,\.site-head\)\{background:rgba\(250,246,236,\.97\)/);
-  for (const selector of ['.calc-nav', '.jt-hn', '.blog-nav', '.nl-nav', '.site-head .nav-links']) {
-    assert.ok(css.includes(selector), `missing ${selector}`);
-  }
+  assert.doesNotMatch(css, /\.site-nav|\.calc-topbar|\.blog-topbar|\.nl-topbar|\.jt-hn/, 'retired header selectors must not linger in the theme file');
 });
 
 test('dark theme covers discovery, calculator and authority surfaces', () => {

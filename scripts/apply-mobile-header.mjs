@@ -1,8 +1,6 @@
 #!/usr/bin/env node
-// Adds the shared responsive header assets to the four core page families:
-// new launches, insights, calculators, and the HDB/valuation topbar pages.
-// The homepage keeps its hand-authored menu, which is the visual/interaction
-// reference for this shared implementation.
+// Adds the shared responsive header assets (burger menu + panel) to every page
+// that carries the shared site header from scripts/lib/site-header.mjs.
 //
 //   node scripts/apply-mobile-header.mjs
 //   node scripts/apply-mobile-header.mjs --check
@@ -15,7 +13,7 @@ import { mobileHeaderAssetsHtml, MOBILE_HEADER_MARKER } from './lib/mobile-heade
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
-const TARGET_HEADER_RE = /<header class="[^"]*(?:nl-topbar|blog-topbar|calc-topbar|\btopbar\b)[^"]*">/m;
+const TARGET_HEADER_RE = /<header class="jt-sh" data-jt-site-header>/m;
 const EXISTING_RE = new RegExp(`\\n?<link rel="stylesheet" href="/assets/mobile-header\\.css" ${MOBILE_HEADER_MARKER}>\\n<script src="/assets/mobile-header\\.js" defer ${MOBILE_HEADER_MARKER}></script>`, 'g');
 
 const pages = [];

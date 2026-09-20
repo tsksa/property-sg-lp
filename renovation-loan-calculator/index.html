@@ -154,10 +154,10 @@ a:hover{text-decoration:underline}
 .calc-nav .calc-nav-cta:hover{background:var(--emerald-dark)}
 @media(max-width:680px){.calc-nav a:not(.calc-nav-cta){display:none}}
 
-.calc-hero{padding:56px 24px 32px;text-align:center;background:#fff;border-bottom:1px solid #eee}
+.calc-hero{padding:36px 24px 24px;text-align:center;background:#fff;border-bottom:1px solid #eee}
 .calc-hero-inner{max-width:760px;margin:0 auto}
-.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:14px;color:var(--navy)}
+.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,3.8vw,2.35rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:10px;color:var(--navy)}
 .calc-hero p{font-size:1rem;color:#555;line-height:1.55;max-width:560px;margin:0 auto}
 
 .calc-main{max-width:1000px;margin:0 auto;padding:48px 24px 72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:36px}
@@ -234,22 +234,55 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="/assets/site-theme.css">
+<script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="calc-topbar">
-  <div class="calc-topbar-inner">
-    <a href="/" class="calc-logo">PropertySG</a>
-    <nav class="calc-nav" aria-label="Primary">
-      <a href="/">Home</a>
-      <a href="/calculator/">Affordability</a>
-      <a href="/bto-calculator/">BTO</a>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
       <a href="/insights/">Insights</a>
-      <a href="/#book" class="calc-nav-cta">Book a Call</a>
+      <a href="/calculator/">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
     </nav>
   </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">

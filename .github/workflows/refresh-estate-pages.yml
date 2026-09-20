@@ -29,8 +29,14 @@ jobs:
       - name: Regenerate pages from data.gov.sg
         run: node scripts/generate-estate-pages.mjs
 
+      - name: Refresh the homepage market line
+        run: node scripts/generate-market-pulse.mjs
+
+      # The generator emits a bare page shell. Re-apply every piece of shared
+      # furniture (header, theme, mobile menu, footer, tracking, consent banner,
+      # fonts) or the refresh PR strips them from all 27 pages.
       - name: Re-apply shared page furniture
-        run: node scripts/apply-conversion-tracking.mjs
+        run: node scripts/apply-page-furniture.mjs
 
       - name: Consistency guard on the result
         run: node scripts/check-consistency.mjs
@@ -47,7 +53,7 @@ jobs:
           git config user.name "estate-refresh-bot"
           git config user.email "actions@github.com"
           git checkout -B "$BRANCH"
-          git add hdb-prices/ sitemap.xml
+          git add hdb-prices/ sitemap.xml assets/market-pulse.json
           git commit -m "Monthly estate-page refresh from data.gov.sg ($(date -u +%Y-%m))"
           git push -f origin "$BRANCH"
 

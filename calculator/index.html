@@ -195,16 +195,16 @@ a:hover{text-decoration:underline}
 @media(max-width:680px){.calc-nav a:not(.calc-nav-cta){display:none}}
 
 /* Hero */
-.calc-hero{padding:56px 24px 32px;text-align:center;background:#fff;border-bottom:1px solid #eee}
+.calc-hero{padding:36px 24px 24px;text-align:center;background:#fff;border-bottom:1px solid #eee}
 .calc-hero-inner{max-width:760px;margin:0 auto}
-.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
-.calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.9rem,4.5vw,2.7rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:14px;color:var(--navy)}
+.calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,3.8vw,2.35rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:10px;color:var(--navy)}
 .calc-hero p{font-size:1rem;color:#555;line-height:1.55;max-width:560px;margin:0 auto}
 .calc-tools{margin-top:14px!important;font-size:.92rem}
 .calc-tools a{color:#047857;font-weight:600}
 
 /* Main wrapper */
-.calc-main{max-width:1000px;margin:0 auto;padding:48px 24px 72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:36px}
+.calc-main{max-width:1000px;margin:0 auto;padding:32px 24px 72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:20px 36px}
 .calc-policy-note{grid-column:1/-1;border-left:4px solid var(--emerald-aa);padding:16px 20px;background:#fff;font-size:.9rem;color:#333}
 .calc-policy-note a{text-decoration:underline;text-underline-offset:.15em}
 @media(max-width:860px){.calc-main{grid-template-columns:1fr;padding:32px 20px 56px}}
@@ -304,29 +304,58 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="calc-topbar">
-  <div class="calc-topbar-inner">
-    <a href="/" class="calc-logo">PropertySG</a>
-    <nav class="calc-nav" aria-label="Primary">
-      <a href="/">Home</a>
-      <a href="/bto-calculator/">BTO</a>
-      <a href="/stamp-duty-calculator/">Stamp Duty</a>
+<header class="jt-sh" data-jt-site-header>
+  <div class="jt-sh-inner">
+    <a href="/" class="jt-sh-logo"><span class="jt-mh-logo-name">Joe Tay</span><span class="jt-mh-logo-brand">PropertySG</span></a>
+    <nav class="jt-sh-nav" aria-label="Primary">
+      <a href="/valuation.html">Valuation</a>
+      <a href="/neighbour-prices/">Sold Prices</a>
+      <a href="/new-launches/">New Launches</a>
       <a href="/insights/">Insights</a>
-      <a href="/valuation.html">Free Valuation</a>
-      <a href="/#book" class="calc-nav-cta">Book a Call</a>
+      <a href="/calculator/" aria-current="page">Calculators</a>
+      <a href="/about-joe/">About Joe</a>
+      <a class="jt-sh-cta" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20found%20you%20on%20joetay.com%20and%20would%20like%20to%20ask%20about%20my%20property.">WhatsApp Joe</a>
     </nav>
   </div>
+<style>
+.jt-sh{position:sticky;top:0;z-index:100;background:rgba(250,246,236,.97);color:#0b1e3f;border-bottom:1px solid rgba(11,30,63,.12);box-shadow:0 2px 18px rgba(11,30,63,.08);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.jt-sh-inner{max-width:1180px;margin:0 auto;min-height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0}
+.jt-sh-logo{display:inline-flex;align-items:baseline;gap:7px;color:inherit;text-decoration:none;white-space:nowrap}
+.jt-sh .jt-mh-logo-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.15rem;letter-spacing:-.5px;color:#0b1e3f}
+.jt-sh .jt-mh-logo-brand{font-family:'DM Sans',Arial,sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(11,30,63,.82)}
+.jt-sh-nav{display:flex;align-items:center;gap:22px;min-width:0}
+.jt-sh-nav>a{color:#243653;font-family:'DM Sans',Arial,sans-serif;font-size:.88rem;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap}
+.jt-sh-nav>a:hover{color:#047857}
+.jt-sh-nav>a[aria-current="page"]{color:#0b1e3f;font-weight:700}
+.jt-sh-nav>a.jt-sh-cta{background:#10b981;color:#04231a;font-weight:700;padding:11px 16px;border-radius:999px;display:inline-flex;align-items:center;min-height:44px}
+.jt-sh-nav>a.jt-sh-cta:hover{background:#34d399;color:#04231a}
+.jt-sh a:focus-visible,.jt-sh button:focus-visible{outline:2px solid #047857;outline-offset:2px}
+.jt-sh .jt-theme-toggle{border-color:rgba(11,30,63,.18);background:#fff;color:#0b1e3f}
+.jt-sh .jt-mh-toggle{color:#0b1e3f}
+html.jt-theme-dark .jt-sh{background:rgba(6,20,48,.96);color:#fff;border-bottom-color:rgba(255,255,255,.1);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
+html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
+html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
+html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
+@media(max-width:1024px){
+.jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
+.jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
+</style>
 </header>
 <section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">
     <div class="eyebrow">HDB Loan Calculator Singapore</div>
     <h1 id="page-hero-title">HDB loan calculator: estimate your monthly repayment</h1>
-    <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount. Buying at a launch? Try the <a href="/bto-calculator/">BTO calculator</a> — and budget the works with the <a href="/renovation-loan-calculator/">renovation loan calculator</a>.</p>
+    <p>Calculate repayments for a loan amount you choose, or use income, cash and CPF to estimate your housing budget. This is an independent planning estimate; your HFE letter determines the actual eligible amount.</p>
     <p class="calc-tools">Looking for a different estimate? <a href="/bto-calculator/">HDB BTO calculator</a> · <a href="/renovation-loan-calculator/">Renovation loan calculator</a> · <a href="/stamp-duty-calculator/">Stamp duty calculator</a></p>
   </div>
 </section>
 <main id="main" tabindex="-1" class="calc-main">
-  <p class="calc-policy-note" id="hdbPolicyUpdate"><strong>HDB eligibility update — 24 August 2026:</strong> for new HFE applications, HDB loan income ceilings are $16,000 for families, $8,000 for eligible singles buying alone, and $24,000 for eligible extended families (each family nucleus within $16,000). The $18,000 ceiling is for qualifying new ECs. <strong>This calculator does not check income-ceiling eligibility or grant/loan approval</strong>; an estimate is not an HFE outcome. <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">Read the new rules and existing-HFE guidance</a>.</p>
   <fieldset class="decision-modes" id="calculatorModes" hidden>
     <legend>What would you like to calculate?</legend>
     <label><input type="radio" name="calculatorMode" value="repayment" checked> Monthly repayment</label>
@@ -336,6 +365,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <section class="decision-tool" id="repaymentPanel" aria-labelledby="repaymentTitle">
     <h2 id="repaymentTitle">Calculate your loan repayment</h2>
     <p>Enter the amount you plan to borrow, not the property price. No contact details are needed; these calculations stay in your browser.</p>
+    <div class="decision-layout">
+    <div class="decision-inputs">
     <form id="repaymentForm" novalidate>
       <div class="decision-grid">
         <div class="decision-field">
@@ -357,6 +388,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <button type="submit">Calculate repayment</button>
     </form>
     <noscript><p>Enable JavaScript to use the interactive calculator. The worked examples and methodology below remain available.</p></noscript>
+    </div>
+    <div class="decision-result">
     <div id="repaymentOutput" hidden>
       <div class="decision-summary" aria-live="polite" aria-atomic="true">
         <dl>
@@ -397,6 +430,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <p class="repayment-next-guide">Still checking eligibility? <a href="/insights/hdb-loan-eligibility-singapore.html">Read the HDB eligibility guide</a> before deciding what to borrow.</p>
       </div>
     </div>
+    <p class="decision-placeholder">Enter a loan amount, term and rate to see your monthly repayment here.</p>
+    </div>
+    </div>
     <h3>How this repayment estimate works</h3>
     <p>For a constant rate, the monthly instalment is P × r ÷ (1 − (1 + r)<sup>−n</sup>), where P is the loan amount, r is the annual rate divided by 12 and n is the number of months. At 0% interest, divide P by n.</p>
     <p class="decision-help">The schedule rounds monthly interest and payments to cents and adjusts the last payment to clear the balance. It assumes payments at month-end and an unchanged rate. It excludes fees, insurance, missed payments, early repayment and future rate changes. Your lender's rounding and payment dates may differ. This mode does not assess MSR, TDSR, CPF usage or loan approval.</p>
@@ -404,6 +440,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <p>A hypothetical S$300,000 loan over 25 years at a constant 2.6% has a regular monthly repayment of about S$1,361. A S$120,000 loan over 10 years at 0% has a monthly repayment of S$1,000 and no interest.</p>
     <p class="decision-help">Repayment source checked 26 August 2026: <a href="https://www.hdb.gov.sg/managing-my-home/finances/loan-matters/interest-rate" target="_blank" rel="noopener">HDB interest rate and monthly interest computation</a>.</p>
   </section>
+  <p class="calc-policy-note" id="hdbPolicyUpdate"><strong>HDB eligibility update — 24 August 2026:</strong> for new HFE applications, HDB loan income ceilings are $16,000 for families, $8,000 for eligible singles buying alone, and $24,000 for eligible extended families (each family nucleus within $16,000). The $18,000 ceiling is for qualifying new ECs. <strong>This calculator does not check income-ceiling eligibility or grant/loan approval</strong>; an estimate is not an HFE outcome. <a href="/insights/hdb-income-ceiling-2026-ndr-changes.html">Read the new rules and existing-HFE guidance</a>.</p>
   <div class="calc-form" id="affordabilityForm" hidden>
     <h2>Your numbers</h2>
     <p class="sub">All calculations happen locally in your browser — nothing is sent or stored.</p>
@@ -484,6 +521,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <h2 id="resaleCashTitle">Resale cash-readiness breakdown</h2>
     <p>Already choosing a resale flat? Check the remaining cash needed using your confirmed financing. This does not calculate loan eligibility, grant entitlement, stamp duty or CPF usage limits.</p>
     <p class="decision-help">Enter amounts in Singapore dollars. Calculations stay in your browser. Cash-over-valuation is cash-only. Usable CPF is a purchase allocation, not your full OA balance. <a href="/stamp-duty-calculator/">Estimate stamp duty separately</a> and include any unpaid cash-funded duty in the reserve below.</p>
+    <div class="decision-layout">
+    <div class="decision-inputs">
     <form id="resaleCashForm" novalidate>
       <div class="decision-grid">
         <div class="decision-field">
@@ -526,6 +565,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <button type="submit" id="resaleCashSubmit" disabled>Calculate cash readiness</button>
     </form>
     <noscript><p>This breakdown requires JavaScript. Use your HDB financial plan to check the remaining payment amounts.</p></noscript>
+    </div>
+    <div class="decision-result">
     <div id="resaleCashOutput" class="decision-summary" role="status" aria-live="polite" aria-atomic="true" hidden>
       <h3 id="resaleCashStatus"></h3>
       <dl>
@@ -561,6 +602,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         </div>
         <p id="resaleCashCopyStatus" class="repayment-copy-status" role="status" aria-live="polite" hidden></p>
       </div>
+    </div>
+    <p class="decision-placeholder">Fill in all seven amounts to see the cash you need from now, and any shortfall.</p>
+    </div>
     </div>
     <p class="decision-help">Sources: <a href="https://www.hdb.gov.sg/buying-a-flat/resale-flats/process-for-buying-a-resale-flat/option-to-purchase">HDB resale deposit</a> · <a href="https://www.cpf.gov.sg/member/infohub/educational-resources/3-differences-between-hdb-loan-and-bank-loan">CPF and financing rules</a>. Checked 4 September 2026.</p>
   </section>

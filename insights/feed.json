@@ -23,8 +23,90 @@
       "content_text": "Plan an HDB-to-condo upgrade: compare selling first and buying first, CPF refunds, ABSD conditions, cash timing and a worked budget example.",
       "date_published": "2026-09-20T00:00:00+08:00",
       "date_modified": "2026-09-20T00:00:00+08:00",
-      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
-      "tags": ["Buying"]
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ],
+      "tags": [
+        "Buying"
+      ]
+    },
+    {
+      "id": "https://joetay.com/insights/hdb-resale-prices-2q-2026-by-town.html",
+      "url": "https://joetay.com/insights/hdb-resale-prices-2q-2026-by-town.html",
+      "title": "HDB Resale Prices 2Q 2026 by Town",
+      "summary": "HDB resale prices fell 0.3% in 2Q 2026. Median 3-, 4- and 5-room prices for all 26 towns, million-dollar flats and why some town medians mislead.",
+      "content_text": "HDB resale prices fell 0.3% in 2Q 2026. Median 3-, 4- and 5-room prices for all 26 towns, million-dollar flats and why some town medians mislead.",
+      "date_published": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-09-17T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ]
+    },
+    {
+      "id": "https://joetay.com/insights/15-month-wait-out-removed-private-owners-hdb.html",
+      "url": "https://joetay.com/insights/15-month-wait-out-removed-private-owners-hdb.html",
+      "title": "15-Month Wait-Out Removed: What Owners Do Now",
+      "summary": "Since 28 July 2026, private owners can buy a resale flat without grants or an HDB loan with no 15-month wait. Conditions, ABSD, loan limits and next steps.",
+      "content_text": "Since 28 July 2026, private owners can buy a resale flat without grants or an HDB loan with no 15-month wait. Conditions, ABSD, loan limits and next steps.",
+      "date_published": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-09-17T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ]
+    },
+    {
+      "id": "https://joetay.com/insights/cheapest-4-room-5-room-hdb-resale-flats.html",
+      "url": "https://joetay.com/insights/cheapest-4-room-5-room-hdb-resale-flats.html",
+      "title": "Cheapest 4-Room and 5-Room HDB Resale Towns",
+      "summary": "Every town ranked by median 4-room and 5-room resale price, March to August 2026, with remaining lease and prices for flats with 70+ years left.",
+      "content_text": "Every town ranked by median 4-room and 5-room resale price, March to August 2026, with remaining lease and prices for flats with 70+ years left.",
+      "date_published": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-09-17T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ]
+    },
+    {
+      "id": "https://joetay.com/insights/singapore-rental-market-2q-2026.html",
+      "url": "https://joetay.com/insights/singapore-rental-market-2q-2026.html",
+      "title": "Singapore Rental Market 2Q 2026: Landlord Guide",
+      "summary": "HDB and condo rents in 2Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect for the rest of 2026.",
+      "content_text": "HDB and condo rents in 2Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect for the rest of 2026.",
+      "date_published": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-09-17T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ]
+    },
+    {
+      "id": "https://joetay.com/insights/new-condo-launches-2026-2027-calendar.html",
+      "url": "https://joetay.com/insights/new-condo-launches-2026-2027-calendar.html",
+      "title": "New Condo Launches 2026–2027: Launch Calendar",
+      "summary": "Every upcoming Singapore condo and EC launch to 2027, about 7,047 homes: expected dates, location, tenure, size and developer, plus what is still selling.",
+      "content_text": "Every upcoming Singapore condo and EC launch to 2027, about 7,047 homes: expected dates, location, tenure, size and developer, plus what is still selling.",
+      "date_published": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-09-17T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ]
     },
     {
       "id": "https://joetay.com/insights/ec-vs-private-condo-2027.html",

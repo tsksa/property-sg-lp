@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
+import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
@@ -194,6 +195,11 @@ function localCanonicalPath(project) {
 // without one keep the monogram, so a missing asset never shows a broken image.
 const hasMapThumb = (project) =>
   fs.existsSync(path.join(path.dirname(DATA_PATH), 'img', 'maps', `${project.slug}-600.webp`));
+// A developer render reads better than a map on a catalog card; fall back to the map.
+const cardImage = (project) => {
+  if (fs.existsSync(path.join(path.dirname(DATA_PATH), 'img', 'gallery', project.slug, 'card-600.webp'))) return `/new-launches/img/gallery/${project.slug}/card-600.webp`;
+  return hasMapThumb(project) ? `/new-launches/img/maps/${project.slug}-600.webp` : null;
+};
 
 function cardHtml(project, index) {
   const search = [project.name, project.developer, project.location]
@@ -204,9 +210,9 @@ function cardHtml(project, index) {
   const dynamic = dynamicCopy(project);
   return `    <li class="nl-card-item" data-catalog-item data-name="${esc(project.name.toLowerCase())}" data-search="${esc(search)}" data-status="${esc(project.status)}" data-region="${esc(project.region)}" data-property-type="${esc(project.propertyType)}" data-tenure="${esc(project.tenure)}" data-launch-date="${esc(launchDate)}" data-price="${esc(price)}" data-default-order="${index}">
       <a href="${esc(localCanonicalPath(project))}" class="nl-card">
-        <div class="nl-card-img${hasMapThumb(project) ? '' : ' nl-card-img-data'}" aria-hidden="true">
-          ${hasMapThumb(project)
-            ? `<img src="/new-launches/img/maps/${esc(project.slug)}-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">`
+        <div class="nl-card-img${cardImage(project) ? '' : ' nl-card-img-data'}" aria-hidden="true">
+          ${cardImage(project)
+            ? `<img src="${esc(cardImage(project))}" width="600" height="315" alt="" loading="lazy" decoding="async">`
             : `<span class="nl-card-monogram">${esc(project.name.slice(0, 2).toUpperCase())}</span>`}
           <span class="nl-card-badge ${project.status === 'upcoming' ? 'new' : ''}">${esc(STATUS_LABELS[project.status])}</span>
         </div>
@@ -355,8 +361,7 @@ ${fontLinksHtml()}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PropertySG">
 <meta name="format-detection" content="telephone=no">
-<link rel="stylesheet" href="/assets/site-theme.css">
-<script src="/assets/site-theme.js"></script>
+${SITE_THEME_ASSETS_HTML}
 ${mobileHeaderAssetsHtml()}
 </head>`;
 }
@@ -418,7 +423,7 @@ function bodyHtml(projects, { soldOut, alternativesPool = [] }) {
   return `<body data-catalog-page="${soldOut ? 'sold-out' : 'active'}">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="nl-progress" aria-hidden="true"></div>
-<header class="nl-topbar"><div class="nl-topbar-inner"><a href="/" class="nl-logo">PropertySG</a><nav class="nl-nav" aria-label="Primary"><a href="/">Home</a><a href="/sell/">Sell</a><a href="/rent-out/">Rent Out</a><a href="/insights/">Insights</a><a href="/zh/new-launches/" lang="zh-Hans" hreflang="zh-Hans">中文</a><a href="/#book" class="nl-nav-cta">Book a Call</a></nav></div></header>
+${siteHeaderHtml({ pagePath: soldOut ? '/new-launches/sold-out.html' : '/new-launches/' })}
 <section class="nl-hero" aria-labelledby="nl-hero-title"><div class="nl-hero-inner"><div class="eyebrow">Verified catalog · Updated ${esc(formatDate(JSON.parse(fs.readFileSync(DATA_PATH, 'utf8')).inventoryAsOf))}</div><h1 id="nl-hero-title">${esc(title)}</h1><p>${esc(intro)}</p>${soldOut ? '<a href="/new-launches/" class="nl-hero-cta">Browse current projects →</a>' : '<a href="#catalog" class="nl-hero-cta">Explore the catalog →</a>'}</div></section>
 <section class="nl-trust"><div class="nl-trust-inner" role="list" aria-label="Catalog summary"><div class="nl-trust-badge" role="listitem"><strong>${projects.length}</strong> ${soldOut ? 'sold-out' : 'active and upcoming'} projects</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>Source-backed</strong> project facts</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>7-day rule</strong> for dynamic figures</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>CEA R009618D</strong> · ERA District Director</div></div></section>
 <nav class="nl-breadcrumb" aria-label="Breadcrumb">${breadcrumb}</nav>

@@ -7,9 +7,11 @@ import { fileURLToPath } from 'node:url';
 import { consentBannerHtml } from './lib/consent-banner.mjs';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { mobileHeaderAssetsHtml } from './lib/mobile-header.mjs';
+import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import { hdbPolicyArticle, policySources } from './content/hdb-policy-august-2026.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { injectToc } from './lib/article-toc.mjs';
+import { injectCover, loadCover } from './lib/article-covers.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -253,6 +255,11 @@ const ARTICLES = [
 ];
 
 const EXISTING_GUIDES = [
+  ['hdb-resale-prices-2q-2026-by-town', 'HDB Resale Prices 2Q 2026 by Town'],
+  ['15-month-wait-out-removed-private-owners-hdb', '15-Month Wait-Out Removed: What Owners Do Now'],
+  ['cheapest-4-room-5-room-hdb-resale-flats', 'Cheapest 4-Room and 5-Room HDB Resale Towns'],
+  ['singapore-rental-market-2q-2026', 'Singapore Rental Market 2Q 2026: Landlord Guide'],
+  ['new-condo-launches-2026-2027-calendar', 'New Condo Launches 2026–2027: Launch Calendar'],
   ['ec-vs-private-condo-2027', 'EC vs private condo in 2027: which to buy'],
   ['singapore-mega-launches-2027', 'Singapore’s 2027 mega launches: Hougang Central Residences and the pipeline'],
   ['hdb-valuation-explained', 'HDB valuation explained'],
@@ -346,11 +353,12 @@ ${fontLinksHtml()}
 <script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
 <script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+${SITE_THEME_ASSETS_HTML}
 ${mobileHeaderAssetsHtml()}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="blog-topbar"><div class="blog-topbar-inner"><a href="/" class="blog-logo">PropertySG</a><nav class="blog-nav" aria-label="Primary"><a href="/">Home</a><a href="/insights/">Insights</a><a href="/calculator/">Calculator</a><a href="/#book" class="blog-nav-cta">Book a Call</a></nav></div></header>
+${siteHeaderHtml({ pagePath: `/insights/${article.slug}.html` })}
 <main id="main" tabindex="-1" class="blog-main"><article class="article">
 <div class="article-breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/insights/">Insights</a><span class="sep">›</span><span aria-current="page">${esc(article.headline)}</span></div>
 <header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${modified}">${article.published ? '' : 'Updated '}Aug 26, 2026</time></div>
@@ -377,7 +385,8 @@ ${consentBannerHtml()}
 let changed = 0;
 for (const article of ARTICLES) {
   const file = path.join(OUT_DIR, `${article.slug}.html`);
-  const output = injectToc(page(article));
+  // Same post-processing as the hand-built articles: TOC, then cover.
+  const output = injectCover(injectToc(page(article)), loadCover(article.slug));
   const current = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
   if (current === output) continue;
   if (checkOnly) {
