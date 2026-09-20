@@ -255,6 +255,7 @@ const ARTICLES = [
 ];
 
 const EXISTING_GUIDES = [
+  ['sell-hdb-first-or-buy-condo-first', 'Sell HDB first or buy condo first?'],
   ['hdb-resale-prices-2q-2026-by-town', 'HDB Resale Prices 2Q 2026 by Town'],
   ['15-month-wait-out-removed-private-owners-hdb', '15-Month Wait-Out Removed: What Owners Do Now'],
   ['cheapest-4-room-5-room-hdb-resale-flats', 'Cheapest 4-Room and 5-Room HDB Resale Towns'],
