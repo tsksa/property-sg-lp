@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -42,6 +43,25 @@ test('production canary is read-only and delegates form checks to the tested scr
 
   assert.match(canary, /node scripts\/production-form-health\.mjs/);
   assert.doesNotMatch(canary, /-X\s+POST|--request\s+POST/, 'production canary must never submit a lead payload');
+});
+
+test('homepage canary accepts the current page and rejects missing contracts', () => {
+  const canary = fs.readFileSync(path.join(ROOT, '.github/workflows/canary.yml'), 'utf8');
+  const step = canary.split('      - name: Homepage serves current content (not a stale/error shell)')[1]
+    .split('      - name:')[0].split('        run: |\n')[1]
+    .split('\n').map(line => line.replace(/^          /, '')).join('\n');
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const run = (body, failure = '0') => spawnSync('bash', ['-e', '-c',
+    'curl() { printf "%s" "$FIXTURE"; return "$CURL_FAILURE"; };\n' + step],
+    { encoding: 'utf8', env: { ...process.env, FIXTURE: body, CURL_FAILURE: failure } });
+  assert.equal(run(html).status, 0);
+  assert.doesNotMatch(step, /heroValuationLink/);
+  for (const marker of ['id="heroEstimate"', 'id="heroPostal"', 'id="heroTalkLink"',
+    'rel="canonical" href="https://joetay.com/"']) {
+    assert.notEqual(run(html.replaceAll(marker, '')).status, 0, marker);
+  }
+  assert.notEqual(run('<html>Service unavailable</html>').status, 0);
+  assert.notEqual(run(html, '22').status, 0, 'HTTP failures must fail even with a valid-looking body');
 });
 
 test('CI validates every pull request and push to main without fragile path filters', () => {

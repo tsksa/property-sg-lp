@@ -39,9 +39,11 @@ jobs:
 
       - name: Homepage serves current content (not a stale/error shell)
         run: |
-          body=$(curl -s -m 20 --retry 2 https://joetay.com/)
-          echo "$body" | grep -q 'heroValuationLink' || { echo "::error::hero CTA missing from homepage"; exit 1; }
-          echo "$body" | grep -q 'rel="canonical" href="https://joetay.com/"' || { echo "::error::homepage canonical missing"; exit 1; }
+          body=$(curl -fsS -m 20 --retry 2 https://joetay.com/)
+          grep -Fq 'id="heroEstimate"' <<< "$body" || { echo "::error::homepage estimate tool missing"; exit 1; }
+          grep -Fq 'id="heroPostal"' <<< "$body" || { echo "::error::homepage postal input missing"; exit 1; }
+          grep -Fq 'id="heroTalkLink"' <<< "$body" || { echo "::error::homepage contact handoff missing"; exit 1; }
+          grep -Fq 'rel="canonical" href="https://joetay.com/"' <<< "$body" || { echo "::error::homepage canonical missing"; exit 1; }
           echo "homepage content OK"
 
       - name: Production form contracts (GET + OPTIONS only)
