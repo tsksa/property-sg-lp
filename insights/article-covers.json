@@ -2,6 +2,14 @@
   "_comment": "Opening image and share preview for each insights article (JOE-398). scripts/build-article-covers.mjs renders these to img/insights/; scripts/apply-article-cover.mjs puts them on the pages. Every figure value, and every chart label and value, must appear word for word in its article: the build refuses otherwise, so a cover can never say something the article does not.",
   "covers": [
     {
+      "slug": "sell-hdb-first-or-buy-condo-first",
+      "title": "Sell HDB first or buy condo first?",
+      "figures": [
+        {"value": "$480,000", "label": "illustrative funds after sale"},
+        {"value": "$25,000", "label": "illustrative deposit shortfall before sale"}
+      ]
+    },
+    {
       "slug": "hdb-resale-prices-2q-2026-by-town",
       "title": "HDB resale prices, 2Q 2026",
       "chart": {

@@ -16,6 +16,24 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html",
+      "url": "https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html",
+      "title": "Sell HDB First or Buy Condo First? SG Guide",
+      "summary": "Plan an HDB-to-condo upgrade: compare selling first and buying first, CPF refunds, ABSD conditions, cash timing and a worked budget example.",
+      "content_text": "Plan an HDB-to-condo upgrade: compare selling first and buying first, CPF refunds, ABSD conditions, cash timing and a worked budget example.",
+      "date_published": "2026-09-20T00:00:00+08:00",
+      "date_modified": "2026-09-20T00:00:00+08:00",
+      "authors": [
+        {
+          "name": "Joe Tay",
+          "url": "https://joetay.com/about-joe/"
+        }
+      ],
+      "tags": [
+        "Buying"
+      ]
+    },
+    {
       "id": "https://joetay.com/insights/hdb-resale-prices-2q-2026-by-town.html",
       "url": "https://joetay.com/insights/hdb-resale-prices-2q-2026-by-town.html",
       "title": "HDB Resale Prices 2Q 2026 by Town",

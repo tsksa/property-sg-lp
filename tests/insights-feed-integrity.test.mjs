@@ -21,6 +21,28 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const INSIGHTS_DIR = path.join(ROOT, 'insights');
 
+test('upgrader guide preserves funding and tax caveats and discoverability', () => {
+  const slug = 'sell-hdb-first-or-buy-condo-first';
+  const html = fs.readFileSync(path.join(INSIGHTS_DIR, slug + '.html'), 'utf8');
+  for (const phrase of [
+    'Illustrative assumptions, not a loan offer or client result',
+    'excluding any ABSD', 'The deposit is counted once',
+    'TOP or CSC, whichever is earlier', 'at least one Singapore citizen',
+    'not a private-condo approval assessment',
+    '$230,000', '$280,000', '$480,000', '$435,000', '$45,000', '$25,000'
+  ]) assert.ok(html.includes(phrase), phrase);
+  for (const host of ['www.hdb.gov.sg', 'www.iras.gov.sg', 'www.cpf.gov.sg']) {
+    assert.ok(html.includes('https://' + host + '/'));
+  }
+  for (const file of ['index.html', 'insights/index.html', 'insights/feed.xml', 'insights/feed.json', 'sitemap.xml']) {
+    assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(slug), file);
+  }
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+  const article = schemas.find(s => s['@type'] === 'Article');
+  assert.ok(article.mainEntityOfPage.endsWith('/' + slug + '.html'));
+  assert.equal(article.datePublished, '2026-09-20');
+});
+
 function decodeHtmlEntities(s) {
   return s
     .replace(/&lt;/g, '<')
