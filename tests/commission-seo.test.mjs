@@ -124,6 +124,7 @@ test('the landlord page says the landlord pays the rental commission', () => {
   assert.equal((html.match(/paid by you as the landlord/g) || []).length, 2);
   // Joe's rental rate is fixed (confirmed 2026-09-19), so the page must not
   // promise landlords room to negotiate it.
-  assert.match(html, /That's my rate for every rental, and it isn't negotiable\./);
+  assert.equal((html.match(/non-negotiable/gi) || []).length, 3, 'the page must say plainly, in the commission card, its heading and the FAQ answer, that the rate is non-negotiable');
+  assert.match(html, /My rental commission is non-negotiable: the same rate for every landlord, every lease\./);
   assert.doesNotMatch(html, /always negotiable/i);
 });
