@@ -87,6 +87,13 @@ for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.ht
   });
 }
 
+test('valuation footer legal links have a persistent non-colour cue', () => {
+  const html = read('valuation.html');
+  assert.match(html, /footer > span a\{text-decoration:underline;text-underline-offset:0\.18em\}/);
+  const footer = html.slice(html.indexOf('<footer>'), html.indexOf('</footer>'));
+  assert.match(footer, /<span>[\s\S]*?<a href="privacy-policy\.html">Privacy Policy<\/a>[\s\S]*?<\/span>/);
+});
+
 test('insight cards use semantic list markup without invalid link roles', () => {
   const html = read('insights/index.html');
 

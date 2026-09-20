@@ -248,6 +248,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.v
 /* Footer */
 footer{background:var(--navy);color:rgba(255,255,255,0.6);padding:24px;text-align:center;font-size:0.8rem;margin-top:48px}
 footer a{color:rgba(255,255,255,0.8)}
+/* Inline legal links need a persistent cue beyond colour, including on touch screens. */
+footer > span a{text-decoration:underline;text-underline-offset:0.18em}
 @media(max-width:640px){
   .topbar{padding:18px 20px}
   .topbar-inner{gap:12px}
