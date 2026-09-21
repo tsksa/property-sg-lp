@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCover, cardImageHtml } from './lib/article-covers.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PAGE = path.join(ROOT, 'index.html');
@@ -60,7 +61,11 @@ export function homepageInsightsHtml() {
       const when = monthLabel(item.date_published);
       // The summary is a full sentence in the feed; one line is enough on a card.
       const summary = String(item.summary || '').split(/(?<=\.)\s/)[0];
-      return `      <a class="jt-hi-card" href="${esc(href)}">
+      // Each article has a cover (insights/article-covers.json); the card shows
+      // it, like the cards on /insights/.
+      const cover = loadCover(href.replace(/^\/insights\/|\.html$/g, ''), path.join(ROOT, 'insights', 'article-covers.json'));
+      const image = cover ? `\n        ${cardImageHtml(cover, { className: 'jt-hi-img' })}` : '';
+      return `      <a class="jt-hi-card" href="${esc(href)}">${image}
         <span class="jt-hi-date">${esc(when)}</span>
         <strong class="jt-hi-title">${esc(item.title)}</strong>
         <span class="jt-hi-summary">${esc(summary)}</span>
@@ -90,6 +95,8 @@ ${cards}
 .jt-hi-lede{margin:0 0 28px;max-width:62ch;opacity:.85}
 .jt-hi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .jt-hi-card{display:flex;flex-direction:column;gap:7px;padding:20px;border:1px solid rgba(127,127,127,.26);border-radius:12px;text-decoration:none;color:inherit;background:rgba(127,127,127,.04);transition:border-color .2s,transform .2s}
+.jt-hi-img{display:block;margin:-20px -20px 9px;width:calc(100% + 40px)}
+.jt-hi-img img{display:block;width:100%;height:auto;aspect-ratio:1200/630;border-radius:11px 11px 0 0;background:#0b1e3f}
 .jt-hi-card:hover{border-color:var(--emerald-aa,#047857);transform:translateY(-2px)}
 .jt-hi-card:hover .jt-hi-title{text-decoration:underline}
 .jt-hi-date{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.7}
