@@ -312,6 +312,37 @@ const cases = [
     background: ['html.jt-theme-dark .vc', 'background'],
   },
   {
+    // Block sale alert card (JOE-403): white in light mode, #102447 in dark.
+    name: 'block alert submit button, light',
+    file: 'assets/block-alert.css',
+    foreground: ['.jt-ba button', 'color'],
+    background: ['.jt-ba button', 'background'],
+  },
+  {
+    name: 'block alert body text, light',
+    file: 'assets/block-alert.css',
+    foreground: ['.jt-ba p', 'color'],
+    background: ['.jt-ba', 'background'],
+  },
+  {
+    name: 'block alert consent text, light',
+    file: 'assets/block-alert.css',
+    foreground: ['.jt-ba-consent', 'color'],
+    background: ['.jt-ba', 'background'],
+  },
+  {
+    name: 'block alert submit button, dark',
+    file: 'assets/block-alert.css',
+    foreground: ['html.jt-theme-dark .jt-ba button', 'color'],
+    background: ['html.jt-theme-dark .jt-ba button', 'background'],
+  },
+  {
+    name: 'block alert body text, dark',
+    file: 'assets/block-alert.css',
+    foreground: ['html.jt-theme-dark .jt-ba p,html.jt-theme-dark .jt-ba-consent', 'color'],
+    background: ['html.jt-theme-dark .jt-ba', 'background'],
+  },
+  {
     name: 'insights skip link',
     file: 'insights/blog.css',
     foreground: ['a', 'color'],
