@@ -199,7 +199,25 @@ function renderResult(root, state) {
       if (panel) panel.hidden = !open;
     },
   });
-  result.append(el('div', { class: 'jte-actions' }, valuationBtn, proceedsBtn));
+  // Block sale alerts (JOE-403): offered here because the visitor has just
+  // looked this block up. The card is the shared component in
+  // assets/block-alert.js; without it the button is not rendered at all.
+  const alertHost = el('div', { class: 'jte-alert', id: `${idPrefix}-alert`, hidden: true });
+  const alertBtn = window.jtBlockAlert ? el('button', {
+    type: 'button', class: 'jte-secondary', 'aria-expanded': 'false', 'aria-controls': `${idPrefix}-alert`,
+    text: 'Tell me when the next flat sells',
+    onclick: () => {
+      const open = alertBtn.getAttribute('aria-expanded') !== 'true';
+      alertBtn.setAttribute('aria-expanded', String(open));
+      if (open) {
+        window.jtBlockAlert.mount(alertHost, { postal_code: postal, block: addr.block, street_name: addr.road, town }, { source: 'estimate' });
+        track('estimate_cta', { cta: 'block_alert', flat_type: flatType });
+      }
+      alertHost.hidden = !open;
+    },
+  }) : null;
+  result.append(el('div', { class: 'jte-actions' }, valuationBtn, proceedsBtn, alertBtn));
+  result.append(alertHost);
   result.append(el('p', { class: 'jte-foot' },
     el('a', { href: `/neighbour-prices/?postal=${postal}`, text: 'See every sale in this block and street' }), ' · ',
     el('button', { type: 'button', class: 'jte-link', text: 'Search another postal code', onclick: () => reset(root) })));
