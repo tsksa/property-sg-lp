@@ -27,6 +27,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
 
 export const CONVERSION_TRACKING_SRC = '/assets/conversion-tracking.js';
+// Pages on the deferred loader carry no vendor URL of their own; without this
+// they drop out of scope and a missing tracking tag stops being an error.
+const ANALYTICS_LOADER_SRC = '/assets/analytics-loader.js';
 const TAG = `<script src="${CONVERSION_TRACKING_SRC}" defer></script>`;
 const SKIP_DIRS = ['node_modules', '.git', '.github', '.claude', '.gstack', 'scripts', 'ops', 'tests', 'netlify'];
 
@@ -56,7 +59,7 @@ for (const rel of pages.sort()) {
   const html = fs.readFileSync(file, 'utf8');
 
   if (!CONTACT_LINK_RE.test(html)) continue;
-  if (!html.includes('gtag/js?id=')) continue;
+  if (!html.includes('gtag/js?id=') && !html.includes(ANALYTICS_LOADER_SRC)) continue;
   if (html.includes(CONVERSION_TRACKING_SRC)) continue;
 
   if (!html.includes('</body>')) {
