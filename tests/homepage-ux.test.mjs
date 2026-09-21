@@ -7,22 +7,30 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 
-test('Ms Lai review is first, sourced and consistent with its structured data', () => {
+test('the newest review leads the band and matches its structured data', () => {
   const html = read('index.html');
-  const card = html.match(/id="review-ms-lai">([\s\S]*?)<\/blockquote>/)?.[1];
-  assert.ok(card);
-  assert.match(card, /aria-label="5 out of 5 stars"/);
-  const quote = card.match(/<blockquote>"([\s\S]*?)"$/)?.[1];
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
   const business = schemas.find(schema => Array.isArray(schema.review));
-  assert.equal(business.review[0].author.name, 'Ms Lai');
+
+  // The first card in the band is the first review in the markup, quoted exactly.
+  const firstCard = html.match(/<div class="testi-card[^"]*" role="listitem" id="([^"]+)">([\s\S]*?)<\/blockquote>/);
+  assert.ok(firstCard, 'the leading review card needs an id so it can be linked and checked');
+  const quote = firstCard[2].match(/<blockquote>"([\s\S]*?)"$/)?.[1];
+  assert.match(firstCard[2], /aria-label="5 out of 5 stars"/);
   assert.equal(business.review[0].reviewBody, quote);
-  assert.equal(business.review[0].datePublished, '2026-09-04');
   assert.equal(business.review[0].reviewRating.ratingValue, '5');
-  assert.equal(business.aggregateRating.reviewCount, '7');
-  assert.match(html, /Ms Lai<\/div>\s*<div class="testi-role">4 Sep 2026 · PropertyGuru review excerpt/);
-  assert.match(html, /Joe confirmed the display name Ms Lai/);
   assert.equal(business.review[0].url, 'https://www.propertyguru.com.sg/agent/joe-tay-80979');
+  assert.equal(firstCard[1], `review-${business.review[0].author.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+
+  // Newest first, by the dates the reviews carry.
+  const dated = business.review.map(r => r.datePublished).filter(Boolean);
+  assert.deepEqual(dated, [...dated].sort().reverse(), 'reviews must run newest first');
+
+  // The leading card is the featured one, and it is the only one.
+  assert.equal((html.match(/testi-card testi-featured/g) || []).length, 1);
+  assert.match(firstCard[2], /class="testi-flag">Latest review</);
+  assert.equal(Number(business.aggregateRating.reviewCount), business.review.length);
+  assert.match(html, /Joe confirmed the display name Ms Lai/);
   assert.match(html, /\.testi-card\{transform:none!important\}/);
 });
 

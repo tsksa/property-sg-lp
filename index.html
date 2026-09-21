@@ -68,11 +68,19 @@
  "aggregateRating": {
   "@type": "AggregateRating",
   "ratingValue": "5",
-  "reviewCount": "7",
+  "reviewCount": "8",
   "bestRating": "5",
   "worstRating": "1"
  },
  "review": [
+  {
+   "@type": "Review",
+   "author": { "@type": "Person", "name": "Serene Ong" },
+   "datePublished": "2026-09-19",
+   "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+   "reviewBody": "I spoke to several agents who told me my price expectation was not achievable. Joe took a different approach. With his strategy and dedication, he sold my 4-room HDB at a record price, above market valuation. I highly recommend Joe to anyone looking to sell.",
+   "url": "https://www.propertyguru.com.sg/agent/joe-tay-80979"
+  },
   {
    "@type": "Review",
    "author": { "@type": "Person", "name": "Ms Lai" },
@@ -501,6 +509,11 @@ body.dark-mode .advisor-photo-wrap{background:linear-gradient(135deg,#0a1736,#06
 .testi-note{margin:28px auto 0;max-width:560px;text-align:center;font-size:0.88rem;color:#888;line-height:1.6}
 body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 .testi-card{background:#fff;padding:48px 36px;border:1px solid #eee;border-radius:16px;transition:all .3s}
+/* The newest review leads the band and is flagged (JOE-400). The tint is
+   layered over the card's own white so the card keeps its background in dark
+   mode, where the rest of the band stays white too. */
+.testi-featured{border-color:rgba(16,185,129,.55);box-shadow:0 10px 34px rgba(11,30,63,.1);background:linear-gradient(180deg,rgba(16,185,129,.09),rgba(255,255,255,0) 130px),#fff}
+.testi-flag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#047857;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);border-radius:100px;padding:5px 12px;margin-bottom:12px}
 .testi-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.06)}
 .testi-stars{color:#f5c518;font-size:0.85rem;letter-spacing:3px;margin-bottom:20px}
 .testi-card blockquote{font-size:1.05rem;line-height:1.7;color:#444;margin-bottom:28px;font-style:normal}
@@ -1209,7 +1222,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <span class="trust-dot" aria-hidden="true"></span>
     <div class="trust-badge" role="listitem"><span class="trust-num">$8M+</span> Secured Above Valuation</div>
     <span class="trust-dot" aria-hidden="true"></span>
-    <div class="trust-badge" role="listitem"><a class="trust-link" href="#testimonials"><span class="trust-num">5.0★</span> from 7 reviews</a></div>
+    <div class="trust-badge" role="listitem"><a class="trust-link" href="#testimonials"><span class="trust-num">5.0★</span> from 8 reviews</a></div>
   </div>
 </section>
 <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title">
@@ -1218,6 +1231,20 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <h2 id="testimonials-title" class="reveal">Don't take my word for it.</h2>
     <p class="lead reveal">Real results from real homeowners across Singapore.</p>
     <div class="testi-list" role="list" aria-label="Customer reviews">
+      <div class="testi-card testi-featured reveal" role="listitem" id="review-serene-ong">
+        <p class="testi-flag">Latest review</p>
+        <div class="testi-stars" role="img" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★<span class="testi-rating">5.0</span></span></div>
+        <blockquote>"I spoke to several agents who told me my price expectation was not achievable. Joe took a different approach. With his strategy and dedication, he sold my 4-room HDB at a record price, above market valuation. I highly recommend Joe to anyone looking to sell."</blockquote>
+        <div class="testi-result">4-room HDB sale · Sold above valuation · September 2026</div>
+        <div class="testi-meta">
+          <div class="testi-avatar" aria-hidden="true">S</div>
+          <div class="testi-meta-text">
+            <div class="testi-author">Serene Ong</div>
+            <div class="testi-role">19 Sep 2026 · PropertyGuru review</div>
+            <a href="https://www.propertyguru.com.sg/agent/joe-tay-80979" target="_blank" rel="noopener" style="text-decoration:underline">Read reviews on PropertyGuru</a>
+          </div>
+        </div>
+      </div>
       <!-- PropertyGuru lists this 4 Sep 2026 review as Reviewer; Joe confirmed the display name Ms Lai. -->
       <div class="testi-card reveal" role="listitem" id="review-ms-lai">
         <div class="testi-stars" role="img" aria-label="5 out of 5 stars"><span aria-hidden="true">★★★★★<span class="testi-rating">5.0</span></span></div>
