@@ -29,18 +29,11 @@
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/fraunces-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
 <style data-jt-fonts="swap">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:swap;src:url(/assets/fonts/fraunces-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url(/assets/fonts/dm-sans-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
-
-
 <link rel="stylesheet" href="ads-landing.css">
-<!-- GA4 -->
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
-<!-- Meta Pixel -->
-<script>if(!window._pdpaDeclined){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];var l=function(){var t=b.createElement(e);t.async=!0;t.src=v;var s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};('requestIdleCallback' in window)?requestIdleCallback(l,{timeout:4000}):setTimeout(l,3000)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','3279494272146114');fbq('track','PageView');}</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=3279494272146114&ev=PageView&noscript=1" alt=""></noscript>
+<!-- Analytics: consent-aware, interaction-first. Queues gtag/fbq immediately
+     so jtTrackConversion keeps working; the vendor downloads stay off the
+     render path until an accepted visitor interacts. -->
+<script src="/assets/analytics-loader.js" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
