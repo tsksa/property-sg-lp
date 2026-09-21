@@ -104,6 +104,6 @@
     "test:article-toc": "node --test tests/article-toc.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.0.3"
+    "@netlify/blobs": "^11.1.0"
   }
 }
