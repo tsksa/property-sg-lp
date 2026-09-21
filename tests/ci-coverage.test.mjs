@@ -51,10 +51,17 @@ test('homepage canary accepts the current page and rejects missing contracts', (
     .split('      - name:')[0].split('        run: |\n')[1]
     .split('\n').map(line => line.replace(/^          /, '')).join('\n');
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-  const run = (body, failure = '0') => spawnSync('bash', ['-e', '-c',
-    'curl() { printf "%s" "$FIXTURE"; return "$CURL_FAILURE"; };\n' + step],
-    { encoding: 'utf8', env: { ...process.env, FIXTURE: body, CURL_FAILURE: failure } });
+  // Stream large fixtures over stdin to avoid Linux's per-environment-variable limit.
+  const run = (body, failure = '0') => {
+    const result = spawnSync('bash', ['-e', '-c',
+      'curl() { cat; return "$CURL_FAILURE"; };\n' + step],
+      { encoding: 'utf8', input: body, env: { ...process.env, CURL_FAILURE: failure } });
+    assert.ifError(result.error);
+    assert.notEqual(result.status, null, 'canary process must exit normally');
+    return result;
+  };
   assert.equal(run(html).status, 0);
+  assert.equal(run(html + ' '.repeat(256 * 1024)).status, 0, 'large fixtures must work');
   assert.doesNotMatch(step, /heroValuationLink/);
   for (const marker of ['id="heroEstimate"', 'id="heroPostal"', 'id="heroTalkLink"',
     'rel="canonical" href="https://joetay.com/"']) {
