@@ -55,8 +55,10 @@ for (const rel of pages) {
   const file = path.join(ROOT, rel);
   const html = fs.readFileSync(file, 'utf8');
 
-  // Only pages that actually load the trackers need the consent prompt.
-  if (!html.includes('ga-disable-GT-KVFDZD5V')) {
+  // Only pages that actually load the trackers need the consent prompt. On a
+  // loader page the ga-disable string survives only inside the banner this
+  // script injects, so matching it alone would be circular.
+  if (!html.includes('ga-disable-GT-KVFDZD5V') && !html.includes('/assets/analytics-loader.js')) {
     notApplicable.push(rel);
     continue;
   }
