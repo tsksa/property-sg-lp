@@ -114,3 +114,19 @@ test('no seller or landlord page presents a commission rate as the industry stan
   }
   assert.match(read('zh/sell-hdb/index.html'), /中介佣金没有固定费率/);
 });
+
+// Joe's rental commission is paid by the landlord. /rent-out/ used to tell
+// landlords it "comes from the tenant, not you" (corrected 2026-09-19). The
+// page states the amounts and who pays, and stays off the question of whether
+// the rate is negotiable (Joe, 2026-09-21).
+test('the landlord page says the landlord pays the rental commission', () => {
+  const html = read('rent-out/index.html');
+  assert.doesNotMatch(html, /from the (<em>)?tenant|tenant pays|paid by the tenant/i);
+  assert.equal((html.match(/paid by you as the landlord/g) || []).length, 2);
+  // Joe's rental rate is fixed (confirmed 2026-09-19), so the page must not
+  // promise landlords room to negotiate it.
+  // Joe asked for the page to stay silent on whether the rate can be haggled,
+  // so it says neither "negotiable" nor "non-negotiable" (2026-09-21).
+  assert.doesNotMatch(html, /negotiable/i, 'the landlord page should not discuss whether commission is negotiable');
+  assert.match(html, /The same rate for every landlord, every lease\./);
+});
