@@ -201,10 +201,14 @@ export function articleFigureHtml(cover, alt) {
   return `<figure class="article-cover" ${COVER_MARKER}><picture><source type="image/webp" srcset="${p.webpSmall} ${SMALL_W}w, ${p.webp} ${COVER_W}w" sizes="${sizes}"><img src="${p.jpg}" srcset="${p.jpgSmall} ${SMALL_W}w, ${p.jpg} ${COVER_W}w" sizes="${sizes}" width="${COVER_W}" height="${COVER_H}" alt="${esc(alt)}" fetchpriority="high" decoding="async"></picture></figure>`;
 }
 
-/** Thumbnail for the insights index card. Decorative: the card's heading names it. */
-export function cardImageHtml(cover) {
+/**
+ * Thumbnail for a card that links to the article: the insights index, and the
+ * homepage "Latest guides" block. Decorative, because the card's own heading
+ * names the article.
+ */
+export function cardImageHtml(cover, { className = 'blog-card-img' } = {}) {
   const p = coverPaths(cover.slug);
-  return `<picture class="blog-card-img" ${CARD_MARKER}><source type="image/webp" srcset="${p.webpSmall}"><img src="${p.jpgSmall}" width="${SMALL_W}" height="${Math.round((COVER_H * SMALL_W) / COVER_W)}" alt="" loading="lazy" decoding="async"></picture>`;
+  return `<picture class="${className}" ${CARD_MARKER}><source type="image/webp" srcset="${p.webpSmall}"><img src="${p.jpgSmall}" width="${SMALL_W}" height="${Math.round((COVER_H * SMALL_W) / COVER_W)}" alt="" loading="lazy" decoding="async"></picture>`;
 }
 
 const SITE = 'https://joetay.com';
