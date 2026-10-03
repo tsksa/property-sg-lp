@@ -16,6 +16,17 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/q3-2026-ura-private-home-prices.html",
+      "url": "https://joetay.com/insights/q3-2026-ura-private-home-prices.html",
+      "title": "Q3 2026 URA Prices: Buyer and Seller Guide",
+      "summary": "URA Q3 2026 flash estimates explained: private home prices, HDB-to-condo upgrade budgets and what condo sellers should check before setting an asking price.",
+      "content_text": "URA Q3 2026 flash estimates explained: private home prices, HDB-to-condo upgrade budgets and what condo sellers should check before setting an asking price.",
+      "date_published": "2026-10-03T00:00:00+08:00",
+      "date_modified": "2026-10-03T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Market data"]
+    },
+    {
       "id": "https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html",
       "url": "https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html",
       "title": "Sell HDB First or Buy Condo First? SG Guide",
