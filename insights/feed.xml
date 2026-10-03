@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-09-17T00:00:00+08:00</updated>
+  <updated>2026-10-03T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -13,6 +13,14 @@
     <uri>https://joetay.com/about-joe/</uri>
   </author>
   <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
+  <entry>
+    <title>Q3 2026 URA Prices: Buyer and Seller Guide</title>
+    <link href="https://joetay.com/insights/q3-2026-ura-private-home-prices.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/q3-2026-ura-private-home-prices.html</id>
+    <published>2026-10-03T00:00:00+08:00</published><updated>2026-10-03T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">URA Q3 2026 flash estimates explained: private home prices, HDB-to-condo upgrade budgets and what condo sellers should check before setting an asking price.</summary>
+  </entry>
   <entry>
     <title>Sell HDB First or Buy Condo First? SG Guide</title>
     <link href="https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html" rel="alternate" type="text/html"/>
