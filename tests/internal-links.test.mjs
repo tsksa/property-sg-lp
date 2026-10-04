@@ -36,6 +36,25 @@ test('the live site has zero links that hop through a forced redirect', () => {
   assert.deepEqual(hops, [], `unexpected redirect hop(s): ${JSON.stringify(hops)}`);
 });
 
+test('valuation and seller guides provide crawlable contextual routes to the HDB selling service', () => {
+  const root = new URL('../', import.meta.url);
+  for (const file of [
+    'valuation.html',
+    'insights/hdb-valuation-explained.html',
+    'insights/how-long-to-sell-hdb-singapore-2026.html',
+    'insights/selling-hdb-after-mop-singapore.html',
+    'insights/property-agent-commission-singapore.html',
+  ]) {
+    const html = fs.readFileSync(new URL(file, root), 'utf8');
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+    assert.ok(main, `${file} needs a main content region`);
+    const content = main
+      .replace(/<(?:script|style|nav|footer)\b[^>]*>[\s\S]*?<\/(?:script|style|nav|footer)>/gi, '');
+    assert.match(content, /<p\b[^>]*>[^<]*<a href="\/sell-hdb\/singapore\/">[^<]*HDB selling service<\/a>/,
+      `${file} should link directly to the canonical HDB service in its body content`);
+  }
+});
+
 test('the guard catches a link to a page that does not exist', async () => {
   await withFixtureSite(
     {
