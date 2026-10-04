@@ -106,6 +106,13 @@ function cssColour(file, selector, property, backdrop) {
 }
 
 const cases = [
+  { name: 'dark optional valuation lookup', file: 'valuation.html', foreground: ['html.jt-theme-dark .val-lookup summary', 'color'], background: '#030a1a' },
+  { name: 'dark other calculator disclosure', file: 'calculator/index.html', foreground: ['html.jt-theme-dark .calc-other-tools summary', 'color'], background: '#030a1a' },
+  { name: 'dark catalog archive link', file: 'new-launches/new-launches.css', foreground: ['html.jt-theme-dark .nl-archive-link', 'color'], background: '#102447' },
+  { name: 'homepage task links over the hero image', file: 'index.html', foreground: ['.hero-paths a', 'color'], background: ['.hero-paths a', 'background'] },
+  { name: 'catalog eyebrow on cream', file: 'new-launches/new-launches.css', foreground: ['.nl-controls-eyebrow', 'color'], background: '#faf6ec' },
+  { name: 'catalog eyebrow on white', file: 'new-launches/new-launches.css', foreground: ['.nl-controls-eyebrow', 'color'], background: '#ffffff' },
+  { name: 'catalog archive link', file: 'new-launches/new-launches.css', foreground: ['.nl-archive-link', 'color'], background: '#faf6ec' },
   {
     name: 'light hero reassurance text',
     file: 'assets/site-theme.css',

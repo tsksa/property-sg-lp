@@ -6,6 +6,11 @@
   publish = "."
   functions = "netlify/functions"
 
+# Preserve the .html URLs already used by canonical tags and the sitemap.
+# Explicit aliases in _redirects consolidate old extensionless links.
+[build.processing.html]
+  pretty_urls = false
+
 # Security & caching headers
 [[headers]]
   for = "/*"

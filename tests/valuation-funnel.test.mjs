@@ -9,12 +9,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(ROOT, 'valuation.html'), 'utf8');
 const homepage = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 
-test('both valuation entry points mark unit number optional and retain required email', () => {
+test('both valuation entry points allow optional unit number and backup email', () => {
   for (const [source, unitId, emailId] of [[homepage, 'valUnitNumber', 'valEmail'], [html, 'unitNumber', 'email']]) {
     const unit = source.match(new RegExp(`<input[^>]*id="${unitId}"[^>]*>`))?.[0];
     assert.ok(unit);
     assert.doesNotMatch(unit, /\brequired\b/);
-    assert.match(source.match(new RegExp(`<input[^>]*id="${emailId}"[^>]*>`))?.[0] || '', /\brequired\b/);
+    const email = source.match(new RegExp(`<input[^>]*id="${emailId}"[^>]*>`))?.[0];
+    assert.ok(email);
+    assert.doesNotMatch(email, /\brequired\b/);
     assert.match(source, /email is used as a backup copy/);
   }
   assert.match(homepage, /Unit number \(optional\)/);
@@ -25,12 +27,13 @@ test('both valuation entry points mark unit number optional and retain required 
 test('popup submits a blank unit once and retains postal and email validation', () => {
   const handler = homepage.match(/valPopupForm\.addEventListener\('submit',e=>\{([\s\S]*?)\n\}\);/)?.[1];
   assert.ok(handler);
-  for (const [unit, postal, emailValid, expectedError] of [
-    ['', '520123', true, null], ['#12-34', '520123', true, null],
-    ['', '123', true, /postal code/], ['', '520123', false, /email address/],
+  for (const [unit, postal, email, emailValid, expectedError] of [
+    ['', '520123', '', true, null], ['', '520123', 'test@example.com', true, null],
+    ['#12-34', '520123', 'test@example.com', true, null],
+    ['', '123', '', true, /postal code/], ['', '520123', 'invalid', false, /email address/],
   ]) {
     const errors = [], submissions = [];
-    const form = {company_website:{value:''}, postal_code:{value:postal}, unit_number:{value:unit}, email:{value:'test@example.com',checkValidity:()=>emailValid}};
+    const form = {company_website:{value:''}, postal_code:{value:postal}, unit_number:{value:unit}, email:{value:email,checkValidity:()=>emailValid}};
     vm.runInNewContext(`(e=>{${handler}})({target:form,preventDefault(){}})`, {
       form, valContactWrap:{style:{display:'none'}},
       valContext:{fullName:'Test',mobile:'81234567',propType:'Condo',newsletter_opt_in:0},
@@ -95,4 +98,20 @@ test('fast valid submissions wait for the spam floor instead of appearing stuck'
     html,
     /jtWaitForSpamFloor\(form,PAGE_LOADED_AT,3000,\(\)=>form\.requestSubmit\(\)\)/,
   );
+});
+
+test('standalone contact validation accepts blank backup email and rejects a malformed supplied address', () => {
+  const handler = html.match(/function validateStep\(index\)\{([\s\S]*?)\n\}\n\nfunction showSuccess/)?.[1];
+  assert.ok(handler);
+  for (const [value, valid] of [['', true], ['test@example.com', true], ['invalid', false]]) {
+    const errors = [];
+    const email = { name:'email', type:'email', value, required:false, checkValidity:()=>valid };
+    const fields = [{name:'fullName',type:'text',value:'Test',required:true,checkValidity:()=>true}, email];
+    const result = vm.runInNewContext(`(index=>{${handler}})(0)`, {
+      steps:[{querySelectorAll:selector=>fields.filter(field=>field.required || selector.includes('email'))}],
+      form:{}, window:{}, clearErrors(){}, showFieldError:(_form,field)=>errors.push(field.name),
+    });
+    assert.equal(result, valid, value || '(blank)');
+    assert.deepEqual(errors, valid ? [] : ['email']);
+  }
 });
