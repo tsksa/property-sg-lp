@@ -239,6 +239,12 @@
       "category": "portal-corroboration",
       "url": "https://propertyportal.era.com.sg/new-launches",
       "checkedAt": "2026-09-16"
+    },
+    "simlian-portfolio": {
+      "name": "Sim Lian Group: property portfolio (For Sale)",
+      "category": "developer",
+      "url": "https://www.simlian.com.sg/property/",
+      "checkedAt": "2026-10-04"
     }
   },
   "projects": [
@@ -974,9 +980,9 @@
       "previewDate": "2026-09-11",
       "bookingDate": "2026-09-26",
       "launchWindow": null,
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/amberwood-at-holland.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-04",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -999,7 +1005,7 @@
           "stackedhomes-amberwood-preview"
         ],
         "status": [
-          "99co-2026-guide"
+          "simlian-portfolio"
         ],
         "dynamics": [
           "99co-2026-guide"

@@ -118,6 +118,9 @@ main>*{min-width:0}
 .val-lede{font-size:1.05rem;color:#555;line-height:1.65;margin-bottom:28px;max-width:460px;overflow-wrap:break-word}
 .val-proof{grid-area:proof;max-width:460px}
 .val-estimate{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:16px;padding:22px;max-width:460px;margin-top:4px}
+.val-lookup summary{cursor:pointer;color:var(--emerald-aa);font-weight:600;min-height:44px;padding:10px 0}
+.val-lookup summary:focus-visible{outline:2px solid var(--emerald-aa);outline-offset:3px}
+html.jt-theme-dark .val-lookup summary{color:#6ee7c1;outline-color:#6ee7c1}
 .val-estimate .jte-heading{font-size:1.2rem}
 @media(max-width:900px){.val-estimate{max-width:none;margin-top:20px}}
 html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,255,.12)}
@@ -347,6 +350,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <div class="val-eyebrow">Free · No obligation · 2 min</div>
     <h1>What's your property really worth?</h1>
     <p class="val-lede">Answer 3 short sections (~2 min). I'll WhatsApp you a free valuation within 24 hours — backed by real transacted prices in your estate.</p>
+    <details class="val-lookup">
+      <summary>Prefer to check recent HDB sales first? (optional)</summary>
     <div class="val-estimate jte" data-jt-estimate data-context="valuation" id="valEstimate">
       <h2 class="jte-heading" id="valEstimateTitle">Check your block's recent sales first</h2>
       <p class="jte-intro">Real HDB sales and an indicative range, before you share any details.</p>
@@ -362,6 +367,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <p class="jte-pulse" data-jte-pulse hidden></p>
       <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
     </div>
+    </details>
   </div>
   <div class="val-card">
     <form id="valForm" novalidate aria-label="Free property valuation form" data-lead-type="valuation">
@@ -439,8 +445,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
             <p class="val-error-msg" data-error-for="mobile">Please enter a valid mobile number.</p>
           </div>
           <div class="val-group">
-            <label class="val-group-label" for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required autocapitalize="off" autocorrect="off">
+            <label class="val-group-label" for="email">Email <span class="val-optional">(optional)</span></label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" autocapitalize="off" autocorrect="off">
             <p class="val-error-msg" data-error-for="email">Please enter a valid email.</p>
           </div>
         </div>
@@ -765,8 +771,8 @@ function showFieldError(form, field){
 function validateStep(index){
   const step=steps[index];
   clearErrors(step);
-  const required = step.querySelectorAll('[required]');
-  for(const field of required){
+  const fields = step.querySelectorAll('[required], input[type="email"]');
+  for(const field of fields){
     if(field.type === 'radio'){
       const group = form.querySelectorAll(`[name="${field.name}"]`);
       if(![...group].some(r=>r.checked)){
@@ -780,7 +786,7 @@ function validateStep(index){
         if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'validation_error',{error_count:1});
         return false;
       }
-    } else if(!field.value.trim() || !field.checkValidity()){
+    } else if((field.required && !field.value.trim()) || !field.checkValidity()){
       showFieldError(form, field);
       if(typeof window.jtTrackLeadFormStage==='function') window.jtTrackLeadFormStage(form,'validation_error',{error_count:1});
       return false;

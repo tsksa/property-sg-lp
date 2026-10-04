@@ -47,8 +47,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-catalog-controls-inner{padding:24px;background:var(--cream);border:1px solid rgba(201,166,97,0.2);border-radius:16px}
 .nl-controls-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}
 .nl-controls-heading h2,.nl-results-head h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.3rem,2.5vw,1.7rem);line-height:1.2}
-.nl-controls-eyebrow{color:var(--emerald);font-size:.68rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:4px}
-.nl-archive-link{font-size:.84rem;font-weight:700;white-space:nowrap}
+.nl-controls-eyebrow{color:var(--emerald-aa);font-size:.68rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:4px}
+.nl-archive-link{color:var(--emerald-aa);font-size:.84rem;font-weight:700;white-space:nowrap}
+html.jt-theme-dark .nl-archive-link{color:#6ee7c1}
+
 .nl-controls-form{display:grid;grid-template-columns:minmax(220px,2fr) minmax(220px,1fr) auto;gap:12px;align-items:start}
 .nl-secondary-filters{min-width:0;border:1px solid #d9d9d9;border-radius:9px;background:#fff;color:#0b1e3f}
 .nl-secondary-filters summary{min-height:44px;padding:12px;cursor:pointer;font-weight:700;font-size:.86rem}
@@ -501,7 +503,10 @@ body.nl-modal-open{overflow:hidden}
 
 /* ── Responsive ── */
 @media(max-width:640px){
-  .nl-hero{padding:56px 20px 48px}
+  .nl-hero{padding:24px 20px 20px}
+  .nl-hero .eyebrow{margin-bottom:12px}
+  .nl-hero h1{margin-bottom:12px}
+  body[data-catalog-page="active"] .nl-hero-cta{display:none}
   .nl-hero h1{font-size:clamp(1.8rem,8.4vw,2.25rem);letter-spacing:0}
   .nl-hero p{font-size:0.98rem;max-width:100%}
   .nl-hero-cta{width:100%;max-width:300px;justify-content:center;padding-left:18px;padding-right:18px}

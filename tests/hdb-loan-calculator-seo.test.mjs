@@ -25,7 +25,7 @@ test('calculator targets HDB loan calculator search intent', () => {
   assert.ok(description.length <= 155, `description is ${description.length} characters`);
   assert.match(description, /HDB loan calculator/i);
   assert.match(description, /monthly repayment/i);
-  assert.match(html, /<h1[^>]*>HDB loan calculator: estimate your monthly repayment<\/h1>/);
+  assert.match(html, /<h1[^>]*>HDB loan calculator<\/h1>/);
   assert.match(html, /independent planning estimate/i);
   assert.doesNotMatch(html, /official HDB loan calculator/i);
 });
@@ -67,7 +67,7 @@ test('calculator cites current primary HDB guidance and its review date', () => 
   assert.match(html, /Sources checked 25 August 2026/);
   assert.match(html, /https:\/\/www\.hdb\.gov\.sg\/managing-my-home\/finances\/loan-matters\/interest-rate/);
   assert.match(html, /https:\/\/www\.hdb\.gov\.sg\/buying-a-flat\/flat-grant-and-loan-eligibility\/housing-loan\/housing-loan-from-hdb/);
-  assert.match(html, /current HDB concessionary interest rate is 2\.6% per year for 1 July to 30 September 2026/);
+  assert.match(html, /current HDB concessionary interest rate is 2\.6% per year for 1 October to 31 December 2026/);
   assert.match(html, /published maximum loan-to-value limit is 75%/);
   assert.match(html, /not a loan offer/);
   assert.match(html, /Is this calculator the same as an HFE letter\?/i);

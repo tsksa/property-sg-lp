@@ -288,7 +288,7 @@ function controlsHtml(projects) {
   const regions = [...new Set(projects.map((project) => project.region))].sort();
   const propertyTypes = [...new Set(projects.map((project) => project.propertyType))].sort();
   const tenures = [...new Set(projects.map((project) => project.tenure))].sort();
-  return `<section class="nl-catalog-controls" aria-labelledby="catalog-controls-title">
+  return `<section id="catalog-search" class="nl-catalog-controls" aria-labelledby="catalog-controls-title">
   <div class="nl-catalog-controls-inner">
     <div class="nl-controls-heading">
       <div><p class="nl-controls-eyebrow">Find your shortlist</p><h2 id="catalog-controls-title">Search and filter projects</h2></div>
@@ -424,10 +424,10 @@ function bodyHtml(projects, { soldOut, alternativesPool = [] }) {
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="nl-progress" aria-hidden="true"></div>
 ${siteHeaderHtml({ pagePath: soldOut ? '/new-launches/sold-out.html' : '/new-launches/' })}
-<section class="nl-hero" aria-labelledby="nl-hero-title"><div class="nl-hero-inner"><div class="eyebrow">Verified catalog · Updated ${esc(formatDate(JSON.parse(fs.readFileSync(DATA_PATH, 'utf8')).inventoryAsOf))}</div><h1 id="nl-hero-title">${esc(title)}</h1><p>${esc(intro)}</p>${soldOut ? '<a href="/new-launches/" class="nl-hero-cta">Browse current projects →</a>' : '<a href="#catalog" class="nl-hero-cta">Explore the catalog →</a>'}</div></section>
+<section class="nl-hero" aria-labelledby="nl-hero-title"><div class="nl-hero-inner"><div class="eyebrow">Catalog reviewed ${esc(formatDate(JSON.parse(fs.readFileSync(DATA_PATH, 'utf8')).inventoryAsOf))}</div><h1 id="nl-hero-title">${esc(title)}</h1><p>${esc(intro)}</p>${soldOut ? '<a href="/new-launches/" class="nl-hero-cta">Browse current projects →</a>' : '<a href="#catalog-search" class="nl-hero-cta">Search projects →</a>'}</div></section>
+${soldOut ? '' : controlsHtml(projects)}
 <section class="nl-trust"><div class="nl-trust-inner" role="list" aria-label="Catalog summary"><div class="nl-trust-badge" role="listitem"><strong>${projects.length}</strong> ${soldOut ? 'sold-out' : 'active and upcoming'} projects</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>Source-backed</strong> project facts</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>7-day rule</strong> for dynamic figures</div><div class="nl-trust-dot" aria-hidden="true"></div><div class="nl-trust-badge" role="listitem"><strong>CEA R009618D</strong> · ERA District Director</div></div></section>
 <nav class="nl-breadcrumb" aria-label="Breadcrumb">${breadcrumb}</nav>
-${soldOut ? '' : controlsHtml(projects)}
 <main id="main" tabindex="-1" class="nl-main">
   <div class="nl-results-head"><div><p class="nl-controls-eyebrow">${soldOut ? 'Archive' : 'Verified directory'}</p><h2>${soldOut ? 'Sold-out projects' : 'Selling and upcoming projects'}</h2></div><p id="nlResultSummary"><strong id="nlResultCount">${projects.length}</strong> ${projects.length === 1 ? 'project' : 'projects'}</p></div>
   <p id="nlFilterStatus" class="sr-only" role="status" aria-live="polite"></p>

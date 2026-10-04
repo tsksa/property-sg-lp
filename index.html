@@ -37,7 +37,7 @@
  "alternateName": "Joe Tay",
  "url": "https://joetay.com/",
  "image": "https://joetay.com/joe-tay-propertysg-advisor.jpg",
- "description": "Singapore real estate specialist with 16+ years experience and 500+ properties sold. HDB, Condo, Landed and Commercial property expert.",
+ "description": "Singapore real estate specialist with 16+ years experience and 500+ properties sold and rented. HDB, Condo, Landed and Commercial property expert.",
  "email": "joe@joetay.com",
  "telephone": "+65-8188-1488",
  "address": {
@@ -257,7 +257,7 @@
       "name": "How fast do you reply?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Typically within 10 minutes during 9am–9pm. Direct WhatsApp to me — not routed through an office line."
+        "text": "Typically within 1 hour during 9am–9pm. Direct WhatsApp to me — not routed through an office line."
       }
     },
     {
@@ -1055,10 +1055,13 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   .testi-card{flex:0 0 86%;min-width:0;scroll-snap-align:start;padding:26px 22px}
   .testi-card:hover{transform:none}
   .testi-card blockquote{margin-bottom:18px}
-  .testimonials .lead::after{content:" Swipe sideways to read all seven."}
+  .testimonials .lead::after{content:" Swipe sideways to read all reviews."}
   .testi-note{margin-top:16px}
   .faq-item{scroll-margin-top:80px}
 }
+  .hero-paths{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+  .hero-paths a{display:inline-flex;align-items:center;min-height:44px;padding:9px 14px;border:1px solid rgba(255,255,255,.65);border-radius:8px;color:#fff;background:#0b1e3f;font-size:.86rem;font-weight:600;text-decoration:none}
+  .hero-paths a:hover{text-decoration:underline}
 </style>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
@@ -1139,8 +1142,13 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <div class="hero-inner">
     <div class="hero-copy">
       <div class="hero-tag">HDB · Condo · Landed · Commercial</div>
-      <h1>Sell <span class="accent">above valuation</span>. Rent in <span class="accent">under 2 weeks</span>.</h1>
+      <h1>Sell with <span class="accent">a clear plan</span>. Rent with <span class="accent">confidence</span>.</h1>
       <p class="hero-desc">A clear pricing strategy, hands-on marketing, and one experienced agent from first conversation to completion.</p>
+      <nav class="hero-paths" aria-label="Plan your property move">
+        <a href="/sell/">Sell a property</a>
+        <a href="/new-launches/">Buy a new launch</a>
+        <a href="/rent-out/">Rent out a property</a>
+      </nav>
       <div class="hero-testimonial" aria-label="Customer testimonial">
         <span class="hero-stars" aria-hidden="true">★★★★★</span><span class="sr-only">Rated 5 out of 5 stars.</span>
         <em><span class="hero-testimonial-mark" aria-hidden="true">&ldquo;</span>Joe priced my 4-room right from day one — sold at $18k above valuation.<span class="hero-testimonial-mark" aria-hidden="true">&rdquo;</span></em>
@@ -1440,7 +1448,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         </div>
         <h3>WhatsApp Joe</h3>
-        <p>Typical reply in 10 minutes. Send a message, get a call back on your schedule.</p>
+        <p>Typical reply within 1 hour during 9am–9pm. Send a message, get a call back on your schedule.</p>
         <span class="book-choice-cta">Open WhatsApp <span aria-hidden="true">→</span></span>
       </a>
       <a onclick="try { gtag('event', 'conversion', { 'send_to': 'AW-18046717591/SpQdCOKs7ascEJedrJ1D', 'value': 50.0, 'currency': 'SGD' }); } catch(e) { console.warn('gtag conversion failed:', e); } return true;" href="tel:+6581881488" class="book-choice">
@@ -1496,7 +1504,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       </div>
       <div class="faq-item reveal">
         <button type="button" class="faq-question" id="faq-question-5" aria-controls="faq-answer-5" aria-expanded="false">How fast do you reply?<span class="faq-icon">+</span></button>
-        <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5"><p>Typically within 10 minutes during 9am–9pm. Direct WhatsApp to me — not routed through an office line. See <a href="/glossary/">property terms glossary →</a> while you wait.</p></div>
+        <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5"><p>Typically within 1 hour during 9am–9pm. Direct WhatsApp to me — not routed through an office line. See <a href="/glossary/">property terms glossary →</a> while you wait.</p></div>
       </div>
       <div class="faq-item reveal">
         <button type="button" class="faq-question" id="faq-question-6" aria-controls="faq-answer-6" aria-expanded="false">What if I don't agree with your valuation?<span class="faq-icon">+</span></button>
@@ -1830,8 +1838,8 @@ footer:has(> .jt-sf) > span{display:block}
         <input type="number" name="year_built" id="valYearBuilt" min="1900" max="2050" step="1" inputmode="numeric" placeholder="e.g. 1995">
       </label>
       <label>
-        <span>Email address</span>
-        <input type="email" name="email" id="valEmail" placeholder="you@example.com" required autocomplete="email" autocapitalize="off" autocorrect="off" aria-describedby="valEmailHelp">
+        <span>Email address (optional)</span>
+        <input type="email" name="email" id="valEmail" placeholder="you@example.com" autocomplete="email" autocapitalize="off" autocorrect="off" aria-describedby="valEmailHelp">
         <span id="valEmailHelp">Your email is used as a backup copy. Joe replies personally on WhatsApp.</span>
       </label>
       <div class="val-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
@@ -1844,7 +1852,7 @@ footer:has(> .jt-sf) > span{display:block}
           for your free valuation instead.
         </div>
       </noscript>
-      <p class="val-popup-note">Free · No obligation · Reply within 24 hours</p>
+      <p class="val-popup-note">Free · No obligation · Reply within 24 hours. <a href="/privacy-policy.html">How your details are used</a>.</p>
     </form>
   </div>
 </div>
@@ -2176,7 +2184,7 @@ valPopupForm.addEventListener('submit',e=>{
     if(!propType){showValErr('Please select your property type.',f.contact_prop_type);return;}
   }
   if(!/^\d{6}$/.test(postal)){showValErr('Please enter a valid 6-digit postal code.',valPostalInput);return;}
-  if(!email||!f.email.checkValidity()){showValErr('Please enter a valid email address.',f.email);return;}
+  if(email&&!f.email.checkValidity()){showValErr('Please enter a valid email address.',f.email);return;}
   const data={
     lead_type:'valuation',
     property_type:propType,
@@ -2263,7 +2271,7 @@ document.getElementById('finalForm').addEventListener('submit',e=>{
     intent:f.intent.value,
     newsletter_opt_in:f.newsletter_opt_in?.checked?1:0
   },
-  "Thanks — your consultation is booked.",
+  "Thanks — your consultation request is in.",
   "I'll call you back shortly.");
 });
 
