@@ -106,6 +106,6 @@
     "test:canonical-redirects": "node --test tests/canonical-redirects.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.1.0"
+    "@netlify/blobs": "^11.1.3"
   }
 }
