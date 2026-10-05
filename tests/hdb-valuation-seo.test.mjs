@@ -12,6 +12,60 @@ const schemas = [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\
   .map(match => JSON.parse(match[1]));
 const text = value => value.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
 
+test('Chinese valuation guidance and FAQ preserve the corrected financing rules', () => {
+  const zh = read('zh/insights/hdb-valuation-explained.html');
+  const zhSchemas = [...zh.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(match => JSON.parse(match[1]));
+  const section = zh.split('<h2 id="faq">')[1].split('<h2 id="sources">')[0];
+  const pairs = [...section.matchAll(/<h3>([^<]+)<\/h3>\s*<p>([\s\S]*?)<\/p>/g)].map(([, question, answer]) => ({ question, answer: text(answer) }));
+  assert.equal(pairs.length, 5);
+  assert.deepEqual(zhSchemas.find(schema => schema['@type'] === 'FAQPage').mainEntity.map(item => ({ question: item.name, answer: item.acceptedAnswer.text })), pairs);
+  assert.match(zh, /建屋局会决定是否需要进行估价/);
+  assert.match(zh, /并非每宗申请都会有估价师到访/);
+  assert.match(zh, /议定成交价与估价两者中的较低者/);
+  assert.match(zh, /不能使用公积金或房屋贷款/);
+  assert.match(zh, /通常在 1 小时内回复/);
+  assert.doesNotMatch(zh, /通常 10 分钟|建屋局派持牌估价师上门|估价 \+ COV|滞后 2 到 4 周|损失两三万元|交易在 4 到 6 周内完成/);
+  for (const source of [...visible.matchAll(/href="(https:\/\/(?:www\.hdb|www\.cpf)\.gov\.sg\/[^"#]+)"/g)].map(match => match[1])) {
+    assert.ok(zh.includes(`href="${source}"`), `Chinese guide is missing ${source}`);
+  }
+});
+
+test('Chinese worked amounts match the English examples and reconcile', () => {
+  const zh = read('zh/insights/hdb-valuation-explained.html');
+  const example = zh.split('<h2 id="worked-example">')[1].split('<h2 id="common-mistakes">')[0];
+  assert.match(example, /仅作计算示例，并非真实交易/);
+  const rows = [...example.matchAll(/<tr><th scope="row">[^<]+<\/th>([\s\S]*?)<\/tr>/g)]
+    .map(([, cells]) => [...cells.matchAll(/<td>([\d,]+) 元<\/td>/g)].map(match => Number(match[1].replaceAll(',', ''))));
+  const enTable = visible.match(/<table aria-label="Illustrative HDB price and valuation examples">([\s\S]*?)<\/table>/)[1];
+  const enRows = [...enTable.matchAll(/<tr><th scope="row">[^<]+<\/th>([\s\S]*?)<\/tr>/g)]
+    .map(([, cells]) => [...cells.matchAll(/<td>\$([\d,]+)<\/td>/g)].map(match => Number(match[1].replaceAll(',', ''))));
+  assert.deepEqual(rows, enRows);
+  const [prices, values, bases, cash] = rows;
+  for (let i = 0; i < 2; i++) {
+    assert.equal(bases[i], Math.min(prices[i], values[i]));
+    assert.equal(cash[i], Math.max(0, prices[i] - values[i]));
+  }
+});
+
+test('Chinese article keeps publication history, locale links and current metadata', () => {
+  const zh = read('zh/insights/hdb-valuation-explained.html');
+  const article = [...zh.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(match => JSON.parse(match[1])).find(schema => schema['@type'] === 'Article');
+  const description = zh.match(/<meta name="description" content="([^"]+)"/)[1];
+  assert.equal(article.description, description);
+  assert.equal(article.datePublished, '2026-04-21');
+  assert.equal(article.dateModified, '2026-10-05');
+  assert.match(zh, /2026 年 10 月 5 日更新/);
+  for (const key of ['og:description', 'twitter:description']) assert.ok(zh.includes(`="${key}" content="${description}"`));
+  const languageLinks = [...zh.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)];
+  assert.deepEqual(languageLinks.map(match => match[1]).sort(), ['en-SG', 'x-default', 'zh-Hans']);
+  assert.ok(zh.includes(`href="${ARTICLE_URL}"`));
+  assert.ok(zh.includes('href="/zh/sell-hdb/"'));
+  assert.ok(zh.includes('<link rel="canonical" href="https://joetay.com/zh/insights/hdb-valuation-explained.html">'));
+  const headings = [...zh.matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)].map(match => [match[1], match[2]]);
+  const toc = zh.split('<nav class="article-toc"')[1].split('</nav>')[0];
+  for (const [id, heading] of headings) assert.ok(toc.includes(`<a href="#${id}">${heading}</a>`));
+});
+
 test('valuation guidance distinguishes a conditional valuation from financing limits', () => {
   assert.match(visible, /HDB decides whether a valuation is required/);
   assert.match(visible, /a visit is not automatic/);

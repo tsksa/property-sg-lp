@@ -7,6 +7,30 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 
+test('advisor portrait offers a mobile density step with the original JPEG fallback', () => {
+  const html = read('index.html');
+  const picture = html.match(/<picture>\s*<source[^>]+joe-tay-propertysg-advisor[\s\S]*?<\/picture>/)?.[0];
+  assert.ok(picture, 'advisor picture is missing');
+  const source = picture.match(/<source type="image\/webp"[^>]*srcset="([^"]+)"/)[1];
+  const candidates = source.split(', ').map(candidate => {
+    const [url, descriptor] = candidate.replaceAll('&amp;', '&').split(' ');
+    const parsed = new URL(url, 'https://joetay.com');
+    assert.equal(parsed.pathname, '/.netlify/images');
+    assert.equal(parsed.searchParams.get('url'), '/joe-tay-propertysg-advisor.jpg');
+    assert.equal(parsed.searchParams.get('fm'), 'webp');
+    assert.equal(parsed.searchParams.get('q'), '60');
+    assert.equal(descriptor, `${parsed.searchParams.get('w')}w`);
+    return Number(parsed.searchParams.get('w'));
+  });
+  assert.deepEqual(candidates, [400, 640, 800]);
+  assert.match(picture, /<img src="joe-tay-propertysg-advisor.jpg" srcset="joe-tay-propertysg-advisor-400.jpg 400w, joe-tay-propertysg-advisor.jpg 800w"/);
+  const sizes = [...picture.matchAll(/sizes="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(sizes.length, 2);
+  assert.equal(sizes[0], sizes[1]);
+  assert.match(sizes[0], /max-width:407px.*100vw - 48px.*max-width:860px.*360px.*425px/);
+  assert.match(picture, /loading="lazy" decoding="async" width="800" height="1000"/);
+});
+
 test('the newest review leads the band and matches its structured data', () => {
   const html = read('index.html');
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
