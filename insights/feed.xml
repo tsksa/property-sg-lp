@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-10-03T00:00:00+08:00</updated>
+  <updated>2026-10-05T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -162,12 +162,12 @@
     <link href="https://joetay.com/insights/hdb-valuation-explained.html" rel="alternate" type="text/html"/>
     <id>https://joetay.com/insights/hdb-valuation-explained.html</id>
     <published>2026-04-21T00:00:00+08:00</published>
-    <updated>2026-04-21T00:00:00+08:00</updated>
+    <updated>2026-10-05T00:00:00+08:00</updated>
     <author>
       <name>Joe Tay</name>
       <uri>https://joetay.com/about-joe/</uri>
     </author>
-    <summary type="text">Valuation, asking price, offer price — three different numbers most HDB sellers confuse. How agents triangulate URA, SRX, and recent transactions to price your flat honestly.</summary>
+    <summary type="text">Understand HDB's Request for Value, CPF and loan limits, and cash over valuation, with illustrative examples and recent resale data for sellers.</summary>
   </entry>
   <entry>
     <title>How Long to Sell an HDB Flat in Singapore?</title>
