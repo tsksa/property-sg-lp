@@ -18,7 +18,7 @@ test('advisor portrait offers a mobile density step with the original JPEG fallb
     assert.equal(parsed.pathname, '/.netlify/images');
     assert.equal(parsed.searchParams.get('url'), '/joe-tay-propertysg-advisor.jpg');
     assert.equal(parsed.searchParams.get('fm'), 'webp');
-    assert.equal(parsed.searchParams.get('q'), '65');
+    assert.equal(parsed.searchParams.get('q'), '60');
     assert.equal(descriptor, `${parsed.searchParams.get('w')}w`);
     return Number(parsed.searchParams.get('w'));
   });
