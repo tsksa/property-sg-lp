@@ -297,6 +297,30 @@ export function validateNewLaunchData(
       }
     }
 
+    if (project.factsReview != null) {
+      const review = project.factsReview;
+      if (!review || typeof review !== 'object' || Array.isArray(review)) {
+        fail(`${label}.factsReview must be an object`);
+      } else {
+        if (!isIsoDate(review.checkedAt)) fail(`${label}.factsReview.checkedAt must be a real ISO date`);
+        for (const field of ['address', 'locationNote', 'expectedTop']) {
+          if (typeof review[field] !== 'string' || !review[field].trim()) {
+            fail(`${label}.factsReview.${field} is required`);
+          }
+        }
+        if (!Array.isArray(review.sources) || !review.sources.length) {
+          fail(`${label}.factsReview.sources requires at least one source`);
+        } else {
+          for (const citation of review.sources) {
+            if (!sources?.[citation?.sourceId]) fail(`${label}.factsReview.sources must reference sources`);
+            if (typeof citation?.note !== 'string' || !citation.note.trim()) {
+              fail(`${label}.factsReview.sources requires a note for each source`);
+            }
+          }
+        }
+      }
+    }
+
     const provenance = project.provenance;
     if (
       !provenance ||

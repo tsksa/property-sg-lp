@@ -21,6 +21,19 @@ test('the verified new-launch dataset passes its contract', () => {
   assert.deepEqual(validate(clone()), []);
 });
 
+test('project fact reviews require dated sources, an address and completion wording', () => {
+  const data = clone();
+  const review = data.projects.find(({ slug }) => slug === 'vela-bay').factsReview;
+  review.checkedAt = '2026-02-30';
+  review.address = '';
+  review.expectedTop = '';
+  review.sources = [{ sourceId: 'missing-source', note: '' }];
+  const errors = validate(data);
+  for (const field of ['checkedAt', 'address', 'expectedTop', 'sources']) {
+    assert.ok(errors.some((error) => error.includes(`vela-bay.factsReview.${field}`)));
+  }
+});
+
 test('all 24 approved 2026 projects appear exactly once', () => {
   const names = DATA.projects
     .filter((project) => project.inventoryYear === 2026)
