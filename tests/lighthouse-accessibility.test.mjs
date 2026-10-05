@@ -133,7 +133,7 @@ test('new-launch cards use semantic list markup without invalid link roles', () 
   const data = JSON.parse(read('new-launches/projects.json'));
   const activeCount = data.projects.filter(({ status }) => status !== 'sold-out').length;
   const list = html.match(
-    /<ul[^>]+class="nl-grid reveal-stagger"[^>]+aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
+    /<ul[^>]+id="catalog"[^>]+aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
   )?.[1];
 
   assert.ok(list, 'missing new-launch project list');

@@ -432,7 +432,7 @@ ${soldOut ? '' : controlsHtml(projects)}
   <div class="nl-results-head"><div><p class="nl-controls-eyebrow">${soldOut ? 'Archive' : 'Verified directory'}</p><h2>${soldOut ? 'Sold-out projects' : 'Selling and upcoming projects'}</h2></div><p id="nlResultSummary"><strong id="nlResultCount">${projects.length}</strong> ${projects.length === 1 ? 'project' : 'projects'}</p></div>
   <p id="nlFilterStatus" class="sr-only" role="status" aria-live="polite"></p>
   <div id="nlEmptyState" class="nl-empty" hidden><h2>No matching projects</h2><p>Try a broader search or reset the filters.</p><button type="button" id="nlEmptyReset">Reset filters</button></div>
-  <ul id="catalog" class="nl-grid reveal-stagger" aria-label="${soldOut ? 'Sold-out Singapore projects' : 'Singapore new launch projects'}">
+  <ul id="catalog" class="nl-grid" aria-label="${soldOut ? 'Sold-out Singapore projects' : 'Singapore new launch projects'}">
 ${cards}
   </ul>
 ${soldOut ? soldOutAlternativesHtml(projects, alternativesPool) : ''}</main>
