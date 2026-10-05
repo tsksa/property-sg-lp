@@ -336,6 +336,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .hero-form{background:rgba(8,20,39,0.76);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:32px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:12px;width:100%;max-width:460px;margin:0 0 0 auto;box-shadow:0 28px 70px rgba(0,0,0,0.3)}
 .hero-consult{display:flex;flex-direction:column;gap:12px}
 .hero-consult[hidden]{display:none}
+#heroEstimate[hidden]{display:none}
 .hero-card .hero-talk{align-self:flex-start;font-size:.85rem}
 .hero-form-heading{font-family:'Fraunces',Georgia,serif;font-size:1.45rem;line-height:1.2;color:#fff;margin-bottom:2px}
 .hero-form-intro{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.68);margin-bottom:6px}
@@ -1082,7 +1083,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <link rel="preconnect" href="https://www.onemap.gov.sg">
 <link rel="preconnect" href="https://data.gov.sg">
 <link rel="stylesheet" href="/assets/block-estimate.css">
-<link rel="stylesheet" href="/assets/block-alert.css">
+<!-- The alert card is only revealed after a sold-price lookup. -->
+<link rel="stylesheet" href="/assets/block-alert.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/block-alert.css"></noscript>
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
@@ -1888,8 +1891,8 @@ async function submitLead(data){
     headers:{'Accept':'application/json','Content-Type':'application/json'},
     body:JSON.stringify({...data,...(typeof window.jtGetLeadAttribution==='function'?window.jtGetLeadAttribution():_utm),source_site:'joetay.com',submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt})
   });
-  const result=await res.json().catch(()=>({ok:res.ok}));
-  if(!result.ok) throw new Error('submit failed');
+  const result=await res.json();
+  if(!res.ok || result?.ok !== true) throw new Error('submit failed');
   return result;
 }
 
@@ -2442,7 +2445,7 @@ document.addEventListener('keydown',e=>{
   });
 })();
 </script>
-<script src="/assets/block-alert.js"></script>
+<script src="/assets/block-alert.js" defer></script>
 <script type="module" src="/assets/block-estimate.js"></script>
 <script src="/assets/conversion-tracking.js" defer></script>
 <!-- Service worker for offline support (Singapore MRT tunnel reality check) -->

@@ -106,6 +106,9 @@ function cssColour(file, selector, property, backdrop) {
 }
 
 const cases = [
+  { name: 'HDB seller final form heading', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-final .lp-form-card h2', 'color'], background: ['.lp-final-form .lp-form-card', 'background'] },
+  { name: 'HDB seller form button', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-form-card .lp-cta', 'color'], background: ['.lp-form-card .lp-cta', 'background'] },
+  { name: 'HDB seller form button hover', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-form-card .lp-cta', 'color'], background: ['.lp-form-card .lp-cta:hover', 'background'] },
   { name: 'dark optional valuation lookup', file: 'valuation.html', foreground: ['html.jt-theme-dark .val-lookup summary', 'color'], background: '#030a1a' },
   { name: 'dark other calculator disclosure', file: 'calculator/index.html', foreground: ['html.jt-theme-dark .calc-other-tools summary', 'color'], background: '#030a1a' },
   { name: 'dark catalog archive link', file: 'new-launches/new-launches.css', foreground: ['html.jt-theme-dark .nl-archive-link', 'color'], background: '#102447' },

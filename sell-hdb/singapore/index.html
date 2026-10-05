@@ -161,7 +161,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
           <input type="checkbox" name="newsletter_opt_in" value="1">
           <span>Also send me the free monthly Singapore property update</span>
         </label>
-        <div class="lp-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="lp-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
         <button type="submit" class="lp-cta" id="sellHdbSubmit">Get My Free HDB Consult →</button>
         <noscript>
           <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
@@ -314,7 +314,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
           <input type="checkbox" name="newsletter_opt_in" value="1">
           <span>Also send me the free monthly Singapore property update</span>
         </label>
-        <div class="lp-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="lp-hp" aria-hidden="true"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
         <button type="submit" class="lp-cta">Get My Free HDB Consult →</button>
         <noscript>
           <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
@@ -449,8 +449,8 @@ async function handleSubmit(form){
       headers:{'Accept':'application/json','Content-Type':'application/json'},
       body:JSON.stringify(data)
     });
-    const result = await res.json().catch(() => ({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    const result = await res.json();
+    if(!res.ok || result?.ok !== true) throw new Error('submit failed');
     showSuccess(form, qualified);
   } catch(err){
     btn.disabled = false;
