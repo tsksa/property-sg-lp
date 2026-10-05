@@ -956,7 +956,7 @@ ${mobileHeaderAssetsHtml()}
 }
 
 function renderNewPage(project) {
-  return `${head(project)}
+  const html = `${head(project)}
 <body data-generated-project-page="true" data-project-slug="${esc(project.slug)}">
 <a class="skip-link" href="#main">Skip to content</a><div class="nl-progress" aria-hidden="true"></div>
 ${siteHeaderHtml({ pagePath: `/new-launches/${project.slug}.html` })}
@@ -985,6 +985,62 @@ ${consentBannerHtml()}
 </body>
 </html>
 `;
+  return applyDesignPilot(html, project);
+}
+
+// Opt-in pilot shared by generated pages and the preserved hand-built Vela page.
+// Move the existing form intact so its fields, handlers and analytics stay intact.
+export function applyDesignPilot(html, project) {
+  const pilot = content[project.slug]?.designPilot;
+  if (!pilot) return html;
+  const hero = heroImage(project);
+  const image = galleryFor(project)?.find((item) => item.kind !== 'site-plan');
+  const form = html.match(/<div class="project-form-card">[\s\S]*?<\/form>\s*<\/div>/)?.[0];
+  if (!hero || !image || !form) throw new Error(`${project.slug}: design pilot requires an image and enquiry form`);
+  const mainAttrs = /<section class="project-hero[^>]*\bid="main"/.test(html) ? ' id="main" tabindex="-1"' : '';
+  const message = encodeURIComponent(`Hi Joe, please confirm current availability, prices and floor plans for ${project.name}.`);
+  const top = project.factsReview?.expectedTop || (expectedTop(project) ? formatDate(expectedTop(project)).replace(/^\d+\s/, '') : 'To be confirmed');
+  const checked = project.factsReview?.checkedAt || project.verifiedAt;
+  const heroHtml = `<section class="project-hero project-pilot-hero"${mainAttrs} aria-labelledby="page-hero-title">
+  <div class="project-pilot-heading">
+    <p class="project-pilot-eyebrow">New launch · ${esc(PROPERTY_TYPES[project.propertyType])}</p>
+    <h1 id="page-hero-title">${esc(project.name)}${pilot.nameSuffix ? ` <span class="project-pilot-name-suffix" lang="zh">${esc(pilot.nameSuffix)}</span>` : ''}</h1>
+    <p class="project-pilot-location">${esc(project.factsReview?.address || project.location)} · ${esc(project.district)}</p>
+  </div>
+  <figure class="project-pilot-image">
+    <picture><source media="(max-width: 900px)" srcset="${hero.sm}"><img src="${hero.lg}" width="${image.width}" height="${image.height}" alt="${esc(image.alt)}" fetchpriority="high" decoding="async"></picture>
+    <figcaption>Artist’s impression · Developer marketing materials via ERA</figcaption>
+  </figure>
+  <div class="project-pilot-intro">
+    <p class="project-pilot-headline">${esc(pilot.headline).replace('. ', '.<br>')}</p>
+    <p class="project-pilot-summary">${esc(pilot.summary)}</p>
+  </div>
+  <div class="project-pilot-actions">
+    <a class="project-pilot-primary" href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener" data-cta="project-pilot-availability">WhatsApp for availability</a>
+    <a class="project-pilot-facts-link" href="#verified-facts-${esc(project.slug)}">View project facts</a>
+  </div>
+</section>
+<section class="project-pilot-facts" aria-label="Project key facts">
+  <dl><div><dt>Homes</dt><dd>${new Intl.NumberFormat('en-SG').format(project.unitCount)}</dd></div><div><dt>Tenure</dt><dd>${esc(TENURES[project.tenure])}</dd></div><div><dt>Expected TOP</dt><dd>${esc(top)}</dd></div></dl>
+  <div class="project-pilot-status"><strong>${esc(marketCopy(project))}</strong><p>Core facts checked ${esc(formatDate(checked))}<br>Sales status checked ${esc(formatDate(project.verifiedAt))}</p></div>
+</section>
+<section class="project-pilot-brief" aria-labelledby="buyer-brief-${esc(project.slug)}">
+  <div class="project-pilot-brief-inner">
+    <p class="project-pilot-eyebrow">Joe’s buyer brief</p>
+    <h2 id="buyer-brief-${esc(project.slug)}">Is ${esc(project.name)} right for you?</h2>
+    <p class="project-pilot-byline">Joe Tay · ERA District Director · CEA R009618D</p>
+    <div class="project-pilot-brief-grid"><div><h3>Who it suits</h3><p>${esc(pilot.fit)}</p></div><div><h3>The trade-off</h3><p>${esc(pilot.tradeoff)}</p></div><div><h3>Before you decide</h3><p>${esc(pilot.beforeDeciding)}</p></div></div>
+    <nav class="project-pilot-links" aria-label="Continue exploring ${esc(project.name)}"><a href="#joe-take-${esc(project.slug)}">Read Joe’s full take</a><a href="#alternatives-${esc(project.slug)}">Compare alternatives</a><a href="#projectForm">Use the enquiry form</a></nav>
+  </div>
+</section>`;
+  for (const className of ['project-pilot-facts', 'project-pilot-brief', 'project-pilot-enquiry']) html = replaceSection(html, className);
+  html = replaceSection(html, 'project-hero', heroHtml);
+  const enquiry = `<section class="project-pilot-enquiry" aria-label="Enquire about ${esc(project.name)}"><div class="project-pilot-enquiry-inner"><div><p class="project-pilot-eyebrow">Your next step</p><h2>Check the home that fits your plans.</h2><p>Share your preferred layout and Joe will help you check the current unit list. Prefer a direct conversation? <a href="https://wa.me/6581881488?text=${message}" target="_blank" rel="noopener">WhatsApp Joe</a>.</p></div>${form}</div></section>\n`;
+  html = html.replace(/(<section class="project-related[\s\S]*?<\/section>\s*)/, (_, related) => related + enquiry);
+  if (!html.includes('data-launch-design="pilot"')) html = html.replace(/<body\b/, '<body data-launch-design="pilot"');
+  html = html.replace(/<link rel="stylesheet" href="project-pilot.css">\s*/g, '');
+  html = html.replace('<link rel="stylesheet" href="/assets/site-theme.css">', '<link rel="stylesheet" href="project-pilot.css">\n<link rel="stylesheet" href="/assets/site-theme.css">');
+  return html;
 }
 
 function replaceSection(html, className, replacement = '') {
@@ -1085,7 +1141,7 @@ export function refreshExistingPage(html, project) {
       .replace(/(<h3 tabindex="-1">)(?:You're registered\.|Enquiry received\.)(<\/h3><p>)[\s\S]*?(<\/p><\/div>`;)/, '$1Enquiry received.$2Joe will WhatsApp you about Vela Bay pricing, availability and available tour links. Typically within 1 hour during 9am–9pm.$3')
       .replace(/Hi%20Joe%2C%20I%27d%20like%20more%20information%20on%20Vela%20Bay%20at%20Bayshore%20Walk\./g, encodeURIComponent('Hi Joe, I would like more information on Vela Bay in the Bayshore precinct.'));
   }
-  return html;
+  return applyDesignPilot(html, project);
 }
 
 function reconcileSitemap(projects) {

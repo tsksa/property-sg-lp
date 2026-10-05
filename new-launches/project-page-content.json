@@ -20,6 +20,14 @@
     "risk": "The project is now recorded as sold out. The practical risk for a new buyer is relying on outdated launch pricing or availability; any opportunity would need to be assessed in the resale or subsale market instead."
   },
   "vela-bay": {
+    "designPilot": {
+      "nameSuffix": "首航",
+      "headline": "A coastal address. A longer-term decision.",
+      "summary": "Explore the Bayshore setting, compare the trade-offs and check the actual units available.",
+      "fit": "East-side households planning a longer hold, with coastal recreation and the Bayshore precinct in mind.",
+      "tradeoff": "Allow for precinct construction and a later completion horizon. Your holding period needs to fit the area's build-out.",
+      "beforeDeciding": "Confirm the available unit, layout, total price and your daily journey. Compare Bayshore with other east-side homes."
+    },
     "fit": "east-side households and longer-hold buyers who want the emerging Bayshore precinct, coastal recreation and future transport-led neighbourhood growth",
     "advantage": "The strongest advantage is early positioning in the Bayshore residential corridor, where the location offers a distinctive coastal setting and planned connectivity rather than a generic suburban proposition.",
     "risk": "The main risk is timing: precinct construction and a later completion horizon can mean several years of change around the site, so buyers need a holding period that matches the area’s build-out.",
@@ -58,6 +66,13 @@
     "risk": "The main risk is very limited remaining choice after strong sales, together with the EC eligibility and occupation rules that reduce flexibility compared with a private condominium."
   },
   "pinery-residences": {
+    "designPilot": {
+      "headline": "Tampines living. Find the right fit.",
+      "summary": "Explore a private condominium in Tampines, weigh the available layouts and check how it fits your daily life.",
+      "fit": "Private-condominium buyers who want a Tampines address, established east-side amenities and non-EC ownership.",
+      "tradeoff": "Your choice depends on the units available now. Check the exact stack, floor and layout before relying on a headline price.",
+      "beforeDeciding": "Compare the total price, usable space and daily journey of an available unit with other east-side homes."
+    },
     "fit": "private-condominium buyers who want a Tampines address, established east-side amenities and the flexibility of non-EC ownership",
     "advantage": "The strongest advantage is a mature D18 location paired with Hoi Hup and Sunway’s development experience, plus a scale of 588 homes that can support a full facility offering.",
     "risk": "The main risk is a high sold percentage and a reduced selection of units; the published entry price must be checked against the exact remaining stack, floor and layout."

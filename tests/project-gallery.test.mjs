@@ -47,7 +47,12 @@ test('gallery pages render every image, use a self-hosted hero and share image, 
     const entry = manifest.projects[project.slug];
     if (!entry) continue;
     assert.equal((html.match(/data-gallery-item/g) || []).length, entry.images.length, `${project.slug}: gallery count`);
-    assert.match(html, new RegExp(`--bg-image:url\\('/new-launches/img/gallery/${project.slug}/`), `${project.slug}: hero photo`);
+    if (html.includes('data-launch-design="pilot"')) {
+      const hero = html.match(/<section class="project-hero project-pilot-hero"[\s\S]*?<\/section>/)?.[0];
+      assert.ok(hero?.includes(`src="/new-launches/img/gallery/${project.slug}/${entry.images[0].file}-lg.webp"`), `${project.slug}: self-hosted pilot hero`);
+    } else {
+      assert.match(html, new RegExp(`--bg-image:url\\('/new-launches/img/gallery/${project.slug}/`), `${project.slug}: hero photo`);
+    }
     assert.match(html, new RegExp(`og:image" content="https://joetay\\.com/new-launches/img/gallery/${project.slug}/og\\.jpg"`), `${project.slug}: og:image`);
     assert.match(html, /src="project-gallery\.js"/, `${project.slug}: lightbox script`);
   }
