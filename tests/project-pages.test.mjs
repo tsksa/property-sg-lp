@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
+import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
+import { refreshExistingPage } from '../scripts/generate-project-pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
@@ -18,6 +20,68 @@ const REFRESHED_SLUGS = [
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 const pageFor = (project) => read(new URL(project.canonicalUrl).pathname.slice(1));
 const stripTags = (html) => html.replace(/<[^>]+>/g, ' ').replace(/&[^;]+;/g, ' ').replace(/\s+/g, ' ').trim();
+
+test('Vela Bay links checked evidence and distinguishes the site from its developer address', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'vela-bay');
+  const html = pageFor(project);
+  const sources = html.match(/<div class="project-source-list"[\s\S]*?<\/section>/)?.[0];
+  for (const url of [
+    'https://www.singhaiyi.com/vela-bay.html',
+    'https://www.99.co/singapore/insider/new-condo-launches-2026/',
+    'https://propertyportal.era.com.sg/new-launches/detail/52114373',
+  ]) assert.ok(sources.includes(`href="${url}"`), `missing source ${url}`);
+  assert.match(html, /Facts and source links checked 5 Oct 2026/);
+  assert.match(html, /As of 16 Sept 2026, Vela Bay is selling/);
+  assert.match(html, /Developer address<\/div><div class="project-factsheet-val">1 &amp; 3 Bayshore Walk/);
+  assert.match(html, /"streetAddress": "1 & 3 Bayshore Walk"/);
+  assert.match(html, /Bayshore Road is the site location used in the launch guide/);
+  assert.match(html, /Expected completion \(TOP\): Q4 2031/);
+  assert.doesNotMatch(html, /30 Dec 2031|within 10 minutes|4 Matterport tour links/);
+  assert.doesNotMatch(sources, /PropNex FY2025 Business Updates/);
+});
+
+test('Vela Bay comparisons explain geography and EC constraints with dated availability', () => {
+  const html = read('new-launches/vela-bay.html');
+  const section = html.match(/<section class="project-related[\s\S]*?<\/section>/)[0];
+  const links = [...section.matchAll(/href="([^"]+)" class="project-related-card"/g)].map((m) => m[1]);
+  assert.deepEqual(links, [
+    '/new-launches/pinery-residences.html',
+    '/new-launches/coastal-cabana.html',
+    '/new-launches/lentor-gardens-residences.html',
+  ]);
+  assert.equal((section.match(/class="project-related-reason"/g) || []).length, 3);
+  assert.match(section, /only if your household qualifies/);
+  assert.match(section, /D26, away from Bayshore/);
+  assert.equal((section.match(/as of 16 Sept 2026/g) || []).length, 3);
+});
+
+test('Vela Bay confirmation matches the visible response window and preserves focus and analytics', () => {
+  const html = read('new-launches/vela-bay.html');
+  const response = 'Typically within 1 hour during 9am–9pm.';
+  assert.ok(html.includes(`<p class="pf-micro">Free · No obligation · ${response}</p>`));
+  const script = html.match(/function showSuccess\(form\)\{[\s\S]*?(?=\nasync function handleSubmit)/)[0];
+  let focused = false;
+  const events = [];
+  const form = { innerHTML: '', querySelector: () => ({ focus: () => { focused = true; } }) };
+  vm.runInNewContext(`${script}\nshowSuccess(form);`, {
+    form, PROJECT_NAME: 'Vela Bay', LANDING_PAGE: '/new-launches/vela-bay.html',
+    gtag: (...args) => events.push(args), fbq: (...args) => events.push(args),
+  });
+  assert.ok(form.innerHTML.includes(response));
+  assert.match(form.innerHTML, /Enquiry received\./);
+  assert.equal(focused, true);
+  assert.equal(events[0][1], 'generate_lead');
+  assert.equal(events[1][1], 'Lead');
+  const floating = html.match(/<a[^>]+class="nl-wa-float"[^>]*>/)[0];
+  const url = new URL(floating.match(/href="([^"]+)"/)[1]);
+  assert.equal(url.searchParams.get('text'), 'Hi Joe, I would like more information on Vela Bay in the Bayshore precinct.');
+});
+
+test('Vela Bay corrections survive page regeneration', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'vela-bay');
+  const html = pageFor(project);
+  assert.equal(refreshExistingPage(html, project), html);
+});
 
 test('manifest pages expose the verified dataset contract', () => {
   for (const slug of MANIFEST.slugs) {

@@ -22,7 +22,25 @@
   "vela-bay": {
     "fit": "east-side households and longer-hold buyers who want the emerging Bayshore precinct, coastal recreation and future transport-led neighbourhood growth",
     "advantage": "The strongest advantage is early positioning in the Bayshore residential corridor, where the location offers a distinctive coastal setting and planned connectivity rather than a generic suburban proposition.",
-    "risk": "The main risk is timing: precinct construction and a later completion horizon can mean several years of change around the site, so buyers need a holding period that matches the area’s build-out."
+    "risk": "The main risk is timing: precinct construction and a later completion horizon can mean several years of change around the site, so buyers need a holding period that matches the area’s build-out.",
+    "comparisons": {
+      "heading": "Three comparisons for a Bayshore buyer.",
+      "intro": "Start with an east-side private condominium, consider an EC only if eligible, then test whether a different OCR location suits your household. Compare the actual unit price, layout and commute; these projects are not interchangeable coastal homes.",
+      "items": [
+        {
+          "slug": "pinery-residences",
+          "reason": "East-side private condo: compare a Tampines Street 94 home with the Bayshore setting. Check the remaining layouts and your daily journey before choosing."
+        },
+        {
+          "slug": "coastal-cabana",
+          "reason": "East-side EC: compare Jalan Loyang Besar only if your household qualifies for an executive condominium. Check EC eligibility and ownership restrictions before comparing prices."
+        },
+        {
+          "slug": "lentor-gardens-residences",
+          "reason": "Broader OCR private-condo comparison: Lentor Gardens is in D26, away from Bayshore. Use it to test location flexibility against the price and layout of an actual available unit."
+        }
+      ]
+    }
   },
   "dunearn-house": {
     "fit": "families and central-region buyers who want a new 99-year condominium on Dunearn Road, with a manageable 380-home scale and established Bukit Timah-area amenities",

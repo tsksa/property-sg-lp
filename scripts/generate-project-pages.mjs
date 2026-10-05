@@ -171,7 +171,7 @@ function projectJson(project) {
     url: project.canonicalUrl,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: project.location,
+      streetAddress: project.factsReview?.address || project.location,
       addressRegion: project.district,
       addressCountry: 'SG',
     },
@@ -321,7 +321,9 @@ function projectFaqEntries(project) {
     price = `No verified price is published on this page for ${name}. Prices change with each developer release, so Joe confirms current pricing on request rather than showing an estimate.`;
   }
   return [
-    [`Where is ${name}?`, `${name} is at ${project.location} in ${project.district}, ${region} of Singapore.`],
+    [`Where is ${name}?`, project.factsReview
+      ? `${name} is in ${project.district}, ${region} of Singapore. ${project.factsReview.locationNote}`
+      : `${name} is at ${project.location} in ${project.district}, ${region} of Singapore.`],
     [`Who is the developer of ${name}?`, `${name} is developed by ${project.developer}.`],
     [`How many units does ${name} have?`, `${name} has ${units} units. It is a ${PROPERTY_TYPES[project.propertyType].toLowerCase()} development on a ${TENURES[project.tenure].toLowerCase()} title.`],
     [`Is ${name} still available?`, status],
@@ -347,12 +349,12 @@ function projectFaqSection(project) {
   const checked = formatDate(project.verifiedAt);
   return `<section class="project-availability project-faq reveal" aria-labelledby="faq-${esc(project.slug)}">
   <div class="project-availability-inner">
-    <div class="project-eyebrow">Quick answers · checked ${esc(checked)}</div>
+    <div class="project-eyebrow">Quick answers · ${project.factsReview ? 'sales status ' : ''}checked ${esc(checked)}</div>
     <h2 id="faq-${esc(project.slug)}">${esc(project.name)}: the questions buyers ask first.</h2>
     <div class="project-availability-grid">
 ${projectFaqEntries(project).map(([question, answer]) => `      <article><h3>${esc(question)}</h3><p>${esc(answer)}</p></article>`).join('\n')}
     </div>
-    <p class="project-availability-note">Every answer above comes from the dataset-backed facts on this page, verified ${esc(checked)}. Nothing is estimated.</p>
+    <p class="project-availability-note">${project.factsReview ? `Core facts and source links were checked ${esc(formatDate(project.factsReview.checkedAt))}; sales status is dated ${esc(checked)}. Confirm current pricing and availability with Joe.` : `Every answer above comes from the dataset-backed facts on this page, verified ${esc(checked)}. Nothing is estimated.`}</p>
   </div>
 </section>`;
 }
@@ -375,6 +377,19 @@ function upsertFaqJsonLd(html, faq) {
 }
 
 function alternativesFor(project) {
+  const selected = content[project.slug]?.comparisons?.items || [];
+  if (selected.length) {
+    if (selected.length !== 3 || new Set(selected.map(({ slug }) => slug)).size !== 3) {
+      throw new Error(`${project.slug}: expected three distinct curated comparisons`);
+    }
+    return selected.map(({ slug }) => {
+      const alternative = data.projects.find((candidate) => candidate.slug === slug);
+      if (!alternative || alternative.slug === project.slug || alternative.status === 'sold-out') {
+        throw new Error(`${project.slug}: review curated comparison ${slug} before generating`);
+      }
+      return alternative;
+    });
+  }
   return data.projects
     .filter((candidate) => candidate.slug !== project.slug && candidate.status !== 'sold-out')
     .sort((left, right) => {
@@ -556,12 +571,22 @@ function connectivitySection(project) {
     <ol class="project-connect-list">
 ${stations.map((station) => `      <li><strong>${esc(station.name)} ${esc(station.kind)}</strong><span>${esc(distanceLabel(station.metres))}</span></li>`).join('\n')}
     </ol>
-    <p class="project-unitmix-note">Straight-line distances from the site to each station's nearest cluster of exits, calculated from LTA's station exit data. Walking routes are longer.${top ? ` Expected completion (TOP): ${esc(formatDate(top))}, as listed on ERA.` : ''}</p>
+    <p class="project-unitmix-note">Straight-line distances from the site to each station's nearest cluster of exits, calculated from LTA's station exit data. Walking routes are longer.${top ? ` Expected completion (TOP): ${esc(project.factsReview?.expectedTop || formatDate(top))}, as listed on ERA.` : ''}</p>
   </div>
 </section>`;
 }
 
 function sourceSection(project) {
+  if (project.factsReview) {
+    const review = project.factsReview;
+    return `<p class="project-factsheet-note"><strong>Facts and source links checked ${esc(formatDate(review.checkedAt))}.</strong> Sales status was last checked ${esc(formatDate(project.verifiedAt))}; confirm today’s pricing and availability with Joe.</p>
+<div class="project-source-list" aria-label="Verification source categories">
+${review.sources.map(({ sourceId, note }) => {
+  const source = sourcesById.get(sourceId);
+  return `  <div><strong><a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.name)}</a></strong><span>${esc(note)}</span></div>`;
+}).join('\n')}
+</div>`;
+  }
   const categories = [
     ['Project facts', project.provenance.facts],
     ['Launch timing', project.provenance.timing],
@@ -579,7 +604,7 @@ function statsHtml(project) {
   <div class="project-stat" role="listitem"><div class="project-stat-label">District</div><div class="project-stat-value">${esc(project.district)} · ${esc(project.region)}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Tenure</div><div class="project-stat-value">${esc(TENURES[project.tenure])}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Units</div><div class="project-stat-value">${new Intl.NumberFormat('en-SG').format(project.unitCount)}</div></div>
-${expectedTop(project) ? `  <div class="project-stat" role="listitem"><div class="project-stat-label">Expected TOP</div><div class="project-stat-value">${esc(formatDate(expectedTop(project)).replace(/^\d+\s/, ''))}</div></div>
+${expectedTop(project) ? `  <div class="project-stat" role="listitem"><div class="project-stat-label">Expected TOP</div><div class="project-stat-value">${esc(project.factsReview?.expectedTop || formatDate(expectedTop(project)).replace(/^\d+\s/, ''))}</div></div>
 ` : ''}</div>`;
 }
 
@@ -669,7 +694,7 @@ function factsheetSection(project) {
         <div>
           <div class="project-factsheet-row"><div class="project-factsheet-key">Project</div><div class="project-factsheet-val">${esc(project.name)}</div></div>
           <div class="project-factsheet-row"><div class="project-factsheet-key">Location</div><div class="project-factsheet-val">${esc(project.location)}</div></div>
-          <div class="project-factsheet-row"><div class="project-factsheet-key">Developer</div><div class="project-factsheet-val">${esc(project.developer)}</div></div>
+${project.factsReview ? `          <div class="project-factsheet-row"><div class="project-factsheet-key">Developer address</div><div class="project-factsheet-val">${esc(project.factsReview.address)}</div></div>\n` : ''}          <div class="project-factsheet-row"><div class="project-factsheet-key">Developer</div><div class="project-factsheet-val">${esc(project.developer)}</div></div>
           <div class="project-factsheet-row"><div class="project-factsheet-key">Type</div><div class="project-factsheet-val">${esc(PROPERTY_TYPES[project.propertyType])}</div></div>
         </div>
         <div>
@@ -682,7 +707,7 @@ function factsheetSection(project) {
       <div class="project-market-callout"><strong>${esc(marketCopy(project))}</strong><span>${esc(marketNote)}</span></div>
       <p class="project-factsheet-cta">Budgeting for ${esc(project.name)}? Work out the <a href="/stamp-duty-calculator/">BSD and ABSD stamp duty</a> on top of your purchase price before you commit.</p>
       <p class="project-factsheet-note">${esc(verificationNote)}</p>
-      ${sourceSection(project)}
+${project.factsReview ? `      <p class="project-factsheet-note">${esc(project.factsReview.locationNote)}</p>\n` : ''}      ${sourceSection(project)}
     </div>
   </div>
 </section>`;
@@ -818,11 +843,12 @@ function takeSection(project) {
 
 function relatedSection(project) {
   const alternatives = alternativesFor(project);
-  return `<section class="project-related reveal" aria-labelledby="alternatives-${esc(project.slug)}">
+  const comparisons = content[project.slug]?.comparisons;
+  return `<section class="project-related reveal" aria-labelledby="alternatives-${esc(project.slug)}"${comparisons ? ' data-curated-comparisons' : ''}>
   <div class="project-related-inner">
-    <div class="project-related-head"><div><div class="project-eyebrow">Compare before deciding</div><h2 id="alternatives-${esc(project.slug)}">Three active alternatives.</h2></div></div>
+    <div class="project-related-head"><div><div class="project-eyebrow">Compare before deciding</div><h2 id="alternatives-${esc(project.slug)}">${esc(comparisons?.heading || 'Three active alternatives.')}</h2>${comparisons ? `<p>${esc(comparisons.intro)}</p>` : ''}</div></div>
     <div class="project-related-grid">
-${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.canonicalUrl).pathname)}" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">${esc(alternative.district)} · ${esc(alternative.region)} · ${esc(STATUSES[alternative.status])}</div><div class="project-related-card-title">${esc(alternative.name)}</div><div class="project-related-card-cta">Compare</div></div></a>`).join('\n')}
+${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.canonicalUrl).pathname)}" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">${esc(alternative.district)} · ${esc(alternative.region)} · ${esc(STATUSES[alternative.status])}${comparisons ? ` as of ${esc(formatDate(alternative.verifiedAt))}` : ''}</div><div class="project-related-card-title">${esc(alternative.name)}</div>${comparisons ? `<p class="project-related-reason">${esc(comparisons.items.find(({ slug }) => slug === alternative.slug).reason)}</p>` : ''}<div class="project-related-card-cta">Compare</div></div></a>`).join('\n')}
     </div>
   </div>
 </section>`;
@@ -994,7 +1020,7 @@ function refreshFormCard(html, project) {
   );
 }
 
-function refreshExistingPage(html, project) {
+export function refreshExistingPage(html, project) {
   const title = titleFor(project);
   const meta = metaDescription(project);
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
@@ -1053,6 +1079,12 @@ function refreshExistingPage(html, project) {
     html = html.replaceAll('D10', 'D11').replaceAll('Freehold', '99-year leasehold').replaceAll('freehold', '99-year leasehold');
   }
   if (project.slug === 'narra-residences') html = html.replaceAll('544', '540');
+  if (project.slug === 'vela-bay') {
+    html = html
+      .replace(/<p class="pf-micro">[\s\S]*?<\/p>/, '<p class="pf-micro">Free · No obligation · Typically within 1 hour during 9am–9pm.</p>')
+      .replace(/(<h3 tabindex="-1">)(?:You're registered\.|Enquiry received\.)(<\/h3><p>)[\s\S]*?(<\/p><\/div>`;)/, '$1Enquiry received.$2Joe will WhatsApp you about Vela Bay pricing, availability and available tour links. Typically within 1 hour during 9am–9pm.$3')
+      .replace(/Hi%20Joe%2C%20I%27d%20like%20more%20information%20on%20Vela%20Bay%20at%20Bayshore%20Walk\./g, encodeURIComponent('Hi Joe, I would like more information on Vela Bay in the Bayshore precinct.'));
+  }
   return html;
 }
 
@@ -1081,6 +1113,7 @@ export function validateProjectPage(html, project) {
   } else if (!html.includes('data-approval="not-required"')) {
     errors.push(`${project.slug}: evidence-led assessment marker missing`);
   }
+  try { alternativesFor(project); } catch (error) { errors.push(error.message); }
   if ((html.match(/class="project-related-card"/g) || []).length !== 3) errors.push(`${project.slug}: expected three alternatives`);
   if (hasMap(project) && !html.includes(`src="${mapPath(project, 'jpg')}"`)) errors.push(`${project.slug}: location map missing`);
   if (galleryFor(project) && (html.match(/data-gallery-item/g) || []).length !== galleryFor(project).length) errors.push(`${project.slug}: gallery does not list every image`);

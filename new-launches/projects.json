@@ -245,6 +245,18 @@
       "category": "developer",
       "url": "https://www.simlian.com.sg/property/",
       "checkedAt": "2026-10-04"
+    },
+    "singhaiyi-vela-bay": {
+      "name": "SingHaiyi: Vela Bay",
+      "category": "developer",
+      "url": "https://www.singhaiyi.com/vela-bay.html",
+      "checkedAt": "2026-10-05"
+    },
+    "era-vela-bay": {
+      "name": "ERA: Vela Bay listing",
+      "category": "portal-corroboration",
+      "url": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
+      "checkedAt": "2026-10-05"
     }
   },
   "projects": [
@@ -608,8 +620,9 @@
       },
       "provenance": {
         "facts": [
-          "ura-uncompleted-projects",
-          "propnex-sgx-2026-pipeline"
+          "singhaiyi-vela-bay",
+          "99co-2026-guide",
+          "era-vela-bay"
         ],
         "timing": [
           "99co-2026-guide"
@@ -623,7 +636,27 @@
           "99co-new-launches"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "factsReview": {
+        "checkedAt": "2026-10-05",
+        "address": "1 & 3 Bayshore Walk",
+        "locationNote": "Bayshore Road is the site location used in the launch guide; SingHaiyi lists the development address as 1 & 3 Bayshore Walk. Both refer to Vela Bay in the Bayshore precinct.",
+        "sources": [
+          {
+            "sourceId": "singhaiyi-vela-bay",
+            "note": "Developer source: 515 homes, 99-year leasehold, 1 & 3 Bayshore Walk and expected completion in 2031."
+          },
+          {
+            "sourceId": "99co-2026-guide",
+            "note": "Launch guide: Bayshore Road, SingHaiyi Group / Haiyi Holdings, preview on 11 April 2026 and booking on 25 April 2026."
+          },
+          {
+            "sourceId": "era-vela-bay",
+            "note": "Agency listing: 3 Bayshore Walk and expected TOP in Q4 2031. Prices and unit availability can change; confirm the current unit list with Joe."
+          }
+        ],
+        "expectedTop": "Q4 2031"
+      }
     },
     {
       "slug": "hudson-place-residences",
