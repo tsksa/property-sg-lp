@@ -115,3 +115,44 @@ test('standalone contact validation accepts blank backup email and rejects a mal
     assert.deepEqual(errors, valid ? [] : ['email']);
   }
 });
+
+test('review shows only the current property type and retains the unit after address lookup', () => {
+  const review = html.match(/function updateReview\(\)\{([\s\S]*?)\n\}/)?.[1];
+  assert.ok(review);
+  for (const [type, address, unit, expectedProperty, expectedLocation] of [
+    ['HDB', '1 TEST ROAD, Singapore 123456', '#12-34', 'HDB · 4-room', '1 TEST ROAD, Singapore 123456 · #12-34'],
+    ['Condo / Apartment', '1 TEST ROAD, Singapore 123456', '#12-34', 'Condo / Apartment', '1 TEST ROAD, Singapore 123456 · #12-34'],
+    ['Landed', '', '', 'Landed', '123456'],
+    ['HDB', '', '#12-34', 'HDB · 4-room', '123456 · #12-34'],
+  ]) {
+    const outputs = {};
+    const field = value => ({value});
+    vm.runInNewContext(review, {
+      form: {propType:field(type), postalCode:field('123456'), unitNumber:field(unit), fullName:field('Test'), mobile:field('81234567'), email:field(''), querySelector:()=>field('4-room')},
+      detectedAddress: address,
+      document:{getElementById:id=>(outputs[id] ||= {})},
+    });
+    assert.equal(outputs.reviewProperty.textContent, expectedProperty);
+    assert.equal(outputs.reviewLocation.textContent, expectedLocation);
+    assert.equal(outputs.reviewContact.textContent, 'Test · 81234567');
+  }
+});
+
+test('enquiry forms require an explicit successful JSON response before confirming delivery', async () => {
+  const seller = fs.readFileSync(path.join(ROOT, 'sell-hdb/singapore/index.html'), 'utf8');
+  for (const [page, source] of [['homepage', homepage], ['valuation', html], ['HDB seller', seller]]) {
+    const responseCheck = source.match(/const result\s*=\s*await res\.json\(\)[\s\S]*?throw new Error\('submit failed'\);/)?.[0];
+    assert.ok(responseCheck, page);
+    for (const [status, payload, accepted] of [
+      [200, '{"ok":true}', true], [201, '{"ok":true}', true],
+      [200, '<html>upstream error</html>', false], [204, '', false],
+      [200, '{}', false], [200, 'null', false], [200, '{"ok":"true"}', false],
+      [200, '{"ok":false}', false], [503, '{"ok":true}', false],
+    ]) {
+      const res = {ok:status>=200 && status<300, json:async()=>JSON.parse(payload)};
+      const check = vm.runInNewContext(`(async()=>{${responseCheck}})()`, {res});
+      if (accepted) await assert.doesNotReject(check, `${page}: ${status} ${payload}`);
+      else await assert.rejects(check, `${page}: ${status} ${payload}`);
+    }
+  }
+});

@@ -651,11 +651,11 @@ function trackStep(index){
 
 function updateReview(){
   const propType=form.propType.value || 'Not selected';
-  const hdbType=form.querySelector('[name="hdbType"]:checked')?.value;
+  const hdbType=propType==='HDB' ? form.querySelector('[name="hdbType"]:checked')?.value : '';
   document.getElementById('reviewProperty').textContent=hdbType ? `${propType} · ${hdbType}` : propType;
   const postal=form.postalCode.value.trim();
   const unit=form.unitNumber.value.trim();
-  document.getElementById('reviewLocation').textContent=detectedAddress || [postal,unit].filter(Boolean).join(' · ') || 'Not provided';
+  document.getElementById('reviewLocation').textContent=[detectedAddress || postal,unit].filter(Boolean).join(' · ') || 'Not provided';
   const contact=[form.fullName.value.trim(),form.mobile.value.trim(),form.email.value.trim()].filter(Boolean);
   document.getElementById('reviewContact').textContent=contact.join(' · ') || 'Not provided';
 }
@@ -870,8 +870,8 @@ document.getElementById('valForm').addEventListener('submit', async e=>{
       headers: {'Accept':'application/json','Content-Type':'application/json'},
       body: JSON.stringify(data)
     });
-    const result = await res.json().catch(()=>({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    const result = await res.json();
+    if(!res.ok || result?.ok !== true) throw new Error('submit failed');
     showSuccess(data);
   } catch(err){
     btn.disabled = false;

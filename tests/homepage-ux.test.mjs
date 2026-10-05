@@ -7,6 +7,30 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 
+test('the homepage loads the hidden alert card without blocking the first render', () => {
+  const html = read('index.html');
+  const scriptEnabled = html.replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
+  assert.match(scriptEnabled, /<link rel="stylesheet" href="\/assets\/block-alert\.css" media="print" onload="this\.media='all'">/);
+  assert.match(html, /<noscript><link rel="stylesheet" href="\/assets\/block-alert\.css"><\/noscript>/);
+  assert.match(html, /<script src="\/assets\/block-alert\.js" defer><\/script>/);
+  assert.ok(html.indexOf('<script src="/assets/block-alert.js"') < html.indexOf('<script type="module" src="/assets/block-estimate.js"'));
+});
+
+test('switching to the consultation form hides the sold-price widget despite its flex layout', () => {
+  const html = read('index.html');
+  assert.match(html, /#heroEstimate\[hidden\]\{display:none\}/);
+  assert.match(html, /\.hero-consult\[hidden\]\{display:none\}/);
+});
+
+test('the HDB seller form visibly identifies invalid fields and hides its bot trap from assistive technology', () => {
+  const html = read('sell-hdb/singapore/index.html');
+  const css = read('sell-hdb/singapore/ads-landing.css');
+  assert.match(css, /\.lp-form input\[aria-invalid="true"\],\.lp-form select\[aria-invalid="true"\]\{border-color:#b91c1c\}/);
+  const traps = [...html.matchAll(/<div class="lp-hp"([^>]*)>/g)];
+  assert.equal(traps.length, 2);
+  assert.ok(traps.every(match => match[1].includes('aria-hidden="true"')));
+});
+
 test('advisor portrait offers a mobile density step with the original JPEG fallback', () => {
   const html = read('index.html');
   const picture = html.match(/<picture>\s*<source[^>]+joe-tay-propertysg-advisor[\s\S]*?<\/picture>/)?.[0];
