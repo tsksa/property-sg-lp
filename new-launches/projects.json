@@ -257,6 +257,12 @@
       "category": "portal-corroboration",
       "url": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
       "checkedAt": "2026-10-05"
+    },
+    "edgeprop-lucerne-grand-launch": {
+      "name": "EdgeProp: Lucerne Grand 61.4% sold at an average of $2,480 psf (4 October 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/lucerne-grand-614-sold-average-price-2480-psf",
+      "checkedAt": "2026-10-09"
     }
   },
   "projects": [
@@ -874,9 +880,9 @@
       "previewDate": null,
       "bookingDate": null,
       "launchWindow": "2026-10",
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/lucerne-grand.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -892,19 +898,58 @@
       "provenance": {
         "facts": [
           "ura-uncompleted-projects",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "edgeprop-lucerne-grand-launch"
         ],
         "timing": [
-          "edgeprop-cdl-1h2026"
+          "edgeprop-cdl-1h2026",
+          "edgeprop-lucerne-grand-launch"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-lucerne-grand-launch"
         ],
         "dynamics": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-lucerne-grand-launch"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Lucerne Grand Balance Units & Launch | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "edgeprop-lucerne-grand-launch"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Launch guidance: third quarter of 2026",
+            "detail": "City Developments said it planned to launch the 570-unit Lucerne Grand on Lakeside Drive in the third quarter of 2026. CDL had won the site with a top bid of $608 million, or $1,132 per square foot per plot ratio, at a Government Land Sale tender in 2025."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch date set for October",
+            "detail": "CDL's first-half 2026 results reporting slated Lucerne Grand for launch in October 2026. The project is five 17-storey towers with a commercial first storey, next to Lakeside MRT station and near Jurong Lake Gardens."
+          },
+          {
+            "date": "2026-10-04",
+            "status": "confirmed",
+            "label": "Launched for sale",
+            "detail": "Over the launch weekend of 3 and 4 October 2026, 350 of the 570 units were sold as at 6pm on 4 October, or 61.4%, at an average price of $2,480 per square foot. CDL reported that about 93% of buyers were Singaporeans and the remaining 7% permanent residents."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Completion and remaining unit details",
+            "detail": "Not announced. Remaining units, stacks and current prices change week to week and are not published here; ask Joe to confirm what is available today."
+          }
+        ]
+      }
     },
     {
       "slug": "chuan-grove",
@@ -1091,7 +1136,8 @@
           "far-east-the-serra"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "The Serra Residences Launch Date & Units | PropertySG"
     },
     {
       "slug": "dorset-road",
@@ -1136,7 +1182,8 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Dorset Road Launch Date & Units | PropertySG"
     },
     {
       "slug": "woodlands-drive-17-ec",
@@ -1188,7 +1235,41 @@
       },
       "legacyInventoryEvidence": null,
       "formerName": "Woodlands Drive 17 EC",
-      "seoTitle": "Wynwood Grand EC, Woodlands Drive 17: Launch | PropertySG"
+      "seoTitle": "Wynwood Grand EC, Woodlands Drive 17: Launch | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Two new executive condominiums lined up",
+            "detail": "City Developments flagged two new executive condominium projects alongside its Lucerne Grand condominium launch."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch guidance: first quarter of 2027",
+            "detail": "CDL's first-half 2026 results reporting gave Wynwood Grand and Solano Grand target launch dates in the first quarter of 2027."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "A first-quarter 2027 launch is the developer’s stated target. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "chencharu-close",
@@ -1235,7 +1316,41 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Chencharu Close Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-chencharu-close-tender",
+          "propnex-sgx-2026-pipeline"
+        ],
+        "steps": [
+          {
+            "date": "2025-09-11",
+            "status": "confirmed",
+            "label": "Tender closed with three bids",
+            "detail": "The Chencharu Close site drew three bids at its 11 September 2025 tender close. A consortium led by Evia Real Estate with Gamuda Land and Ho Lee Group submitted the top bid of $1.012 billion, or $980 per square foot per plot ratio. The 99-year leasehold site is planned for about 875 private homes alongside commercial space."
+          },
+          {
+            "date": "2026-09-16",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date, price list or balance-unit count has been published by the developers."
+          },
+          {
+            "date": "2026-Q4",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The sources cited below place the launch in the fourth quarter of 2026. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "sembawang-road-ec",
@@ -1282,7 +1397,41 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Sembawang Road EC Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-sembawang-road-ec-bid",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2025-09-11",
+            "status": "confirmed",
+            "label": "Top bid submitted for the EC site",
+            "detail": "Oriental Pacific Holdings submitted the top bid of $198 million, or $692 per square foot per plot ratio, for the Sembawang Road executive condominium site. At the time of reporting that rate would have been the first EC land bid below $700 per square foot per plot ratio. The 99-year leasehold site is planned for about 265 units."
+          },
+          {
+            "date": "2026-09-16",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date, price list or balance-unit count has been published."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The sources cited below place the launch in the first quarter of 2027. ERA’s Eugene Lim was reported as estimating an early-2027 launch; that is an analyst estimate, not a developer announcement."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "upper-thomson-road",
@@ -1327,7 +1476,8 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Upper Thomson Road Launch Date & Units | PropertySG"
     },
     {
       "slug": "senja-close-ec",
@@ -1379,7 +1529,41 @@
       },
       "legacyInventoryEvidence": null,
       "formerName": "Senja Close EC",
-      "seoTitle": "Solano Grand EC (Senja Close): Launch & Units | PropertySG"
+      "seoTitle": "Solano Grand EC (Senja Close): Launch & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Two new executive condominiums lined up",
+            "detail": "City Developments flagged two new executive condominium projects alongside its Lucerne Grand condominium launch."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch guidance: first quarter of 2027",
+            "detail": "CDL's first-half 2026 results reporting gave Solano Grand and Wynwood Grand target launch dates in the first quarter of 2027."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "A first-quarter 2027 launch is the developer’s stated target. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "keppel-bay-plot-6",
