@@ -28,7 +28,9 @@ const SITEMAP_URL = new URL('../sitemap.xml', import.meta.url);
 const REQUEST_TIMEOUT_MS = 30_000;
 const MAX_ATTEMPTS = 3;
 const RETRY_BASE_DELAY_MS = 500;
-// The API allows 600 inspections a minute per property; stay well under it.
+// The API allows 600 inspections a minute per property; five workers with a
+// short pause each stay well under it.
+const DEFAULT_CONCURRENCY = 5;
 const DEFAULT_SPACING_MS = 150;
 
 // Groups follow the site's URL structure, so a template-wide crawl problem
@@ -284,7 +286,9 @@ export async function main({
   now = new Date(),
   sitemapXml = null,
   spacingMs = DEFAULT_SPACING_MS,
+  concurrency = DEFAULT_CONCURRENCY,
   retryBaseDelayMs = RETRY_BASE_DELAY_MS,
+  log = console.log,
 } = {}) {
   const { outputDirectory } = parseArguments(argv);
   const siteUrl = env.GSC_SITE_URL;
@@ -295,11 +299,23 @@ export async function main({
   const credentials = parseServiceAccount(env.GSC_SERVICE_ACCOUNT_JSON);
   const accessToken = await createServiceAccountAccessToken(credentials, { fetchImpl, now });
 
-  const results = [];
-  for (const url of urls) {
-    results.push(await inspectUrl({ accessToken, siteUrl, url, fetchImpl, retryBaseDelayMs }));
-    if (spacingMs > 0) await delay(spacingMs);
-  }
+  const results = new Array(urls.length);
+  const startedAt = Date.now();
+  let next = 0;
+  let done = 0;
+  const worker = async () => {
+    while (next < urls.length) {
+      const index = next;
+      next += 1;
+      results[index] = await inspectUrl({ accessToken, siteUrl, url: urls[index], fetchImpl, retryBaseDelayMs });
+      done += 1;
+      if (done === 1 || done % 20 === 0 || done === urls.length) {
+        log(`Inspected ${done}/${urls.length} URLs in ${Math.round((Date.now() - startedAt) / 1000)}s`);
+      }
+      if (spacingMs > 0) await delay(spacingMs);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(concurrency, urls.length)) }, worker));
   // Every URL failing the same way is a configuration problem, not data.
   if (results.length && results.every((result) => result.error)) {
     throw new ReportError(
@@ -314,7 +330,7 @@ export async function main({
   const jsonPath = path.join(outputDirectory, 'index-status.json');
   await writeAtomic(markdownPath, renderIndexStatusMarkdown(summary));
   await writeAtomic(jsonPath, `${JSON.stringify(summary, null, 2)}\n`);
-  console.log(
+  log(
     `Inspected ${summary.totalUrls} URLs: ${summary.buckets.indexed} indexed, ${summary.buckets.discovered} discovered but never crawled, ${summary.buckets.error} errors.`,
   );
   return { summary, markdownPath, jsonPath };

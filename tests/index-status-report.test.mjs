@@ -172,8 +172,10 @@ test('main inspects every sitemap URL and writes Markdown and JSON', async () =>
     sitemapXml: SITEMAP,
     spacingMs: 0,
     retryBaseDelayMs: 0,
+    log: () => {},
   });
   assert.equal(inspected.length, 3);
+  assert.deepEqual(summary.results.map((row) => row.url), readSitemapUrls(SITEMAP), 'results keep sitemap order');
   assert.equal(summary.buckets.discovered, 1);
   assert.match(await readFile(markdownPath, 'utf8'), /Never crawled \(1\)/);
   assert.equal(JSON.parse(await readFile(jsonPath, 'utf8')).totalUrls, 3);
@@ -193,6 +195,7 @@ test('main fails loudly when every inspection is denied', async () => {
       sitemapXml: SITEMAP,
       spacingMs: 0,
       retryBaseDelayMs: 0,
+      log: () => {},
     }),
     /URL Inspection failed for every URL \(access denied/,
   );

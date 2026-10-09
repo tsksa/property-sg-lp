@@ -13,7 +13,8 @@ jobs:
   report:
     name: Build organic-growth opportunity report
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20, not 10: the per-URL index-status step inspects every sitemap URL.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -42,6 +43,7 @@ jobs:
       - name: Inspect every sitemap URL's index status
         id: index_status
         continue-on-error: true
+        timeout-minutes: 12
         env:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
           GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
