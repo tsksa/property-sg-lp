@@ -87,6 +87,22 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# The whole site was also served, with a 200 and no noindex, at the Netlify
+# hostnames (JOE-448). Send them to the canonical domain. After the /api/*
+# rewrite so a form post on those hosts still reaches its function; deploy
+# previews (deploy-preview-N--) are unaffected.
+[[redirects]]
+  from = "https://propertysg78.netlify.app/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://main--propertysg78.netlify.app/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
+
 # SPA-style fallback not needed — this is a multi-page static site
 
 # Monthly price-alert digest — matches subscriptions against the latest
