@@ -779,7 +779,7 @@ function launchTimelineSection(project) {
     <ol class="project-timeline-list">
 ${steps}
     </ol>
-    <p class="project-availability-note"><strong>Confirmed</strong> steps come from the developer's SGX filings. <strong>Expected</strong> means the developer has stated a plan, not a date. Nothing here is estimated by this site.${sourceLinks ? ` <strong>Sources checked:</strong> ${sourceLinks}` : ''}</p>
+    <p class="project-availability-note"><strong>Confirmed</strong> steps have happened or been announced, as reported in the sources below. <strong>Expected</strong> steps are planned but have not happened yet; where only a quarter is known, no date is given. Nothing here is estimated by this site.${sourceLinks ? ` <strong>Sources checked:</strong> ${sourceLinks}` : ''}</p>
   </div>
 </section>`;
 }

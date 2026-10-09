@@ -263,6 +263,24 @@
       "category": "publisher-reporting",
       "url": "https://www.edgeprop.sg/property-news/lucerne-grand-614-sold-average-price-2480-psf",
       "checkedAt": "2026-10-09"
+    },
+    "fareast-serra-launch-release": {
+      "name": "Far East Organization press release: Far East Organization unveils The Serra Residences (2 October 2026)",
+      "category": "developer",
+      "url": "https://www.zawya.com/en/press-release/asia-press-releases/far-east-organization-unveils-the-serra-residences-1487052",
+      "checkedAt": "2026-10-09"
+    },
+    "edgeprop-dorset-road-tender": {
+      "name": "EdgeProp: UOL Group, Singapore Land Group and Kheng Leong top nine bids for Dorset Road site at $1,338 psf ppr (9 October 2025)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/uol-group-and-singapore-land-group-top-nine-bids-dorsett-road-site-1338-psf-ppr-offer",
+      "checkedAt": "2026-10-09"
+    },
+    "edgeprop-uol-1h2026-pipeline": {
+      "name": "EdgeProp: UOL readies mega Thomson Reserve launch in 4Q2026; Dorset Gardens targeted for 1H2027 (12 August 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/uol-readies-mega-thomson-reserve-condo-launch-4q2026-and-luxury-nomad-hilton-hotel-debut",
+      "checkedAt": "2026-10-09"
     }
   },
   "projects": [
@@ -1102,12 +1120,12 @@
       "developer": "Far East Organization",
       "unitCount": 133,
       "inventoryYear": 2026,
-      "previewDate": null,
-      "bookingDate": null,
+      "previewDate": "2026-10-02",
+      "bookingDate": "2026-10-16",
       "launchWindow": "2026-Q4",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/the-serra-residences.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1123,25 +1141,54 @@
       "provenance": {
         "facts": [
           "far-east-the-serra",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "timing": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "status": [
           "far-east-the-serra",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "dynamics": [
           "far-east-the-serra"
         ]
       },
       "legacyInventoryEvidence": null,
-      "seoTitle": "The Serra Residences Launch Date & Units | PropertySG"
+      "seoTitle": "The Serra Residences Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "fareast-serra-launch-release"
+        ],
+        "steps": [
+          {
+            "date": "2026-10-02",
+            "status": "confirmed",
+            "label": "Previews opened and launch date announced",
+            "detail": "Far East Organization opened previews at the sales gallery at 11 Bassein Road and set the official sales launch for Friday, 16 October 2026. The Serra Residences is a 28-storey freehold development of 133 homes on Bassein Road in District 11."
+          },
+          {
+            "date": "2026-10-16",
+            "status": "expected",
+            "label": "Official sales launch",
+            "detail": "Scheduled by Far East Organization for Friday, 16 October 2026. The units released and their prices are confirmed by the developer on the day; ask Joe to check what is available."
+          },
+          {
+            "date": "2030-Q4",
+            "status": "expected",
+            "label": "Temporary Occupation Permit",
+            "detail": "Far East Organization expects the development to obtain its Temporary Occupation Permit in the fourth quarter of 2030."
+          }
+        ]
+      }
     },
     {
       "slug": "dorset-road",
-      "name": "Dorset Road",
+      "name": "Dorset Gardens",
       "location": "Dorset Road",
       "district": "D08",
       "region": "RCR",
@@ -1152,10 +1199,10 @@
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": "2026-Q4",
+      "launchWindow": "2027-Q2",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/dorset-road.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1170,20 +1217,59 @@
       },
       "provenance": {
         "facts": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "timing": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "dynamics": [
           "99co-2026-guide"
         ]
       },
       "legacyInventoryEvidence": null,
-      "seoTitle": "Dorset Road Launch Date & Units | PropertySG"
+      "seoTitle": "Dorset Gardens Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
+        ],
+        "steps": [
+          {
+            "date": "2025-10-09",
+            "status": "confirmed",
+            "label": "Tender closed with nine bids",
+            "detail": "UOL Group, Singapore Land Group and Kheng Leong, in a 60:20:20 joint venture, submitted the top bid of $524.3 million, or $1,338 per square foot per plot ratio, for the Dorset Road site in District 8. The tender drew nine bids."
+          },
+          {
+            "date": "2026-08-12",
+            "status": "confirmed",
+            "label": "Named Dorset Gardens, launch targeted for 2027",
+            "detail": "Reporting on UOL’s plans named the project Dorset Gardens: about 428 homes in two 28-storey towers, targeted for launch in the first half of 2027."
+          },
+          {
+            "date": "2027-Q2",
+            "status": "expected",
+            "label": "Planned launch in the first half of 2027",
+            "detail": "The target is the first half of 2027, so the launch is expected by the second quarter of 2027. The quarter has not been narrowed and no preview date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "woodlands-drive-17-ec",

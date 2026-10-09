@@ -24,7 +24,7 @@ export const EXPECTED_2026_PROJECTS = [
   'Chuan Grove',
   'Amberwood at Holland',
   'The Serra Residences',
-  'Dorset Road',
+  'Dorset Gardens',
   'Wynwood Grand',
   'Chencharu Close',
   'Sembawang Road EC',
