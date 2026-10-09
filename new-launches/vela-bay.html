@@ -165,12 +165,13 @@
 }</script>
 <script defer src="project-live.js"></script>
 <script defer src="project-gallery.js"></script>
+<link rel="stylesheet" href="project-pilot.css">
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
-<body data-project-slug="vela-bay">
+<body data-launch-design="pilot" data-project-slug="vela-bay">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="nl-progress" aria-hidden="true"></div>
 <header class="jt-sh" data-jt-site-header>
@@ -221,60 +222,36 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <a href="/new-launches/">New Launches</a><span class="sep">›</span>
   <span aria-current="page">Vela Bay</span>
 </nav>
-<section class="project-hero project-hero-image" id="main" tabindex="-1" style="--bg-image:url('/new-launches/img/gallery/vela-bay/01-lg.webp');--bg-image-sm:url('/new-launches/img/gallery/vela-bay/01-sm.webp')" aria-labelledby="page-hero-title">
-  <div class="project-hero-inner">
-    <div>
-      <div class="district-tag">D16 · OCR · Condominium</div>
-      <h1 id="page-hero-title">Vela Bay <span style="font-weight:500;opacity:0.9;letter-spacing:0">首航</span></h1>
-      <p class="project-hero-desc">Vela Bay: 99-year leasehold condominium in D16, Bayshore Road. 515 units by SingHaiyi Group / Haiyi Holdings. Verified facts from PropertySG.</p>
-      <div class="project-hero-price"><strong>Selling now—check availability.</strong></div>
-      <div class="project-hero-ctas">
-  <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20send%20me%20the%20latest%20price%20list%20and%20floor%20plans%20for%20Vela%20Bay." target="_blank" rel="noopener" class="project-hero-cta primary">WhatsApp for price list &amp; floor plans</a>
-  <a href="#projectForm" class="project-hero-cta ghost">Use the enquiry form</a>
-</div>
-      <div class="project-stats" role="list" aria-label="Project key facts">
-  <div class="project-stat" role="listitem"><div class="project-stat-label">Status</div><div class="project-stat-value">Selling now</div></div>
-  <div class="project-stat" role="listitem"><div class="project-stat-label">District</div><div class="project-stat-value">D16 · OCR</div></div>
-  <div class="project-stat" role="listitem"><div class="project-stat-label">Tenure</div><div class="project-stat-value">99-year leasehold</div></div>
-  <div class="project-stat" role="listitem"><div class="project-stat-label">Units</div><div class="project-stat-value">515</div></div>
-  <div class="project-stat" role="listitem"><div class="project-stat-label">Expected TOP</div><div class="project-stat-value">Q4 2031</div></div>
-</div>
-    </div>
-
-    <div class="project-form-card">
-      <h2>Ask about Vela Bay</h2>
-      <p class="sub">The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.</p>
-      <form id="projectForm" class="pf" novalidate>
-        <div class="pf-row">
-          <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
-          <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
-        </div>
-        <div class="pf-row">
-          <input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address">
-        </div>
-        <div class="pf-row">
-          <select name="interest" required aria-label="Bedroom preference">
-            <option value="" disabled selected>Bedroom preference</option>
-            <option>1 BR + Study</option>
-            <option>2 BR</option>
-            <option>2 BR Premium</option>
-            <option>3 BR</option>
-            <option>Just exploring</option>
-          </select>
-        </div>
-        <div class="pf-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit">Send enquiry →</button>
-        <noscript>
-          <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
-            <strong>JavaScript is required for this form.</strong> Enable JS, or contact Joe directly:
-            <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp</a>
-            ·
-            <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call +65 8188 1488</a>
-          </div>
-        </noscript>
-        <p class="pf-micro">Free · No obligation · Typically within 1 hour during 9am–9pm.</p>
-      </form>
-    </div>
+<section class="project-hero project-pilot-hero" id="main" tabindex="-1" aria-labelledby="page-hero-title">
+  <div class="project-pilot-heading">
+    <p class="project-pilot-eyebrow">New launch · Condominium</p>
+    <h1 id="page-hero-title">Vela Bay <span class="project-pilot-name-suffix" lang="zh">首航</span></h1>
+    <p class="project-pilot-location">1 &amp; 3 Bayshore Walk · D16</p>
+  </div>
+  <figure class="project-pilot-image">
+    <picture><source media="(max-width: 900px)" srcset="/new-launches/img/gallery/vela-bay/01-sm.webp"><img src="/new-launches/img/gallery/vela-bay/01-lg.webp" width="1400" height="770" alt="Vela Bay aerial view at dusk, artist's impression" fetchpriority="high" decoding="async"></picture>
+    <figcaption>Artist’s impression · Developer marketing materials via ERA</figcaption>
+  </figure>
+  <div class="project-pilot-intro">
+    <p class="project-pilot-headline">A coastal address.<br>A longer-term decision.</p>
+    <p class="project-pilot-summary">Explore the Bayshore setting, compare the trade-offs and check the actual units available.</p>
+  </div>
+  <div class="project-pilot-actions">
+    <a class="project-pilot-primary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20confirm%20current%20availability%2C%20prices%20and%20floor%20plans%20for%20Vela%20Bay." target="_blank" rel="noopener" data-cta="project-pilot-availability">WhatsApp for availability</a>
+    <a class="project-pilot-facts-link" href="#verified-facts-vela-bay">View project facts</a>
+  </div>
+</section>
+<section class="project-pilot-facts" aria-label="Project key facts">
+  <dl><div><dt>Homes</dt><dd>515</dd></div><div><dt>Tenure</dt><dd>99-year leasehold</dd></div><div><dt>Expected TOP</dt><dd>Q4 2031</dd></div></dl>
+  <div class="project-pilot-status"><strong>Selling now—check availability.</strong><p>Core facts checked 5 Oct 2026<br>Sales status checked 16 Sept 2026</p></div>
+</section>
+<section class="project-pilot-brief" aria-labelledby="buyer-brief-vela-bay">
+  <div class="project-pilot-brief-inner">
+    <p class="project-pilot-eyebrow">Joe’s buyer brief</p>
+    <h2 id="buyer-brief-vela-bay">Is Vela Bay right for you?</h2>
+    <p class="project-pilot-byline">Joe Tay · ERA District Director · CEA R009618D</p>
+    <div class="project-pilot-brief-grid"><div><h3>Who it suits</h3><p>East-side households planning a longer hold, with coastal recreation and the Bayshore precinct in mind.</p></div><div><h3>The trade-off</h3><p>Allow for precinct construction and a later completion horizon. Your holding period needs to fit the area's build-out.</p></div><div><h3>Before you decide</h3><p>Confirm the available unit, layout, total price and your daily journey. Compare Bayshore with other east-side homes.</p></div></div>
+    <nav class="project-pilot-links" aria-label="Continue exploring Vela Bay"><a href="#joe-take-vela-bay">Read Joe’s full take</a><a href="#alternatives-vela-bay">Compare alternatives</a><a href="#projectForm">Use the enquiry form</a></nav>
   </div>
 </section>
 <section class="project-dev-strip reveal" aria-label="Verified project summary">
@@ -516,6 +493,40 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     </div>
   </div>
 </section>
+<section class="project-pilot-enquiry" aria-label="Enquire about Vela Bay"><div class="project-pilot-enquiry-inner"><div><p class="project-pilot-eyebrow">Your next step</p><h2>Check the home that fits your plans.</h2><p>Share your preferred layout and Joe will help you check the current unit list. Prefer a direct conversation? <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20confirm%20current%20availability%2C%20prices%20and%20floor%20plans%20for%20Vela%20Bay." target="_blank" rel="noopener">WhatsApp Joe</a>.</p></div><div class="project-form-card">
+      <h2>Ask about Vela Bay</h2>
+      <p class="sub">The latest unit list and floor plans will be confirmed by WhatsApp. This form is the secondary contact option.</p>
+      <form id="projectForm" class="pf" novalidate>
+        <div class="pf-row">
+          <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+          <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
+        </div>
+        <div class="pf-row">
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" required aria-label="Email address">
+        </div>
+        <div class="pf-row">
+          <select name="interest" required aria-label="Bedroom preference">
+            <option value="" disabled selected>Bedroom preference</option>
+            <option>1 BR + Study</option>
+            <option>2 BR</option>
+            <option>2 BR Premium</option>
+            <option>3 BR</option>
+            <option>Just exploring</option>
+          </select>
+        </div>
+        <div class="pf-hp"><label>Leave blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit">Send enquiry →</button>
+        <noscript>
+          <div style="margin-top:14px;padding:12px 14px;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.22);border-radius:8px;font-size:0.86rem;color:#991b1b;line-height:1.5">
+            <strong>JavaScript is required for this form.</strong> Enable JS, or contact Joe directly:
+            <a href="https://wa.me/6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">WhatsApp</a>
+            ·
+            <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call +65 8188 1488</a>
+          </div>
+        </noscript>
+        <p class="pf-micro">Free · No obligation · Typically within 1 hour during 9am–9pm.</p>
+      </form>
+    </div></div></section>
 <section class="project-disclaimer">
   <div class="project-disclaimer-inner">
     <h3>Provisional property information</h3>

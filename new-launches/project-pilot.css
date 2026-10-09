@@ -1,0 +1,95 @@
+/* Two-page pilot: loaded only by Vela Bay and Pinery. */
+body[data-launch-design="pilot"]{--pilot-surface:#faf6ec;--pilot-ink:#0b1e3f;--pilot-muted:#46546a;--pilot-line:#d8d5cb}
+.project-hero.project-pilot-hero{display:grid;grid-template-columns:40% 60%;grid-template-rows:auto auto 1fr;background:var(--pilot-surface);color:var(--pilot-ink);padding:0;overflow:visible}
+.project-hero.project-pilot-hero::after{display:none}
+.project-pilot-heading,.project-pilot-intro,.project-pilot-actions{padding-left:clamp(24px,5vw,80px);padding-right:36px;min-width:0}
+.project-pilot-heading{grid-column:1;grid-row:1;padding-top:44px}
+.project-pilot-eyebrow{color:#806127;font-size:.74rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;line-height:1.5;margin:0 0 20px}
+.project-pilot-hero h1{font-size:clamp(2.5rem,5.8vw,5.3rem);line-height:1.03;letter-spacing:-.035em;color:var(--pilot-ink);margin:0 0 16px;overflow-wrap:normal}
+.project-pilot-name-suffix{display:inline-block;font-size:.3em;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:0;vertical-align:middle}
+.project-pilot-location{font-size:1.04rem;line-height:1.6;margin:0;color:var(--pilot-muted)}
+.project-pilot-image{grid-column:2;grid-row:1/4;position:relative;min-width:0;min-height:550px;margin:0;background:var(--navy)}
+.project-pilot-image picture{display:block;position:absolute;inset:0}
+.project-pilot-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:70% center}
+.project-pilot-image figcaption{position:absolute;bottom:0;left:0;right:0;padding:8px 16px;background:#0b1e3f;color:#fff;font-size:.7rem;line-height:1.4;text-align:right}
+.project-pilot-intro{grid-column:1;grid-row:2;padding-top:26px}
+.project-pilot-headline{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.65rem,2.55vw,2.25rem);font-weight:600;line-height:1.18;letter-spacing:-.025em;margin:0 0 16px}
+.project-pilot-summary{font-size:1rem;line-height:1.6;margin:0;color:var(--pilot-muted);max-width:42ch}
+.project-pilot-actions{grid-column:1;grid-row:3;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding-top:28px;padding-bottom:40px}
+.project-pilot-primary{display:inline-flex;align-items:center;justify-content:center;width:100%;max-width:360px;min-height:52px;padding:14px 24px;border-radius:8px;background:#047857;color:#fff;font-weight:700;font-size:.98rem;line-height:1.4;text-decoration:none;text-align:center}
+.project-pilot-primary:hover{background:#065f46;color:#fff}
+.project-pilot-facts-link{display:inline-flex;align-items:center;min-height:44px;color:var(--pilot-ink);text-decoration:underline;text-underline-offset:4px}
+.project-pilot-facts{display:flex;align-items:center;gap:32px;padding:24px clamp(24px,5vw,80px);background:var(--pilot-surface);color:var(--pilot-ink);border-top:1px solid var(--pilot-line)}
+.project-pilot-facts dl{display:grid;grid-template-columns:.75fr 1.3fr 1fr;flex:1.5;gap:24px;margin:0;min-width:0}
+.project-pilot-facts dl>div+div{border-left:1px solid var(--pilot-line);padding-left:24px}
+.project-pilot-facts dt{font-size:.77rem;color:var(--pilot-muted);margin-bottom:4px}
+.project-pilot-facts dd{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.1rem,1.9vw,1.65rem);line-height:1.25;font-weight:600;margin:0}
+.project-pilot-status{flex:1;border-left:1px solid var(--pilot-line);padding-left:32px}
+.project-pilot-status strong{font-family:'Fraunces',Georgia,serif;font-size:1.08rem;font-weight:600;color:#806127}
+.project-pilot-status p{font-size:.75rem;line-height:1.55;color:var(--pilot-muted);margin:6px 0 0}
+.project-pilot-brief{background:#0b1e3f;color:#fff;padding:40px clamp(24px,5vw,80px)}
+.project-pilot-brief-inner{max-width:1280px;margin:0 auto}
+.project-pilot-brief .project-pilot-eyebrow{color:#e0be7b;margin-bottom:8px}
+.project-pilot-brief h2{font:600 clamp(1.8rem,3.2vw,2.8rem)/1.15 'Fraunces',Georgia,serif;letter-spacing:-.025em;color:#fff;margin:0 0 10px}
+.project-pilot-byline{font-size:.84rem;color:#d7dfec;margin:0 0 28px}
+.project-pilot-brief-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.project-pilot-brief-grid>div+div{border-left:1px solid #43546f;padding-left:32px}
+.project-pilot-brief h3{font:600 1.3rem/1.25 'Fraunces',Georgia,serif;color:#fff;margin:0 0 10px}
+.project-pilot-brief-grid p{font-size:1rem;line-height:1.65;color:#e2e8f0;margin:0;max-width:40ch}
+.project-pilot-links{display:flex;gap:16px 32px;flex-wrap:wrap;margin-top:24px}
+.project-pilot-links a{display:inline-flex;align-items:center;min-height:44px;color:#e0be7b;font-size:.86rem;text-decoration:underline;text-underline-offset:4px}
+.project-pilot-links a:hover{color:#fff}
+.project-pilot-enquiry{padding:64px 24px;background:var(--pilot-surface);color:var(--pilot-ink)}
+.project-pilot-enquiry-inner{max-width:1120px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:64px}
+.project-pilot-enquiry h2{font:600 clamp(1.7rem,3vw,2.5rem)/1.2 'Fraunces',Georgia,serif;color:var(--pilot-ink);margin:0 0 16px}
+.project-pilot-enquiry p{color:var(--pilot-muted);line-height:1.7}
+.project-pilot-enquiry a{color:var(--pilot-ink);text-decoration:underline;text-underline-offset:3px}
+.project-pilot-enquiry .project-form-card{box-shadow:none;border:1px solid var(--pilot-line)}
+.project-pilot-enquiry .project-form-card h2{font-size:1.3rem}
+body[data-launch-design="pilot"] :is(.project-pilot-primary,.project-pilot-facts-link,.project-pilot-links a,.project-pilot-enquiry a):focus-visible{outline:3px solid #c9a661;outline-offset:4px}
+body[data-launch-design="pilot"] :is([id^="verified-facts-"],[id^="joe-take-"],[id^="alternatives-"],#projectForm){scroll-margin-top:100px}
+html.jt-theme-dark body[data-launch-design="pilot"]{--pilot-surface:#07172f;--pilot-ink:#f8fafc;--pilot-muted:#c1cad8;--pilot-line:#364761}
+html.jt-theme-dark body[data-launch-design="pilot"] .nl-breadcrumb,html.jt-theme-dark body[data-launch-design="pilot"] .nl-breadcrumb a{color:#c1cad8}
+html.jt-theme-dark .project-pilot-eyebrow,html.jt-theme-dark .project-pilot-status strong{color:#e0be7b}
+html.jt-theme-dark body[data-launch-design="pilot"] a.project-pilot-primary{color:#fff;background:#047857}
+html.jt-theme-dark body[data-launch-design="pilot"] a.project-pilot-primary:hover{background:#065f46}
+html.jt-theme-dark .project-pilot-enquiry .project-form-card{background:#102447;color:#f8fafc}
+html.jt-theme-dark .project-pilot-enquiry .project-form-card h2{color:#f8fafc}
+html.jt-theme-dark .project-pilot-enquiry :is(input,select){background:#07172f;color:#f8fafc;border-color:#617087}
+html.jt-theme-dark .project-pilot-enquiry input::placeholder{color:#c1cad8}
+@media(max-width:1100px) and (min-width:901px){
+  .project-hero.project-pilot-hero{grid-template-columns:44% 56%}
+  .project-pilot-heading,.project-pilot-intro,.project-pilot-actions{padding-left:28px;padding-right:28px}
+  .project-pilot-hero h1{font-size:3.15rem}
+}
+@media(max-width:900px){
+  .project-hero.project-pilot-hero{display:flex;flex-direction:column}
+  .project-pilot-heading,.project-pilot-intro,.project-pilot-actions{padding-left:24px;padding-right:24px}
+  .project-pilot-heading{padding-top:30px;padding-bottom:24px}
+  .project-pilot-eyebrow{margin-bottom:14px}
+  .project-pilot-hero h1{font-size:clamp(2.4rem,6.5vw,3.5rem);max-width:18ch}
+  .project-pilot-image{min-height:0;aspect-ratio:16/9}
+  .project-pilot-image img{object-position:center}
+  .project-pilot-image figcaption{font-size:.64rem;padding:5px 12px}
+  .project-pilot-intro{padding-top:24px}
+  .project-pilot-headline{font-size:1.8rem;max-width:24ch}
+  .project-pilot-summary{max-width:60ch}
+  .project-pilot-actions{padding-top:22px;padding-bottom:24px}
+  .project-pilot-primary{width:100%}
+  .project-pilot-facts{flex-direction:column;align-items:stretch;gap:18px;padding:24px}
+  .project-pilot-facts dl{gap:16px}
+  .project-pilot-facts dl>div+div{padding-left:16px}
+  .project-pilot-status{border-left:0;border-top:1px solid var(--pilot-line);padding:16px 0 0}
+  .project-pilot-brief{padding:32px 24px}
+  .project-pilot-brief-grid{grid-template-columns:1fr;gap:22px}
+  .project-pilot-brief-grid>div+div{border-left:0;border-top:1px solid #43546f;padding:22px 0 0}
+  .project-pilot-brief-grid p{max-width:60ch}
+  .project-pilot-links{gap:6px 24px}
+  .project-pilot-enquiry-inner{grid-template-columns:1fr;gap:28px;max-width:600px}
+}
+@media(max-width:380px){
+  .project-pilot-heading,.project-pilot-intro,.project-pilot-actions,.project-pilot-facts,.project-pilot-brief{padding-left:18px;padding-right:18px}
+  .project-pilot-facts dl{gap:10px}
+  .project-pilot-facts dl>div+div{padding-left:10px}
+  .project-pilot-facts dd{font-size:1rem}
+}

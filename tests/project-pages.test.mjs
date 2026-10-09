@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
-import { refreshExistingPage } from '../scripts/generate-project-pages.mjs';
+import { applyDesignPilot, refreshExistingPage } from '../scripts/generate-project-pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
@@ -20,6 +20,51 @@ const REFRESHED_SLUGS = [
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
 const pageFor = (project) => read(new URL(project.canonicalUrl).pathname.slice(1));
 const stripTags = (html) => html.replace(/<[^>]+>/g, ' ').replace(/&[^;]+;/g, ' ').replace(/\s+/g, ' ').trim();
+
+test('only Vela Bay and Pinery opt into the design pilot', () => {
+  for (const project of DATA.projects) {
+    const html = pageFor(project);
+    const pilot = ['vela-bay', 'pinery-residences'].includes(project.slug);
+    assert.equal(html.includes('data-launch-design="pilot"'), pilot, project.slug);
+    assert.equal(html.includes('href="project-pilot.css"'), pilot, project.slug);
+    if (!pilot) assert.equal(applyDesignPilot(html, project), html);
+  }
+});
+
+test('pilot pages lead with project imagery and advice while retaining one working enquiry form', () => {
+  for (const slug of ['vela-bay', 'pinery-residences']) {
+    const project = DATA.projects.find((item) => item.slug === slug);
+    const html = pageFor(project);
+    const hero = html.match(/<section class="project-hero project-pilot-hero"[\s\S]*?<\/section>/)?.[0];
+    assert.ok(hero, `${slug}: split hero missing`);
+    assert.ok(hero.includes(`src="/new-launches/img/gallery/${slug}/01-lg.webp"`));
+    assert.ok(hero.includes('fetchpriority="high"'));
+    assert.ok(hero.includes('Artist’s impression'));
+    assert.ok(!hero.includes('<form'), 'form must sit below the buyer content');
+    const primary = hero.match(/<a class="project-pilot-primary" href="([^"]+)"/)[1];
+    assert.ok(new URL(primary).searchParams.get('text').includes(project.name));
+    const brief = html.match(/<section class="project-pilot-brief"[\s\S]*?<\/section>/)[0];
+    for (const heading of ['Who it suits', 'The trade-off', 'Before you decide']) assert.ok(brief.includes(heading));
+    assert.ok(!/class="[^"]*reveal/.test(hero + brief), 'primary content must be visible immediately');
+    const form = html.match(/<form id="projectForm"[\s\S]*?<\/form>/)[0];
+    assert.equal((html.match(/id="projectForm"/g) || []).length, 1);
+    for (const field of ['name', 'phone', 'email', 'interest', 'company_website']) assert.ok(form.includes(`name="${field}"`));
+    assert.ok(html.indexOf('class="project-pilot-enquiry"') > html.indexOf(`id="alternatives-${slug}"`));
+    assert.ok(html.includes(`id="verified-facts-${slug}"`));
+    assert.equal(applyDesignPilot(html, project), html, `${slug}: pilot transform must be idempotent`);
+  }
+});
+
+test('pilot copy and facts stay specific and distinguish fact checks from dated availability', () => {
+  const vela = read('new-launches/vela-bay.html');
+  const pinery = read('new-launches/pinery-residences.html');
+  assert.match(stripTags(vela), /A coastal address\. A longer-term decision\./);
+  assert.match(vela, /Core facts checked 5 Oct 2026<br>Sales status checked 16 Sept 2026/);
+  assert.match(stripTags(pinery), /Tampines living\. Find the right fit\./);
+  assert.match(pinery, /Core facts checked 16 Sept 2026<br>Sales status checked 16 Sept 2026/);
+  const brief = pinery.match(/<section class="project-pilot-brief"[\s\S]*?<\/section>/)[0];
+  assert.doesNotMatch(brief, /\d+% sold|high sold percentage|limited units|coastal recreation/i);
+});
 
 test('Vela Bay links checked evidence and distinguishes the site from its developer address', () => {
   const project = DATA.projects.find(({ slug }) => slug === 'vela-bay');
@@ -148,6 +193,9 @@ test('market figures obey freshness fallbacks and each page links three active a
     assert.equal(related.length, 3, `${slug}: expected three alternatives`);
     if (project.status === 'sold-out') {
       assert.ok(html.indexOf('Compare active alternatives') < html.indexOf('View sold-out archive'), `${slug}: alternatives must be primary`);
+    } else if (CONTENT[slug]?.designPilot) {
+      const whatsapp = html.indexOf('WhatsApp for availability');
+      assert.ok(whatsapp >= 0 && whatsapp < html.indexOf('Use the enquiry form'), `${slug}: WhatsApp must be primary`);
     } else {
       assert.ok(html.indexOf('WhatsApp for price list') < html.indexOf('Use the enquiry form'), `${slug}: WhatsApp must be primary`);
     }
