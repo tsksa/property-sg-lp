@@ -126,7 +126,7 @@ const ARTICLES = [
     slug: 'use-cpf-buy-hdb-flat-singapore',
     title: 'Using CPF to Buy an HDB Flat (2026) | PropertySG',
     headline: 'Using CPF to buy an HDB flat: downpayment, limits and refunds',
-    description: 'Learn how CPF OA can fund an HDB downpayment, monthly instalments, stamp and legal fees, plus valuation and withdrawal limits.',
+    description: 'How CPF OA can fund an HDB downpayment, monthly instalments, stamp and legal fees and Home Protection Scheme premiums, plus withdrawal limits.',
     category: 'CPF planning',
     readTime: '9 min read',
     lede: 'CPF Ordinary Account savings can cover several housing costs, but the flat lease, valuation, loan type and retirement safeguards determine how much is usable.',
