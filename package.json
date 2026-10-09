@@ -40,7 +40,7 @@
     "test:lighthouse": "node --test tests/color-contrast.test.mjs tests/lighthouse-accessibility.test.mjs tests/calculator-result-copy.test.mjs",
     "test:new-launches": "node --test tests/new-launches-data.test.mjs tests/new-launch-catalog.test.mjs tests/new-launch-request-type.test.mjs",
     "test:project-pages": "node --test tests/project-pages.test.mjs",
-    "test:search-growth": "node --test tests/search-growth-report.test.mjs",
+    "test:search-growth": "node --test tests/search-growth-report.test.mjs tests/index-status-report.test.mjs",
     "generate:estate-pages": "node scripts/generate-estate-pages.mjs",
     "test:sitemap-lastmod": "node --test tests/sitemap-lastmod.test.mjs tests/sitemap-build.test.mjs",
     "test:estate-windows": "node --test tests/estate-windows.test.mjs",
