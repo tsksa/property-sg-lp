@@ -405,3 +405,25 @@ test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
     }
   }
 });
+
+// JOE-448: launch pages are the cluster Google revisits most, but linked no
+// town or district price page, so those went uncrawled. Each page now links its
+// district's condo page (when one exists) and the town pages mapped to it.
+test('every launch page links its district and nearby town resale-price pages', async () => {
+  const { townsForDistrict } = await import('../scripts/lib/estate-linking.mjs');
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    const related = html.match(/<section class="project-related[\s\S]*?<\/section>/)?.[0] ?? '';
+    const line = related.match(/<p class="project-related-prices">Resale prices nearby: ([\s\S]*?)<\/p>/)?.[1];
+    assert.ok(line, `${slug}: no nearby resale-price line in the related section`);
+    const code = project.district.slice(1).toLowerCase();
+    const districtPage = fs.existsSync(path.join(ROOT, 'condo-prices', `d${code}`, 'index.html'));
+    if (districtPage) assert.match(line, new RegExp(`<a href="/condo-prices/d${code}/">${project.district} [^<]+ condo resale prices</a>`), `${slug}: district link missing`);
+    else assert.doesNotMatch(line, /condo-prices/, `${slug}: links a district page that does not exist`);
+    const towns = townsForDistrict(project.district);
+    assert.ok(towns.length, `${slug}: ${project.district} maps to no town`);
+    for (const town of towns) assert.match(line, new RegExp(`<a href="/hdb-prices/${town}/">[^<]+ HDB resale prices</a>`), `${slug}: ${town} link missing`);
+    assert.doesNotMatch(line, /\$|psf/, `${slug}: the line is links only, no prices`);
+  }
+});

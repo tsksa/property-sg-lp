@@ -11,8 +11,11 @@
 // style block, so it renders identically on 8 different page templates without
 // depending on any of their stylesheets, and cannot be broken by one of them.
 //
-// Excluded by design: sell/ and rent-out/ are Google Ads landers where outbound
-// links leak paid traffic, and the noindex utility pages.
+// The Google Ads landers (sell/, rent-out/, sell-hdb/singapore/) are linked TO
+// from the 'Sell or rent with Joe' group but do not carry the footer themselves:
+// outbound links there leak paid traffic. The noindex utility pages are also
+// excluded. JOE-448: before that group, /sell/ had one inbound link while every
+// calculator had 80+, so Google read the site as loan tools, not a seller's agent.
 
 export const FOOTER_MARKER = 'data-jt-site-footer';
 
@@ -41,6 +44,11 @@ const LINK_GROUPS = [
     ['/insights/property-agent-commission-singapore.html', 'Property agent commission guide'],
     ['/new-launches/thomson-reserve.html', 'Thomson Reserve updates'],
     ['/new-launches/keppel-bay-plot-6.html', 'Keppel Bay Plot 6 updates'],
+  ]],
+  ['Sell or rent with Joe', [
+    ['/sell-hdb/singapore/', 'HDB selling service'],
+    ['/sell/', 'Sell a property'],
+    ['/rent-out/', 'Rent out a property'],
   ]],
 ];
 

@@ -104,6 +104,17 @@ const EXTRA_DISTRICTS_BY_TOWN = Object.entries(UNMAPPED_DISTRICT_FALLBACK).reduc
   return acc;
 }, {});
 
+// The reverse lookup: town slugs whose estate sits in `district` ('D19'), plus
+// its fallback town when the district has none of its own. JOE-448: launch
+// pages are the cluster Google revisits most, yet linked no town price page;
+// this is how a launch page finds the town pages near it.
+export function townsForDistrict(district) {
+  const towns = Object.keys(TOWN_DISTRICT).filter((slug) => TOWN_DISTRICT[slug] === district);
+  const fallback = UNMAPPED_DISTRICT_FALLBACK[district];
+  if (fallback && !towns.includes(fallback)) towns.push(fallback);
+  return towns;
+}
+
 const ACTIVE_STATUSES = new Set(['selling', 'upcoming']);
 
 export function projectsByDistrictFromFile(projectsJson) {
@@ -140,9 +151,13 @@ export function newLaunchesBlock(slug, townTitle, projectsByDistrict, esc) {
   return `  <h2>New launches near ${esc(townTitle)}</h2>\n  <ul class="link-list">\n${items}\n  </ul>`;
 }
 
+// JOE-448: town pages answer "<town> HDB resale price" searches from sellers
+// but linked only articles and tools, never the selling service itself.
 export function readingBlock(townTitle, esc) {
   return `  <h2>Useful reading for ${esc(townTitle)} sellers</h2>
   <ul class="link-list">
+    <li>Selling a flat in ${esc(townTitle)}? <a href="/sell-hdb/singapore/">HDB selling service</a></li>
+    <li><a href="/valuation.html">Free valuation</a></li>
     <li><a href="/insights/hdb-valuation-explained.html">How agents actually price a flat</a></li>
     <li><a href="/insights/how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell in 2026</a></li>
     <li><a href="/insights/selling-hdb-after-mop-singapore.html">Selling after MOP: the 5-step timeline</a></li>

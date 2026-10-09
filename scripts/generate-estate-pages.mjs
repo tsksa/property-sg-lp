@@ -22,8 +22,8 @@ import {
   ESTATE_LINKING_CSS,
 } from './lib/estate-linking.mjs';
 
-import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
-import { buildTownSchema, buildHubSchema, faqHtml } from './lib/estate-schema.mjs';
+import { monthsBack, resolveWindows, recentSales } from './lib/estate-windows.mjs';
+import { buildTownSchema, buildHubSchema, faqHtml, townFacts, titleCase as title } from './lib/estate-schema.mjs';
 import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
@@ -38,7 +38,6 @@ const SITE = 'https://joetay.com';
 const MONTHS_FETCHED = 26;
 
 const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const title = (t) => t.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
 const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
 const median = (a) => {
   if (!a.length) return null;
@@ -271,10 +270,8 @@ for (const town of towns) {
     return `<tr><td>${title(ft)}</td><td>${money(p)}</td><td>${Math.round(area)} sqm</td><td>${tx.length}</td></tr>`;
   }).filter(Boolean).join('\n      ');
 
-  const latest = recs
-    .filter((r) => r.month === months[0] || r.month === months[1])
-    .sort((a, b) => b.month.localeCompare(a.month))
-    .slice(0, 12)
+  // Newest full month first, a mix of flat types — see recentSales().
+  const latest = recentSales(recs, window12)
     .map((r) => `<tr><td>${r.month}</td><td style="text-align:left">${esc(title(r.flat_type))} · Blk ${esc(r.block)} ${esc(title(r.street_name))}</td><td>${esc(r.storey_range)}</td><td>${money(Number(r.resale_price))}</td></tr>`)
     .join('\n      ');
 
@@ -310,7 +307,9 @@ for (const town of towns) {
 ${[nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsByDistrict, esc), readingBlock(t, esc)].filter(Boolean).join('\n')}`;
 
   const canonical = `${SITE}/hdb-prices/${s}/`;
-  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API });
+  // Busiest streets and the highest sale, counted from the same 12-month rows.
+  const facts = townFacts(cur.inWin);
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts });
   // FAQPage markup requires the Q&A to be visible on the page, so render it from
   // the same node that becomes the JSON-LD.
   const bodyWithFaq = `${body}
