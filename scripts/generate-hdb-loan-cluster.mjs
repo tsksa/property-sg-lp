@@ -25,6 +25,8 @@ const SOURCES = {
   hfe: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/application-for-an-hdb-flat-eligibility-hfe-letter',
   ratios: 'https://www.cpf.gov.sg/member/home-ownership/home-buying-guide-for-members-below-55',
   compare: 'https://www.cpf.gov.sg/member/infohub/educational-resources/3-differences-between-hdb-loan-and-bank-loan',
+  hfeIncome: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/application-for-an-hdb-flat-eligibility-hfe-letter/income-guidelines-and-documents',
+  hfeKeo: 'https://www.hdb.gov.sg/business/estate-agents-and-salespersons/letters-to-keos/Implementation-of-HDB-Flat-Eligibility-Letter',
 };
 
 const ARTICLES = [
@@ -82,11 +84,12 @@ const ARTICLES = [
   },
   {
     slug: 'hfe-letter-singapore-guide',
-    title: 'HFE Letter Singapore: Application Guide (2026) | PropertySG',
-    headline: 'HFE letter Singapore: what it covers and when to apply',
-    description: 'A current HFE letter guide covering eligibility checks, HDB loan and grant outcomes, application timing, validity, documents and bank IPA options.',
+    title: 'HFE Letter Application: Documents & Validity | PropertySG',
+    modified: '2026-10-09',
+    headline: 'HFE letter application: documents, validity and how to apply',
+    description: 'How to apply for an HFE letter: the two steps, documents HDB may request, processing time, how to view your letter and its nine-month validity.',
     category: 'HFE letter',
-    readTime: '8 min read',
+    readTime: '10 min read',
     lede: 'The HFE letter brings flat eligibility, CPF housing grants and HDB loan eligibility into one outcome. Apply before you start making binding purchase decisions.',
     body: `
 <div class="callout"><strong>Timing matters</strong><p>For a new flat, you need a valid HFE letter when you apply. For a resale flat, you need it before the seller grants you an Option to Purchase and again when the resale application is submitted.</p></div>
@@ -104,38 +107,57 @@ const ARTICLES = [
 </ul>
 <p>The letter does not replace your own affordability planning. Compare the HFE result with a cash-flow estimate from the <a href="/calculator/">HDB loan calculator</a>.</p>
 
-<h2>How to apply</h2>
-<ol>
-  <li>Log in to the HDB Flat Portal using Singpass.</li>
-  <li>Complete the preliminary HFE check.</li>
-  <li>Submit the full HFE application with all applicants and required occupiers.</li>
-  <li>Retrieve Myinfo details and provide any additional income documents HDB requests.</li>
-  <li>Wait for the result by SMS and email.</li>
-</ol>
-<p>HDB states that processing can take up to one month after receiving the complete document set, and may take longer around sales exercises. The online application is free.</p>
+<h2>HFE letter vs HLE letter: what changed</h2>
+<p>The HFE letter replaced the HDB Loan Eligibility (HLE) letter, and the Intent to Buy used by resale buyers, from <strong>9 May 2023</strong>. The HLE letter only assessed whether you could take an HDB housing loan. The HFE letter combines three checks in one application: whether you can buy the flat, which CPF housing grants you qualify for, and your HDB loan eligibility. If an older guide mentions an HLE letter, the HFE letter is what you apply for today.</p>
 
-<h2>How long is the HFE letter valid?</h2>
-<p>An HFE letter is valid for <strong>nine months from issue</strong>. If it will expire within 30 days and you still need time to submit a new or resale application, HDB says to apply for a fresh letter.</p>
-<p>A used HFE letter can continue supporting the submitted flat application after expiry. Changes to household members, marital status, citizenship or property ownership can trigger a review or require a fresh application.</p>
+<h2>HFE application: how to apply in two steps</h2>
+<p>You apply online through the HDB Flat Portal using Singpass, and every applicant and required occupier needs a valid Singpass account. The application is free. You can only be listed in one HFE application at a time, as either an applicant or an occupier.</p>
+<ol>
+  <li><strong>Step 1: Check Preliminary HDB Flat Eligibility.</strong> Enter your household, employment and income details to get a preliminary outcome.</li>
+  <li><strong>Step 2: Apply for the HDB Flat Eligibility letter.</strong> Submit the full application, retrieving your details through Myinfo, and upload any documents HDB asks for.</li>
+</ol>
+<p>Complete both steps within 30 calendar days of each other, and ideally in the same calendar month. Otherwise you will need to update the employment and income details of everyone in the application. Check everything before you submit Step 2: after that the application cannot be edited, only cancelled and made afresh.</p>
+
+<h2>HFE application documents required</h2>
+<p>HDB does not publish a fixed list of documents to prepare upfront. When you apply, your details are retrieved through <strong>Myinfo</strong> to keep paperwork to a minimum. HDB then tells you by SMS and email if it needs supporting documents, usually because Myinfo does not hold everything it needs. Get those from your employer or the relevant agency, or a letter from them if they cannot provide the information.</p>
+<p>What HDB assesses decides what it may ask you for:</p>
+<ul>
+  <li><strong>Income period:</strong> 12 months, ending two months before the month you apply. An application made in May 2024, for example, is assessed on April 2023 to March 2024.</li>
+  <li><strong>What counts:</strong> all income from employment or trade, including your own CPF deductions and allowances such as overtime, transport and shift pay. Employer CPF contributions, bonuses, the Annual Wage Supplement, rental income and dividends are not counted.</li>
+  <li><strong>Average monthly income:</strong> total income divided by the months actually worked. Employees exclude months on no-pay leave; self-employed persons are assessed over 12 months, or from when the business started.</li>
+  <li><strong>More than one job:</strong> if documents are requested, you must provide them for each job or trade.</li>
+  <li><strong>Still working:</strong> you must be working when you apply to be considered for the Enhanced CPF Housing Grant and an HDB housing loan.</li>
+</ul>
+<p>Uploads must be PDF, JPG or PNG files that are not encrypted, up to 5 MB each and 40 MB in total. Documents that are not in English, Chinese, Malay or Tamil need an official English translation that is notarised, certified by a local commissioner, or endorsed by an embassy or high commission. To upload, log in to the HDB Flat Portal and select <em>My Flat Dashboard, Applying an HDB Flat Eligibility (HFE) letter, Step 2, Upload Documents</em>. HDB may not process the application until it has the complete set.</p>
+
+<h2>HFE processing and waiting time</h2>
+<p>HDB says processing takes <strong>up to one month</strong> after it receives the full set of required documents. It can take longer before and during the month of a sales exercise, when application volumes are high. You get an SMS and email once the outcome is ready, so apply early if you plan to buy.</p>
+
+<h2>How to view your HFE letter</h2>
+<p>Log in to the HDB Flat Portal and select <em>My Flat Dashboard, Applying an HDB Flat Eligibility (HFE) letter, Step 2, View Letter</em>. The same screen shows the status of an application that is still being processed.</p>
+
+<h2>HFE letter validity and expiry</h2>
+<p>An HFE letter is valid for <strong>nine months from the date of issue</strong>. For a new flat you need a valid letter when you apply. For a resale flat you need one before the seller grants you an Option to Purchase, and again when you submit the resale application.</p>
+<p>Once you have submitted a flat application with the letter, you can continue with that purchase even after the letter expires. An expired letter that was never used for a flat application can no longer be viewed.</p>
+<p>If your letter expires within the next 30 days and you need more time, apply for a fresh one. If nothing has changed except employment or income, the first applicant can re-apply through <em>View/ Re-apply HFE Letter</em> on the same dashboard. You can keep using the unexpired letter until the new one is issued.</p>
+
+<h2>When HDB reviews your HFE letter</h2>
+<p>HDB reviews the outcome if information given was untrue or incorrect, if anyone listed does not meet the conditions to buy a flat, receive grants or take an HDB loan, or if your family circumstances or HDB's policies change. Adding or removing a household member, or a change in marital status, citizenship or private-property ownership, needs a fresh application if you have not yet applied for a flat. A change in household income alone needs no action once the letter is approved.</p>
+<p>If you book an uncompleted flat, HDB reviews your finances again nearer completion, and the loan amount may be reduced if your ability to service it has worsened.</p>
 
 <h2>Can you compare bank loans during the HFE process?</h2>
 <p>Yes. HDB's integrated loan application service lets buyers request an In-Principle Approval from participating financial institutions while applying for the HFE letter. An IPA is indicative; the confirmed Letter of Offer comes later after a flat is secured.</p>
 <p>Before choosing, compare the current differences in <a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loans versus bank loans</a>, including cash downpayment, rate variability, lock-ins and refinancing options.</p>
 
-<h2>Documents and details to prepare</h2>
-<ul>
-  <li>Singpass access for every applicant and required occupier.</li>
-  <li>Accurate household, employment, income and property-ownership details.</li>
-  <li>Supporting income documents where Myinfo does not contain everything required.</li>
-  <li>A realistic budget below the maximum loan amount, including duties and renovation.</li>
-</ul>
-
 <h2>Official source and review date</h2>
-<p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.hfe}" rel="noopener">Application for an HFE Letter</a> and <a href="${SOURCES.loan}" rel="noopener">Housing Loan from HDB</a> pages.</p>`,
+<p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.hfe}" rel="noopener">Application for an HFE Letter</a> and <a href="${SOURCES.loan}" rel="noopener">Housing Loan from HDB</a> pages. The application steps, documents, validity and HLE sections were checked on 9 October 2026 against HDB's <a href="${SOURCES.hfeIncome}" rel="noopener">Income Guidelines and Documents</a> page and its <a href="${SOURCES.hfeKeo}" rel="noopener">notice introducing the HFE letter</a>.</p>`,
     faqs: [
       ['How long does an HFE letter application take?', 'HDB says processing can take up to one month after it receives all required documents, and may take longer before or during a sales exercise.'],
       ['How long is an HFE letter valid?', 'An HFE letter is valid for nine months from its issue date. A used letter can continue supporting the submitted flat application after it expires.'],
       ['Is an HFE letter free?', 'Yes. HDB states that the online HFE application is free of charge.'],
+      ['What documents are required for an HFE application?', 'HDB retrieves most details through Myinfo when you apply, and tells you by SMS and email if it needs supporting documents. It assesses 12 months of income ending two months before the month you apply, so any documents it requests relate to that period and to each job you hold.'],
+      ['How do I view or download my HFE letter?', 'Log in to the HDB Flat Portal and select My Flat Dashboard, then Applying an HDB Flat Eligibility (HFE) letter, Step 2, and View Letter. The same screen shows the status of an application that is still being processed.'],
+      ['What is an HLE letter?', 'The HDB Loan Eligibility (HLE) letter assessed only whether you could take an HDB housing loan. From 9 May 2023 it was replaced by the HFE letter, which combines flat eligibility, CPF housing grants and HDB loan eligibility in one application.'],
     ],
   },
   {
