@@ -281,6 +281,18 @@
       "category": "publisher-reporting",
       "url": "https://www.edgeprop.sg/property-news/uol-readies-mega-thomson-reserve-condo-launch-4q2026-and-luxury-nomad-hilton-hotel-debut",
       "checkedAt": "2026-10-09"
+    },
+    "ura-upper-thomson-a-no-bids-2024": {
+      "name": "URA media release: tender closing for Upper Thomson Road (Parcel A) — no bids received (19 June 2024)",
+      "category": "government",
+      "url": "https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr24-30",
+      "checkedAt": "2026-10-09"
+    },
+    "ura-upper-thomson-a-award-2025": {
+      "name": "URA media release: tender award for Upper Thomson Road (Parcel A) to Wee Hur Property and GSC Holdings (31 October 2025)",
+      "category": "government",
+      "url": "https://www.ura.gov.sg/news/media/pr25-56/",
+      "checkedAt": "2026-10-09"
     }
   },
   "projects": [
@@ -1527,7 +1539,7 @@
       "region": "OCR",
       "propertyType": "condominium",
       "tenure": "99-year",
-      "developer": "Wee Hur Holdings",
+      "developer": "Wee Hur Property / GSC Holdings",
       "unitCount": 595,
       "inventoryYear": 2026,
       "previewDate": null,
@@ -1535,7 +1547,7 @@
       "launchWindow": "2026-Q4",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/upper-thomson-road.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1550,20 +1562,66 @@
       },
       "provenance": {
         "facts": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "timing": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "dynamics": [
           "99co-2026-guide"
         ]
       },
       "legacyInventoryEvidence": null,
-      "seoTitle": "Upper Thomson Road Launch Date & Units | PropertySG"
+      "seoTitle": "Upper Thomson Road Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025",
+          "99co-2026-guide"
+        ],
+        "steps": [
+          {
+            "date": "2024-06-19",
+            "status": "confirmed",
+            "label": "First tender closed with no bids",
+            "detail": "URA’s first tender for the Upper Thomson Road (Parcel A) site, beside Springleaf MRT station, closed on 19 June 2024 without a single bid."
+          },
+          {
+            "date": "2025-10-31",
+            "status": "confirmed",
+            "label": "Site awarded to Wee Hur and GSC Holdings",
+            "detail": "URA offered the site again, with the tender closing on 23 October 2025, and awarded it to Wee Hur Property and GSC Holdings for $613,939,000 on a 99-year lease. The site is zoned for housing with commercial use on the first storey."
+          },
+          {
+            "date": "2026-10-09",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date or price list has been published by the developers."
+          },
+          {
+            "date": "2026-Q4",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The industry sources cited below place the launch in the fourth quarter of 2026. The developers have not announced a date, so treat the quarter as guidance only."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "senja-close-ec",
