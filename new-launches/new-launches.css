@@ -272,6 +272,17 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .nl-alternatives-lede{color:#3c4656;font-size:.98rem;line-height:1.65;max-width:68ch;margin:0 0 26px}
 .nl-alternatives-group{margin-top:22px}
 .nl-alternatives-group h3{color:var(--navy);font-size:1.05rem;margin:0 0 14px}
+/* JOE-448: district resale-price links after the catalogue (active page only). */
+/* After the WhatsApp band, not before it: on phones the long district anchors
+   stack into one column and pushed that band down almost two screens. */
+.nl-prices-wrap{max-width:1180px;margin:0 auto;padding:44px 24px 64px}
+.nl-prices{margin:0}
+.nl-prices h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.4rem,2.4vw,1.8rem);line-height:1.15;margin:6px 0 10px}
+.nl-prices-lede{color:#3c4656;font-size:.95rem;line-height:1.6;max-width:68ch;margin:0 0 18px}
+.nl-prices-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:0 24px}
+.nl-prices-list a{display:block;padding:7px 0;color:var(--emerald-aa);font-size:.92rem;font-weight:500;line-height:1.4}
+.nl-prices-hubs{margin:18px 0 0;font-size:.92rem}
+.nl-prices-hubs a{color:var(--emerald-aa);font-weight:700;text-decoration:underline;text-underline-offset:.15em}
 .project-availability{padding:64px 24px;background:var(--cream);border-bottom:1px solid var(--line)}
 .project-availability-inner{max-width:1080px;margin:0 auto}
 .project-availability h2{font-family:'Fraunces',Georgia,serif;color:var(--navy);font-size:clamp(1.8rem,3vw,2.45rem);line-height:1.15;margin:8px 0 28px}
@@ -411,6 +422,14 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-related[data-curated-comparisons] .project-related-card::after{display:none}
 .project-related[data-curated-comparisons] .project-related-reason{font-size:.88rem;line-height:1.65;margin:14px 0;color:#fff}
 .project-related[data-curated-comparisons] .project-related-card-cta{opacity:1;transform:none}
+/* JOE-448: district and town resale-price links under the alternatives. */
+.project-related-prices{max-width:860px;margin:28px auto 0;text-align:center;font-size:.92rem;line-height:1.75;color:var(--ink-soft)}
+.project-related-prices a{color:var(--emerald-aa);font-weight:600;text-decoration:underline;text-underline-offset:.15em}
+.project-related-prices a:hover{color:var(--emerald-aa-dark)}
+/* The section keeps its white background in dark mode, so keep light-mode
+   colours here; the shared dark main-text and link colours would wash out. */
+html.jt-theme-dark .project-related .project-related-prices{color:var(--ink-soft)}
+html.jt-theme-dark .project-related .project-related-prices a{color:var(--emerald-aa)}
 
 /* ── Site plan ── */
 .project-siteplan{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}

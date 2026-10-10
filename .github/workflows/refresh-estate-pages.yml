@@ -32,7 +32,19 @@ jobs:
       - name: Refresh the homepage market line
         run: node scripts/generate-market-pulse.mjs
 
-      # The generator emits a bare page shell. Re-apply every piece of shared
+      # JOE-448: the launch pages link the town pages, and the furniture step
+      # below also refreshes the town link lists on the homepage, valuation,
+      # calculator and guides (apply-price-links.mjs). All are built from the
+      # page directories, so a month that adds a town page regenerates them here
+      # and commits them below in the same PR. This runs first because the
+      # furniture step also tidies the font block generate-project-pages.mjs
+      # leaves stale on some launch pages.
+      - name: Regenerate launch pages that link the price pages
+        run: |
+          node scripts/generate-new-launch-index.mjs
+          node scripts/generate-project-pages.mjs
+
+      # The estate generator emits a bare page shell. Re-apply every piece of shared
       # furniture (header, theme, mobile menu, footer, tracking, consent banner,
       # fonts) or the refresh PR strips them from all 27 pages.
       - name: Re-apply shared page furniture
@@ -53,7 +65,12 @@ jobs:
           git config user.name "estate-refresh-bot"
           git config user.email "actions@github.com"
           git checkout -B "$BRANCH"
-          git add hdb-prices/ sitemap.xml assets/market-pulse.json
+          # Besides the data pages, the pages that link them (see the launch-page
+          # step); those only change when a town page is added or renamed.
+          git add hdb-prices/ sitemap.xml assets/market-pulse.json \
+            index.html valuation.html neighbour-prices/index.html calculator/index.html \
+            insights/index.html insights/hdb-valuation-explained.html insights/how-long-to-sell-hdb-singapore-2026.html \
+            new-launches/*.html
           git commit -m "Monthly estate-page refresh from data.gov.sg ($(date -u +%Y-%m))"
           git push -f origin "$BRANCH"
 

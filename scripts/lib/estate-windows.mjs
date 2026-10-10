@@ -44,3 +44,43 @@ export function resolveWindows(months, hasData) {
   }
   return { latestFullMonth, window12, prior12 };
 }
+
+/**
+ * Rows for a town page's "Most recent transactions" table.
+ *
+ * JOE-448: the table used to show the first 12 dataset rows of the current
+ * (partial) month and the one before. The dataset lists a month's sales by flat
+ * type, smallest first, so on /hdb-prices/bedok/ all 12 rows were 2-room and
+ * 3-room flats although 4-room is Bedok's most traded type. Now: the newest
+ * month in the 12-month window that has sales, taken round-robin across flat
+ * types ordered by the town's 12-month volume, so the table shows a mix; an
+ * older month is used only when the newest one runs out. Within a month, rows
+ * are grouped by that same flat-type order.
+ *
+ * @param {object[]} recs     the town's records ({ month, flat_type, ... })
+ * @param {string[]} window12 newest-first months, from resolveWindows()
+ * @param {number} [limit]
+ */
+export function recentSales(recs, window12, limit = 12) {
+  const inWindow = recs.filter((r) => window12.includes(r.month));
+  const volume = new Map();
+  for (const r of inWindow) volume.set(r.flat_type, (volume.get(r.flat_type) || 0) + 1);
+  const order = [...volume.keys()].sort((a, b) => volume.get(b) - volume.get(a) || a.localeCompare(b));
+  const rank = (r) => order.indexOf(r.flat_type);
+
+  const picked = [];
+  for (const month of window12) {
+    if (picked.length >= limit) break;
+    const queues = order
+      .map((type) => inWindow.filter((r) => r.month === month && r.flat_type === type))
+      .filter((queue) => queue.length);
+    const fromMonth = [];
+    for (let i = 0; picked.length + fromMonth.length < limit && queues.some((queue) => i < queue.length); i += 1) {
+      for (const queue of queues) {
+        if (i < queue.length && picked.length + fromMonth.length < limit) fromMonth.push(queue[i]);
+      }
+    }
+    picked.push(...fromMonth.sort((a, b) => rank(a) - rank(b)));
+  }
+  return picked;
+}

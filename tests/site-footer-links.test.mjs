@@ -48,3 +48,21 @@ test('the shared footer supports pages already earning search impressions', () =
     );
   }
 });
+
+// JOE-448: the three seller/landlord landers had 1-7 inbound links against 80+
+// for each calculator. They are linked from the footer (but never carry it).
+test('the shared footer links the seller and landlord service pages', () => {
+  const expected = new Map([
+    ['/sell-hdb/singapore/', 'HDB selling service'],
+    ['/sell/', 'Sell a property'],
+    ['/rent-out/', 'Rent out a property'],
+  ]);
+
+  for (const [href, label] of expected) {
+    assert.match(
+      html,
+      new RegExp(`<a href="${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">${label}</a>`),
+      `footer missing service link to ${href}`,
+    );
+  }
+});

@@ -8,6 +8,8 @@ import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
+import { townsForDistrict } from './lib/estate-linking.mjs';
+import { priceTowns, priceDistricts } from './lib/price-links.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = path.join(ROOT, 'new-launches', 'projects.json');
@@ -841,6 +843,21 @@ function takeSection(project) {
 </section>`;
 }
 
+// Read once from disk so a launch page only ever links a price page that exists
+// (D24 has no condo district page, for one).
+const townPages = new Map(priceTowns(ROOT).map((town) => [town.slug, town]));
+const districtPages = new Map(priceDistricts(ROOT).map((district) => [district.id, district]));
+
+// JOE-448: launch pages are the cluster Google revisits most, but they linked
+// no town or district price page, so those stayed uncrawled. Plain links only:
+// no prices, and the curated comparisons above are untouched.
+function nearbyPricesHtml(project) {
+  const links = [districtPages.get(project.district), ...townsForDistrict(project.district).map((slug) => townPages.get(slug))]
+    .filter(Boolean)
+    .map((page) => `<a href="${esc(page.href)}">${esc(page.label)}</a>`);
+  return links.length ? `\n    <p class="project-related-prices">Resale prices nearby: ${links.join(' · ')}</p>` : '';
+}
+
 function relatedSection(project) {
   const alternatives = alternativesFor(project);
   const comparisons = content[project.slug]?.comparisons;
@@ -849,7 +866,7 @@ function relatedSection(project) {
     <div class="project-related-head"><div><div class="project-eyebrow">Compare before deciding</div><h2 id="alternatives-${esc(project.slug)}">${esc(comparisons?.heading || 'Three active alternatives.')}</h2>${comparisons ? `<p>${esc(comparisons.intro)}</p>` : ''}</div></div>
     <div class="project-related-grid">
 ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.canonicalUrl).pathname)}" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">${esc(alternative.district)} · ${esc(alternative.region)} · ${esc(STATUSES[alternative.status])}${comparisons ? ` as of ${esc(formatDate(alternative.verifiedAt))}` : ''}</div><div class="project-related-card-title">${esc(alternative.name)}</div>${comparisons ? `<p class="project-related-reason">${esc(comparisons.items.find(({ slug }) => slug === alternative.slug).reason)}</p>` : ''}<div class="project-related-card-cta">Compare</div></div></a>`).join('\n')}
-    </div>
+    </div>${nearbyPricesHtml(project)}
   </div>
 </section>`;
 }
