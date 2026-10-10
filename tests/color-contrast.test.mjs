@@ -412,6 +412,69 @@ const cases = [
     foreground: ['.nl-hero .eyebrow', 'color'],
     background: ['.nl-hero .eyebrow', 'background', '#ffffff'],
   },
+  // JOE-449: the insights guide panels and the project-page alternatives kept
+  // light surfaces under the dark theme's light text. Pin each restated colour
+  // against the dark surface it now sits on.
+  {
+    name: 'insights guide heading, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide-head h2,html.jt-theme-dark .blog-districts-col h3', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights guide text, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide-head p,html.jt-theme-dark .blog-guide-steps li,html.jt-theme-dark .blog-guide-tools,html.jt-theme-dark .blog-districts-col li', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights district region note, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-districts-col h3 span', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights guide links, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide a', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'project alternatives heading, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related-head h2', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project curated comparisons intro, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related[data-curated-comparisons] .project-related-head p', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project resale price line, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-prices', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project resale price links, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-prices a', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project alternative card title, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-card', 'color'],
+    background: ['html.jt-theme-dark .project-related .project-related-card', 'background'],
+  },
+  {
+    name: 'project alternative card CTA, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['.project-related-card-cta', 'color'],
+    background: ['html.jt-theme-dark .project-related .project-related-card', 'background'],
+  },
 ];
 
 for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
