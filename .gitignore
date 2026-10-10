@@ -6,3 +6,6 @@ node_modules/
 # Local tooling owned by another agent (Google Ads reporting). Netlify publishes the repo
 # root, so anything committed here becomes a public URL on joetay.com. Never commit.
 tools/
+
+# Netlify publish directory, built by scripts/build-publish-dir.mjs during deploys.
+_site/

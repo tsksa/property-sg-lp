@@ -43,5 +43,5 @@ test('final checkout preparation repairs later squash dates without redating unc
 test('CI and Netlify prepare the sitemap before validation and publication', () => {
   const workflow = fs.readFileSync(new URL('../.github/workflows/validate.yml', import.meta.url), 'utf8');
   assert.ok(workflow.indexOf('run: node scripts/prepare-sitemap.mjs') < workflow.indexOf('run: npm run check'));
-  assert.match(fs.readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8'), /command = "node scripts\/prepare-sitemap.mjs"/);
+  assert.match(fs.readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8'), /command = "node scripts\/prepare-sitemap.mjs[ "]/);
 });
