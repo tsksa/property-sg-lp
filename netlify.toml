@@ -2,9 +2,16 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command = "node scripts/prepare-sitemap.mjs"
-  publish = "."
+  command = "node scripts/prepare-sitemap.mjs && node scripts/build-publish-dir.mjs _site"
+  # Only the site is deployed: _site is an allowlisted copy, so the docs, build
+  # scripts, tests and Functions source at the repo root are never uploaded
+  # (JOE-450). New top-level pages go in scripts/build-publish-dir.mjs.
+  publish = "_site"
   functions = "netlify/functions"
+
+# `netlify dev` keeps serving the working tree directly.
+[dev]
+  publish = "."
 
 # Preserve the .html URLs already used by canonical tags and the sitemap.
 # Explicit aliases in _redirects consolidate old extensionless links.
