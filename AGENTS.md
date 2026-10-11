@@ -64,3 +64,11 @@ npm test
 ```
 
 Use the narrowest useful verification command for the task. If a broad check is already known to have unrelated failures, say that plainly in the PR and include the more targeted checks that passed.
+
+## Cursor Cloud specific instructions
+
+- Node 22 (`package.json` `engines` and `.nvmrc`) is the runtime. The full gate is `npm run check`. This repository defines no `lint`, `build`, or `test` script.
+- There is no lockfile. Install with `npm install --no-package-lock --no-audit --no-fund`, then `npm install --no-save --no-package-lock --no-audit --no-fund netlify-cli@23` so `netlify dev` can serve functions.
+- Boot the site with `BROWSER=none ./node_modules/.bin/netlify dev --offline --port 8888 --no-open --skip-gitignore`. The homepage and `/.netlify/functions/submit-lead` listen on port 8888. Lead webhook and Twilio variables are optional. With none set, a missing required field returns 400 and a complete submission returns 503 because delivery was not attempted.
+- `npm run check` reads git history for sitemap lastmod, so the checkout needs full history.
+- `netlify dev` may create `deno.lock` and `.netlify/blobs-serve/`. Leave both uncommitted. `--skip-gitignore` keeps `.gitignore` unchanged; `.netlify/netlify.toml` and `.netlify/state.json` are tracked.
