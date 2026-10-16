@@ -50,6 +50,31 @@ test('hub, calculator, sitemap and feeds discover the whole cluster', () => {
 // "hdb bank loan interest rate", "hdb bank loan singapore") at positions 73-87
 // while every inbound link came from inside the cluster itself. These pin the
 // outside-in links and the sections that answer those three queries.
+test('visible updated labels are derived from the datetime value', () => {
+  const source = read('scripts/generate-hdb-loan-cluster.mjs');
+  assert.doesNotMatch(source, /Updated Aug 26, 2026/);
+  assert.match(source, /visibleDate\(modified\)/);
+  const labelFor = (iso) => {
+    const [year, month, day] = iso.split('-').map(Number);
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(Date.UTC(year, month - 1, day)));
+  };
+  for (const slug of ['hdb-loan-eligibility-singapore', 'hfe-letter-singapore-guide', 'msr-vs-tdsr-singapore', 'hdb-loan-vs-bank-loan-singapore']) {
+    const html = read(`insights/${slug}.html`);
+    const time = html.match(/<time datetime="(\d{4}-\d{2}-\d{2})">([^<]+)<\/time>/);
+    assert.ok(time, `${slug}: missing updated time`);
+    assert.equal(time[2], `Updated ${labelFor(time[1])}`, slug);
+  }
+  const policy = read('insights/hdb-income-ceiling-2026-ndr-changes.html');
+  const policyTime = policy.match(/<time datetime="(\d{4}-\d{2}-\d{2})">([^<]+)<\/time>/);
+  assert.ok(policyTime, 'income ceiling: missing time');
+  assert.equal(policyTime[2], labelFor(policyTime[1]), 'a published date that is also the modified date stays unprefixed');
+});
+
 test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks for', () => {
   const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
   assert.match(html, /<h2[^>]*>HDB bank loan interest rate: how bank packages are priced<\/h2>/);

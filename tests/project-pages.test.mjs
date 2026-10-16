@@ -409,6 +409,41 @@ test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
 // JOE-448: launch pages are the cluster Google revisits most, but linked no
 // town or district price page, so those went uncrawled. Each page now links its
 // district's condo page (when one exists) and the town pages mapped to it.
+test('selling projects do not describe the launch as provisional or expected', () => {
+  const index = read('new-launches/index.html');
+  for (const project of DATA.projects) {
+    if (project.status !== 'selling') continue;
+    const html = pageFor(project);
+    assert.doesNotMatch(html, /Provisional launch window|Expected launch/, `${project.slug}: selling page still hedges the launch`);
+    const card = index.split(`href="/new-launches/${project.slug}.html"`).pop();
+    const launch = card.match(/<dt>Launch<\/dt><dd>([^<]*)<\/dd>/)?.[1] ?? '';
+    assert.doesNotMatch(launch, /^(Expected|Provisional)/, `${project.slug}: catalog says "${launch}"`);
+    if (!project.previewDate && !project.bookingDate && project.launchWindow) {
+      assert.match(launch, /^Launched /, `${project.slug}: catalog should record the launch as happened`);
+      assert.match(html, /Launched /, `${project.slug}: page should record the launch as happened`);
+    }
+  }
+});
+
+test('confirmed launch dates are not described as still unconfirmed', () => {
+  const serra = DATA.projects.find(({ slug }) => slug === 'the-serra-residences');
+  const html = pageFor(serra);
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
+  const availability = faq.mainEntity.find((entry) => entry.name.startsWith('Is '));
+  assert.match(availability.acceptedAnswer.text, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(availability.acceptedAnswer.text, /once the developer confirms them/);
+  assert.match(html, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(html, /once the developer confirms them/);
+  assert.match(html, /confirmed the launch timing: Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(html, /launch timing and sale materials remain subject to release/);
+
+  const hougang = pageFor(DATA.projects.find(({ slug }) => slug === 'hougang-central-residences'));
+  assert.match(hougang, /launch timing and sale materials remain subject to release/);
+  const chencharu = pageFor(DATA.projects.find(({ slug }) => slug === 'chencharu-close'));
+  assert.match(chencharu, /Preview and booking dates appear here only once the developer confirms them/);
+});
+
 test('every launch page links its district and nearby town resale-price pages', async () => {
   const { townsForDistrict } = await import('../scripts/lib/estate-linking.mjs');
   for (const slug of MANIFEST.slugs) {

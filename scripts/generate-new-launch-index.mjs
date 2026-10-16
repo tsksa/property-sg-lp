@@ -135,12 +135,23 @@ function formatDate(value) {
   }).format(new Date(`${value}T00:00:00Z`));
 }
 
+function formatLaunchWindowLabel(value) {
+  const month = value.match(/^(\d{4})-(\d{2})$/);
+  if (month) {
+    return new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`));
+  }
+  return value.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+}
+
 function formatLaunchTiming(project) {
   const parts = [];
   if (project.previewDate) parts.push(`Preview ${formatDate(project.previewDate)}`);
   if (project.bookingDate) parts.push(`Booking ${formatDate(project.bookingDate)}`);
   if (!parts.length && project.launchWindow) {
-    parts.push(`Expected ${project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1')}`);
+    const label = formatLaunchWindowLabel(project.launchWindow);
+    parts.push(project.status === 'selling' || project.status === 'sold-out'
+      ? `Launched ${label}`
+      : `Expected ${label}`);
   }
   return parts.length ? parts.join(' · ') : 'Launch timing to be confirmed';
 }

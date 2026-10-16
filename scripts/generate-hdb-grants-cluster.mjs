@@ -19,6 +19,16 @@ const checkOnly = process.argv.includes('--check');
 const published = '2026-08-25';
 const reviewed = '25 Aug 2026';
 
+function visibleDate(iso) {
+  const [year, month, day] = iso.split('-').map(Number);
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+}
+
 const SOURCES = {
   ehgFamily: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/couples-and-families/enhanced-cpf-housing-grant',
   resaleFamily: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/couples-and-families/cpf-housing-grant',
@@ -334,7 +344,7 @@ ${mobileHeaderAssetsHtml()}
 ${siteHeaderHtml({ pagePath: `/insights/${article.slug}.html` })}
 <main id="main" tabindex="-1" class="blog-main"><article class="article">
 <div class="article-breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/insights/">Insights</a><span class="sep">›</span><span aria-current="page">${esc(article.headline)}</span></div>
-<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${article.modified || published}">${article.modified ? 'Updated Aug 26, 2026' : 'Aug 25, 2026'}</time></div>
+<header class="article-header"><div class="article-meta-top"><span class="cat">${esc(article.category)}</span><span class="dot" aria-hidden="true">·</span><span>${article.readTime}</span><span class="dot" aria-hidden="true">·</span><time datetime="${article.modified || published}">${article.modified ? `Updated ${visibleDate(article.modified)}` : visibleDate(published)}</time></div>
 <h1 id="article-title">${esc(article.headline)}</h1><p class="article-lede">${esc(article.lede)}</p>
 <div class="article-byline"><picture><source type="image/webp" srcset="/joe-tay-propertysg-advisor-400.webp"><img src="/joe-tay-propertysg-advisor-400.jpg" alt="Joe Tay" width="40" height="40" loading="lazy" decoding="async"></picture><div>By <strong><a href="/about-joe/">Joe Tay</a></strong> · District Director, ERA Realty Network · CEA R009618D</div></div></header>
 <section class="article-body" aria-labelledby="article-title">
