@@ -1135,9 +1135,9 @@
       "previewDate": "2026-10-02",
       "bookingDate": "2026-10-16",
       "launchWindow": "2026-Q4",
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/the-serra-residences.html",
-      "verifiedAt": "2026-10-09",
+      "verifiedAt": "2026-10-16",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1172,7 +1172,7 @@
       "legacyInventoryEvidence": null,
       "seoTitle": "The Serra Residences Launch Date & Units | PropertySG",
       "launchTimeline": {
-        "asOf": "2026-10-09",
+        "asOf": "2026-10-16",
         "sourceIds": [
           "fareast-serra-launch-release"
         ],
@@ -1185,9 +1185,9 @@
           },
           {
             "date": "2026-10-16",
-            "status": "expected",
+            "status": "confirmed",
             "label": "Official sales launch",
-            "detail": "Scheduled by Far East Organization for Friday, 16 October 2026. The units released and their prices are confirmed by the developer on the day; ask Joe to check what is available."
+            "detail": "Far East Organization opened sales on Friday, 16 October 2026, the launch date it announced on 2 October; no postponement had been reported. Launch-weekend sales figures had not been published as at 16 October. Units, stacks and prices change quickly after launch, so ask Joe to confirm what is available today."
           },
           {
             "date": "2030-Q4",

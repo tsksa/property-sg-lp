@@ -442,7 +442,6 @@ def a5():
         return f"    <tr><td>{when}</td><th scope=\"row\">{link(slug)}{extra}</th><td>{esc(p['location'])}</td>{facts(slug)}<td>{esc(p['developer'])}</td></tr>"
     head = '<thead><tr><th scope="col">When</th><th scope="col">Project</th><th scope="col">Location</th><th scope="col">District</th><th scope="col">Type</th><th scope="col">Tenure</th><th scope="col">Homes</th><th scope="col">Developer</th></tr></thead>'
     upcoming = [
-        ('Booking 16 Oct 2026', 'the-serra-residences', 'Preview opened 2 Oct'),
         ('4Q 2026', 'thomson-reserve', ''),
         ('4Q 2026', 'chencharu-close', ''),
         ('4Q 2026', 'upper-thomson-road', ''),
@@ -468,18 +467,19 @@ def a5():
         ('Booking 25 Jul 2026', 'dunearn-house', ''),
         ('Booking 26 Sep 2026', 'amberwood-at-holland', ''),
         ('Launched 3 Oct 2026', 'lucerne-grand', '61.4% sold on the 3\u20134 Oct launch weekend'),
+        ('Launched 16 Oct 2026', 'the-serra-residences', 'Preview opened 2 Oct'),
         ('Launched Oct 2025', 'w-residences-marina-view', ''),
         ('On sale', 'faber-residence', ''),
         ('On sale', 'zyon-grand', ''),
     ]
     up_units = sum(P[s]['unitCount'] for _, s, _ in upcoming)
-    q4_units = sum(P[s]['unitCount'] for w, s, _ in upcoming if w in ('4Q 2026', 'Booking 16 Oct 2026'))
+    q4_units = sum(P[s]['unitCount'] for w, s, _ in upcoming if w == '4Q 2026')
     q1_units = sum(P[s]['unitCount'] for w, s, _ in upcoming if w == '1Q 2027')
     ec_units = sum(P[s]['unitCount'] for w, s, _ in upcoming if P[s]['propertyType'] == 'executive-condominium')
     up_rows = '\n'.join(row(*u) for u in upcoming)
     la_rows = '\n'.join(row(*u) for u in launched)
     body = f'''
-<div class="callout"><strong>The short version</strong><p>{len(upcoming)} condo and EC projects with about <strong>{up_units:,} homes</strong> are expected to launch between October 2026 and the end of 2027. The Serra Residences opened its preview on 2 October, with booking day set for 16 October 2026. Four more projects are expected in the fourth quarter of 2026, from Thomson Reserve's 1,268 homes to Keppel Bay Plot 6's 84. The first quarter of 2027 brings Chuan Grove and three ECs, Dorset Gardens follows in the first half of 2027, and Hougang Central Residences in late 2027. Amberwood at Holland and Lucerne Grand have now launched. Launch windows are the developers' own guidance, and they move. Each project page updates when a date is confirmed.</p></div>
+<div class="callout"><strong>The short version</strong><p>{len(upcoming)} condo and EC projects with about <strong>{up_units:,} homes</strong> are expected to launch between October 2026 and the end of 2027. Four projects are expected in the rest of the fourth quarter of 2026, from Thomson Reserve's 1,268 homes to Keppel Bay Plot 6's 84. The first quarter of 2027 brings Chuan Grove and three ECs, Dorset Gardens follows in the first half of 2027, and Hougang Central Residences in late 2027. Amberwood at Holland, Lucerne Grand and The Serra Residences have now launched. Launch windows are the developers' own guidance, and they move. Each project page updates when a date is confirmed.</p></div>
 
 <h2 id="upcoming-launches-september-2026-to-2027">Upcoming launches: October 2026 to 2027</h2>
 <p>Ordered by expected launch. "Homes" is the developer's or planning figure; ECs are marked so eligible buyers can find them quickly.</p>
@@ -493,9 +493,8 @@ def a5():
 </div>
 
 <h2 id="the-fourth-quarter-of-2026">The fourth quarter of 2026</h2>
-<p>From October to December, about {q4_units:,} homes are expected across five projects, spread across every region:</p>
+<p>From October to December, about {q4_units:,} homes are expected across four projects:</p>
 <ul>
-  <li><strong>City centre (CCR):</strong> {link('the-serra-residences')}, a 133-home freehold project on Bassein Road, with booking day on 16 October. It is a small project for owner-occupiers and investors who want a central address.</li>
   <li><strong>City fringe (RCR):</strong> {link('thomson-reserve')} at Bright Hill, the largest launch of the year, and {link('keppel-bay-plot-6')} on Keppel Island.</li>
   <li><strong>Suburbs (OCR):</strong> {link('chencharu-close')} in District 27 and {link('upper-thomson-road')}. These are the main options for HDB upgraders buying new outside the city.</li>
 </ul>
@@ -535,19 +534,19 @@ def a5():
 <p><a href="/#book">Book a 15-minute call with me</a> to match launches to your budget and sale timeline. <a href="property-agent-commission-singapore.html">The commission guide</a> explains who pays the agent on a new launch.</p>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
-<p>Reviewed 17 Sep 2026 and updated 9 Oct 2026 against this site's project tracker, which records a source for every fact. Those sources include developer announcements and results filings (City Developments, UOL, CapitaLand, GuocoLand, Sing Holdings, Keppel, Far East Organization, Sim Lian), HDB's list of upcoming EC sites, URA's list of uncompleted private projects and published launch coverage. Expected windows are guidance, not commitments; a project's page shows a preview or booking date only once it is confirmed. The <a href="https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits" rel="noopener">loan limits</a> are MAS's and the ABSD refund rule is <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" rel="noopener">IRAS's</a>.</p>
+<p>Reviewed 17 Sep 2026 and updated 16 Oct 2026 against this site's project tracker, which records a source for every fact. Those sources include developer announcements and results filings (City Developments, UOL, CapitaLand, GuocoLand, Sing Holdings, Keppel, Far East Organization, Sim Lian), HDB's list of upcoming EC sites, URA's list of uncompleted private projects and published launch coverage. Expected windows are guidance, not commitments; a project's page shows a preview or booking date only once it is confirmed. The <a href="https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits" rel="noopener">loan limits</a> are MAS's and the ABSD refund rule is <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" rel="noopener">IRAS's</a>.</p>
 '''
     faqs = [
-        ('What new condo launches are coming in late 2026?', f'The Serra Residences opened its preview on 2 October 2026, with booking day on 16 October. Thomson Reserve, Chencharu Close, Upper Thomson Road and Keppel Bay Plot 6 are also expected in the fourth quarter, about {q4_units:,} homes across the five projects. Amberwood at Holland and Lucerne Grand have already launched.'),
+        ('What new condo launches are coming in late 2026?', f'Thomson Reserve, Chencharu Close, Upper Thomson Road and Keppel Bay Plot 6 are expected in the rest of the fourth quarter of 2026, about {q4_units:,} homes in all. Amberwood at Holland, Lucerne Grand and The Serra Residences (16 October) have already launched.'),
         ('Which ECs are launching in 2027?', 'Three ECs are expected in the first quarter of 2027: Solano Grand (the Senja Close site) in Bukit Panjang, Wynwood Grand (Woodlands Drive 17) and Sembawang Road EC. All three keep the $16,000 income ceiling because their land tenders closed before 24 August 2026.'),
         ('What is the biggest new launch in 2026?', 'Thomson Reserve at Bright Hill Drive, with 1,268 homes, is the largest project expected in 2026. In 2027, Chuan Grove (1,055 homes) and Hougang Central Residences (830 homes) are the largest.'),
-        ('Are new launch dates confirmed?', 'The Serra Residences has confirmed preview and booking dates. The other windows are developers’ guidance from announcements and results filings and can move. Each project page on this site updates when a preview or booking date is confirmed.'),
+        ('Are new launch dates confirmed?', 'None of the upcoming projects has a confirmed preview or booking date yet. The windows are developers’ guidance from announcements and results filings and can move. Each project page on this site updates when a preview or booking date is confirmed.'),
     ]
-    return dict(slug='new-condo-launches-2026-2027-calendar', modified='2026-10-09', title='New Condo Launches 2026–2027: Launch Calendar', cat='New launches', mins=7,
+    return dict(slug='new-condo-launches-2026-2027-calendar', modified='2026-10-16', title='New Condo Launches 2026–2027: Launch Calendar', cat='New launches', mins=7,
                 headline='New condo and EC launches in Singapore, October 2026 to 2027: the launch calendar',
                 crumb='New launch calendar 2026–2027',
                 desc=f'Every upcoming Singapore condo and EC launch to 2027, about {up_units:,} homes: expected dates, location, tenure, size and developer, plus what is still selling.',
-                og_desc=f'{len(upcoming)} projects and about {up_units:,} homes from The Serra Residences (booking 16 October 2026) to Hougang Central Residences in late 2027, plus every project already launched.',
+                og_desc=f'{len(upcoming)} projects and about {up_units:,} homes from Thomson Reserve in late 2026 to Hougang Central Residences in late 2027, plus every project already launched.',
                 lede='A single calendar of every condo and EC launch expected between now and the end of 2027, with the facts that matter for a shortlist, and every project from 2026 that is still selling. Each name links to a project page with photos, a location map and live availability.',
                 card=f'Every condo and EC launch expected to 2027, about {up_units:,} homes, with dates, districts, tenure and developers, plus what is still selling.',
                 body=body, faqs=faqs,
