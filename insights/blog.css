@@ -33,6 +33,14 @@ a:hover{text-decoration:underline}
 .blog-districts-col li span{display:block;font-size:.82rem}
 @media(max-width:680px){.blog-districts-cols{grid-template-columns:1fr;gap:20px}}
 @media(max-width:680px){.blog-guide{padding:20px 18px}.blog-guide-steps{grid-template-columns:1fr}}
+/* Dark mode (JOE-449): the shared theme turns main text and links light, so
+   the cream panel goes to the theme's dark cream (#07172f, as .section-cream
+   in assets/site-theme.css) and every text colour above is restated for it. */
+html.jt-theme-dark .blog-guide{background:#07172f;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .blog-guide-head h2,html.jt-theme-dark .blog-districts-col h3{color:#f8fafc}
+html.jt-theme-dark .blog-guide-head p,html.jt-theme-dark .blog-guide-steps li,html.jt-theme-dark .blog-guide-tools,html.jt-theme-dark .blog-districts-col li{color:#c1cad8}
+html.jt-theme-dark .blog-districts-col h3 span{color:#a3adba}
+html.jt-theme-dark .blog-guide a{color:#6ee7c1}
 
 
 /* ── Index page hero ── */

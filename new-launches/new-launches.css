@@ -426,10 +426,17 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-related-prices{max-width:860px;margin:28px auto 0;text-align:center;font-size:.92rem;line-height:1.75;color:var(--ink-soft)}
 .project-related-prices a{color:var(--emerald-aa);font-weight:600;text-decoration:underline;text-underline-offset:.15em}
 .project-related-prices a:hover{color:var(--emerald-aa-dark)}
-/* The section keeps its white background in dark mode, so keep light-mode
-   colours here; the shared dark main-text and link colours would wash out. */
-html.jt-theme-dark .project-related .project-related-prices{color:var(--ink-soft)}
-html.jt-theme-dark .project-related .project-related-prices a{color:var(--emerald-aa)}
+/* Dark mode (JOE-449). The section stayed white while the shared theme made
+   its heading white. It now takes the theme's page surface (#030a1a) and card
+   surface (#102447, both card styles) from assets/site-theme.css, and the
+   price links trade the light-mode colours JOE-448 pinned for dark ones. */
+html.jt-theme-dark .project-related{background:#030a1a;border-bottom-color:rgba(255,255,255,.08)}
+html.jt-theme-dark .project-related-head h2{color:#f8fafc}
+html.jt-theme-dark .project-related[data-curated-comparisons] .project-related-head p{color:#c1cad8}
+html.jt-theme-dark .project-related .project-related-card{background:#102447;color:#fff;border:1px solid rgba(255,255,255,.12);box-shadow:none}
+html.jt-theme-dark .project-related .project-related-card:hover{border-color:#10b981;color:#fff}
+html.jt-theme-dark .project-related .project-related-prices{color:#c1cad8}
+html.jt-theme-dark .project-related .project-related-prices a{color:#6ee7c1}
 
 /* ── Site plan ── */
 .project-siteplan{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
