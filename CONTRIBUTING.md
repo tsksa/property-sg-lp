@@ -71,6 +71,7 @@ proxy.
 - **Test plan filled in** — concrete steps a reviewer can follow.
 - **No new dependencies** unless absolutely needed (no build step → fewer deps).
 - **No breaking changes** to public URLs without a `301` redirect in `_redirects`.
+- **New top-level pages or assets** go in `SITE_ENTRIES` in `scripts/build-publish-dir.mjs`. Netlify deploys only that allowlist, so anything left out is not published.
 - **No PII** in commits, comments, or schema (testimonials are exception — they're public quotes with consent).
 
 ## What gets declined
