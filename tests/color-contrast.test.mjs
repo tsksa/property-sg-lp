@@ -502,6 +502,36 @@ const cases = [
     foreground: [selector, 'color'],
     background,
   })),
+  // JOE-461: emerald and gold failed AA in both themes. Emerald buttons now
+  // carry the header CTA's dark label and brighten on hover; gold buttons take
+  // a navy label; emerald text on light surfaces uses --emerald-text.
+  ...[
+    ['hero WhatsApp button', '.project-hero-cta.primary', ['.project-hero-cta.primary', 'background']],
+    ['hero WhatsApp button hover', '.project-hero-cta.primary:hover', ['.project-hero-cta.primary:hover', 'background']],
+    ['enquiry form button', '.pf button', ['.pf button', 'background']],
+    ['enquiry form button hover', '.pf button', ['.pf button:hover', 'background']],
+    ['contact band button', '.nl-register-band a', ['.nl-register-band a', 'background']],
+    ['contact band button hover', '.nl-register-band a', ['.nl-register-band a:hover', 'background']],
+    ['mobile enquire button', '.nl-mobile-cta .primary', ['.nl-mobile-cta .primary', 'background']],
+    ['mobile brochure button', '.nl-mobile-cta .secondary', ['.nl-mobile-cta .secondary', 'background']],
+    ['gold hero button hover', '.project-hero-cta.gold:hover', ['.project-hero-cta.gold:hover', 'background']],
+    ['tour link button hover', '.project-tour-link-card a', ['.project-tour-link-card a:hover', 'background']],
+    ['section eyebrow on white', '.project-eyebrow', '#ffffff'],
+    ['section eyebrow on cream', '.project-eyebrow', '#faf6ec'],
+    ['status pill', '.project-status-pill', ['.project-status-pill', 'background']],
+    ['hero district tag over the photo overlay', '.project-hero .district-tag', '#43526b'],
+  ].map(([name, selector, background]) => ({
+    name: `project page ${name}`,
+    file: 'new-launches/new-launches.css',
+    foreground: [selector, 'color'],
+    background,
+  })),
+  {
+    name: 'site header WhatsApp button, dark',
+    file: 'scripts/lib/site-header.mjs',
+    foreground: ['html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta,html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta:hover', 'color'],
+    background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
+  },
 ];
 
 // JOE-451: inside each dark project section the text tokens are remapped, so
