@@ -437,6 +437,43 @@ html.jt-theme-dark .project-related .project-related-card{background:#102447;col
 html.jt-theme-dark .project-related .project-related-card:hover{border-color:#10b981;color:#fff}
 html.jt-theme-dark .project-related .project-related-prices{color:#c1cad8}
 html.jt-theme-dark .project-related .project-related-prices a{color:#6ee7c1}
+/* Dark mode for the rest of the project page (JOE-451), on the same palette:
+   white sections take the page surface (#030a1a), cream sections the dark
+   cream (#07172f), cards #102447. Inside each light section the text tokens
+   are remapped, so every rule written as color:var(--navy|--ink-*) turns light
+   without restating it. --navy is also a background on a few dark panels
+   (tour frames, the map card, the tour link card); those are pinned to the
+   card surface below so the remap cannot turn them white. */
+html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer,.project-form-card,.nl-modal-card){--navy:#f8fafc;--ink:#e8ecf3;--ink-soft:#c1cad8;--ink-muted:#a3adba;--cream:#07172f;--line:rgba(255,255,255,.08);--emerald-aa:#6ee7c1;--emerald-aa-dark:#a7f3d0;color:#e8ecf3;border-color:rgba(255,255,255,.08)}
+html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan){background:#030a1a}
+html.jt-theme-dark :is(.project-tour-frame,.project-tour-card-frame,.project-tour-link-card,.project-visual-card,.project-tour-placeholder,.tour-facade,.tour-facade-fallback){background:#102447}
+/* The shared theme only recolours text inside <main>, and five pages
+   (dunearn-house, narra-residences, newport-residences, river-modern,
+   vela-bay) have no <main>. Restate the theme's text and link colours on the
+   sections themselves so every page reads the same. */
+html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(h2,h3,h4,dt,strong){color:#f8fafc}
+html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(p,li,dd,.project-timeline-tbc){color:#c1cad8}
+html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) a{color:#6ee7c1}
+/* …except filled buttons, which keep their white label. */
+html.jt-theme-dark :is(.project-factsheet-btn.primary,.project-tour-placeholder a,.project-tour-link-card a,.tour-facade-label){color:#fff}
+html.jt-theme-dark :is(.project-form-card,.nl-modal-card,.fact-item,.unit-table,.usp-item,.project-section-alt .usp-item,.project-availability article,.project-source-list div,.project-live-stat,.project-unitmix-table-wrap,.project-connect-list li,.project-location-group,.project-tour-card,.project-factsheet-panel,.project-map figcaption,.project-factsheet-btn.ghost){background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
+html.jt-theme-dark .project-form-card{box-shadow:0 32px 72px -16px rgba(0,0,0,.6)}
+html.jt-theme-dark .project-timeline-step div::before{background:#102447}
+html.jt-theme-dark :is(.unit-table th,.project-unitmix-table thead th){background:#0b1e3f;color:#a3adba}
+html.jt-theme-dark :is(.project-unitmix-table tbody th,.project-unitmix-table td[data-live]){color:#e8ecf3}
+html.jt-theme-dark :is(.project-live-stat small,.project-unitmix-disclaimer,.project-gallery-note,.project-map figcaption){color:#a3adba}
+html.jt-theme-dark .project-map figcaption a{color:#6ee7c1}
+html.jt-theme-dark :is(.unit-table td,.project-take-body,.project-location-list li .name,.project-visual-lede,.project-connect-list li span){color:#e8ecf3}
+html.jt-theme-dark .project-facilities-list li{background:#102447;border-color:rgba(255,255,255,.12);color:#e8ecf3}
+html.jt-theme-dark .project-status-pill{background:rgba(16,185,129,.16);color:#6ee7c1}
+html.jt-theme-dark .nl-breadcrumb{color:#a3adba}
+html.jt-theme-dark .nl-breadcrumb a{color:#c1cad8}
+html.jt-theme-dark .nl-breadcrumb .sep{color:#8291a8}
+html.jt-theme-dark .nl-footer a{color:#c1cad8}
+html.jt-theme-dark .nl-footer .creds{color:#a3adba}
+/* The shared theme turns every main link mint; on the emerald button that
+   leaves mint on green. Keep the button's own white label. */
+html.jt-theme-dark .nl-register-band a{color:#fff}
 
 /* ── Site plan ── */
 .project-siteplan{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
