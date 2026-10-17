@@ -388,6 +388,27 @@ test('every retained legacy record has a canonical project page', () => {
 // 7 Sep 2026 audit: 23 of 26 launch pages carried no FAQPage at all. Every
 // launch page now ships exactly one, built only from verified projects.json
 // fields, and every question and answer must be visible on the page.
+// JOE-461: five hand-built pages (dunearn-house, narra-residences,
+// newport-residences, river-modern, vela-bay) put id="main" on the hero and had
+// no <main>, so screen readers had no main landmark and the shared dark theme's
+// main-scoped text colours missed them. Every page now wraps hero to disclaimer.
+test('every launch page has one main landmark around its content', () => {
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    assert.equal((html.match(/<main[\s>]/g) || []).length, 1, `${slug}: expected exactly one <main>`);
+    assert.equal((html.match(/id="main"/g) || []).length, 1, `${slug}: the skip-link target must be unique`);
+    const open = html.indexOf('<main id="main" tabindex="-1">');
+    const close = html.indexOf('</main>');
+    assert.ok(open !== -1 && close > open, `${slug}: <main id="main"> is missing or unclosed`);
+    for (const marker of ['<section class="project-hero', '<section class="project-disclaimer">']) {
+      const at = html.indexOf(marker);
+      assert.ok(at > open && at < close, `${slug}: ${marker} sits outside <main>`);
+    }
+    assert.ok(html.indexOf('<footer class="nl-footer">') > close, `${slug}: footer should follow </main>`);
+  }
+});
+
 test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
   const decode = (s) => s.replaceAll('&amp;', '&').replaceAll('&#39;', "'").replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>');
   for (const slug of MANIFEST.slugs) {
