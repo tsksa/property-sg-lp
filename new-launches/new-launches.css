@@ -447,10 +447,10 @@ html.jt-theme-dark .project-related .project-related-prices a{color:#6ee7c1}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer,.project-form-card,.nl-modal-card){--navy:#f8fafc;--ink:#e8ecf3;--ink-soft:#c1cad8;--ink-muted:#a3adba;--cream:#07172f;--line:rgba(255,255,255,.08);--emerald-aa:#6ee7c1;--emerald-aa-dark:#a7f3d0;color:#e8ecf3;border-color:rgba(255,255,255,.08)}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan){background:#030a1a}
 html.jt-theme-dark :is(.project-tour-frame,.project-tour-card-frame,.project-tour-link-card,.project-visual-card,.project-tour-placeholder,.tour-facade,.tour-facade-fallback){background:#102447}
-/* The shared theme only recolours text inside <main>, and five pages
-   (dunearn-house, narra-residences, newport-residences, river-modern,
-   vela-bay) have no <main>. Restate the theme's text and link colours on the
-   sections themselves so every page reads the same. */
+/* The shared theme recolours text only inside <main>. Five hand-built pages
+   had none until JOE-461; restating the theme's text and link colours on the
+   sections keeps them readable whatever wraps them, and lets filled buttons
+   keep their white label (the theme's main-wide link rule does not). */
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(h2,h3,h4,dt,strong){color:#f8fafc}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(p,li,dd,.project-timeline-tbc){color:#c1cad8}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) a{color:#6ee7c1}
