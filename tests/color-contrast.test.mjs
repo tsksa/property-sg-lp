@@ -37,10 +37,17 @@ function declaration(file, selector, property) {
   assert.fail(`${file}: ${selector} is missing ${property}`);
 }
 
+// Global tokens come from :root. new-launches.css also remaps --navy and the
+// --ink tokens inside dark-mode project sections (JOE-451); those scoped values
+// must not leak into the light-mode cases, so they are only read when a file
+// has no :root block at all.
 function variables(file) {
   const values = new Map();
-  for (const match of source(file).matchAll(/--([a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
-    values.set(match[1], match[2].trim());
+  const roots = [...source(file).matchAll(/:root\s*\{([^}]*)\}/g)].map((block) => block[1]);
+  for (const text of roots.length ? roots : [source(file)]) {
+    for (const match of text.matchAll(/--([a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
+      values.set(match[1], match[2].trim());
+    }
   }
   return values;
 }
@@ -475,7 +482,44 @@ const cases = [
     foreground: ['.project-related-card-cta', 'color'],
     background: ['html.jt-theme-dark .project-related .project-related-card', 'background'],
   },
+  // JOE-451: the rest of each project page in dark mode. Literal colours
+  // restated outside the token remap, each against the surface it sits on.
+  ...[
+    ['status pill', 'html.jt-theme-dark .project-status-pill', ['html.jt-theme-dark .project-status-pill', 'background', '#030a1a']],
+    ['facility chips', 'html.jt-theme-dark .project-facilities-list li', ['html.jt-theme-dark .project-facilities-list li', 'background']],
+    ['unit table headers', 'html.jt-theme-dark :is(.unit-table th,.project-unitmix-table thead th)', ['html.jt-theme-dark :is(.unit-table th,.project-unitmix-table thead th)', 'background']],
+    ['unit table values', 'html.jt-theme-dark :is(.project-unitmix-table tbody th,.project-unitmix-table td[data-live])', '#102447'],
+    ['card text that was #333', 'html.jt-theme-dark :is(.unit-table td,.project-take-body,.project-location-list li .name,.project-visual-lede,.project-connect-list li span)', '#102447'],
+    ['small print on cards', 'html.jt-theme-dark :is(.project-live-stat small,.project-unitmix-disclaimer,.project-gallery-note,.project-map figcaption)', '#102447'],
+    ['map credit link', 'html.jt-theme-dark .project-map figcaption a', '#102447'],
+    ['breadcrumb', 'html.jt-theme-dark .nl-breadcrumb', '#030a1a'],
+    ['breadcrumb links', 'html.jt-theme-dark .nl-breadcrumb a', '#030a1a'],
+    ['footer links', 'html.jt-theme-dark .nl-footer a', '#07172f'],
+    ['footer credentials', 'html.jt-theme-dark .nl-footer .creds', '#07172f'],
+  ].map(([name, selector, background]) => ({
+    name: `project page ${name}, dark`,
+    file: 'new-launches/new-launches.css',
+    foreground: [selector, 'color'],
+    background,
+  })),
 ];
+
+// JOE-451: inside each dark project section the text tokens are remapped, so
+// every rule written as color:var(--navy|--ink-*) turns light. Check each
+// remapped token against all three dark surfaces it can land on.
+test('project page dark text tokens meet WCAG AA on every dark surface', () => {
+  const css = source('new-launches/new-launches.css');
+  const scope = css.match(/html\.jt-theme-dark :is\(\.project-dev-strip[^)]*\)\{(--navy:[^}]*)\}/);
+  assert.ok(scope, 'missing the dark token remap for project sections');
+  const tokens = Object.fromEntries([...scope[1].matchAll(/--([a-z-]+):(#[0-9a-f]{3,6})/gi)].map((m) => [m[1], m[2]]));
+  for (const token of ['navy', 'ink', 'ink-soft', 'ink-muted', 'emerald-aa']) {
+    assert.ok(tokens[token], `--${token} is not remapped for dark mode`);
+    for (const surface of ['#030a1a', '#07172f', '#102447']) {
+      const ratio = contrastRatio(parseHex(tokens[token]), parseHex(surface));
+      assert.ok(ratio >= MINIMUM_AA_RATIO, `--${token} ${tokens[token]} on ${surface}: ${ratio.toFixed(2)}:1`);
+    }
+  }
+});
 
 for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
   cases.push({
