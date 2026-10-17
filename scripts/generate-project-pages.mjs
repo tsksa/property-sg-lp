@@ -1057,6 +1057,20 @@ function refreshFormCard(html, project) {
   );
 }
 
+// The hand-built pages put the skip-link target (id="main") on the hero and had
+// no <main> landmark, so screen readers could not jump to the content and the
+// shared theme's main-scoped dark-mode rules missed them (JOE-461). Wrap hero
+// to disclaimer in <main>, as generated pages do. Idempotent.
+function wrapInMain(html) {
+  if (/<main[\s>]/.test(html)) return html;
+  const hero = /<section class="(project-hero[^"]*)" id="main" tabindex="-1"/;
+  const disclaimer = /(<section class="project-disclaimer">[\s\S]*?<\/section>)/;
+  if (!hero.test(html) || !disclaimer.test(html)) return html;
+  return html
+    .replace(hero, '<main id="main" tabindex="-1">\n<section class="$1"')
+    .replace(disclaimer, '$1\n</main>');
+}
+
 export function refreshExistingPage(html, project) {
   const title = titleFor(project);
   const meta = metaDescription(project);
@@ -1106,6 +1120,7 @@ export function refreshExistingPage(html, project) {
   html = replaceSection(html, 'project-take', takeSection(project));
   html = replaceSection(html, 'project-related', relatedSection(project));
   html = replaceSection(html, 'nl-register-band', contactSection(project));
+  html = wrapInMain(html);
   html = html
     .replaceAll('then register below to lock in your preferred stack before public launch.', 'then ask Joe to confirm the current unit list and suitable stacks.')
     .replaceAll('then register below to secure your preferred stack at VVIP preview.', 'then ask Joe to confirm the current unit list and suitable stacks.')
