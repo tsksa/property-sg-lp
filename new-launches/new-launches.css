@@ -450,7 +450,7 @@ html.jt-theme-dark :is(.project-tour-frame,.project-tour-card-frame,.project-tou
 /* The shared theme recolours text only inside <main>. Five hand-built pages
    had none until JOE-461; restating the theme's text and link colours on the
    sections keeps them readable whatever wraps them, and lets filled buttons
-   keep their white label (the theme's main-wide link rule does not). */
+   keep their own label colour (the theme's main-wide link rule does not). */
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(h2,h3,h4,dt,strong){color:#f8fafc}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(p,li,dd,.project-timeline-tbc){color:#c1cad8}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) a{color:#6ee7c1}
