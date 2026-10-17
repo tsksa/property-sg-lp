@@ -46,10 +46,6 @@ test('hub, calculator, sitemap and feeds discover the whole cluster', () => {
   }
 });
 
-// 7 Sep 2026 audit: the cluster earned 103 impressions ("hdb mortgage loan",
-// "hdb bank loan interest rate", "hdb bank loan singapore") at positions 73-87
-// while every inbound link came from inside the cluster itself. These pin the
-// outside-in links and the sections that answer those three queries.
 test('visible updated labels are derived from the datetime value', () => {
   const source = read('scripts/generate-hdb-loan-cluster.mjs');
   assert.doesNotMatch(source, /Updated Aug 26, 2026/);
@@ -75,6 +71,10 @@ test('visible updated labels are derived from the datetime value', () => {
   assert.equal(policyTime[2], labelFor(policyTime[1]), 'a published date that is also the modified date stays unprefixed');
 });
 
+// 7 Sep 2026 audit: the cluster earned 103 impressions ("hdb mortgage loan",
+// "hdb bank loan interest rate", "hdb bank loan singapore") at positions 73-87
+// while every inbound link came from inside the cluster itself. These pin the
+// outside-in links and the sections that answer those three queries.
 test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks for', () => {
   const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
   assert.match(html, /<h2[^>]*>HDB bank loan interest rate: how bank packages are priced<\/h2>/);

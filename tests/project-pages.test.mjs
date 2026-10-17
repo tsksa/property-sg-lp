@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
-import { refreshExistingPage } from '../scripts/generate-project-pages.mjs';
+import { projectFaqEntries, refreshExistingPage, takeSection } from '../scripts/generate-project-pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
@@ -406,9 +406,6 @@ test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
   }
 });
 
-// JOE-448: launch pages are the cluster Google revisits most, but linked no
-// town or district price page, so those went uncrawled. Each page now links its
-// district's condo page (when one exists) and the town pages mapped to it.
 test('selling projects do not describe the launch as provisional or expected', () => {
   const index = read('new-launches/index.html');
   for (const project of DATA.projects) {
@@ -426,17 +423,17 @@ test('selling projects do not describe the launch as provisional or expected', (
 });
 
 test('confirmed launch dates are not described as still unconfirmed', () => {
+  // No live project is upcoming with confirmed dates once The Serra launched
+  // (16 Oct 2026), so render The Serra as it stood before launch: upcoming,
+  // preview and booking dates set, and no hand-written assessment copy.
   const serra = DATA.projects.find(({ slug }) => slug === 'the-serra-residences');
-  const html = pageFor(serra);
-  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
-  const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
-  const availability = faq.mainEntity.find((entry) => entry.name.startsWith('Is '));
-  assert.match(availability.acceptedAnswer.text, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
-  assert.doesNotMatch(availability.acceptedAnswer.text, /once the developer confirms them/);
-  assert.match(html, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
-  assert.doesNotMatch(html, /once the developer confirms them/);
-  assert.match(html, /confirmed the launch timing: Preview 2 Oct 2026 · Booking 16 Oct 2026/);
-  assert.doesNotMatch(html, /launch timing and sale materials remain subject to release/);
+  const dated = { ...serra, slug: 'fixture-dated-upcoming', status: 'upcoming' };
+  const availability = projectFaqEntries(dated).find(([question]) => question.startsWith('Is '))[1];
+  assert.match(availability, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(availability, /once the developer confirms them/);
+  const take = takeSection(dated);
+  assert.match(take, /confirmed the launch timing: Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(take, /launch timing and sale materials remain subject to release/);
 
   const hougang = pageFor(DATA.projects.find(({ slug }) => slug === 'hougang-central-residences'));
   assert.match(hougang, /launch timing and sale materials remain subject to release/);
@@ -444,6 +441,9 @@ test('confirmed launch dates are not described as still unconfirmed', () => {
   assert.match(chencharu, /Preview and booking dates appear here only once the developer confirms them/);
 });
 
+// JOE-448: launch pages are the cluster Google revisits most, but linked no
+// town or district price page, so those went uncrawled. Each page now links its
+// district's condo page (when one exists) and the town pages mapped to it.
 test('every launch page links its district and nearby town resale-price pages', async () => {
   const { townsForDistrict } = await import('../scripts/lib/estate-linking.mjs');
   for (const slug of MANIFEST.slugs) {

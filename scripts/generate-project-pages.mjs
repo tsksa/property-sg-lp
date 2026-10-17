@@ -316,7 +316,7 @@ function hasSpecialFaq(project) {
   return Boolean(availabilityFaqJson(project) || layoutFaqJson(project) || searchIntentFaqJson(project));
 }
 
-function projectFaqEntries(project) {
+export function projectFaqEntries(project) {
   const name = project.name;
   const checked = formatDate(project.verifiedAt);
   const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
@@ -818,7 +818,7 @@ ${layoutFaqEntries(project).map(([question, answer]) => `      <article><h3>${es
 </section>`;
 }
 
-function takeSection(project) {
+export function takeSection(project) {
   const copy = content[project.slug];
   if (!copy) {
     const statusCopy = project.status !== 'upcoming'
