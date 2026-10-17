@@ -2,11 +2,11 @@
 /* ── Shared styles for /new-launches/ pages ── */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--emerald-aa:#047857;--emerald-aa-dark:#065f46;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--gold-text:#8a6a2d;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#666;--line:#eee;--line-soft:#f2f2f2}
+:root{--navy:#0b1e3f;--navy-2:#061430;--emerald:#10b981;--emerald-dark:#059669;--emerald-aa:#047857;--emerald-text:#047857;--emerald-ink:#04231a;--emerald-hover:#34d399;--emerald-aa-dark:#065f46;--cream:#faf6ec;--cream-warm:#f5efdf;--gold:#c9a661;--gold-dark:#a88745;--gold-text:#8a6a2d;--ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-muted:#666;--line:#eee;--line-soft:#f2f2f2}
 html{scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden}
 section[id],[id^="projectForm"]{scroll-margin-top:80px}
 body{font-family:'DM Sans',sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden;width:100%;max-width:100%}
-a{color:var(--emerald);text-decoration:none}
+a{color:var(--emerald-text);text-decoration:none}
 a:hover{text-decoration:underline}
 img{max-width:100%;height:auto;display:block}
 *:focus{outline:none}
@@ -21,11 +21,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .nl-hero{padding:72px 24px 64px;text-align:center;background:linear-gradient(180deg,var(--cream) 0%,#fff 100%);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
 .nl-hero::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:1000px;height:500px;background:radial-gradient(ellipse,rgba(201,166,97,0.12),transparent 60%);pointer-events:none}
 .nl-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;min-width:0}
-.nl-hero .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:var(--gold-text);letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.08);border:1px solid rgba(201,166,97,0.25);border-radius:100px;margin-bottom:20px}
+.nl-hero .eyebrow{display:inline-block;font-size:0.72rem;font-weight:700;color:#7a5d25;letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.08);border:1px solid rgba(201,166,97,0.25);border-radius:100px;margin-bottom:20px}
 .nl-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:600;letter-spacing:-1px;line-height:1.08;margin-bottom:20px;color:var(--navy);font-variation-settings:"opsz" 144;overflow-wrap:anywhere}
 .nl-hero p{font-size:1.05rem;color:var(--ink-soft);line-height:1.65;max-width:680px;margin:0 auto;overflow-wrap:break-word}
-.nl-hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:14px 30px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border-radius:10px;text-decoration:none;transition:all .25s;box-shadow:0 6px 24px rgba(16,185,129,0.35)}
-.nl-hero-cta:hover{background:var(--emerald-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,0.45)}
+.nl-hero-cta{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:14px 30px;background:var(--emerald);color:var(--emerald-ink);font-weight:700;font-size:0.95rem;border-radius:10px;text-decoration:none;transition:all .25s;box-shadow:0 6px 24px rgba(16,185,129,0.35)}
+.nl-hero-cta:hover{background:var(--emerald-hover);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,0.45)}
 
 /* ── Trust strip ── */
 .nl-trust{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:26px 24px;position:relative;overflow:hidden}
@@ -39,7 +39,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* ── Breadcrumb ── */
 .nl-breadcrumb{max-width:1180px;margin:0 auto;padding:20px 24px 0;font-size:0.8rem;color:var(--ink-muted)}
 .nl-breadcrumb a{color:var(--ink-soft);text-decoration:underline}
-.nl-breadcrumb a:hover{color:var(--emerald);text-decoration:none}
+.nl-breadcrumb a:hover{color:var(--emerald-text);text-decoration:none}
 .nl-breadcrumb .sep{margin:0 8px;color:#ccc}
 
 /* ── Catalog controls ── */
@@ -61,7 +61,7 @@ html.jt-theme-dark .nl-secondary-filters{background:#07172f;color:#f8fafc;border
 .nl-controls-form input,.nl-controls-form select{width:100%;min-height:44px;padding:10px 12px;border:1px solid #d9d9d9;border-radius:9px;background:#fff;color:var(--ink);font:500 .86rem 'DM Sans',sans-serif}
 .nl-controls-form input:hover,.nl-controls-form select:hover{border-color:var(--emerald)}
 .nl-reset,.nl-empty button{min-height:44px;padding:10px 16px;border:1px solid rgba(11,30,63,.18);border-radius:9px;background:#fff;color:var(--navy);font:700 .84rem 'DM Sans',sans-serif;cursor:pointer}
-.nl-reset:hover,.nl-empty button:hover{border-color:var(--emerald);color:var(--emerald)}
+.nl-reset:hover,.nl-empty button:hover{border-color:var(--emerald-text);color:var(--emerald-text)}
 
 /* ── Main grid ── */
 .nl-main{max-width:1180px;margin:0 auto;padding:40px 24px 80px}
@@ -90,7 +90,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .nl-card-badge.new{background:linear-gradient(135deg,var(--emerald) 0%,var(--emerald-dark) 100%);box-shadow:0 4px 14px rgba(16,185,129,0.35)}
 .nl-card-body{padding:22px 24px;display:flex;flex-direction:column;flex:1}
 .nl-card-meta{display:flex;gap:8px;font-size:0.7rem;font-weight:700;color:var(--ink-muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;flex-wrap:wrap}
-.nl-card-meta .district{color:var(--emerald)}
+.nl-card-meta .district{color:var(--emerald-text)}
 .nl-card-meta .dot{color:#ccc}
 .nl-card h2{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);letter-spacing:-0.3px;line-height:1.25;margin-bottom:10px}
 .nl-card-location{font-size:.84rem;color:var(--ink-soft);line-height:1.5;margin-bottom:16px}
@@ -102,13 +102,13 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .nl-card-market{display:flex;flex-direction:column;gap:3px;padding:13px 0;border-top:1px dashed #e5e5e5;margin-top:auto}
 .nl-card-market strong{font-size:.92rem;color:var(--navy)}
 .nl-card-market span{font-size:.73rem;color:var(--ink-muted)}
-.nl-card-link{display:flex;justify-content:space-between;color:var(--emerald);font-size:.82rem;font-weight:700;padding-top:12px;border-top:1px dashed #e5e5e5}
+.nl-card-link{display:flex;justify-content:space-between;color:var(--emerald-text);font-size:.82rem;font-weight:700;padding-top:12px;border-top:1px dashed #e5e5e5}
 .nl-card:hover .nl-card-link span{transform:translateX(4px)}
 .nl-card-link span{transition:transform .25s}
 .nl-card-desc{font-size:0.9rem;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;flex:1}
 .nl-card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px dashed #e5e5e5;font-size:0.82rem;font-weight:600}
 .nl-card-foot .price{color:var(--navy)}
-.nl-card-foot .cta{color:var(--emerald);transition:transform .25s}
+.nl-card-foot .cta{color:var(--emerald-text);transition:transform .25s}
 .nl-card:hover .cta{transform:translateX(4px)}
 
 /* ── Register band ── */
@@ -117,8 +117,8 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .nl-register-band-inner{max-width:760px;margin:0 auto;position:relative;z-index:1}
 .nl-register-band h3{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:600;letter-spacing:-0.4px;margin-bottom:14px;color:#fff;line-height:1.2}
 .nl-register-band p{color:rgba(255,255,255,0.82);font-size:0.98rem;margin-bottom:28px;line-height:1.6}
-.nl-register-band a{display:inline-block;background:var(--emerald);color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:all .25s;box-shadow:0 6px 22px rgba(16,185,129,0.38)}
-.nl-register-band a:hover{background:var(--emerald-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,0.5)}
+.nl-register-band a{display:inline-block;background:var(--emerald);color:var(--emerald-ink);padding:14px 32px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:all .25s;box-shadow:0 6px 22px rgba(16,185,129,0.38)}
+.nl-register-band a:hover{background:var(--emerald-hover);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 30px rgba(16,185,129,0.5)}
 
 /* ── Project detail page hero ── */
 .project-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:88px 24px 72px;position:relative;overflow:hidden}
@@ -126,37 +126,37 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-hero::after{content:"";position:absolute;top:-120px;right:-120px;width:480px;height:480px;background:radial-gradient(circle,rgba(201,166,97,0.18) 0%,transparent 70%);filter:blur(60px);pointer-events:none;z-index:0}
 .project-hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,420px);gap:56px;align-items:center;min-width:0}
 @media(max-width:900px){.project-hero-inner{grid-template-columns:1fr;gap:32px}.project-hero{padding:56px 20px 52px}}
-.project-hero .district-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.7rem;font-weight:700;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.12);border:1px solid rgba(201,166,97,0.38);border-radius:100px;margin-bottom:20px;backdrop-filter:blur(6px)}
+.project-hero .district-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.7rem;font-weight:700;color:#e2c88f;letter-spacing:2.5px;text-transform:uppercase;padding:6px 14px;background:rgba(201,166,97,0.12);border:1px solid rgba(201,166,97,0.38);border-radius:100px;margin-bottom:20px;backdrop-filter:blur(6px)}
 .project-hero .district-tag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(201,166,97,0.8)}
 .project-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(2.1rem,4.8vw,3.1rem);font-weight:600;letter-spacing:-1px;line-height:1.08;margin-bottom:20px;color:#fff;font-variation-settings:"opsz" 144;overflow-wrap:anywhere}
 .project-hero-desc{font-size:clamp(1rem,1.3vw,1.1rem);color:rgba(255,255,255,0.88);line-height:1.6;margin-bottom:30px;max-width:620px}
 .project-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-top:8px}
 .project-stat{padding:16px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .25s,background .25s,transform .25s}
 .project-stat:hover{border-color:rgba(201,166,97,0.5);background:rgba(255,255,255,0.08);transform:translateY(-2px)}
-.project-stat-label{font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
+.project-stat-label{font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.78);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
 .project-stat-value{font-family:'Fraunces',Georgia,serif;font-size:1.12rem;font-weight:600;color:#fff;letter-spacing:-0.3px;line-height:1.2}
 
 /* ── Hero CTAs (dual buttons) ── */
 .project-hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;margin-bottom:28px}
 .project-hero-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:10px;font-weight:700;font-size:0.92rem;text-decoration:none;transition:all .25s;border:1.5px solid transparent}
-.project-hero-cta.primary{background:var(--emerald);color:#fff;box-shadow:0 6px 20px rgba(16,185,129,0.38)}
-.project-hero-cta.primary:hover{background:var(--emerald-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 28px rgba(16,185,129,0.48);color:#fff}
-.project-hero-cta.gold{background:var(--gold);color:#fff;box-shadow:0 6px 20px rgba(201,166,97,0.42)}
-.project-hero-cta.gold:hover{background:var(--gold-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,166,97,0.52);color:#fff}
+.project-hero-cta.primary{background:var(--emerald);color:var(--emerald-ink);box-shadow:0 6px 20px rgba(16,185,129,0.38)}
+.project-hero-cta.primary:hover{background:var(--emerald-hover);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 28px rgba(16,185,129,0.48);color:var(--emerald-ink)}
+.project-hero-cta.gold{background:var(--gold);color:#0b1e3f;box-shadow:0 6px 20px rgba(201,166,97,0.42)}
+.project-hero-cta.gold:hover{background:var(--gold-dark);text-decoration:none;transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,166,97,0.52);color:#0b1e3f}
 .project-hero-cta.ghost{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25);backdrop-filter:blur(6px)}
 .project-hero-cta.ghost:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.4);text-decoration:none;transform:translateY(-2px);color:#fff}
 .project-hero-cta svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* Price strip in hero */
 .project-hero-price{display:inline-flex;align-items:center;gap:10px;font-size:0.95rem;color:rgba(255,255,255,0.92);margin-bottom:22px;padding:10px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;font-weight:500;backdrop-filter:blur(6px)}
-.project-hero-price strong{font-family:'Fraunces',Georgia,serif;font-weight:700;color:var(--gold);font-size:1.02rem}
+.project-hero-price strong{font-family:'Fraunces',Georgia,serif;font-weight:700;color:#e2c88f;font-size:1.02rem}
 .project-hero-price .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.4)}
 
 /* ── Developer / credibility strip (all detail pages) ── */
 .project-dev-strip{background:#fff;padding:44px 24px;border-bottom:1px solid var(--line)}
 .project-dev-strip-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:28px;align-items:center}
 .project-verification-head{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;color:var(--navy)}
-.project-status-pill{display:inline-flex;padding:6px 12px;border-radius:999px;background:rgba(16,185,129,.1);color:var(--emerald-dark);font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.project-status-pill{display:inline-flex;padding:6px 12px;border-radius:999px;background:rgba(16,185,129,.1);color:var(--emerald-text);font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
 .project-dev-meta{display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center;justify-content:center;text-align:center}
 .project-dev-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:120px}
 .project-dev-item-label{font-size:0.66rem;font-weight:700;color:var(--ink-muted);letter-spacing:1.4px;text-transform:uppercase}
@@ -166,7 +166,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 /* ── Form card ── */
 .project-form-card{background:#fff;border-radius:18px;padding:28px 28px 24px;box-shadow:0 32px 72px -16px rgba(0,0,0,0.4),0 0 0 1px rgba(11,30,63,0.04);position:relative;overflow:hidden;width:100%;max-width:100%;min-width:0}
 .project-form-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold))}
-.project-form-card .pf-intent{display:inline-block;font-size:0.66rem;font-weight:700;color:var(--emerald);letter-spacing:1.4px;text-transform:uppercase;padding:4px 10px;background:rgba(16,185,129,0.1);border-radius:100px;margin-bottom:10px}
+.project-form-card .pf-intent{display:inline-block;font-size:0.66rem;font-weight:700;color:var(--emerald-text);letter-spacing:1.4px;text-transform:uppercase;padding:4px 10px;background:rgba(16,185,129,0.1);border-radius:100px;margin-bottom:10px}
 .project-form-card h2,.project-form-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.3rem;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:-0.3px;line-height:1.25}
 .project-form-card .sub{font-size:0.84rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.5}
 .project-form-trust{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:10px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
@@ -177,13 +177,13 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .pf input,.pf select{width:100%;padding:13px 14px;border-radius:10px;border:1.5px solid #e1e3e8;font-family:inherit;font-size:0.92rem;outline:none;transition:border .15s,box-shadow .15s;background:#fff;color:#111}
 .pf input:focus,.pf select:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.12)}
 .pf select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-.pf button{width:100%;padding:15px;border-radius:10px;background:var(--emerald);color:#fff;font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;margin-top:6px;box-shadow:0 6px 20px rgba(16,185,129,0.32)}
-.pf button:hover{background:var(--emerald-dark);transform:translateY(-1px);box-shadow:0 10px 28px rgba(16,185,129,0.42)}
+.pf button{width:100%;padding:15px;border-radius:10px;background:var(--emerald);color:var(--emerald-ink);font-weight:700;font-size:0.95rem;border:none;cursor:pointer;transition:all .25s;margin-top:6px;box-shadow:0 6px 20px rgba(16,185,129,0.32)}
+.pf button:hover{background:var(--emerald-hover);transform:translateY(-1px);box-shadow:0 10px 28px rgba(16,185,129,0.42)}
 .pf button:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 .pf-micro{font-size:0.74rem;color:var(--ink-muted);text-align:center;margin-top:12px;line-height:1.5}
 .pf-hp{position:absolute;left:-9999px;opacity:0;pointer-events:none}
 .pf-success{text-align:center;padding:18px 0}
-.pf-success-icon{width:56px;height:56px;border-radius:50%;background:rgba(16,185,129,0.12);color:var(--emerald);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.8rem;font-weight:700}
+.pf-success-icon{width:56px;height:56px;border-radius:50%;background:rgba(16,185,129,0.12);color:var(--emerald-text);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.8rem;font-weight:700}
 .pf-success h3,.pf-success h4{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;font-weight:600;color:var(--navy);margin-bottom:8px}
 .pf-success p{font-size:0.9rem;color:var(--ink-soft);line-height:1.6}
 
@@ -191,7 +191,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-section{padding:64px 24px;border-bottom:1px solid var(--line)}
 .project-section-alt{background:var(--cream)}
 .project-section-inner{max-width:1080px;margin:0 auto}
-.project-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:0.72rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.project-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:0.72rem;font-weight:700;color:var(--emerald-text);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
 .project-eyebrow::before{content:"";display:inline-block;width:24px;height:1px;background:var(--emerald)}
 .project-section h2,.project-section-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:600;color:var(--navy);letter-spacing:-0.4px;line-height:1.2;margin-bottom:18px;font-variation-settings:"opsz" 144}
 .project-section-lede{font-size:1rem;color:var(--ink-soft);line-height:1.7;max-width:760px;margin-bottom:36px}
@@ -206,10 +206,10 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-tour-placeholder .icon{width:60px;height:60px;border-radius:50%;background:rgba(201,166,97,0.18);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px}
 .project-tour-placeholder h3{font-family:'Fraunces',Georgia,serif;font-size:1.5rem;font-weight:600;margin-bottom:10px}
 .project-tour-placeholder p{color:rgba(255,255,255,0.82);font-size:0.92rem;max-width:440px;margin-bottom:20px;line-height:1.6}
-.project-tour-placeholder a{display:inline-block;background:var(--gold);color:#fff;padding:12px 26px;border-radius:10px;font-weight:700;font-size:0.9rem;text-decoration:none;transition:background .2s,transform .2s}
+.project-tour-placeholder a{display:inline-block;background:var(--gold);color:#0b1e3f;padding:12px 26px;border-radius:10px;font-weight:700;font-size:0.9rem;text-decoration:none;transition:background .2s,transform .2s}
 .project-tour-placeholder a:hover{background:var(--gold-dark);text-decoration:none;transform:translateY(-1px)}
 .project-tour-caption{margin-top:18px;font-size:0.82rem;color:var(--ink-muted);text-align:center;line-height:1.6}
-.project-tour-caption a{color:var(--emerald);font-weight:600}
+.project-tour-caption a{color:var(--emerald-text);font-weight:600}
 
 /* ── Multi-tour grid ── */
 .project-tour-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:18px;margin-top:8px}
@@ -220,17 +220,17 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-tour-card-meta{padding:14px 18px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .project-tour-card-title{font-family:'Fraunces',Georgia,serif;font-size:1rem;font-weight:600;color:var(--navy);letter-spacing:-0.2px}
 .project-tour-card-sub{font-size:0.72rem;color:var(--ink-muted);font-weight:600;letter-spacing:0.6px;text-transform:uppercase;margin-top:2px}
-.project-tour-card-link{font-size:0.78rem;font-weight:700;color:var(--emerald);display:inline-flex;align-items:center;gap:4px}
-.project-tour-card-link:hover{text-decoration:none;color:var(--emerald-dark)}
+.project-tour-card-link{font-size:0.78rem;font-weight:700;color:var(--emerald-text);display:inline-flex;align-items:center;gap:4px}
+.project-tour-card-link:hover{text-decoration:none;color:var(--emerald-text)}
 .project-tour-card-link::after{content:"→";transition:transform .25s}
 .project-tour-card-link:hover::after{transform:translateX(3px)}
 
 /* Click-to-load tour facade — keeps third-party tour servers out of the
    page-load path; the iframe is injected only when the visitor asks for it. */
 .tour-facade{position:absolute;inset:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border:0;cursor:pointer;color:#fff;font-family:inherit}
-.tour-facade:hover .tour-facade-label{background:var(--emerald-dark)}
+.tour-facade:hover .tour-facade-label{background:var(--emerald-hover)}
 .tour-facade-icon{font-family:'Fraunces',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--emerald);letter-spacing:1px}
-.tour-facade-label{background:var(--emerald);color:#fff;font-size:0.82rem;font-weight:700;padding:10px 20px;border-radius:999px;transition:background .2s}
+.tour-facade-label{background:var(--emerald);color:var(--emerald-ink);font-size:0.82rem;font-weight:700;padding:10px 20px;border-radius:999px;transition:background .2s}
 .tour-facade-hint{font-size:0.7rem;color:rgba(255,255,255,0.55);font-weight:600;letter-spacing:0.5px;text-transform:uppercase}
 .tour-facade-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:rgba(255,255,255,0.85);font-size:0.88rem;line-height:1.5;padding:20px;text-align:center}
 .tour-facade-fallback a{color:var(--emerald);font-weight:700}
@@ -240,7 +240,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-tour-link-card h3,.project-tour-link-card h4{font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:600;letter-spacing:-0.2px}
 .project-tour-link-card .meta{font-size:0.74rem;color:rgba(255,255,255,0.65);font-weight:600;letter-spacing:0.6px;text-transform:uppercase}
 .project-tour-link-card p{color:rgba(255,255,255,0.82);font-size:0.9rem;line-height:1.55}
-.project-tour-link-card a{align-self:flex-start;background:var(--gold);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;font-size:0.84rem;text-decoration:none;transition:background .2s,transform .2s}
+.project-tour-link-card a{align-self:flex-start;background:var(--gold);color:#0b1e3f;padding:10px 20px;border-radius:10px;font-weight:700;font-size:0.84rem;text-decoration:none;transition:background .2s,transform .2s}
 .project-tour-link-card a:hover{background:var(--gold-dark);text-decoration:none;transform:translateY(-1px)}
 
 /* ── Fact sheet ── */
@@ -250,8 +250,8 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-head-left{flex:1;min-width:240px}
 .project-factsheet-actions{display:flex;gap:10px;flex-wrap:wrap}
 .project-factsheet-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:700;text-decoration:none;transition:all .2s;border:1.5px solid transparent;cursor:pointer;background:none;font-family:inherit}
-.project-factsheet-btn.primary{background:var(--emerald);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,0.32)}
-.project-factsheet-btn.primary:hover{background:var(--emerald-dark);color:#fff;text-decoration:none;transform:translateY(-1px)}
+.project-factsheet-btn.primary{background:var(--emerald);color:var(--emerald-ink);box-shadow:0 4px 14px rgba(16,185,129,0.32)}
+.project-factsheet-btn.primary:hover{background:var(--emerald-hover);color:var(--emerald-ink);text-decoration:none;transform:translateY(-1px)}
 .project-factsheet-btn.ghost{border-color:rgba(11,30,63,0.15);color:var(--navy);background:#fff}
 .project-factsheet-btn.ghost:hover{border-color:var(--navy);color:var(--navy);text-decoration:none;background:var(--cream)}
 .project-factsheet-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -264,7 +264,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-factsheet-val{font-size:0.94rem;font-weight:600;color:var(--navy);line-height:1.4}
 .project-factsheet-val .muted{color:var(--ink-muted);font-weight:500}
 .project-factsheet-cta{font-size:0.86rem;color:var(--navy);margin-top:20px;line-height:1.55}
-.project-factsheet-cta a{color:var(--emerald-dark);font-weight:600;text-decoration:underline}
+.project-factsheet-cta a{color:var(--emerald-text);font-weight:600;text-decoration:underline}
 .project-factsheet-note{font-size:0.8rem;color:var(--ink-muted);margin-top:20px;line-height:1.55;font-style:italic;padding-top:20px;border-top:1px solid rgba(11,30,63,0.08)}
 /* Sold-out archive: alternatives still selling (generate-new-launch-index.mjs). */
 .nl-alternatives{margin-top:48px;padding-top:36px;border-top:1px solid var(--line)}
@@ -309,7 +309,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-market-callout span{font-size:.78rem;color:var(--ink-soft)}
 .project-source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:20px}
 .project-source-list div{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.project-source-list strong{font-size:.68rem;color:var(--emerald-dark);letter-spacing:.8px;text-transform:uppercase}
+.project-source-list strong{font-size:.68rem;color:var(--emerald-text);letter-spacing:.8px;text-transform:uppercase}
 .project-source-list span{font-size:.76rem;color:var(--ink-soft);line-height:1.45}
 .project-source-list a{color:var(--emerald-aa);font-size:.8rem;text-decoration:underline}
 .project-source-list a:focus-visible{outline-color:var(--emerald-aa)}
@@ -398,7 +398,7 @@ body[data-catalog-page="sold-out"] .nl-grid{grid-template-columns:minmax(0,380px
 .project-location-list{list-style:none;display:flex;flex-direction:column;gap:6px}
 .project-location-list li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:0.86rem;color:var(--ink-soft);padding:3px 0}
 .project-location-list li .name{color:#333;font-weight:500}
-.project-location-list li .dist{font-family:'Fraunces',Georgia,serif;font-size:0.82rem;font-weight:600;color:var(--emerald);white-space:nowrap;letter-spacing:-0.1px}
+.project-location-list li .dist{font-family:'Fraunces',Georgia,serif;font-size:0.82rem;font-weight:600;color:var(--emerald-text);white-space:nowrap;letter-spacing:-0.1px}
 
 /* ── Related projects cross-sell ── */
 .project-related{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
@@ -450,12 +450,13 @@ html.jt-theme-dark :is(.project-tour-frame,.project-tour-card-frame,.project-tou
 /* The shared theme recolours text only inside <main>. Five hand-built pages
    had none until JOE-461; restating the theme's text and link colours on the
    sections keeps them readable whatever wraps them, and lets filled buttons
-   keep their white label (the theme's main-wide link rule does not). */
+   keep their own label colour (the theme's main-wide link rule does not). */
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(h2,h3,h4,dt,strong){color:#f8fafc}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) :is(p,li,dd,.project-timeline-tbc){color:#c1cad8}
 html.jt-theme-dark :is(.project-dev-strip,.project-gallery-wrap,.project-visual,.project-facilities,.project-factsheet,.project-siteplan,.project-section,.project-unitmix,.project-connect,.project-availability,.project-take,.project-location,.project-tour-wrap,.project-disclaimer) a{color:#6ee7c1}
-/* …except filled buttons, which keep their white label. */
-html.jt-theme-dark :is(.project-factsheet-btn.primary,.project-tour-placeholder a,.project-tour-link-card a,.tour-facade-label){color:#fff}
+/* …except filled buttons, which keep their own label colour. */
+html.jt-theme-dark :is(.project-factsheet-btn.primary,.tour-facade-label){color:var(--emerald-ink)}
+html.jt-theme-dark :is(.project-tour-placeholder a,.project-tour-link-card a){color:#0b1e3f}
 html.jt-theme-dark :is(.project-form-card,.nl-modal-card,.fact-item,.unit-table,.usp-item,.project-section-alt .usp-item,.project-availability article,.project-source-list div,.project-live-stat,.project-unitmix-table-wrap,.project-connect-list li,.project-location-group,.project-tour-card,.project-factsheet-panel,.project-map figcaption,.project-factsheet-btn.ghost){background:#102447;border-color:rgba(255,255,255,.12);box-shadow:none}
 html.jt-theme-dark .project-form-card{box-shadow:0 32px 72px -16px rgba(0,0,0,.6)}
 html.jt-theme-dark .project-timeline-step div::before{background:#102447}
@@ -472,8 +473,17 @@ html.jt-theme-dark .nl-breadcrumb .sep{color:#8291a8}
 html.jt-theme-dark .nl-footer a{color:#c1cad8}
 html.jt-theme-dark .nl-footer .creds{color:#a3adba}
 /* The shared theme turns every main link mint; on the emerald button that
-   leaves mint on green. Keep the button's own white label. */
-html.jt-theme-dark .nl-register-band a{color:#fff}
+   leaves mint on green. Keep the button's own dark label. */
+html.jt-theme-dark .nl-register-band a{color:var(--emerald-ink)}
+/* Emerald text (eyebrows, card links, the status pill) uses the AA-dark
+   --emerald-text on light surfaces (JOE-461); on dark surfaces it turns mint. */
+html.jt-theme-dark{--emerald-text:#6ee7c1}
+/* Catalog index (JOE-461): the hero eyebrow sat at 4.4:1 on the cream
+   gradient, and the condo-price links section kept navy and grey text on the
+   dark page. */
+html.jt-theme-dark .nl-hero .eyebrow{color:#e2c88f}
+html.jt-theme-dark .nl-prices-wrap{--navy:#f8fafc;--emerald-aa:#6ee7c1}
+html.jt-theme-dark .nl-prices-lede{color:#c1cad8}
 
 /* ── Site plan ── */
 .project-siteplan{padding:64px 24px;background:#fff;border-bottom:1px solid var(--line)}
@@ -482,7 +492,7 @@ html.jt-theme-dark .nl-register-band a{color:#fff}
 .project-siteplan-wrap img{width:100%;height:auto;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1);cursor:zoom-in}
 .project-siteplan-wrap:hover img{transform:scale(1.015)}
 .project-siteplan-note{margin-top:16px;font-size:0.84rem;color:var(--ink-muted);text-align:center;line-height:1.6}
-.project-siteplan-note a{color:var(--emerald);font-weight:600}
+.project-siteplan-note a{color:var(--emerald-text);font-weight:600}
 
 /* ── Lead modal (opens on CTA click when no inline form is on the page) ── */
 .nl-modal{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 20px;overflow-y:auto}
@@ -492,7 +502,7 @@ html.jt-theme-dark .nl-register-band a{color:#fff}
 .nl-modal-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--emerald),var(--gold));border-radius:18px 18px 0 0}
 .nl-modal-close{position:absolute;top:6px;right:8px;width:44px;height:44px;border:none;background:transparent;font-size:1.7rem;line-height:1;cursor:pointer;color:var(--ink-muted);border-radius:50%;transition:background .2s,color .2s;display:flex;align-items:center;justify-content:center}
 .nl-modal-close:hover{background:rgba(0,0,0,0.06);color:var(--navy)}
-.nl-modal-eyebrow{font-size:0.7rem;font-weight:700;color:var(--emerald);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px}
+.nl-modal-eyebrow{font-size:0.7rem;font-weight:700;color:var(--emerald-text);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:10px}
 .nl-modal-card h3{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;font-weight:600;color:var(--navy);margin-bottom:8px;letter-spacing:-0.3px;line-height:1.25}
 .nl-modal-card .nl-modal-sub{font-size:0.88rem;color:var(--ink-soft);margin-bottom:20px;line-height:1.55}
 .nl-modal-card .pf input,.nl-modal-card .pf select{width:100%}
@@ -511,7 +521,7 @@ body.nl-modal-open{overflow:hidden}
 .project-disclaimer p{margin-bottom:10px}
 .project-disclaimer p:last-child{margin-bottom:0}
 .project-disclaimer a{color:var(--ink-soft);text-decoration:underline}
-.project-disclaimer a:hover{color:var(--emerald)}
+.project-disclaimer a:hover{color:var(--emerald-text)}
 
 /* ── Footer ── */
 .nl-footer{background:var(--cream);border-top:1px solid var(--line);padding:40px 24px;text-align:center;font-size:0.82rem;color:var(--ink-muted);line-height:1.65}
@@ -537,8 +547,8 @@ body.nl-modal-open{overflow:hidden}
 .nl-mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:97;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,0.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(11,30,63,0.08);box-shadow:0 -6px 24px rgba(11,30,63,0.08);gap:8px}
 .nl-mobile-cta a{flex:1 1 0;min-width:0;padding:12px 6px;border-radius:10px;text-align:center;font-weight:700;font-size:0.82rem;text-decoration:none;transition:transform .2s,background .2s;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.1;white-space:normal}
 .nl-mobile-cta a:hover{text-decoration:none;transform:translateY(-1px)}
-.nl-mobile-cta .primary{background:var(--emerald);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,0.35)}
-.nl-mobile-cta .secondary{background:var(--gold);color:#fff;box-shadow:0 4px 14px rgba(201,166,97,0.35)}
+.nl-mobile-cta .primary{background:var(--emerald);color:var(--emerald-ink);box-shadow:0 4px 14px rgba(16,185,129,0.35)}
+.nl-mobile-cta .secondary{background:var(--gold);color:#0b1e3f;box-shadow:0 4px 14px rgba(201,166,97,0.35)}
 .nl-mobile-cta .tertiary{background:var(--navy);color:#fff}
 .nl-mobile-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 @media(max-width:640px){
