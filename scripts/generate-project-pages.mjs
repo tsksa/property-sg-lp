@@ -81,18 +81,33 @@ function formatMoney(value) {
   return `$${new Intl.NumberFormat('en-SG').format(value)}`;
 }
 
+function launchWindowLabel(value) {
+  const month = value.match(/^(\d{4})-(\d{2})$/);
+  if (month) {
+    return new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`));
+  }
+  return value.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+}
+
+function datesConfirmed(project) {
+  return Boolean(project.previewDate || project.bookingDate);
+}
+
 function launchCopy(project) {
   const parts = [];
   if (project.previewDate) parts.push(`Preview ${formatDate(project.previewDate)}`);
   if (project.bookingDate) parts.push(`Booking ${formatDate(project.bookingDate)}`);
   if (!parts.length && project.launchWindow) {
-    const month = project.launchWindow.match(/^(\d{4})-(\d{2})$/);
-    const label = month
-      ? new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`))
-      : project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
-    parts.push(project.availabilityStatus?.state === 'pre-launch'
-      ? `Expected launch by ${label}`
-      : `Provisional launch window: ${label}`);
+    const label = launchWindowLabel(project.launchWindow);
+    // A project that is already selling has launched. "Provisional" and
+    // "expected" describe a window that has not happened yet.
+    if (project.status === 'selling' || project.status === 'sold-out') {
+      parts.push(`Launched ${label}`);
+    } else {
+      parts.push(project.availabilityStatus?.state === 'pre-launch'
+        ? `Expected launch by ${label}`
+        : `Provisional launch window: ${label}`);
+    }
   }
   return parts.join(' · ') || 'Launch timing not yet confirmed';
 }
@@ -301,7 +316,7 @@ function hasSpecialFaq(project) {
   return Boolean(availabilityFaqJson(project) || layoutFaqJson(project) || searchIntentFaqJson(project));
 }
 
-function projectFaqEntries(project) {
+export function projectFaqEntries(project) {
   const name = project.name;
   const checked = formatDate(project.verifiedAt);
   const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
@@ -310,7 +325,10 @@ function projectFaqEntries(project) {
   if (project.status === 'sold-out') {
     status = `As of ${checked}, ${name} is recorded as sold out. Joe can suggest current alternatives in the same district.`;
   } else if (project.status === 'upcoming') {
-    status = `As of ${checked}, ${name} has not launched for sale. ${launchCopy(project)}. Preview and booking dates appear here only once the developer confirms them.`;
+    const timing = launchCopy(project);
+    status = datesConfirmed(project)
+      ? `As of ${checked}, ${name} has not launched for sale. ${timing}.`
+      : `As of ${checked}, ${name} has not launched for sale. ${timing}. Preview and booking dates appear here only once the developer confirms them.`;
   } else {
     status = `As of ${checked}, ${name} is selling. Balance-unit counts change week to week and are not published here unless verified, so ask Joe for the current unit list.`;
   }
@@ -800,12 +818,14 @@ ${layoutFaqEntries(project).map(([question, answer]) => `      <article><h3>${es
 </section>`;
 }
 
-function takeSection(project) {
+export function takeSection(project) {
   const copy = content[project.slug];
   if (!copy) {
-    const statusCopy = project.status === 'upcoming'
-      ? 'The developer has confirmed the project, while launch timing and sale materials remain subject to release. Treat any price, layout or availability claim outside the verified sources as provisional.'
-      : 'Current developer evidence confirms that sales inventory remains. Exact units and prices can change, so confirm them directly before making a decision.';
+    const statusCopy = project.status !== 'upcoming'
+      ? 'Current developer evidence confirms that sales inventory remains. Exact units and prices can change, so confirm them directly before making a decision.'
+      : datesConfirmed(project)
+        ? `The developer has confirmed the launch timing: ${launchCopy(project)}. Treat any price, layout or availability claim outside the verified sources as provisional.`
+        : 'The developer has confirmed the project, while launch timing and sale materials remain subject to release. Treat any price, layout or availability claim outside the verified sources as provisional.';
     return `<section class="project-take reveal" aria-labelledby="project-assessment-${esc(project.slug)}" data-approval="not-required">
   <div class="project-take-inner">
     <div class="project-eyebrow">Evidence-led assessment</div>

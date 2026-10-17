@@ -104,6 +104,13 @@ a:hover{text-decoration:underline}
 .article-cta p{color:rgba(255,255,255,0.78);font-size:0.97rem;margin-bottom:22px;max-width:480px;margin-left:auto;margin-right:auto}
 .article-cta a{display:inline-block;background:var(--emerald-aa);color:#fff;padding:13px 28px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background .2s}
 .article-cta a:hover{background:var(--emerald-dark);text-decoration:none}
+/* A CTA can sit inside .article-body (the mega-launches article places one
+   after the Hougang pricing section). Body link and heading rules would
+   otherwise underline the button and add top margin the CTA does not use. */
+.article-body .article-cta h3{margin:0 0 10px;color:#fff}
+.article-body .article-cta p{margin:0 auto 22px}
+.article-body .article-cta a,
+.article-body .article-cta a:hover{border-bottom:0;color:#fff;text-decoration:none}
 
 /* ── Article footer / related ── */
 .article-footer{margin-top:56px;padding-top:32px;border-top:1px solid #eee}
