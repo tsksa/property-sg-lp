@@ -10,6 +10,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
 const pages = buildCatalogPages(DATA);
 
+test('catalogue cards are visible without waiting for a viewport-sized scroll reveal', () => {
+  for (const [name, html] of [['active', pages.index], ['sold-out', pages.soldOut]]) {
+    const catalog = html.match(/<ul\b[^>]*\bid="catalog"[^>]*>[\s\S]*?<\/ul>/)?.[0];
+    assert.ok(catalog, `${name} catalogue is rendered in the initial HTML`);
+    // A long catalogue may never reach the observer's intersection threshold.
+    // Its content must remain visible before JavaScript or scrolling occurs.
+    for (const [, classes] of catalog.matchAll(/\bclass="([^"]*)"/g)) {
+      assert.ok(!classes.split(/\s+/).some((value) => value === 'reveal' || value === 'reveal-stagger'),
+        `${name} catalogue must not depend on scroll-reveal classes`);
+    }
+  }
+});
+
 test('secondary filters use a keyboard-accessible disclosure without hiding search or reset', () => {
   for (const html of [pages.index]) {
     assert.match(html, /<details class="nl-secondary-filters">\s*<summary>Filters and sort/);
