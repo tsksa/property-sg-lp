@@ -8,6 +8,8 @@ import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
+import { townsForDistrict } from './lib/estate-linking.mjs';
+import { priceTowns, priceDistricts } from './lib/price-links.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = path.join(ROOT, 'new-launches', 'projects.json');
@@ -79,18 +81,33 @@ function formatMoney(value) {
   return `$${new Intl.NumberFormat('en-SG').format(value)}`;
 }
 
+function launchWindowLabel(value) {
+  const month = value.match(/^(\d{4})-(\d{2})$/);
+  if (month) {
+    return new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`));
+  }
+  return value.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
+}
+
+function datesConfirmed(project) {
+  return Boolean(project.previewDate || project.bookingDate);
+}
+
 function launchCopy(project) {
   const parts = [];
   if (project.previewDate) parts.push(`Preview ${formatDate(project.previewDate)}`);
   if (project.bookingDate) parts.push(`Booking ${formatDate(project.bookingDate)}`);
   if (!parts.length && project.launchWindow) {
-    const month = project.launchWindow.match(/^(\d{4})-(\d{2})$/);
-    const label = month
-      ? new Intl.DateTimeFormat('en-SG', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${month[1]}-${month[2]}-01T00:00:00Z`))
-      : project.launchWindow.replace(/^(\d{4})-Q([1-4])$/, 'Q$2 $1');
-    parts.push(project.availabilityStatus?.state === 'pre-launch'
-      ? `Expected launch by ${label}`
-      : `Provisional launch window: ${label}`);
+    const label = launchWindowLabel(project.launchWindow);
+    // A project that is already selling has launched. "Provisional" and
+    // "expected" describe a window that has not happened yet.
+    if (project.status === 'selling' || project.status === 'sold-out') {
+      parts.push(`Launched ${label}`);
+    } else {
+      parts.push(project.availabilityStatus?.state === 'pre-launch'
+        ? `Expected launch by ${label}`
+        : `Provisional launch window: ${label}`);
+    }
   }
   return parts.join(' · ') || 'Launch timing not yet confirmed';
 }
@@ -299,7 +316,7 @@ function hasSpecialFaq(project) {
   return Boolean(availabilityFaqJson(project) || layoutFaqJson(project) || searchIntentFaqJson(project));
 }
 
-function projectFaqEntries(project) {
+export function projectFaqEntries(project) {
   const name = project.name;
   const checked = formatDate(project.verifiedAt);
   const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
@@ -308,7 +325,10 @@ function projectFaqEntries(project) {
   if (project.status === 'sold-out') {
     status = `As of ${checked}, ${name} is recorded as sold out. Joe can suggest current alternatives in the same district.`;
   } else if (project.status === 'upcoming') {
-    status = `As of ${checked}, ${name} has not launched for sale. ${launchCopy(project)}. Preview and booking dates appear here only once the developer confirms them.`;
+    const timing = launchCopy(project);
+    status = datesConfirmed(project)
+      ? `As of ${checked}, ${name} has not launched for sale. ${timing}.`
+      : `As of ${checked}, ${name} has not launched for sale. ${timing}. Preview and booking dates appear here only once the developer confirms them.`;
   } else {
     status = `As of ${checked}, ${name} is selling. Balance-unit counts change week to week and are not published here unless verified, so ask Joe for the current unit list.`;
   }
@@ -779,7 +799,7 @@ function launchTimelineSection(project) {
     <ol class="project-timeline-list">
 ${steps}
     </ol>
-    <p class="project-availability-note"><strong>Confirmed</strong> steps come from the developer's SGX filings. <strong>Expected</strong> means the developer has stated a plan, not a date. Nothing here is estimated by this site.${sourceLinks ? ` <strong>Sources checked:</strong> ${sourceLinks}` : ''}</p>
+    <p class="project-availability-note"><strong>Confirmed</strong> steps have happened or been announced, as reported in the sources below. <strong>Expected</strong> steps are planned but have not happened yet; where only a quarter is known, no date is given. Nothing here is estimated by this site.${sourceLinks ? ` <strong>Sources checked:</strong> ${sourceLinks}` : ''}</p>
   </div>
 </section>`;
 }
@@ -798,12 +818,14 @@ ${layoutFaqEntries(project).map(([question, answer]) => `      <article><h3>${es
 </section>`;
 }
 
-function takeSection(project) {
+export function takeSection(project) {
   const copy = content[project.slug];
   if (!copy) {
-    const statusCopy = project.status === 'upcoming'
-      ? 'The developer has confirmed the project, while launch timing and sale materials remain subject to release. Treat any price, layout or availability claim outside the verified sources as provisional.'
-      : 'Current developer evidence confirms that sales inventory remains. Exact units and prices can change, so confirm them directly before making a decision.';
+    const statusCopy = project.status !== 'upcoming'
+      ? 'Current developer evidence confirms that sales inventory remains. Exact units and prices can change, so confirm them directly before making a decision.'
+      : datesConfirmed(project)
+        ? `The developer has confirmed the launch timing: ${launchCopy(project)}. Treat any price, layout or availability claim outside the verified sources as provisional.`
+        : 'The developer has confirmed the project, while launch timing and sale materials remain subject to release. Treat any price, layout or availability claim outside the verified sources as provisional.';
     return `<section class="project-take reveal" aria-labelledby="project-assessment-${esc(project.slug)}" data-approval="not-required">
   <div class="project-take-inner">
     <div class="project-eyebrow">Evidence-led assessment</div>
@@ -841,6 +863,21 @@ function takeSection(project) {
 </section>`;
 }
 
+// Read once from disk so a launch page only ever links a price page that exists
+// (D24 has no condo district page, for one).
+const townPages = new Map(priceTowns(ROOT).map((town) => [town.slug, town]));
+const districtPages = new Map(priceDistricts(ROOT).map((district) => [district.id, district]));
+
+// JOE-448: launch pages are the cluster Google revisits most, but they linked
+// no town or district price page, so those stayed uncrawled. Plain links only:
+// no prices, and the curated comparisons above are untouched.
+function nearbyPricesHtml(project) {
+  const links = [districtPages.get(project.district), ...townsForDistrict(project.district).map((slug) => townPages.get(slug))]
+    .filter(Boolean)
+    .map((page) => `<a href="${esc(page.href)}">${esc(page.label)}</a>`);
+  return links.length ? `\n    <p class="project-related-prices">Resale prices nearby: ${links.join(' · ')}</p>` : '';
+}
+
 function relatedSection(project) {
   const alternatives = alternativesFor(project);
   const comparisons = content[project.slug]?.comparisons;
@@ -849,7 +886,7 @@ function relatedSection(project) {
     <div class="project-related-head"><div><div class="project-eyebrow">Compare before deciding</div><h2 id="alternatives-${esc(project.slug)}">${esc(comparisons?.heading || 'Three active alternatives.')}</h2>${comparisons ? `<p>${esc(comparisons.intro)}</p>` : ''}</div></div>
     <div class="project-related-grid">
 ${alternatives.map((alternative) => `      <a href="${esc(new URL(alternative.canonicalUrl).pathname)}" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">${esc(alternative.district)} · ${esc(alternative.region)} · ${esc(STATUSES[alternative.status])}${comparisons ? ` as of ${esc(formatDate(alternative.verifiedAt))}` : ''}</div><div class="project-related-card-title">${esc(alternative.name)}</div>${comparisons ? `<p class="project-related-reason">${esc(comparisons.items.find(({ slug }) => slug === alternative.slug).reason)}</p>` : ''}<div class="project-related-card-cta">Compare</div></div></a>`).join('\n')}
-    </div>
+    </div>${nearbyPricesHtml(project)}
   </div>
 </section>`;
 }
@@ -1020,6 +1057,20 @@ function refreshFormCard(html, project) {
   );
 }
 
+// The hand-built pages put the skip-link target (id="main") on the hero and had
+// no <main> landmark, so screen readers could not jump to the content and the
+// shared theme's main-scoped dark-mode rules missed them (JOE-461). Wrap hero
+// to disclaimer in <main>, as generated pages do. Idempotent.
+function wrapInMain(html) {
+  if (/<main[\s>]/.test(html)) return html;
+  const hero = /<section class="(project-hero[^"]*)" id="main" tabindex="-1"/;
+  const disclaimer = /(<section class="project-disclaimer">[\s\S]*?<\/section>)/;
+  if (!hero.test(html) || !disclaimer.test(html)) return html;
+  return html
+    .replace(hero, '<main id="main" tabindex="-1">\n<section class="$1"')
+    .replace(disclaimer, '$1\n</main>');
+}
+
 export function refreshExistingPage(html, project) {
   const title = titleFor(project);
   const meta = metaDescription(project);
@@ -1069,6 +1120,7 @@ export function refreshExistingPage(html, project) {
   html = replaceSection(html, 'project-take', takeSection(project));
   html = replaceSection(html, 'project-related', relatedSection(project));
   html = replaceSection(html, 'nl-register-band', contactSection(project));
+  html = wrapInMain(html);
   html = html
     .replaceAll('then register below to lock in your preferred stack before public launch.', 'then ask Joe to confirm the current unit list and suitable stacks.')
     .replaceAll('then register below to secure your preferred stack at VVIP preview.', 'then ask Joe to confirm the current unit list and suitable stacks.')

@@ -257,6 +257,42 @@
       "category": "portal-corroboration",
       "url": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
       "checkedAt": "2026-10-05"
+    },
+    "edgeprop-lucerne-grand-launch": {
+      "name": "EdgeProp: Lucerne Grand 61.4% sold at an average of $2,480 psf (4 October 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/lucerne-grand-614-sold-average-price-2480-psf",
+      "checkedAt": "2026-10-09"
+    },
+    "fareast-serra-launch-release": {
+      "name": "Far East Organization press release: Far East Organization unveils The Serra Residences (2 October 2026)",
+      "category": "developer",
+      "url": "https://www.zawya.com/en/press-release/asia-press-releases/far-east-organization-unveils-the-serra-residences-1487052",
+      "checkedAt": "2026-10-09"
+    },
+    "edgeprop-dorset-road-tender": {
+      "name": "EdgeProp: UOL Group, Singapore Land Group and Kheng Leong top nine bids for Dorset Road site at $1,338 psf ppr (9 October 2025)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/uol-group-and-singapore-land-group-top-nine-bids-dorsett-road-site-1338-psf-ppr-offer",
+      "checkedAt": "2026-10-09"
+    },
+    "edgeprop-uol-1h2026-pipeline": {
+      "name": "EdgeProp: UOL readies mega Thomson Reserve launch in 4Q2026; Dorset Gardens targeted for 1H2027 (12 August 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/uol-readies-mega-thomson-reserve-condo-launch-4q2026-and-luxury-nomad-hilton-hotel-debut",
+      "checkedAt": "2026-10-09"
+    },
+    "ura-upper-thomson-a-no-bids-2024": {
+      "name": "URA media release: tender closing for Upper Thomson Road (Parcel A) — no bids received (19 June 2024)",
+      "category": "government",
+      "url": "https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr24-30",
+      "checkedAt": "2026-10-09"
+    },
+    "ura-upper-thomson-a-award-2025": {
+      "name": "URA media release: tender award for Upper Thomson Road (Parcel A) to Wee Hur Property and GSC Holdings (31 October 2025)",
+      "category": "government",
+      "url": "https://www.ura.gov.sg/news/media/pr25-56/",
+      "checkedAt": "2026-10-09"
     }
   },
   "projects": [
@@ -874,9 +910,9 @@
       "previewDate": null,
       "bookingDate": null,
       "launchWindow": "2026-10",
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/lucerne-grand.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -892,19 +928,58 @@
       "provenance": {
         "facts": [
           "ura-uncompleted-projects",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "edgeprop-lucerne-grand-launch"
         ],
         "timing": [
-          "edgeprop-cdl-1h2026"
+          "edgeprop-cdl-1h2026",
+          "edgeprop-lucerne-grand-launch"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-lucerne-grand-launch"
         ],
         "dynamics": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-lucerne-grand-launch"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Lucerne Grand Balance Units & Launch | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "edgeprop-lucerne-grand-launch"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Launch guidance: third quarter of 2026",
+            "detail": "City Developments said it planned to launch the 570-unit Lucerne Grand on Lakeside Drive in the third quarter of 2026. CDL had won the site with a top bid of $608 million, or $1,132 per square foot per plot ratio, at a Government Land Sale tender in 2025."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch date set for October",
+            "detail": "CDL's first-half 2026 results reporting slated Lucerne Grand for launch in October 2026. The project is five 17-storey towers with a commercial first storey, next to Lakeside MRT station and near Jurong Lake Gardens."
+          },
+          {
+            "date": "2026-10-04",
+            "status": "confirmed",
+            "label": "Launched for sale",
+            "detail": "Over the launch weekend of 3 and 4 October 2026, 350 of the 570 units were sold as at 6pm on 4 October, or 61.4%, at an average price of $2,480 per square foot. CDL reported that about 93% of buyers were Singaporeans and the remaining 7% permanent residents."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Completion and remaining unit details",
+            "detail": "Not announced. Remaining units, stacks and current prices change week to week and are not published here; ask Joe to confirm what is available today."
+          }
+        ]
+      }
     },
     {
       "slug": "chuan-grove",
@@ -1057,12 +1132,12 @@
       "developer": "Far East Organization",
       "unitCount": 133,
       "inventoryYear": 2026,
-      "previewDate": null,
-      "bookingDate": null,
+      "previewDate": "2026-10-02",
+      "bookingDate": "2026-10-16",
       "launchWindow": "2026-Q4",
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/the-serra-residences.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-16",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1078,24 +1153,54 @@
       "provenance": {
         "facts": [
           "far-east-the-serra",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "timing": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "status": [
           "far-east-the-serra",
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "fareast-serra-launch-release"
         ],
         "dynamics": [
           "far-east-the-serra"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "The Serra Residences Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-16",
+        "sourceIds": [
+          "fareast-serra-launch-release"
+        ],
+        "steps": [
+          {
+            "date": "2026-10-02",
+            "status": "confirmed",
+            "label": "Previews opened and launch date announced",
+            "detail": "Far East Organization opened previews at the sales gallery at 11 Bassein Road and set the official sales launch for Friday, 16 October 2026. The Serra Residences is a 28-storey freehold development of 133 homes on Bassein Road in District 11."
+          },
+          {
+            "date": "2026-10-16",
+            "status": "confirmed",
+            "label": "Official sales launch",
+            "detail": "Far East Organization opened sales on Friday, 16 October 2026, the launch date it announced on 2 October; no postponement had been reported. Launch-weekend sales figures had not been published as at 16 October. Units, stacks and prices change quickly after launch, so ask Joe to confirm what is available today."
+          },
+          {
+            "date": "2030-Q4",
+            "status": "expected",
+            "label": "Temporary Occupation Permit",
+            "detail": "Far East Organization expects the development to obtain its Temporary Occupation Permit in the fourth quarter of 2030."
+          }
+        ]
+      }
     },
     {
       "slug": "dorset-road",
-      "name": "Dorset Road",
+      "name": "Dorset Gardens",
       "location": "Dorset Road",
       "district": "D08",
       "region": "RCR",
@@ -1106,10 +1211,10 @@
       "inventoryYear": 2026,
       "previewDate": null,
       "bookingDate": null,
-      "launchWindow": "2026-Q4",
+      "launchWindow": "2027-Q2",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/dorset-road.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1124,19 +1229,59 @@
       },
       "provenance": {
         "facts": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "timing": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
         ],
         "dynamics": [
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Dorset Gardens Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-dorset-road-tender",
+          "edgeprop-uol-1h2026-pipeline"
+        ],
+        "steps": [
+          {
+            "date": "2025-10-09",
+            "status": "confirmed",
+            "label": "Tender closed with nine bids",
+            "detail": "UOL Group, Singapore Land Group and Kheng Leong, in a 60:20:20 joint venture, submitted the top bid of $524.3 million, or $1,338 per square foot per plot ratio, for the Dorset Road site in District 8. The tender drew nine bids."
+          },
+          {
+            "date": "2026-08-12",
+            "status": "confirmed",
+            "label": "Named Dorset Gardens, launch targeted for 2027",
+            "detail": "Reporting on UOL’s plans named the project Dorset Gardens: about 428 homes in two 28-storey towers, targeted for launch in the first half of 2027."
+          },
+          {
+            "date": "2027-Q2",
+            "status": "expected",
+            "label": "Planned launch in the first half of 2027",
+            "detail": "The target is the first half of 2027, so the launch is expected by the second quarter of 2027. The quarter has not been narrowed and no preview date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "woodlands-drive-17-ec",
@@ -1188,7 +1333,41 @@
       },
       "legacyInventoryEvidence": null,
       "formerName": "Woodlands Drive 17 EC",
-      "seoTitle": "Wynwood Grand EC, Woodlands Drive 17: Launch | PropertySG"
+      "seoTitle": "Wynwood Grand EC, Woodlands Drive 17: Launch | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Two new executive condominiums lined up",
+            "detail": "City Developments flagged two new executive condominium projects alongside its Lucerne Grand condominium launch."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch guidance: first quarter of 2027",
+            "detail": "CDL's first-half 2026 results reporting gave Wynwood Grand and Solano Grand target launch dates in the first quarter of 2027."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "A first-quarter 2027 launch is the developer’s stated target. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "chencharu-close",
@@ -1235,7 +1414,41 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Chencharu Close Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-chencharu-close-tender",
+          "propnex-sgx-2026-pipeline"
+        ],
+        "steps": [
+          {
+            "date": "2025-09-11",
+            "status": "confirmed",
+            "label": "Tender closed with three bids",
+            "detail": "The Chencharu Close site drew three bids at its 11 September 2025 tender close. A consortium led by Evia Real Estate with Gamuda Land and Ho Lee Group submitted the top bid of $1.012 billion, or $980 per square foot per plot ratio. The 99-year leasehold site is planned for about 875 private homes alongside commercial space."
+          },
+          {
+            "date": "2026-09-16",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date, price list or balance-unit count has been published by the developers."
+          },
+          {
+            "date": "2026-Q4",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The sources cited below place the launch in the fourth quarter of 2026. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "sembawang-road-ec",
@@ -1282,7 +1495,41 @@
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Sembawang Road EC Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-sembawang-road-ec-bid",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2025-09-11",
+            "status": "confirmed",
+            "label": "Top bid submitted for the EC site",
+            "detail": "Oriental Pacific Holdings submitted the top bid of $198 million, or $692 per square foot per plot ratio, for the Sembawang Road executive condominium site. At the time of reporting that rate would have been the first EC land bid below $700 per square foot per plot ratio. The 99-year leasehold site is planned for about 265 units."
+          },
+          {
+            "date": "2026-09-16",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date, price list or balance-unit count has been published."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The sources cited below place the launch in the first quarter of 2027. ERA’s Eugene Lim was reported as estimating an early-2027 launch; that is an analyst estimate, not a developer announcement."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "upper-thomson-road",
@@ -1292,7 +1539,7 @@
       "region": "OCR",
       "propertyType": "condominium",
       "tenure": "99-year",
-      "developer": "Wee Hur Holdings",
+      "developer": "Wee Hur Property / GSC Holdings",
       "unitCount": 595,
       "inventoryYear": 2026,
       "previewDate": null,
@@ -1300,7 +1547,7 @@
       "launchWindow": "2026-Q4",
       "status": "upcoming",
       "canonicalUrl": "https://joetay.com/new-launches/upper-thomson-road.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-10-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1315,19 +1562,66 @@
       },
       "provenance": {
         "facts": [
-          "propnex-sgx-2026-pipeline"
+          "propnex-sgx-2026-pipeline",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "timing": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "status": [
-          "99co-2026-guide"
+          "99co-2026-guide",
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025"
         ],
         "dynamics": [
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "seoTitle": "Upper Thomson Road Launch Date & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "ura-upper-thomson-a-no-bids-2024",
+          "ura-upper-thomson-a-award-2025",
+          "99co-2026-guide"
+        ],
+        "steps": [
+          {
+            "date": "2024-06-19",
+            "status": "confirmed",
+            "label": "First tender closed with no bids",
+            "detail": "URA’s first tender for the Upper Thomson Road (Parcel A) site, beside Springleaf MRT station, closed on 19 June 2024 without a single bid."
+          },
+          {
+            "date": "2025-10-31",
+            "status": "confirmed",
+            "label": "Site awarded to Wee Hur and GSC Holdings",
+            "detail": "URA offered the site again, with the tender closing on 23 October 2025, and awarded it to Wee Hur Property and GSC Holdings for $613,939,000 on a 99-year lease. The site is zoned for housing with commercial use on the first storey."
+          },
+          {
+            "date": "2026-10-09",
+            "status": "confirmed",
+            "label": "Sales status checked",
+            "detail": "No project name, unit mix, floor plans, preview date or price list has been published by the developers."
+          },
+          {
+            "date": "2026-Q4",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "The industry sources cited below place the launch in the fourth quarter of 2026. The developers have not announced a date, so treat the quarter as guidance only."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Project name, preview and booking dates",
+            "detail": "Not announced. This timeline is updated when the developers publish details, and Joe can confirm the first official release by WhatsApp."
+          }
+        ]
+      }
     },
     {
       "slug": "senja-close-ec",
@@ -1379,7 +1673,41 @@
       },
       "legacyInventoryEvidence": null,
       "formerName": "Senja Close EC",
-      "seoTitle": "Solano Grand EC (Senja Close): Launch & Units | PropertySG"
+      "seoTitle": "Solano Grand EC (Senja Close): Launch & Units | PropertySG",
+      "launchTimeline": {
+        "asOf": "2026-10-09",
+        "sourceIds": [
+          "edgeprop-cdl-2026-05",
+          "edgeprop-cdl-1h2026",
+          "hdb-upcoming-ec"
+        ],
+        "steps": [
+          {
+            "date": "2026-05-21",
+            "status": "confirmed",
+            "label": "Two new executive condominiums lined up",
+            "detail": "City Developments flagged two new executive condominium projects alongside its Lucerne Grand condominium launch."
+          },
+          {
+            "date": "2026-08-13",
+            "status": "confirmed",
+            "label": "Launch guidance: first quarter of 2027",
+            "detail": "CDL's first-half 2026 results reporting gave Solano Grand and Wynwood Grand target launch dates in the first quarter of 2027."
+          },
+          {
+            "date": "2027-Q1",
+            "status": "expected",
+            "label": "Planned launch",
+            "detail": "A first-quarter 2027 launch is the developer’s stated target. The quarter has not been narrowed and no preview or booking date has been announced."
+          },
+          {
+            "date": null,
+            "status": "pending",
+            "label": "Preview, booking and completion dates",
+            "detail": "Not announced. Executive condominium buyers must also meet HDB eligibility and income-ceiling rules, which Joe can check with you before launch."
+          }
+        ]
+      }
     },
     {
       "slug": "keppel-bay-plot-6",

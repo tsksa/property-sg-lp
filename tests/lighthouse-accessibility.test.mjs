@@ -152,6 +152,17 @@ test('new-launch catalog controls have explicit labels and live feedback', () =>
   assert.match(html, /id="nlEmptyState"[^>]+hidden/);
 });
 
+test('a CTA nested in the article body keeps its own link and heading styles', () => {
+  const css = read('insights/blog.css');
+  assert.match(css, /\.article-body \.article-cta h3\{[^}]*margin:0 0 10px/);
+  assert.match(css, /\.article-body \.article-cta a,\s*\.article-body \.article-cta a:hover\{[^}]*border-bottom:0/);
+  const article = read('insights/singapore-mega-launches-2027.html');
+  const bodyStart = article.indexOf('<section class="article-body"');
+  const bodyEnd = article.indexOf('</section>', bodyStart);
+  const cta = article.indexOf('<div class="article-cta">');
+  assert.ok(bodyStart !== -1 && cta > bodyStart && cta < bodyEnd, 'mega-launches CTA should stay in the body, after the Hougang section');
+});
+
 test('insights footer links are distinguishable without relying on colour', () => {
   const css = read('insights/blog.css');
 

@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
-import { refreshExistingPage } from '../scripts/generate-project-pages.mjs';
+import { projectFaqEntries, refreshExistingPage, takeSection } from '../scripts/generate-project-pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
@@ -388,6 +388,27 @@ test('every retained legacy record has a canonical project page', () => {
 // 7 Sep 2026 audit: 23 of 26 launch pages carried no FAQPage at all. Every
 // launch page now ships exactly one, built only from verified projects.json
 // fields, and every question and answer must be visible on the page.
+// JOE-461: five hand-built pages (dunearn-house, narra-residences,
+// newport-residences, river-modern, vela-bay) put id="main" on the hero and had
+// no <main>, so screen readers had no main landmark and the shared dark theme's
+// main-scoped text colours missed them. Every page now wraps hero to disclaimer.
+test('every launch page has one main landmark around its content', () => {
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    assert.equal((html.match(/<main[\s>]/g) || []).length, 1, `${slug}: expected exactly one <main>`);
+    assert.equal((html.match(/id="main"/g) || []).length, 1, `${slug}: the skip-link target must be unique`);
+    const open = html.indexOf('<main id="main" tabindex="-1">');
+    const close = html.indexOf('</main>');
+    assert.ok(open !== -1 && close > open, `${slug}: <main id="main"> is missing or unclosed`);
+    for (const marker of ['<section class="project-hero', '<section class="project-disclaimer">']) {
+      const at = html.indexOf(marker);
+      assert.ok(at > open && at < close, `${slug}: ${marker} sits outside <main>`);
+    }
+    assert.ok(html.indexOf('<footer class="nl-footer">') > close, `${slug}: footer should follow </main>`);
+  }
+});
+
 test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
   const decode = (s) => s.replaceAll('&amp;', '&').replaceAll('&#39;', "'").replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>');
   for (const slug of MANIFEST.slugs) {
@@ -403,5 +424,62 @@ test('every launch page ships exactly one FAQPage whose Q&A is visible', () => {
       assert.ok(visible.includes(`<p>${entry.acceptedAnswer.text}</p>`), `${slug}: answer not visible: ${entry.name}`);
       assert.doesNotMatch(entry.acceptedAnswer.text, /\bestimated at\b|\bapproximately \$/i, `${slug}: answers must not estimate figures`);
     }
+  }
+});
+
+test('selling projects do not describe the launch as provisional or expected', () => {
+  const index = read('new-launches/index.html');
+  for (const project of DATA.projects) {
+    if (project.status !== 'selling') continue;
+    const html = pageFor(project);
+    assert.doesNotMatch(html, /Provisional launch window|Expected launch/, `${project.slug}: selling page still hedges the launch`);
+    const card = index.split(`href="/new-launches/${project.slug}.html"`).pop();
+    const launch = card.match(/<dt>Launch<\/dt><dd>([^<]*)<\/dd>/)?.[1] ?? '';
+    assert.doesNotMatch(launch, /^(Expected|Provisional)/, `${project.slug}: catalog says "${launch}"`);
+    if (!project.previewDate && !project.bookingDate && project.launchWindow) {
+      assert.match(launch, /^Launched /, `${project.slug}: catalog should record the launch as happened`);
+      assert.match(html, /Launched /, `${project.slug}: page should record the launch as happened`);
+    }
+  }
+});
+
+test('confirmed launch dates are not described as still unconfirmed', () => {
+  // No live project is upcoming with confirmed dates once The Serra launched
+  // (16 Oct 2026), so render The Serra as it stood before launch: upcoming,
+  // preview and booking dates set, and no hand-written assessment copy.
+  const serra = DATA.projects.find(({ slug }) => slug === 'the-serra-residences');
+  const dated = { ...serra, slug: 'fixture-dated-upcoming', status: 'upcoming' };
+  const availability = projectFaqEntries(dated).find(([question]) => question.startsWith('Is '))[1];
+  assert.match(availability, /Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(availability, /once the developer confirms them/);
+  const take = takeSection(dated);
+  assert.match(take, /confirmed the launch timing: Preview 2 Oct 2026 · Booking 16 Oct 2026/);
+  assert.doesNotMatch(take, /launch timing and sale materials remain subject to release/);
+
+  const hougang = pageFor(DATA.projects.find(({ slug }) => slug === 'hougang-central-residences'));
+  assert.match(hougang, /launch timing and sale materials remain subject to release/);
+  const chencharu = pageFor(DATA.projects.find(({ slug }) => slug === 'chencharu-close'));
+  assert.match(chencharu, /Preview and booking dates appear here only once the developer confirms them/);
+});
+
+// JOE-448: launch pages are the cluster Google revisits most, but linked no
+// town or district price page, so those went uncrawled. Each page now links its
+// district's condo page (when one exists) and the town pages mapped to it.
+test('every launch page links its district and nearby town resale-price pages', async () => {
+  const { townsForDistrict } = await import('../scripts/lib/estate-linking.mjs');
+  for (const slug of MANIFEST.slugs) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const html = pageFor(project);
+    const related = html.match(/<section class="project-related[\s\S]*?<\/section>/)?.[0] ?? '';
+    const line = related.match(/<p class="project-related-prices">Resale prices nearby: ([\s\S]*?)<\/p>/)?.[1];
+    assert.ok(line, `${slug}: no nearby resale-price line in the related section`);
+    const code = project.district.slice(1).toLowerCase();
+    const districtPage = fs.existsSync(path.join(ROOT, 'condo-prices', `d${code}`, 'index.html'));
+    if (districtPage) assert.match(line, new RegExp(`<a href="/condo-prices/d${code}/">${project.district} [^<]+ condo resale prices</a>`), `${slug}: district link missing`);
+    else assert.doesNotMatch(line, /condo-prices/, `${slug}: links a district page that does not exist`);
+    const towns = townsForDistrict(project.district);
+    assert.ok(towns.length, `${slug}: ${project.district} maps to no town`);
+    for (const town of towns) assert.match(line, new RegExp(`<a href="/hdb-prices/${town}/">[^<]+ HDB resale prices</a>`), `${slug}: ${town} link missing`);
+    assert.doesNotMatch(line, /\$|psf/, `${slug}: the line is links only, no prices`);
   }
 });
