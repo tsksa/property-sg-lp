@@ -988,9 +988,8 @@ ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchInte
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 ${fontLinksHtml()}
 ${heroPreloadHtml(project)}
-<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script src="/assets/analytics-loader.js" defer data-meta="false"></script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 ${SITE_THEME_ASSETS_HTML}
 ${mobileHeaderAssetsHtml()}

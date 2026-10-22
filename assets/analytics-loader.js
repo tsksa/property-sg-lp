@@ -12,19 +12,33 @@
   var loadMeta = !document.currentScript || document.currentScript.dataset.meta !== 'false';
   var fallbackDelay = 6000;
   var loaded = false;
+  var googleReady = false;
+  var googleConfigured = false;
+  var metaConfigured = false;
   var fallbackTimer = null;
   var interactionEvents = ['pointerdown', 'keydown', 'touchstart'];
 
-  function consentAccepted(){
-    try{return localStorage.getItem(consentKey) === 'accepted';}catch(e){return false;}
+  // The in-memory choice also covers browsers that block localStorage. It
+  // lasts only for this document; a new visit must ask again if it cannot save.
+  var choice = window._jtConsentChoice;
+  if(choice !== 'accepted' && choice !== 'declined'){
+    try{choice = localStorage.getItem(consentKey);}catch(e){choice = null;}
   }
+  function consentAccepted(){return choice === 'accepted';}
+  window.jtGetAnalyticsConsent = function(){return choice;};
 
   window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+  var googleQueue = window.gtag || function(){window.dataLayer.push(arguments);};
+  window.gtag = function(){
+    // Do not replay events collected before opt-in or after withdrawal.
+    if(!consentAccepted() && arguments[0] !== 'consent') return;
+    return googleQueue.apply(this, arguments);
+  };
 
   function ensureMetaQueue(){
     if(window.fbq) return;
     var fbq = window.fbq = function(){
+      if(!consentAccepted() && arguments[0] !== 'consent') return;
       fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments);
     };
     if(!window._fbq) window._fbq = fbq;
@@ -34,12 +48,13 @@
     fbq.queue = [];
   }
 
-  function injectScript(id, src){
+  function injectScript(id, src, onload){
     if(document.getElementById(id)) return;
     var script = document.createElement('script');
     script.id = id;
     script.async = true;
     script.src = src;
+    if(onload) script.onload = onload;
     document.head.appendChild(script);
   }
 
@@ -53,30 +68,85 @@
     }
   }
 
+  function clearPendingCommands(){
+    // A delayed vendor must not replay an earlier grant/config/page view after
+    // withdrawal. Keep the queue objects, and leave an executing vendor's
+    // processed history alone; its consent API handles withdrawal below.
+    if(!googleReady){
+      window.dataLayer.length = 0;
+      googleConfigured = false;
+    }
+    if(window.fbq && !window.fbq.callMethod){
+      window.fbq.queue.length = 0;
+      metaConfigured = false;
+    }
+  }
+
+  function configureVendors(){
+    if(!googleConfigured){
+      googleConfigured = true;
+      window.gtag('js', new Date());
+      window.gtag('config', googleTagId, {send_page_view:true});
+    }
+    if(loadMeta && !metaConfigured){
+      metaConfigured = true;
+      window.fbq('init', metaPixelId);
+      window.fbq('track', 'PageView');
+    }
+  }
+
+  function updateVendorConsent(accepted){
+    window['ga-disable-' + googleTagId] = !accepted;
+    window['ga-disable-' + measurementId] = !accepted;
+    if(!accepted) clearPendingCommands();
+    if(!loaded) return;
+    window.gtag('consent', 'update', {
+      analytics_storage: accepted ? 'granted' : 'denied',
+      ad_storage: accepted ? 'granted' : 'denied',
+      ad_user_data: accepted ? 'granted' : 'denied',
+      ad_personalization: accepted ? 'granted' : 'denied'
+    });
+    if(loadMeta && window.fbq) window.fbq('consent', accepted ? 'grant' : 'revoke');
+    if(accepted) configureVendors();
+  }
+
+  window.jtSetAnalyticsConsent = function(value){
+    if(value !== 'accepted' && value !== 'declined') return;
+    var changed = choice !== value;
+    choice = window._jtConsentChoice = value;
+    try{localStorage.setItem(consentKey, value);}catch(e){}
+    if(value === 'declined'){
+      removeInteractionTriggers();
+      try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}
+    }
+    if(changed) updateVendorConsent(value === 'accepted');
+    if(value === 'accepted') loadVendors();
+  };
+
+  // Another open page can withdraw consent while this page is still active.
+  window.addEventListener('storage', function(event){
+    if(event.key !== consentKey && event.key !== null) return;
+    var value = event.key === consentKey ? event.newValue : null;
+    choice = window._jtConsentChoice = value === 'accepted' ? 'accepted' : 'declined';
+    if(consentAccepted()) scheduleAcceptedVisitor();
+    else {
+      removeInteractionTriggers();
+      try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}
+    }
+    updateVendorConsent(consentAccepted());
+  });
+
   function loadVendors(){
     if(loaded || !consentAccepted()) return false;
     loaded = true;
     removeInteractionTriggers();
 
-    window['ga-disable-' + googleTagId] = false;
-    window['ga-disable-' + measurementId] = false;
-    window.gtag('consent', 'update', {
-      analytics_storage: 'granted',
-      ad_storage: 'granted',
-      ad_user_data: 'granted',
-      ad_personalization: 'granted'
+    if(loadMeta) ensureMetaQueue();
+    updateVendorConsent(true);
+    injectScript('jt-google-tag', 'https://www.googletagmanager.com/gtag/js?id=' + googleTagId, function(){
+      googleReady = true;
     });
-    window.gtag('js', new Date());
-    window.gtag('config', googleTagId, {send_page_view:true});
-    injectScript('jt-google-tag', 'https://www.googletagmanager.com/gtag/js?id=' + googleTagId);
-
-    if(loadMeta){
-      ensureMetaQueue();
-      window.fbq('consent', 'grant');
-      window.fbq('init', metaPixelId);
-      window.fbq('track', 'PageView');
-      injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
-    }
+    if(loadMeta) injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
     return true;
   }
 
@@ -95,11 +165,11 @@
     else window.addEventListener('load', scheduleFallback, {once:true});
   }
 
-  // The banner's target handler stores the choice before this bubble listener
-  // runs, so acceptance loads the vendors on that same page without a reload.
+  // Support both banner IDs, including a click before this deferred file loads.
   document.addEventListener('click', function(event){
     if(!event.target.closest) return;
-    if(event.target.closest('#cookieAccept, #jtConsentAccept')) loadVendors();
+    if(event.target.closest('#cookieAccept, #jtConsentAccept')) window.jtSetAnalyticsConsent('accepted');
+    if(event.target.closest('#cookieDecline, #jtConsentDecline')) window.jtSetAnalyticsConsent('declined');
   });
 
   window.jtLoadAnalytics = loadVendors;

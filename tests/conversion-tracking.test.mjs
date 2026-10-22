@@ -506,3 +506,21 @@ test('placeholder Ads conversions remain suppressed while valid labels still pas
   h.context.gtag('event', 'conversion', { send_to: 'AW-123/real-label' });
   assert.equal(h.events.length, 1);
 });
+
+test('conversion helpers honor the shared in-memory choice when storage is unavailable', () => {
+  const h = harness({ consent: null, blocked: true });
+  let choice = null;
+  h.context.jtGetAnalyticsConsent = () => choice;
+  h.context.jtTrackConversion('generate_lead', {});
+  assert.equal(h.events.length, 0);
+  choice = 'accepted';
+  h.context.jtTrackConversion('generate_lead', {});
+  assert.equal(h.events.length, 1);
+  assert.equal(h.pixels.length, 1);
+  choice = 'declined';
+  h.context.gtag('event', 'after_withdrawal', {});
+  h.context.jtTrackConversion('generate_lead', {});
+  h.contact('tel:+6581881488');
+  assert.equal(h.events.length, 1);
+  assert.equal(h.pixels.length, 1);
+});

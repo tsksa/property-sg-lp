@@ -14,8 +14,6 @@ import path from 'node:path';
 import { findMissingSitemapEntries } from './lib/sitemap-completeness.mjs';
 
 const ROOT = process.cwd();
-const GA_ID = 'GT-KVFDZD5V';
-const PIXEL_ID = '3279494272146114';
 
 // Pages excluded from indexable-page invariants (noindex utility pages).
 const UTILITY = new Set(['404.html', 'downloads/seller-checklist-2026.html', 'privacy-policy.html']);
@@ -192,31 +190,14 @@ for (const file of pages) {
     if (opens !== closes) fail(file, `<main> open/close mismatch: ${opens} open tag(s), ${closes} close tag(s)`);
   }
 
-  // ── Tracking invariants: if a tracker is present, it must be the canonical one, gated ──
-  if (s.includes('googletagmanager.com/gtag')) {
-    if (!s.includes(`gtag/js?id=${GA_ID}`)) fail(file, `gtag present but not the canonical ID ${GA_ID}`);
-    if (!s.includes(`ga-disable-${GA_ID}`)) fail(file, 'gtag present without the PDPA consent gate');
-    // ga-disable-<ID> only silences hits after gtag.js has already loaded — it does
-    // nothing about the download itself. A static <script src> fetches gtag.js on every
-    // page load even for a visitor who already declined, so the fetch must be gated too.
-    if (/<script[^>]*\ssrc="https:\/\/www\.googletagmanager\.com\/gtag\/js/.test(s))
-      fail(file, 'gtag.js is a static <script src> — it downloads even when consent was declined');
-    if (
-      !/if\(!window\._pdpaDeclined\)\{\s*var gaS=document\.createElement\('script'\);gaS\.async=true;gaS\.src='https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=GT-KVFDZD5V';document\.head\.appendChild\(gaS\);\s*\}/.test(
-        s,
-      )
-    )
-      fail(file, 'gtag.js loader is not gated behind the consent flag');
-  }
-  if (s.includes('fbevents.js')) {
-    if (!s.includes(`fbq('init','${PIXEL_ID}')`)) fail(file, `pixel present but not the canonical ID ${PIXEL_ID}`);
-    if (!s.includes('requestIdleCallback')) fail(file, 'pixel present without the idle-defer loader');
-    // Wrapping only the later fbq('init'...) call in the consent gate still lets a
-    // declined visitor download fbevents.js — the loader IIFE that fetches it must sit
-    // inside the same gate as the calls that fire after it loads, not just those calls.
-    if (!/if\(!window\._pdpaDeclined\)\{\s*!function\(f,b,e,v,n,t,s\)\{if\(f\.fbq\)return;/.test(s))
-      fail(file, 'pixel loader (the fbevents.js fetch) is not wrapped in the consent gate');
-  }
+  // All optional vendor loading belongs to the shared opt-in loader.
+  if (/googletagmanager\.com\/gtag\/js|connect\.facebook\.net\/[^'"\s]*fbevents\.js|facebook\.com\/tr[?]/.test(s))
+    fail(file, 'inline analytics vendor loader bypasses the shared opt-in loader');
+  if (/<link[^>]+rel="(?:preconnect|dns-prefetch)"[^>]+(?:googletagmanager\.com|connect\.facebook\.net)/.test(s))
+    fail(file, 'analytics vendor connection hint runs before consent');
+  if (s.includes('/assets/analytics-loader.js') &&
+    (s.match(/src="\/assets\/analytics-loader\.js"/g) || []).length !== 1)
+    fail(file, 'page must load the shared analytics loader exactly once');
 
   // ── Lead-form invariants: any page that posts to submit-lead needs the helper ──
   // Follow local <script src> too: new-launches/index.html POSTs from new-launches.js,

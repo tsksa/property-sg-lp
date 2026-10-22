@@ -7,6 +7,7 @@
   var campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
   function consentChoice(){
+    if(typeof window.jtGetAnalyticsConsent === 'function') return window.jtGetAnalyticsConsent();
     try{return localStorage.getItem('pdpa_consent');}catch(e){return null;}
   }
 
