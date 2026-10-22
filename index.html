@@ -333,7 +333,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .hero .hero-desc{font-size:clamp(1rem,1.6vw,1.16rem);color:rgba(255,255,255,0.82);max-width:570px;margin:0 0 30px;line-height:1.65}
 
 /* Hero Form */
-.hero-form{background:rgba(8,20,39,0.76);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:32px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:12px;width:100%;max-width:460px;margin:0 0 0 auto;box-shadow:0 28px 70px rgba(0,0,0,0.3)}
+.hero-form{background:rgba(8,20,39,0.76);border:1px solid rgba(255,255,255,0.16);border-radius:20px;padding:32px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:12px;min-width:0;width:100%;max-width:460px;margin:0 0 0 auto;box-shadow:0 28px 70px rgba(0,0,0,0.3)}
 .hero-consult{display:flex;flex-direction:column;gap:12px}
 .hero-consult[hidden]{display:none}
 #heroEstimate[hidden]{display:none}
@@ -834,7 +834,7 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
 
 /* ── Mobile ── */
 @media(max-width:960px){
-  .hero-inner{grid-template-columns:1fr;max-width:680px;gap:34px;text-align:center}
+  .hero-inner{grid-template-columns:minmax(0,1fr);max-width:680px;gap:34px;text-align:center}
   .hero-copy{max-width:none}
   .hero .hero-desc{margin:0 auto 28px}
   .hero-testimonial{margin:0 auto;text-align:center;border-left:0;padding-left:0}

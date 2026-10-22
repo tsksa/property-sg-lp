@@ -14,13 +14,11 @@
 // ever parsed as HTML.
 
 import {
-  abbrevRoad, normalisePostal, flatTypesByVolume, summarise, netProceeds, basisLabel, PROCEEDS_DEFAULTS,
+  normalisePostal, flatTypesByVolume, summarise, validSalesRecords, netProceeds, basisLabel, MEDIAN_ROUNDING_LABEL, PROCEEDS_DEFAULTS,
 } from './block-estimate-core.mjs';
+import { fetchSales } from './block-sales-data.mjs';
 
-const DATASET_ID = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
-const DATA_API = 'https://data.gov.sg/api/action/datastore_search';
 const ONEMAP_API = 'https://www.onemap.gov.sg/api/common/elastic/search';
-const FIELDS = 'month,town,flat_type,block,street_name,storey_range,floor_area_sqm,resale_price';
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const money = (n) => (Number.isFinite(n) ? `$${Math.round(n).toLocaleString('en-SG')}` : '—');
@@ -71,27 +69,7 @@ async function lookupAddress(code) {
   return { block: String(r.BLK_NO || '').trim(), road: String(r.ROAD_NAME).trim(), building: r.BUILDING && r.BUILDING !== 'NIL' ? String(r.BUILDING) : '' };
 }
 
-async function queryTransactions(filters, limit) {
-  const url = `${DATA_API}?resource_id=${DATASET_ID}&filters=${encodeURIComponent(JSON.stringify(filters))}&fields=${FIELDS}&sort=${encodeURIComponent('month desc')}&limit=${limit}`;
-  const data = await fetchJSON(url);
-  if (!data || data.success !== true || !data.result) throw new Error('bad response');
-  return data.result.records || [];
-}
-
-async function fetchSales(addr) {
-  if (!addr.block) return { road: abbrevRoad(addr.road), block: [], street: [] };
-  const road = abbrevRoad(addr.road);
-  let usedRoad = road;
-  let block = await queryTransactions({ block: addr.block, street_name: road }, 200);
-  if (!block.length && addr.road.toUpperCase() !== road) {
-    const alt = await queryTransactions({ block: addr.block, street_name: addr.road.toUpperCase() }, 200);
-    if (alt.length) { block = alt; usedRoad = addr.road.toUpperCase(); }
-  }
-  const street = await queryTransactions({ street_name: usedRoad }, 600);
-  return { road: usedRoad, block, street };
-}
-
-function salesTable(records) {
+function salesTable(records, label, hintId) {
   const head = el('tr', {}, ...['Sold', 'Flat', 'Storey', 'Price'].map((h) => el('th', { scope: 'col', text: h })));
   const rows = records.map((r) => el('tr', {},
     el('td', { text: fmtMonth(r.month) }),
@@ -99,8 +77,10 @@ function salesTable(records) {
     el('td', { text: String(r.storey_range || '').replace(/\s*TO\s*/i, '–') }),
     el('td', { class: 'jte-num', text: money(Number(r.resale_price)) }),
   ));
-  return el('div', { class: 'jte-table-wrap', role: 'region', 'aria-label': 'Most recent sales', tabindex: '0' },
-    el('table', { class: 'jte-table' }, el('caption', { class: 'jte-sr', text: 'Most recent sales' }), el('thead', {}, head), el('tbody', {}, rows)));
+  return el('div', {},
+    el('p', { class: 'jte-table-hint', id: hintId, text: 'Scroll sideways to see every column. Keyboard: use the left and right arrow keys.' }),
+    el('div', { class: 'jte-table-wrap', role: 'region', 'aria-label': label, 'aria-describedby': hintId, tabindex: '0' },
+      el('table', { class: 'jte-table' }, el('caption', { class: 'jte-sr', text: label }), el('thead', {}, head), el('tbody', {}, rows))));
 }
 
 function proceedsPanel(defaultPrice, idPrefix) {
@@ -139,12 +119,12 @@ function proceedsPanel(defaultPrice, idPrefix) {
 }
 
 function renderResult(root, state) {
-  const { addr, sales, flatType, postal } = state;
+  const { addr, sales, flatType, postal, now = new Date() } = state;
   const result = root.querySelector('.jte-result');
   result.textContent = '';
   const roadLabel = titleCase(addr.road);
-  const types = flatTypesByVolume(sales.block.length ? sales.block : sales.street);
-  const s = summarise({ blockRecords: sales.block, streetRecords: sales.street, flatType });
+  const types = flatTypesByVolume(sales.block.length ? sales.block : sales.street, now);
+  const s = summarise({ blockRecords: sales.block, streetRecords: sales.street, flatType, now });
   const idPrefix = `${root.id || 'jte'}-p`;
 
   const heading = el('h3', { class: 'jte-address', tabindex: '-1', text: addr.block ? `Blk ${addr.block} ${roadLabel}` : roadLabel });
@@ -168,14 +148,15 @@ function renderResult(root, state) {
   } else {
     result.append(el('p', { class: 'jte-help', text: `Too few recent ${flatLabel(flatType)} sales here for a fair range. The latest sales are below, and Joe can value it from wider comparisons.` }));
   }
+  if (sales.blockTruncated || sales.streetTruncated) result.append(el('p', { class: 'jte-help', text: 'These summaries use the latest loaded sales; older sales within the stated periods may be missing.' }));
 
   const stats = el('dl', { class: 'jte-stats' });
   const stat = (k, v) => stats.append(el('div', {}, el('dt', { text: k }), el('dd', { text: v })));
-  if (s.range) stat('Median', money(s.range.median));
-  if (s.change !== null) stat('12-month change', `${s.change > 0 ? '+' : ''}${s.change}%`);
+  if (s.range) stat(MEDIAN_ROUNDING_LABEL, money(s.range.median));
+  if (s.change !== null) stat('Street change (12 months)', `${s.change > 0 ? '+' : ''}${s.change}%`);
   if (s.latest) stat('Latest sale', `${money(Number(s.latest.resale_price))} · ${fmtMonth(s.latest.month)}`);
   if (stats.childElementCount) result.append(stats);
-  if (s.recent.length) result.append(salesTable(s.recent));
+  if (s.recent.length) result.append(salesTable(s.recent, `Most recent ${flatLabel(flatType)} sales ${s.recentScope === 'block' ? 'in your block' : `along ${roadLabel}`}`, `${idPrefix}-table-hint`));
 
   const valuationBtn = el('button', {
     type: 'button', class: 'jte-primary', text: "Get Joe's valuation",
@@ -219,7 +200,7 @@ function renderResult(root, state) {
   result.append(el('div', { class: 'jte-actions' }, valuationBtn, proceedsBtn, alertBtn));
   result.append(alertHost);
   result.append(el('p', { class: 'jte-foot' },
-    el('a', { href: `/neighbour-prices/?postal=${postal}`, text: 'See every sale in this block and street' }), ' · ',
+    el('a', { href: `/neighbour-prices/?postal=${postal}`, text: 'See more sales in this block and street' }), ' · ',
     el('button', { type: 'button', class: 'jte-link', text: 'Search another postal code', onclick: () => reset(root) })));
   result.append(el('p', { class: 'jte-source', text: 'Source: HDB resale flat prices via data.gov.sg, official records updated monthly.' }));
   result.hidden = false;
@@ -296,14 +277,16 @@ function mount(root) {
     try {
       const addr = await lookupAddress(postal);
       if (!addr) { setError('That postal code was not found. Check it, or WhatsApp Joe and he will pull the numbers for you.'); return; }
-      const sales = await fetchSales(addr);
+      const fetched = await fetchSales(addr, fetchJSON);
+      const now = new Date();
+      const sales = { ...fetched, block: validSalesRecords(fetched.block, now), street: validSalesRecords(fetched.street, now) };
       let heading;
       if (!sales.block.length && !sales.street.length) {
         heading = renderPrivate(root, { addr, postal });
         track('estimate_shown', { found: false, scope: 'none' });
       } else {
-        const types = flatTypesByVolume(sales.block.length ? sales.block : sales.street);
-        heading = renderResult(root, { addr, sales, flatType: types[0], postal });
+        const types = flatTypesByVolume(sales.block.length ? sales.block : sales.street, now);
+        heading = renderResult(root, { addr, sales, flatType: types[0], postal, now });
         track('estimate_shown', { found: true, scope: sales.block.length ? 'block' : 'street', flat_type: types[0] });
       }
       status.textContent = '';
