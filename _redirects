@@ -27,6 +27,14 @@
 /singapore-property-marina-bay-1280.webp /joetay-social-preview-1280.webp 301!
 /singapore-property-marina-bay-640.webp /joetay-social-preview-640.webp 301!
 
+# Keep already-open homepage players working after narration assets change.
+# These exact media aliases also preserve native range requests and captions.
+/assets/motion/joetay-next-move-desktop.mp4 /assets/motion/joetay-next-move-desktop-azure.mp4 200
+/assets/motion/joetay-next-move-mobile.mp4 /assets/motion/joetay-next-move-mobile-azure.mp4 200
+/assets/motion/joetay-next-move-desktop-voiced.mp4 /assets/motion/joetay-next-move-desktop-azure.mp4 200
+/assets/motion/joetay-next-move-mobile-voiced.mp4 /assets/motion/joetay-next-move-mobile-azure.mp4 200
+/assets/motion/joetay-next-move-en.vtt /assets/motion/joetay-next-move-en-azure.vtt 200
+
 # BEGIN canonical HTML aliases (generated)
 /about-joe.html /about-joe/ 301!
 /bto-calculator.html /bto-calculator/ 301!

@@ -174,6 +174,31 @@ test('voiced media and caption deliverables remain local and within budget', () 
   }
 });
 
+test('previous film URLs keep serving current Azure media for already-open tabs', () => {
+  const redirects = read('_redirects');
+  const generatedStart = redirects.indexOf('# BEGIN canonical HTML aliases (generated)');
+  assert.ok(generatedStart >= 0, 'canonical alias block remains present');
+  const manualRules = redirects.slice(0, generatedStart).split(/\r?\n/)
+    .map(line => line.split('#')[0].trim()).filter(Boolean)
+    .map(line => line.split(/\s+/));
+  const aliases = [
+    ['joetay-next-move-desktop.mp4', 'joetay-next-move-desktop-azure.mp4'],
+    ['joetay-next-move-mobile.mp4', 'joetay-next-move-mobile-azure.mp4'],
+    ['joetay-next-move-desktop-voiced.mp4', 'joetay-next-move-desktop-azure.mp4'],
+    ['joetay-next-move-mobile-voiced.mp4', 'joetay-next-move-mobile-azure.mp4'],
+    ['joetay-next-move-en.vtt', 'joetay-next-move-en-azure.vtt'],
+  ];
+  for (const [previous, current] of aliases) {
+    const from = `/assets/motion/${previous}`;
+    const to = `/assets/motion/${current}`;
+    const rules = manualRules.filter(rule => rule[0] === from);
+    assert.deepEqual(rules, [[from, to, '200']], `${from} must rewrite directly before the generated aliases`);
+    assert.ok(fs.statSync(new URL(`..${to}`, import.meta.url)).isFile(), `missing rewrite target: ${to}`);
+    assert.ok(!fs.existsSync(new URL(`..${from}`, import.meta.url)), `a legacy physical file would shadow the Azure rewrite: ${from}`);
+    assert.equal(manualRules.some(rule => rule[0] === to), false, `Azure media must not introduce a rewrite chain: ${to}`);
+  }
+});
+
 
 test('play, replay and format changes preserve native mute and caption choices', () => {
   const h = harness();
