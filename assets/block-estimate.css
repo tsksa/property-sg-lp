@@ -60,6 +60,7 @@ html.jt-theme-dark .jte-type[aria-pressed="true"]{background:#f8fafc;color:#0b1e
 .jte-secondary{min-height:48px;padding:12px 16px;border-radius:10px;border:1px solid var(--jte-line);background:transparent;color:var(--jte-ink);font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .jte-secondary:hover{border-color:var(--jte-accent)}
 .jte-proceeds{flex-basis:100%;display:flex;flex-direction:column;gap:10px;background:var(--jte-soft);border-radius:12px;padding:14px}
+.jte-proceeds[hidden]{display:none}
 .jte-proceeds h4{margin:0;font-size:.95rem;color:var(--jte-ink)}
 .jte-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:10px}
 .jte-field{display:flex;flex-direction:column;gap:4px;min-width:0}

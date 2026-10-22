@@ -347,3 +347,9 @@ test('widget colour tokens meet WCAG AA in both themes', () => {
     assert.ok(contrast(t['on-accent'], t['accent-hover']) >= 4.5, `${name} button text on hover`);
   }
 });
+
+// The display:flex panel must honour the hidden state set by its toggle.
+test('the cash-proceeds disclosure can collapse after being opened', () => {
+  assert.match(read('assets/block-estimate.js'), /panel\.hidden = !open/);
+  assert.match(read('assets/block-estimate.css'), /\.jte-proceeds\[hidden\]\{display:none\}/);
+});
