@@ -21,6 +21,8 @@ The narration generator prompts for an Azure Speech key using hidden input; it n
 
 `assemble.py` trims surrounding silence, retains natural speech speed, normalises to roughly -18 LUFS and caps true peak at -3 dBTP, then copies the animation stream into MP4 with AAC narration. The sentence split times were measured for this recording; remeasure the pauses if regenerating speech changes its timing. Captions and the HTML transcript must agree.
 
+Posters reduce each rendered frame to a 256-colour palette without dithering, then encode it as lossless WebP. This suits the flat illustration and text; the palette step is a small colour approximation, not a claim of pixel-identical output. Each layout exports full and smaller candidates (mobile 720/360px, desktop 1280/800px). The homepage `sizes` attributes must track the player widths in `assets/home-motion.css`. To rebuild only posters and review sheets, run the renderer with `--stills-only --data ops/motion/hdb-walkthrough/data.json`, then copy `*-poster.webp` as above; no narration request or video encoding is needed.
+
 Use `--stills-only` to review the two contact sheets before encoding. `--font-dir` can override the repository fonts. All raw media, previews and intermediate metadata stay ignored under this internal directory; only final assets in `assets/motion/` are published. Both final MP4s must stay below 1 MB. Earlier homepage movie assets and their URL rewrites remain for cached tabs.
 
 ## Review
