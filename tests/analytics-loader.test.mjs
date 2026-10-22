@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 const loader = fs.readFileSync(new URL('../assets/analytics-loader.js', import.meta.url), 'utf8');
 
-function harness({ consent = null, readyState = 'loading', meta = true, blocked = false } = {}) {
+function harness({ consent = null, readyState = 'loading', meta = true, blocked = false, beforeLoader = '' } = {}) {
   const storage = new Map(consent ? [['pdpa_consent', consent]] : []);
   const nodes = [];
   const documentListeners = new Map();
@@ -46,6 +46,7 @@ function harness({ consent = null, readyState = 'loading', meta = true, blocked 
     clearTimeout(id) { timers.delete(id); },
   });
   context.window = context;
+  if(beforeLoader) vm.runInContext(beforeLoader, context);
   vm.runInContext(loader, context);
 
   return {
@@ -65,8 +66,8 @@ function harness({ consent = null, readyState = 'loading', meta = true, blocked 
       }
     },
     scriptSources() { return nodes.filter(node => node.tagName === 'SCRIPT').map(node => node.src); },
-    queuedGoogleCalls() { return context.dataLayer.map(args => Array.from(args)); },
-    queuedMetaCalls() { return context.fbq ? context.fbq.queue.map(args => Array.from(args)) : []; },
+    queuedGoogleCalls() { return Array.from(context.dataLayer, args => Array.from(args)); },
+    queuedMetaCalls() { return context.fbq ? Array.from(context.fbq.queue, args => Array.from(args)) : []; },
   };
 }
 
@@ -168,6 +169,7 @@ for (const blocked of [false, true]) {
     h.context.jtSetAnalyticsConsent('accepted');
     const delivered = [];
     h.context.fbq.callMethod = (...args) => delivered.push(args);
+    h.nodes.find(node => node.id === 'jt-google-tag').onload();
     h.context.gtag('event', 'accepted_event');
     h.context.fbq('track', 'Lead');
     h.context.jtSetAnalyticsConsent('declined');
@@ -213,4 +215,95 @@ test('pre-consent events are discarded rather than replayed after later acceptan
   h.context.jtSetAnalyticsConsent('accepted');
   assert.equal(h.queuedGoogleCalls().some(call => call[1] === 'before_accept'), false);
   assert.equal(h.queuedGoogleCalls().some(call => call[1] === 'G-SHOULD-NOT-BE-QUEUED'), false);
+});
+
+
+const withdraw = {
+  'same-page': h => h.context.jtSetAnalyticsConsent('declined'),
+  'other tab': h => h.fireWindow('storage', { key: 'pdpa_consent', newValue: 'declined' }),
+  'storage clear': h => h.fireWindow('storage', { key: null }),
+};
+
+for (const [route, revoke] of Object.entries(withdraw)) {
+  test(`${route} withdrawal removes pending commands before delayed vendor scripts can drain them`, () => {
+    const h = harness();
+    h.context.jtSetAnalyticsConsent('accepted');
+    h.context.gtag('event', 'pending_lead');
+    h.context.fbq('track', 'Lead');
+    const googleQueue = h.context.dataLayer;
+    const metaQueue = h.context.fbq.queue;
+    revoke(h);
+    assert.equal(h.context.dataLayer, googleQueue, 'preserve the Google queue object');
+    assert.equal(h.context.fbq.queue, metaQueue, 'preserve the Meta queue object');
+    assert.equal(googleQueue.length, 1);
+    assert.equal(googleQueue[0][0], 'consent');
+    assert.equal(googleQueue[0][2].analytics_storage, 'denied');
+    assert.deepEqual(h.queuedMetaCalls(), [['consent', 'revoke']]);
+
+    // The mocked SDK arrives only now, after withdrawal. Neither queue may
+    // initialize a destination, grant consent or replay the page view/lead.
+    const metaDelivered = [];
+    h.context.fbq.callMethod = (...args) => metaDelivered.push(args);
+    for (const args of metaQueue.splice(0)) h.context.fbq.callMethod(...args);
+    h.nodes.find(node => node.id === 'jt-google-tag').onload();
+    h.context.gtag('event', 'after_withdrawal');
+    h.context.fbq('track', 'Lead');
+    assert.deepEqual(metaDelivered, [['consent', 'revoke']]);
+    assert.equal(googleQueue.some(args => ['config', 'event', 'js'].includes(args[0])), false);
+  });
+}
+
+test('withdrawal also discards accepted events queued before deferred script injection', () => {
+  const h = harness({ consent: 'accepted' });
+  h.context.gtag('event', 'deferred_event');
+  h.context.fbq('track', 'Lead');
+  assert.equal(h.scriptSources().length, 0);
+  h.context.jtSetAnalyticsConsent('declined');
+  assert.equal(h.queuedGoogleCalls().length, 0);
+  assert.equal(h.queuedMetaCalls().length, 0);
+  h.fireDocument('pointerdown');
+  h.runTimers();
+  assert.equal(h.scriptSources().length, 0);
+});
+
+for (const arriveBeforeReaccept of [false, true]) {
+  test(`reaccept restores purged vendor setup once (SDK already arrived: ${arriveBeforeReaccept})`, () => {
+    const h = harness();
+    h.context.jtSetAnalyticsConsent('accepted');
+    h.context.gtag('event', 'discarded_event');
+    h.context.fbq('track', 'DiscardedLead');
+    h.context.jtSetAnalyticsConsent('declined');
+    const delivered = [];
+    if(arriveBeforeReaccept){
+      h.nodes.find(node => node.id === 'jt-google-tag').onload();
+      h.context.fbq.callMethod = (...args) => delivered.push(args);
+      for (const args of h.context.fbq.queue.splice(0)) h.context.fbq.callMethod(...args);
+    }
+    h.context.jtSetAnalyticsConsent('accepted');
+    h.context.jtSetAnalyticsConsent('accepted');
+    assert.equal(h.scriptSources().length, 2, 'do not download either SDK twice');
+    assert.equal(h.queuedGoogleCalls().filter(call => call[0] === 'config').length, 1);
+    assert.equal(h.queuedGoogleCalls().some(call => call[1] === 'discarded_event'), false);
+    const meta = arriveBeforeReaccept ? delivered : h.queuedMetaCalls();
+    assert.equal(meta.filter(call => call[0] === 'init').length, 1);
+    assert.equal(meta.filter(call => call[0] === 'track' && call[1] === 'PageView').length, 1);
+    assert.equal(meta.some(call => call[1] === 'DiscardedLead'), false);
+  });
+}
+
+test('HDB seller inline bootstrap drops early CTA events before the deferred loader arrives', () => {
+  const html = fs.readFileSync(new URL('../sell-hdb/singapore/index.html', import.meta.url), 'utf8');
+  const stub = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+    .map(match => match[1]).find(script => script.includes('window.dataLayer='));
+  assert.ok(stub, 'exercise the actual bootstrap used by the bare global CTA');
+  for (const blocked of [false, true]) {
+    const h = harness({ blocked, beforeLoader: `${stub};gtag('event', 'early_conversion');` });
+    assert.equal(h.queuedGoogleCalls().length, 0);
+    h.context.jtSetAnalyticsConsent('accepted');
+    assert.equal(h.queuedGoogleCalls().some(call => call[1] === 'early_conversion'), false);
+    h.context.jtSetAnalyticsConsent('declined');
+    assert.equal(h.queuedGoogleCalls().at(-1)[2].analytics_storage, 'denied', 'the bootstrap must still forward withdrawal controls');
+  }
+  const returning = harness({ consent: 'accepted', beforeLoader: `${stub};gtag('event', 'accepted_conversion');` });
+  assert.equal(returning.queuedGoogleCalls().filter(call => call[1] === 'accepted_conversion').length, 1);
 });
