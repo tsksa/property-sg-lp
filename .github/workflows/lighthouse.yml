@@ -1,8 +1,8 @@
 name: Lighthouse
 
-# Runs Lighthouse against the live joetay.com homepage + valuation form on
-# a weekly cadence so Joe gets baseline scores even without merging a PR,
-# and on every push to main so any merged change is benchmarked.
+# Audits four live joetay.com pages weekly and on pushes to main.
+# A push-triggered audit samples current production, which may still precede
+# Netlify publication. Use timestamps; rerun manually after a deployment.
 #
 # Manual trigger (workflow_dispatch) lets Joe re-run after any deploy
 # without waiting for the next push.
@@ -20,27 +20,63 @@ permissions:
 
 jobs:
   audit:
-    name: Audit homepage + valuation
+    name: Audit ${{ matrix.page }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        url:
-          - https://joetay.com/
-          - https://joetay.com/valuation.html
-          - https://joetay.com/calculator/
-          - https://joetay.com/insights/
+        include:
+          - page: homepage
+            url: https://joetay.com/
+          - page: valuation
+            url: https://joetay.com/valuation.html
+          - page: calculator
+            url: https://joetay.com/calculator/
+          - page: insights
+            url: https://joetay.com/insights/
     steps:
       - uses: actions/checkout@v7
 
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Verify image-audit calibration
+        if: matrix.page == 'homepage'
+        run: node scripts/check-lighthouse-calibration.mjs "$RUNNER_TEMP/lighthouse-calibration"
+
       - name: Run Lighthouse mobile audit
-        uses: treosh/lighthouse-ci-action@v12
+        # v12: Lighthouse 12.6.1, matching the calibration runner.
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
           urls: ${{ matrix.url }}
           # Mobile audit by default — that's the primary visitor profile.
           # Set explicit settings so a future Lighthouse upgrade doesn't
           # silently change the audit form factor.
           configPath: "./.github/lighthouse-config.json"
-          uploadArtifacts: true
+          runs: 3
+          uploadArtifacts: false
           temporaryPublicStorage: true
+
+      - name: Report every run and runner variability
+        if: always()
+        env:
+          AUDIT_URL: ${{ matrix.url }}
+        run: node scripts/lighthouse-summary.mjs .lighthouseci "$AUDIT_URL"
+
+      - name: Preserve reports and traces even when assertions fail
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-${{ matrix.page }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            .lighthouseci/*.json
+            .lighthouseci/*.html
+            .lighthouseci/*.md
+            ./*.trace.json
+            ./*.devtoolslog.json
+            ${{ runner.temp }}/lighthouse-calibration/
