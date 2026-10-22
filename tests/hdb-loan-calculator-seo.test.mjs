@@ -32,6 +32,9 @@ test('calculator targets HDB loan calculator search intent', () => {
   assert.match(html, /<h3>Using it as a home loan calculator for a bank loan<\/h3>/);
   // A private-property buyer must not read the HDB-specific MSR result as exact.
   assert.match(html, /For a condo or other private home, the 30% MSR does not apply/);
+  // Bugbot on #473: the copy promised "any home loan" while the term field
+  // stopped at 25 years, so a 30-year private-home package could not be entered.
+  assert.match(html, /id="repaymentYears"[^>]*max="30"/);
   assert.match(html, /independent planning estimate/i);
   assert.doesNotMatch(html, /official HDB loan calculator/i);
 });

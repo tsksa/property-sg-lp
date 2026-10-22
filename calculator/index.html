@@ -383,7 +383,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         </div>
         <div class="decision-field">
           <label for="repaymentYears">Loan term (years)</label>
-          <input type="number" id="repaymentYears" min="1" max="25" step="1" value="25" inputmode="numeric" required aria-describedby="repaymentError">
+          <input type="number" id="repaymentYears" min="1" max="30" step="1" value="25" inputmode="numeric" required aria-describedby="repaymentYearsHelp repaymentError">
+          <p class="decision-help" id="repaymentYearsHelp">Up to 25 years for an HDB flat, with an HDB or bank loan; up to 30 years for a private home.</p>
         </div>
         <div class="decision-field">
           <label for="repaymentRate">Annual interest rate (%)</label>
@@ -625,7 +626,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p><strong>Already know your loan amount?</strong> Start with Monthly repayment to see the instalment, interest and balance schedule. <strong>Still choosing a flat budget?</strong> Select How much can I afford? and enter income, cash, CPF and existing debts. A repayment you can calculate is not automatically a loan you qualify for.</p>
     <p>For a BTO or resale purchase, use the <a href="/insights/hdb-downpayment-cash-cpf-grants.html">HDB downpayment guide</a> to separate the purchase price, loan and upfront funds. Keep <a href="/insights/property-agent-commission-singapore.html#buyer-agent-fees">any separately agreed buyer-agent fee</a>, renovation and other moving costs outside the housing-loan estimate.</p>
     <h3>Using it as a home loan calculator for a bank loan</h3>
-    <p><strong>Monthly repayment</strong> works for any home loan: enter the loan amount, the tenure and the rate your bank quoted, instead of the HDB preset, to see the instalment, total interest and balance over time.</p>
+    <p><strong>Monthly repayment</strong> works for any home loan: enter the loan amount, the tenure (up to 30 years for a private home) and the rate your bank quoted, instead of the HDB preset, to see the instalment, total interest and balance over time.</p>
     <p><strong>How much can I afford?</strong> with <strong>Bank loan</strong> selected assesses a bank loan on an HDB flat the way banks must: at the 4% MAS stress rate, within the 30% Mortgage Servicing Ratio and the 55% Total Debt Servicing Ratio, with at least 5% of the price in cash. For a condo or other private home, the 30% MSR does not apply, so treat this affordability result as conservative and ask the bank for an in-principle approval.</p>
     <div class="calc-faq">
       <details>
