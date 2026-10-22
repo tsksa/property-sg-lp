@@ -12,6 +12,9 @@
   var loadMeta = !document.currentScript || document.currentScript.dataset.meta !== 'false';
   var fallbackDelay = 6000;
   var loaded = false;
+  var googleReady = false;
+  var googleConfigured = false;
+  var metaConfigured = false;
   var fallbackTimer = null;
   var interactionEvents = ['pointerdown', 'keydown', 'touchstart'];
 
@@ -45,12 +48,13 @@
     fbq.queue = [];
   }
 
-  function injectScript(id, src){
+  function injectScript(id, src, onload){
     if(document.getElementById(id)) return;
     var script = document.createElement('script');
     script.id = id;
     script.async = true;
     script.src = src;
+    if(onload) script.onload = onload;
     document.head.appendChild(script);
   }
 
@@ -64,9 +68,37 @@
     }
   }
 
+  function clearPendingCommands(){
+    // A delayed vendor must not replay an earlier grant/config/page view after
+    // withdrawal. Keep the queue objects, and leave an executing vendor's
+    // processed history alone; its consent API handles withdrawal below.
+    if(!googleReady){
+      window.dataLayer.length = 0;
+      googleConfigured = false;
+    }
+    if(window.fbq && !window.fbq.callMethod){
+      window.fbq.queue.length = 0;
+      metaConfigured = false;
+    }
+  }
+
+  function configureVendors(){
+    if(!googleConfigured){
+      googleConfigured = true;
+      window.gtag('js', new Date());
+      window.gtag('config', googleTagId, {send_page_view:true});
+    }
+    if(loadMeta && !metaConfigured){
+      metaConfigured = true;
+      window.fbq('init', metaPixelId);
+      window.fbq('track', 'PageView');
+    }
+  }
+
   function updateVendorConsent(accepted){
     window['ga-disable-' + googleTagId] = !accepted;
     window['ga-disable-' + measurementId] = !accepted;
+    if(!accepted) clearPendingCommands();
     if(!loaded) return;
     window.gtag('consent', 'update', {
       analytics_storage: accepted ? 'granted' : 'denied',
@@ -75,6 +107,7 @@
       ad_personalization: accepted ? 'granted' : 'denied'
     });
     if(loadMeta && window.fbq) window.fbq('consent', accepted ? 'grant' : 'revoke');
+    if(accepted) configureVendors();
   }
 
   window.jtSetAnalyticsConsent = function(value){
@@ -108,25 +141,12 @@
     loaded = true;
     removeInteractionTriggers();
 
-    window['ga-disable-' + googleTagId] = false;
-    window['ga-disable-' + measurementId] = false;
-    window.gtag('consent', 'update', {
-      analytics_storage: 'granted',
-      ad_storage: 'granted',
-      ad_user_data: 'granted',
-      ad_personalization: 'granted'
+    if(loadMeta) ensureMetaQueue();
+    updateVendorConsent(true);
+    injectScript('jt-google-tag', 'https://www.googletagmanager.com/gtag/js?id=' + googleTagId, function(){
+      googleReady = true;
     });
-    window.gtag('js', new Date());
-    window.gtag('config', googleTagId, {send_page_view:true});
-    injectScript('jt-google-tag', 'https://www.googletagmanager.com/gtag/js?id=' + googleTagId);
-
-    if(loadMeta){
-      ensureMetaQueue();
-      window.fbq('consent', 'grant');
-      window.fbq('init', metaPixelId);
-      window.fbq('track', 'PageView');
-      injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
-    }
+    if(loadMeta) injectScript('jt-meta-pixel', 'https://connect.facebook.net/en_US/fbevents.js');
     return true;
   }
 
