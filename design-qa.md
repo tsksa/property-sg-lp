@@ -1,6 +1,6 @@
 # Current QA — 22 October 2026
 
-**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined npm run check after the consent correction passed 1,087 tests with 0 failures. The publish-directory build also passed; generated sitemap output is excluded from the PR.
+**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined check with narration passed 1,089 tests with 0 failures. Narration validation is recorded below. The publish-directory build also passed; generated sitemap output is excluded from the PR.
 
 ## Browser evidence
 
@@ -8,7 +8,7 @@
 - Homepage film checked on desktop and mobile: Play advances the film, Pause stops it, switching format restores the poster, and the transcript stays available. Browser network recording showed no MP4 requests before explicit Play; the video has no initial source. Enabling reduced motion stops playback. Dark-theme CSS was inspected and a screenshot retained.
 - Evidence folder: `/Users/andylau/website-audits/joetay-2026-10-22/followup-release/`. Captures: `vela-pilot-desktop.png`, `vela-pilot-mobile.png`, `vela-pilot-form-desktop.png`, `pinery-pilot-mobile.png`, `pinery-pilot-form-mobile.png`, `homepage-motion-desktop.png`, `homepage-motion-mobile.png`, and `homepage-motion-dark.png`.
 
-## Hosted preview — current release
+## Hosted preview — prior silent version
 
 - PR #456 preview at code commit `1f259e8`: Vela at 1280px and Pinery at 390px show the pilot, one form and no horizontal overflow. The mobile film reaches readyState 4, plays, replays and pauses.
 - Google/Meta requests are absent before opt-in, present after acceptance, and absent after withdrawal/reload. Missing or foreign price-alert origins and cross-site metadata return 403; trusted empty payload reaches 400 validation. No real lead or subscription was sent.
@@ -19,8 +19,17 @@
 
 - Independent review passed 110 targeted motion, enquiry, project-page and pricing tests. All five bespoke enquiry handlers match merged PR #472 byte for byte, retaining the 3-second submission floor, duplicate guards, explicit success acknowledgement and error recovery. The delayed old-play rejection bug is fixed and covered by a deferred-promise regression.
 - Read-only generator inspection found stable second-pass output for all 27 project pages, with the pilot transformation unchanged on all 27. Vela, Pinery and all five bespoke pages match generated output exactly. Eleven non-pilot pages differ only by one blank line; no content or behavior drift was found.
-- Local media: desktop 801,307 bytes at 1280×720; mobile 871,633 bytes at 720×1280. Both are silent 16-second H.264/yuv420p films. They reuse existing homepage imagery, Joe’s photo and self-hosted fonts, with no new property or outcome claims. Playback is optional, with lazy posters and a text transcript.
+- Original silent media: desktop 801,307 bytes at 1280×720; mobile 871,633 bytes at 720×1280. These 16-second H.264/yuv420p files are superseded by the narrated exports below. They reuse existing homepage imagery, Joe’s photo and self-hosted fonts, with no new property or outcome claims. Playback is optional, with lazy posters and a text transcript.
 - Test log: `/Users/andylau/website-audits/joetay-2026-10-22/evidence/combined-independent-review-tests.log`. Generator evidence: `evidence/combined-generator-idempotence.json` in that audit folder. These local checks do not establish successful real lead delivery, indexing changes or conversion gains.
+
+## Singapore English narration — 22 October update
+
+- Added prebuilt Microsoft `en-SG-WayneNeural` narration using Edge online speech through an isolated `edge-tts` 7.3.1 environment. No Azure Speech account or resource was configured; this is not offline speech or a clone of Joe's voice. The public player discloses AI-generated Singapore English narration.
+- New voiced URLs prevent a cached silent file being reused. Desktop is 894,733 bytes at 1280×720; mobile is 965,059 bytes at 720×1280. Both are 16 seconds with mono 48 kHz AAC audio. The original H.264 bitstreams are preserved without recompression. All four scenes contain speech; measured true peak is -0.9 dBFS with no full-scale clipping.
+- Eight English caption cues match the exact narration and fit within the four scenes. The transcript separately identifies narration and on-screen copy. The final cue ends at 15.299 seconds, before the film ends.
+- Local Chrome at 1280px and 390px: no initial media source or caption track; network recording shows no MP4/VTT before Play. Explicit Play reaches readyState 4 with `muted=false`, and captions are visibly rendered (track readyState 2). Pause and Replay work. A native mute choice survives Replay and switching to the mobile format. Reduced motion stops playback and restores the poster. No horizontal overflow at 390px or 320px.
+- Independent read-only media/player review found no actionable issues; all eight motion regression tests pass. No auditory listening review was performed, so accent naturalness and the pronunciation of Joe's name still need human review.
+- Evidence: `followup-release/homepage-voice-desktop.png`, `followup-release/homepage-voice-mobile.png`, and `motion/narration/narration-export.json` under `/Users/andylau/website-audits/joetay-2026-10-22/`. Reproducible synthesis and assembly scripts are retained in that narration folder.
 
 ---
 

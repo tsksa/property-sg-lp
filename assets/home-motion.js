@@ -11,13 +11,39 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   var format = '';
   var playAttempt = 0;
+  var captions = null;
+  var started = false;
+
+  function playLabel() {
+    return started ? 'Play introduction' : 'Play introduction with sound';
+  }
+  function addCaptions() {
+    if (captions) return;
+    captions = document.createElement('track');
+    captions.kind = 'captions';
+    captions.srclang = 'en';
+    captions.label = 'English';
+    captions.default = true;
+    // A track URL is attached only after the visitor explicitly chooses Play.
+    captions.src = '/assets/motion/joetay-next-move-en.vtt';
+    video.appendChild(captions);
+    captions.track.mode = 'showing';
+  }
+
+  function loadVideo() {
+    // Source resets must not undo a caption choice made through native controls.
+    var mode = captions ? captions.track.mode : null;
+    if (captions) captions.default = mode === 'showing';
+    video.load();
+    if (captions) captions.track.mode = mode;
+  }
 
   function restorePoster(message) {
     playAttempt++;
     video.pause();
     video.hidden = true;
     poster.hidden = false;
-    toggle.textContent = 'Play introduction';
+    toggle.textContent = playLabel();
     status.textContent = message;
   }
   function selectFormat() {
@@ -25,15 +51,16 @@
     if (format === next) return;
     format = next;
     // Changing layout never downloads or starts the other film automatically.
-    restorePoster('16 seconds · Silent · Plays when you choose');
+    restorePoster('16 seconds · Narration and captions · Plays when you choose');
     video.removeAttribute('src');
-    video.load();
+    loadVideo();
   }
   function play() {
+    addCaptions();
     if (video.ended) video.currentTime = 0;
     if (!video.getAttribute('src')) {
-      video.src = '/assets/motion/joetay-next-move-' + format + '.mp4';
-      video.load();
+      video.src = '/assets/motion/joetay-next-move-' + format + '-voiced.mp4';
+      loadVideo();
     }
     video.hidden = false;
     poster.hidden = true;
@@ -52,13 +79,14 @@
     play();
   });
   video.addEventListener('play', function () {
+    started = true;
     toggle.textContent = 'Pause introduction';
-    status.textContent = 'Playing · Silent';
+    status.textContent = 'Playing';
   });
   video.addEventListener('pause', function () {
     playAttempt++;
-    toggle.textContent = video.ended ? 'Replay introduction' : 'Play introduction';
-    status.textContent = video.ended ? 'Finished · Replay whenever you like' : 'Paused · Silent';
+    toggle.textContent = video.ended ? 'Replay introduction' : playLabel();
+    status.textContent = video.ended ? 'Finished · Replay whenever you like' : 'Paused';
   });
   video.addEventListener('ended', function () {
     toggle.textContent = 'Replay introduction';
@@ -68,7 +96,7 @@
     if (!video.getAttribute('src')) return;
     restorePoster('Video unavailable. You can still read the full transcript below.');
     video.removeAttribute('src');
-    video.load();
+    loadVideo();
   });
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) video.pause();

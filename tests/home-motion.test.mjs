@@ -13,33 +13,42 @@ function harness({ mobile = false, reduced = false } = {}) {
   }
   let source = null;
   const loads = [];
-  const video = element({ hidden: true, paused: true, ended: false, currentTime: 0, rejectPlay: false,
+  const video = element({ hidden: true, paused: true, ended: false, currentTime: 0, rejectPlay: false, muted: false, volume: 1,
+    children: [], appendChild(child) { this.children.push(child); },
     get src() { return source; }, set src(value) { source = value; },
     getAttribute() { return source; }, removeAttribute() { source = null; },
-    load() { loads.push(source); },
+    load() { loads.push(source); for (const child of this.children) child.track.mode = child.default ? 'showing' : 'disabled'; },
     play() { if (this.rejectPlay) return Promise.reject(new Error('blocked')); this.paused = false; this.ended = false; this.emit('play'); return Promise.resolve(); },
     pause() { if (!this.paused) { this.paused = true; this.emit('pause'); } },
   });
   const nodes = { video, picture: element(), '[data-motion-toggle]': element(), '[data-motion-replay]': element(), '[data-motion-status]': element(), '[data-motion-controls]': element({ hidden: true }) };
   const narrow = element({ matches: mobile });
   const reduce = element({ matches: reduced });
-  const document = element({ hidden: false, querySelector: () => ({ querySelector: (key) => nodes[key] }) });
+  const document = element({ hidden: false, createElement(tagName) { assert.equal(tagName, 'track'); return { track: { mode: 'disabled' } }; }, querySelector: () => ({ querySelector: (key) => nodes[key] }) });
   vm.runInNewContext(script, { document, window: { matchMedia: (query) => query.includes('640') ? narrow : reduce } });
   return { video, loads, nodes, narrow, reduce, document, click: (key = 'toggle') => nodes[`[data-motion-${key}]`].emit('click') };
 }
 
-test('homepage film never requests an MP4 until explicit playback, including reduced motion', async () => {
+test('homepage film never requests media or captions until explicit playback, including reduced motion', async () => {
   for (const mobile of [false, true]) for (const reduced of [false, true]) {
     const h = harness({ mobile, reduced });
     assert.equal(h.video.src, null);
+    assert.equal(h.video.children.length, 0, 'no caption track URL before Play');
     assert.equal(h.video.hidden, true);
     assert.equal(h.nodes.picture.hidden, false);
     assert.ok(h.loads.every((src) => src === null));
     assert.equal(h.nodes['[data-motion-controls]'].hidden, false);
     h.click();
     await Promise.resolve();
-    assert.equal(h.video.src, `/assets/motion/joetay-next-move-${mobile ? 'mobile' : 'desktop'}.mp4`);
+    assert.equal(h.video.src, `/assets/motion/joetay-next-move-${mobile ? 'mobile' : 'desktop'}-voiced.mp4`);
     assert.equal(h.video.paused, false);
+    assert.equal(h.video.muted, false, 'the first user-initiated playback is audible');
+    assert.equal(h.video.children.length, 1);
+    assert.equal(h.video.children[0].src, '/assets/motion/joetay-next-move-en.vtt');
+    assert.equal(h.video.children[0].kind, 'captions');
+    assert.equal(h.video.children[0].srclang, 'en');
+    assert.equal(h.video.children[0].default, true);
+    assert.equal(h.video.children[0].track.mode, 'showing');
     assert.equal(h.video.hidden, false);
     assert.equal(h.nodes.picture.hidden, true);
   }
@@ -88,7 +97,7 @@ test('viewport, reduced-motion and background changes stop playback without auto
   assert.equal(h.video.src, null);
   assert.equal(h.nodes.picture.hidden, false);
   h.click();
-  assert.match(h.video.src, /mobile\.mp4$/);
+  assert.match(h.video.src, /mobile-voiced\.mp4$/);
   h.reduce.matches = true; h.reduce.emit('change');
   assert.equal(h.video.paused, true);
   assert.equal(h.nodes.picture.hidden, false);
@@ -111,26 +120,86 @@ test('a stale play rejection cannot hide newer playback after a format change', 
   h.click();
   rejectOld(new Error('old source aborted'));
   await Promise.resolve();
-  assert.match(h.video.src, /mobile\.mp4$/);
+  assert.match(h.video.src, /mobile-voiced\.mp4$/);
   assert.equal(h.video.paused, false);
   assert.equal(h.video.hidden, false);
   assert.equal(h.nodes.picture.hidden, true);
-  assert.equal(h.nodes['[data-motion-status]'].textContent, 'Playing · Silent');
+  assert.equal(h.nodes['[data-motion-status]'].textContent, 'Playing');
 });
 
-test('homepage ships a lazy poster, accessible transcript and local media under one megabyte each', () => {
+test('homepage ships a lazy poster, narrated transcript and accessible opt-in sound controls', () => {
   const html = read('index.html');
   const section = html.match(/<section class="jt-motion"[\s\S]*?<\/section>/)[0];
-  assert.match(section, /<video hidden muted playsinline controls preload="none"/);
-  assert.doesNotMatch(section, /autoplay|<video[^>]*\ssrc=/);
+  assert.match(section, /<video hidden playsinline controls preload="none"/);
+  assert.doesNotMatch(section, /autoplay|<video[^>]*\s(?:muted|src=)|<track[^>]*\ssrc=/);
   assert.match(section, /loading="lazy"/);
   assert.match(section, /data-motion-controls hidden/);
   assert.match(section, /aria-describedby="next-move-transcript"/);
   for (const title of ['Find your next move.', 'Know the market.', 'Compare your options.', 'Move with clarity.']) assert.ok(section.includes(title));
   assert.ok(html.indexOf('data-home-motion') > html.indexOf('id="main"'));
   assert.match(html, /src="\/assets\/home-motion.js" defer/);
+  assert.match(section, /Play introduction with sound/);
+  assert.match(section, /Includes AI-generated narration in Singapore English\./);
+  assert.match(section, /<strong>Narration<\/strong>/);
+  assert.match(section, /<strong>On-screen text and visuals<\/strong>/);
+  for (const phrase of narration) assert.ok(section.includes(phrase), `missing narration: ${phrase}`);
+  assert.doesNotMatch(section, /Silent video|Silent ·/);
+});
+
+const narration = [
+  'Find your next move. Start with what matters.',
+  'Know the market. Ask the right questions.',
+  'Compare your options. Find what fits you.',
+  'Move with clarity. Speak with Joe Tay.',
+];
+
+test('voiced media and caption deliverables remain local and within budget', () => {
   for (const format of ['desktop', 'mobile']) {
-    const asset = new URL(`../assets/motion/joetay-next-move-${format}.mp4`, import.meta.url);
+    const asset = new URL(`../assets/motion/joetay-next-move-${format}-voiced.mp4`, import.meta.url);
     assert.ok(fs.statSync(asset).size < 1_000_000);
   }
+  const captions = read('assets/motion/joetay-next-move-en.vtt');
+  assert.match(captions, /^WEBVTT/);
+  const words = captions.split(/\r?\n/).filter(line => line && line !== 'WEBVTT' && !line.includes('-->') && !/^\d+$/.test(line)).join(' ');
+  assert.equal(words, narration.join(' '), 'captions match the exact spoken transcript');
+  const cues = [...captions.matchAll(/(\d{2}):(\d{2}):(\d{2})\.(\d{3}) --> (\d{2}):(\d{2}):(\d{2})\.(\d{3})/g)];
+  assert.equal(cues.length, 8);
+  let previousEnd = 0;
+  for (const cue of cues) {
+    const values = cue.slice(1).map(Number);
+    const start = values[0] * 3600 + values[1] * 60 + values[2] + values[3] / 1000;
+    const end = values[4] * 3600 + values[5] * 60 + values[6] + values[7] / 1000;
+    assert.ok(start >= previousEnd && end > start && end <= 16, 'captions stay ordered within the film');
+    previousEnd = end;
+  }
+});
+
+
+test('play, replay and format changes preserve native mute and caption choices', () => {
+  const h = harness();
+  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Play introduction with sound');
+  h.click();
+  h.video.muted = true;
+  h.video.volume = 0.35;
+  h.video.children[0].track.mode = 'disabled';
+  h.click();
+  assert.equal(h.nodes['[data-motion-status]'].textContent, 'Paused');
+  h.click();
+  assert.equal(h.video.muted, true);
+  h.click('replay');
+  assert.equal(h.video.muted, true);
+  assert.equal(h.video.volume, 0.35);
+  assert.equal(h.video.children.length, 1, 'replay must not attach another caption file');
+  assert.equal(h.video.children[0].track.mode, 'disabled', 'replay respects captions switched off');
+  h.narrow.matches = true; h.narrow.emit('change');
+  assert.equal(h.video.src, null);
+  h.click();
+  assert.equal(h.video.muted, true);
+  assert.equal(h.video.volume, 0.35);
+  assert.equal(h.video.children.length, 1);
+  assert.equal(h.video.children[0].track.mode, 'disabled');
+  h.video.muted = false;
+  h.click('replay');
+  assert.equal(h.video.muted, false);
+  assert.equal(h.nodes['[data-motion-status]'].textContent, 'Playing');
 });
