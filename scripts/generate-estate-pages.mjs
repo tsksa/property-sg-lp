@@ -270,6 +270,38 @@ for (const town of towns) {
     return `<tr><td>${title(ft)}</td><td>${money(p)}</td><td>${Math.round(area)} sqm</td><td>${tx.length}</td></tr>`;
   }).filter(Boolean).join('\n      ');
 
+  // Prices by street (JOE-345): the town pages shared one template and differed
+  // only in their figures, and Google crawled Bedok on 15 Oct 2026 but chose
+  // not to index it. A street breakdown from the same 12-month rows gives each
+  // page local detail no other town page has. Streets with under 10 sales are
+  // left out so one odd sale cannot set a median; small towns where fewer than
+  // three streets reach that (Bukit Timah) fall back to five.
+  const byStreet = new Map();
+  for (const r of cur.inWin) {
+    if (!byStreet.has(r.street_name)) byStreet.set(r.street_name, []);
+    byStreet.get(r.street_name).push(r);
+  }
+  const minStreetSales = [...byStreet.values()].filter((tx) => tx.length >= 10).length >= 3 ? 10 : 5;
+  const streetRows = [...byStreet.entries()]
+    .filter(([, tx]) => tx.length >= minStreetSales)
+    .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+    .slice(0, 10)
+    .map(([street, tx]) => {
+      const psf = median(tx.map((r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT)).filter(Number.isFinite));
+      const four = tx.filter((r) => r.flat_type === '4 ROOM').map((r) => Number(r.resale_price));
+      return `<tr><td style="text-align:left">${esc(title(street))}</td><td>${tx.length}</td><td>${'$' + Math.round(psf)}</td><td>${four.length >= 5 ? money(median(four)) : '—'}</td></tr>`;
+    })
+    .join('\n      ');
+  const streetTable = streetRows ? `
+  <h2>${t} HDB resale prices by street</h2>
+  <p class="src">The ${t} streets with the most resale sales in the last 12 months (at least ${minStreetSales} each). Median $psf compares flats of different sizes; the 4-room median is shown where a street had at least five 4-room sales.</p>
+  <div class="tbl"><table>
+    <thead><tr><th style="text-align:left">Street</th><th>Sales</th><th>Median $psf</th><th>4-room median</th></tr></thead>
+    <tbody>
+      ${streetRows}
+    </tbody>
+  </table></div>` : '';
+
   // Newest full month first, a mix of flat types — see recentSales().
   const latest = recentSales(recs, window12)
     .map((r) => `<tr><td>${r.month}</td><td style="text-align:left">${esc(title(r.flat_type))} · Blk ${esc(r.block)} ${esc(title(r.street_name))}</td><td>${esc(r.storey_range)}</td><td>${money(Number(r.resale_price))}</td></tr>`)
@@ -296,7 +328,7 @@ for (const town of towns) {
     <tbody>
       ${typeRows}
     </tbody>
-  </table></div>
+  </table></div>${streetTable}
   <h2>Most recent transactions</h2>
   <div class="tbl"><table>
     <thead><tr><th>Month</th><th style="text-align:left">Flat</th><th>Storey</th><th>Price</th></tr></thead>
