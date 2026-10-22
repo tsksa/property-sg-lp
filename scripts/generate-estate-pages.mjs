@@ -159,9 +159,8 @@ ${JSON.stringify({
 ${extraSchema ? `<script type="application/ld+json">
 ${JSON.stringify({ '@context': 'https://schema.org', '@graph': extraSchema }, null, 1)}
 </script>
-` : ''}<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>${leadScripts ? `
+` : ''}<script src="/assets/analytics-loader.js" defer data-meta="false"></script>
+${leadScripts ? `
 <script src="/js/recaptcha-helper.js" defer></script>
 <script src="/js/estate-lead.js" defer></script>` : ''}
 <style>

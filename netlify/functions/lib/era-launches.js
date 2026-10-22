@@ -51,7 +51,7 @@ const eraDetailUrl = (id) => `${ERA_ORIGIN}/new-launches/detail/${encodeURICompo
 // Number(null) and Number('') are 0, which would turn "ERA left this blank" into
 // "zero units available". Missing must stay missing.
 const num = (value) => {
-  if (value === null || value === undefined || value === '') return null;
+  if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 };
@@ -136,7 +136,6 @@ function summariseProject(era, { now = new Date() } = {}) {
   if (mix.some((row) => row.minPrice > 0 && row.maxPrice > 0 && row.minPrice > row.maxPrice)) reasons.push('price range inverted');
   if (mix.some((row) => row.minPsf != null && (row.minPsf < 500 || row.minPsf > 10000))) reasons.push('psf outside plausible range');
 
-  const priced = mix.filter((row) => row.minPrice > 0);
   const live = reasons.length === 0;
 
   // ERA leaves a unit type's availability blank once it has sold out. When the
@@ -149,6 +148,12 @@ function summariseProject(era, { now = new Date() } = {}) {
     if (reported === available) for (const row of mix) if (row.available == null) row.available = 0;
   }
 
+  // A launch price is not a current entry price when its unit type is sold
+  // out or availability is unknown. Infer sold-out rows first, then derive
+  // both ranges only from positively available, priced types.
+  const priced = mix.filter((row) => row.available > 0 && row.minPrice > 0);
+  const psfRows = priced.filter((row) => row.minPsf > 0);
+
   return {
     eraId: String(era.id),
     detailUrl: eraDetailUrl(era.id),
@@ -157,11 +162,11 @@ function summariseProject(era, { now = new Date() } = {}) {
     live,
     reasons,
     totals: live ? { units, sold, available, soldPercent: Math.round((sold / units) * 1000) / 10 } : null,
-    priceRange: live ? { min: Math.min(...priced.map((r) => r.minPrice)), max: Math.max(...priced.map((r) => r.maxPrice || r.minPrice)) } : null,
-    psfRange: live
+    priceRange: live && priced.length ? { min: Math.min(...priced.map((r) => r.minPrice)), max: Math.max(...priced.map((r) => r.maxPrice > 0 ? r.maxPrice : r.minPrice)) } : null,
+    psfRange: live && psfRows.length
       ? {
-          min: Math.round(Math.min(...priced.map((r) => r.minPsf).filter((v) => v > 0))),
-          max: Math.round(Math.max(...priced.map((r) => r.maxPsf || r.minPsf).filter((v) => v > 0))),
+          min: Math.round(Math.min(...psfRows.map((r) => r.minPsf))),
+          max: Math.round(Math.max(...psfRows.map((r) => r.maxPsf > 0 ? r.maxPsf : r.minPsf))),
         }
       : null,
     mix: mix.map((row) => ({

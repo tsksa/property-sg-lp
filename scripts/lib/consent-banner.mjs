@@ -1,23 +1,5 @@
-// A shared PDPA cookie-consent banner injected into every page that loads
-// GA4 / Meta Pixel.
-//
-// Why: audited 2026-08-16 — the banner UI (the actual Accept/No-thanks
-// prompt) only ever existed on index.html. Every other tracker-bearing page
-// (73 total, including the two Google Ads landers sell/ and rent-out/) only
-// carried the read-side check `if(pdpa_consent==='declined') don't load` —
-// there was nothing that ever wrote that key on those pages, because nothing
-// on them ever asked. A visitor who lands directly on an estate page, an
-// insights article, or an ad lander (i.e. the entire organic and paid entry
-// surface per ARCHITECTURE.md) was tracked by GA4/Pixel with zero consent
-// UI ever shown to them. index.html itself already has a hand-authored
-// version embedded in its monolithic stylesheet; it's deliberately left
-// alone here (see apply-consent-banner.mjs EXCLUDED) rather than risking
-// surgery on a 200KB page — this module targets everywhere else.
-//
-// Self-contained: scoped `jt-cb-` class names and its own inline style
-// block, and literal colour values (not the page's `--emerald` custom
-// properties, which aren't defined on every template) so it renders
-// identically regardless of host page and can't be broken by one of them.
+// Shared optional-cookie choice for tracker-bearing pages. The homepage
+// retains its matching hand-authored banner and stylesheet.
 
 export const CONSENT_BANNER_MARKER = 'data-jt-consent-banner';
 
@@ -40,16 +22,26 @@ const SCRIPT = `<script>
   var accept=document.getElementById('jtConsentAccept');
   var decline=document.getElementById('jtConsentDecline');
   if(!banner||!accept) return;
-  try{if(localStorage.getItem('pdpa_consent')) return;}catch(e){}
-  setTimeout(function(){banner.classList.add('show');},1200);
+  function hasChoice(){
+    var choice=window._jtConsentChoice;
+    try{choice=choice||localStorage.getItem('pdpa_consent');}catch(e){}
+    return choice==='accepted'||choice==='declined';
+  }
+  if(hasChoice()) return;
+  var showTimer=setTimeout(function(){if(!hasChoice())banner.classList.add('show');},1200);
   accept.addEventListener('click',function(){
+    clearTimeout(showTimer);
+    window._jtConsentChoice='accepted';
     try{localStorage.setItem('pdpa_consent','accepted');}catch(e){}
+    if(typeof window.jtSetAnalyticsConsent==='function')window.jtSetAnalyticsConsent('accepted');
     banner.classList.remove('show');
   });
   if(decline) decline.addEventListener('click',function(){
+    clearTimeout(showTimer);
+    window._jtConsentChoice='declined';
     try{localStorage.setItem('pdpa_consent','declined');}catch(e){}
-    // Opt out immediately on this page load too, not just future ones — the
-    // head snippet only checks the stored flag on the NEXT navigation.
+    if(typeof window.jtSetAnalyticsConsent==='function')window.jtSetAnalyticsConsent('declined');
+    // Keep withdrawal effective even if the shared loader is unavailable.
     window['ga-disable-GT-KVFDZD5V']=true;
     window['ga-disable-G-1YQE8JN66P']=true;
     try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}

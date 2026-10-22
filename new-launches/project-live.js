@@ -15,7 +15,7 @@
   var nf = new Intl.NumberFormat('en-SG');
   function money(value) {
     if (!(value > 0)) return '—';
-    if (value >= 1000000) return '$' + (value / 1000000).toFixed(2).replace(/0$/, '').replace(/\.0$/, '') + 'm';
+    if (value >= 1000000) return '$' + (value / 1000000).toFixed(3).replace(/0+$/, '').replace(/\.$/, '') + 'm';
     return '$' + nf.format(Math.round(value / 1000)) + 'k';
   }
   function psf(min, max) {
@@ -35,7 +35,7 @@
   fetch('/.netlify/functions/era-prices?slug=' + encodeURIComponent(slug), { headers: { Accept: 'application/json' } })
     .then(function (response) { return response.ok ? response.json() : null; })
     .then(function (data) {
-      if (!data || !data.live || !data.totals) return;
+      if (!data || !data.live || !data.totals || !Array.isArray(data.mix) || !data.source || !data.source.url) return;
 
       var rows = {};
       (data.mix || []).forEach(function (row) { rows[row.type] = row; });
@@ -43,15 +43,17 @@
         var row = rows[tr.getAttribute('data-unit-type')];
         if (!row) return;
         var soldOut = row.available === 0;
-        tr.querySelector('[data-live="price"]').textContent = soldOut ? 'Sold out' : money(row.minPrice);
-        tr.querySelector('[data-live="psf"]').textContent = soldOut ? '—' : psf(row.minPsf, row.maxPsf);
-        tr.querySelector('[data-live="available"]').textContent = row.available == null ? '—' : nf.format(row.available);
+        var confirmedAvailable = row.available > 0;
+        tr.querySelector('[data-live="price"]').textContent = soldOut ? 'Sold out' : confirmedAvailable && row.minPrice > 0 ? money(row.minPrice) : 'Confirm';
+        tr.querySelector('[data-live="psf"]').textContent = confirmedAvailable && row.minPrice > 0 ? psf(row.minPsf, row.maxPsf) : '—';
+        tr.querySelector('[data-live="available"]').textContent = row.available == null ? 'Unconfirmed' : nf.format(row.available);
         if (soldOut) tr.classList.add('is-sold-out');
       });
 
       set('[data-live-total="soldPercent"]', data.totals.soldPercent + '%');
       set('[data-live-total="available"]', nf.format(data.totals.available) + ' of ' + nf.format(data.totals.units));
-      set('[data-live-total="from"]', money(data.priceRange && data.priceRange.min));
+      var hasAvailablePrice = data.priceRange && data.priceRange.min > 0;
+      set('[data-live-total="from"]', hasAvailablePrice ? money(data.priceRange.min) : data.totals.available === 0 ? 'Sold out' : 'Confirm price');
       set('[data-live-total="psf"]', data.psfRange ? psf(data.psfRange.min, data.psfRange.max) : '—');
       var bar = section.querySelector('[data-live-bar]');
       if (bar) bar.style.width = Math.max(0, Math.min(100, data.totals.soldPercent)) + '%';
@@ -69,6 +71,11 @@
         link.textContent = "ERA's project listing";
         status.appendChild(link);
         status.appendChild(document.createTextNode(', updated ' + when(data.fetchedAt) + '. '));
+        if (!hasAvailablePrice) {
+          status.appendChild(document.createTextNode(data.totals.available === 0
+            ? 'No units are listed as available. '
+            : 'A starting price for confirmed available units is not listed; ask Joe to verify. '));
+        }
         var ask = document.createElement('a');
         ask.href = 'https://wa.me/6581881488?text=' + encodeURIComponent('Hi Joe, please send me the latest price list and available stacks for this project: ' + document.title);
         ask.target = '_blank';

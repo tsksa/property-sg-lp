@@ -23,7 +23,7 @@
     "generate:project-pages": "node scripts/generate-project-pages.mjs",
     "check:project-pages": "node scripts/generate-project-pages.mjs --check",
     "check:era-snapshot": "node scripts/fetch-era-new-launches.mjs --check",
-    "test:era-launches": "node --test tests/era-launches.test.mjs",
+    "test:era-launches": "node --test tests/era-launches.test.mjs tests/project-live.test.mjs",
     "test:project-gallery": "node --test tests/project-gallery.test.mjs",
     "generate:hdb-loan-cluster": "node scripts/generate-hdb-loan-cluster.mjs",
     "check:hdb-loan-cluster": "node scripts/generate-hdb-loan-cluster.mjs --check",
