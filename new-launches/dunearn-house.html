@@ -613,19 +613,40 @@ function showSuccess(form){
 }
 
 async function handleSubmit(form){
+  if(form._jtSubmitting || form._jtSpamFloorTimer) return;
   if(form.company_website.value) return;
   if(form.reportValidity && !form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
+  // Match the server's 3000ms floor before creating the payload: early requests
+  // are silently discarded with HTTP 200 and must never look like a real success.
+  if(typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(form,_pageLoadedAt,3000,function(){
+    handleSubmit(form);
+  })) return;
+  const remaining = 3000 - (Date.now() - _pageLoadedAt);
+  if(typeof window.jtWaitForSpamFloor !== 'function' && remaining > 0){
+    btn.disabled = true;
+    btn.textContent = 'Please wait…';
+    form._jtSpamFloorTimer = setTimeout(function(){
+      form._jtSpamFloorTimer = null;
+      btn.disabled = false;
+      btn.innerHTML = original;
+      handleSubmit(form);
+    }, remaining);
+    return;
+  }
+  form._jtSubmitting = true;
+
   btn.disabled = true;
   btn.textContent = 'Submitting...';
   const data = {lead_type:'new_launch_registration',request_type:'interest',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,...utm};
   try {
     const res = await fetch(ENDPOINT, {method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});
-    const result = await res.json().catch(() => ({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    const result = await res.json();
+    if(!res.ok || result.ok !== true) throw new Error('submit failed');
     showSuccess(form);
   } catch(err){
+    form._jtSubmitting = false;
     btn.disabled = false;
     btn.innerHTML = original;
     if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(form, {
