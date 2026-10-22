@@ -152,3 +152,70 @@ test('blank availability counts as sold out when the reported types already cove
   const unknown = summariseProject(eraProject({ unitMix: mix, numberOfUnits: '264', unitSummary: { numberOfUnits: 264, numberOfSoldUnits: 205, numberOfAvailableUnits: 59 } }), { now: NOW });
   assert.equal(unknown.mix[0].available, null);
 });
+
+test('current price and psf ranges exclude explicit and inferred sold-out launch prices', () => {
+  for (const availability of [0, null, '']) {
+    const summary = summariseProject(eraProject({
+      unitSummary: { numberOfUnits: 588, numberOfSoldUnits: 553, numberOfAvailableUnits: 35 },
+      unitMix: [
+        { unitType: '2 Bedroom', numberOfAvailableUnits: availability, minPrice: 1486000, maxPrice: 4000000, minPsf: 2200, maxPsf: 3100 },
+        { unitType: '4 Bedroom', numberOfAvailableUnits: 30, minPrice: 2842000, maxPrice: 3060000, minPsf: 2378.4, maxPsf: 2784.4 },
+        { unitType: '5 Bedroom', numberOfAvailableUnits: 5, minPrice: 3100000, maxPrice: 3300000, minPsf: 2400, maxPsf: 2800 },
+      ],
+    }), { now: NOW });
+    assert.equal(summary.live, true);
+    assert.equal(summary.mix[0].available, 0);
+    assert.deepEqual(summary.priceRange, { min: 2842000, max: 3300000 });
+    assert.deepEqual(summary.psfRange, { min: 2378, max: 2800 });
+  }
+});
+
+test('unknown availability remains unknown and never supplies a current price or psf range', () => {
+  for (const availability of [null, undefined, '', '   ']) {
+    const summary = summariseProject(eraProject({
+      unitMix: [
+        { unitType: 'Unknown', numberOfAvailableUnits: availability, minPrice: 1000000, maxPrice: 5000000, minPsf: 1500, maxPsf: 5000 },
+        { unitType: 'Available', numberOfAvailableUnits: 10, minPrice: 2842000, maxPrice: 3100000, minPsf: 2378, maxPsf: 2784 },
+      ],
+    }), { now: NOW });
+    assert.equal(summary.live, true);
+    assert.equal(summary.mix[0].available, null, String(availability));
+    assert.deepEqual(summary.priceRange, { min: 2842000, max: 3100000 });
+    assert.deepEqual(summary.psfRange, { min: 2378, max: 2784 });
+  }
+});
+
+test('no positively available priced rows produces null ranges rather than launch prices or infinities', () => {
+  for (const available of [null, 0]) {
+    const summary = summariseProject(eraProject({
+      unitMix: [{ unitType: 'No confirmed stock', numberOfAvailableUnits: available, minPrice: 1486000, maxPrice: 1700000, minPsf: 2340, maxPsf: 2729 }],
+    }), { now: NOW });
+    assert.equal(summary.live, true);
+    assert.equal(summary.priceRange, null);
+    assert.equal(summary.psfRange, null);
+  }
+  const soldOut = summariseProject(eraProject({
+    unitSummary: { numberOfUnits: 380, numberOfSoldUnits: 380, numberOfAvailableUnits: 0 },
+    unitMix: [{ unitType: 'Sold out', numberOfAvailableUnits: null, minPrice: 1486000, minPsf: 2340 }],
+  }), { now: NOW });
+  assert.equal(soldOut.mix[0].available, 0);
+  assert.equal(soldOut.priceRange, null);
+  assert.equal(soldOut.psfRange, null);
+});
+
+test('available units without price or psf do not borrow figures from unavailable unit types', () => {
+  const summary = summariseProject(eraProject({ unitMix: [
+    { unitType: 'Sold out', numberOfAvailableUnits: 0, minPrice: 1486000, minPsf: 2340 },
+    { unitType: 'Awaiting price', numberOfAvailableUnits: 10, minPrice: null, minPsf: 2400 },
+  ] }), { now: NOW });
+  assert.equal(summary.live, true);
+  assert.equal(summary.priceRange, null);
+  assert.equal(summary.psfRange, null);
+
+  const noPsf = summariseProject(eraProject({ unitMix: [
+    { unitType: 'Available', numberOfAvailableUnits: 10, minPrice: 2842000, minPsf: null },
+  ] }), { now: NOW });
+  assert.deepEqual(noPsf.priceRange, { min: 2842000, max: 2842000 });
+  assert.equal(noPsf.psfRange, null);
+  assert.doesNotMatch(JSON.stringify(noPsf), /Infinity/);
+});
