@@ -153,6 +153,39 @@ test('homepage ships a lazy poster, narrated transcript and accessible opt-in so
   assert.doesNotMatch(section, /Silent video|Silent ·|16.second|A little room to think/);
 });
 
+test('responsive poster candidates exist with truthful dimensions and smaller download budgets', () => {
+  const section = read('index.html').match(/<section class="jt-motion"[\s\S]*?<\/section>/)[0];
+  const candidates = [...section.matchAll(/srcset="([^"]+)" sizes="([^"]+)"/g)];
+  assert.equal(candidates.length, 2, 'both art-directed layouts have responsive candidates and sizes');
+  for (const [index, candidate] of candidates.entries()) {
+    const mobile = index === 0;
+    const expectedWidths = mobile ? [360, 720] : [800, 1280];
+    const files = candidate[1].split(',').map(value => value.trim().split(/\s+/));
+    assert.deepEqual(files.map(([, width]) => Number(width.slice(0, -1))), expectedWidths);
+    for (const [asset, descriptor] of files) {
+      const bytes = fs.readFileSync(new URL(`..${asset}`, import.meta.url));
+      assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+      assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+      let offset = 12;
+      while (offset + 8 < bytes.length && bytes.toString('ascii', offset, offset + 4) !== 'VP8L') {
+        const length = bytes.readUInt32LE(offset + 4);
+        offset += 8 + length + (length % 2);
+      }
+      assert.equal(bytes.toString('ascii', offset, offset + 4), 'VP8L', 'poster uses lossless WebP encoding');
+      assert.equal(bytes[offset + 8], 0x2f);
+      const dimensions = bytes.readUInt32LE(offset + 9);
+      const width = (dimensions & 0x3fff) + 1;
+      const height = ((dimensions >>> 14) & 0x3fff) + 1;
+      assert.equal(width, Number(descriptor.slice(0, -1)), 'srcset width matches actual encoded pixels');
+      assert.equal(width / height, mobile ? 9 / 16 : 16 / 9);
+      assert.ok(bytes.length < (width === expectedWidths[0] ? 25_000 : 35_000), 'poster stays below its per-candidate byte budget');
+    }
+  }
+  assert.match(section, /<source[^>]+media="\(max-width:640px\)"/);
+  assert.match(candidates[0][2], /calc\(100vw - 40px\), 360px$/);
+  assert.match(candidates[1][2], /calc\(100vw - 48px\).*calc\(60vw - 57\.6px\), 643\.2px$/);
+});
+
 test('the walkthrough example and transcript use matching sales from the selected block', () => {
   const data = JSON.parse(read('ops/motion/hdb-walkthrough/data.json'));
   assert.equal(data.postal, '560640');

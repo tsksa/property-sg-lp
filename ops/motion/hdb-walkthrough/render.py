@@ -500,7 +500,14 @@ def contact_sheet(film,tag):
         frame=film.render(t)
         frame.save(keydir/f'{tag}-{n+1:02d}-{t:04.1f}s.png')
         if n==0:
-            frame.save(ROOT/f'joetay-hdb-walkthrough-{tag}-poster.webp',quality=92)
+            # A compact palette preserves line art without photographic compression.
+            # Keep full resolution for dense screens; cover the CSS player widths at 1x.
+            frame.quantize(colors=256,dither=Image.Dither.NONE).save(
+                ROOT/f'joetay-hdb-walkthrough-{tag}-poster.webp',lossless=True,method=6)
+            width=360 if film.mobile else 800
+            frame.resize((width,round(width*film.h/film.w)),Image.Resampling.LANCZOS).quantize(
+                colors=256,dither=Image.Dither.NONE).save(
+                ROOT/f'joetay-hdb-walkthrough-{tag}-{width}-poster.webp',lossless=True,method=6)
         thumb=Image.new('RGB',(tw,th+28),CREAM)
         thumb.paste(frame.resize((tw,th),Image.Resampling.LANCZOS),(0,0))
         ImageDraw.Draw(thumb).text((8,th+5),f'{tag}  /  {t:.1f}s',font=font(13),fill=NAVY)
