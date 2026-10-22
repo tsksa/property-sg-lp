@@ -1088,6 +1088,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <noscript><link rel="stylesheet" href="/assets/block-alert.css"></noscript>
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
+<link rel="stylesheet" href="/assets/home-motion.css">
+<script src="/assets/home-motion.js" defer></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
 </head>
@@ -1172,6 +1174,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
           <p class="jte-error" role="alert" hidden></p>
           <p class="jte-status" role="status" aria-live="polite"></p>
         </form>
+        <a class="jte-link hero-walkthrough-link" href="#next-move">See how to compare sold prices</a>
         <p class="jte-pulse" data-jte-pulse hidden></p>
         <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
         <button type="button" class="jte-link hero-talk" id="heroTalkLink">Rather talk to Joe first? Leave your number</button>
@@ -1225,6 +1228,45 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <span>Scroll</span>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
   </a>
+</section>
+<!-- HDB pricing walkthrough -->
+<section class="jt-motion" id="next-move" data-home-motion aria-labelledby="next-move-title">
+  <div class="jt-motion-inner">
+    <div class="jt-motion-copy">
+      <p class="section-eyebrow">HDB sellers · 30-second walkthrough</p>
+      <h2 id="next-move-title">Before you choose an asking price.</h2>
+      <p>Check actual sales, compare similar flats and see why the details matter.</p>
+      <a class="jt-motion-cta" href="#heroPostal" data-motion-lookup>Check my block’s sold prices</a>
+      <p class="jt-motion-note">Includes AI-generated narration in Singapore English.</p>
+      <details id="next-move-transcript"><summary>Read the narration and visual transcript</summary>
+        <p><strong>Narration</strong></p>
+        <p>Selling your HDB? Start with real sold prices.</p>
+        <p>Enter your postal code. Choose your flat type.</p>
+        <p>Compare recent sales, including the date and floor. Check whether they cover your block or the wider street.</p>
+        <p>These are a starting point. Your floor, condition and remaining lease affect your price.</p>
+        <p>Check your block’s sold prices. No name or phone needed.</p>
+        <p><strong>On-screen text and visuals</strong></p>
+        <p><strong>Before you choose an asking price.</strong> Start with real HDB sold prices.</p>
+        <p><strong>Start with your block.</strong> The example enters postal code 560640 and selects 4-Room.</p>
+        <p><strong>Same flat type. Real sale prices.</strong> The example shows 4-Room sales from block 640 on Ang Mo Kio Avenue 6: October 2026, floors 10–12, 91 m², $560,000; June 2026, floors 04–06, 91 m², $528,000; May 2026, floors 13–15, 91 m², $560,000.</p>
+        <p>Source: HDB via data.gov.sg, checked 22 October 2026. Dates are registration months. These historical sales are a starting point, not a personalised valuation.</p>
+        <p><strong>Then compare the homes.</strong> Animated illustrations highlight floor, condition and remaining lease. Past sales are a starting point, not a valuation.</p>
+        <p><strong>Check your block’s sold prices.</strong> No name or phone needed.</p>
+      </details>
+    </div>
+    <div class="jt-motion-player">
+      <div class="jt-motion-stage">
+        <picture><source media="(max-width:640px)" srcset="/assets/motion/joetay-hdb-walkthrough-mobile-poster.webp"><img src="/assets/motion/joetay-hdb-walkthrough-desktop-poster.webp" width="1280" height="720" loading="lazy" decoding="async" alt="HDB sold-prices walkthrough: check real sales before choosing an asking price."></picture>
+        <video hidden playsinline controls preload="none" aria-label="30-second HDB sold-prices walkthrough with Singapore English narration" aria-describedby="next-move-transcript"></video>
+      </div>
+      <div class="jt-motion-controls" data-motion-controls hidden>
+        <button type="button" data-motion-toggle>Play walkthrough with sound</button>
+        <span class="jt-motion-status" data-motion-status role="status">30 seconds · Narration and captions · Plays when you choose</span>
+      </div>
+      <p class="jt-motion-note">Example: 4-Room sales at block 640, Ang Mo Kio Avenue 6, checked 22 October 2026. Historical sales are a starting point, not a personalised valuation.</p>
+      <noscript><p>The poster and transcript are available without JavaScript.</p></noscript>
+    </div>
+  </div>
 </section>
 <!-- Trust Strip -->
 <section class="trust-strip" aria-label="Track record">
@@ -2116,6 +2158,7 @@ document.getElementById('heroTalkLink').addEventListener('click',()=>{
   showHeroConsult(true);
 });
 document.getElementById('heroBackToEstimate').addEventListener('click',()=>showHeroConsult(false));
+document.querySelector('[data-motion-lookup]').addEventListener('click',()=>showHeroConsult(false));
 // "Get Joe's valuation" from the estimate: open the valuation popup with the
 // postal code and flat type already filled, so the visitor only adds contact details.
 const HDB_TYPE_OPTION={'2 ROOM':'2-room','3 ROOM':'3-room','4 ROOM':'4-room','5 ROOM':'5-room','EXECUTIVE':'Executive'};

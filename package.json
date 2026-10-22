@@ -47,7 +47,7 @@
     "test:estate-schema": "node --test tests/estate-schema.test.mjs",
     "test:estate-lead-form": "node --test tests/estate-lead-form.test.mjs",
     "test:homepage-lead-timing": "node --test tests/homepage-lead-timing.test.mjs",
-    "test:homepage-ux": "node --test tests/homepage-ux.test.mjs",
+    "test:homepage-ux": "node --test tests/homepage-ux.test.mjs tests/home-motion.test.mjs",
     "test:valuation-funnel": "node --test tests/valuation-funnel.test.mjs",
     "test:mobile-header": "node --test tests/mobile-header.test.mjs",
     "test:site-theme": "node --test tests/site-theme.test.mjs",

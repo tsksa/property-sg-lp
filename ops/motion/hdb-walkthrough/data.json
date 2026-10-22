@@ -1,0 +1,44 @@
+{
+  "postal": "560640",
+  "block": "640",
+  "street": "Ang Mo Kio Avenue 6",
+  "flat_type": "4-Room",
+  "scope": "block",
+  "scope_label": "Blk 640 · Ang Mo Kio Avenue 6",
+  "transactions": [
+    {
+      "month": "2026-10",
+      "town": "ANG MO KIO",
+      "flat_type": "4 ROOM",
+      "block": "640",
+      "street_name": "ANG MO KIO AVE 6",
+      "storey_range": "10 TO 12",
+      "floor_area_sqm": "91.00",
+      "resale_price": "560000"
+    },
+    {
+      "month": "2026-06",
+      "town": "ANG MO KIO",
+      "flat_type": "4 ROOM",
+      "block": "640",
+      "street_name": "ANG MO KIO AVE 6",
+      "storey_range": "04 TO 06",
+      "floor_area_sqm": "91.00",
+      "resale_price": "528000"
+    },
+    {
+      "month": "2026-05",
+      "town": "ANG MO KIO",
+      "flat_type": "4 ROOM",
+      "block": "640",
+      "street_name": "ANG MO KIO AVE 6",
+      "storey_range": "13 TO 15",
+      "floor_area_sqm": "91.00",
+      "resale_price": "560000"
+    }
+  ],
+  "source_label": "HDB via data.gov.sg",
+  "verified_at": "22 Oct 2026",
+  "source_url": "https://data.gov.sg/api/action/datastore_search?resource_id=d_8b84c4ee58e3cfc0ece0d773c8ca6abc&filters=%7B%22block%22%3A+%22640%22%2C+%22street_name%22%3A+%22ANG+MO+KIO+AVE+6%22%7D&fields=month%2Ctown%2Cflat_type%2Cblock%2Cstreet_name%2Cstorey_range%2Cfloor_area_sqm%2Cresale_price&sort=month+desc&limit=200",
+  "note": "Recent registered four-room sales in block 640. Historical example, not a valuation. Dates shown as month of registration."
+}
