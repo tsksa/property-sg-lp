@@ -40,9 +40,7 @@
 <style>.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}</style>
 <link rel="alternate" type="application/atom+xml" title="PropertySG Insights" href="https://joetay.com/insights/feed.xml">
 <link rel="alternate" type="application/feed+json" title="PropertySG Insights (JSON Feed)" href="https://joetay.com/insights/feed.json">
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script>
-<script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script src="/assets/analytics-loader.js" defer data-meta="false"></script>
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
 <script type="application/ld+json">
@@ -297,16 +295,26 @@ footer:has(> .jt-sf) > span{display:block}
   var accept=document.getElementById('jtConsentAccept');
   var decline=document.getElementById('jtConsentDecline');
   if(!banner||!accept) return;
-  try{if(localStorage.getItem('pdpa_consent')) return;}catch(e){}
-  setTimeout(function(){banner.classList.add('show');},1200);
+  function hasChoice(){
+    var choice=window._jtConsentChoice;
+    try{choice=choice||localStorage.getItem('pdpa_consent');}catch(e){}
+    return choice==='accepted'||choice==='declined';
+  }
+  if(hasChoice()) return;
+  var showTimer=setTimeout(function(){if(!hasChoice())banner.classList.add('show');},1200);
   accept.addEventListener('click',function(){
+    clearTimeout(showTimer);
+    window._jtConsentChoice='accepted';
     try{localStorage.setItem('pdpa_consent','accepted');}catch(e){}
+    if(typeof window.jtSetAnalyticsConsent==='function')window.jtSetAnalyticsConsent('accepted');
     banner.classList.remove('show');
   });
   if(decline) decline.addEventListener('click',function(){
+    clearTimeout(showTimer);
+    window._jtConsentChoice='declined';
     try{localStorage.setItem('pdpa_consent','declined');}catch(e){}
-    // Opt out immediately on this page load too, not just future ones — the
-    // head snippet only checks the stored flag on the NEXT navigation.
+    if(typeof window.jtSetAnalyticsConsent==='function')window.jtSetAnalyticsConsent('declined');
+    // Keep withdrawal effective even if the shared loader is unavailable.
     window['ga-disable-GT-KVFDZD5V']=true;
     window['ga-disable-G-1YQE8JN66P']=true;
     try{sessionStorage.removeItem('jt_lead_attribution_v1');}catch(e){}

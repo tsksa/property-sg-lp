@@ -321,6 +321,7 @@ export function projectFaqEntries(project) {
   const checked = formatDate(project.verifiedAt);
   const units = new Intl.NumberFormat('en-SG').format(project.unitCount);
   const region = REGION_LABELS[project.region] || project.region;
+  const hasLiveTable = Boolean(eraFor(project)?.unitTypes?.length);
   let status;
   if (project.status === 'sold-out') {
     status = `As of ${checked}, ${name} is recorded as sold out. Joe can suggest current alternatives in the same district.`;
@@ -330,11 +331,15 @@ export function projectFaqEntries(project) {
       ? `As of ${checked}, ${name} has not launched for sale. ${timing}.`
       : `As of ${checked}, ${name} has not launched for sale. ${timing}. Preview and booking dates appear here only once the developer confirms them.`;
   } else {
-    status = `As of ${checked}, ${name} is selling. Balance-unit counts change week to week and are not published here unless verified, so ask Joe for the current unit list.`;
+    status = hasLiveTable
+      ? `As of ${checked}, ${name} is selling. Dated live availability loads in the unit-mix table when ERA's figures pass checks. If it cannot be confirmed, ask Joe for the current unit list.`
+      : `As of ${checked}, ${name} is selling. Balance-unit counts change week to week and are not published here unless verified, so ask Joe for the current unit list.`;
   }
   let price;
   if (project.status === 'sold-out') {
     price = `${name} is sold out, so there is no current developer pricing to show. Joe can compare alternatives that are selling nearby.`;
+  } else if (hasLiveTable) {
+    price = `Indicative prices for ${name} load in the unit-mix table. The starting-price summary uses only unit types with confirmed availability. If a price or availability cannot be confirmed, ask Joe for the current price list; these figures are not a developer offer.`;
   } else if (isFresh(project.priceFrom)) {
     price = `The verified entry price for ${name} is from ${formatMoney(project.priceFrom.value)} as of ${formatDate(project.priceFrom.asOf)}. Prices change with each developer release, so ask Joe for current pricing before comparing.`;
   } else {
@@ -546,8 +551,8 @@ function unitMixSection(project) {
     <div class="project-live-summary" data-live-summary hidden>
       <div class="project-live-stat"><span data-live-total="soldPercent">—</span><small>sold</small></div>
       <div class="project-live-stat"><span data-live-total="available">—</span><small>units left</small></div>
-      <div class="project-live-stat"><span data-live-total="from">—</span><small>starting price</small></div>
-      <div class="project-live-stat"><span data-live-total="psf">—</span><small>psf range</small></div>
+      <div class="project-live-stat"><span data-live-total="from">—</span><small>available units from</small></div>
+      <div class="project-live-stat"><span data-live-total="psf">—</span><small>available units psf</small></div>
       <div class="project-live-bar" aria-hidden="true"><span data-live-bar></span></div>
     </div>
     <div class="project-unitmix-table-wrap" tabindex="0" role="region" aria-label="${esc(project.name)} unit mix table">
@@ -983,9 +988,8 @@ ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchInte
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 ${fontLinksHtml()}
 ${heroPreloadHtml(project)}
-<link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
-<script>try{if(localStorage.getItem('pdpa_consent')==='declined'){window['ga-disable-GT-KVFDZD5V']=true;window._pdpaDeclined=true;}}catch(e){}</script><script>if(!window._pdpaDeclined){var gaS=document.createElement('script');gaS.async=true;gaS.src='https://www.googletagmanager.com/gtag/js?id=GT-KVFDZD5V';document.head.appendChild(gaS);}</script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-KVFDZD5V');</script>
+<script src="/assets/analytics-loader.js" defer data-meta="false"></script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 ${SITE_THEME_ASSETS_HTML}
 ${mobileHeaderAssetsHtml()}
