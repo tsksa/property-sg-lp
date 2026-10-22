@@ -1,12 +1,19 @@
 # Current QA — 22 October 2026
 
-**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview and production verification of this combined release are pending; earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined npm run check after the consent correction passed 1,087 tests with 0 failures. The publish-directory build also passed; generated sitemap output is excluded from the PR.
+**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined npm run check after the consent correction passed 1,087 tests with 0 failures. The publish-directory build also passed; generated sitemap output is excluded from the PR.
 
 ## Browser evidence
 
 - Vela checked at 1280×900 and 390px wide; Pinery at 390px and 320px, with no horizontal overflow in the Pinery checks. The enquiry fields retain visible labels and the complete project-specific unit-mix choices. An empty Vela submission focuses the name field without sending a lead.
 - Homepage film checked on desktop and mobile: Play advances the film, Pause stops it, switching format restores the poster, and the transcript stays available. Browser network recording showed no MP4 requests before explicit Play; the video has no initial source. Enabling reduced motion stops playback. Dark-theme CSS was inspected and a screenshot retained.
 - Evidence folder: `/Users/andylau/website-audits/joetay-2026-10-22/followup-release/`. Captures: `vela-pilot-desktop.png`, `vela-pilot-mobile.png`, `vela-pilot-form-desktop.png`, `pinery-pilot-mobile.png`, `pinery-pilot-form-mobile.png`, `homepage-motion-desktop.png`, `homepage-motion-mobile.png`, and `homepage-motion-dark.png`.
+
+## Hosted preview — current release
+
+- PR #456 preview at code commit `1f259e8`: Vela at 1280px and Pinery at 390px show the pilot, one form and no horizontal overflow. The mobile film reaches readyState 4, plays, replays and pauses.
+- Google/Meta requests are absent before opt-in, present after acceptance, and absent after withdrawal/reload. Missing or foreign price-alert origins and cross-site metadata return 403; trusted empty payload reaches 400 validation. No real lead or subscription was sent.
+- Analytics loader, motion player, pilot CSS and both MP4s match local hashes. Preview responses carry `X-Robots-Tag: noindex`. Pricing #474 shows $2.842m from the 35 available Pinery units in its dated feed.
+- Evidence: `hosted-verification.json`, `preview-pricing.json`, `preview-vela-desktop.png`, `preview-pinery-mobile.png` and `preview-pricing-474.png` in the current evidence folder.
 
 ## Code and media verification
 
