@@ -4,7 +4,7 @@ A 30-second animation drawn with Python/Pillow and encoded with ffmpeg. No stock
 
 ## Data
 
-`data.json` preserves the three official HDB records used in the example, the exact public query and the 22 October 2026 check date. Postal 560123 resolved to block 123, Ang Mo Kio Avenue 6. There were no records for that block, so the demonstration explicitly shows different blocks along the street. This dated example is not a live quotation or a valuation. Recheck both block and street records before changing the snapshot.
+`data.json` preserves the three official HDB records used in the example, the exact public query and the 22 October 2026 check date. Postal 560640 resolves to block 640, Ang Mo Kio Avenue 6. The demonstration shows the three most recent four-room transactions in that block: October, June and May 2026. The same records were confirmed through the homepage lookup. This dated example is not a live quotation or a valuation. Recheck the address and block records before changing the snapshot. The renderer rejects a block example containing records from another block.
 
 ## Rebuild
 

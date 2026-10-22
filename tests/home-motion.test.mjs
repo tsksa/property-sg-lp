@@ -144,14 +144,41 @@ test('homepage ships a lazy poster, narrated transcript and accessible opt-in so
   assert.match(html, /src="\/assets\/home-motion.js" defer/);
   assert.match(section, /Play walkthrough with sound/);
   assert.match(section, /Includes AI-generated narration in Singapore English\./);
-  assert.match(section, /Example: Ang Mo Kio Avenue 6 street sales, checked 22 October 2026\./);
+  assert.match(section, /Example: 4-Room sales at block 640, Ang Mo Kio Avenue 6, checked 22 October 2026\./);
   assert.match(section, /not a personalised valuation/);
-  assert.match(section, /No sales were found for block 123/);
-  assert.match(section, /sales from different blocks/);
+  assert.doesNotMatch(section, /560123|block 123|No sales were found|street sales|street comparisons|different blocks|block 700B|block 638/);
   assert.match(section, /<strong>Narration<\/strong>/);
   assert.match(section, /<strong>On-screen text and visuals<\/strong>/);
   for (const phrase of narration) assert.ok(section.includes(phrase), `missing narration: ${phrase}`);
   assert.doesNotMatch(section, /Silent video|Silent ·|16.second|A little room to think/);
+});
+
+test('the walkthrough example and transcript use matching sales from the selected block', () => {
+  const data = JSON.parse(read('ops/motion/hdb-walkthrough/data.json'));
+  assert.equal(data.postal, '560640');
+  assert.equal(data.block, '640');
+  assert.equal(data.street, 'Ang Mo Kio Avenue 6');
+  assert.equal(data.flat_type, '4-Room');
+  assert.equal(data.scope, 'block');
+  assert.deepEqual(data.transactions.map(row => [row.month, row.storey_range, Number(row.floor_area_sqm), Number(row.resale_price)]), [
+    ['2026-10', '10 TO 12', 91, 560000],
+    ['2026-06', '04 TO 06', 91, 528000],
+    ['2026-05', '13 TO 15', 91, 560000],
+  ]);
+  const transcript = read('index.html').match(/<details id="next-move-transcript">[\s\S]*?<\/details>/)[0];
+  assert.ok(transcript.includes(`postal code ${data.postal}`));
+  assert.ok(transcript.includes(`${data.flat_type} sales from block ${data.block} on ${data.street}`));
+  const date = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  for (const row of data.transactions) {
+    assert.equal(row.block, data.block, 'each example sale belongs to the requested block');
+    assert.equal(row.street_name, 'ANG MO KIO AVE 6');
+    assert.equal(row.flat_type, '4 ROOM');
+    const month = date.format(new Date(`${row.month}-01T00:00:00Z`));
+    const floors = row.storey_range.replace(' TO ', '–');
+    const price = Number(row.resale_price).toLocaleString('en-SG');
+    assert.ok(transcript.includes(`${month}, floors ${floors}, ${Number(row.floor_area_sqm)} m², $${price}`), `transcript omits the source sale: ${row.month}`);
+  }
+  assert.match(transcript, /checked 22 October 2026\. Dates are registration months\./);
 });
 
 test('the HDB walkthrough follows the hero and links back to the lookup shown in the demo', () => {

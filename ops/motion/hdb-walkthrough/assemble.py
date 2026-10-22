@@ -60,7 +60,7 @@ def main():
         run(['-i',str(master),'-i',str(ROOT/'narration.wav'),'-map','0:v:0','-map','1:a:0',
              '-c:v','copy','-c:a','aac','-b:a','64k','-ar','48000','-t','30','-movflags','+faststart',
              '-metadata','title=Before you choose an asking price - Joe Tay',
-             '-metadata','comment=Code-generated HDB walkthrough. Historical street sales checked 22 October 2026. Azure en-SG-WayneNeural synthetic narration.', str(output)])
+             '-metadata','comment=Code-generated HDB walkthrough. Historical block 640 sales checked 22 October 2026. Azure en-SG-WayneNeural synthetic narration.', str(output)])
         run(['-i',str(output),'-f','null','-'])
         assert output.stat().st_size < 1_000_000
         probe = json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','stream=codec_type,codec_name,width,height,sample_rate,channels:format=duration,size','-of','json',str(output)]))

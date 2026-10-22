@@ -174,6 +174,9 @@ class Film:
         self.block = str(self.data.get('block', ''))
         self.flat_type = self.data.get('flat_type', '4 ROOM').replace(' ROOM','-room').replace('room','room')
         self.rows = self.data.get('transactions', [])[:3]
+        self.scope = self.data.get('scope', 'street')
+        if self.scope == 'block' and any(str(row.get('block')) != self.block for row in self.rows):
+            raise ValueError('Block example contains records from another block')
         self.empty = not data
 
     def canvas(self, dark=False):
@@ -289,11 +292,11 @@ class Film:
         if m:
             p.text((x,176),'Same flat type.',64,NAVY,True,550)
             p.text((x,249),'Real sale prices.',64,NAVY,True,550)
-            p.text((x,337),f'{self.street} · Street sales',25,MUTED,False,500)
+            p.text((x,337),self.data.get('scope_label', self.street),25,MUTED,False,500)
             bx,by,bw=44,370,632
         else:
             p.text((x,166),'Same flat type. Real sale prices.',62,NAVY,True,550)
-            p.text((x,239),f'{self.street} · Street sales',27,MUTED)
+            p.text((x,239),self.data.get('scope_label', self.street),27,MUTED)
             bx,by,bw=64,280,1152
         pillw=p.textwidth(self.flat_type,24,weight=650)+38
         pillx=bx if m else bx+bw-pillw
@@ -338,11 +341,14 @@ class Film:
         p.text((bx,foot),'HDB resale records via data.gov.sg',24 if m else 22,MUTED)
         if m:
             p.text((bx,foot+34),f'Example checked {date}',22,MUTED)
-            p.text((bx,foot+81),'No block sales found here;',24,COPPER,False,600)
-            p.text((bx,foot+114),'showing the wider street.',24,COPPER,False,600)
+            if self.scope == 'block':
+                p.text((bx,foot+81),'Recent registered sales in this block.',24,TEAL,False,600)
+            else:
+                p.text((bx,foot+81),'Street comparison across blocks.',24,MUTED,False,600)
         else:
             p.text((bx+bw,foot),f'Checked {date}',22,MUTED,False,500,'rt')
-            p.text((bx,foot+28),'No block sales found here; showing the wider street.',22,COPPER,False,600)
+            label = 'Recent registered sales in this block.' if self.scope == 'block' else 'Street comparison across blocks.'
+            p.text((bx,foot+28),label,22,TEAL if self.scope == 'block' else MUTED,False,600)
         if t>3:
             # A thin emphasis rule sweeps from dates to floors to prices. No invented uplift.
             phase=min(2,int((t-3)/1.4))
