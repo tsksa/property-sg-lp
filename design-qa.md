@@ -1,6 +1,27 @@
-# Vela Bay and Pinery pilot — design QA
+# Current QA — 22 October 2026
 
-final result: passed
+**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview and production verification of this combined release are pending; earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined npm run check after the consent correction passed 1,087 tests with 0 failures. The publish-directory build also passed; generated sitemap output is excluded from the PR.
+
+## Browser evidence
+
+- Vela checked at 1280×900 and 390px wide; Pinery at 390px and 320px, with no horizontal overflow in the Pinery checks. The enquiry fields retain visible labels and the complete project-specific unit-mix choices. An empty Vela submission focuses the name field without sending a lead.
+- Homepage film checked on desktop and mobile: Play advances the film, Pause stops it, switching format restores the poster, and the transcript stays available. Browser network recording showed no MP4 requests before explicit Play; the video has no initial source. Enabling reduced motion stops playback. Dark-theme CSS was inspected and a screenshot retained.
+- Evidence folder: `/Users/andylau/website-audits/joetay-2026-10-22/followup-release/`. Captures: `vela-pilot-desktop.png`, `vela-pilot-mobile.png`, `vela-pilot-form-desktop.png`, `pinery-pilot-mobile.png`, `pinery-pilot-form-mobile.png`, `homepage-motion-desktop.png`, `homepage-motion-mobile.png`, and `homepage-motion-dark.png`.
+
+## Code and media verification
+
+- Independent review passed 110 targeted motion, enquiry, project-page and pricing tests. All five bespoke enquiry handlers match merged PR #472 byte for byte, retaining the 3-second submission floor, duplicate guards, explicit success acknowledgement and error recovery. The delayed old-play rejection bug is fixed and covered by a deferred-promise regression.
+- Read-only generator inspection found stable second-pass output for all 27 project pages, with the pilot transformation unchanged on all 27. Vela, Pinery and all five bespoke pages match generated output exactly. Eleven non-pilot pages differ only by one blank line; no content or behavior drift was found.
+- Local media: desktop 801,307 bytes at 1280×720; mobile 871,633 bytes at 720×1280. Both are silent 16-second H.264/yuv420p films. They reuse existing homepage imagery, Joe’s photo and self-hosted fonts, with no new property or outcome claims. Playback is optional, with lazy posters and a text transcript.
+- Test log: `/Users/andylau/website-audits/joetay-2026-10-22/evidence/combined-independent-review-tests.log`. Generator evidence: `evidence/combined-generator-idempotence.json` in that audit folder. These local checks do not establish successful real lead delivery, indexing changes or conversion gains.
+
+---
+
+# Historical — 5 October 2026 Vela Bay and Pinery pilot QA
+
+The observations, test counts and PR #456 preview checks below are retained historical evidence. They do not establish the state of the combined 22 October release.
+
+Historical result: passed
 
 ## Visual target and evidence
 
