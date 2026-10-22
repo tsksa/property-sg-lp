@@ -19,6 +19,11 @@ export const FURNITURE_STEPS = [
   'apply-conversion-tracking.mjs',
   'apply-consent-banner.mjs',
   'apply-self-hosted-fonts.mjs',
+  // Not furniture on the generated pages, but its town and district lists are
+  // read from them (JOE-448). Both refresh workflows commit the pages it
+  // rewrites and regenerate the launch pages, which link the same pages, so a
+  // refresh that adds a town or district page ships the updated lists.
+  'apply-price-links.mjs',
 ];
 
 for (const step of FURNITURE_STEPS) {

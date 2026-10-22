@@ -33,6 +33,14 @@ a:hover{text-decoration:underline}
 .blog-districts-col li span{display:block;font-size:.82rem}
 @media(max-width:680px){.blog-districts-cols{grid-template-columns:1fr;gap:20px}}
 @media(max-width:680px){.blog-guide{padding:20px 18px}.blog-guide-steps{grid-template-columns:1fr}}
+/* Dark mode (JOE-449): the shared theme turns main text and links light, so
+   the cream panel goes to the theme's dark cream (#07172f, as .section-cream
+   in assets/site-theme.css) and every text colour above is restated for it. */
+html.jt-theme-dark .blog-guide{background:#07172f;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .blog-guide-head h2,html.jt-theme-dark .blog-districts-col h3{color:#f8fafc}
+html.jt-theme-dark .blog-guide-head p,html.jt-theme-dark .blog-guide-steps li,html.jt-theme-dark .blog-guide-tools,html.jt-theme-dark .blog-districts-col li{color:#c1cad8}
+html.jt-theme-dark .blog-districts-col h3 span{color:#a3adba}
+html.jt-theme-dark .blog-guide a{color:#6ee7c1}
 
 
 /* ── Index page hero ── */
@@ -104,6 +112,13 @@ a:hover{text-decoration:underline}
 .article-cta p{color:rgba(255,255,255,0.78);font-size:0.97rem;margin-bottom:22px;max-width:480px;margin-left:auto;margin-right:auto}
 .article-cta a{display:inline-block;background:var(--emerald-aa);color:#fff;padding:13px 28px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background .2s}
 .article-cta a:hover{background:var(--emerald-dark);text-decoration:none}
+/* A CTA can sit inside .article-body (the mega-launches article places one
+   after the Hougang pricing section). Body link and heading rules would
+   otherwise underline the button and add top margin the CTA does not use. */
+.article-body .article-cta h3{margin:0 0 10px;color:#fff}
+.article-body .article-cta p{margin:0 auto 22px}
+.article-body .article-cta a,
+.article-body .article-cta a:hover{border-bottom:0;color:#fff;text-decoration:none}
 
 /* ── Article footer / related ── */
 .article-footer{margin-top:56px;padding-top:32px;border-top:1px solid #eee}

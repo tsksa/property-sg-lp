@@ -10,6 +10,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'new-launches', 'projects.json'), 'utf8'));
 const pages = buildCatalogPages(DATA);
 
+test('catalogue cards are visible without waiting for a viewport-sized scroll reveal', () => {
+  for (const [name, html] of [['active', pages.index], ['sold-out', pages.soldOut]]) {
+    const catalog = html.match(/<ul\b[^>]*\bid="catalog"[^>]*>[\s\S]*?<\/ul>/)?.[0];
+    assert.ok(catalog, `${name} catalogue is rendered in the initial HTML`);
+    // A long catalogue may never reach the observer's intersection threshold.
+    // Its content must remain visible before JavaScript or scrolling occurs.
+    for (const [, classes] of catalog.matchAll(/\bclass="([^"]*)"/g)) {
+      assert.ok(!classes.split(/\s+/).some((value) => value === 'reveal' || value === 'reveal-stagger'),
+        `${name} catalogue must not depend on scroll-reveal classes`);
+    }
+  }
+});
+
 test('secondary filters use a keyboard-accessible disclosure without hiding search or reset', () => {
   for (const html of [pages.index]) {
     assert.match(html, /<details class="nl-secondary-filters">\s*<summary>Filters and sort/);
@@ -108,4 +121,26 @@ test('metadata, canonical URLs and structured lists are data-derived', () => {
   assert.match(pages.index, /"@type": "ItemList"/);
   assert.match(pages.index, /"numberOfItems": 25/);
   assert.match(pages.soldOut, /"numberOfItems": 2/);
+});
+
+// JOE-448: /new-launches/ is indexed and recrawled often but linked no district
+// price page. The active catalogue lists every condo-prices/dNN/ page outside
+// the #catalog grid (so no scroll reveal hides it) and after the WhatsApp band
+// (so on phones it does not push that band down); the sold-out archive does not.
+test('the active catalogue links every condo district page, built from the pages on disk', () => {
+  const districts = fs.readdirSync(path.join(ROOT, 'condo-prices')).filter((name) => /^d\d\d$/.test(name)).sort();
+  assert.ok(districts.length >= 20);
+  const html = pages.index.replace(/<script\b[\s\S]*?<\/script>/g, '');
+  const section = html.match(/<section class="nl-prices" aria-labelledby="nl-prices-title">[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'district price section missing');
+  assert.ok(html.indexOf(section) > html.indexOf('</ul>', html.indexOf('id="catalog"')), 'section must follow the catalogue grid');
+  assert.ok(html.indexOf(section) > html.indexOf('id="register"'), 'section must follow the WhatsApp band');
+  assert.ok(html.indexOf(section) < html.indexOf('<footer'));
+  assert.doesNotMatch(section, /\breveal/);
+  const linked = [...section.matchAll(/<a href="\/condo-prices\/(d\d\d)\/">D\d\d [^<]+ condo resale prices<\/a>/g)].map((m) => m[1]);
+  assert.deepEqual(linked, districts);
+  assert.match(section, /href="\/condo-prices\/"/);
+  assert.match(section, /href="\/hdb-prices\/"/);
+  assert.doesNotMatch(pages.soldOut, /nl-prices/);
+  assert.equal(fs.readFileSync(path.join(ROOT, 'new-launches', 'index.html'), 'utf8'), pages.index);
 });

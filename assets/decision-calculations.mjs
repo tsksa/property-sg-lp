@@ -11,8 +11,11 @@ const cents = value => Math.round((value + Number.EPSILON) * 100);
 export function repaymentEstimate({ principal, annualRatePercent, years }) {
   amount(principal, 'Loan amount', 100000000);
   amount(annualRatePercent, 'Annual interest rate', 100);
-  if (!Number.isInteger(years) || years < 1 || years > 25) {
-    throw new RangeError('Loan term must be a whole number from 1 to 25 years.');
+  // 30 years, not 25: Monthly repayment also serves bank loans on private homes,
+  // where the standard tenure ceiling is 30 years. HDB flats stay at 25 in the
+  // affordability tool's own tenure field.
+  if (!Number.isInteger(years) || years < 1 || years > 30) {
+    throw new RangeError('Loan term must be a whole number from 1 to 30 years.');
   }
   const principalCents = cents(principal);
   const months = years * 12;

@@ -133,7 +133,7 @@ test('new-launch cards use semantic list markup without invalid link roles', () 
   const data = JSON.parse(read('new-launches/projects.json'));
   const activeCount = data.projects.filter(({ status }) => status !== 'sold-out').length;
   const list = html.match(
-    /<ul[^>]+class="nl-grid reveal-stagger"[^>]+aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
+    /<ul[^>]+id="catalog"[^>]+aria-label="Singapore new launch projects">([\s\S]*?)<\/ul>/,
   )?.[1];
 
   assert.ok(list, 'missing new-launch project list');
@@ -150,6 +150,17 @@ test('new-launch catalog controls have explicit labels and live feedback', () =>
   }
   assert.match(html, /id="nlFilterStatus"[^>]+role="status"[^>]+aria-live="polite"/);
   assert.match(html, /id="nlEmptyState"[^>]+hidden/);
+});
+
+test('a CTA nested in the article body keeps its own link and heading styles', () => {
+  const css = read('insights/blog.css');
+  assert.match(css, /\.article-body \.article-cta h3\{[^}]*margin:0 0 10px/);
+  assert.match(css, /\.article-body \.article-cta a,\s*\.article-body \.article-cta a:hover\{[^}]*border-bottom:0/);
+  const article = read('insights/singapore-mega-launches-2027.html');
+  const bodyStart = article.indexOf('<section class="article-body"');
+  const bodyEnd = article.indexOf('</section>', bodyStart);
+  const cta = article.indexOf('<div class="article-cta">');
+  assert.ok(bodyStart !== -1 && cta > bodyStart && cta < bodyEnd, 'mega-launches CTA should stay in the body, after the Hougang section');
 });
 
 test('insights footer links are distinguishable without relying on colour', () => {

@@ -137,6 +137,7 @@ html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
 html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
 html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta,html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta:hover{color:#04231a}
 html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
 html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
@@ -155,7 +156,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <div class="nl-results-head"><div><p class="nl-controls-eyebrow">Archive</p><h2>Sold-out projects</h2></div><p id="nlResultSummary"><strong id="nlResultCount">2</strong> projects</p></div>
   <p id="nlFilterStatus" class="sr-only" role="status" aria-live="polite"></p>
   <div id="nlEmptyState" class="nl-empty" hidden><h2>No matching projects</h2><p>Try a broader search or reset the filters.</p><button type="button" id="nlEmptyReset">Reset filters</button></div>
-  <ul id="catalog" class="nl-grid reveal-stagger" aria-label="Sold-out Singapore projects">
+  <ul id="catalog" class="nl-grid" aria-label="Sold-out Singapore projects">
     <li class="nl-card-item" data-catalog-item data-name="tengah garden residences" data-search="tengah garden residences hong leong holdings / guocoland / csc land tengah garden avenue" data-status="sold-out" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-04-11" data-price="" data-default-order="0">
       <a href="/new-launches/tengah-garden-residences.html" class="nl-card">
         <div class="nl-card-img" aria-hidden="true">
@@ -221,36 +222,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <div class="nl-alternatives-group">
       <h3>Instead of Tengah Garden Residences (D24, OCR)</h3>
       <ul class="nl-grid" aria-label="Alternatives to Tengah Garden Residences">
-    <li class="nl-card-item" data-name="lucerne grand" data-search="lucerne grand city developments limited lakeside drive" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="0">
-      <a href="/new-launches/lucerne-grand.html" class="nl-card">
-        <div class="nl-card-img" aria-hidden="true">
-          <img src="/new-launches/img/gallery/lucerne-grand/card-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
-          <span class="nl-card-badge new">Upcoming</span>
-        </div>
-        <div class="nl-card-body">
-          <div class="nl-card-meta">
-            <span class="district">D22 · OCR</span>
-            <span class="dot" aria-hidden="true">·</span>
-            <span>Condominium</span>
-          </div>
-          <h2>Lucerne Grand</h2>
-          <p class="nl-card-location">Lakeside Drive · City Developments Limited</p>
-          <dl class="nl-card-facts">
-            <div><dt>Tenure</dt><dd>99-year leasehold</dd></div>
-            <div><dt>Units</dt><dd>570</dd></div>
-            <div class="wide"><dt>Launch</dt><dd>Expected 2026-10</dd></div>
-            <div class="wide"><dt>Verified</dt><dd>16 Sept 2026</dd></div>
-          </dl>
-          <div class="nl-card-market">
-            <strong>Ask for latest price</strong>
-            <span>Contact Joe for current pricing and availability.</span>
-          </div>
-          <span class="nl-card-link">View project details <span aria-hidden="true">→</span></span>
-        </div>
-      </a>
-    </li>
-
-    <li class="nl-card-item" data-name="chencharu close" data-search="chencharu close evia real estate / gamuda land / ho lee group chencharu close" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="1">
+    <li class="nl-card-item" data-name="chencharu close" data-search="chencharu close evia real estate / gamuda land / ho lee group chencharu close" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="0">
       <a href="/new-launches/chencharu-close.html" class="nl-card">
         <div class="nl-card-img" aria-hidden="true">
           <img src="/new-launches/img/maps/chencharu-close-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
@@ -279,7 +251,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       </a>
     </li>
 
-    <li class="nl-card-item" data-name="upper thomson road" data-search="upper thomson road wee hur holdings upper thomson road" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="2">
+    <li class="nl-card-item" data-name="upper thomson road" data-search="upper thomson road wee hur property / gsc holdings upper thomson road" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="1">
       <a href="/new-launches/upper-thomson-road.html" class="nl-card">
         <div class="nl-card-img" aria-hidden="true">
           <img src="/new-launches/img/maps/upper-thomson-road-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
@@ -292,16 +264,45 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
             <span>Condominium</span>
           </div>
           <h2>Upper Thomson Road</h2>
-          <p class="nl-card-location">Upper Thomson Road · Wee Hur Holdings</p>
+          <p class="nl-card-location">Upper Thomson Road · Wee Hur Property / GSC Holdings</p>
           <dl class="nl-card-facts">
             <div><dt>Tenure</dt><dd>99-year leasehold</dd></div>
             <div><dt>Units</dt><dd>595</dd></div>
             <div class="wide"><dt>Launch</dt><dd>Expected Q4 2026</dd></div>
-            <div class="wide"><dt>Verified</dt><dd>16 Sept 2026</dd></div>
+            <div class="wide"><dt>Verified</dt><dd>9 Oct 2026</dd></div>
           </dl>
           <div class="nl-card-market">
             <strong>Ask for latest price</strong>
             <span>Contact Joe for current pricing and availability.</span>
+          </div>
+          <span class="nl-card-link">View project details <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </li>
+
+    <li class="nl-card-item" data-name="chuan grove" data-search="chuan grove sing holdings / sunway developments chuan grove" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2027-01-01" data-price="" data-default-order="2">
+      <a href="/new-launches/chuan-grove.html" class="nl-card">
+        <div class="nl-card-img" aria-hidden="true">
+          <img src="/new-launches/img/maps/chuan-grove-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
+          <span class="nl-card-badge new">Upcoming</span>
+        </div>
+        <div class="nl-card-body">
+          <div class="nl-card-meta">
+            <span class="district">D19 · OCR</span>
+            <span class="dot" aria-hidden="true">·</span>
+            <span>Condominium</span>
+          </div>
+          <h2>Chuan Grove</h2>
+          <p class="nl-card-location">Chuan Grove · Sing Holdings / Sunway Developments</p>
+          <dl class="nl-card-facts">
+            <div><dt>Tenure</dt><dd>99-year leasehold</dd></div>
+            <div><dt>Units</dt><dd>1,055</dd></div>
+            <div class="wide"><dt>Launch</dt><dd>Expected Q1 2027</dd></div>
+            <div class="wide"><dt>Verified</dt><dd>16 Sept 2026</dd></div>
+          </dl>
+          <div class="nl-card-market">
+            <strong>Price not released</strong>
+            <span>No balance units published before launch.</span>
           </div>
           <span class="nl-card-link">View project details <span aria-hidden="true">→</span></span>
         </div>
@@ -341,36 +342,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       </a>
     </li>
 
-    <li class="nl-card-item" data-name="lucerne grand" data-search="lucerne grand city developments limited lakeside drive" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="1">
-      <a href="/new-launches/lucerne-grand.html" class="nl-card">
-        <div class="nl-card-img" aria-hidden="true">
-          <img src="/new-launches/img/gallery/lucerne-grand/card-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
-          <span class="nl-card-badge new">Upcoming</span>
-        </div>
-        <div class="nl-card-body">
-          <div class="nl-card-meta">
-            <span class="district">D22 · OCR</span>
-            <span class="dot" aria-hidden="true">·</span>
-            <span>Condominium</span>
-          </div>
-          <h2>Lucerne Grand</h2>
-          <p class="nl-card-location">Lakeside Drive · City Developments Limited</p>
-          <dl class="nl-card-facts">
-            <div><dt>Tenure</dt><dd>99-year leasehold</dd></div>
-            <div><dt>Units</dt><dd>570</dd></div>
-            <div class="wide"><dt>Launch</dt><dd>Expected 2026-10</dd></div>
-            <div class="wide"><dt>Verified</dt><dd>16 Sept 2026</dd></div>
-          </dl>
-          <div class="nl-card-market">
-            <strong>Ask for latest price</strong>
-            <span>Contact Joe for current pricing and availability.</span>
-          </div>
-          <span class="nl-card-link">View project details <span aria-hidden="true">→</span></span>
-        </div>
-      </a>
-    </li>
-
-    <li class="nl-card-item" data-name="chencharu close" data-search="chencharu close evia real estate / gamuda land / ho lee group chencharu close" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="2">
+    <li class="nl-card-item" data-name="chencharu close" data-search="chencharu close evia real estate / gamuda land / ho lee group chencharu close" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="1">
       <a href="/new-launches/chencharu-close.html" class="nl-card">
         <div class="nl-card-img" aria-hidden="true">
           <img src="/new-launches/img/maps/chencharu-close-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
@@ -389,6 +361,35 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
             <div><dt>Units</dt><dd>875</dd></div>
             <div class="wide"><dt>Launch</dt><dd>Expected Q4 2026</dd></div>
             <div class="wide"><dt>Verified</dt><dd>16 Sept 2026</dd></div>
+          </dl>
+          <div class="nl-card-market">
+            <strong>Ask for latest price</strong>
+            <span>Contact Joe for current pricing and availability.</span>
+          </div>
+          <span class="nl-card-link">View project details <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </li>
+
+    <li class="nl-card-item" data-name="upper thomson road" data-search="upper thomson road wee hur property / gsc holdings upper thomson road" data-status="upcoming" data-region="OCR" data-property-type="condominium" data-tenure="99-year" data-launch-date="2026-10-01" data-price="" data-default-order="2">
+      <a href="/new-launches/upper-thomson-road.html" class="nl-card">
+        <div class="nl-card-img" aria-hidden="true">
+          <img src="/new-launches/img/maps/upper-thomson-road-600.webp" width="600" height="315" alt="" loading="lazy" decoding="async">
+          <span class="nl-card-badge new">Upcoming</span>
+        </div>
+        <div class="nl-card-body">
+          <div class="nl-card-meta">
+            <span class="district">D26 · OCR</span>
+            <span class="dot" aria-hidden="true">·</span>
+            <span>Condominium</span>
+          </div>
+          <h2>Upper Thomson Road</h2>
+          <p class="nl-card-location">Upper Thomson Road · Wee Hur Property / GSC Holdings</p>
+          <dl class="nl-card-facts">
+            <div><dt>Tenure</dt><dd>99-year leasehold</dd></div>
+            <div><dt>Units</dt><dd>595</dd></div>
+            <div class="wide"><dt>Launch</dt><dd>Expected Q4 2026</dd></div>
+            <div class="wide"><dt>Verified</dt><dd>9 Oct 2026</dd></div>
           </dl>
           <div class="nl-card-market">
             <strong>Ask for latest price</strong>
@@ -440,6 +441,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <li><a href="/insights/property-agent-commission-singapore.html">Property agent commission guide</a></li>
         <li><a href="/new-launches/thomson-reserve.html">Thomson Reserve updates</a></li>
         <li><a href="/new-launches/keppel-bay-plot-6.html">Keppel Bay Plot 6 updates</a></li>
+      </ul>
+    </div>
+    <div class="jt-sf-col">
+      <h2>Sell or rent with Joe</h2>
+      <ul>
+        <li><a href="/sell-hdb/singapore/">HDB selling service</a></li>
+        <li><a href="/sell/">Sell a property</a></li>
+        <li><a href="/rent-out/">Rent out a property</a></li>
       </ul>
     </div>
   </div>

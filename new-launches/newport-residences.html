@@ -207,6 +207,7 @@ html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
 html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
 html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta,html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta:hover{color:#04231a}
 html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
 html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
@@ -222,7 +223,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <a href="/new-launches/">New Launches</a><span class="sep">›</span>
   <span aria-current="page">Newport Residences</span>
 </nav>
-<section class="project-hero project-hero-image" id="main" tabindex="-1" style="--bg-image:url('/new-launches/img/gallery/newport-residences/01-lg.webp');--bg-image-sm:url('/new-launches/img/gallery/newport-residences/01-sm.webp')" aria-labelledby="page-hero-title">
+<main id="main" tabindex="-1">
+<section class="project-hero project-hero-image" style="--bg-image:url('/new-launches/img/gallery/newport-residences/01-lg.webp');--bg-image-sm:url('/new-launches/img/gallery/newport-residences/01-sm.webp')" aria-labelledby="page-hero-title">
   <div class="project-hero-inner">
     <div>
       <div class="district-tag">D02 · CCR · Condominium</div>
@@ -559,6 +561,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <a href="/new-launches/dunearn-house.html" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">D11 · CCR · Selling now</div><div class="project-related-card-title">Dunearn House</div><div class="project-related-card-cta">Compare</div></div></a>
       <a href="/new-launches/river-modern.html" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">D09 · CCR · Selling now</div><div class="project-related-card-title">River Modern</div><div class="project-related-card-cta">Compare</div></div></a>
     </div>
+    <p class="project-related-prices">Resale prices nearby: <a href="/condo-prices/d02/">D02 Tanjong Pagar, Chinatown condo resale prices</a> · <a href="/hdb-prices/bukit-merah/">Bukit Merah HDB resale prices</a></p>
   </div>
 </section>
 <section class="project-disclaimer">
@@ -570,6 +573,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p>Marketed by Joe Tay, District Director at ERA Realty Network Pte Ltd (L3002382K) · CEA Reg. R009618D. Developer: City Developments Limited.</p>
   </div>
 </section>
+</main>
 <footer class="nl-footer">
 <nav class="jt-sf" data-jt-site-footer aria-label="Site sections">
   <div class="jt-sf-cols">
@@ -605,6 +609,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <li><a href="/insights/property-agent-commission-singapore.html">Property agent commission guide</a></li>
         <li><a href="/new-launches/thomson-reserve.html">Thomson Reserve updates</a></li>
         <li><a href="/new-launches/keppel-bay-plot-6.html">Keppel Bay Plot 6 updates</a></li>
+      </ul>
+    </div>
+    <div class="jt-sf-col">
+      <h2>Sell or rent with Joe</h2>
+      <ul>
+        <li><a href="/sell-hdb/singapore/">HDB selling service</a></li>
+        <li><a href="/sell/">Sell a property</a></li>
+        <li><a href="/rent-out/">Rent out a property</a></li>
       </ul>
     </div>
   </div>
@@ -652,6 +664,7 @@ footer:has(> .jt-sf) > span{display:block}
 const ENDPOINT = '/.netlify/functions/submit-lead';const _pageLoadedAt=Date.now();
 const params = new URLSearchParams(location.search);
 const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+const PROJECT_NAME = 'Newport Residences';
 const utm = {};
 UTM_KEYS.forEach(k => utm[k] = params.get(k) || '');
 
@@ -674,10 +687,30 @@ function showSuccess(form){
 }
 
 async function handleSubmit(form){
+  if(form._jtSubmitting || form._jtSpamFloorTimer) return;
   if(form.company_website.value) return;
   if(form.reportValidity && !form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
+  // Match the server's 3000ms floor before creating the payload: early requests
+  // are silently discarded with HTTP 200 and must never look like a real success.
+  if(typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(form,_pageLoadedAt,3000,function(){
+    handleSubmit(form);
+  })) return;
+  const remaining = 3000 - (Date.now() - _pageLoadedAt);
+  if(typeof window.jtWaitForSpamFloor !== 'function' && remaining > 0){
+    btn.disabled = true;
+    btn.textContent = 'Please wait…';
+    form._jtSpamFloorTimer = setTimeout(function(){
+      form._jtSpamFloorTimer = null;
+      btn.disabled = false;
+      btn.innerHTML = original;
+      handleSubmit(form);
+    }, remaining);
+    return;
+  }
+  form._jtSubmitting = true;
+
   btn.disabled = true;
   btn.textContent = 'Submitting...';
 
@@ -701,10 +734,11 @@ async function handleSubmit(form){
       headers:{'Accept':'application/json','Content-Type':'application/json'},
       body:JSON.stringify(data)
     });
-    const result = await res.json().catch(() => ({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    const result = await res.json();
+    if(!res.ok || result.ok !== true) throw new Error('submit failed');
     showSuccess(form);
   } catch(err){
+    form._jtSubmitting = false;
     btn.disabled = false;
     btn.innerHTML = original;
     if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(form, {

@@ -46,6 +46,43 @@ test('hub, calculator, sitemap and feeds discover the whole cluster', () => {
   }
 });
 
+test('visible updated labels are derived from the datetime value', () => {
+  const source = read('scripts/generate-hdb-loan-cluster.mjs');
+  assert.doesNotMatch(source, /Updated Aug 26, 2026/);
+  assert.match(source, /visibleDate\(modified\)/);
+  const labelFor = (iso) => {
+    const [year, month, day] = iso.split('-').map(Number);
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(Date.UTC(year, month - 1, day)));
+  };
+  for (const slug of ['hdb-loan-eligibility-singapore', 'hfe-letter-singapore-guide', 'msr-vs-tdsr-singapore', 'hdb-loan-vs-bank-loan-singapore']) {
+    const html = read(`insights/${slug}.html`);
+    const time = html.match(/<time datetime="(\d{4}-\d{2}-\d{2})">([^<]+)<\/time>/);
+    assert.ok(time, `${slug}: missing updated time`);
+    assert.equal(time[2], `Updated ${labelFor(time[1])}`, slug);
+  }
+  const policy = read('insights/hdb-income-ceiling-2026-ndr-changes.html');
+  const policyTime = policy.match(/<time datetime="(\d{4}-\d{2}-\d{2})">([^<]+)<\/time>/);
+  assert.ok(policyTime, 'income ceiling: missing time');
+  assert.equal(policyTime[2], labelFor(policyTime[1]), 'a published date that is also the modified date stays unprefixed');
+});
+
+// 19 Oct 2026 report: the HFE guide became the top organic landing page (8
+// sessions in 28 days) with no way to reach Joe inside the article. A WhatsApp
+// CTA now sits in the body, after the processing-time section (JOE-345).
+test('the HFE guide asks readers to contact Joe mid-article', () => {
+  const html = read('insights/hfe-letter-singapore-guide.html');
+  const body = html.slice(html.indexOf('<section class="article-body"'));
+  const cta = body.indexOf('<div class="article-cta">');
+  assert.ok(cta > body.indexOf('>HFE processing and waiting time</h2>'), 'CTA should follow the processing-time section');
+  assert.ok(cta < body.indexOf('>How to view your HFE letter</h2>'), 'CTA should sit mid-article, not at the end');
+  assert.match(body.slice(cta, cta + 800), /href="https:\/\/wa\.me\/6581881488\?text=[^"]+"/);
+});
+
 // 7 Sep 2026 audit: the cluster earned 103 impressions ("hdb mortgage loan",
 // "hdb bank loan interest rate", "hdb bank loan singapore") at positions 73-87
 // while every inbound link came from inside the cluster itself. These pin the

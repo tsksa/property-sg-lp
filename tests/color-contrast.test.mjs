@@ -37,10 +37,17 @@ function declaration(file, selector, property) {
   assert.fail(`${file}: ${selector} is missing ${property}`);
 }
 
+// Global tokens come from :root. new-launches.css also remaps --navy and the
+// --ink tokens inside dark-mode project sections (JOE-451); those scoped values
+// must not leak into the light-mode cases, so they are only read when a file
+// has no :root block at all.
 function variables(file) {
   const values = new Map();
-  for (const match of source(file).matchAll(/--([a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
-    values.set(match[1], match[2].trim());
+  const roots = [...source(file).matchAll(/:root\s*\{([^}]*)\}/g)].map((block) => block[1]);
+  for (const text of roots.length ? roots : [source(file)]) {
+    for (const match of text.matchAll(/--([a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
+      values.set(match[1], match[2].trim());
+    }
   }
   return values;
 }
@@ -412,7 +419,137 @@ const cases = [
     foreground: ['.nl-hero .eyebrow', 'color'],
     background: ['.nl-hero .eyebrow', 'background', '#ffffff'],
   },
+  // JOE-449: the insights guide panels and the project-page alternatives kept
+  // light surfaces under the dark theme's light text. Pin each restated colour
+  // against the dark surface it now sits on.
+  {
+    name: 'insights guide heading, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide-head h2,html.jt-theme-dark .blog-districts-col h3', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights guide text, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide-head p,html.jt-theme-dark .blog-guide-steps li,html.jt-theme-dark .blog-guide-tools,html.jt-theme-dark .blog-districts-col li', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights district region note, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-districts-col h3 span', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'insights guide links, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .blog-guide a', 'color'],
+    background: ['html.jt-theme-dark .blog-guide', 'background'],
+  },
+  {
+    name: 'project alternatives heading, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related-head h2', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project curated comparisons intro, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related[data-curated-comparisons] .project-related-head p', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project resale price line, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-prices', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project resale price links, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-prices a', 'color'],
+    background: ['html.jt-theme-dark .project-related', 'background'],
+  },
+  {
+    name: 'project alternative card title, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['html.jt-theme-dark .project-related .project-related-card', 'color'],
+    background: ['html.jt-theme-dark .project-related .project-related-card', 'background'],
+  },
+  {
+    name: 'project alternative card CTA, dark',
+    file: 'new-launches/new-launches.css',
+    foreground: ['.project-related-card-cta', 'color'],
+    background: ['html.jt-theme-dark .project-related .project-related-card', 'background'],
+  },
+  // JOE-451: the rest of each project page in dark mode. Literal colours
+  // restated outside the token remap, each against the surface it sits on.
+  ...[
+    ['status pill', 'html.jt-theme-dark .project-status-pill', ['html.jt-theme-dark .project-status-pill', 'background', '#030a1a']],
+    ['facility chips', 'html.jt-theme-dark .project-facilities-list li', ['html.jt-theme-dark .project-facilities-list li', 'background']],
+    ['unit table headers', 'html.jt-theme-dark :is(.unit-table th,.project-unitmix-table thead th)', ['html.jt-theme-dark :is(.unit-table th,.project-unitmix-table thead th)', 'background']],
+    ['unit table values', 'html.jt-theme-dark :is(.project-unitmix-table tbody th,.project-unitmix-table td[data-live])', '#102447'],
+    ['card text that was #333', 'html.jt-theme-dark :is(.unit-table td,.project-take-body,.project-location-list li .name,.project-visual-lede,.project-connect-list li span)', '#102447'],
+    ['small print on cards', 'html.jt-theme-dark :is(.project-live-stat small,.project-unitmix-disclaimer,.project-gallery-note,.project-map figcaption)', '#102447'],
+    ['map credit link', 'html.jt-theme-dark .project-map figcaption a', '#102447'],
+    ['breadcrumb', 'html.jt-theme-dark .nl-breadcrumb', '#030a1a'],
+    ['breadcrumb links', 'html.jt-theme-dark .nl-breadcrumb a', '#030a1a'],
+    ['footer links', 'html.jt-theme-dark .nl-footer a', '#07172f'],
+    ['footer credentials', 'html.jt-theme-dark .nl-footer .creds', '#07172f'],
+  ].map(([name, selector, background]) => ({
+    name: `project page ${name}, dark`,
+    file: 'new-launches/new-launches.css',
+    foreground: [selector, 'color'],
+    background,
+  })),
+  // JOE-461: emerald and gold failed AA in both themes. Emerald buttons now
+  // carry the header CTA's dark label and brighten on hover; gold buttons take
+  // a navy label; emerald text on light surfaces uses --emerald-text.
+  ...[
+    ['hero WhatsApp button', '.project-hero-cta.primary', ['.project-hero-cta.primary', 'background']],
+    ['hero WhatsApp button hover', '.project-hero-cta.primary:hover', ['.project-hero-cta.primary:hover', 'background']],
+    ['enquiry form button', '.pf button', ['.pf button', 'background']],
+    ['enquiry form button hover', '.pf button', ['.pf button:hover', 'background']],
+    ['contact band button', '.nl-register-band a', ['.nl-register-band a', 'background']],
+    ['contact band button hover', '.nl-register-band a', ['.nl-register-band a:hover', 'background']],
+    ['mobile enquire button', '.nl-mobile-cta .primary', ['.nl-mobile-cta .primary', 'background']],
+    ['mobile brochure button', '.nl-mobile-cta .secondary', ['.nl-mobile-cta .secondary', 'background']],
+    ['gold hero button hover', '.project-hero-cta.gold:hover', ['.project-hero-cta.gold:hover', 'background']],
+    ['tour link button hover', '.project-tour-link-card a', ['.project-tour-link-card a:hover', 'background']],
+    ['section eyebrow on white', '.project-eyebrow', '#ffffff'],
+    ['section eyebrow on cream', '.project-eyebrow', '#faf6ec'],
+    ['status pill', '.project-status-pill', ['.project-status-pill', 'background']],
+    ['hero district tag over the photo overlay', '.project-hero .district-tag', '#43526b'],
+  ].map(([name, selector, background]) => ({
+    name: `project page ${name}`,
+    file: 'new-launches/new-launches.css',
+    foreground: [selector, 'color'],
+    background,
+  })),
+  {
+    name: 'site header WhatsApp button, dark',
+    file: 'scripts/lib/site-header.mjs',
+    foreground: ['html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta,html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta:hover', 'color'],
+    background: ['.jt-sh-nav>a.jt-sh-cta', 'background'],
+  },
 ];
+
+// JOE-451: inside each dark project section the text tokens are remapped, so
+// every rule written as color:var(--navy|--ink-*) turns light. Check each
+// remapped token against all three dark surfaces it can land on.
+test('project page dark text tokens meet WCAG AA on every dark surface', () => {
+  const css = source('new-launches/new-launches.css');
+  const scope = css.match(/html\.jt-theme-dark :is\(\.project-dev-strip[^)]*\)\{(--navy:[^}]*)\}/);
+  assert.ok(scope, 'missing the dark token remap for project sections');
+  const tokens = Object.fromEntries([...scope[1].matchAll(/--([a-z-]+):(#[0-9a-f]{3,6})/gi)].map((m) => [m[1], m[2]]));
+  for (const token of ['navy', 'ink', 'ink-soft', 'ink-muted', 'emerald-aa']) {
+    assert.ok(tokens[token], `--${token} is not remapped for dark mode`);
+    for (const surface of ['#030a1a', '#07172f', '#102447']) {
+      const ratio = contrastRatio(parseHex(tokens[token]), parseHex(surface));
+      assert.ok(ratio >= MINIMUM_AA_RATIO, `--${token} ${tokens[token]} on ${surface}: ${ratio.toFixed(2)}:1`);
+    }
+  }
+});
 
 for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.html']) {
   cases.push({

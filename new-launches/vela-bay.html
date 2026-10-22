@@ -207,6 +207,7 @@ html.jt-theme-dark .jt-sh .jt-mh-logo-name{color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-logo-brand{color:rgba(255,255,255,.88)}
 html.jt-theme-dark .jt-sh-nav>a{color:#d8e2f0}
 html.jt-theme-dark .jt-sh-nav>a:hover,html.jt-theme-dark .jt-sh-nav>a[aria-current="page"]{color:#fff}
+html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta,html.jt-theme-dark .jt-sh-nav>a.jt-sh-cta:hover{color:#04231a}
 html.jt-theme-dark .jt-sh a:focus-visible,html.jt-theme-dark .jt-sh button:focus-visible{outline-color:#10b981}
 html.jt-theme-dark .jt-sh .jt-theme-toggle{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
 html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
@@ -222,7 +223,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <a href="/new-launches/">New Launches</a><span class="sep">›</span>
   <span aria-current="page">Vela Bay</span>
 </nav>
-<section class="project-hero project-pilot-hero" id="main" tabindex="-1" aria-labelledby="page-hero-title">
+<main id="main" tabindex="-1">
+<section class="project-hero project-pilot-hero" aria-labelledby="page-hero-title">
   <div class="project-pilot-heading">
     <p class="project-pilot-eyebrow">New launch · Condominium</p>
     <h1 id="page-hero-title">Vela Bay <span class="project-pilot-name-suffix" lang="zh">首航</span></h1>
@@ -491,6 +493,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <a href="/new-launches/coastal-cabana.html" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">D17 · OCR · Selling now as of 16 Sept 2026</div><div class="project-related-card-title">Coastal Cabana</div><p class="project-related-reason">East-side EC: compare Jalan Loyang Besar only if your household qualifies for an executive condominium. Check EC eligibility and ownership restrictions before comparing prices.</p><div class="project-related-card-cta">Compare</div></div></a>
       <a href="/new-launches/lentor-gardens-residences.html" class="project-related-card"><div class="project-related-card-body"><div class="project-related-card-meta">D26 · OCR · Selling now as of 16 Sept 2026</div><div class="project-related-card-title">Lentor Gardens Residences</div><p class="project-related-reason">Broader OCR private-condo comparison: Lentor Gardens is in D26, away from Bayshore. Use it to test location flexibility against the price and layout of an actual available unit.</p><div class="project-related-card-cta">Compare</div></div></a>
     </div>
+    <p class="project-related-prices">Resale prices nearby: <a href="/condo-prices/d16/">D16 Bedok, Upper East Coast, Siglap condo resale prices</a> · <a href="/hdb-prices/bedok/">Bedok HDB resale prices</a></p>
   </div>
 </section>
 <section class="project-pilot-enquiry" aria-label="Enquire about Vela Bay"><div class="project-pilot-enquiry-inner"><div><p class="project-pilot-eyebrow">Your next step</p><h2>Check the home that fits your plans.</h2><p>Share your preferred layout and Joe will help you check the current unit list. Prefer a direct conversation? <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20please%20confirm%20current%20availability%2C%20prices%20and%20floor%20plans%20for%20Vela%20Bay." target="_blank" rel="noopener">WhatsApp Joe</a>.</p></div><div class="project-form-card">
@@ -536,6 +539,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p>Marketed by Joe Tay, District Director at ERA Realty Network Pte Ltd (L3002382K) · CEA Reg. R009618D. Developer: SingHaiyi Group Pte Ltd.</p>
   </div>
 </section>
+</main>
 <button type="button" class="nl-to-top" aria-label="Back to top">
   <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
@@ -591,6 +595,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <li><a href="/insights/property-agent-commission-singapore.html">Property agent commission guide</a></li>
         <li><a href="/new-launches/thomson-reserve.html">Thomson Reserve updates</a></li>
         <li><a href="/new-launches/keppel-bay-plot-6.html">Keppel Bay Plot 6 updates</a></li>
+      </ul>
+    </div>
+    <div class="jt-sf-col">
+      <h2>Sell or rent with Joe</h2>
+      <ul>
+        <li><a href="/sell-hdb/singapore/">HDB selling service</a></li>
+        <li><a href="/sell/">Sell a property</a></li>
+        <li><a href="/rent-out/">Rent out a property</a></li>
       </ul>
     </div>
   </div>
@@ -651,19 +663,40 @@ function showSuccess(form){
 }
 
 async function handleSubmit(form){
+  if(form._jtSubmitting || form._jtSpamFloorTimer) return;
   if(form.company_website.value) return;
   if(form.reportValidity && !form.reportValidity()) return;
   const btn = form.querySelector('button[type=submit]');
   const original = btn.innerHTML;
+  // Match the server's 3000ms floor before creating the payload: early requests
+  // are silently discarded with HTTP 200 and must never look like a real success.
+  if(typeof window.jtWaitForSpamFloor === 'function' && !window.jtWaitForSpamFloor(form,_pageLoadedAt,3000,function(){
+    handleSubmit(form);
+  })) return;
+  const remaining = 3000 - (Date.now() - _pageLoadedAt);
+  if(typeof window.jtWaitForSpamFloor !== 'function' && remaining > 0){
+    btn.disabled = true;
+    btn.textContent = 'Please wait…';
+    form._jtSpamFloorTimer = setTimeout(function(){
+      form._jtSpamFloorTimer = null;
+      btn.disabled = false;
+      btn.innerHTML = original;
+      handleSubmit(form);
+    }, remaining);
+    return;
+  }
+  form._jtSubmitting = true;
+
   btn.disabled = true;
   btn.textContent = 'Submitting...';
   const data = {lead_type:'new_launch_registration',request_type:'interest',project:PROJECT_NAME,full_name:form.name.value.trim(),mobile_number:form.phone.value.trim(),email:form.email.value.trim(),interest:form.interest.value,source_site:'joetay.com',landing_page:LANDING_PAGE,submitted_at:new Date().toISOString(),time_on_form_ms:Date.now()-_pageLoadedAt,...utm};
   try {
     const res = await fetch(ENDPOINT, {method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(data)});
-    const result = await res.json().catch(() => ({ok:res.ok}));
-    if(!result.ok) throw new Error('submit failed');
+    const result = await res.json();
+    if(!res.ok || result.ok !== true) throw new Error('submit failed');
     showSuccess(form);
   } catch(err){
+    form._jtSubmitting = false;
     btn.disabled = false;
     btn.innerHTML = original;
     if(typeof window.jtShowFormRecovery === 'function') window.jtShowFormRecovery(form, {

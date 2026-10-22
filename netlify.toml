@@ -2,9 +2,16 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command = "node scripts/prepare-sitemap.mjs"
-  publish = "."
+  command = "node scripts/prepare-sitemap.mjs && node scripts/build-publish-dir.mjs _site"
+  # Only the site is deployed: _site is an allowlisted copy, so the docs, build
+  # scripts, tests and Functions source at the repo root are never uploaded
+  # (JOE-450). New top-level pages go in scripts/build-publish-dir.mjs.
+  publish = "_site"
   functions = "netlify/functions"
+
+# `netlify dev` keeps serving the working tree directly.
+[dev]
+  publish = "."
 
 # Preserve the .html URLs already used by canonical tags and the sitemap.
 # Explicit aliases in _redirects consolidate old extensionless links.
@@ -86,6 +93,22 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# The whole site was also served, with a 200 and no noindex, at the Netlify
+# hostnames (JOE-448). Send them to the canonical domain. After the /api/*
+# rewrite so a form post on those hosts still reaches its function; deploy
+# previews (deploy-preview-N--) are unaffected.
+[[redirects]]
+  from = "https://propertysg78.netlify.app/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://main--propertysg78.netlify.app/*"
+  to = "https://joetay.com/:splat"
+  status = 301
+  force = true
 
 # SPA-style fallback not needed — this is a multi-page static site
 

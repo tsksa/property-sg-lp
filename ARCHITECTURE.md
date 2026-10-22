@@ -7,7 +7,7 @@
 **Build-less static site + serverless functions**, deployed by Netlify from `main` (site `propertysg78`, production domain `https://joetay.com`, apex canonical, www→apex 301).
 
 ```
-Browser ──► Netlify CDN ── 72 static HTML pages (no build step; publish = ".")
+Browser ──► Netlify CDN ── 72 static HTML pages (no page build; publish = "_site", an allowlisted copy made at deploy)
    │
    └─POST /api/submit-lead ──► netlify/functions/submit-lead.js
                                   ├─ gates: honeypot → time-on-form → required fields

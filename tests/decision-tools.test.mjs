@@ -26,7 +26,7 @@ test('zero interest, zero principal, short terms and tiny loans stay finite', ()
   assert.equal(zero.totalPaidCents, 12000000);
   for (const principal of [0, 0.01, 1, 100000000]) {
     for (const annualRatePercent of [0, 0.01, 2.6, 100]) {
-      for (const years of [1, 25]) {
+      for (const years of [1, 25, 30]) {
         const result = repaymentEstimate({ principal, annualRatePercent, years });
         assert.ok(Number.isSafeInteger(result.totalPaidCents));
         assert.equal(result.totalPaidCents, result.principalCents + result.interestCents);
@@ -53,7 +53,7 @@ test('invalid loan inputs are rejected instead of coerced to reassuring zero res
     assert.throws(() => repaymentEstimate({ ...loan, annualRatePercent: invalid }), RangeError);
     assert.throws(() => repaymentEstimate({ ...loan, years: invalid }), RangeError);
   }
-  for (const years of [0, 1.5, 26]) assert.throws(() => repaymentEstimate({ ...loan, years }), RangeError);
+  for (const years of [0, 1.5, 31]) assert.throws(() => repaymentEstimate({ ...loan, years }), RangeError);
   assert.throws(() => repaymentEstimate({ ...loan, principal: 100000001 }), RangeError);
   assert.throws(() => repaymentEstimate({ ...loan, annualRatePercent: 101 }), RangeError);
 });

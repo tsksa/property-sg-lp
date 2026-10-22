@@ -13,7 +13,8 @@ jobs:
   report:
     name: Build organic-growth opportunity report
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 20, not 10: the per-URL index-status step inspects every sitemap URL.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -37,6 +38,19 @@ jobs:
       - name: Publish report in the job summary
         run: cat "$RUNNER_TEMP/search-growth-report/search-growth-report.md" >> "$GITHUB_STEP_SUMMARY"
 
+      # Per-URL crawl status (JOE-448). Separate step so a URL Inspection
+      # outage or quota error never costs the main growth report.
+      - name: Inspect every sitemap URL's index status
+        id: index_status
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+        run: |
+          node scripts/index-status-report.mjs --output-dir "$RUNNER_TEMP/index-status"
+          cat "$RUNNER_TEMP/index-status/index-status.md" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload Markdown and JSON reports
         uses: actions/upload-artifact@v7
         with:
@@ -44,5 +58,7 @@ jobs:
           path: |
             ${{ runner.temp }}/search-growth-report/search-growth-report.md
             ${{ runner.temp }}/search-growth-report/search-growth-report.json
+            ${{ runner.temp }}/index-status/index-status.md
+            ${{ runner.temp }}/index-status/index-status.json
           if-no-files-found: error
           retention-days: 90

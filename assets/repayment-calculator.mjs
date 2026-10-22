@@ -29,7 +29,7 @@ function calculate(trackResult = false, { quiet = false } = {}) {
   if (invalid) {
     output.hidden = true;
     if (quiet) return false;
-    error.textContent = 'Enter a loan amount from S$0 to S$100,000,000, a rate from 0% to 100%, and a whole-number term from 1 to 25 years.';
+    error.textContent = 'Enter a loan amount from S$0 to S$100,000,000, a rate from 0% to 100%, and a whole-number term from 1 to 30 years.';
     invalid.setAttribute('aria-invalid', 'true');
     invalid.focus();
     return false;
