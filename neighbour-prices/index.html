@@ -210,7 +210,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <span class="np-eyebrow">Free · Official HDB data · No sign-up</span>
   <h1>What did your neighbour's flat sell for?</h1>
   <p class="np-lede">Enter your postal code and see the actual resale transactions in your block and street — real prices, real dates, straight from HDB's official records.</p>
-  <p class="np-source">Source: <strong>HDB Resale Flat Prices</strong> via data.gov.sg · updated monthly · Jan 2017 onwards · or browse <a href="/hdb-prices/">town-level medians &amp; trends</a></p>
+  <p class="np-source">Source: <strong>HDB Resale Flat Prices</strong> via data.gov.sg · updated monthly · or browse <a href="/hdb-prices/">town-level medians &amp; trends</a></p>
   <div class="np-card">
     <form id="npForm" novalidate>
       <label for="npPostal">Your postal code</label>
@@ -228,9 +228,10 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <h2 class="np-results-head" id="resultsHead" tabindex="-1"></h2>
     <p class="np-results-sub" id="resultsSub"></p>
     <div class="np-summary" id="npSummary"></div>
-    <div class="np-table-wrap" id="blockTableWrap"></div>
+    <p class="np-note" id="npBasisNote"></p>
+    <div class="np-table-wrap" id="blockTableWrap" role="region" aria-label="Your block's sold prices" tabindex="0"></div>
     <div id="npAlert" hidden></div>
-    <div class="np-table-wrap" id="streetTableWrap"></div>
+    <div class="np-table-wrap" id="streetTableWrap" role="region" aria-label="Other blocks on your street" tabindex="0"></div>
     <p class="np-note">Prices are the actual amounts registered with HDB. $psf is computed from the recorded floor area. Storey shown as a range to protect seller privacy — HDB publishes it that way.</p>
     <div class="np-cta">
       <h2>So… what could <em>your</em> unit fetch today?</h2>
@@ -427,25 +428,14 @@ footer:has(> .jt-sf) > span{display:block}
   <p>&copy; 2026 PropertySG · <a href="/">Home</a> · <a href="/valuation.html">Free Valuation</a> · <a href="/privacy-policy.html">Privacy Policy</a></p>
   <p class="creds">Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D</p>
 </footer>
-<script>
+<script type="module">
+import { summarise, flatTypesByVolume, psf, sampleLabel, validSalesRecords, MEDIAN_ROUNDING_LABEL } from '/assets/block-estimate-core.mjs';
+import { fetchSales } from '/assets/block-sales-data.mjs';
+
 (function(){
 'use strict';
 
-// HDB "Resale flat prices based on registration date from Jan-2017 onwards"
-// CKAN-compatible datastore on data.gov.sg. Public, CORS-enabled, no key.
-var DATASET_ID = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
-var DATA_API = 'https://data.gov.sg/api/action/datastore_search';
 var ONEMAP_API = 'https://www.onemap.gov.sg/api/common/elastic/search';
-var SQM_TO_SQFT = 10.7639;
-
-// OneMap returns full road names ("ANG MO KIO AVENUE 3"); the HDB dataset
-// stores the abbreviated form ("ANG MO KIO AVE 3"). Token-wise mapping.
-var ROAD_ABBREV = {
-  'AVENUE':'AVE','BUKIT':'BT','CENTRAL':'CTRL','CLOSE':'CL','COMMONWEALTH':"C'WEALTH",
-  'CRESCENT':'CRES','DRIVE':'DR','GARDENS':'GDNS','HEIGHTS':'HTS','JALAN':'JLN',
-  'KAMPONG':'KG','LORONG':'LOR','NORTH':'NTH','PARK':'PK','PLACE':'PL','ROAD':'RD',
-  'SOUTH':'STH','STREET':'ST','TANJONG':'TG','TERRACE':'TER','UPPER':'UPP','SAINT':'ST.'
-};
 
 var form = document.getElementById('npForm');
 var postalInput = document.getElementById('npPostal');
@@ -457,6 +447,7 @@ var results = document.getElementById('results');
 var resultsHead = document.getElementById('resultsHead');
 var resultsSub = document.getElementById('resultsSub');
 var summaryBox = document.getElementById('npSummary');
+var basisNote = document.getElementById('npBasisNote');
 var blockWrap = document.getElementById('blockTableWrap');
 var streetWrap = document.getElementById('streetTableWrap');
 var waBtn = document.getElementById('npWa');
@@ -472,12 +463,6 @@ function clearError(){
 function setBusy(busy){
   goBtn.disabled = busy;
   loading.classList.toggle('show', busy);
-}
-
-function abbrevRoad(road){
-  return String(road).toUpperCase().split(/\s+/).map(function(tok){
-    return ROAD_ABBREV[tok] || tok;
-  }).join(' ');
 }
 
 function fetchJSON(url, timeoutMs){
@@ -499,17 +484,6 @@ function lookupAddress(code){
   });
 }
 
-function queryTransactions(filters, limit){
-  var url = DATA_API + '?resource_id=' + encodeURIComponent(DATASET_ID)
-    + '&filters=' + encodeURIComponent(JSON.stringify(filters))
-    + '&sort=' + encodeURIComponent('month desc')
-    + '&limit=' + (limit || 100);
-  return fetchJSON(url).then(function(data){
-    if(!data || data.success !== true || !data.result) throw new Error('bad response');
-    return data.result.records || [];
-  });
-}
-
 function fmtMonth(m){
   // "2026-03" -> "Mar 2026"
   var parts = String(m).split('-');
@@ -523,20 +497,8 @@ function fmtPrice(p){
   if(!isFinite(n)) return '—';
   return '$' + n.toLocaleString('en-SG');
 }
-function psf(rec){
-  var price = Number(rec.resale_price);
-  var sqm = Number(rec.floor_area_sqm);
-  if(!isFinite(price) || !isFinite(sqm) || sqm <= 0) return null;
-  return price / (sqm * SQM_TO_SQFT);
-}
 function fmtStorey(s){
   return String(s || '').replace(/\s*TO\s*/i, '–');
-}
-function median(arr){
-  if(!arr.length) return null;
-  var s = arr.slice().sort(function(a,b){ return a - b; });
-  var mid = Math.floor(s.length / 2);
-  return s.length % 2 ? s[mid] : (s[mid-1] + s[mid]) / 2;
 }
 
 // All rendering uses createElement/textContent — API data never touches innerHTML.
@@ -588,41 +550,42 @@ function buildTable(captionText, records, cap, showBlock){
   return wrap;
 }
 
-function buildSummary(records){
+function buildSummary(blockRecs, streetRecs, road, now){
   summaryBox.textContent = '';
-  var cutoff = new Date();
-  cutoff.setMonth(cutoff.getMonth() - 12);
-  var recent = records.filter(function(r){
-    var d = new Date(String(r.month) + '-01');
-    return isFinite(d) && d >= cutoff;
-  });
-  var pool = recent.length >= 3 ? recent : records;
-  var label = recent.length >= 3 ? 'last 12 months' : 'all shown';
-
-  var byType = {};
-  pool.forEach(function(r){
-    var t = String(r.flat_type || '?');
-    (byType[t] = byType[t] || []).push(Number(r.resale_price));
-  });
-  Object.keys(byType).sort().forEach(function(t){
-    var med = median(byType[t].filter(isFinite));
-    if(med === null) return;
-    var span = document.createElement('span');
+  var types = flatTypesByVolume(blockRecs.length ? blockRecs : streetRecs, now);
+  summaryBox.style.display = types.length ? '' : 'none';
+  types.forEach(function(t){
+    var summary = summarise({ blockRecords: blockRecs, streetRecords: streetRecs, flatType: t, now: now });
+    var item = document.createElement('div');
     var b = document.createElement('b');
     b.textContent = t + ': ';
-    span.appendChild(b);
-    span.appendChild(document.createTextNode('median ' + fmtPrice(med) + ' (' + byType[t].length + ' sold, ' + label + ')'));
-    summaryBox.appendChild(span);
+    item.appendChild(b);
+    if(summary.range){
+      item.appendChild(document.createTextNode(MEDIAN_ROUNDING_LABEL + ' ' + fmtPrice(summary.range.median)));
+      var basis = document.createElement('p');
+      basis.textContent = sampleLabel(summary.range, road);
+      item.appendChild(basis);
+    } else {
+      item.appendChild(document.createTextNode('Too few recent sales for this flat type to show a median.'));
+    }
+    summaryBox.appendChild(item);
   });
 }
 
-function render(addr, blockRecs, streetRecs){
+function render(addr, sales){
+  var now = new Date();
+  var blockRecs = validSalesRecords(sales.block, now);
+  var streetRecs = validSalesRecords(sales.street, now);
   resultsHead.textContent = 'Blk ' + addr.block + ' ' + addr.road;
   resultsSub.textContent = blockRecs.length
-    ? blockRecs.length + ' transaction' + (blockRecs.length === 1 ? '' : 's') + ' registered in this block since Jan 2017.'
-    : 'No resale transactions registered in this exact block since Jan 2017 — nearby sales on your street are below.';
+    ? blockRecs.length + ' valid record' + (blockRecs.length === 1 ? '' : 's') + ' loaded for this block; latest ' + Math.min(blockRecs.length, 30) + ' shown.'
+    : 'No valid records loaded for this block. Any available sales from other blocks on your street are below.';
 
-  buildSummary(blockRecs.length ? blockRecs : streetRecs);
+  buildSummary(blockRecs, streetRecs, addr.road, now);
+  basisNote.textContent = 'Each median uses at least 3 valid sales of the stated flat type and period. Street summaries include this block.';
+  if(sales.blockTruncated || sales.streetTruncated){
+    basisNote.textContent += ' These summaries use the latest loaded sales; older sales within the stated periods may be missing.';
+  }
 
   blockWrap.textContent = '';
   if(blockRecs.length){
@@ -635,7 +598,7 @@ function render(addr, blockRecs, streetRecs){
   var others = streetRecs.filter(function(r){ return String(r.block).trim() !== addr.block; });
   streetWrap.textContent = '';
   if(others.length){
-    streetWrap.appendChild(buildTable('Along ' + addr.road, others, 15, true));
+    streetWrap.appendChild(buildTable('Other blocks along ' + addr.road + ' — ' + others.length + ' valid records loaded; latest ' + Math.min(others.length, 15) + ' shown', others, 15, true));
     streetWrap.style.display = '';
   } else {
     streetWrap.style.display = 'none';
@@ -686,25 +649,12 @@ form.addEventListener('submit', function(e){
       addrBox.appendChild(document.createTextNode('Blk ' + addr.block + ' ' + addr.road + (addr.building && addr.building !== 'NIL' ? ' · ' + addr.building : '')));
       addrBox.classList.add('show');
 
-      var road = abbrevRoad(addr.road);
-      // Fetch block + street concurrently; retry block with the raw OneMap
-      // road name if the abbreviated form finds nothing.
-      return Promise.all([
-        queryTransactions({block: addr.block, street_name: road}, 100).then(function(recs){
-          if(recs.length) return {recs: recs, road: road};
-          return queryTransactions({block: addr.block, street_name: addr.road.toUpperCase()}, 100)
-            .then(function(alt){ return {recs: alt, road: alt.length ? addr.road.toUpperCase() : road}; });
-        }),
-        null
-      ]);
+      return fetchSales(addr, fetchJSON);
     })
-    .then(function(pair){
-      var blockRes = pair[0];
-      return queryTransactions({street_name: blockRes.road}, 100).then(function(streetRecs){
-        try{ if(typeof gtag === 'function') gtag('event', 'neighbour_prices_search', {found: blockRes.recs.length > 0}); }catch(_e){}
-        setBusy(false);
-        render(addr, blockRes.recs, streetRecs);
-      });
+    .then(function(sales){
+      try{ if(typeof gtag === 'function') gtag('event', 'neighbour_prices_search', {found: validSalesRecords(sales.block).length > 0}); }catch(_e){}
+      setBusy(false);
+      render(addr, sales);
     })
     .catch(function(err){
       setBusy(false);
