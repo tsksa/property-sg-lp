@@ -1,6 +1,6 @@
 # Current QA — 22 October 2026
 
-**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The final combined check with narration passed 1,089 tests with 0 failures. Narration validation is recorded below. The publish-directory build also passed; generated sitemap output is excluded from the PR.
+**Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The integrated check before the Azure media replacement passed 1,089 tests with 0 failures. The Azure update passes all 29 homepage and publish-directory checks; media validation is recorded below. The publish-directory build also passed; generated sitemap output is excluded from the PR.
 
 ## Browser evidence
 
@@ -22,7 +22,16 @@
 - Original silent media: desktop 801,307 bytes at 1280×720; mobile 871,633 bytes at 720×1280. These 16-second H.264/yuv420p files are superseded by the narrated exports below. They reuse existing homepage imagery, Joe’s photo and self-hosted fonts, with no new property or outcome claims. Playback is optional, with lazy posters and a text transcript.
 - Test log: `/Users/andylau/website-audits/joetay-2026-10-22/evidence/combined-independent-review-tests.log`. Generator evidence: `evidence/combined-generator-idempotence.json` in that audit folder. These local checks do not establish successful real lead delivery, indexing changes or conversion gains.
 
-## Singapore English narration — 22 October update
+## Azure Speech narration — current 22 October update
+
+- Regenerated the approved script with the user's Azure Speech resource in `southeastasia`, using the prebuilt `en-SG-WayneNeural` voice and official REST API. Authentication and regional voice availability succeeded. The credential was supplied through a hidden process input and was not stored in source, assets, configuration or logs.
+- Eight 48 kHz PCM sentence clips were aligned to the existing four scenes. Speech speed is unchanged after synthesis; only surrounding silence is trimmed, with 80 ms before and 150 ms after detected speech retained. Captions are timed from these clips, not copied from the earlier Edge output. Final cue: 15.259 seconds.
+- Both 16-second exports copy the original H.264 video: desktop 896,657 bytes at 1280×720; mobile 966,983 bytes at 720×1280, each with mono 48 kHz AAC. New `-azure.mp4` and `-en-azure.vtt` URLs avoid cached earlier narration. Only player asset URLs and corresponding expectations changed; playback behavior and the public transcript remain the same.
+- Independent media review confirms unchanged video packet hashes, matching AAC audio across formats, clean decode, -18.35 LUFS integrated loudness and -2.65 dBTP true peak with no clipped samples. The final assembled clip ends at 15.309 seconds, leaving 0.691 seconds of padding.
+- 23 homepage/motion checks and 6 publish-directory checks pass. JavaScript syntax and diff checks pass. Provider scripts and source/export metadata are retained outside the repository in `/Users/andylau/website-audits/joetay-2026-10-22/motion/azure-narration/`.
+- Human listening review of accent, Joe's name and pacing remains outstanding. Earlier Edge browser evidence below does not establish the new hosted audio; current hosted verification will be added after the preview rebuild.
+
+## Earlier Singapore English narration — Edge prototype
 
 - Added prebuilt Microsoft `en-SG-WayneNeural` narration using Edge online speech through an isolated `edge-tts` 7.3.1 environment. No Azure Speech account or resource was configured; this is not offline speech or a clone of Joe's voice. The public player discloses AI-generated Singapore English narration.
 - New voiced URLs prevent a cached silent file being reused. Desktop is 894,733 bytes at 1280×720; mobile is 965,059 bytes at 720×1280. Both are 16 seconds with mono 48 kHz AAC audio. The original H.264 bitstreams are preserved without recompression. All four scenes contain speech; measured true peak is -0.9 dBFS with no full-scale clipping.

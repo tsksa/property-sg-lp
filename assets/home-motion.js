@@ -25,7 +25,7 @@
     captions.label = 'English';
     captions.default = true;
     // A track URL is attached only after the visitor explicitly chooses Play.
-    captions.src = '/assets/motion/joetay-next-move-en.vtt';
+    captions.src = '/assets/motion/joetay-next-move-en-azure.vtt';
     video.appendChild(captions);
     captions.track.mode = 'showing';
   }
@@ -59,7 +59,7 @@
     addCaptions();
     if (video.ended) video.currentTime = 0;
     if (!video.getAttribute('src')) {
-      video.src = '/assets/motion/joetay-next-move-' + format + '-voiced.mp4';
+      video.src = '/assets/motion/joetay-next-move-' + format + '-azure.mp4';
       loadVideo();
     }
     video.hidden = false;

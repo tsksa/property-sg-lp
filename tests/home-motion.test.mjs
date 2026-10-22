@@ -40,11 +40,11 @@ test('homepage film never requests media or captions until explicit playback, in
     assert.equal(h.nodes['[data-motion-controls]'].hidden, false);
     h.click();
     await Promise.resolve();
-    assert.equal(h.video.src, `/assets/motion/joetay-next-move-${mobile ? 'mobile' : 'desktop'}-voiced.mp4`);
+    assert.equal(h.video.src, `/assets/motion/joetay-next-move-${mobile ? 'mobile' : 'desktop'}-azure.mp4`);
     assert.equal(h.video.paused, false);
     assert.equal(h.video.muted, false, 'the first user-initiated playback is audible');
     assert.equal(h.video.children.length, 1);
-    assert.equal(h.video.children[0].src, '/assets/motion/joetay-next-move-en.vtt');
+    assert.equal(h.video.children[0].src, '/assets/motion/joetay-next-move-en-azure.vtt');
     assert.equal(h.video.children[0].kind, 'captions');
     assert.equal(h.video.children[0].srclang, 'en');
     assert.equal(h.video.children[0].default, true);
@@ -97,7 +97,7 @@ test('viewport, reduced-motion and background changes stop playback without auto
   assert.equal(h.video.src, null);
   assert.equal(h.nodes.picture.hidden, false);
   h.click();
-  assert.match(h.video.src, /mobile-voiced\.mp4$/);
+  assert.match(h.video.src, /mobile-azure\.mp4$/);
   h.reduce.matches = true; h.reduce.emit('change');
   assert.equal(h.video.paused, true);
   assert.equal(h.nodes.picture.hidden, false);
@@ -120,7 +120,7 @@ test('a stale play rejection cannot hide newer playback after a format change', 
   h.click();
   rejectOld(new Error('old source aborted'));
   await Promise.resolve();
-  assert.match(h.video.src, /mobile-voiced\.mp4$/);
+  assert.match(h.video.src, /mobile-azure\.mp4$/);
   assert.equal(h.video.paused, false);
   assert.equal(h.video.hidden, false);
   assert.equal(h.nodes.picture.hidden, true);
@@ -155,10 +155,10 @@ const narration = [
 
 test('voiced media and caption deliverables remain local and within budget', () => {
   for (const format of ['desktop', 'mobile']) {
-    const asset = new URL(`../assets/motion/joetay-next-move-${format}-voiced.mp4`, import.meta.url);
+    const asset = new URL(`../assets/motion/joetay-next-move-${format}-azure.mp4`, import.meta.url);
     assert.ok(fs.statSync(asset).size < 1_000_000);
   }
-  const captions = read('assets/motion/joetay-next-move-en.vtt');
+  const captions = read('assets/motion/joetay-next-move-en-azure.vtt');
   assert.match(captions, /^WEBVTT/);
   const words = captions.split(/\r?\n/).filter(line => line && line !== 'WEBVTT' && !line.includes('-->') && !/^\d+$/.test(line)).join(' ');
   assert.equal(words, narration.join(' '), 'captions match the exact spoken transcript');
