@@ -20,12 +20,18 @@ test('calculator targets HDB loan calculator search intent', () => {
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
   const description = html.match(/<meta name="description" content="([^"]+)">/)?.[1];
 
-  assert.equal(title, 'HDB Loan Calculator Singapore (2026) | PropertySG');
+  // 19 Oct 2026 report: the generic query "loan calculator" sat at position 11
+  // (211 impressions), with "home loan calculator singapore" at 40. The page
+  // already handles bank loans, so the title and H1 now say so (JOE-345).
+  assert.equal(title, 'HDB and Home Loan Calculator Singapore (2026) | PropertySG');
   assert.ok(title.length <= 60, `title is ${title.length} characters`);
   assert.ok(description.length <= 155, `description is ${description.length} characters`);
   assert.match(description, /HDB loan calculator/i);
   assert.match(description, /monthly repayment/i);
-  assert.match(html, /<h1[^>]*>HDB loan calculator<\/h1>/);
+  assert.match(html, /<h1[^>]*>HDB and home loan calculator<\/h1>/);
+  assert.match(html, /<h3>Using it as a home loan calculator for a bank loan<\/h3>/);
+  // A private-property buyer must not read the HDB-specific MSR result as exact.
+  assert.match(html, /For a condo or other private home, the 30% MSR does not apply/);
   assert.match(html, /independent planning estimate/i);
   assert.doesNotMatch(html, /official HDB loan calculator/i);
 });
