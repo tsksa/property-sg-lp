@@ -483,3 +483,23 @@ test('every launch page links its district and nearby town resale-price pages', 
     assert.doesNotMatch(line, /\$|psf/, `${slug}: the line is links only, no prices`);
   }
 });
+
+test('live-price FAQs describe the table and its fallback without claiming no prices are published', () => {
+  for (const slug of ['pinery-residences', 'vela-bay']) {
+    const project = DATA.projects.find((candidate) => candidate.slug === slug);
+    const faqs = projectFaqEntries(project);
+    const price = faqs.find(([question]) => question.startsWith('What is the price'))[1];
+    const availability = faqs.find(([question]) => question.startsWith('Is '))[1];
+    assert.match(price, /unit-mix table/);
+    assert.match(price, /only unit types with confirmed availability/);
+    assert.match(price, /If a price or availability cannot be confirmed/);
+    assert.match(availability, /Dated live availability loads/);
+    assert.doesNotMatch(price, /No verified price is published/);
+    const html = pageFor(project);
+    assert.match(html, /<small>available units from<\/small>/);
+    assert.match(html, /<small>available units psf<\/small>/);
+    assert.ok(html.includes(price));
+  }
+  const unmapped = { ...DATA.projects.find(({ slug }) => slug === 'pinery-residences'), slug: 'no-live-listing' };
+  assert.match(projectFaqEntries(unmapped).find(([question]) => question.startsWith('What is the price'))[1], /No verified price is published/);
+});
