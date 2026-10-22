@@ -1026,14 +1026,31 @@ ${consentBannerHtml()}
 }
 
 // Opt-in pilot shared by generated pages and the preserved hand-built Vela page.
-// Move the existing form intact so its fields, handlers and analytics stay intact.
+// Keep the existing form contract while improving labels and layout choices.
+function pilotForm(form, project) {
+  const types = eraFor(project)?.unitTypes || [];
+  if (types.length) {
+    const options = [...new Set(types.map(({ type }) => type.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())))];
+    form = form.replace(/(<select\b[^>]*name="interest"[^>]*>)[\s\S]*?<\/select>/, (_, open) => `${open}<option value="" disabled selected>Bedroom preference</option>${options.map((type) => `<option>${esc(type)}</option>`).join('')}<option>Just exploring</option></select>`);
+  }
+  if (!form.includes('data-pilot-labels')) {
+    for (const [name, label] of [['name', 'Your name'], ['phone', 'Phone number'], ['email', 'Email address'], ['interest', 'Bedroom preference']]) {
+      const field = new RegExp(`<input\\b[^>]*name="${name}"[^>]*>|<select\\b[^>]*name="${name}"[^>]*>[\\s\\S]*?<\\/select>`);
+      form = form.replace(field, (control) => `<label class="project-pilot-field"><span>${label}</span>${control}</label>`);
+    }
+    form = form.replace('<form ', '<p class="project-pilot-required">All fields are required.</p>\n      <form data-pilot-labels ');
+  }
+  return form;
+}
+
 export function applyDesignPilot(html, project) {
   const pilot = content[project.slug]?.designPilot;
   if (!pilot) return html;
   const hero = heroImage(project);
   const image = galleryFor(project)?.find((item) => item.kind !== 'site-plan');
-  const form = html.match(/<div class="project-form-card">[\s\S]*?<\/form>\s*<\/div>/)?.[0];
+  let form = html.match(/<div class="project-form-card">[\s\S]*?<\/form>\s*<\/div>/)?.[0];
   if (!hero || !image || !form) throw new Error(`${project.slug}: design pilot requires an image and enquiry form`);
+  form = pilotForm(form, project);
   const mainAttrs = /<section class="project-hero[^>]*\bid="main"/.test(html) ? ' id="main" tabindex="-1"' : '';
   const message = encodeURIComponent(`Hi Joe, please confirm current availability, prices and floor plans for ${project.name}.`);
   const top = project.factsReview?.expectedTop || (expectedTop(project) ? formatDate(expectedTop(project)).replace(/^\d+\s/, '') : 'To be confirmed');

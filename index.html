@@ -1090,6 +1090,8 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <script src="/assets/site-theme.js"></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>
+<link rel="stylesheet" href="/assets/home-motion.css">
+<script src="/assets/home-motion.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -1397,6 +1399,35 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   </div>
 </section>
 <!-- Meet Your Advisor -->
+<section class="jt-motion" id="next-move" data-home-motion aria-labelledby="next-move-title">
+  <div class="jt-motion-inner">
+    <div class="jt-motion-copy">
+      <p class="section-eyebrow">Your next move</p>
+      <h2 id="next-move-title">A little room to think.</h2>
+      <p>Know the market. Compare your options. Start with your goals, then have a clearer conversation with Joe.</p>
+      <p>Watch the 16-second introduction, or read the same story below.</p>
+      <details id="next-move-transcript"><summary>Read the full transcript</summary>
+        <p><strong>Find your next move.</strong> Singapore property. With your goals at the centre.</p>
+        <p><strong>Know the market.</strong> Understand the landscape. Ask better questions.</p>
+        <p><strong>Compare your options.</strong> Look beyond the headline. Consider the life you want.</p>
+        <p><strong>Move with clarity.</strong> Your goals. A clearer conversation with Joe. Explore joetay.com.</p>
+        <p>Visuals: a home interior, followed by Joe Tay’s portrait. Silent video.</p>
+      </details>
+    </div>
+    <div class="jt-motion-player">
+      <div class="jt-motion-stage">
+        <picture><source media="(max-width:640px)" srcset="/assets/motion/joetay-next-move-mobile-poster.webp"><img src="/assets/motion/joetay-next-move-desktop-poster.webp" width="1280" height="720" loading="lazy" decoding="async" alt="Find your next move — Singapore property, with your goals at the centre."></picture>
+        <video hidden muted playsinline controls preload="none" aria-label="Joe Tay introduction, silent 16-second film" aria-describedby="next-move-transcript"></video>
+      </div>
+      <div class="jt-motion-controls" data-motion-controls hidden>
+        <button type="button" data-motion-toggle>Play introduction</button>
+        <button type="button" data-motion-replay>Replay</button>
+        <span class="jt-motion-status" data-motion-status role="status">16 seconds · Silent · Plays when you choose</span>
+      </div>
+      <noscript><p>The poster and transcript are available without JavaScript.</p></noscript>
+    </div>
+  </div>
+</section>
 <section class="advisor" id="advisor" aria-labelledby="advisor-title">
   <div class="container">
     <div class="advisor-photo-wrap reveal">

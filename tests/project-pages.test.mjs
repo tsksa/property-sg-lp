@@ -46,12 +46,27 @@ test('pilot pages lead with project imagery and advice while retaining one worki
     const brief = html.match(/<section class="project-pilot-brief"[\s\S]*?<\/section>/)[0];
     for (const heading of ['Who it suits', 'The trade-off', 'Before you decide']) assert.ok(brief.includes(heading));
     assert.ok(!/class="[^"]*reveal/.test(hero + brief), 'primary content must be visible immediately');
-    const form = html.match(/<form id="projectForm"[\s\S]*?<\/form>/)[0];
+    const form = html.match(/<form\b[^>]*id="projectForm"[\s\S]*?<\/form>/)[0];
     assert.equal((html.match(/id="projectForm"/g) || []).length, 1);
     for (const field of ['name', 'phone', 'email', 'interest', 'company_website']) assert.ok(form.includes(`name="${field}"`));
     assert.ok(html.indexOf('class="project-pilot-enquiry"') > html.indexOf(`id="alternatives-${slug}"`));
     assert.ok(html.includes(`id="verified-facts-${slug}"`));
     assert.equal(applyDesignPilot(html, project), html, `${slug}: pilot transform must be idempotent`);
+  }
+});
+
+test('pilot enquiry labels stay visible and choices match the verified unit mix', () => {
+  const snapshot = JSON.parse(read('new-launches/era-snapshot.json'));
+  for (const slug of ['vela-bay', 'pinery-residences']) {
+    const html = read(`new-launches/${slug}.html`);
+    const form = html.match(/<form\b[^>]*id="projectForm"[\s\S]*?<\/form>/)[0];
+    for (const label of ['Your name', 'Phone number', 'Email address', 'Bedroom preference']) {
+      assert.ok(form.includes(`<label class="project-pilot-field"><span>${label}</span>`));
+    }
+    const options = [...form.matchAll(/<option>(.*?)<\/option>/g)].map((match) => match[1].toLowerCase());
+    assert.deepEqual(options, [...new Set(snapshot.projects[slug].unitTypes.map(({ type }) => type.toLowerCase())), 'just exploring']);
+    assert.equal((form.match(/class="project-pilot-field"/g) || []).length, 4);
+    for (const name of ['name', 'phone', 'email', 'interest']) assert.match(form, new RegExp(`name="${name}"[^>]*required`));
   }
 });
 

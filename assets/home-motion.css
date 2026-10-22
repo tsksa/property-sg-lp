@@ -1,0 +1,24 @@
+.jt-motion{padding:64px 24px;background:#f2eee5;color:#0b1e3f}
+.jt-motion-inner{max-width:1120px;margin:auto;display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center;min-width:0}
+.jt-motion-copy,.jt-motion-player{min-width:0}
+.jt-motion h2{font:600 clamp(1.9rem,3.7vw,3rem)/1.15 'Fraunces',Georgia,serif;letter-spacing:-.03em;margin:0 0 18px;color:inherit}
+.jt-motion p{font-size:1rem;line-height:1.7;color:#46546a}
+.jt-motion .section-eyebrow{color:#806127}
+.jt-motion-stage{aspect-ratio:16/9;background:#faf6ec;overflow:hidden;border-radius:12px}
+.jt-motion-stage picture,.jt-motion-stage img,.jt-motion-stage video{display:block;width:100%;height:100%;object-fit:contain}
+.jt-motion [hidden]{display:none!important}
+.jt-motion-controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+.jt-motion button{font:600 .9rem 'DM Sans',Arial,sans-serif;min-height:44px;padding:11px 16px;border:1px solid #0b1e3f;border-radius:6px;background:transparent;color:#0b1e3f;cursor:pointer}
+.jt-motion button[data-motion-toggle]{background:#0b1e3f;color:#fff}
+.jt-motion-status{font-size:.8rem;color:#46546a;flex-basis:100%;line-height:1.5}
+.jt-motion details{margin-top:20px;font-size:.9rem}
+.jt-motion summary{cursor:pointer;min-height:44px;padding:10px 0;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.jt-motion details p{font-size:.9rem;margin:8px 0}
+.jt-motion :is(button,summary):focus-visible{outline:3px solid #047857;outline-offset:4px}
+html.jt-theme-dark .jt-motion{background:#07172f;color:#f8fafc}
+html.jt-theme-dark .jt-motion p,html.jt-theme-dark .jt-motion-status{color:#c1cad8}
+html.jt-theme-dark .jt-motion .section-eyebrow{color:#e0be7b}
+html.jt-theme-dark .jt-motion button{border-color:#c1cad8;color:#f8fafc}
+html.jt-theme-dark .jt-motion button[data-motion-toggle]{background:#f8fafc;color:#0b1e3f}
+@media(max-width:800px){.jt-motion-inner{grid-template-columns:1fr;gap:24px}.jt-motion{padding:40px 24px}.jt-motion-copy{max-width:60ch}}
+@media(max-width:640px){.jt-motion-player{width:min(100%,360px);margin:auto}.jt-motion-stage{aspect-ratio:9/16}.jt-motion{padding:36px 20px}}

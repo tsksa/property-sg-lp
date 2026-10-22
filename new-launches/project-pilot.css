@@ -46,6 +46,10 @@ body[data-launch-design="pilot"]{--pilot-surface:#faf6ec;--pilot-ink:#0b1e3f;--p
 .project-pilot-enquiry a{color:var(--pilot-ink);text-decoration:underline;text-underline-offset:3px}
 .project-pilot-enquiry .project-form-card{box-shadow:none;border:1px solid var(--pilot-line)}
 .project-pilot-enquiry .project-form-card h2{font-size:1.3rem}
+.project-pilot-enquiry .project-pilot-required{font-size:.8rem;margin:0 0 14px}
+.project-pilot-field{display:flex;flex:1;flex-direction:column;gap:7px;min-width:0;color:var(--pilot-ink);font-size:.85rem;font-weight:600}
+.project-pilot-field :is(input,select){width:100%;min-width:0;font-weight:400}
+.project-pilot-field span{display:block}
 body[data-launch-design="pilot"] :is(.project-pilot-primary,.project-pilot-facts-link,.project-pilot-links a,.project-pilot-enquiry a):focus-visible{outline:3px solid #c9a661;outline-offset:4px}
 body[data-launch-design="pilot"] :is([id^="verified-facts-"],[id^="joe-take-"],[id^="alternatives-"],#projectForm){scroll-margin-top:100px}
 html.jt-theme-dark body[data-launch-design="pilot"]{--pilot-surface:#07172f;--pilot-ink:#f8fafc;--pilot-muted:#c1cad8;--pilot-line:#364761}
