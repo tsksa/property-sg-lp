@@ -5,7 +5,6 @@
   var video = section.querySelector('video');
   var poster = section.querySelector('picture');
   var toggle = section.querySelector('[data-motion-toggle]');
-  var replay = section.querySelector('[data-motion-replay]');
   var status = section.querySelector('[data-motion-status]');
   var narrow = window.matchMedia('(max-width: 640px)');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -15,7 +14,7 @@
   var started = false;
 
   function playLabel() {
-    return started ? 'Play introduction' : 'Play introduction with sound';
+    return started ? 'Play walkthrough' : 'Play walkthrough with sound';
   }
   function addCaptions() {
     if (captions) return;
@@ -25,7 +24,7 @@
     captions.label = 'English';
     captions.default = true;
     // A track URL is attached only after the visitor explicitly chooses Play.
-    captions.src = '/assets/motion/joetay-next-move-en-azure.vtt';
+    captions.src = '/assets/motion/joetay-hdb-walkthrough-en.vtt';
     video.appendChild(captions);
     captions.track.mode = 'showing';
   }
@@ -51,7 +50,7 @@
     if (format === next) return;
     format = next;
     // Changing layout never downloads or starts the other film automatically.
-    restorePoster('16 seconds · Narration and captions · Plays when you choose');
+    restorePoster('30 seconds · Narration and captions · Plays when you choose');
     video.removeAttribute('src');
     loadVideo();
   }
@@ -59,7 +58,7 @@
     addCaptions();
     if (video.ended) video.currentTime = 0;
     if (!video.getAttribute('src')) {
-      video.src = '/assets/motion/joetay-next-move-' + format + '-azure.mp4';
+      video.src = '/assets/motion/joetay-hdb-walkthrough-' + format + '.mp4';
       loadVideo();
     }
     video.hidden = false;
@@ -74,22 +73,21 @@
     if (video.paused) play();
     else video.pause();
   });
-  replay.addEventListener('click', function () {
-    video.currentTime = 0;
-    play();
+  section.querySelector('[data-motion-lookup]').addEventListener('click', function () {
+    video.pause();
   });
   video.addEventListener('play', function () {
     started = true;
-    toggle.textContent = 'Pause introduction';
+    toggle.textContent = 'Pause walkthrough';
     status.textContent = 'Playing';
   });
   video.addEventListener('pause', function () {
     playAttempt++;
-    toggle.textContent = video.ended ? 'Replay introduction' : playLabel();
+    toggle.textContent = video.ended ? 'Replay walkthrough' : playLabel();
     status.textContent = video.ended ? 'Finished · Replay whenever you like' : 'Paused';
   });
   video.addEventListener('ended', function () {
-    toggle.textContent = 'Replay introduction';
+    toggle.textContent = 'Replay walkthrough';
     status.textContent = 'Finished · Replay whenever you like';
   });
   video.addEventListener('error', function () {

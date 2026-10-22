@@ -8,8 +8,8 @@ const script = read('assets/home-motion.js');
 function harness({ mobile = false, reduced = false } = {}) {
   function element(extra = {}) {
     const events = {};
-    return Object.defineProperties({ hidden: false, textContent: '', addEventListener(name, fn) { events[name] = fn; },
-      emit(name) { events[name]?.(); } }, Object.getOwnPropertyDescriptors(extra));
+    return Object.defineProperties({ hidden: false, textContent: '', addEventListener(name, fn) { (events[name] ||= []).push(fn); },
+      emit(name) { for (const fn of events[name] || []) fn(); } }, Object.getOwnPropertyDescriptors(extra));
   }
   let source = null;
   const loads = [];
@@ -21,12 +21,12 @@ function harness({ mobile = false, reduced = false } = {}) {
     play() { if (this.rejectPlay) return Promise.reject(new Error('blocked')); this.paused = false; this.ended = false; this.emit('play'); return Promise.resolve(); },
     pause() { if (!this.paused) { this.paused = true; this.emit('pause'); } },
   });
-  const nodes = { video, picture: element(), '[data-motion-toggle]': element(), '[data-motion-replay]': element(), '[data-motion-status]': element(), '[data-motion-controls]': element({ hidden: true }) };
+  const nodes = { video, picture: element(), '[data-motion-toggle]': element(), '[data-motion-lookup]': element(), '[data-motion-status]': element(), '[data-motion-controls]': element({ hidden: true }) };
   const narrow = element({ matches: mobile });
   const reduce = element({ matches: reduced });
   const document = element({ hidden: false, createElement(tagName) { assert.equal(tagName, 'track'); return { track: { mode: 'disabled' } }; }, querySelector: () => ({ querySelector: (key) => nodes[key] }) });
   vm.runInNewContext(script, { document, window: { matchMedia: (query) => query.includes('640') ? narrow : reduce } });
-  return { video, loads, nodes, narrow, reduce, document, click: (key = 'toggle') => nodes[`[data-motion-${key}]`].emit('click') };
+  return { video, loads, nodes, narrow, reduce, document, click: () => nodes['[data-motion-toggle]'].emit('click') };
 }
 
 test('homepage film never requests media or captions until explicit playback, including reduced motion', async () => {
@@ -40,11 +40,11 @@ test('homepage film never requests media or captions until explicit playback, in
     assert.equal(h.nodes['[data-motion-controls]'].hidden, false);
     h.click();
     await Promise.resolve();
-    assert.equal(h.video.src, `/assets/motion/joetay-next-move-${mobile ? 'mobile' : 'desktop'}-azure.mp4`);
+    assert.equal(h.video.src, `/assets/motion/joetay-hdb-walkthrough-${mobile ? 'mobile' : 'desktop'}.mp4`);
     assert.equal(h.video.paused, false);
     assert.equal(h.video.muted, false, 'the first user-initiated playback is audible');
     assert.equal(h.video.children.length, 1);
-    assert.equal(h.video.children[0].src, '/assets/motion/joetay-next-move-en-azure.vtt');
+    assert.equal(h.video.children[0].src, '/assets/motion/joetay-hdb-walkthrough-en.vtt');
     assert.equal(h.video.children[0].kind, 'captions');
     assert.equal(h.video.children[0].srclang, 'en');
     assert.equal(h.video.children[0].default, true);
@@ -54,20 +54,22 @@ test('homepage film never requests media or captions until explicit playback, in
   }
 });
 
-test('play, pause, replay and end states remain usable without new downloads', () => {
+test('one control plays, pauses, resumes and replays at the end without new downloads', () => {
   const h = harness();
   h.click();
-  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Pause introduction');
+  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Pause walkthrough');
+  h.video.currentTime = 10;
   h.click();
   assert.equal(h.video.paused, true);
-  h.video.currentTime = 10;
-  h.click('replay');
-  assert.equal(h.video.currentTime, 0);
-  assert.equal(h.video.paused, false);
-  h.video.currentTime = 16; h.video.ended = true; h.video.paused = true; h.video.emit('ended');
-  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Replay introduction');
+  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Play walkthrough');
   h.click();
-  assert.equal(h.video.currentTime, 0);
+  assert.equal(h.video.currentTime, 10, 'Play resumes a paused walkthrough');
+  assert.equal(h.video.paused, false);
+  h.video.currentTime = 30; h.video.ended = true; h.video.paused = true; h.video.emit('ended');
+  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Replay walkthrough');
+  h.click();
+  assert.equal(h.video.currentTime, 0, 'the same control restarts a finished walkthrough');
+  assert.equal(h.video.paused, false);
   assert.equal(h.loads.filter(Boolean).length, 1);
 });
 
@@ -97,7 +99,7 @@ test('viewport, reduced-motion and background changes stop playback without auto
   assert.equal(h.video.src, null);
   assert.equal(h.nodes.picture.hidden, false);
   h.click();
-  assert.match(h.video.src, /mobile-azure\.mp4$/);
+  assert.match(h.video.src, /walkthrough-mobile\.mp4$/);
   h.reduce.matches = true; h.reduce.emit('change');
   assert.equal(h.video.paused, true);
   assert.equal(h.nodes.picture.hidden, false);
@@ -120,7 +122,7 @@ test('a stale play rejection cannot hide newer playback after a format change', 
   h.click();
   rejectOld(new Error('old source aborted'));
   await Promise.resolve();
-  assert.match(h.video.src, /mobile-azure\.mp4$/);
+  assert.match(h.video.src, /walkthrough-mobile\.mp4$/);
   assert.equal(h.video.paused, false);
   assert.equal(h.video.hidden, false);
   assert.equal(h.nodes.picture.hidden, true);
@@ -135,41 +137,101 @@ test('homepage ships a lazy poster, narrated transcript and accessible opt-in so
   assert.match(section, /loading="lazy"/);
   assert.match(section, /data-motion-controls hidden/);
   assert.match(section, /aria-describedby="next-move-transcript"/);
-  for (const title of ['Find your next move.', 'Know the market.', 'Compare your options.', 'Move with clarity.']) assert.ok(section.includes(title));
-  assert.ok(html.indexOf('data-home-motion') > html.indexOf('id="main"'));
+  assert.match(section, /aria-label="30-second HDB sold-prices walkthrough with Singapore English narration"/);
+  assert.equal((section.match(/<button\b/g) || []).length, 1, 'there is one custom playback control');
+  assert.doesNotMatch(section + script, /data-motion-replay/);
+  for (const title of ['Before you choose an asking price.', 'Start with your block.', 'Same flat type. Real sale prices.', 'Then compare the homes.']) assert.ok(section.includes(title));
   assert.match(html, /src="\/assets\/home-motion.js" defer/);
-  assert.match(section, /Play introduction with sound/);
+  assert.match(section, /Play walkthrough with sound/);
   assert.match(section, /Includes AI-generated narration in Singapore English\./);
+  assert.match(section, /Example: Ang Mo Kio Avenue 6 street sales, checked 22 October 2026\./);
+  assert.match(section, /not a personalised valuation/);
+  assert.match(section, /No sales were found for block 123/);
+  assert.match(section, /sales from different blocks/);
   assert.match(section, /<strong>Narration<\/strong>/);
   assert.match(section, /<strong>On-screen text and visuals<\/strong>/);
   for (const phrase of narration) assert.ok(section.includes(phrase), `missing narration: ${phrase}`);
-  assert.doesNotMatch(section, /Silent video|Silent ·/);
+  assert.doesNotMatch(section, /Silent video|Silent ·|16.second|A little room to think/);
+});
+
+test('the HDB walkthrough follows the hero and links back to the lookup shown in the demo', () => {
+  const html = read('index.html');
+  const section = html.match(/<section class="jt-motion"[\s\S]*?<\/section>/)[0];
+  assert.equal((html.match(/data-home-motion/g) || []).length, 1);
+  assert.match(html, /class="scroll-hint"[\s\S]*?<\/section>\s*<!-- HDB pricing walkthrough -->\s*<section class="jt-motion"/);
+  assert.match(html, /<\/section>\s*<!-- Trust Strip -->\s*<section class="trust-strip"/);
+  assert.ok(html.indexOf('data-home-motion') > html.indexOf('id="main"'));
+  assert.ok(html.indexOf('data-home-motion') < html.indexOf('class="trust-strip"'));
+  const hero = html.slice(html.indexOf('id="heroEstimate"'), html.indexOf('id="heroForm"'));
+  assert.match(hero, /href="#next-move">See how to compare sold prices<\/a>/);
+  assert.match(section, /id="next-move"/);
+  assert.match(section, /href="#heroPostal" data-motion-lookup>Check my block’s sold prices<\/a>/);
+});
+
+test('the walkthrough CTA restores the postal lookup, focuses it and pauses playback', () => {
+  const html = read('index.html');
+  const start = html.indexOf("const heroEstimate=document.getElementById('heroEstimate');");
+  const end = html.indexOf('// "Get Joe\'s valuation"', start);
+  assert.ok(start >= 0 && end > start, 'the existing hero view helper is present');
+  const h = harness();
+  const heroForm = { hidden: true };
+  const heroEstimate = { hidden: false };
+  const clicks = {};
+  let focused = null;
+  const elements = {
+    heroEstimate,
+    'hero-name': { focus() { focused = 'hero-name'; } },
+    heroPostal: { focus() { focused = 'heroPostal'; } },
+    heroTalkLink: { addEventListener(name, fn) { clicks.talk = fn; } },
+    heroBackToEstimate: { addEventListener(name, fn) { clicks.back = fn; } },
+  };
+  h.document.getElementById = id => elements[id];
+  h.document.querySelector = selector => {
+    assert.equal(selector, '[data-motion-lookup]');
+    return h.nodes[selector];
+  };
+  vm.runInNewContext(html.slice(start, end), { document: h.document, heroForm });
+  clicks.talk();
+  assert.equal(heroForm.hidden, false);
+  assert.equal(heroEstimate.hidden, true);
+  assert.equal(focused, 'hero-name');
+  h.click();
+  h.video.currentTime = 12;
+  h.nodes['[data-motion-lookup]'].emit('click');
+  assert.equal(heroForm.hidden, true, 'the consultation form closes');
+  assert.equal(heroEstimate.hidden, false, 'the demonstrated postal lookup is restored');
+  assert.equal(focused, 'heroPostal');
+  assert.equal(h.video.paused, true, 'narration stops when the visitor leaves the walkthrough');
+  assert.equal(h.video.currentTime, 12, 'returning to the tool does not restart the film');
+  assert.equal(h.loads.filter(Boolean).length, 1);
 });
 
 const narration = [
-  'Find your next move. Start with what matters.',
-  'Know the market. Ask the right questions.',
-  'Compare your options. Find what fits you.',
-  'Move with clarity. Speak with Joe Tay.',
+  'Selling your HDB? Start with real sold prices.',
+  'Enter your postal code. Choose your flat type.',
+  'Compare recent sales, including the date and floor. Check whether they cover your block or the wider street.',
+  'These are a starting point. Your floor, condition and remaining lease affect your price.',
+  'Check your block’s sold prices. No name or phone needed.',
 ];
 
 test('voiced media and caption deliverables remain local and within budget', () => {
   for (const format of ['desktop', 'mobile']) {
-    const asset = new URL(`../assets/motion/joetay-next-move-${format}-azure.mp4`, import.meta.url);
+    const asset = new URL(`../assets/motion/joetay-hdb-walkthrough-${format}.mp4`, import.meta.url);
     assert.ok(fs.statSync(asset).size < 1_000_000);
+    assert.ok(fs.statSync(new URL(`../assets/motion/joetay-hdb-walkthrough-${format}-poster.webp`, import.meta.url)).size > 0);
   }
-  const captions = read('assets/motion/joetay-next-move-en-azure.vtt');
+  const captions = read('assets/motion/joetay-hdb-walkthrough-en.vtt');
   assert.match(captions, /^WEBVTT/);
   const words = captions.split(/\r?\n/).filter(line => line && line !== 'WEBVTT' && !line.includes('-->') && !/^\d+$/.test(line)).join(' ');
   assert.equal(words, narration.join(' '), 'captions match the exact spoken transcript');
   const cues = [...captions.matchAll(/(\d{2}):(\d{2}):(\d{2})\.(\d{3}) --> (\d{2}):(\d{2}):(\d{2})\.(\d{3})/g)];
-  assert.equal(cues.length, 8);
+  assert.ok(cues.length >= narration.length, 'each narrated chapter has captions');
   let previousEnd = 0;
   for (const cue of cues) {
     const values = cue.slice(1).map(Number);
     const start = values[0] * 3600 + values[1] * 60 + values[2] + values[3] / 1000;
     const end = values[4] * 3600 + values[5] * 60 + values[6] + values[7] / 1000;
-    assert.ok(start >= previousEnd && end > start && end <= 16, 'captions stay ordered within the film');
+    assert.ok(start >= previousEnd && end > start && end <= 30, 'captions stay ordered within the 30-second walkthrough');
     previousEnd = end;
   }
 });
@@ -202,7 +264,7 @@ test('previous film URLs keep serving current Azure media for already-open tabs'
 
 test('play, replay and format changes preserve native mute and caption choices', () => {
   const h = harness();
-  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Play introduction with sound');
+  assert.equal(h.nodes['[data-motion-toggle]'].textContent, 'Play walkthrough with sound');
   h.click();
   h.video.muted = true;
   h.video.volume = 0.35;
@@ -211,7 +273,8 @@ test('play, replay and format changes preserve native mute and caption choices',
   assert.equal(h.nodes['[data-motion-status]'].textContent, 'Paused');
   h.click();
   assert.equal(h.video.muted, true);
-  h.click('replay');
+  h.video.currentTime = 30; h.video.ended = true; h.video.paused = true; h.video.emit('ended');
+  h.click();
   assert.equal(h.video.muted, true);
   assert.equal(h.video.volume, 0.35);
   assert.equal(h.video.children.length, 1, 'replay must not attach another caption file');
@@ -224,7 +287,8 @@ test('play, replay and format changes preserve native mute and caption choices',
   assert.equal(h.video.children.length, 1);
   assert.equal(h.video.children[0].track.mode, 'disabled');
   h.video.muted = false;
-  h.click('replay');
+  h.click();
+  h.click();
   assert.equal(h.video.muted, false);
   assert.equal(h.nodes['[data-motion-status]'].textContent, 'Playing');
 });

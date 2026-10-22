@@ -1,0 +1,9 @@
+*.wav
+*.mp4
+*.webp
+*.jpg
+keyframes/
+__pycache__/
+azure-source.json
+export.json
+joetay-hdb-walkthrough-en.vtt

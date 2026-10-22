@@ -1,4 +1,22 @@
-# Current QA — 22 October 2026
+# HDB seller walkthrough — 22 October 2026
+
+The homepage now explains a concrete seller task: enter a postal code, choose a flat type, compare dated HDB records and check floor, condition and remaining lease before setting an asking price. This is a 30-second animation drawn in code, with separate desktop/mobile compositions and Azure Singapore English narration. It sits beside the lookup journey, immediately after the hero. The single custom control handles play/pause/replay; the final action restores and focuses the same postal input and pauses narration.
+
+## Evidence and acceptance checks
+
+- Postal 560123 was tested through the preview's actual lookup. OneMap returned block 123, Ang Mo Kio Avenue 6. The official HDB query returned zero records for that block, so the example uses the street fallback. Three four-room records, their separate block numbers, registration months, storeys and prices match the saved official response. Source, street scope and 22 October 2026 snapshot date are visible; no sale price is presented as the viewer's valuation.
+- A code-generated block, postal typing/clicks, table emphasis and floor/condition/lease diagrams replace the generic introduction. Code, dated data and regeneration instructions are under `ops/motion/hdb-walkthrough/`, excluded from the public build. No source credential is stored. Visitors only request local media.
+- Azure `en-SG-WayneNeural` synthesis succeeded. Five clips are aligned to the 30-second timeline without speech speed changes. Ten captions match the HTML transcript; final cue ends at 29.899 seconds. PCM measured -18.11 LUFS and -3.00 dBTP. The voice is synthetic, not Joe Tay.
+- Forty focused homepage/player/lead-timing/publish/routing tests pass, plus thirteen block-estimate tests. The publish-directory build passes. Earlier broad results below are historical, not a rerun for this new animation.
+- Local Chrome: desktop playback at 1280px and mobile at 390px reach readyState 4 with unmuted audio and visible English captions. No horizontal overflow at 390px or 320px. Switching format resets to the poster; reduced motion pauses playback. The CTA restores the lookup after opening consultation and focuses `heroPostal`. No real enquiry or subscription submitted.
+- Browser inspection found captions overlapping the mobile source note while native controls were visible. The media layout is being adjusted and will be rechecked before the preview update is called complete.
+- Hosted deployment verification: pending this application commit. Production remains unchanged; PR #456 is unmerged.
+
+Local evidence: `/Users/andylau/website-audits/joetay-2026-10-22/motion/hdb-walkthrough/`, including raw official responses, source screenshots, narration/export metadata, contact sheets and browser captures. All earlier media and five compatibility rewrites remain intact for already-open tabs. Human listening approval on a real device remains a review item before production.
+
+---
+
+# Earlier pilot and introduction QA — 22 October 2026
 
 **Local review passed for the pilot pages and optional homepage film.** The design pilot remains limited to Vela Bay and Pinery. Hosted-preview verification passed for the combined release; production is unchanged and remains a post-merge check. Earlier production checks of PR #472 do not establish deployment of these newer changes. The integrated check before the Azure media replacement passed 1,089 tests with 0 failures. The Azure update passes all 29 homepage and publish-directory checks; media validation is recorded below. The publish-directory build also passed; generated sitemap output is excluded from the PR.
 
@@ -22,7 +40,7 @@
 - Original silent media: desktop 801,307 bytes at 1280×720; mobile 871,633 bytes at 720×1280. These 16-second H.264/yuv420p files are superseded by the narrated exports below. They reuse existing homepage imagery, Joe’s photo and self-hosted fonts, with no new property or outcome claims. Playback is optional, with lazy posters and a text transcript.
 - Test log: `/Users/andylau/website-audits/joetay-2026-10-22/evidence/combined-independent-review-tests.log`. Generator evidence: `evidence/combined-generator-idempotence.json` in that audit folder. These local checks do not establish successful real lead delivery, indexing changes or conversion gains.
 
-## Azure Speech narration — current 22 October update
+## Earlier Azure introduction — retained for cached tabs
 
 - Regenerated the approved script with the user's Azure Speech resource in `southeastasia`, using the prebuilt `en-SG-WayneNeural` voice and official REST API. Authentication and regional voice availability succeeded. The credential was supplied through a hidden process input and was not stored in source, assets, configuration or logs.
 - Eight 48 kHz PCM sentence clips were aligned to the existing four scenes. Speech speed is unchanged after synthesis; only surrounding silence is trimmed, with 80 ms before and 150 ms after detected speech retained. Captions are timed from these clips, not copied from the earlier Edge output. Final cue: 15.259 seconds.
