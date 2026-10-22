@@ -13,12 +13,16 @@
 const crypto = require('crypto');
 const { postJson } = require('./lib/lead-webhook');
 
-function getCorsHeaders(origin) {
-  const allowed = (
+function isAllowedOrigin(origin) {
+  return (
     origin === 'https://joetay.com' ||
     origin === 'https://www.joetay.com' ||
     /^https:\/\/(?:[\w-]+--)?propertysg78\.netlify\.app$/.test(origin || '')
   );
+}
+
+function getCorsHeaders(origin) {
+  const allowed = isAllowedOrigin(origin);
   return {
     'Access-Control-Allow-Origin': allowed ? origin : 'null',
     'Vary': 'Origin',
@@ -44,9 +48,23 @@ function hasDurableCapture(stored, mirrored) {
 exports.hasDurableCapture = hasDurableCapture;
 
 exports.handler = async (event) => {
-  const corsHeaders = getCorsHeaders(event.headers.origin || event.headers.Origin);
+  const headers = event.headers || {};
+  const origin = headers.origin || headers.Origin || '';
+  const secFetchSite = headers['sec-fetch-site'] || headers['Sec-Fetch-Site'] || '';
+  const corsHeaders = getCorsHeaders(origin);
+  if (event.httpMethod !== 'POST' && event.httpMethod !== 'OPTIONS') {
+    return okJson(corsHeaders, 405, { ok: false, error: 'Method not allowed' });
+  }
+
+  // CORS alone cannot stop a simple POST from storing/forwarding a subscription.
+  // The only caller is assets/block-alert.js, using a same-origin browser POST.
+  // Require its trusted Origin even when Fetch Metadata is unavailable; there
+  // are no no-Origin server callers (the digest reads Blobs directly).
+  // Reject contradictory/cross-site metadata before parsing or any side effects.
+  if (!isAllowedOrigin(origin) || (secFetchSite && secFetchSite !== 'same-origin' && secFetchSite !== 'same-site')) {
+    return okJson(corsHeaders, 403, { ok: false, error: 'Please submit your alert from joetay.com.' });
+  }
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: corsHeaders, body: '' };
-  if (event.httpMethod !== 'POST') return okJson(corsHeaders, 405, { ok: false, error: 'Method not allowed' });
 
   let p;
   try { p = JSON.parse(event.body || '{}'); }
