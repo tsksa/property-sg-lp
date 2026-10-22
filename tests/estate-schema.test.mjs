@@ -202,3 +202,24 @@ test("a town page's visible FAQ and FAQPage JSON-LD carry the same town facts", 
   const esc = (v) => String(v).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   assert.ok(html.includes(faqHtml(faq, esc)), 'visible FAQ differs from the FAQPage JSON-LD');
 });
+
+// JOE-345: every town page used one template and differed only in its figures;
+// Google crawled /hdb-prices/bedok/ on 15 Oct 2026 and chose not to index it.
+// Each page now carries a street breakdown no other town page has.
+test('every town page breaks prices down by its own streets', () => {
+  const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+  const towns = fs.readdirSync(path.join(ROOT, 'hdb-prices'), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory()).map((entry) => entry.name);
+  assert.ok(towns.length >= 26, `expected the town pages, found ${towns.length}`);
+  const tables = new Set();
+  for (const town of towns) {
+    const html = fs.readFileSync(path.join(ROOT, 'hdb-prices', town, 'index.html'), 'utf8');
+    const at = html.indexOf('HDB resale prices by street</h2>');
+    assert.ok(at !== -1, `${town}: missing the by-street table`);
+    const table = html.slice(at, html.indexOf('</table>', at));
+    const rows = table.match(/<tr><td style="text-align:left">/g) || [];
+    assert.ok(rows.length >= 2, `${town}: only ${rows.length} streets listed`);
+    tables.add(table.replace(/^[^<]*<\/h2>/, ''));
+  }
+  assert.equal(tables.size, towns.length, 'two towns rendered an identical street table');
+});
