@@ -26,9 +26,20 @@ export function checkCalibration(report, oversized) {
   }
 }
 
-export async function runCalibration(outputDirectory) {
+function runCommand(args, timeout, label) {
+  return new Promise((resolve, reject) => {
+    const child = spawn('npx', args, { stdio: 'inherit', timeout });
+    child.once('error', reject);
+    child.once('exit', (code, signal) => code === 0 ? resolve() : reject(new Error(`${label} failed: ${signal || code}`)));
+  });
+}
+
+export async function runCalibration(outputDirectory, run = runCommand) {
   const output = path.resolve(outputDirectory);
   await fs.mkdir(output, { recursive: true });
+  // Populate npm's cache before starting any timed browser audit. A cold runner
+  // gets a separate download budget; offline audits cannot spend time fetching.
+  await run(['--yes', `lighthouse@${LIGHTHOUSE_VERSION}`, '--version'], 300_000, 'Lighthouse setup');
   const config = JSON.parse(await fs.readFile(path.join(ROOT, '.github/lighthouse-config.json'), 'utf8'));
   const flags = { ...config.ci.collect.settings, onlyAudits: ['image-delivery-insight', 'network-requests'] };
   flags.chromeFlags = `${flags.chromeFlags} --headless`;
@@ -54,11 +65,7 @@ export async function runCalibration(outputDirectory) {
     for (const name of ['correct', 'oversized']) {
       const reportPath = path.join(output, `${name}.json`);
       const url = `http://127.0.0.1:${server.address().port}/${name}.html`;
-      await new Promise((resolve, reject) => {
-        const child = spawn('npx', ['--yes', `lighthouse@${LIGHTHOUSE_VERSION}`, url, '--cli-flags-path', flagsPath, '--output=json', '--output-path', reportPath, '--quiet'], { stdio: 'inherit', timeout: 120_000 });
-        child.once('error', reject);
-        child.once('exit', (code, signal) => code === 0 ? resolve() : reject(new Error(`Calibration ${name} failed: ${signal || code}`)));
-      });
+      await run(['--offline', '--yes', `lighthouse@${LIGHTHOUSE_VERSION}`, url, '--cli-flags-path', flagsPath, '--output=json', '--output-path', reportPath, '--quiet'], 120_000, `Calibration ${name}`);
       checkCalibration(JSON.parse(await fs.readFile(reportPath, 'utf8')), name === 'oversized');
       console.log(`Calibration ${name}: expected result confirmed`);
     }

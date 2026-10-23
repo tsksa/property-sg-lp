@@ -15,7 +15,7 @@ node scripts/check-lighthouse-calibration.mjs /tmp/joetay-lighthouse-calibration
 npm run test:lighthouse
 ```
 
-`CHROME_PATH` can point to an installed Chrome executable. Calibration uses `npx lighthouse@12.6.1`; if changing the action or engine, update the calibration version only after both positive and negative fixtures pass. Full images, display density and audit thresholds must not be reduced to obtain a pass.
+`CHROME_PATH` can point to an installed Chrome executable. Calibration first caches `lighthouse@12.6.1` with a version check and a separate five-minute setup limit. Each browser audit then uses `npx --offline` with its own two-minute limit, so package downloads cannot consume the audit budget. Setup or audit failure stops calibration; there are no automatic retries. The overall CI job remains bounded at 15 minutes. If changing the action or engine, update the calibration version only after both positive and negative fixtures pass. Full images, display density and audit thresholds must not be reduced to obtain a pass.
 
 ## Variability and evidence
 

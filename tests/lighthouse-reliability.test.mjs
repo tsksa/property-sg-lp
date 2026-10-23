@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
+import os from 'node:os';
+import path from 'node:path';
 import { summariseReports } from '../scripts/lighthouse-summary.mjs';
-import { checkCalibration, LIGHTHOUSE_VERSION } from '../scripts/check-lighthouse-calibration.mjs';
+import { checkCalibration, runCalibration, LIGHTHOUSE_VERSION } from '../scripts/check-lighthouse-calibration.mjs';
 
 const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const config = JSON.parse(read('.github/lighthouse-config.json'));
@@ -96,4 +98,54 @@ test('workflow preserves diagnostics on failure and uses distinct artifacts per 
   assert.match(workflow, /include-hidden-files: true/);
   assert.match(workflow, /\.\/\*\.trace\.json/);
   assert.match(workflow, /\.\/\*\.devtoolslog\.json/);
+});
+
+
+test('calibration completes setup before launching independently bounded offline audits', async t => {
+  const output = fs.mkdtempSync(path.join(os.tmpdir(), 'lighthouse-calibration-test-'));
+  t.after(() => fs.rmSync(output, { recursive: true, force: true }));
+  const calls = [];
+  let setupStarted;
+  const started = new Promise(resolve => { setupStarted = resolve; });
+  let finishSetup;
+  const setup = new Promise(resolve => { finishSetup = resolve; });
+  const pending = runCalibration(output, async (args, timeout, label) => {
+    calls.push({ args, timeout, label });
+    if (label === 'Lighthouse setup') {
+      setupStarted();
+      await setup;
+      return;
+    }
+    assert.ok(args.includes('--offline'), 'browser audits must not download packages');
+    assert.equal(timeout, 120_000);
+    const response = await fetch(args.find(arg => arg.startsWith('http://')));
+    assert.equal(response.status, 200, 'the fixture server must be running');
+    const oversized = label === 'Calibration oversized';
+    const audit = oversized
+      ? { score: 0, details: { items: [{ url: 'http://127.0.0.1/poster.webp', wastedBytes: 25000 }] } }
+      : { score: null, scoreDisplayMode: 'notApplicable' };
+    fs.writeFileSync(args[args.indexOf('--output-path') + 1], JSON.stringify(calibration(audit)));
+  });
+  // Keep setup pending while checking that no audit has started.
+  await started;
+  assert.equal(calls.length, 1, 'no browser audit may start while setup is pending');
+  assert.deepEqual(calls[0], {
+    args: ['--yes', `lighthouse@${LIGHTHOUSE_VERSION}`, '--version'],
+    timeout: 300_000, label: 'Lighthouse setup',
+  });
+  finishSetup();
+  await pending;
+  assert.deepEqual(calls.map(call => call.label), ['Lighthouse setup', 'Calibration correct', 'Calibration oversized']);
+});
+
+test('failed Lighthouse setup stops calibration without launching browser audits', async t => {
+  const output = fs.mkdtempSync(path.join(os.tmpdir(), 'lighthouse-calibration-test-'));
+  t.after(() => fs.rmSync(output, { recursive: true, force: true }));
+  let calls = 0;
+  await assert.rejects(runCalibration(output, async () => {
+    calls += 1;
+    throw new Error('Lighthouse setup failed: SIGTERM');
+  }), /Lighthouse setup failed: SIGTERM/);
+  assert.equal(calls, 1);
+  assert.deepEqual(fs.readdirSync(output), []);
 });
