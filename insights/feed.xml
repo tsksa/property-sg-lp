@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-10-05T00:00:00+08:00</updated>
+  <updated>2026-10-23T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -113,9 +113,9 @@
     <title>Using CPF to Buy an HDB Flat (2026)</title>
     <link href="https://joetay.com/insights/use-cpf-buy-hdb-flat-singapore.html" rel="alternate" type="text/html"/>
     <id>https://joetay.com/insights/use-cpf-buy-hdb-flat-singapore.html</id>
-    <published>2026-08-25T00:00:00+08:00</published><updated>2026-08-25T00:00:00+08:00</updated>
+    <published>2026-08-25T00:00:00+08:00</published><updated>2026-10-23T00:00:00+08:00</updated>
     <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
-    <summary type="text">How CPF OA can fund an HDB purchase, including downpayment, instalments, usage limits, lease rules and refunds.</summary>
+    <summary type="text">A $620,000 resale example showing loan, usable CPF, cash-over-valuation and deposit, with calculator steps and CPF usage rules.</summary>
   </entry>
   <entry>
     <title>HDB Downpayment: Cash, CPF and Grants (2026)</title>
