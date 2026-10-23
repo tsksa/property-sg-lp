@@ -151,5 +151,10 @@ test('review date and descriptions stay aligned across the article, card and fee
   assert.ok(entry.includes(`<summary type="text">${description}</summary>`));
   assert.ok(entry.includes('<published>2026-04-21T00:00:00+08:00</published>'));
   assert.ok(entry.includes('<updated>2026-10-05T00:00:00+08:00</updated>'));
-  assert.match(xml.split('<entry>')[0], /<updated>2026-10-05T00:00:00\+08:00<\/updated>/);
+  // The feed can be updated by another article without redating this one.
+  const feedUpdated = Date.parse(xml.split('<entry>')[0].match(/<updated>([^<]+)<\/updated>/)[1]);
+  const entryUpdates = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
+    .map(match => Date.parse(match[1].match(/<updated>([^<]+)<\/updated>/)[1]));
+  assert.ok(Number.isFinite(feedUpdated) && entryUpdates.every(Number.isFinite));
+  assert.ok(feedUpdated >= Math.max(...entryUpdates), 'feed timestamp must cover its newest entry');
 });
