@@ -96,3 +96,39 @@ test('feed.json item titles are raw text, not HTML-escaped', () => {
     );
   }
 });
+
+test('MOP seller guide preserves canonical, FAQ parity, sources and consistent review dates', () => {
+  const slug = 'selling-hdb-after-mop-singapore';
+  const html = fs.readFileSync(path.join(INSIGHTS_DIR, `${slug}.html`), 'utf8');
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+  const article = schemas.find(s => s['@type'] === 'Article');
+  assert.equal(article.mainEntityOfPage, `https://joetay.com/insights/${slug}.html`);
+  assert.equal(article.datePublished, '2026-04-21');
+  assert.equal(article.dateModified, '2026-10-23');
+  assert.ok(html.includes(`<link rel="canonical" href="${article.mainEntityOfPage}">`));
+  assert.match(html, /<meta name="robots" content="index,follow/);
+  assert.match(html, /<time datetime="2026-10-23">Updated Oct 23, 2026<\/time>/);
+  assert.match(html, /<meta property="article:modified_time" content="2026-10-23">/);
+  const faq = schemas.find(s => s['@type'] === 'FAQPage');
+  assert.equal(faq.mainEntity.length, 5);
+  for (const entry of faq.mainEntity) {
+    assert.ok(html.includes(`<h3>${entry.name}</h3>`));
+    assert.ok(html.includes(`<p>${entry.acceptedAnswer.text}</p>`));
+  }
+  for (const phrase of ['10-year MOP', 'non-occupation', 'Retirement Account', 'market value', 'within seven calendar days of each other', 'not an automatic ABSD refund', 'TOP or CSC, whichever is earlier', 'Illustrative assumptions, not a client result or fee quote']) {
+    assert.ok(html.includes(phrase), phrase);
+  }
+  for (const obsolete of ['3–4 months minimum', '10 working days', '6 days to endorse', 'The agent who sold the BTO', 'often $25,000 to $50,000']) assert.ok(!html.includes(obsolete), obsolete);
+  for (const host of ['www.hdb.gov.sg', 'www.cpf.gov.sg', 'www.iras.gov.sg']) assert.ok(html.includes(`https://${host}/`));
+  const feed = JSON.parse(fs.readFileSync(path.join(INSIGHTS_DIR, 'feed.json'), 'utf8')).items.find(i => i.id === article.mainEntityOfPage);
+  assert.equal(feed.date_published, '2026-04-21T00:00:00+08:00');
+  assert.equal(feed.date_modified, '2026-10-23T00:00:00+08:00');
+  const entry = [...fs.readFileSync(path.join(INSIGHTS_DIR, 'feed.xml'), 'utf8').matchAll(/<entry>([\s\S]*?)<\/entry>/g)].find(m => m[1].includes(article.mainEntityOfPage))[1];
+  assert.ok(entry.includes(`<updated>${feed.date_modified}</updated>`));
+  assert.ok(entry.includes(feed.summary));
+  assert.ok(fs.readFileSync(path.join(INSIGHTS_DIR, 'index.html'), 'utf8').includes(feed.summary));
+  for (const [file, anchor] of [['sell-hdb/singapore/index.html', 'the-common-mistakes'], ['insights/how-long-to-sell-hdb-singapore-2026.html', 'worked-sale-proceeds']]) {
+    assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(`/insights/${slug}.html#${anchor}`));
+    assert.ok(html.includes(`id="${anchor}"`));
+  }
+});
