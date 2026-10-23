@@ -136,8 +136,9 @@ const ARTICLES = [
     slug: 'use-cpf-buy-hdb-flat-singapore',
     title: 'Using CPF to Buy an HDB Flat (2026) | PropertySG',
     headline: 'Using CPF to buy an HDB flat: downpayment, limits and refunds',
-    description: 'How CPF OA can fund an HDB downpayment, monthly instalments, stamp and legal fees and Home Protection Scheme premiums, plus withdrawal limits.',
+    description: 'See a $620,000 HDB resale example separating loan, usable CPF, cash-over-valuation and deposit, plus CPF usage limits and refunds.',
     category: 'CPF planning',
+    modified: '2026-10-23',
     readTime: '9 min read',
     lede: 'CPF Ordinary Account savings can cover several housing costs, but the flat lease, valuation, loan type and retirement safeguards determine how much is usable.',
     body: `
@@ -154,15 +155,53 @@ const ARTICLES = [
 <table aria-label="CPF usage for different HDB purchases">
   <tr><th>Purchase and loan</th><th>General CPF OA treatment</th></tr>
   <tr><td>New HDB flat with HDB loan</td><td>OA savings may be used for the full purchase price, including the housing loan, subject to CPF rules.</td></tr>
-  <tr><td>Resale HDB flat with HDB loan</td><td>OA usage is generally capped at the lower of purchase price and valuation. Any cash-over-valuation must be paid in cash.</td></tr>
+  <tr><td>Resale HDB flat with HDB loan</td><td>OA use is initially limited to the lower of purchase price and valuation. Further OA use for the remaining HDB loan requires each owner to meet the applicable Basic Retirement Sum condition. Cash-over-valuation is cash-only; a shorter-lease pro-rated limit cannot be extended this way.</td></tr>
   <tr><td>HDB flat with bank loan</td><td>OA may generally be used up to the valuation limit, then up to 120% of that limit if the applicable Basic Retirement Sum condition is met.</td></tr>
 </table>
+
+<h2>A $620,000 resale flat: how much CPF and cash?</h2>
+<p><strong>In this example, a $450,000 HDB loan and $120,000 of usable CPF leave $50,000 of the flat price to pay in cash.</strong> That includes $20,000 cash-over-valuation (COV). If $5,000 has already been paid as the deposit, $45,000 of the price remains payable in cash. Fees and a cash buffer are separate.</p>
+<p>This is a hypothetical purchase, not a client case or a loan offer. Assume two buyers below 55 taking their first HDB loan, with a remaining lease covering the youngest buyer to age 95. The agreed price is $620,000 and HDB's valuation is $600,000. Assume HDB confirms a $450,000 loan to draw: 75% of the lower figure. The actual loan can be lower; use your confirmed HDB financial plan.</p>
+<p>Assume each buyer has $80,000 in OA and retains $20,000, leaving $120,000 combined for the flat price. No grants or CPF-funded fees are included. A usable CPF allocation is not the same as your full OA balance: confirm lease/usage limits and deduct retention and any CPF assigned to other costs first.</p>
+<table id="cpf-example-funding" aria-label="How the example purchase price is funded">
+  <thead><tr><th scope="col">Purchase breakdown</th><th scope="col">Amount (S$)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Agreed purchase price</th><td>$620,000</td></tr>
+    <tr><th scope="row">HDB valuation</th><td>$600,000</td></tr>
+    <tr><th scope="row">Confirmed HDB loan</th><td>$450,000</td></tr>
+    <tr><th scope="row">Usable CPF for the price</th><td>$120,000</td></tr>
+    <tr><th scope="row">Cash for the full price</th><td>$50,000</td></tr>
+    <tr><th scope="row">Of that cash: COV</th><td>$20,000</td></tr>
+    <tr><th scope="row">Deposit already paid in cash</th><td>$5,000</td></tr>
+    <tr><th scope="row">Remaining cash for the price</th><td>$45,000</td></tr>
+  </tbody>
+</table>
+<p>The price reconciles: <strong>$450,000 loan + $120,000 CPF + $50,000 cash = $620,000.</strong> The cash consists of a $30,000 gap within the valuation and $20,000 COV. The deposit is part of the $50,000, not an extra charge; do not add either the deposit or COV again.</p>
+<p>CPF Board confirms that <a href="${SOURCES.cpfDownpayment}" rel="noopener">resale option and exercise fees must be paid in cash</a>. Its <a href="https://www.cpf.gov.sg/member/infohub/educational-resources/hdb-option-fee-and-housing-expenses-you-should-know" rel="noopener">resale-fee guide</a> states that the combined deposit cannot exceed $5,000. The $450,000 loan and OA retention assumptions follow HDB's <a href="https://www.mynicehome.gov.sg/get-started/hdb-loans-guide/" rel="noopener">housing-loan guide</a>; they are not automatic entitlements.</p>
+
+<h3>Reproduce it in the cash-readiness calculator</h3>
+<p>Open <a href="/calculator/#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="cpf_guide">Check resale cash needed</a> and enter the amounts below. The link opens the calculator section; it does not prefill your figures.</p>
+<table id="cpf-example-inputs" aria-label="Inputs to reproduce the CPF worked example">
+  <thead><tr><th scope="col">Calculator field</th><th scope="col">Enter (S$)</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Agreed purchase price</th><td>$620,000</td></tr>
+    <tr><th scope="row">HDB valuation</th><td>$600,000</td></tr>
+    <tr><th scope="row">Confirmed loan amount to draw</th><td>$450,000</td></tr>
+    <tr><th scope="row">Usable CPF for the flat price</th><td>$120,000</td></tr>
+    <tr><th scope="row">Option/exercise deposit already paid</th><td>$5,000</td></tr>
+    <tr><th scope="row">Cash available now</th><td>$60,000</td></tr>
+    <tr><th scope="row">Remaining costs and cash buffer</th><td>$15,000</td></tr>
+  </tbody>
+</table>
+<p>Expected result: <strong>$45,000 remaining for the price + $15,000 reserve = $60,000 cash needed from now</strong>, with no shortfall against the assumed $60,000 cash available after paying the deposit. The separate $40,000 retained in CPF is not cash on hand.</p>
+<p>The $15,000 reserve is an illustrative budget, not a fee quote or a recommended minimum. Replace it with your unpaid cash-funded stamp duties, legal/admin/valuation fees, insurance, any agreed agent fees and personal buffer. <a href="/stamp-duty-calculator/">Estimate BSD and any ABSD separately</a>; exclude costs already paid or funded by CPF. Renovation and moving costs need their own budget.</p>
+<p>To adapt the example, check your permitted CPF use with the <a href="https://www.cpf.gov.sg/member/tools-and-services/calculators/cpf-housing-usage" rel="noopener">official CPF housing usage calculator</a>, then enter your confirmed figures. Our cash-readiness tool does not determine CPF or loan eligibility. For monthly repayment planning, use the <a href="/calculator/#repaymentPanel">loan repayment calculator</a>. A bank loan has separate mandatory cash rules: see <a href="hdb-downpayment-cash-cpf-grants.html">the downpayment guide</a> before changing loan type.</p>
 
 <h2>Remaining lease matters</h2>
 <p>Where the remaining lease can cover the youngest owner to age 95, CPF usage may reach the applicable full limit. If it cannot, CPF usage is pro-rated. A flat with 20 years or less remaining generally cannot be funded using CPF under the usual housing rules.</p>
 
 <h2>Should you empty the OA?</h2>
-<p>CPF Board highlights the option to retain up to $20,000 in the OA at the point of purchase. Keeping a buffer can protect monthly instalments during job changes or unexpected expenses and preserves retirement compounding.</p>
+<p>When taking an HDB loan, each buyer can retain up to $20,000 in OA; the remaining available OA savings must be used for the flat purchase before the loan is granted. Keeping a buffer can protect monthly instalments during job changes or unexpected expenses and preserves retirement compounding.</p>
 <p>Compare a larger CPF downpayment with a smaller loan using the <a href="/calculator/">HDB loan calculator</a>. The lowest loan is not automatically the best outcome if it leaves no liquidity. One thing CPF cannot pay for is renovation — budget that separately with the <a href="/renovation-loan-calculator/">renovation loan calculator</a>.</p>
 
 <h2>Monthly instalments and Home Protection Scheme</h2>
@@ -172,9 +211,9 @@ const ARTICLES = [
 <p>The CPF principal used for the property—including applicable housing grants—and accrued interest must be refunded to CPF when the home is sold, subject to the prevailing refund rules and available sale proceeds. This is your own CPF being restored for future housing or retirement use, not an additional tax.</p>
 
 <h2>Official sources and review date</h2>
-<p>Reviewed ${reviewed} against CPF Board's <a href="${SOURCES.cpfUse}" rel="noopener">Using your CPF to buy a home</a>, <a href="${SOURCES.cpfLimits}" rel="noopener">CPF housing usage limits</a>, <a href="${SOURCES.cpfDownpayment}" rel="noopener">downpayment guidance</a> and <a href="${SOURCES.cpfRefund}" rel="noopener">grant refund guidance</a>.</p>`,
+<p>Reviewed 23 Oct 2026 against CPF Board's <a href="${SOURCES.cpfUse}" rel="noopener">Using your CPF to buy a home</a>, <a href="${SOURCES.cpfLimits}" rel="noopener">CPF housing usage limits</a>, <a href="${SOURCES.cpfDownpayment}" rel="noopener">downpayment guidance</a> and <a href="${SOURCES.cpfRefund}" rel="noopener">grant refund guidance</a>. The worked example also uses the HDB loan and resale-deposit sources linked above. Figures in the example are assumptions, not a valuation or approval for a particular buyer.</p>`,
     faqs: [
-      ['Can CPF pay the full HDB downpayment?', 'For an HDB loan, the downpayment can generally be paid using CPF OA, cash or both, subject to available savings and CPF usage rules. A bank loan still requires the applicable minimum cash portion.'],
+      ['Can CPF pay the full HDB downpayment?', 'For an HDB loan, the downpayment can generally be paid using CPF OA, cash or both, subject to available savings and CPF usage rules. Resale option and exercise fees must still be paid in cash. A bank loan still requires the applicable minimum cash portion.'],
       ['Can CPF pay cash over valuation for a resale flat?', 'No. The amount above the HDB valuation is cash-over-valuation and must be paid in cash. CPF usage is based on the applicable valuation and withdrawal limits.'],
       ['Must CPF used for housing be refunded when I sell?', 'Yes. CPF Board requires the principal CPF used for the property, including applicable housing grants, and accrued interest to be refunded upon sale, subject to the prevailing rules and available sale proceeds.'],
     ],
