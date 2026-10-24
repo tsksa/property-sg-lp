@@ -19,7 +19,7 @@ test('the HDB loan and policy guides are indexable, sourced and calculator-linke
     const html = read(`insights/${slug}.html`);
     assert.match(html, /<link rel="canonical" href="https:\/\/joetay\.com\/insights\//);
     assert.match(html, /<meta name="robots" content="index,follow/);
-    assert.match(html, /Reviewed (25|26) Aug 2026/);
+    assert.match(html, slug === 'hdb-loan-vs-bank-loan-singapore' ? /Reviewed 24 Oct 2026/ : /Reviewed (25|26) Aug 2026/);
     assert.match(html, /href="\/calculator\/">HDB loan calculator<\/a>/);
     assert.match(html, /https:\/\/(?:www\.)?(?:hdb\.gov\.sg|cpf\.gov\.sg)\//);
     assert.doesNotMatch(html, /guaranteed approval|financial advice tailored to you/i);
@@ -95,7 +95,7 @@ test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks 
   assert.match(html, /<h3>Does the 30% MSR apply to a bank loan for an HDB flat\?<\/h3>/);
   assert.match(html, /<h3>What is the bank loan interest rate for an HDB flat\?<\/h3>/);
   assert.doesNotMatch(html, /\d\.\d{1,2}% (?:fixed|floating|bank package)/i, 'bank rates must never be quoted');
-  assert.match(html, /"dateModified": "2026-09-07"/);
+  assert.match(html, /"dateModified": "2026-10-24"/);
 });
 
 test('every calculator and the hub link into the financing cluster from outside it', () => {
@@ -129,4 +129,16 @@ test('the insights hub links every live condo district page', () => {
   const linked = [...section.matchAll(/href="\/condo-prices\/(d\d\d)\/"/g)].map((m) => m[1]);
   assert.deepEqual([...new Set(linked)].sort(), live.sort(), 'hub links a district that has no page');
   assert.match(section, /href="\/condo-prices\/"/);
+});
+
+
+test('loan comparison gives a dated rate answer and qualifies its cash example', () => {
+  const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
+  assert.match(html, /1 October to 31 December 2026/);
+  assert.doesNotMatch(html, /Jul–Sep 2026|1 July to 30 September 2026/);
+  assert.match(html, /both a \$600,000 purchase price and a \$600,000 valuation/);
+  assert.match(html, /5% of the lower of purchase price and valuation/);
+  assert.match(html, /role="region" aria-label="Scrollable HDB and bank loan comparison" tabindex="0"/);
+  assert.match(html, /fixed-rate end date and lock-in end date separately/);
+  assert.ok(html.indexOf('>HDB bank loan interest rate:') < html.indexOf('>When an HDB loan may fit better<'));
 });
