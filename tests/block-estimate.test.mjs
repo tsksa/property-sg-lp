@@ -259,11 +259,28 @@ test('net proceeds use the site guide defaults and reject bad input', () => {
   assert.throws(() => netProceeds({ salePrice: 1, commissionRate: 50 }), RangeError);
 });
 
-test('the guide the defaults quote still says what the calculator assumes', () => {
+test('the MOP guide example reconciles with production proceeds calculations without double-counting the deposit', () => {
   const guide = read('insights/selling-hdb-after-mop-singapore.html');
-  assert.match(guide, /agent commission \(2% \+ GST for sales\)/);
-  assert.match(guide, /legal fees \(~\$1,800–\$2,500\)/);
-  assert.match(guide, /HDB resale administrative fees \(~\$80\)/);
+  const table = guide.match(/<table id="mop-proceeds-example"[\s\S]*?<tbody>([\s\S]*?)<\/tbody>/)?.[1];
+  assert.ok(table, 'the worked example is readable without JavaScript');
+  const amounts = Object.fromEntries([...table.matchAll(/<th scope="row">([^<]+)<\/th><td>\$([\d,]+)<\/td>/g)]
+    .map(([, label, amount]) => [label, Number(amount.replaceAll(',', ''))]));
+  assert.equal(Object.keys(amounts).length, 9);
+  const result = netProceeds({
+    salePrice: amounts['Sale price, including deposit'],
+    outstandingLoan: amounts['Outstanding loan to redeem'],
+    cpfRefund: amounts['Combined CPF refund'],
+    legalFees: amounts['Legal-fee budget'],
+    hdbFee: amounts["Seller's HDB application fee"],
+  });
+  assert.equal(result.commission, amounts['Commission including GST']);
+  assert.equal(result.cash, amounts['Total net cash from the sale']);
+  assert.equal(result.cash - amounts['Deposit already received'], amounts['Cash still to receive after these costs']);
+  assert.equal(amounts['Legal-fee budget'], PROCEEDS_DEFAULTS.legalFees);
+  assert.equal(amounts["Seller's HDB application fee"], PROCEEDS_DEFAULTS.hdbFee);
+  assert.match(guide, /2% commission plus 9% GST/);
+  assert.match(guide, /Commission is negotiable, not an official fixed rate/);
+  assert.match(guide, /not a profit calculation/);
 });
 
 // ── Widget wiring ────────────────────────────────────────────────────────────
