@@ -115,3 +115,65 @@ test('BSD and ABSD are rounded down separately with the IRAS $1 minimum', () => 
   assert.match(html, /const absd = roundDuty\(price \* absdRate\);/);
   assert.match(html, /const total = bsd \+ absd;/);
 });
+
+// 26 Oct 2026 report: the page drew 302 impressions at position 58 for
+// "stamp duty calculator", "bsd calculator", "absd calculator", "seller stamp
+// duty calculator" and "stamp duty rates", but showed no rate tables. The
+// tables below are hand-written HTML, so pin them to the rates the
+// calculator actually uses, and pin the SSD table to IRAS (checked 26 Oct 2026).
+const stripTags = (fragment) => fragment.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const tableAfter = (heading) => {
+  const at = html.indexOf(`<h3>${heading}</h3>`);
+  assert.ok(at !== -1, `missing section: ${heading}`);
+  const body = html.slice(html.indexOf('<tbody>', at), html.indexOf('</tbody>', at));
+  return [...body.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map(([, row]) => [...row.matchAll(/<td>([\s\S]*?)<\/td>/g)].map(([, cell]) => stripTags(cell)));
+};
+const pct = (rate) => `${Math.round(rate * 100)}%`;
+
+test('the visible BSD rate table matches the calculator tiers', () => {
+  const rows = tableAfter("Buyer's Stamp Duty (BSD) rates");
+  assert.deepEqual(rows.map((row) => row[1]), BSD_TIERS.map((tier) => pct(tier.rate)));
+  let lower = 0;
+  BSD_TIERS.forEach((tier, i) => {
+    const band = Number.isFinite(tier.upTo) ? tier.upTo - lower : null;
+    if (band !== null) assert.match(rows[i][0], new RegExp(`\\$${band.toLocaleString('en-US')}$`), `row ${i + 1} band`);
+    lower = tier.upTo;
+  });
+  assert.equal(calcBSD(600000), 12600);
+  assert.equal(calcBSD(1500000), 44600);
+  assert.match(html, /\$1,800 \+ \$3,600 \+ \$7,200 = <strong>\$12,600<\/strong>/);
+  assert.match(html, /\$1,800 \+ \$3,600 \+ \$19,200 \+ \$20,000 = <strong>\$44,600<\/strong>/);
+});
+
+test('the visible ABSD rate table matches the calculator rates', () => {
+  const rows = tableAfter("Additional Buyer's Stamp Duty (ABSD) rates");
+  const order = [['Singapore Citizen', 'SC'], ['Singapore Permanent Resident', 'PR'], ['Foreigner', 'FR'], ['Entity', 'EN']];
+  assert.equal(rows.length, order.length);
+  order.forEach(([label, key], i) => {
+    assert.equal(rows[i][0], label);
+    assert.deepEqual(rows[i].slice(1), [1, 2, 3].map((count) => pct(ABSD_RATES[key][count])));
+  });
+});
+
+test('the SSD table carries the IRAS rates for purchases from 4 Jul 2025', () => {
+  const rows = tableAfter("Seller's Stamp Duty (SSD) rates");
+  assert.deepEqual(rows.map((row) => row[1]), ['16%', '12%', '8%', '4%', 'None']);
+  assert.deepEqual(rows.map((row) => row[2]), ['12%', '8%', '4%', 'None', 'None']);
+});
+
+test('visible FAQs exactly mirror the FAQPage structured data', () => {
+  const schema = [...html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)]
+    .map((match) => JSON.parse(match[1])).find((node) => node['@type'] === 'FAQPage');
+  assert.ok(schema, 'missing FAQPage');
+  const visible = [...html.matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)]
+    .map(([, q, a]) => [stripTags(q).replaceAll('&amp;', '&'), stripTags(a).replaceAll('&amp;', '&')]);
+  assert.deepEqual(visible, schema.mainEntity.map((entry) => [entry.name, entry.acceptedAnswer.text]));
+  assert.equal(schema.mainEntity.length, 7);
+});
+
+test('the title and H1 name the calculator for the queries it ranks for', () => {
+  const title = html.match(/<title>([^<]+)<\/title>/)[1];
+  assert.equal(title, 'Stamp Duty Calculator Singapore 2026: BSD, ABSD | PropertySG');
+  assert.ok(title.length <= 60);
+  assert.match(html, /<h1 id="page-hero-title">Stamp duty calculator: BSD and ABSD<\/h1>/);
+});

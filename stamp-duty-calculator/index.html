@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Stamp Duty Calculator Singapore: BSD + ABSD | PropertySG</title>
-<meta name="description" content="Free BSD + ABSD calculator for Singapore property buyers — Citizens, PRs, foreigners and entities. Instant stamp duty estimate on current IRAS rates.">
+<title>Stamp Duty Calculator Singapore 2026: BSD, ABSD | PropertySG</title>
+<meta name="description" content="Free stamp duty calculator for Singapore: BSD and ABSD for Citizens, PRs and foreigners, plus 2026 BSD, ABSD and seller's stamp duty (SSD) rates.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="theme-color" content="#0b1e3f">
 <meta name="application-name" content="PropertySG">
@@ -119,6 +119,21 @@
    "@type": "Question",
    "name": "Is Buyer's Stamp Duty (BSD) different for HDB and private property?",
    "acceptedAnswer": {"@type": "Answer", "text": "No. BSD uses the same tiered rate table — 1% to 6% depending on price — for both HDB resale flats and private residential property. ABSD, where it applies, is calculated on top of BSD."}
+  },
+  {
+   "@type": "Question",
+   "name": "How much stamp duty do I pay on a second property in Singapore?",
+   "acceptedAnswer": {"@type": "Answer", "text": "Buyer's Stamp Duty at the usual tiered rates, plus ABSD: 20% for a Singapore Citizen and 30% for a Permanent Resident. A Singapore Citizen buying a second property at $1,500,000 pays $44,600 BSD and $300,000 ABSD, $344,600 in total."}
+  },
+  {
+   "@type": "Question",
+   "name": "What is Seller's Stamp Duty (SSD)?",
+   "acceptedAnswer": {"@type": "Answer", "text": "SSD is charged when you sell a residential property within the holding period. For property bought on or after 4 July 2025, it is 16% if sold within one year, 12% in the second year, 8% in the third and 4% in the fourth, on the higher of the price and market value. No SSD is payable after four years."}
+  },
+  {
+   "@type": "Question",
+   "name": "When must stamp duty be paid?",
+   "acceptedAnswer": {"@type": "Answer", "text": "Within 14 days after signing the document if it is signed in Singapore, or within 30 days after receiving it if it is signed overseas. For most purchases that document is the exercised Option to Purchase or the Sale and Purchase Agreement. Late payment attracts penalties."}
   }
  ]
 }
@@ -202,6 +217,35 @@ a:hover{text-decoration:underline}
 .calc-links li{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px 18px}
 .calc-links a{display:inline-block;color:var(--navy);font-weight:600;font-size:0.95rem;text-decoration:underline;text-underline-offset:.15em}
 .calc-links span{display:block;margin-top:4px;font-size:0.88rem;color:#555;line-height:1.5}
+.calc-faq h3{font-family:'Fraunces',Georgia,serif;font-size:1.12rem;font-weight:600;color:var(--navy);margin:28px 0 8px}
+.calc-rates>p{margin-top:8px;font-size:0.92rem;color:#444;line-height:1.65}
+.calc-rates .calc-rates-intro{text-align:center;color:#555}
+.calc-rates .calc-rates-src{font-size:0.82rem;color:#555;margin-top:24px}
+.calc-table{overflow-x:auto;margin-top:12px;border:1px solid #eee;border-radius:12px;background:#fff}
+.calc-table table{width:100%;border-collapse:collapse;font-size:0.9rem;font-variant-numeric:tabular-nums}
+.calc-table th,.calc-table td{padding:10px 14px;text-align:left;border-bottom:1px solid #f0f0f0;color:#333}
+.calc-table th{background:#faf6ec;color:var(--navy);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.6px}
+.calc-table tr:last-child td{border-bottom:0}
+/* Dark mode: these sections sit outside the main element, so the shared theme does not
+   recolour them; restate text and surfaces here. */
+html.jt-theme-dark .calc-faq h2,html.jt-theme-dark .calc-faq h3,html.jt-theme-dark .calc-faq summary,html.jt-theme-dark .calc-links a{color:#f8fafc}
+html.jt-theme-dark .calc-faq p,html.jt-theme-dark .calc-links span,html.jt-theme-dark .calc-rates>p,html.jt-theme-dark .calc-rates .calc-rates-intro,html.jt-theme-dark .calc-rates .calc-rates-src{color:#c1cad8}
+html.jt-theme-dark .calc-faq details,html.jt-theme-dark .calc-links li,html.jt-theme-dark .calc-table{background:#102447;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .calc-table th{background:#0b1e3f;color:#a3adba}
+html.jt-theme-dark .calc-table td{color:#e8ecf3;border-bottom-color:rgba(255,255,255,.08)}
+html.jt-theme-dark .calc-faq a{color:#6ee7c1}
+/* The shared theme's main-wide text and link colours land on the green
+   call box and its white button; restore their own colours, and lift the
+   hero eyebrow, disclaimer and footer, which keep light-mode greys. */
+html.jt-theme-dark .calc-hero .eyebrow{color:#6ee7c1}
+html.jt-theme-dark .calc-results .calc-cta p{color:#fff}
+html.jt-theme-dark .calc-cta a{color:var(--navy)}
+html.jt-theme-dark .calc-cta a.calc-cta-whatsapp{color:#fff}
+html.jt-theme-dark .calc-disclaimer,html.jt-theme-dark .calc-disclaimer strong{color:#c1cad8}
+html.jt-theme-dark .calc-disclaimer a{color:#6ee7c1}
+html.jt-theme-dark .calc-footer a{color:#c1cad8}
+html.jt-theme-dark .calc-footer .creds{color:#a3adba}
+
 
 .calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#666;line-height:1.6}
 .calc-footer a{color:#555}
@@ -282,7 +326,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <section class="calc-hero" aria-labelledby="page-hero-title">
   <div class="calc-hero-inner">
     <div class="eyebrow">Stamp Duty Calculator</div>
-    <h1 id="page-hero-title">How much stamp duty will you pay?</h1>
+    <h1 id="page-hero-title">Stamp duty calculator: BSD and ABSD</h1>
     <p>Enter the purchase price and your buyer profile. See your Buyer's Stamp Duty (BSD) and Additional Buyer's Stamp Duty (ABSD) instantly — current IRAS rates, for HDB or private property.</p>
   </div>
 </section>
@@ -353,6 +397,50 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <div class="calc-disclaimer">
   <p><strong>Estimates only. BSD and ABSD are each rounded down to the nearest dollar, subject to IRAS's $1 minimum duty.</strong> BSD uses IRAS's tiered residential schedule (1%–6%, in effect since 15 Feb 2023). ABSD uses IRAS's rate table by buyer profile and property count (in effect since 27 Apr 2023, unchanged as of 2026). This tool does not account for remissions — including spousal transfers, the ABSD refund on selling your existing HDB within 6 months of a new purchase, or the Free Trade Agreement treatment that lets US, Iceland, Liechtenstein, Norway and Switzerland nationals pay Citizen-rate ABSD — nor Seller's Stamp Duty or Additional Conveyance Duties for entities. Verify your final figure at <a href="https://www.iras.gov.sg/quick-links/tax-rates/stamp-duty" target="_blank" rel="noopener">iras.gov.sg</a> or with me before making an offer. Budgeting the purchase itself? Use the <a href="/bto-calculator/">BTO calculator</a> or <a href="/renovation-loan-calculator/">renovation loan calculator</a> next.</p>
 </div>
+<section class="calc-faq calc-rates" aria-labelledby="stamp-duty-rates-title">
+  <h2 id="stamp-duty-rates-title">Singapore stamp duty rates (2026)</h2>
+  <p class="calc-rates-intro">The calculator above applies these IRAS rates. Rates were last checked against IRAS on 26 October 2026; BSD has applied since 15 February 2023, ABSD since 27 April 2023 and the current SSD since 4 July 2025.</p>
+  <h3>Buyer's Stamp Duty (BSD) rates</h3>
+  <p>BSD applies to every residential purchase, HDB or private, on the higher of the price and market value. Each slice of the price is charged at its own rate, and the total is rounded down to the nearest dollar.</p>
+  <div class="calc-table"><table>
+    <thead><tr><th>Price or market value</th><th>BSD rate</th></tr></thead>
+    <tbody>
+      <tr><td>First $180,000</td><td>1%</td></tr>
+      <tr><td>Next $180,000</td><td>2%</td></tr>
+      <tr><td>Next $640,000</td><td>3%</td></tr>
+      <tr><td>Next $500,000</td><td>4%</td></tr>
+      <tr><td>Next $1,500,000</td><td>5%</td></tr>
+      <tr><td>Remaining amount</td><td>6%</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Worked examples:</strong> a $600,000 HDB resale flat pays $1,800 + $3,600 + $7,200 = <strong>$12,600</strong> BSD. A $1,500,000 condo pays $1,800 + $3,600 + $19,200 + $20,000 = <strong>$44,600</strong> BSD.</p>
+  <h3>Additional Buyer's Stamp Duty (ABSD) rates</h3>
+  <p>ABSD is charged on top of BSD, on the higher of the price and market value, according to who is buying and how many residential properties they will own. Joint buyers pay the highest rate that applies to any of them.</p>
+  <div class="calc-table"><table>
+    <thead><tr><th>Buyer</th><th>First property</th><th>Second property</th><th>Third and later</th></tr></thead>
+    <tbody>
+      <tr><td>Singapore Citizen</td><td>0%</td><td>20%</td><td>30%</td></tr>
+      <tr><td>Singapore Permanent Resident</td><td>5%</td><td>30%</td><td>35%</td></tr>
+      <tr><td>Foreigner</td><td>60%</td><td>60%</td><td>60%</td></tr>
+      <tr><td>Entity</td><td>65%</td><td>65%</td><td>65%</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Seller's Stamp Duty (SSD) rates</h3>
+  <p>SSD applies when you sell a residential property within the holding period, on the higher of the price and market value. This calculator does not work out SSD.</p>
+  <div class="calc-table"><table>
+    <thead><tr><th>Sold within</th><th>Bought on or after 4 Jul 2025</th><th>Bought 11 Mar 2017 to 3 Jul 2025</th></tr></thead>
+    <tbody>
+      <tr><td>1 year</td><td>16%</td><td>12%</td></tr>
+      <tr><td>More than 1 year, up to 2</td><td>12%</td><td>8%</td></tr>
+      <tr><td>More than 2 years, up to 3</td><td>8%</td><td>4%</td></tr>
+      <tr><td>More than 3 years, up to 4</td><td>4%</td><td>None</td></tr>
+      <tr><td>More than 4 years</td><td>None</td><td>None</td></tr>
+    </tbody>
+  </table></div>
+  <h3>When stamp duty is due</h3>
+  <p>Within 14 days after signing the document if it is signed in Singapore, or within 30 days after receiving it if it is signed overseas. IRAS charges penalties on late payment.</p>
+  <p class="calc-rates-src">Sources: IRAS <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/buyer's-stamp-duty-(bsd)" rel="noopener">Buyer's Stamp Duty</a>, <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" rel="noopener">Additional Buyer's Stamp Duty</a>, <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/selling-or-disposing-property/seller's-stamp-duty-(ssd)-for-residential-property" rel="noopener">Seller's Stamp Duty</a> and <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/paying-stamp-duty/when-to-pay-stamp-duty" rel="noopener">When to pay stamp duty</a>.</p>
+</section>
 <div class="calc-faq">
   <h2>Common questions</h2>
   <details>
@@ -370,6 +458,18 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <details>
     <summary>Is Buyer's Stamp Duty (BSD) different for HDB and private property?</summary>
     <p>No. BSD uses the same tiered rate table — 1% to 6% depending on price — for both HDB resale flats and private residential property. ABSD, where it applies, is calculated on top of BSD.</p>
+  </details>
+  <details>
+    <summary>How much stamp duty do I pay on a second property in Singapore?</summary>
+    <p>Buyer's Stamp Duty at the usual tiered rates, plus ABSD: 20% for a Singapore Citizen and 30% for a Permanent Resident. A Singapore Citizen buying a second property at $1,500,000 pays $44,600 BSD and $300,000 ABSD, $344,600 in total.</p>
+  </details>
+  <details>
+    <summary>What is Seller's Stamp Duty (SSD)?</summary>
+    <p>SSD is charged when you sell a residential property within the holding period. For property bought on or after 4 July 2025, it is 16% if sold within one year, 12% in the second year, 8% in the third and 4% in the fourth, on the higher of the price and market value. No SSD is payable after four years.</p>
+  </details>
+  <details>
+    <summary>When must stamp duty be paid?</summary>
+    <p>Within 14 days after signing the document if it is signed in Singapore, or within 30 days after receiving it if it is signed overseas. For most purchases that document is the exercised Option to Purchase or the Sale and Purchase Agreement. Late payment attracts penalties.</p>
   </details>
 </div>
 <div class="calc-faq calc-plan" aria-labelledby="plan-financing-title">
