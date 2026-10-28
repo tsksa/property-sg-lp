@@ -114,17 +114,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <p class="sub">3 fields. Typically reply within 1 hour during 9am–9pm. No obligation.</p>
       <form id="rentForm" class="lp-form" novalidate>
         <div class="lp-form-row">
-          <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
-          <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
+          <div class="lp-field">
+            <label for="rent-name">Your name</label>
+            <input id="rent-name" type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+          </div>
+          <div class="lp-field">
+            <label for="rent-phone">Phone number</label>
+            <input id="rent-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
+          </div>
         </div>
         <div class="lp-form-row">
-          <select name="propType" required aria-label="Property type">
-            <option value="" disabled selected>Property type</option>
-            <option>HDB</option>
-            <option>Condo</option>
-            <option>Landed</option>
-            <option>Commercial</option>
-          </select>
+          <div class="lp-field">
+            <label for="rent-propType">Property type</label>
+            <select id="rent-propType" name="propType" required aria-label="Property type">
+              <option value="" disabled selected>Property type</option>
+              <option>HDB</option>
+              <option>Condo</option>
+              <option>Landed</option>
+              <option>Commercial</option>
+            </select>
+          </div>
         </div>
         <label class="lp-newsletter-opt">
           <input type="checkbox" name="newsletter_opt_in" value="1">
@@ -252,17 +261,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <p class="sub">Typically reply within 1 hour during 9am–9pm. No obligation.</p>
       <form id="rentFormFinal" class="lp-form" novalidate>
         <div class="lp-form-row">
-          <input type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
-          <input type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
+          <div class="lp-field">
+            <label for="rent-final-name">Your name</label>
+            <input id="rent-final-name" type="text" name="name" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+          </div>
+          <div class="lp-field">
+            <label for="rent-final-phone">Phone number</label>
+            <input id="rent-final-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" aria-label="Phone number">
+          </div>
         </div>
         <div class="lp-form-row">
-          <select name="propType" required aria-label="Property type">
-            <option value="" disabled selected>Property type</option>
-            <option>HDB</option>
-            <option>Condo</option>
-            <option>Landed</option>
-            <option>Commercial</option>
-          </select>
+          <div class="lp-field">
+            <label for="rent-final-propType">Property type</label>
+            <select id="rent-final-propType" name="propType" required aria-label="Property type">
+              <option value="" disabled selected>Property type</option>
+              <option>HDB</option>
+              <option>Condo</option>
+              <option>Landed</option>
+              <option>Commercial</option>
+            </select>
+          </div>
         </div>
         <label class="lp-newsletter-opt">
           <input type="checkbox" name="newsletter_opt_in" value="1">
@@ -278,6 +296,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
             <a href="tel:+6581881488" style="color:#10b981;font-weight:600;text-decoration:underline">Call +65 8188 1488</a>
           </div>
         </noscript>
+        <p class="lp-form-micro">Free<span class="dot">·</span>No obligation<span class="dot">·</span>By submitting you agree to the <a href="/privacy-policy.html">Privacy Policy</a></p>
       </form>
     </div>
   </div>
@@ -385,6 +404,20 @@ async function handleSubmit(form){
     b.classList.toggle('visible',window.scrollY>600);
   },{passive:true});
   b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+<script id="rent-enquiry-controls">
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var visibleCards=new Set();
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) visibleCards.add(entry.target);
+      else visibleCards.delete(entry.target);
+    });
+    document.body.classList.toggle('lp-enquiry-visible',visibleCards.size>0);
+  });
+  document.querySelectorAll('.lp-form-card').forEach(function(card){observer.observe(card);});
 })();
 </script>
 <div class="jt-cb" data-jt-consent-banner id="jtConsentBanner" role="region" aria-labelledby="jtConsentBannerHeading">
