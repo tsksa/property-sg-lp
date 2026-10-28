@@ -113,6 +113,12 @@ function cssColour(file, selector, property, backdrop) {
 }
 
 const cases = [
+  { name: 'Rent-out final form heading', file: 'rent-out/ads-landing.css', foreground: [".lp-final .lp-form-card h2", "color"], background: [".lp-final-form .lp-form-card", "background"] },
+  { name: 'Rent-out form button', file: 'rent-out/ads-landing.css', foreground: [".lp-form-card .lp-cta", "color"], background: [".lp-form-card .lp-cta", "background"] },
+  { name: 'Rent-out form button hover', file: 'rent-out/ads-landing.css', foreground: [".lp-form-card .lp-cta", "color"], background: [".lp-form-card .lp-cta:hover", "background"] },
+  { name: 'Rent-out field label', file: 'rent-out/ads-landing.css', foreground: [".lp-field label", "color"], background: "#ffffff" },
+  { name: 'Rent-out privacy reassurance', file: 'rent-out/ads-landing.css', foreground: [".lp-form-micro", "color"], background: "#ffffff" },
+  { name: 'Rent-out privacy link', file: 'rent-out/ads-landing.css', foreground: [".lp-form-micro a", "color"], background: "#ffffff" },
   { name: 'HDB seller final form heading', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-final .lp-form-card h2', 'color'], background: ['.lp-final-form .lp-form-card', 'background'] },
   { name: 'HDB seller form button', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-form-card .lp-cta', 'color'], background: ['.lp-form-card .lp-cta', 'background'] },
   { name: 'HDB seller form button hover', file: 'sell-hdb/singapore/ads-landing.css', foreground: ['.lp-form-card .lp-cta', 'color'], background: ['.lp-form-card .lp-cta:hover', 'background'] },
