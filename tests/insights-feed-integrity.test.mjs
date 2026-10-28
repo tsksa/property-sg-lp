@@ -21,6 +21,70 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const INSIGHTS_DIR = path.join(ROOT, 'insights');
 
+test('Q3 2026 URA guide uses final figures with consistent cover, sources and update dates', () => {
+  const slug = 'q3-2026-ura-private-home-prices';
+  const url = `https://joetay.com/insights/${slug}.html`;
+  const html = fs.readFileSync(path.join(INSIGHTS_DIR, `${slug}.html`), 'utf8');
+  const source = 'https://www.ura.gov.sg/news/media/pr26-73/';
+  const updated = '2026-10-28';
+  // URA's full release, 23 October 2026, paragraphs 2–4. Keep Q2 comparators.
+  const figures = [
+    ['All private homes', '+0.5%', '+1.4%'],
+    ['Non-landed private homes', '−0.1%', '+1.0%'],
+    ['Core Central Region (CCR), non-landed', '+1.8%', '+0.3%'],
+    ['Rest of Central Region (RCR), non-landed', '−1.2%', '0.0%'],
+    ['Outside Central Region (OCR), non-landed', '−0.1%', '+2.3%'],
+    ['Landed homes', '+2.5%', '+2.9%'],
+  ];
+  for (const [label, q2, q3] of figures) {
+    assert.ok(html.includes(`<th scope="row">${label}</th><td>${q2}</td><td>${q3}</td>`), label);
+  }
+  assert.ok(html.includes('<th scope="col">Q3 2026 final figures</th>'));
+  assert.ok(html.includes(source));
+  assert.ok(html.includes('23 October 2026'));
+  assert.doesNotMatch(html, /URA schedules|numbers may be revised|Treat volume comparisons as provisional/);
+  const schema = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map(m => JSON.parse(m[1])).find(s => s['@type'] === 'Article');
+  assert.equal(schema.mainEntityOfPage, url);
+  assert.equal(schema.datePublished, '2026-10-03');
+  assert.equal(schema.dateModified, updated);
+  assert.ok(html.includes(`<link rel="canonical" href="${url}">`));
+  assert.ok(html.includes(`<meta property="article:published_time" content="2026-10-03">`));
+  assert.ok(html.includes(`<meta property="article:modified_time" content="${updated}">`));
+  assert.ok(html.includes(`<time datetime="${updated}">Updated Oct 28, 2026</time>`));
+  for (const key of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    assert.ok(html.includes(`<meta ${key} content="${schema.description}">`));
+  }
+  assert.match(schema.description, /final figures/);
+  const cover = JSON.parse(fs.readFileSync(path.join(INSIGHTS_DIR, 'article-covers.json'), 'utf8'))
+    .covers.find(c => c.slug === slug);
+  assert.deepEqual(cover.figures, [
+    { value: '1.4%', label: 'overall price growth · final figures' },
+    { value: '2.3%', label: 'OCR non-landed growth · final figures' },
+  ]);
+  for (const { value, label } of cover.figures) assert.ok(html.includes(`${value} ${label}`));
+  const item = JSON.parse(fs.readFileSync(path.join(INSIGHTS_DIR, 'feed.json'), 'utf8')).items.find(i => i.id === url);
+  assert.equal(item.date_published, '2026-10-03T00:00:00+08:00');
+  assert.equal(item.date_modified, `${updated}T00:00:00+08:00`);
+  assert.equal(item.summary, schema.description);
+  assert.equal(item.content_text, schema.description);
+  const xml = fs.readFileSync(path.join(INSIGHTS_DIR, 'feed.xml'), 'utf8');
+  const entry = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].find(m => m[1].includes(url))[1];
+  assert.ok(entry.includes(`<published>${item.date_published}</published>`));
+  assert.ok(entry.includes(`<updated>${item.date_modified}</updated>`));
+  assert.ok(entry.includes(item.summary));
+  assert.ok(xml.split('<entry>')[0].includes(`<updated>${item.date_modified}</updated>`));
+  for (const file of ['index.html', 'insights/index.html']) {
+    assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(item.summary), file);
+  }
+  const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  for (const loc of [url, 'https://joetay.com/', 'https://joetay.com/insights/']) {
+    const block = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)]
+      .find(m => m[1].includes(`<loc>${loc}</loc>`))?.[1];
+    assert.ok(block?.includes(`<lastmod>${updated}</lastmod>`), loc);
+  }
+});
+
 test('upgrader guide preserves funding and tax caveats and discoverability', () => {
   const slug = 'sell-hdb-first-or-buy-condo-first';
   const html = fs.readFileSync(path.join(INSIGHTS_DIR, slug + '.html'), 'utf8');
