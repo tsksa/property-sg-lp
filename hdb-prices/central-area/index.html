@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Central Area HDB Resale Prices &amp; Recent Sales | PropertySG</title>
-<meta name="description" content="Central Area HDB resale prices from official data: 12-month median $756,000 across 174 sales, median $817 psf. Updated monthly.">
+<title>Central Area HDB Resale Prices by Flat Type | PropertySG</title>
+<meta name="description" content="Central Area HDB resale prices: 3-room $550k, 4-room $870k, 5-room $1.47m median (174 sales, 12 months to Sep 2026). Sold prices by street and block.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/hdb-prices/central-area/">
@@ -12,8 +12,8 @@
 <link rel="alternate" hreflang="x-default" href="https://joetay.com/hdb-prices/central-area/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
-<meta property="og:title" content="Central Area HDB Resale Prices &amp; Recent Sales | PropertySG">
-<meta property="og:description" content="Central Area HDB resale prices from official data: 12-month median $756,000 across 174 sales, median $817 psf. Updated monthly.">
+<meta property="og:title" content="Central Area HDB Resale Prices by Flat Type | PropertySG">
+<meta property="og:description" content="Central Area HDB resale prices: 3-room $550k, 4-room $870k, 5-room $1.47m median (174 sales, 12 months to Sep 2026). Sold prices by street and block.">
 <meta property="og:url" content="https://joetay.com/hdb-prices/central-area/">
 <meta property="og:locale" content="en_SG">
 <meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
@@ -27,12 +27,19 @@
 {
  "@context": "https://schema.org",
  "@type": "WebPage",
- "name": "Central Area HDB Resale Prices &amp; Recent Sales | PropertySG",
+ "name": "Central Area HDB Resale Prices by Flat Type | PropertySG",
  "url": "https://joetay.com/hdb-prices/central-area/",
- "description": "Central Area HDB resale prices from official data: 12-month median $756,000 across 174 sales, median $817 psf. Updated monthly.",
+ "description": "Central Area HDB resale prices: 3-room $550k, 4-room $870k, 5-room $1.47m median (174 sales, 12 months to Sep 2026). Sold prices by street and block.",
  "inLanguage": "en-SG",
+ "dateModified": "2026-10-30",
  "isPartOf": {
   "@type": "WebSite",
+  "name": "PropertySG",
+  "url": "https://joetay.com/"
+ },
+ "publisher": {
+  "@type": "RealEstateAgent",
+  "@id": "https://joetay.com/#agent",
   "name": "PropertySG",
   "url": "https://joetay.com/"
  },
@@ -72,6 +79,7 @@
    "url": "https://joetay.com/hdb-prices/central-area/",
    "license": "https://data.gov.sg/open-data-licence",
    "isAccessibleForFree": true,
+   "dateModified": "2026-10-30",
    "temporalCoverage": "2025-10/2026-09",
    "spatialCoverage": {
     "@type": "Place",
@@ -148,6 +156,30 @@
       "@type": "Answer",
       "text": "$1,720,000, for a 5 Room flat at Blk 1C Cantonment Rd, storeys 19 to 21, sold in 2026-09. It is the highest of 174 registered resale transactions in Central Area in the 12 months to 2026-09."
      }
+    },
+    {
+     "@type": "Question",
+     "name": "How much is a 3-room resale flat in Central Area in 2026?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In the 12 months to 2026-09, 3-room resale flats in Central Area sold for a median $550,000 across 65 sales. Half sold between $500,000 and $578,000."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much is a 4-room resale flat in Central Area in 2026?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In the 12 months to 2026-09, 4-room resale flats in Central Area sold for a median $870,000 across 75 sales. Half sold between $780,000 and $1,350,000."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much is a 5-room resale flat in Central Area in 2026?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In the 12 months to 2026-09, 5-room resale flats in Central Area sold for a median $1,473,000 across 28 sales. Half sold between $948,000 and $1,521,000."
+     }
     }
    ]
   }
@@ -155,6 +187,7 @@
 }
 </script>
 <script src="/assets/analytics-loader.js" defer data-meta="false"></script>
+
 <script src="/js/recaptcha-helper.js" defer></script>
 <script src="/js/estate-lead.js" defer></script>
 <style>
@@ -231,6 +264,26 @@ th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
 tr:last-child td{border-bottom:none}
 td:nth-child(n+2),th:nth-child(n+2){text-align:right}
+.tbl table.mini{min-width:0}
+.tbl table.mini th,.tbl table.mini td{padding:9px 12px}
+.tbl table.mini td{white-space:nowrap}
+.tbl table.mini td.l,details.blk td:nth-child(4){white-space:normal}
+.tbl td.l,.tbl th.l{text-align:left}
+.tbl+.tbl{margin-top:12px}
+section[data-est] p{margin-bottom:10px}
+details.blk{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff}
+details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+details.blk .tbl{margin-top:10px;border:0}
+details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
+details.blk .src{margin:8px 0 0}
+.hub-tbl table{min-width:760px;font-size:0.82rem}
+.hub-tbl th,.hub-tbl td{padding:9px 10px}
+.hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
+.hub-tbl th button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -301,8 +354,8 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official HDB data · Updated monthly</div>
   <h1>Central Area HDB resale prices</h1>
-  <p class="lede">Every figure on this page comes from actual registered resale transactions in Central Area — no estimates, no modelling.</p>
-  <p class="src">Source: HDB Resale Flat Prices via data.gov.sg · latest full month 2026-09 · figures below use the last 12 months unless stated.</p>
+  <p class="lede">Central Area HDB resale flat prices by flat type, street and block. Every figure comes from registered resale transactions in Central Area — no estimates, no modelling.</p>
+  <p class="src">Data to Sep 2026 (data.gov.sg) · HDB Resale Flat Prices dataset · figures below cover the 12 months Oct 2025 to Sep 2026 unless stated.</p>
   <section class="vc" data-jt-value-card aria-labelledby="vc-h">
     <div class="vc-main">
       <h2 class="vc-k" id="vc-h">Typical HDB resale price in Central Area</h2>
@@ -334,11 +387,66 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <thead><tr><th>Flat type</th><th>Median price</th><th>Median size</th><th>Sales</th></tr></thead>
     <tbody>
       <tr><td>2 Room</td><td>$330,000</td><td>53 sqm</td><td>6</td></tr>
-      <tr><td>3 Room</td><td>$550,000</td><td>65 sqm</td><td>65</td></tr>
-      <tr><td>4 Room</td><td>$870,000</td><td>94 sqm</td><td>75</td></tr>
-      <tr><td>5 Room</td><td>$1,473,000</td><td>106 sqm</td><td>28</td></tr>
+      <tr><td><a href="#3-room">3 Room</a></td><td>$550,000</td><td>65 sqm</td><td>65</td></tr>
+      <tr><td><a href="#4-room">4 Room</a></td><td>$870,000</td><td>94 sqm</td><td>75</td></tr>
+      <tr><td><a href="#5-room">5 Room</a></td><td>$1,473,000</td><td>106 sqm</td><td>28</td></tr>
     </tbody>
   </table></div>
+  <section data-est="type" id="3-room">
+  <h2>How much is a 3-room HDB resale flat in Central Area?</h2>
+  <p>A 3-room resale flat in Central Area sold for a median <strong>$550,000</strong> (65 sqm, 65 sales, Oct 2025–Sep 2026). Half sold between $500,000 and $578,000; the median was $772 psf.</p>
+  <p class="src">Lowest: $408,888 at Blk 9 Selegie Rd, storeys 4 to 6, Aug 2026. Highest: $655,000 at Blk 3 Tg Pagar Plaza, storeys 10 to 12, May 2026.</p>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Month</th><th class="l">Recent sale</th><th>Storey</th><th>Price</th></tr></thead>
+    <tbody>
+      <tr><td>2026-09</td><td class="l">Blk 1 Tg Pagar Plaza</td><td>7 to 9</td><td>$470,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 536 Upp Cross St</td><td>7 to 9</td><td>$565,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 536 Upp Cross St</td><td>16 to 18</td><td>$620,000</td></tr>
+    </tbody>
+  </table></div>
+  </section>
+  <section data-est="type" id="4-room">
+  <h2>How much is a 4-room HDB resale flat in Central Area?</h2>
+  <p>A 4-room resale flat in Central Area sold for a median <strong>$870,000</strong> (94 sqm, 75 sales, Oct 2025–Sep 2026). Half sold between $780,000 and $1,350,000; the median was $927 psf.</p>
+  <p class="src">Lowest: $585,000 at Blk 662 Buffalo Rd, storeys 22 to 24, Jan 2026. Highest: $1,550,000 at Blk 1C Cantonment Rd, storeys 40 to 42, May 2026.</p>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Lease left at sale</th><th>Median price</th><th>Sales</th></tr></thead>
+    <tbody>
+      <tr><td>Under 60 years</td><td>$785,000</td><td>35</td></tr>
+      <tr><td>60 to 79 years</td><td>$705,000</td><td>5</td></tr>
+      <tr><td>80 years or more</td><td>$1,388,000</td><td>35</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Month</th><th class="l">Recent sale</th><th>Storey</th><th>Price</th></tr></thead>
+    <tbody>
+      <tr><td>2026-09</td><td class="l">Blk 1G Cantonment Rd</td><td>16 to 18</td><td>$1,220,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 1F Cantonment Rd</td><td>28 to 30</td><td>$1,400,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 1A Cantonment Rd</td><td>28 to 30</td><td>$1,388,000</td></tr>
+    </tbody>
+  </table></div>
+  </section>
+  <section data-est="type" id="5-room">
+  <h2>How much is a 5-room HDB resale flat in Central Area?</h2>
+  <p>A 5-room resale flat in Central Area sold for a median <strong>$1,473,000</strong> (106 sqm, 28 sales, Oct 2025–Sep 2026). Half sold between $948,000 and $1,521,000; the median was $1288 psf.</p>
+  <p class="src">Lowest: $775,000 at Blk 671B Klang Lane, storeys 10 to 12, Sep 2026. Highest: $1,720,000 at Blk 1C Cantonment Rd, storeys 19 to 21, Sep 2026.</p>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Lease left at sale</th><th>Median price</th><th>Sales</th></tr></thead>
+    <tbody>
+      <tr><td>Under 60 years</td><td>–</td><td>4</td></tr>
+      <tr><td>60 to 79 years</td><td>$800,000</td><td>7</td></tr>
+      <tr><td>80 years or more</td><td>$1,510,000</td><td>17</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Month</th><th class="l">Recent sale</th><th>Storey</th><th>Price</th></tr></thead>
+    <tbody>
+      <tr><td>2026-09</td><td class="l">Blk 1B Cantonment Rd</td><td>28 to 30</td><td>$1,701,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 1C Cantonment Rd</td><td>19 to 21</td><td>$1,720,000</td></tr>
+      <tr><td>2026-09</td><td class="l">Blk 672A Klang Lane</td><td>1 to 3</td><td>$800,000</td></tr>
+    </tbody>
+  </table></div>
+  </section>
   <h2>Central Area HDB resale prices by street</h2>
   <p class="src">The Central Area streets with the most resale sales in the last 12 months (at least 10 each). Median $psf compares flats of different sizes; the 4-room median is shown where a street had at least five 4-room sales.</p>
   <div class="tbl"><table>
@@ -352,6 +460,125 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <tr><td style="text-align:left">Rowell Rd</td><td>10</td><td>$706</td><td>—</td></tr>
     </tbody>
   </table></div>
+  <section data-est="blocks" id="blocks">
+  <h2>Central Area HDB resale prices by block</h2>
+  <p class="src">Every Central Area block with at least 2 resale sales in the 12 months to Sep 2026 (47 blocks), grouped by street. Tap a street to see its blocks.</p>
+<details class="blk"><summary>Bain St · 1 block, 2 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-233"><td>233</td><td>1980</td><td>2</td><td>May 2026 · 4-room · 22 to 24 · $980,000</td><td>$980</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Bain St block</a></p></details>
+<details class="blk"><summary>Buffalo Rd · 2 blocks, 5 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-661"><td>661</td><td>1982</td><td>2</td><td>Aug 2026 · 4-room · 1 to 3 · $590,000</td><td>$673</td></tr>
+<tr id="blk-662"><td>662</td><td>1982</td><td>3</td><td>Aug 2026 · 4-room · 13 to 15 · $585,000</td><td>$628</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Buffalo Rd block</a></p></details>
+<details class="blk"><summary>Cantonment Rd · 7 blocks, 52 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-1a"><td>1A</td><td>2011</td><td>6</td><td>Sep 2026 · 4-room · 28 to 30 · $1,388,000</td><td>$1357</td></tr>
+<tr id="blk-1b"><td>1B</td><td>2011</td><td>7</td><td>Sep 2026 · 5-room · 28 to 30 · $1,701,000</td><td>$1390</td></tr>
+<tr id="blk-1c"><td>1C</td><td>2011</td><td>9</td><td>Sep 2026 · 5-room · 19 to 21 · $1,720,000</td><td>$1432</td></tr>
+<tr id="blk-1d"><td>1D</td><td>2011</td><td>8</td><td>Jun 2026 · 5-room · 10 to 12 · $1,540,000</td><td>$1294</td></tr>
+<tr id="blk-1e"><td>1E</td><td>2011</td><td>9</td><td>Aug 2026 · 4-room · 40 to 42 · $1,475,000</td><td>$1294</td></tr>
+<tr id="blk-1f"><td>1F</td><td>2011</td><td>4</td><td>Sep 2026 · 4-room · 28 to 30 · $1,400,000</td><td>$1360</td></tr>
+<tr id="blk-1g"><td>1G</td><td>2011</td><td>9</td><td>Sep 2026 · 4-room · 16 to 18 · $1,220,000</td><td>$1281</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Cantonment Rd block</a></p></details>
+<details class="blk"><summary>Jln Berseh · 1 block, 3 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-26"><td>26</td><td>1979</td><td>3</td><td>Sep 2026 · 4-room · 4 to 6 · $628,000</td><td>$671</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Jln Berseh block</a></p></details>
+<details class="blk"><summary>Jln Kukoh · 2 blocks, 5 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-8"><td>8</td><td>1971</td><td>3</td><td>Aug 2026 · 2-room · 4 to 6 · $280,000</td><td>$522</td></tr>
+<tr id="blk-9"><td>9</td><td>1982</td><td>2</td><td>Aug 2026 · 3-room · 10 to 12 · $450,000</td><td>$604</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Jln Kukoh block</a></p></details>
+<details class="blk"><summary>Kelantan Rd · 2 blocks, 7 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-28"><td>28</td><td>1977</td><td>4</td><td>Mar 2026 · 3-room · 7 to 9 · $518,888</td><td>$672</td></tr>
+<tr id="blk-30"><td>30</td><td>1981</td><td>3</td><td>Jul 2026 · 3-room · 7 to 9 · $513,000</td><td>$742</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Kelantan Rd block</a></p></details>
+<details class="blk"><summary>Klang Lane · 4 blocks, 12 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-671a"><td>671A</td><td>2003</td><td>2</td><td>Jun 2026 · 5-room · 13 to 15 · $780,000</td><td>$699</td></tr>
+<tr id="blk-671b"><td>671B</td><td>2003</td><td>4</td><td>Sep 2026 · 5-room · 10 to 12 · $775,000</td><td>$720</td></tr>
+<tr id="blk-672a"><td>672A</td><td>2002</td><td>4</td><td>Sep 2026 · 5-room · 1 to 3 · $800,000</td><td>$723</td></tr>
+<tr id="blk-672b"><td>672B</td><td>2002</td><td>2</td><td>Jun 2026 · 4-room · 4 to 6 · $655,000</td><td>$743</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Klang Lane block</a></p></details>
+<details class="blk"><summary>Kreta Ayer Rd · 1 block, 3 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-334"><td>334</td><td>1981</td><td>3</td><td>Sep 2026 · 4-room · 22 to 24 · $830,000</td><td>$882</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Kreta Ayer Rd block</a></p></details>
+<details class="blk"><summary>New Mkt Rd · 1 block, 2 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-32"><td>32</td><td>1983</td><td>2</td><td>May 2026 · 2-room · 7 to 9 · $360,000</td><td>$670</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a New Mkt Rd block</a></p></details>
+<details class="blk"><summary>Queen St · 3 blocks, 9 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-269a"><td>269A</td><td>1984</td><td>2</td><td>Jul 2026 · 3-room · 4 to 6 · $600,000</td><td>$832</td></tr>
+<tr id="blk-269b"><td>269B</td><td>1984</td><td>4</td><td>Aug 2026 · 4-room · 19 to 21 · $1,020,000</td><td>$819</td></tr>
+<tr id="blk-271"><td>271</td><td>1979</td><td>3</td><td>Mar 2026 · 3-room · 7 to 9 · $510,000</td><td>$790</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Queen St block</a></p></details>
+<details class="blk"><summary>Rowell Rd · 3 blocks, 10 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-639"><td>639</td><td>1983</td><td>2</td><td>May 2026 · 5-room · 22 to 24 · $990,000</td><td>$662</td></tr>
+<tr id="blk-640"><td>640</td><td>1984</td><td>5</td><td>Jun 2026 · 3-room · 4 to 6 · $568,000</td><td>$709</td></tr>
+<tr id="blk-642"><td>642</td><td>1984</td><td>3</td><td>Sep 2026 · 4-room · 22 to 24 · $813,000</td><td>$733</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Rowell Rd block</a></p></details>
+<details class="blk"><summary>Sago Lane · 1 block, 3 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-4"><td>4</td><td>1974</td><td>3</td><td>Aug 2026 · 3-room · 10 to 12 · $475,000</td><td>$693</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Sago Lane block</a></p></details>
+<details class="blk"><summary>Selegie Rd · 1 block, 2 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-9-selegie-rd"><td>9</td><td>1974</td><td>2</td><td>Aug 2026 · 3-room · 4 to 6 · $408,888</td><td>$680</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Selegie Rd block</a></p></details>
+<details class="blk"><summary>Tg Pagar Plaza · 7 blocks, 18 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-1"><td>1</td><td>1977</td><td>3</td><td>Sep 2026 · 3-room · 7 to 9 · $470,000</td><td>$787</td></tr>
+<tr id="blk-2"><td>2</td><td>1977</td><td>2</td><td>Dec 2025 · 3-room · 10 to 12 · $548,000</td><td>$817</td></tr>
+<tr id="blk-3"><td>3</td><td>1977</td><td>3</td><td>May 2026 · 3-room · 10 to 12 · $655,000</td><td>$866</td></tr>
+<tr id="blk-4-tg-pagar-plaza"><td>4</td><td>1977</td><td>3</td><td>Feb 2026 · 3-room · 10 to 12 · $515,000</td><td>$811</td></tr>
+<tr id="blk-5"><td>5</td><td>1977</td><td>2</td><td>Mar 2026 · 3-room · 16 to 18 · $580,000</td><td>$860</td></tr>
+<tr id="blk-7"><td>7</td><td>1980</td><td>2</td><td>Aug 2026 · 4-room · 19 to 21 · $820,000</td><td>$922</td></tr>
+<tr id="blk-8-tg-pagar-plaza"><td>8</td><td>1980</td><td>3</td><td>Jun 2026 · 4-room · 10 to 12 · $810,000</td><td>$908</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Tg Pagar Plaza block</a></p></details>
+<details class="blk"><summary>Upp Cross St · 4 blocks, 14 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-34"><td>34</td><td>1975</td><td>3</td><td>Aug 2026 · 3-room · 10 to 12 · $488,000</td><td>$683</td></tr>
+<tr id="blk-533"><td>533</td><td>1980</td><td>4</td><td>Jan 2026 · 3-room · 7 to 9 · $566,000</td><td>$876</td></tr>
+<tr id="blk-535"><td>535</td><td>1980</td><td>2</td><td>Aug 2026 · 3-room · 13 to 15 · $620,000</td><td>$832</td></tr>
+<tr id="blk-536"><td>536</td><td>1981</td><td>5</td><td>Sep 2026 · 3-room · 16 to 18 · $620,000</td><td>$833</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Upp Cross St block</a></p></details>
+<details class="blk"><summary>Veerasamy Rd · 6 blocks, 18 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-632"><td>632</td><td>1985</td><td>3</td><td>Jul 2026 · 4-room · 7 to 9 · $762,000</td><td>$665</td></tr>
+<tr id="blk-633"><td>633</td><td>1985</td><td>3</td><td>Aug 2026 · 3-room · 7 to 9 · $560,000</td><td>$733</td></tr>
+<tr id="blk-634"><td>634</td><td>1985</td><td>3</td><td>Aug 2026 · 5-room · 25 to 27 · $1,120,000</td><td>$721</td></tr>
+<tr id="blk-635"><td>635</td><td>1985</td><td>5</td><td>Sep 2026 · 4-room · 10 to 12 · $820,000</td><td>$710</td></tr>
+<tr id="blk-636"><td>636</td><td>1985</td><td>2</td><td>Apr 2026 · 3-room · 4 to 6 · $542,000</td><td>$695</td></tr>
+<tr id="blk-637"><td>637</td><td>1985</td><td>2</td><td>Aug 2026 · 3-room · 4 to 6 · $610,000</td><td>$742</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Veerasamy Rd block</a></p></details>
+<details class="blk"><summary>Waterloo St · 1 block, 2 sales</summary>
+<div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
+<tr id="blk-264"><td>264</td><td>1986</td><td>2</td><td>Jun 2026 · 3-room · 16 to 18 · $578,000</td><td>$885</td></tr>
+</tbody></table></div>
+<p class="src"><a href="/neighbour-prices/">Every sale in a Waterloo St block</a></p></details>
+  </section>
   <h2>Most recent transactions</h2>
   <div class="tbl"><table>
     <thead><tr><th>Month</th><th style="text-align:left">Flat</th><th>Storey</th><th>Price</th></tr></thead>
@@ -370,6 +597,26 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <tr><td>2026-09</td><td style="text-align:left">5 Room · Blk 671B Klang Lane</td><td>10 TO 12</td><td>$775,000</td></tr>
     </tbody>
   </table></div>
+  <section data-est="rent" id="rent">
+  <h2>Central Area HDB rental prices</h2>
+  <p>Median monthly rent for Central Area flats approved for renting out by HDB, Oct 2025 to Sep 2026.</p>
+  <div class="tbl"><table class="mini">
+    <thead><tr><th>Flat type</th><th>Median rent</th><th>Approvals</th><th>Indicative gross yield</th></tr></thead>
+    <tbody>
+      <tr><td>2-room</td><td>$2,225</td><td>16</td><td>–</td></tr>
+      <tr><td>3-room</td><td>$3,300</td><td>328</td><td>7.2%</td></tr>
+      <tr><td>4-room</td><td>$4,450</td><td>204</td><td>6.1%</td></tr>
+      <tr><td>5-room</td><td>$5,100</td><td>65</td><td>4.2%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Source: HDB's <a href="https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view" target="_blank" rel="noopener">Renting Out of Flats</a> dataset via data.gov.sg. Rents are declared by owners and HDB does not verify them. Indicative gross yield is the median rent × 12 ÷ the 12-month median resale price for the same flat type, before costs, tax and vacant months; flat types with under 10 approvals are left out.</p>
+  <p><strong>Thinking of renting out your Central Area flat?</strong> <a href="/rent-out/">How I help HDB landlords rent out →</a></p>
+  </section>
+  <section data-est="buyer" id="for-sale">
+  <h2>Looking at HDB flats for sale in Central Area?</h2>
+  <p>This page shows registered sold prices, not live listings. If you have found a Central Area flat for sale, compare its asking price with the sales above for the same flat type, lease band and street.</p>
+  <p><a class="est-wa" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I'm%20looking%20at%20an%20HDB%20flat%20for%20sale%20in%20Central%20Area.%20Can%20you%20help%20me%20compare%20the%20asking%20price%20with%20recent%20sales%3F" target="_blank" rel="noopener" data-cta="whatsapp-estate" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-buyer',town:'Central Area'});">Ask me to check an asking price on WhatsApp →</a></p>
+  </section>
   <h2>Nearby towns</h2>
   <div class="town-grid">
     <a class="town-card" href="/hdb-prices/bukit-merah/"><span class="t">Bukit Merah</span></a>
@@ -386,11 +633,12 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <ul class="link-list">
     <li>Selling a flat in Central Area? <a href="/sell-hdb/singapore/">HDB selling service</a></li>
     <li><a href="/valuation.html">Free valuation</a></li>
-    <li><a href="/insights/hdb-valuation-explained.html">How agents actually price a flat</a></li>
+    <li><a href="/insights/hdb-valuation-explained.html">Older lease? How HDB valuation and pricing work</a></li>
     <li><a href="/insights/how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell in 2026</a></li>
     <li><a href="/insights/selling-hdb-after-mop-singapore.html">Selling after MOP: the 5-step timeline</a></li>
     <li><a href="/insights/property-agent-commission-singapore.html">What that 2% commission covers</a></li>
-    <li><a href="/calculator/">Affordability calculator</a></li>
+    <li><a href="/calculator/">HDB loan calculator</a></li>
+    <li><a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan: rates and downpayment</a></li>
     <li><a href="/glossary/">Property glossary — CPF, OTP, MOP &amp; more</a></li>
   </ul>
   <h2>Common questions</h2>
@@ -399,6 +647,9 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <details class="faq-item"><summary>Which streets in Central Area have the most HDB resale sales?</summary><p>In the 12 months to 2026-09, the streets in Central Area with the most HDB resale transactions were Cantonment Rd (52 sales), Tg Pagar Plaza (18 sales) and Veerasamy Rd (18 sales), out of 174 sales in the town.</p></details>
       <details class="faq-item"><summary>Have HDB prices in Central Area gone up or down over the past year?</summary><p>Like for like, HDB resale prices in Central Area have fallen 0.2% over the past year. This compares the median price per square foot of the same flat types and lease ages in the 12 months to 2026-09 against the prior 12 months, so a year when more newer flats sold does not count as a price rise.</p></details>
       <details class="faq-item"><summary>What was the highest HDB resale price in Central Area in the last 12 months?</summary><p>$1,720,000, for a 5 Room flat at Blk 1C Cantonment Rd, storeys 19 to 21, sold in 2026-09. It is the highest of 174 registered resale transactions in Central Area in the 12 months to 2026-09.</p></details>
+      <details class="faq-item"><summary>How much is a 3-room resale flat in Central Area in 2026?</summary><p>In the 12 months to 2026-09, 3-room resale flats in Central Area sold for a median $550,000 across 65 sales. Half sold between $500,000 and $578,000.</p></details>
+      <details class="faq-item"><summary>How much is a 4-room resale flat in Central Area in 2026?</summary><p>In the 12 months to 2026-09, 4-room resale flats in Central Area sold for a median $870,000 across 75 sales. Half sold between $780,000 and $1,350,000.</p></details>
+      <details class="faq-item"><summary>How much is a 5-room resale flat in Central Area in 2026?</summary><p>In the 12 months to 2026-09, 5-room resale flats in Central Area sold for a median $1,473,000 across 28 sales. Half sold between $948,000 and $1,521,000.</p></details>
   </div>
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>
