@@ -11,6 +11,7 @@
 // contract — so the two clusters stay maintainable as one pattern.
 
 import fs from 'node:fs';
+import path from 'node:path';
 import { siteFooterHtml } from './lib/site-footer.mjs';
 import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import { monthsBack, resolveWindows } from './lib/estate-windows.mjs';
@@ -20,7 +21,9 @@ import { DISTRICTS } from './lib/condo-districts.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
+  projectRows, minProjectSales, tenureSplit, districtDescription, monthLabel, dateLabel, launchDetail,
 } from './lib/condo-stats.mjs';
+import { hdbTownsForDistrict } from './lib/district-town-map.mjs';
 import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
 
 const OUT = 'condo-prices';
@@ -30,6 +33,9 @@ const MIN_TX_12M = 30;     // districts under this get no page (D06 today)
 
 const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const psfMoney = (n) => '$' + Math.round(n).toLocaleString('en-SG');
+const today = new Date().toISOString().slice(0, 10);
+const PROJECT_TABLE_TOP = 20; // rows beyond this sit in a collapsed <details>
 
 // ── Fetch ──
 async function fetchAllBatches() {
@@ -57,7 +63,7 @@ async function fetchAllBatches() {
 
 const projects = await fetchAllBatches();
 const rows = projects
-  .flatMap((p) => (p.transaction ?? []).map((t) => ({ ...t, project: p.project })))
+  .flatMap((p) => (p.transaction ?? []).map((t) => ({ ...t, project: p.project, street: p.street })))
   .filter(isCondoResale);
 if (rows.length < 10000) {
   throw new Error(`suspiciously few condo resale records (${rows.length}) — aborting rather than generating empty pages`);
@@ -88,7 +94,7 @@ for (const [d, recs] of [...byDistrict.entries()].sort()) {
   else console.log(`  skip D${d} (only ${cur.n} tx in 12m)`);
 }
 
-// Like-for-like tenure group for the trend line: freehold (and 999-year) in
+// Like-for-like tenure group for the trend line: freehold (and 999-/9999-year) in
 // one group, leaseholds by the year their lease started, which tracks the
 // building's age. URA writes e.g. "99 yrs lease commencing from 2012".
 function tenureBand(tenure) {
@@ -139,7 +145,9 @@ ${JSON.stringify({
   url: canonical,
   description: desc,
   inLanguage: 'en-SG',
+  dateModified: today,
   isPartOf: { '@type': 'WebSite', name: 'PropertySG', url: SITE + '/' },
+  publisher: { '@type': 'RealEstateAgent', '@id': `${SITE}/#agent`, name: 'PropertySG', url: SITE + '/' },
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
@@ -178,6 +186,17 @@ th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
 tr:last-child td{border-bottom:none}
 td:nth-child(n+2),th:nth-child(n+2){text-align:right}
+.ptbl table{min-width:720px}
+.ptbl td:nth-child(-n+3),.ptbl th:nth-child(-n+3){text-align:left}
+.more{margin-top:10px}
+.more summary{cursor:pointer;font-weight:600;color:var(--navy);padding:8px 0}
+.more summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.more .tbl{margin-top:8px}
+.launches{list-style:none}
+.launches li{padding:7px 0;border-bottom:1px solid rgba(11,30,63,0.06)}
+.launches li:last-child{border-bottom:none}
+.launches .m{font-size:0.85rem;color:#555}
+.fresh{font-weight:600;color:#555}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -204,7 +223,7 @@ ${siteHeaderHtml({ pagePath })}
   <div class="eyebrow">Official URA caveat data · Updated monthly</div>
   <h1>${h1}</h1>
   <p class="lede">${lede}</p>
-  <p class="src">Source: URA private residential caveats (PMI_Resi_Transaction) · latest full month ${generatedAt} · resale condominiums and apartments only, single-unit deals · figures use the last 12 months unless stated.</p>
+  <p class="src"><span class="fresh">Data to ${monthLabel(generatedAt)} (URA) · updated ${dateLabel(today)}</span><br>Source: URA private residential caveats (PMI_Resi_Transaction) · latest full month ${generatedAt} · resale condominiums and apartments only, single-unit deals · figures use the last 12 months unless stated.</p>
 ${body}
   <div class="cta">
     <h2>Thinking of selling — or hunting in this district?</h2>
@@ -225,6 +244,24 @@ ${body}
 }
 
 // ── District pages ──
+// New launches are joined read-only from the launch catalogue, and only those
+// with a generated page are linked.
+const launchesByDistrict = new Map();
+for (const p of JSON.parse(fs.readFileSync('new-launches/projects.json', 'utf8')).projects ?? []) {
+  if (!fs.existsSync(path.join('new-launches', `${p.slug}.html`))) continue;
+  const key = String(p.district ?? '').replace(/^D/, '');
+  if (!launchesByDistrict.has(key)) launchesByDistrict.set(key, []);
+  launchesByDistrict.get(key).push(p);
+}
+
+const projectTableRow = (p) => `      <tr id="${p.id}"><td>${esc(p.project)}</td><td>${esc(p.street || '—')}</td><td>${esc(p.tenure)}</td><td>${p.n}</td><td>${psfMoney(p.psf)}</td><td>${money(p.med)}</td><td>${p.latest ? monthLabel(p.latest) : '—'}</td></tr>`;
+const projectTable = (list) => `<div class="tbl ptbl"><table>
+    <thead><tr><th>Project</th><th>Street</th><th>Tenure</th><th>Sales</th><th>Median $psf</th><th>Median price</th><th>Latest sale</th></tr></thead>
+    <tbody>
+${list.map(projectTableRow).join('\n')}
+    </tbody>
+  </table></div>`;
+
 const indexRows = [];
 for (const [d, cur] of live) {
   const recs = byDistrict.get(d);
@@ -259,7 +296,47 @@ for (const [d, cur] of live) {
     .map((x) => `    <a href="/condo-prices/d${x}/">D${Number(x)} · ${esc(DISTRICTS[x].split(',')[0])}</a>`)
     .join('\n');
 
-  const extraSchema = buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy });
+  const minSales = minProjectSales(cur.n);
+  const projectList = projectRows(cur.inWin, minSales);
+  const split = tenureSplit(cur.inWin);
+  const extraSchema = buildDistrictSchema({
+    d, areaName, canonical, generatedAt, window12, cur, yoy,
+    projects: projectList, minSales, split, dateModified: today,
+  });
+
+  const projectSection = projectList.length ? `
+  <h2>District ${dn} condo prices by project</h2>
+  <p class="src" style="margin-bottom:12px">Projects with at least ${minSales} resale caveats in the 12 months to ${generatedAt}, most sales first. Project and street names as URA records them.</p>
+  ${projectTable(projectList.slice(0, PROJECT_TABLE_TOP))}${projectList.length > PROJECT_TABLE_TOP ? `
+  <details class="more"><summary>Show ${projectList.length - PROJECT_TABLE_TOP} more projects</summary>
+  ${projectTable(projectList.slice(PROJECT_TABLE_TOP))}
+  </details>` : ''}` : '';
+
+  const splitSection = split.shown ? `
+  <h2>Freehold vs 99-year leasehold (last 12 months)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Tenure</th><th>Median $psf</th><th>Median price</th><th>Sales</th></tr></thead>
+    <tbody>
+      <tr><td>Freehold, 999- and 9999-year</td><td>${psfMoney(split.freehold.psf)}</td><td>${money(split.freehold.med)}</td><td>${split.freehold.n}</td></tr>
+      <tr><td>99-year leasehold</td><td>${psfMoney(split.leasehold.psf)}</td><td>${money(split.leasehold.med)}</td><td>${split.leasehold.n}</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src" style="margin:8px 0 0">Not like for like: the two groups differ in age, location and unit size.</p>` : '';
+
+  const launches = launchesByDistrict.get(d) ?? [];
+  const launchSection = launches.length ? `
+  <h2>New launches in District ${dn}</h2>
+  <ul class="launches">
+${launches.map((p) => `    <li><a href="/new-launches/${p.slug}.html">${esc(p.name)}</a> <span class="m">· ${esc(launchDetail(p))}</span></li>`).join('\n')}
+  </ul>` : '';
+
+  const towns = hdbTownsForDistrict(d).filter((t) => fs.existsSync(path.join('hdb-prices', t.slug, 'index.html')));
+  const townSection = towns.length ? `
+  <h2>Nearby HDB towns</h2>
+  <p class="src" style="margin-bottom:6px">Upgrading from an HDB flat? These towns have HDB estates inside District ${dn}'s postal sectors.</p>
+  <div class="nearby">
+${towns.map((t) => `    <a href="/hdb-prices/${t.slug}/">${esc(t.name)} HDB resale prices</a>`).join('\n')}
+  </div>` : '';
 
   const series = rollingPsfSeries(window12, recs, { ...likeForLike, level: cur.psf });
   const body = `${valueCardHtml({
@@ -280,14 +357,14 @@ for (const [d, cur] of live) {
     <tbody>
 ${bandRows}
     </tbody>
-  </table></div>
+  </table></div>${splitSection}${projectSection}
   <h2>Most recent transactions</h2>
   <div class="tbl"><table>
     <thead><tr><th>Month</th><th style="text-align:left">Project</th><th>Size</th><th>Floor</th><th>Price</th></tr></thead>
     <tbody>
 ${latest}
     </tbody>
-  </table></div>
+  </table></div>${launchSection}${townSection}
   <h2>Nearby districts</h2>
   <div class="nearby">
 ${nearby}
@@ -299,7 +376,7 @@ ${faqHtml(extraSchema[1], esc)}`;
   fs.writeFileSync(`${OUT}/d${d}/index.html`, pageShell({
     path: `/condo-prices/d${d}/`,
     titleTag: fitTitle(`District ${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`, `D${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`),
-    desc: esc(`Median condo resale price and $psf in District ${dn} (${areaName}) from official URA caveats — by size, with recent transactions. Updated monthly.`).slice(0, 158),
+    desc: esc(districtDescription({ dn, area: areaName.split(',')[0], med: cur.med, psf: cur.psf, n: cur.n, hasProjects: projectList.length > 0 })),
     h1: `District ${dn} condo resale prices`,
     lede: `${areaName}. Every figure comes from caveats actually lodged with URA — no estimates, no modelling.`,
     body,
@@ -350,7 +427,6 @@ fs.writeFileSync(`${OUT}/index.html`, pageShell({
 // ── Sitemap managed block ──
 let sm = fs.readFileSync('sitemap.xml', 'utf8');
 sm = sm.replace(/  <!-- condo-prices:start -->[\s\S]*?<!-- condo-prices:end -->\n/g, '');
-const today = new Date().toISOString().slice(0, 10);
 const entries = ['/condo-prices/', ...indexRows.map((r) => `/condo-prices/d${r.d}/`)]
   .map((p) => `  <url>\n    <loc>${SITE}${p}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`)
   .join('\n');
