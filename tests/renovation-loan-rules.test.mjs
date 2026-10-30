@@ -62,3 +62,34 @@ test('every FAQPage answer is rendered visibly on the page, verbatim', () => {
 test('mobile inputs are 16px so iOS does not zoom on focus', () => {
   assert.match(html, /@media\(max-width:768px\)\{\.calc-field input,\.calc-field select\{font-size:16px\}\}/);
 });
+
+// ── HDB renovation loan content (JOE-469 WS4) ──
+// /calculator/ used to answer "Is this an HDB renovation loan calculator?" and
+// outranked this page on its own head term. This page now answers it.
+test('the page answers "is there an HDB renovation loan" under its own H2', () => {
+  assert.match(html, /<title>Renovation Loan Calculator 2026: HDB &amp; Condo \| PropertySG<\/title>/);
+  assert.match(html, /<h1 id="page-hero-title">Renovation loan calculator \(HDB and condo\)<\/h1>/);
+  assert.match(html, /<h2 id="hdb-renovation-loan-title">Is there an HDB renovation loan\?<\/h2>/);
+  // C6: the cap is the LOWER of the two figures, cited to a bank's own page.
+  assert.match(html, /lower of 6 times your monthly income or \$30,000/);
+  assert.match(html, /href="https:\/\/www\.dbs\.com\.sg\/[^"]+renovation-loan"/);
+  assert.match(html, /Rates and rules checked \d{1,2} [A-Z][a-z]+ 20\d\d/);
+  assert.match(html, /"dateModified": "20\d\d-\d\d-\d\d"/);
+});
+
+test('worked examples at $15,000 and $30,000 use the page maths', () => {
+  const monthly = (P, r, t) => (P + P * r * t) / (t * 12);
+  const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
+  const section = html.match(/<section class="calc-faq calc-explain" aria-labelledby="hdb-renovation-loan-title">[\s\S]*?<\/section>/)[0];
+  assert.match(html, /id="rate"[^>]*value="4\.5"/, 'examples assume the page default rate');
+  for (const loan of [15000, 30000]) {
+    const row = section.match(new RegExp(`<tr><th scope="row">\\${money(loan)}</th>(.*?)</tr>`))?.[1];
+    assert.ok(row, `missing the ${money(loan)} row`);
+    assert.ok(row.includes(`<td>${money(loan / 6)}</td>`), `${money(loan)}: income needed`);
+    for (const years of [3, 5]) {
+      assert.ok(row.includes(`${money(monthly(loan, 0.045, years))} / ${money(loan * 0.045 * years)}`), `${money(loan)} over ${years} years`);
+    }
+  }
+  // D1: no bank rate table. Rates stay a user input.
+  assert.doesNotMatch(section, /\d+(\.\d+)?% (p\.a\.|EIR)/);
+});

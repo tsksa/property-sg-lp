@@ -128,3 +128,61 @@ test('EHG is opt-in and behaves as CPF-payable funds in the budget', () => {
   // conditions caveat is visible where the user ticks the box
   assert.match(html, /needs 12 months(&#39;|')s? continuous employment/);
 });
+
+// ── Content sections (JOE-469 WS4) ──
+// The worked examples are published figures, so they must be exactly what the
+// page's own formulas return; a rule change that moves the tool must move them.
+test('worked budget examples match the calculator maths, row for row', () => {
+  const ehg = (income) => {
+    for (const [upTo, g] of EHG_EXPECTED) if (income <= upTo) return g;
+    return 0;
+  };
+  const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
+  const instalment = (principal, annualRate, years) => {
+    const r = annualRate / 12;
+    return principal * r / (1 - (1 + r) ** -(years * 12));
+  };
+  const section = html.match(/<section class="calc-faq calc-explain" aria-labelledby="bto-examples-title">[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'missing the worked-examples section');
+  assert.match(section, /<h2 id="bto-examples-title">BTO budget examples by household income<\/h2>/);
+  const rows = [...section.matchAll(/<tr><th scope="row">([^<]+)<\/th>((?:<td>[^<]*<\/td>)+)<\/tr>/g)]
+    .map(([, income, cells]) => [income, ...[...cells.matchAll(/<td>([^<]*)<\/td>/g)].map((m) => m[1])]);
+  assert.equal(rows.length, 5);
+  for (const [incomeText, savingsText, ehgText, budget, loanText, monthlyText, bound] of rows) {
+    const income = Number(incomeText.replace(/[$,]/g, ''));
+    const savings = Number(savingsText.replace(/[$,]/g, ''));
+    const grant = ehgText.startsWith('None') ? 0 : ehg(income);
+    if (grant) assert.equal(ehgText, money(grant));
+    const tenure = Math.min(25, Math.max(5, 65 - 30));
+    const maxLoan = amortisedLoan(income * 0.30, 0.03, tenure);
+    const funds = savings + grant;
+    const maxPrice = Math.min(maxLoan + funds, funds / 0.25);
+    const loan = Math.min(maxLoan, maxPrice * 0.75);
+    assert.equal(budget, money(maxPrice), `${incomeText}: budget`);
+    assert.equal(loanText, money(loan), `${incomeText}: loan`);
+    assert.equal(monthlyText, money(instalment(loan, 0.026, tenure)), `${incomeText}: monthly`);
+    assert.equal(bound, maxPrice === funds / 0.25 ? '25% downpayment' : 'What you can borrow', `${incomeText}: binding limit`);
+  }
+});
+
+test('the staggered downpayment section cites HDB and adds up to 25%', () => {
+  const section = html.match(/<section class="calc-faq calc-explain" aria-labelledby="bto-staggered-title">[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'missing the staggered downpayment section');
+  assert.match(section, /<h2 id="bto-staggered-title">Staggered downpayment vs the standard BTO payment schedule<\/h2>/);
+  assert.match(section, /href="https:\/\/www\.hdb\.gov\.sg\/[^"]+Annex-B\.pdf"/);
+  assert.match(section, /Checked \d{1,2} [A-Z][a-z]+ 20\d\d/);
+  const splits = [...section.matchAll(/<td>\$([\d,]+) \(([\d.]+)%\)<\/td><td>\$([\d,]+) \(([\d.]+)%\)<\/td>/g)];
+  assert.equal(splits.length, 3);
+  for (const [, signing, signingPct, keys, keysPct] of section.matchAll(/<td>\$([\d,]+) \(([\d.]+)%\)<\/td><td>\$([\d,]+) \(([\d.]+)%\)<\/td>/g)) {
+    const price = 400000;
+    assert.equal(Number(signingPct) + Number(keysPct), 25);
+    assert.equal(Number(signing.replace(/,/g, '')), price * Number(signingPct) / 100);
+    assert.equal(Number(keys.replace(/,/g, '')), price * Number(keysPct) / 100);
+  }
+});
+
+test('the BTO title is unchanged and the income ceiling matches the August 2026 revision', () => {
+  assert.match(html, /<title>HDB BTO Calculator — Budget &amp; Downpayment 2026 \| PropertySG<\/title>|<title>HDB BTO Calculator — Budget & Downpayment 2026 \| PropertySG<\/title>/);
+  assert.doesNotMatch(html, /income ceiling is \$14,000/);
+  assert.match(html, /income ceiling is \$16,000 a month for families buying a new flat/);
+});

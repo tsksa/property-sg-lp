@@ -119,7 +119,7 @@
   {
    "@type": "Question",
    "name": "What income ceiling applies to BTO flats?",
-   "acceptedAnswer": {"@type": "Answer", "text": "The household income ceiling is $14,000 a month for families buying a new flat ($21,000 for extended or multi-generation families, $7,000 for singles buying a 2-room Flexi). You also need a valid HDB Flat Eligibility (HFE) letter before you can apply."}
+   "acceptedAnswer": {"@type": "Answer", "text": "The household income ceiling is $16,000 a month for families buying a new flat, up from $14,000 after HDB's August 2026 revision ($24,000 for extended families, with each family nucleus at most $16,000). Singles and buyers of a 99-year 2-room Flexi flat have different ceilings. You also need a valid HDB Flat Eligibility (HFE) letter before you can apply."}
   },
   {
    "@type": "Question",
@@ -209,6 +209,22 @@ a:hover{text-decoration:underline}
 .calc-faq details{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px 20px;margin-bottom:10px}
 .calc-faq summary{font-weight:600;cursor:pointer;color:var(--navy);font-size:0.95rem}
 .calc-faq p{margin-top:10px;font-size:0.9rem;color:#555;line-height:1.6}
+.calc-explain p{margin:0 0 12px;font-size:0.92rem;color:#444;line-height:1.65}
+.calc-explain p a{color:var(--emerald-aa);font-weight:600;text-decoration:underline;text-underline-offset:.15em}
+.calc-explain .calc-source{font-size:0.8rem;color:#595959}
+.calc-table-wrap{overflow-x:auto;margin:4px 0 14px;border:1px solid #e5e2d8;border-radius:12px;background:#fff}
+.calc-table{width:100%;border-collapse:collapse;font-size:0.86rem;line-height:1.45}
+.calc-table caption{padding:10px 12px 0;text-align:left;font-size:0.8rem;color:#595959}
+.calc-table th,.calc-table td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid #eee}
+.calc-table thead th{background:#faf6ec;color:var(--navy);font-weight:700}
+.calc-table tbody th{font-weight:600;color:var(--navy)}
+.calc-table tr:last-child>*{border-bottom:0}
+html.jt-theme-dark .calc-explain h2,html.jt-theme-dark .calc-table tbody th{color:#f8fafc}
+html.jt-theme-dark .calc-explain p,html.jt-theme-dark .calc-explain .calc-source,html.jt-theme-dark .calc-table caption{color:#c1cad8}
+html.jt-theme-dark .calc-explain p a{color:#6ee7c1}
+html.jt-theme-dark .calc-table-wrap{background:#102447;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .calc-table :is(th,td){color:#e8ecf3;border-color:rgba(255,255,255,.1)}
+html.jt-theme-dark .calc-table thead th{background:#0b1e3f;color:#a3adba}
 .calc-links{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .calc-links li{background:#fff;border:1px solid #eee;border-radius:12px;padding:14px 18px}
 .calc-links a{display:inline-block;color:var(--navy);font-weight:600;font-size:0.95rem;text-decoration:underline;text-underline-offset:.15em}
@@ -405,7 +421,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   </details>
   <details>
     <summary>What income ceiling applies to BTO flats?</summary>
-    <p>The household income ceiling is $14,000 a month for families buying a new flat ($21,000 for extended or multi-generation families, $7,000 for singles buying a 2-room Flexi). You also need a valid HDB Flat Eligibility (HFE) letter before you can apply.</p>
+    <p>The household income ceiling is $16,000 a month for families buying a new flat, up from $14,000 after HDB's August 2026 revision ($24,000 for extended families, with each family nucleus at most $16,000). Singles and buyers of a 99-year 2-room Flexi flat have different ceilings. You also need a valid HDB Flat Eligibility (HFE) letter before you can apply.</p>
   </details>
   <details>
     <summary>How much is the Enhanced CPF Housing Grant (EHG)?</summary>
@@ -416,6 +432,42 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p>HDB assesses how much you can borrow using an interest floor of 3%, even though the concessionary rate you actually pay has been 2.6% since 1999. This calculator does the same: your loan eligibility is computed at 3%, and the monthly repayment shown uses the 2.6% rate you would pay today.</p>
   </details>
 </div>
+<section class="calc-faq calc-explain" aria-labelledby="bto-staggered-title">
+  <h2 id="bto-staggered-title">Staggered downpayment vs the standard BTO payment schedule</h2>
+  <p>A BTO flat is paid for in stages. The option fee ($500 for a 2-room Flexi, $1,000 for a 3-room, $2,000 for a 4-room, 5-room or 3Gen flat) is paid at booking and forms part of the downpayment. HDB invites you to sign the Agreement for Lease within nine months of booking. On the standard schedule, buyers taking an HDB loan pay 10% of the flat price as downpayment at signing, and buyers taking a bank loan pay 20%. The rest of the 25% downpayment is due at key collection, when the loan is drawn.</p>
+  <p>Eligible buyers can pay less at signing under the Staggered or Deferred Downpayment Scheme, with the balance at key collection. Since the June 2024 BTO exercise, young couples who qualify for deferred income assessment can pay 2.5% of the flat price at signing.</p>
+  <div class="calc-table-wrap" role="region" aria-labelledby="bto-staggered-caption" tabindex="0">
+    <table class="calc-table">
+      <caption id="bto-staggered-caption">Downpayment on a $400,000 flat, 25% in total</caption>
+      <thead><tr><th scope="col">Schedule</th><th scope="col">Paid by signing the Agreement for Lease</th><th scope="col">Paid at key collection</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Standard, HDB loan</th><td>$40,000 (10%)</td><td>$60,000 (15%)</td></tr>
+        <tr><th scope="row">Standard, bank loan</th><td>$80,000 (20%)</td><td>$20,000 (5%)</td></tr>
+        <tr><th scope="row">Deferred income assessment (young couples)</th><td>$10,000 (2.5%)</td><td>$90,000 (22.5%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Amounts paid by signing include the option fee. With a bank loan, at least 5% of the price must be paid in cash; with an HDB loan, the downpayment can come from CPF Ordinary Account savings, cash or both. The calculator's payment timeline puts the whole 25% at signing for simplicity; the total downpayment, and so your budget, is the same on every schedule.</p>
+  <p class="calc-source">Source: HDB, <a href="https://www.hdb.gov.sg/-/media/hdb-pulse/news/2026/hdb-launches-9012-flats-in-february-2026-bto-and-sbf-exercises/Annex-B.pdf" target="_blank" rel="noopener">administrative details for the February 2026 BTO exercise</a> (option fees, signing within nine months, 10% and 20% at signing, 2.5% for deferred income assessment) and <a href="https://www.hdb.gov.sg/-/media/hdb-pulse/news/2026/increase-in-income-ceilings-and-greater-support-for-families-with-children/Annex-A.pdf" target="_blank" rel="noopener">revised income ceilings, August 2026</a>. Checked 30 October 2026.</p>
+</section>
+<section class="calc-faq calc-explain" aria-labelledby="bto-examples-title">
+  <h2 id="bto-examples-title">BTO budget examples by household income</h2>
+  <p>Each row is what the calculator above returns for an oldest applicant aged 30 taking an HDB loan: a 25-year tenure, eligibility tested at the 3% floor within the 30% Mortgage Servicing Ratio, repayment shown at the 2.6% concessionary rate, and savings meaning cash plus CPF Ordinary Account. The EHG rows assume a first-timer family that meets the grant conditions.</p>
+  <div class="calc-table-wrap" role="region" aria-labelledby="bto-examples-caption" tabindex="0">
+    <table class="calc-table">
+      <caption id="bto-examples-caption">Maximum BTO budget by monthly household income</caption>
+      <thead><tr><th scope="col">Household income</th><th scope="col">Savings</th><th scope="col">EHG included</th><th scope="col">Maximum flat budget</th><th scope="col">HDB loan</th><th scope="col">Monthly repayment</th><th scope="col">Limited by</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">$4,000</th><td>$60,000</td><td>None</td><td>$240,000</td><td>$180,000</td><td>$817</td><td>25% downpayment</td></tr>
+        <tr><th scope="row">$4,000</th><td>$60,000</td><td>$80,000</td><td>$393,052</td><td>$253,052</td><td>$1,148</td><td>What you can borrow</td></tr>
+        <tr><th scope="row">$7,000</th><td>$100,000</td><td>None</td><td>$400,000</td><td>$300,000</td><td>$1,361</td><td>25% downpayment</td></tr>
+        <tr><th scope="row">$7,000</th><td>$100,000</td><td>$30,000</td><td>$520,000</td><td>$390,000</td><td>$1,769</td><td>25% downpayment</td></tr>
+        <tr><th scope="row">$10,000</th><td>$150,000</td><td>None (above the $9,000 EHG ceiling)</td><td>$600,000</td><td>$450,000</td><td>$2,042</td><td>25% downpayment</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>In most rows the downpayment, not income, sets the budget: savings can only cover 25% of the price, so $100,000 supports at most a $400,000 flat however much you earn. At $4,000 a month with the full EHG, the loan limit binds instead. Enter your own numbers above, and confirm your loan and grant amounts with your <a href="/insights/hfe-letter-singapore-guide.html">HFE letter</a>.</p>
+</section>
 <div class="calc-faq calc-plan" aria-labelledby="plan-financing-title">
   <h2 id="plan-financing-title">Plan the financing</h2>
   <ul class="calc-links">
