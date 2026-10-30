@@ -175,6 +175,7 @@ export function readingBlock(townTitle, esc, profile = null) {
   <ul class="link-list">
     <li>Selling a flat in ${esc(townTitle)}? <a href="/sell-hdb/singapore/">HDB selling service</a></li>
     <li><a href="/valuation.html">Free valuation</a></li>
+    <li><a href="/insights/how-to-sell-hdb-flat-singapore.html">How to sell your HDB flat, step by step</a></li>
     ${articles.join('\n    ')}
     <li><a href="/insights/property-agent-commission-singapore.html">What that 2% commission covers</a></li>
     <li><a href="/calculator/">HDB loan calculator</a></li>

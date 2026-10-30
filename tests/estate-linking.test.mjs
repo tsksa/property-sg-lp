@@ -106,9 +106,9 @@ test('the reading list names the HDB loan calculator and varies two links by lea
   assert.doesNotMatch(plain, /Affordability calculator/);
   assert.match(plain, /<li><a href="\/insights\/hdb-loan-vs-bank-loan-singapore\.html">HDB loan vs bank loan: rates and downpayment<\/a><\/li>/);
   assert.match(plain, /href="\/insights\/selling-hdb-after-mop-singapore\.html"/);
-  assert.doesNotMatch(plain, /how-to-sell-hdb-flat-singapore/);
+  assert.match(plain, /<li><a href="\/insights\/how-to-sell-hdb-flat-singapore\.html">How to sell your HDB flat, step by step<\/a><\/li>/);
 
-  const third = (block) => [...block.matchAll(/<li>([\s\S]*?)<\/li>/g)][2][1];
+  const third = (block) => [...block.matchAll(/<li>([\s\S]*?)<\/li>/g)][3][1];
   assert.match(third(plain), /hdb-valuation-explained\.html">How agents actually price a flat/);
   assert.match(third(readingBlock('Bedok', esc, { under60: 0.55, over80: 0.1 })), /hdb-valuation-explained\.html">Older lease\?/);
   assert.match(third(readingBlock('Punggol', esc, { under60: 0, over80: 0.7 })), /selling-hdb-after-mop-singapore\.html">Just past MOP\?/);
