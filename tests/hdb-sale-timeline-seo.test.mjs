@@ -111,7 +111,7 @@ test('how-to-sell guide exists with breadcrumb, FAQ parity and Joe as author', (
   for (const item of faqs[0].mainEntity) {
     assert.ok(guideVisible.includes(`<summary>${item.name}</summary><p>${item.acceptedAnswer.text}</p>`), item.name);
   }
-  assert.match(guideVisible, /Joe Tay<\/a><\/strong> · CEA R009618D · Updated 30 Oct 2026/);
+  assert.match(guideVisible, /Joe Tay<\/a><\/strong> · CEA R009618D<\/div>/);
   assert.doesNotMatch(guide, /500\+|16\+ y|\$200M|\$8M|jobTitle/);
 });
 
