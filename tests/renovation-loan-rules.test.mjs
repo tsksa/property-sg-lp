@@ -73,7 +73,9 @@ test('the page answers "is there an HDB renovation loan" under its own H2', () =
   // C6: the cap is the LOWER of the two figures, cited to a bank's own page.
   assert.match(html, /lower of 6 times your monthly income or \$30,000/);
   assert.match(html, /href="https:\/\/www\.dbs\.com\.sg\/[^"]+renovation-loan"/);
-  assert.match(html, /Rates and rules checked \d{1,2} [A-Z][a-z]+ 20\d\d/);
+  assert.match(html, /Banks commonly cap renovation loans at the lower of 6 times/);
+  assert.doesNotMatch(html, /Rates and rules checked/);
+  assert.match(html, /Rules checked \d{1,2} [A-Z][a-z]+ 20\d\d/);
   assert.match(html, /"dateModified": "20\d\d-\d\d-\d\d"/);
 });
 
