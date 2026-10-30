@@ -163,7 +163,8 @@ export function flatModelBlock({ t, inWin, esc }) {
   const hasJumbo = rows.some((row) => row.model === 'Adjoined flat');
   const others = rows.some((row) => !/maisonette/i.test(row.model) && row.model !== 'Adjoined flat');
   const parts = [hasMaisonette && 'Maisonettes', hasJumbo && 'jumbo flats', others && 'other flat models'].filter(Boolean);
-  const heading = parts.length === 1 ? parts[0].replace(/^./, (c) => c.toUpperCase()) : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+  const joined = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+  const heading = joined[0].toUpperCase() + joined.slice(1);
   return `  <section data-est="models" id="maisonettes">
   <h2>${heading} in ${esc(t)}</h2>
   <p class="src">Flat models with at least ${MIN_MODEL_SALES} resale sales in the last 12 months, from the dataset's flat model field. The dataset records most maisonettes as Executive flats.</p>
@@ -272,7 +273,7 @@ export function rentalSection({ t, rents, rentMonths, types, esc }) {
       ${rows.join('\n      ')}
     </tbody>
   </table></div>
-  <p class="src">Source: HDB's <a href="https://data.gov.sg/datasets/${RENT_DATASET}/view" target="_blank" rel="noopener">Renting Out of Flats</a> dataset via data.gov.sg. Rents are declared by owners and HDB does not verify them. Indicative gross yield is the median rent × 12 ÷ the 12-month median resale price for the same flat type, before costs, tax and vacant months; flat types with under ${MIN_RENT_APPROVALS} approvals are left out.</p>
+  <p class="src">Contains information from HDB's <a href="https://data.gov.sg/datasets/${RENT_DATASET}/view" target="_blank" rel="noopener">Renting Out of Flats</a> dataset accessed via data.gov.sg, made available under the <a href="https://data.gov.sg/open-data-licence" target="_blank" rel="noopener">Singapore Open Data Licence v1.0</a>. Rents are declared by owners and HDB does not verify them. Indicative gross yield is the median rent × 12 ÷ the 12-month median resale price for the same flat type, before costs, tax and vacant months; flat types with under ${MIN_RENT_APPROVALS} approvals are left out.</p>
   <p><strong>Thinking of renting out your ${town} flat?</strong> <a href="/rent-out/">How I help HDB landlords rent out →</a></p>
   </section>`;
 }

@@ -309,6 +309,37 @@ test('the maisonette block appears only when a model has enough sales', () => {
   assert.ok(/maisonette/i.test(readTown('yishun')));
 });
 
+test('flat-model headings start with a capital letter', () => {
+  const rows = [
+    ...Array.from({ length: 5 }, () => sale({ flat_type: '3 ROOM', flat_model: 'Adjoined flat' })),
+    ...Array.from({ length: 5 }, () => sale({ flat_type: 'EXECUTIVE', flat_model: 'Premium Apartment Loft' })),
+  ];
+  const block = flatModelBlock({ t: 'Ang Mo Kio', inWin: rows, esc });
+  assert.match(block, /<h2>Jumbo flats and other flat models in Ang Mo Kio<\/h2>/);
+  for (const town of townDirs()) {
+    const h2 = readTown(town).match(/<section data-est="models"[^>]*>\s*<h2>(.)/);
+    if (h2) assert.match(h2[1], /[A-Z]/, `${town}: flat-model heading starts lower case`);
+  }
+});
+
+test('pages with rents credit the rental dataset under the Open Data Licence', () => {
+  const rentUrl = 'https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view';
+  let seen = 0;
+  for (const town of townDirs()) {
+    const html = readTown(town);
+    const section = html.match(/<section data-est="rent"[\s\S]*?<\/section>/);
+    const dataset = ldNodes(html).find((node) => node['@type'] === 'Dataset');
+    if (!section) {
+      assert.equal(typeof dataset.isBasedOn, 'string', `${town}: no rents shown but the rental dataset is cited`);
+      continue;
+    }
+    seen += 1;
+    assert.match(section[0], /Renting Out of Flats<\/a> dataset accessed via data\.gov\.sg, made available under the <a href="https:\/\/data\.gov\.sg\/open-data-licence"[^>]*>Singapore Open Data Licence v1\.0<\/a>/, town);
+    assert.ok(Array.isArray(dataset.isBasedOn) && dataset.isBasedOn.includes(rentUrl), `${town}: Dataset isBasedOn lacks the rental dataset`);
+  }
+  assert.ok(seen > 0, 'no town page shows rents');
+});
+
 test('the block index lists blocks with at least the stated sales, grouped by street, collapsed', () => {
   const rows = [
     sale({ block: '510A', street_name: 'YISHUN ST 51' }), sale({ block: '510A', street_name: 'YISHUN ST 51', month: '2026-06' }),

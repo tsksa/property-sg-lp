@@ -73,8 +73,10 @@ export function townFacts(inWin) {
 }
 
 /** Dataset + FAQPage nodes for a single town page. */
-export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts = null, types = [], dateModified = null }) {
+export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts = null, types = [], dateModified = null, rentDataset = null }) {
   const sourceUrl = `https://data.gov.sg/datasets/${DATASET}/view`;
+  // Pages that show the rental section also draw on HDB's Renting Out of Flats dataset.
+  const basedOn = rentDataset ? [sourceUrl, `https://data.gov.sg/datasets/${rentDataset}/view`] : sourceUrl;
 
   const dataset = {
     '@type': 'Dataset',
@@ -91,7 +93,7 @@ export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy,
       address: { '@type': 'PostalAddress', addressLocality: t, addressCountry: 'SG' },
     },
     creator: { '@type': 'GovernmentOrganization', name: 'Housing & Development Board', url: sourceUrl },
-    isBasedOn: sourceUrl,
+    isBasedOn: basedOn,
     distribution: { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${API}?resource_id=${DATASET}` },
     variableMeasured: [
       { '@type': 'PropertyValue', name: 'Median resale price', value: Math.round(cur.med), unitText: 'SGD' },

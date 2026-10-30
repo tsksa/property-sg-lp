@@ -443,7 +443,7 @@ ${[rent, buyer, nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsBy
   const canonical = `${SITE}/hdb-prices/${s}/`;
   // Busiest streets and the highest sale, counted from the same 12-month rows.
   const facts = townFacts(cur.inWin);
-  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts, types, dateModified: today });
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts, types, dateModified: today, rentDataset: rent ? RENT_DATASET : null });
   // FAQPage markup requires the Q&A to be visible on the page, so render it from
   // the same node that becomes the JSON-LD.
   const bodyWithFaq = `${body}
