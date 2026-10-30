@@ -392,14 +392,24 @@ for (const file of pages) {
   // on either entity.
   if (INSIGHT_ARTICLES.includes(file) && !ARTICLE_ENTITY_EXEMPT.has(file)) {
     const report = GENERATED_CLUSTER_ARTICLES.has(file) ? warn : fail;
+    // A block that fails to parse, or an Article typed as an array, must not
+    // let the page skip these checks — a broken Article is the worst case.
     const nodes = [...s.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)]
-      .map((m) => { try { return JSON.parse(m[1]); } catch { return null; } })
+      .map((m, i) => {
+        try { return JSON.parse(m[1]); } catch (e) {
+          report(file, `ld+json block ${i + 1} does not parse: ${e.message}`);
+          return null;
+        }
+      })
       .flatMap((b) => (b && Array.isArray(b['@graph']) ? b['@graph'] : b ? [b] : []));
-    const article = nodes.find((n) => n && ['Article', 'BlogPosting', 'NewsArticle'].includes(n['@type']));
+    const types = (n) => (n ? [].concat(n['@type'] ?? []) : []);
+    const article = nodes.find((n) => types(n).some((t) => ['Article', 'BlogPosting', 'NewsArticle'].includes(t)));
     if (article) {
-      if (!nodes.some((n) => n && n['@type'] === 'BreadcrumbList')) report(file, 'insights article missing BreadcrumbList JSON-LD');
+      if (!nodes.some((n) => types(n).includes('BreadcrumbList'))) report(file, 'insights article missing BreadcrumbList JSON-LD');
       if (article.publisher?.['@id'] !== AGENT_ID) report(file, `insights Article publisher must carry "@id": "${AGENT_ID}"`);
       if (article.author?.['@id'] !== JOE_ID) report(file, `insights Article author must carry "@id": "${JOE_ID}"`);
+    } else {
+      report(file, 'insights article has no parseable Article JSON-LD');
     }
   }
 
