@@ -121,6 +121,14 @@
     },
     {
       "@type": "Question",
+      "name": "How is the HDB monthly instalment (installment) calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This calculator uses the standard annuity formula: monthly instalment = P × r ÷ (1 − (1 + r)^−n), where P is the loan amount, r is the annual interest rate divided by 12 and n is the number of monthly payments. At the 2.6% HDB rate over 25 years, a $300,000 loan works out to $1,361.01 a month. HDB or your bank sets the actual instalment."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "How much can HDB lend for a flat purchase?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -137,18 +145,18 @@
     },
     {
       "@type": "Question",
-      "name": "Can I use this HDB calculator for a BTO or resale flat?",
+      "name": "Can I use this calculator for a new or resale flat?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement. For a new-flat budget that includes grants, use the HDB BTO calculator instead."
+        "text": "Yes, for the loan: enter the amount you plan to borrow, not the flat price. For a new-flat budget with grants and the 25% downpayment, use the BTO calculator instead."
       }
     },
     {
       "@type": "Question",
-      "name": "Is this an HDB renovation loan calculator?",
+      "name": "Does this include renovation costs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result. To estimate a renovation instalment, use the renovation loan calculator on this site."
+        "text": "No. It covers the home loan only. To estimate a renovation loan, use the renovation loan calculator instead."
       }
     },
     {
@@ -200,8 +208,11 @@ a:hover{text-decoration:underline}
 .calc-hero .eyebrow{font-size:0.74rem;font-weight:700;color:var(--emerald-aa);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
 .calc-hero h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.75rem,3.8vw,2.35rem);font-weight:600;letter-spacing:-0.8px;line-height:1.12;margin-bottom:10px;color:var(--navy)}
 .calc-hero p{font-size:1rem;color:#555;line-height:1.55;max-width:560px;margin:0 auto}
-.calc-tools{margin-top:14px!important;font-size:.92rem}
-.calc-tools a{color:#047857;font-weight:600}
+.calc-tools{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 8px;margin-top:12px!important;font-size:.85rem}
+.calc-tools-label{color:#555;font-weight:600}
+.calc-hero .calc-tools a{display:inline-flex;align-items:center;min-height:36px;padding:6px 12px;border:1px solid #cfe9dd;border-radius:999px;background:#f3faf6;color:#047857;font-weight:600;line-height:1.2}
+html.jt-theme-dark .calc-tools-label{color:#c1cad8}
+html.jt-theme-dark .calc-hero .calc-tools a{color:#6ee7c1;background:transparent;border-color:rgba(110,231,193,.4)}
 .calc-other-tools summary{min-height:44px;padding:10px 0;cursor:pointer;color:var(--emerald-aa);font-weight:600;font-size:.9rem}
 .calc-other-tools summary:focus-visible{outline:2px solid var(--emerald-aa);outline-offset:3px}
 html.jt-theme-dark .calc-other-tools summary{color:#6ee7c1;outline-color:#6ee7c1}
@@ -357,9 +368,9 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <div class="eyebrow">HDB Loan Calculator Singapore</div>
     <h1 id="page-hero-title">HDB and home loan calculator</h1>
     <p>Estimate monthly repayments or your housing budget. Your HFE letter determines the actual eligible loan amount.</p>
+    <p class="calc-tools"><span class="calc-tools-label">Other calculators:</span> <a href="/bto-calculator/">BTO calculator</a> <a href="/renovation-loan-calculator/">Renovation loan</a> <a href="/stamp-duty-calculator/">Stamp duty</a></p>
     <details class="calc-other-tools">
-      <summary>Other property calculators</summary>
-  <p class="calc-tools">Looking for a different estimate? <a href="/bto-calculator/">HDB BTO calculator</a> · <a href="/renovation-loan-calculator/">Renovation loan calculator</a> · <a href="/stamp-duty-calculator/">Stamp duty calculator</a></p>
+      <summary>Buying a resale flat?</summary>
   <p class="decision-help"><a href="#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="calculator_choices" style="display:inline-block;min-height:44px;padding:10px 0;text-decoration:underline">Check resale cash needed</a> — use your confirmed loan, usable CPF and cost reserves.</p>
     </details>
   </div>
@@ -624,10 +635,10 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p class="guide-intro">Use the estimate to set a realistic viewing budget, then confirm your eligibility and loan amount through an HDB Flat Eligibility (HFE) application before committing to a flat.</p>
     <h3>Choose the right HDB calculator estimate</h3>
     <p><strong>Already know your loan amount?</strong> Start with Monthly repayment to see the instalment, interest and balance schedule. <strong>Still choosing a flat budget?</strong> Select How much can I afford? and enter income, cash, CPF and existing debts. A repayment you can calculate is not automatically a loan you qualify for.</p>
-    <p>For a BTO or resale purchase, use the <a href="/insights/hdb-downpayment-cash-cpf-grants.html">HDB downpayment guide</a> to separate the purchase price, loan and upfront funds. Keep <a href="/insights/property-agent-commission-singapore.html#buyer-agent-fees">any separately agreed buyer-agent fee</a>, renovation and other moving costs outside the housing-loan estimate.</p>
+    <p>For a BTO or resale purchase, use the <a href="/insights/hdb-downpayment-cash-cpf-grants.html">HDB downpayment guide</a> to separate the purchase price, loan and upfront funds. Keep <a href="/insights/property-agent-commission-singapore.html#buyer-agent-fees">any separately agreed buyer-agent fee</a> and moving-in costs outside the housing-loan estimate.</p>
     <h3>Using it as a home loan calculator for a bank loan</h3>
     <p><strong>Monthly repayment</strong> works for any home loan: enter the loan amount, the tenure (up to 30 years for a private home) and the rate your bank quoted, instead of the HDB preset, to see the instalment, total interest and balance over time.</p>
-    <p><strong>How much can I afford?</strong> with <strong>Bank loan</strong> selected assesses a bank loan on an HDB flat the way banks must: at the 4% MAS stress rate, within the 30% Mortgage Servicing Ratio and the 55% Total Debt Servicing Ratio, with at least 5% of the price in cash. For a condo or other private home, the 30% MSR does not apply, so treat this affordability result as conservative and ask the bank for an in-principle approval.</p>
+    <p><strong>How much can I afford?</strong> with <strong>Bank loan</strong> selected assesses a bank loan on an HDB flat the way banks must: at the 4% MAS stress rate, within the 30% Mortgage Servicing Ratio and the 55% Total Debt Servicing Ratio, with at least 5% of the price in cash. For a condo or other private home, the 30% MSR does not apply, so treat this affordability result as conservative and ask the bank for an in-principle approval. Before choosing, compare <a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan: rates and downpayment</a>.</p>
     <div class="calc-faq">
       <details>
         <summary>How does this HDB loan calculator estimate affordability?</summary>
@@ -638,6 +649,10 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <p>The current HDB concessionary interest rate is 2.6% per year for 1 October to 31 December 2026. It is pegged at 0.1 percentage point above the CPF Ordinary Account interest rate and reviewed quarterly.</p>
       </details>
       <details>
+        <summary>How is the HDB monthly instalment (installment) calculated?</summary>
+        <p>This calculator uses the standard annuity formula: monthly instalment = P × r ÷ (1 − (1 + r)^−n), where P is the loan amount, r is the annual interest rate divided by 12 and n is the number of monthly payments. At the 2.6% HDB rate over 25 years, a $300,000 loan works out to $1,361.01 a month. HDB or your bank sets the actual instalment.</p>
+      </details>
+      <details>
         <summary>How much can HDB lend for a flat purchase?</summary>
         <p>The published maximum loan-to-value limit is 75% of the purchase price for a new flat, or 75% of the lower of the resale price and HDB valuation for a resale flat. Your approved amount can be lower after HDB assesses your income, age, remaining lease and credit profile.</p>
       </details>
@@ -646,12 +661,12 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         <p>No. This calculator is an independent planning tool. Your HDB Flat Eligibility letter confirms your housing grants, HDB loan eligibility and actual eligible loan amount.</p>
       </details>
       <details>
-        <summary>Can I use this HDB calculator for a BTO or resale flat?</summary>
-        <p>Yes, for an initial home-loan estimate. Enter the amount you intend to borrow, not the full BTO or resale price, in Monthly repayment. Use How much can I afford? for a separate income, cash and CPF budget estimate. This tool does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement. For a new-flat budget that includes grants, use the <a href="/bto-calculator/">HDB BTO calculator</a> instead.</p>
+        <summary>Can I use this calculator for a new or resale flat?</summary>
+        <p>Yes, for the loan: enter the amount you plan to borrow, not the flat price. For a new-flat budget with grants and the 25% downpayment, use the <a href="/bto-calculator/">BTO calculator</a> instead.</p>
       </details>
       <details>
-        <summary>Is this an HDB renovation loan calculator?</summary>
-        <p>No. This page estimates home-purchase financing, not a renovation loan. Budget separately for renovation, furniture and moving costs. For renovation borrowing, use the lender's quoted rate, fees and repayment schedule rather than this tool's HDB rate preset or housing affordability result. To estimate a renovation instalment, use the <a href="/renovation-loan-calculator/">renovation loan calculator</a> on this site.</p>
+        <summary>Does this include renovation costs?</summary>
+        <p>No. It covers the home loan only. To estimate a renovation loan, use the <a href="/renovation-loan-calculator/">renovation loan calculator</a> instead.</p>
       </details>
       <details>
         <summary>Who is eligible for an HDB housing loan?</summary>

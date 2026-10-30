@@ -47,27 +47,56 @@ test('visible HDB FAQs exactly mirror FAQ structured data', () => {
   const faq = schemas.find((schema) => schema['@type'] === 'FAQPage');
 
   assert.ok(faq, 'missing FAQPage structured data');
-  assert.equal(faq.mainEntity.length, 8);
+  assert.equal(faq.mainEntity.length, 9);
   for (const entry of faq.mainEntity) {
     assert.ok(visible.includes(entry.name), `FAQ question is not visible: ${entry.name}`);
     assert.ok(visible.includes(entry.acceptedAnswer.text), `FAQ answer is not visible: ${entry.name}`);
   }
 });
 
-test('calculator addresses BTO and renovation queries without claiming unsupported capabilities', () => {
+test('calculator hands BTO and renovation queries to their own calculators', () => {
   const html = read('calculator/index.html');
-  assert.match(html, /Can I use this HDB calculator for a BTO or resale flat\?/);
-  assert.match(html, /does not calculate BTO staged payments, resale cash-over-valuation or your grant entitlement/);
-  assert.match(html, /Is this an HDB renovation loan calculator\?/);
-  assert.match(html, /No\. This page estimates home-purchase financing, not a renovation loan\./);
-  // The renovation and BTO queries that land here (71 and 47 impressions in the
-  // 7 Sep 2026 audit) get a one-click path to the tool that actually answers them.
-  assert.match(html, /<p class="calc-tools">[^]*?href="\/bto-calculator\/"[^]*?href="\/renovation-loan-calculator\/"/);
-  assert.match(html, /<a href="\/bto-calculator\/">HDB BTO calculator<\/a> instead\./);
-  assert.match(html, /<a href="\/renovation-loan-calculator\/">renovation loan calculator<\/a> on this site\./);
+  const questions = [...html.matchAll(/<summary>([^<]+)<\/summary>/g)].map((match) => match[1]);
+  // JOE-469 WS4: FAQs such as "Is this an HDB renovation loan calculator?" let
+  // /calculator/ outrank /bto-calculator/ and /renovation-loan-calculator/ on
+  // their own head terms, so no question here names either tool any more.
+  for (const question of questions) {
+    assert.doesNotMatch(question, /renovation loan calculator/i, `FAQ question competes with the renovation page: ${question}`);
+    assert.doesNotMatch(question, /\bBTO\b/, `FAQ question competes with the BTO page: ${question}`);
+  }
+  assert.ok(questions.includes('Does this include renovation costs?'));
+  assert.ok(questions.includes('Can I use this calculator for a new or resale flat?'));
+  assert.match(html, /<a href="\/renovation-loan-calculator\/">renovation loan calculator<\/a> instead\.<\/p>/);
+  assert.match(html, /use the <a href="\/bto-calculator\/">BTO calculator<\/a> instead\.<\/p>/);
+  // The other calculators sit in a visible chip row in the hero, not behind a
+  // disclosure, so the hand-off is one click from the top of the page.
+  const hero = html.match(/<section class="calc-hero"[\s\S]*?<\/section>/)[0];
+  const chips = hero.match(/<p class="calc-tools">[\s\S]*?<\/p>/)?.[0];
+  assert.ok(chips, 'missing the other-calculators chip row');
+  assert.ok(hero.indexOf(chips) < (hero.indexOf('<details') === -1 ? Infinity : hero.indexOf('<details')), 'chip row must sit outside the disclosure');
+  for (const href of ['/bto-calculator/', '/renovation-loan-calculator/', '/stamp-duty-calculator/']) {
+    assert.ok(chips.includes(`href="${href}"`), `chip row is missing ${href}`);
+  }
   assert.match(html, /Who is eligible for an HDB housing loan\?/);
   assert.match(html, /Is an HDB loan at 2\.6% cheaper than a bank loan\?/);
   assert.match(html, /href="\/insights\/property-agent-commission-singapore.html#buyer-agent-fees"/);
+});
+
+test('calculator explains the instalment formula it actually uses', async () => {
+  const html = read('calculator/index.html');
+  assert.match(html, /How is the HDB monthly instalment \(installment\) calculated\?/);
+  assert.match(html, /monthly instalment = P × r ÷ \(1 − \(1 \+ r\)\^−n\)/);
+  // The worked figure must come from the tool's own maths.
+  const { repaymentEstimate } = await import('../assets/decision-calculations.mjs');
+  const { paymentCents } = repaymentEstimate({ principal: 300000, annualRatePercent: 2.6, years: 25 });
+  const shown = `$${(paymentCents / 100).toLocaleString('en-SG', { minimumFractionDigits: 2 })}`;
+  assert.ok(html.includes(`a $300,000 loan works out to ${shown} a month`), `worked example should show ${shown}`);
+});
+
+test('calculator body links the HDB loan vs bank loan comparison with descriptive anchor text', () => {
+  const html = read('calculator/index.html');
+  const guide = html.match(/<section class="calc-guide"[\s\S]*?<\/section>/)[0];
+  assert.match(guide, /<a href="\/insights\/hdb-loan-vs-bank-loan-singapore\.html">HDB loan vs bank loan: rates and downpayment<\/a>/);
 });
 
 test('calculator cites current primary HDB guidance and its review date', () => {
@@ -95,5 +124,14 @@ test('relevant HDB pages link to the calculator with descriptive anchor text', (
       /<a[^>]+href="\/calculator\/"[^>]*>[^<]*HDB loan calculator[^<]*<\/a>/i,
       `missing descriptive calculator link in ${relative}`,
     );
+  }
+});
+
+test('glossary stamp duty entries link the stamp duty calculator by name', () => {
+  const html = read('glossary/index.html');
+  for (const id of ['absd', 'bsd']) {
+    const entry = html.match(new RegExp(`<div class="g-term" id="${id}">[\\s\\S]*?</div>\\s*</div>|<div class="g-term" id="${id}">[\\s\\S]*?(?=<div class="g-term")`))?.[0];
+    assert.ok(entry, `missing glossary entry ${id}`);
+    assert.match(entry, /<a href="\/stamp-duty-calculator\/">stamp duty calculator<\/a>/, `${id} entry needs a descriptive calculator link`);
   }
 });
