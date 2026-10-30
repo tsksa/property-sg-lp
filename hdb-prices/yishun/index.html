@@ -295,7 +295,6 @@ details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
 details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 details.blk .tbl{margin-top:10px;border:0}
 details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
-details.blk .src{margin:8px 0 0}
 .hub-tbl table{min-width:760px;font-size:0.82rem}
 .hub-tbl th,.hub-tbl td{padding:9px 10px}
 .hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
@@ -303,6 +302,8 @@ details.blk .src{margin:8px 0 0}
 .hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 .callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
 .callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
+html.jt-theme-dark :is(.callouts p,details.blk){background:#102447;border-color:rgba(255,255,255,.12);color:#c1cad8;box-shadow:none}
+html.jt-theme-dark :is(.callouts strong,details.blk summary){color:#f8fafc}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -535,26 +536,22 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <details class="blk"><summary>Yishun Ave 3 · 1 block, 8 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-774"><td>774</td><td>1987</td><td>8</td><td>Jul 2026 · 4-room · 4 to 6 · $492,000</td><td>$573</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ave 3 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun Ave 4 · 2 blocks, 16 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-509b"><td>509B</td><td>2018</td><td>8</td><td>Aug 2026 · 5-room · 10 to 12 · $782,000</td><td>$569</td></tr>
 <tr id="blk-673a"><td>673A</td><td>2018</td><td>8</td><td>Sep 2026 · 3-room · 4 to 6 · $495,000</td><td>$632</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ave 4 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun Ave 6 · 2 blocks, 14 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-289"><td>289</td><td>1987</td><td>7</td><td>Aug 2026 · 5-room · 4 to 6 · $565,000</td><td>$509</td></tr>
 <tr id="blk-462a"><td>462A</td><td>2019</td><td>7</td><td>Sep 2026 · 4-room · 4 to 6 · $580,000</td><td>$615</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ave 6 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun Ave 9 · 2 blocks, 15 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-316c"><td>316C</td><td>2015</td><td>7</td><td>May 2026 · 5-room · 10 to 12 · $750,000</td><td>$614</td></tr>
 <tr id="blk-318c"><td>318C</td><td>2015</td><td>8</td><td>Jun 2026 · 5-room · 4 to 6 · $730,000</td><td>$623</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ave 9 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun Ave 11 · 5 blocks, 50 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-347a"><td>347A</td><td>2013</td><td>8</td><td>Aug 2026 · 5-room · 10 to 12 · $860,000</td><td>$766</td></tr>
@@ -562,8 +559,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <tr id="blk-424b"><td>424B</td><td>2015</td><td>9</td><td>Sep 2026 · 2-room · 10 to 12 · $340,000</td><td>$672</td></tr>
 <tr id="blk-428b"><td>428B</td><td>2015</td><td>9</td><td>Jul 2026 · 5-room · 7 to 9 · $670,000</td><td>$556</td></tr>
 <tr id="blk-459"><td>459</td><td>2013</td><td>17</td><td>Sep 2026 · 3-room · 4 to 6 · $473,000</td><td>$677</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ave 11 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun Ring Rd · 5 blocks, 40 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-108"><td>108</td><td>1985</td><td>9</td><td>Sep 2026 · 4-room · 4 to 6 · $462,000</td><td>$581</td></tr>
@@ -571,40 +567,33 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <tr id="blk-114"><td>114</td><td>1983</td><td>7</td><td>Jun 2026 · 3-room · 7 to 9 · $420,000</td><td>$512</td></tr>
 <tr id="blk-342b"><td>342B</td><td>2016</td><td>8</td><td>Jul 2026 · 3-room · 10 to 12 · $525,000</td><td>$682</td></tr>
 <tr id="blk-367"><td>367</td><td>1988</td><td>8</td><td>Sep 2026 · 5-room · 10 to 12 · $680,000</td><td>$510</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun Ring Rd block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 11 · 1 block, 7 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-124"><td>124</td><td>1985</td><td>7</td><td>Jul 2026 · 3-room · 10 to 12 · $420,000</td><td>$505</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 11 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 21 · 1 block, 7 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-217"><td>217</td><td>1985</td><td>7</td><td>Sep 2026 · 4-room · 10 to 12 · $540,000</td><td>$517</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 21 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 31 · 1 block, 7 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-334a"><td>334A</td><td>2015</td><td>7</td><td>Aug 2026 · 4-room · 10 to 12 · $605,000</td><td>$630</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 31 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 42 · 2 blocks, 22 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-479b"><td>479B</td><td>2021</td><td>8</td><td>Aug 2026 · 4-room · 10 to 12 · $588,888</td><td>$589</td></tr>
 <tr id="blk-479c"><td>479C</td><td>2021</td><td>14</td><td>Sep 2026 · 4-room · 4 to 6 · $595,000</td><td>$609</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 42 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 43 · 1 block, 9 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-468a"><td>468A</td><td>2019</td><td>9</td><td>Jul 2026 · 4-room · 10 to 12 · $600,000</td><td>$617</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 43 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 44 · 2 blocks, 19 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-478a"><td>478A</td><td>2021</td><td>8</td><td>Sep 2026 · 2-room · 4 to 6 · $348,000</td><td>$609</td></tr>
 <tr id="blk-478c"><td>478C</td><td>2021</td><td>11</td><td>Sep 2026 · 4-room · 10 to 12 · $578,500</td><td>$666</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 44 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 51 · 6 blocks, 44 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-502c"><td>502C</td><td>2018</td><td>7</td><td>Sep 2026 · 5-room · 13 to 15 · $822,000</td><td>$627</td></tr>
@@ -613,13 +602,12 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <tr id="blk-511a"><td>511A</td><td>2017</td><td>7</td><td>Jul 2026 · 4-room · 1 to 3 · $555,000</td><td>$601</td></tr>
 <tr id="blk-511b"><td>511B</td><td>2017</td><td>7</td><td>Aug 2026 · 4-room · 13 to 15 · $618,000</td><td>$600</td></tr>
 <tr id="blk-512b"><td>512B</td><td>2017</td><td>7</td><td>Sep 2026 · 4-room · 7 to 9 · $628,000</td><td>$627</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 51 block</a></p></details>
+</tbody></table></div></details>
 <details class="blk"><summary>Yishun St 81 · 1 block, 8 sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 <tr id="blk-852"><td>852</td><td>1988</td><td>8</td><td>Sep 2026 · 4-room · 4 to 6 · $590,000</td><td>$546</td></tr>
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a Yishun St 81 block</a></p></details>
+</tbody></table></div></details>
+  <p class="src"><a href="/neighbour-prices/">Look up every sale in your block</a></p>
   </section>
   <h2>Most recent transactions</h2>
   <div class="tbl"><table>

@@ -130,10 +130,22 @@ test('how-to-sell guide cites official sources and reconciles its worked example
   // HDB's conveyancing scale on $600,000, rounded up to the dollar.
   const legal = Math.ceil((300 * 6.75 + 300 * 5.4 + 5400 * 4.5) / 100);
   assert.equal(legal, 280);
-  const cash = 600000 - 150000 - 220000;
+  // Same inputs as the worked example on the MOP guide ($200,000 CPF refund).
+  const cash = 600000 - 150000 - 200000;
   assert.ok(guide.includes(`<td>$${cash.toLocaleString('en-SG')}</td>`));
   const left = cash - 12000 - 1080 - legal - 59.95 - 80;
   assert.ok(guide.includes(`<td>$${left.toLocaleString('en-SG', { minimumFractionDigits: 2 })}</td>`));
+  // Swapping HDB's fees for the MOP guide's $2,500 private-solicitor budget
+  // reproduces that guide's total, so the two pages do not contradict.
+  const mop = read('insights/selling-hdb-after-mop-singapore.html');
+  const privateFirm = cash - 12000 - 1080 - 2500 - 80;
+  assert.equal(privateFirm, 234340);
+  assert.ok(mop.includes(`$${privateFirm.toLocaleString('en-SG')}`));
+  assert.ok(guide.includes(`leaves $${privateFirm.toLocaleString('en-SG')}, the figure that guide shows`));
+  assert.ok(mop.includes('combined required CPF refund is $200,000'));
+  assert.doesNotMatch(guide, /\$220,000|\$216,500/);
+  // SSD is cited to IRAS (4-year holding period from 4 July 2025), not HDB.
+  assert.match(guide, /<th scope="row">Seller's Stamp Duty<\/th><td>Not normally payable on an HDB resale after MOP[^<]*<\/td><td><a href="https:\/\/www\.iras\.gov\.sg\/[^"]*seller's-stamp-duty/);
   // CEA is cited only for "no fixed rate"; 2% is presented as Joe's quote.
   assert.match(guide, /CEA publishes no fixed rates or guidelines on commission amounts/);
   assert.doesNotMatch(guide, /CEA[^.]{0,80}2%/);
@@ -157,4 +169,15 @@ test('how-to-sell guide and the related seller pages link to each other', () => 
   for (const file of ['insights/index.html', 'insights/feed.xml', 'insights/feed.json', 'sitemap.xml', 'llms.txt']) {
     assert.ok(read(file).includes(GUIDE_URL.replace('https://joetay.com/insights/', '')), file);
   }
+});
+
+test('how-to-sell guide tables and FAQ stay legible on phones and in dark mode', () => {
+  const guide = read(GUIDE);
+  // Only 3+ column tables get a scroll width; two-column tables fit 375px.
+  assert.match(guide, /\.table-wrap table:has\(thead th:nth-child\(3\)\)\{min-width:480px\}/);
+  assert.doesNotMatch(guide, /\.table-wrap table\{min-width/);
+  assert.match(guide, /html\.jt-theme-dark \.sell-faq summary\{color:#f8fafc\}/);
+  const css = read('insights/blog.css');
+  assert.match(css, /html\.jt-theme-dark \.article-body :is\(th,td\)\{color:#e8ecf3/);
+  assert.match(css, /html\.jt-theme-dark \.article-body th\{color:#a3adba;background:#0b1e3f\}/);
 });

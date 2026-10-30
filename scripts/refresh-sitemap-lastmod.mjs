@@ -28,7 +28,19 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITEMAP = path.join(ROOT, 'sitemap.xml');
 const APEX = 'https://joetay.com/';
 const checkOnly = process.argv.includes('--check');
-const TODAY = new Date().toISOString().slice(0, 10);
+const NOW = new Date();
+const TODAY = NOW.toISOString().slice(0, 10);
+// Insights articles are dated by hand in Singapore, so an article updated after
+// 08:00 SGT on day N+1 carries a dateModified that is still "tomorrow" in UTC.
+// The latest calendar date that is real somewhere we publish from is the upper
+// bound for any date this script accepts or keeps.
+const SGT_TODAY = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Singapore',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+}).format(NOW);
+const LATEST_TODAY = SGT_TODAY > TODAY ? SGT_TODAY : TODAY;
 
 /** Resolve a published URL to the file that produces it. */
 function fileForUrl(url) {
@@ -108,7 +120,7 @@ function declaredDateModified(file) {
       const types = [].concat(node?.['@type'] ?? []);
       if (!types.some((t) => ['Article', 'BlogPosting', 'NewsArticle'].includes(t))) continue;
       const date = String(node.dateModified ?? '').slice(0, 10);
-      if (/^\d{4}-\d{2}-\d{2}$/.test(date) && date <= TODAY) return date;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(date) && date <= LATEST_TODAY) return date;
     }
   }
   return null;
@@ -134,8 +146,13 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
   // today is its real change date. Using the last commit instead would stamp
   // every page edited in this same commit with its PREVIOUS date — which is
   // exactly the one-commit lag that made CI reject an otherwise correct run.
-  // An insights article's own dateModified wins over git (see above).
-  const date = declaredDateModified(file)
+  // An insights article's own dateModified wins over git (see above), and it
+  // is authoritative in both directions: lastmod is written to exactly that
+  // date, even when that LOWERS it. The monthly refresh workflows rewrite link
+  // lists inside insights articles without touching dateModified, and that
+  // must not read as a content change.
+  const declared = declaredDateModified(file);
+  const date = declared
     ?? (hasUncommittedChanges(file) ? TODAY : lastCommitDate(file));
   if (!date) return block;
 
@@ -149,9 +166,10 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
   // and because this branch returns early it would never self-correct. Six such
   // entries (including the homepage) reached main when a timezone-skewed date
   // was written by hand to silence this check. Fall through and correct those.
-  if (current && current > date && current <= TODAY) return block;
-  if (current && current > TODAY) future.push({ loc, from: current, to: date });
-  else stale.push({ loc, from: current || '(none)', to: date });
+  // A declared dateModified never takes this branch — it must match exactly.
+  if (!declared && current && current > date && current <= LATEST_TODAY) return block;
+  if (current && current > LATEST_TODAY) future.push({ loc, from: current, to: date });
+  else stale.push({ loc, from: current || '(none)', to: date, declared: Boolean(declared) });
   return current === undefined
     ? block.replace(/(<loc>[^<]+<\/loc>)/, `$1\n    <lastmod>${date}</lastmod>`)
     : block.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${date}</lastmod>`);
@@ -164,12 +182,12 @@ for (const loc of unresolved) {
 if (checkOnly) {
   for (const f of future) {
     console.error(
-      `::error file=sitemap.xml::${f.loc} lastmod ${f.from} is in the future (today is ${TODAY} UTC); the file changed ${f.to}`,
+      `::error file=sitemap.xml::${f.loc} lastmod ${f.from} is in the future (today is ${TODAY} UTC, ${SGT_TODAY} SGT); the file changed ${f.to}`,
     );
   }
   if (stale.length || future.length) {
     for (const s of stale.slice(0, 10)) {
-      console.error(`::error file=sitemap.xml::${s.loc} lastmod ${s.from} but the file changed ${s.to}`);
+      console.error(`::error file=sitemap.xml::${s.loc} lastmod ${s.from} but the file changed ${s.to}${s.declared ? ' (declared dateModified)' : ''}`);
     }
     if (stale.length > 10) console.error(`::error file=sitemap.xml::…and ${stale.length - 10} more`);
     console.error('Run: node scripts/refresh-sitemap-lastmod.mjs');

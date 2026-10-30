@@ -138,11 +138,17 @@
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 .article-body [id]{scroll-margin-top:90px}
 .article-body .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.article-body .table-wrap table{min-width:480px}
+.article-body .table-wrap table:has(thead th:nth-child(3)){min-width:480px}
+/* Two-column tables fit at 375px: the row label wraps, the value stays whole. */
+.article-body .table-wrap th[scope="row"]{overflow-wrap:break-word}
+.article-body .table-wrap table:not(:has(thead th:nth-child(3))) td{white-space:nowrap}
 .sell-faq{border:1px solid #ddd;border-radius:8px;margin:12px 0;padding:14px 18px}
 .sell-faq summary{cursor:pointer;font-weight:600;color:var(--navy);min-height:24px}
 .sell-faq summary:focus-visible{outline:2px solid var(--emerald-aa);outline-offset:4px}
 .sell-faq p{margin:12px 0 0}
+html.jt-theme-dark .sell-faq{border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .sell-faq summary{color:#f8fafc}
+html.jt-theme-dark .sell-faq summary:focus-visible{outline-color:#10b981}
 /* WCAG 2.3.3 — respect user's reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -340,7 +346,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <h2 id="cpf-refund-proceeds">Step 10: Receive the CPF refund and cash proceeds</h2>
 <p>HDB computes your sale proceeds as the resale price less the outstanding housing loan, the CPF refund with accrued interest, the deposit you already received from the buyer (up to $5,000) and other amounts payable, such as a resale levy or upgrading costs. <a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/intent-to-sell" rel="noopener">Source: HDB computation of sale proceeds</a>.</p>
 <p>The CPF refund is not a cost: it goes back into your own CPF account. CPF Board says refunds go to the Ordinary Account if you are below 55; from 55, they first top up your Retirement Account to the Full Retirement Sum. If the price is not enough to cover the full refund, you do not need to top up the shortfall in cash as long as the flat was sold at market value. CPF Board notes that any option money you received in cash is part of the selling price and must still be refunded to your CPF account before completion. <a href="https://www.cpf.gov.sg/member/infohub/educational-resources/sales-proceeds-after-selling-your-home" rel="noopener">Source: CPF Board, sales proceeds after selling your home</a>.</p>
-<p>HDB says cash proceeds are credited to your bank account by the next working day after completion, and it arranges the CPF refund within 7–14 working days. If you appointed a private solicitor, the solicitor arranges the CPF refund.</p>
+<p>HDB says cash proceeds are credited to your bank account by the next working day after completion, and it arranges the CPF refund within 7–14 working days of the completion appointment. If you appointed a private solicitor, the solicitor arranges the CPF refund. <a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-completion" rel="noopener">Source: HDB resale completion</a>.</p>
 <div class="cta-block cta-soft callout">
 <strong>Selling and buying at the same time?</strong>
 <p>Ask Joe to map the OTP, completion date and your next purchase before you commit.</p>
@@ -358,32 +364,33 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <tr><th scope="row">Agent commission, if you appoint one</th><td>Not fixed: CEA publishes no fixed rates or guidelines on commission amounts. Our <a href="/insights/property-agent-commission-singapore.html">commission guide</a> uses 2% plus GST, the figure Joe quotes</td><td><a href="https://www.cea.gov.sg/consumers/engaging-a-property-agent/buying-or-selling/" rel="noopener">CEA</a></td></tr>
     <tr><th scope="row">Property tax and S&amp;CC</th><td>Property tax to the end of the year; service and conservancy charges to the completion date</td><td><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/approval-of-application" rel="noopener">HDB</a></td></tr>
     <tr><th scope="row">Resale levy, upgrading costs or upgrading levy</th><td>Only if they apply to you; shown when you register the Intent to Sell</td><td><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/intent-to-sell" rel="noopener">HDB</a></td></tr>
-    <tr><th scope="row">Seller's Stamp Duty</th><td>Only if you sell within the holding period, which is not the same as the MOP</td><td><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/approval-of-application" rel="noopener">HDB</a></td></tr>
+    <tr><th scope="row">Seller's Stamp Duty</th><td>Not normally payable on an HDB resale after MOP: IRAS's holding period is 4 years for residential property bought on or after 4 July 2025, shorter than the 5-year MOP</td><td><a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/selling-or-disposing-property/seller's-stamp-duty-(ssd)-for-residential-property" rel="noopener">IRAS</a></td></tr>
   </tbody>
 </table>
 </div>
 <p>The $120 Request for Value fee is paid by the buyer, not the seller.</p>
 <h2 id="net-proceeds-example">Worked example: net proceeds from a $600,000 sale</h2>
-<p><strong>Illustrative figures only, not a quote, a valuation or a client result.</strong> The example assumes a 4-room flat with an outstanding HDB loan, HDB acting as solicitor, and an agent paid 2% plus 9% GST. Your own loan and CPF figures are on MyHDB Page and the CPF website.</p>
+<p><strong>Illustrative figures only, not a quote, a valuation or a client result.</strong> The example uses the same inputs as the worked example in our <a href="/insights/selling-hdb-after-mop-singapore.html#worked-sale-proceeds">guide to selling after MOP</a>: a 4-room flat sold for $600,000, a $150,000 outstanding loan (here an HDB loan), a $200,000 CPF refund and an agent paid 2% plus 9% GST. It adds one assumption: HDB acts as your solicitor. Your own loan and CPF figures are on MyHDB Page and the CPF website.</p>
 <div class="table-wrap">
 <table aria-label="Illustrative HDB sale proceeds">
   <thead><tr><th scope="col">Item</th><th scope="col">Amount</th></tr></thead>
   <tbody>
     <tr><th scope="row">Resale price</th><td>$600,000</td></tr>
     <tr><th scope="row">Less outstanding HDB loan</th><td>−$150,000</td></tr>
-    <tr><th scope="row">Less CPF refund, principal plus accrued interest (back to your CPF account)</th><td>−$220,000</td></tr>
-    <tr><th scope="row">Cash from the sale before costs</th><td>$230,000</td></tr>
+    <tr><th scope="row">Less CPF refund, principal plus accrued interest (back to your CPF account)</th><td>−$200,000</td></tr>
+    <tr><th scope="row">Cash from the sale before costs</th><td>$250,000</td></tr>
     <tr><th scope="row">of which already received as the buyer's deposit</th><td>$5,000</td></tr>
     <tr><th scope="row">Less agent commission, 2% of $600,000</th><td>−$12,000</td></tr>
     <tr><th scope="row">Less 9% GST on commission</th><td>−$1,080</td></tr>
     <tr><th scope="row">Less HDB legal fee for the transfer</th><td>−$280</td></tr>
     <tr><th scope="row">Less discharge of the HDB mortgage, 4-room</th><td>−$59.95</td></tr>
     <tr><th scope="row">Less resale application fee</th><td>−$80</td></tr>
-    <tr><th scope="row">Cash left after these costs</th><td>$216,500.05</td></tr>
+    <tr><th scope="row">Cash left after these costs</th><td>$236,500.05</td></tr>
   </tbody>
 </table>
 </div>
-<p>The legal fee follows HDB's scale: $20.25 on the first $30,000, $16.20 on the next $30,000 and $243.00 on the remaining $540,000, or $279.45 rounded up to $280. Property tax, service and conservancy charges, and HDB's registration and miscellaneous fees are left out because they depend on your flat and timing. The $220,000 CPF refund is still your money, in your CPF account, for the next home.</p>
+<p><strong>Legal fees depend on who acts for you.</strong> When HDB is your solicitor, its transfer fee follows the scale above: $20.25 on the first $30,000, $16.20 on the next $30,000 and $243.00 on the remaining $540,000, or $279.45 rounded up to $280. If you appoint a private law firm instead, which you must do if you are redeeming a bank loan, HDB's transfer fee does not apply and the firm quotes its own fee; HDB still charges the mortgage discharge fee if you have an HDB loan. The MOP guide budgets $2,500 for legal costs in that case. Using an all-in $2,500 in place of the $339.95 of HDB fees above leaves $234,340, the figure that guide shows.</p>
+<p>HDB also lists a $32 title search fee and a $5.45 miscellaneous fee when it acts for you; these, property tax and service and conservancy charges are left out because they vary with your flat and timing. The $200,000 CPF refund is still your money, in your CPF account, for the next home.</p>
 <h2 id="diy-vs-agent">Selling it yourself vs using an agent</h2>
 <p>HDB lets you do either. The process and HDB's fees are the same; the difference is who does the work and what it costs.</p>
 <ul>
@@ -400,7 +407,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <details class="sell-faq"><summary>When do I receive the money from selling my HDB flat?</summary><p>At resale completion. HDB says cash proceeds are credited to your bank account by the next working day after completion, and it arranges the CPF refund within 7–14 working days of the appointment. If you appoint a private solicitor, the solicitor arranges the CPF refund.</p></details>
 <details class="sell-faq"><summary>Can I get an HDB valuation before listing my flat?</summary><p>No. Only a buyer who has been granted an Option to Purchase can submit a Request for Value. Before listing, price the flat from registered resale transactions for similar flats nearby.</p></details>
 <h2 id="sources">Sources</h2>
-<p>Every rule and fee above was checked on 30 October 2026 against these official pages. Your eligibility, signed OTP and HDB's notices govern your own transaction; this guide is general information, not legal advice.</p>
+<p>Every rule and fee above was checked on 30 October 2026 against these official pages; HDB's pages were read with their expandable sections opened. HDB's approval page still describes a 3-year Seller's Stamp Duty holding period, so the current 4-year period is taken from IRAS. Your eligibility, signed OTP and HDB's notices govern your own transaction; this guide is general information, not legal advice.</p>
 <ul>
   <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/eligibility" rel="noopener">HDB: eligibility to sell a flat</a> — MOP, EIP and SPR quotas.</li>
   <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/intent-to-sell" rel="noopener">HDB: Intent to Sell</a> — 7-day wait, 12-month validity, listing and sale proceeds.</li>
@@ -408,8 +415,9 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/option-to-purchase" rel="noopener">HDB: Option to Purchase</a> — option fee, exercise fee and option period.</li>
   <li><a href="https://www.hdb.gov.sg/e-resale/valuation-request" rel="noopener">HDB: Request for Value terms</a> — $120 fee, timing and valuer access.</li>
   <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/application-process" rel="noopener">HDB: resale application process</a> — submission windows, application fee and acceptance.</li>
-  <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/approval-of-application" rel="noopener">HDB: approval of application</a> — endorsement, legal fees and approval.</li>
+  <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/approval-of-application" rel="noopener">HDB: approval of application</a> — endorsement, legal and mortgage discharge fees, property tax and approval.</li>
   <li><a href="https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-completion" rel="noopener">HDB: resale completion</a> — appointment, payments and refunds.</li>
+  <li><a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/selling-or-disposing-property/seller's-stamp-duty-(ssd)-for-residential-property" rel="noopener">IRAS: Seller's Stamp Duty for residential property</a> — 4-year holding period for purchases on or after 4 July 2025.</li>
   <li><a href="https://www.cpf.gov.sg/member/infohub/educational-resources/sales-proceeds-after-selling-your-home" rel="noopener">CPF Board: sales proceeds after selling your home</a> — CPF refund and market-value rule.</li>
   <li><a href="https://www.cea.gov.sg/consumers/engaging-a-property-agent/buying-or-selling/" rel="noopener">CEA: engaging a property agent to buy or sell</a> — commission is not fixed.</li>
   <li><a href="https://www.cea.gov.sg/consumers/transacting-on-your-own/selling-an-hdb-flat" rel="noopener">CEA: selling an HDB flat on your own</a>.</li>

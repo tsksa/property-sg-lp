@@ -21,6 +21,13 @@ const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
 // Hub FAQ: the flat types compared town by town, and the minimum sales a
 // town needs before its median for that type is compared.
 export const HUB_FAQ_TYPES = [['3 ROOM', '3-room'], ['4 ROOM', '4-room'], ['5 ROOM', '5-room'], ['EXECUTIVE', 'Executive']];
+// Flat types whose "cheapest town" question the hub leaves to
+// /insights/cheapest-4-room-5-room-hdb-resale-flats.html, so two pages on the
+// site do not answer the same question over different windows.
+export const HUB_CHEAPEST_SKIP = ['4 ROOM', '5 ROOM'];
+// Below this like-for-like change (in %), the "going down" answer leads with
+// "Broadly flat." rather than a Yes or No.
+export const HUB_FLAT_YOY = 2;
 export const HUB_MIN_TYPE_SALES = 10;
 const listJoin = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
 
@@ -213,9 +220,11 @@ export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API
   // JOE-469: "Which town has the lowest median?" answered across all flat
   // types, so a town of mostly 3-room flats looked cheapest although its
   // 4-room flats were not. Answer per flat type instead, among towns with at
-  // least HUB_MIN_TYPE_SALES sales of that type.
+  // least HUB_MIN_TYPE_SALES sales of that type. 4-room and 5-room are left to
+  // the insights article (HUB_CHEAPEST_SKIP); the hub links it instead.
   const question = (name, text) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } });
   for (const [ft, label] of HUB_FAQ_TYPES) {
+    if (HUB_CHEAPEST_SKIP.includes(ft)) continue;
     const ranked = indexRows
       .filter((r) => r.types?.[ft] && r.types[ft].n >= HUB_MIN_TYPE_SALES)
       .sort((a, b) => a.types[ft].med - b.types[ft].med);
@@ -238,7 +247,7 @@ export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API
       `Are HDB resale prices going down in ${year}?`,
       singapore.yoy === null
         ? `There isn't enough data to compare like with like across the two years, so no year-on-year change is given.`
-        : `${singapore.yoy < 0 ? 'Yes' : 'No'}. Like for like, HDB resale prices across Singapore have ${singapore.yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(singapore.yoy).toFixed(1)}% in the 12 months to ${generatedAt} compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.`,
+        : `${Math.abs(singapore.yoy) < HUB_FLAT_YOY ? 'Broadly flat' : singapore.yoy < 0 ? 'Yes' : 'No'}. Like for like, HDB resale prices across Singapore have ${singapore.yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(singapore.yoy).toFixed(1)}% in the 12 months to ${generatedAt} compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.`,
     ));
   }
 

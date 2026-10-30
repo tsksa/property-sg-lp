@@ -105,6 +105,11 @@ html.jt-theme-dark .blog-guide a{color:#6ee7c1}
 .article-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.94rem}
 .article-body th,.article-body td{text-align:left;padding:11px 14px;border-bottom:1px solid #eee}
 .article-body th{background:var(--cream);font-weight:700;color:var(--navy);font-size:0.82rem;letter-spacing:0.3px;text-transform:uppercase}
+/* Dark mode: .article-body sets #2a2a2a text, which table cells (plain,
+   .table-wrap and .decision-table-wrap alike) kept on the dark article panel.
+   Same colours as the shared .tbl rule in assets/site-theme.css. */
+html.jt-theme-dark .article-body :is(th,td){color:#e8ecf3;border-color:rgba(255,255,255,.1)}
+html.jt-theme-dark .article-body th{color:#a3adba;background:#0b1e3f}
 
 /* ── Article CTA ── */
 .article-cta{margin:56px 0 0;padding:40px 36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border-radius:16px;color:#fff;text-align:center}

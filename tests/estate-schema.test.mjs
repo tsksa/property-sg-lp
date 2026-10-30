@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import { buildTownSchema, buildHubSchema, faqHtml, townFacts, titleCase } from '../scripts/lib/estate-schema.mjs';
 import {
-  DETAIL_BUDGET, MIN_TYPE_SALES, blockIndex, flatModelBlock, rentalSection, townDescription, typeStats,
+  DETAIL_BUDGET, MIN_TYPE_SALES, blockIndex, buyerSection, flatModelBlock, rentalSection, townDescription, typeStats,
 } from '../scripts/lib/estate-sections.mjs';
 
 // The Dataset/FAQPage JSON-LD must only ever restate numbers already rendered
@@ -98,10 +98,11 @@ test('hub schema identifies the actual highest median and the cheapest town per 
   // JOE-469: no all-flat-types "lowest median" answer; one per flat type.
   assert.ok(!faq.mainEntity.some((q) => /lowest/.test(q.name)));
   const cheapest = (label) => faq.mainEntity.find((q) => q.name === `Which town has the cheapest ${label} HDB resale flats?`);
-  assert.match(cheapest('4-room').acceptedAnswer.text, /^Jurong West, with a median 4-room resale price of \$535,000 across 600 sales/);
   // Bukit Timah's 3-room median is lower but rests on 4 sales, so it is not compared.
   assert.match(cheapest('3-room').acceptedAnswer.text, /^Ang Mo Kio, with a median 3-room resale price of \$420,000/);
-  assert.equal(cheapest('5-room'), undefined, 'no town has 5-room data here');
+  // 4-room and 5-room are left to the insights article, which the hub links.
+  assert.equal(cheapest('4-room'), undefined, '4-room cheapest town belongs to the insights article');
+  assert.equal(cheapest('5-room'), undefined, '5-room cheapest town belongs to the insights article');
 });
 
 test('hub FAQ gives the Singapore median and a like-for-like answer, never a forecast', () => {
@@ -111,9 +112,15 @@ test('hub FAQ gives the Singapore median and a like-for-like answer, never a for
   const [, faq] = buildHubSchema({ ...base, singapore });
   const sg = faq.mainEntity.find((q) => q.name === 'What is the median HDB resale price in Singapore?');
   assert.equal(sg.acceptedAnswer.text, '$600,000, across 25,000 registered HDB resale transactions in the 12 months to 2026-07. By flat type: 4-room $610,000.');
+  const going = (yoy) => buildHubSchema({ ...base, singapore: { ...singapore, yoy } })[1].mainEntity.find((q) => q.name === 'Are HDB resale prices going down in 2026?').acceptedAnswer.text;
   const down = faq.mainEntity.find((q) => q.name === 'Are HDB resale prices going down in 2026?');
-  assert.match(down.acceptedAnswer.text, /^Yes\. Like for like, HDB resale prices across Singapore have fallen 1\.2%/);
+  // Under 2% either way is "Broadly flat.", not a Yes or No.
+  assert.match(down.acceptedAnswer.text, /^Broadly flat\. Like for like, HDB resale prices across Singapore have fallen 1\.2%/);
   assert.match(down.acceptedAnswer.text, /not a forecast/);
+  assert.match(going(1.9), /^Broadly flat\. Like for like, [^.]* have risen 1\.9%/);
+  assert.match(going(-2.4), /^Yes\. Like for like, [^.]* have fallen 2\.4%/);
+  assert.match(going(2), /^No\. Like for like, [^.]* have risen 2\.0%/);
+  assert.match(going(3.1), /not a forecast/);
   const [, flat] = buildHubSchema({ ...base, singapore: { ...singapore, yoy: null } });
   assert.doesNotMatch(flat.mainEntity.find((q) => /going down/.test(q.name)).acceptedAnswer.text, /%/);
 });
@@ -350,12 +357,26 @@ test('the block index lists blocks with at least the stated sales, grouped by st
   assert.match(html, /<details class="blk"><summary>Yishun St 51 · 1 block, 2 sales<\/summary>/);
   assert.match(html, /<tr id="blk-510a"><td>510A<\/td><td>1988<\/td><td>2<\/td><td>Jul 2026 · 4-room · 4 to 6 · \$500,000<\/td>/);
   assert.doesNotMatch(html, /blk-511/);
-  assert.match(html, /href="\/neighbour-prices\/"/);
+  // /neighbour-prices/ prefills only from a postal code, so one link after the streets, not one per street.
+  assert.equal((html.match(/href="\/neighbour-prices\/"/g) || []).length, 1);
+  assert.match(html, /<\/details>\n  <p class="src"><a href="\/neighbour-prices\/">Look up every sale in your block<\/a><\/p>\n  <\/section>/);
   assert.doesNotMatch(html, /<details[^>]* open/);
   for (const town of townDirs()) {
     const page = readTown(town);
     const stated = page.match(/block with at least (\d+) resale sales/);
     assert.ok(stated && Number(stated[1]) >= 2, `${town}: block index missing or below 2 sales a block`);
+  }
+});
+
+test('the buyer section uses "an" before a town that starts with a vowel', () => {
+  assert.match(buyerSection({ t: 'Ang Mo Kio', esc }), /found an Ang Mo Kio flat for sale/);
+  assert.match(buyerSection({ t: 'Yishun', esc }), /found a Yishun flat for sale/);
+});
+
+test('the hub call-outs and the block panels have dark-theme rules', () => {
+  for (const html of [readHub(), readTown(townDirs()[0])]) {
+    assert.match(html, /html\.jt-theme-dark :is\(\.callouts p,details\.blk\)\{background:#102447;border-color:rgba\(255,255,255,\.12\)/);
+    assert.match(html, /html\.jt-theme-dark :is\(\.callouts strong,details\.blk summary\)\{color:#f8fafc\}/);
   }
 });
 
@@ -446,7 +467,7 @@ test('the hub tables every town plus Singapore, and its FAQ names the cheapest t
 
   const heads = [...table.match(/<thead>[\s\S]*?<\/thead>/)[0].matchAll(/<th scope="col">([^<]+)<\/th>/g)].map((m) => m[1]);
   const faq = ldNodes(html).find((n) => n['@type'] === 'FAQPage');
-  for (const label of ['3-room', '4-room', '5-room']) {
+  for (const label of ['3-room', 'Executive']) {
     const col = heads.indexOf(label);
     const ranked = rows
       .map(([, , town, cells]) => ({ town: decode(town), v: [...cells.matchAll(/data-v="([^"]*)"/g)][col - 1][1] }))
@@ -457,6 +478,11 @@ test('the hub tables every town plus Singapore, and its FAQ names the cheapest t
     assert.ok(q.acceptedAnswer.text.startsWith(`${ranked[0].town}, `), `cheapest ${label}: FAQ says "${q.acceptedAnswer.text.slice(0, 30)}", table says ${ranked[0].town}`);
   }
   assert.ok(!faq.mainEntity.some((q) => /lowest median/.test(q.name)));
+  // 4-room and 5-room: one link to the insights article, not a competing FAQ answer.
+  for (const label of ['4-room', '5-room']) {
+    assert.ok(!faq.mainEntity.some((q) => q.name === `Which town has the cheapest ${label} HDB resale flats?`), `hub FAQ repeats the cheapest-${label} article`);
+  }
+  assert.match(html, /<div class="callouts">[\s\S]*?<\/div>\s*<p>[^<]*<a href="\/insights\/cheapest-4-room-5-room-hdb-resale-flats\.html">cheapest 4-room and 5-room towns explained<\/a>/);
   assert.ok(html.includes(faqHtml(faq, esc)), 'visible hub FAQ differs from the FAQPage JSON-LD');
   assert.match(html, /<h2>Selling\? Check what flats like yours transacted for<\/h2>[\s\S]*?href="\/valuation\.html"/);
 });

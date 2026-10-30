@@ -308,8 +308,8 @@ function schemas(article) {
       '@context': 'https://schema.org', '@type': 'Article', headline: article.headline,
       description: article.description, image: 'https://joetay.com/joetay-social-preview.jpg',
       datePublished: published, dateModified: article.modified || published, inLanguage: 'en-SG',
-      author: { '@type': 'Person', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', jobTitle: 'District Director, ERA Realty Network', identifier: 'CEA R009618D' },
-      publisher: { '@type': 'RealEstateAgent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' },
+      author: { '@type': 'Person', '@id': 'https://joetay.com/about-joe/#joe-tay', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', identifier: 'CEA R009618D' },
+      publisher: { '@type': 'RealEstateAgent', '@id': 'https://joetay.com/#agent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' },
       mainEntityOfPage: url,
     },
     {

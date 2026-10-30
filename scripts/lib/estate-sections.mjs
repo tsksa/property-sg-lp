@@ -181,6 +181,8 @@ export function flatModelBlock({ t, inWin, esc }) {
  * Blocks grouped by street, each street collapsed. Only blocks with at least
  * `minSales` sales; the generator raises that threshold until the block fits
  * its byte budget, so a town with 500 traded blocks does not double the page.
+ * /neighbour-prices/ prefills only from ?postal= (the resale rows carry no
+ * postal code), so the section ends in one lookup link, not one per street.
  */
 export function blockIndex({ t, inWin, latestFullMonth, esc, minSales = 2 }) {
   const byBlock = new Map();
@@ -217,13 +219,13 @@ export function blockIndex({ t, inWin, latestFullMonth, esc, minSales = 2 }) {
       return `<details class="blk"><summary>${name} · ${list.length} ${list.length === 1 ? 'block' : 'blocks'}, ${sales} sales</summary>
 <div class="tbl"><table class="mini"><thead><tr><th>Blk</th><th>Lease from</th><th>Sales</th><th>Latest sale</th><th>$psf</th></tr></thead><tbody>
 ${rows}
-</tbody></table></div>
-<p class="src"><a href="/neighbour-prices/">Every sale in a ${name} block</a></p></details>`;
+</tbody></table></div></details>`;
     });
   const html = `  <section data-est="blocks" id="blocks">
   <h2>${esc(t)} HDB resale prices by block</h2>
   <p class="src">Every ${esc(t)} block with at least ${minSales} resale sales in the 12 months to ${monthLabel(latestFullMonth)} (${blocks} blocks), grouped by street. Tap a street to see its blocks.</p>
 ${streets.join('\n')}
+  <p class="src"><a href="/neighbour-prices/">Look up every sale in your block</a></p>
   </section>`;
   return { html, blocks };
 }
@@ -234,7 +236,7 @@ export function buyerSection({ t, esc }) {
   const town = esc(t);
   return `  <section data-est="buyer" id="for-sale">
   <h2>Looking at HDB flats for sale in ${town}?</h2>
-  <p>This page shows registered sold prices, not live listings. If you have found a ${town} flat for sale, compare its asking price with the sales above for the same flat type, lease band and street.</p>
+  <p>This page shows registered sold prices, not live listings. If you have found ${article(t)} ${town} flat for sale, compare its asking price with the sales above for the same flat type, lease band and street.</p>
   <p><a class="est-wa" href="https://wa.me/6581881488?text=${wa}" target="_blank" rel="noopener" data-cta="whatsapp-estate" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-buyer',town:'${town}'});">Ask me to check an asking price on WhatsApp →</a></p>
   </section>`;
 }

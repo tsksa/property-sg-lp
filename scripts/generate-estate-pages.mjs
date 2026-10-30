@@ -260,7 +260,6 @@ details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
 details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 details.blk .tbl{margin-top:10px;border:0}
 details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
-details.blk .src{margin:8px 0 0}
 .hub-tbl table{min-width:760px;font-size:0.82rem}
 .hub-tbl th,.hub-tbl td{padding:9px 10px}
 .hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
@@ -268,6 +267,8 @@ details.blk .src{margin:8px 0 0}
 .hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 .callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
 .callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
+html.jt-theme-dark :is(.callouts p,details.blk){background:#102447;border-color:rgba(255,255,255,.12);color:#c1cad8;box-shadow:none}
+html.jt-theme-dark :is(.callouts strong,details.blk summary){color:#f8fafc}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -504,6 +505,9 @@ const callouts = fourRoom.length >= 2 ? `  <div class="callouts">
 ${callout('Cheapest town for a 4-room resale flat', fourRoom[0])}
 ${callout('Most expensive town for a 4-room resale flat', fourRoom[fourRoom.length - 1])}
   </div>` : '';
+// The hub FAQ leaves the cheapest 4-room and 5-room towns to this article
+// (HUB_CHEAPEST_SKIP in estate-schema.mjs); link it beside the call-outs.
+const cheapestLink = `  <p>Every town ranked by 4-room and 5-room median, with remaining lease, is in <a href="/insights/cheapest-4-room-5-room-hdb-resale-flats.html">cheapest 4-room and 5-room towns explained</a>.</p>`;
 const hubTable = `  <h2>HDB resale prices by town and flat type</h2>
   <p class="src">12-month medians to ${monthLabel(generatedAt)}. Year on year is like for like (the same flat types and lease ages compared with themselves). '–' means fewer than ${MIN_TYPE_SALES} sales of that flat type. Select a column heading to sort.</p>
   <div class="tbl hub-tbl"><table id="town-table">
@@ -516,6 +520,7 @@ ${hubRows}
     </tfoot>
   </table></div>
 ${callouts}
+${cheapestLink}
   <script>
   (function () {
     var table = document.getElementById('town-table');

@@ -132,7 +132,7 @@
      "name": "Are HDB resale prices going down in 2026?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "No. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast."
+      "text": "Broadly flat. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast."
      }
     },
     {
@@ -149,22 +149,6 @@
      "acceptedAnswer": {
       "@type": "Answer",
       "text": "Toa Payoh, with a median 3-room resale price of $380,000 across 420 sales in the 12 months to 2026-09. Next was Geylang at $382,500. Only towns with at least 10 3-room sales are compared."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Which town has the cheapest 4-room HDB resale flats?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Jurong West, with a median 4-room resale price of $535,000 across 590 sales in the 12 months to 2026-09. Next was Jurong East at $548,000. Only towns with at least 10 4-room sales are compared."
-     }
-    },
-    {
-     "@type": "Question",
-     "name": "Which town has the cheapest 5-room HDB resale flats?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Jurong West, with a median 5-room resale price of $635,000 across 431 sales in the 12 months to 2026-09. Next was Sembawang at $640,000. Only towns with at least 10 5-room sales are compared."
      }
     },
     {
@@ -268,7 +252,6 @@ details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
 details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 details.blk .tbl{margin-top:10px;border:0}
 details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
-details.blk .src{margin:8px 0 0}
 .hub-tbl table{min-width:760px;font-size:0.82rem}
 .hub-tbl th,.hub-tbl td{padding:9px 10px}
 .hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
@@ -276,6 +259,8 @@ details.blk .src{margin:8px 0 0}
 .hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
 .callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
 .callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
+html.jt-theme-dark :is(.callouts p,details.blk){background:#102447;border-color:rgba(255,255,255,.12);color:#c1cad8;box-shadow:none}
+html.jt-theme-dark :is(.callouts strong,details.blk summary){color:#f8fafc}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -388,6 +373,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     <p><strong>Cheapest town for a 4-room resale flat</strong><br><a href="/hdb-prices/jurong-west/#4-room">Jurong West</a>: median $535,000 across 590 sales.</p>
     <p><strong>Most expensive town for a 4-room resale flat</strong><br><a href="/hdb-prices/queenstown/#4-room">Queenstown</a>: median $1,028,000 across 299 sales.</p>
   </div>
+  <p>Every town ranked by 4-room and 5-room median, with remaining lease, is in <a href="/insights/cheapest-4-room-5-room-hdb-resale-flats.html">cheapest 4-room and 5-room towns explained</a>.</p>
   <script>
   (function () {
     var table = document.getElementById('town-table');
@@ -431,11 +417,9 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       <details class="faq-item"><summary>How many HDB towns does this cover?</summary><p>26 towns across Singapore, each with a 12-month resale median computed from official transactions.</p></details>
       <details class="faq-item"><summary>Where does this HDB resale price data come from?</summary><p>The Housing &amp; Development Board's official HDB Resale Flat Prices dataset, published via data.gov.sg under the Singapore Open Data Licence v1.0.</p></details>
       <details class="faq-item"><summary>What is the median HDB resale price in Singapore?</summary><p>$630,000, across 24,652 registered HDB resale transactions in the 12 months to 2026-09. By flat type: 3-room $440,000, 4-room $630,000, 5-room $740,000 and Executive $915,000.</p></details>
-      <details class="faq-item"><summary>Are HDB resale prices going down in 2026?</summary><p>No. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.</p></details>
+      <details class="faq-item"><summary>Are HDB resale prices going down in 2026?</summary><p>Broadly flat. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.</p></details>
       <details class="faq-item"><summary>Which HDB town has the highest median resale price?</summary><p>Bukit Timah, with a 12-month median of $1,010,000.</p></details>
       <details class="faq-item"><summary>Which town has the cheapest 3-room HDB resale flats?</summary><p>Toa Payoh, with a median 3-room resale price of $380,000 across 420 sales in the 12 months to 2026-09. Next was Geylang at $382,500. Only towns with at least 10 3-room sales are compared.</p></details>
-      <details class="faq-item"><summary>Which town has the cheapest 4-room HDB resale flats?</summary><p>Jurong West, with a median 4-room resale price of $535,000 across 590 sales in the 12 months to 2026-09. Next was Jurong East at $548,000. Only towns with at least 10 4-room sales are compared.</p></details>
-      <details class="faq-item"><summary>Which town has the cheapest 5-room HDB resale flats?</summary><p>Jurong West, with a median 5-room resale price of $635,000 across 431 sales in the 12 months to 2026-09. Next was Sembawang at $640,000. Only towns with at least 10 5-room sales are compared.</p></details>
       <details class="faq-item"><summary>Which town has the cheapest Executive HDB resale flats?</summary><p>Sembawang, with a median Executive resale price of $751,000 across 57 sales in the 12 months to 2026-09. Next was Jurong West at $781,900. Only towns with at least 10 Executive sales are compared.</p></details>
   </div>
   <div class="cta">
