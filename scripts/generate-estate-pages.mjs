@@ -4,7 +4,8 @@
 //
 // Run: node scripts/generate-estate-pages.mjs
 // Dev: node scripts/generate-estate-pages.mjs --cache /tmp/hdb-cache.json
-//      (reads the file if it exists, otherwise fetches and writes it)
+//      (reads the file if it exists, otherwise fetches and writes it; the
+//      rental data is cached beside it as hdb-rent-cache.json)
 // Refreshed monthly by .github/workflows/refresh-estate-pages.yml (opens a PR).
 //
 // Pages are generated to comply with scripts/check-consistency.mjs invariants.
@@ -26,7 +27,11 @@ import { monthsBack, resolveWindows, recentSales } from './lib/estate-windows.mj
 import { buildTownSchema, buildHubSchema, faqHtml, townFacts, titleCase as title } from './lib/estate-schema.mjs';
 import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
-import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, monthLabel, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import {
+  typeStats, flatTypeSections, flatModelBlock, blockIndex, buyerSection, rentalSection, townDescription,
+  leaseProfile, typeLabel, FLAT_TYPES, MIN_TYPE_SALES, RENT_DATASET, rentTown, DETAIL_BUDGET,
+} from './lib/estate-sections.mjs';
 
 const DATASET = 'd_8b84c4ee58e3cfc0ece0d773c8ca6abc';
 const API = 'https://data.gov.sg/api/action/datastore_search';
@@ -46,19 +51,33 @@ const median = (a) => {
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 };
 
+// data.gov.sg rate-limits anonymous callers (HTTP 429) after a burst of
+// requests; back off and retry rather than abort a 26-month fetch half-way.
+async function getJson(url, label) {
+  for (let attempt = 0; ; attempt += 1) {
+    const res = await fetch(url);
+    if (res.status === 429 && attempt < 6) {
+      const wait = 2000 * 2 ** attempt;
+      console.log(`  ${label}: HTTP 429, retrying in ${wait / 1000}s`);
+      await new Promise((resolve) => setTimeout(resolve, wait));
+      continue;
+    }
+    if (!res.ok) throw new Error(`data.gov.sg ${res.status} for ${label}`);
+    const j = await res.json();
+    if (!j.success) throw new Error(`API failure for ${label}`);
+    return j.result.records;
+  }
+}
+
 async function fetchMonth(month) {
   const filters = encodeURIComponent(JSON.stringify({ month }));
-  const url = `${API}?resource_id=${DATASET}&filters=${filters}&limit=5000`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`data.gov.sg ${res.status} for ${month}`);
-  const j = await res.json();
-  if (!j.success) throw new Error(`API failure for ${month}`);
-  return j.result.records;
+  return getJson(`${API}?resource_id=${DATASET}&filters=${filters}&limit=5000`, month);
 }
 
 const months = monthsBack(MONTHS_FETCHED);
 const cacheIdx = process.argv.indexOf('--cache');
 const cacheFile = cacheIdx !== -1 ? process.argv[cacheIdx + 1] : null;
+const rentCacheFile = cacheFile ? path.join(path.dirname(cacheFile), 'hdb-rent-cache.json') : null;
 let all = [];
 if (cacheFile && fs.existsSync(cacheFile)) {
   console.log(`Using cached data.gov.sg payload: ${cacheFile}`);
@@ -90,6 +109,45 @@ for (const r of all) {
 }
 
 const generatedAt = latestFullMonth; // data currency, not wall clock
+const dataYear = latestFullMonth.slice(0, 4);
+// The real generation date: dateModified on the WebPage and Dataset nodes and
+// the sitemap lastmod (which refresh-sitemap-lastmod.mjs later reconciles).
+const today = new Date().toISOString().slice(0, 10);
+const freshness = `Data to ${monthLabel(latestFullMonth)} (data.gov.sg)`;
+
+// ── HDB rental approvals (JOE-469) ──
+// Same 12 months as the resale window, by rent approval month. A failed fetch
+// leaves the rental sections out rather than failing the monthly refresh.
+let rentByTown = new Map();
+let rentMonths = [];
+try {
+  let rents = [];
+  if (rentCacheFile && fs.existsSync(rentCacheFile)) {
+    console.log(`Using cached rental payload: ${rentCacheFile}`);
+    rents = JSON.parse(fs.readFileSync(rentCacheFile, 'utf8'));
+  } else {
+    console.log('Fetching 12 months of HDB rental approvals from data.gov.sg…');
+    for (const m of window12) {
+      const filters = encodeURIComponent(JSON.stringify({ rent_approval_date: m }));
+      const recs = await getJson(`${API}?resource_id=${RENT_DATASET}&filters=${filters}&limit=10000`, `rent ${m}`);
+      rents.push(...recs);
+      process.stdout.write(`  rent ${m}: ${recs.length}\n`);
+    }
+    if (rentCacheFile) fs.writeFileSync(rentCacheFile, JSON.stringify(rents));
+  }
+  rents = rents.filter((r) => window12.includes(r.rent_approval_date));
+  rentMonths = [...new Set(rents.map((r) => r.rent_approval_date))];
+  if (rentMonths.length < 6) throw new Error(`only ${rentMonths.length} months of rental data in the window`);
+  for (const r of rents) {
+    const town = rentTown(r.town);
+    if (!rentByTown.has(town)) rentByTown.set(town, []);
+    rentByTown.get(town).push(r);
+  }
+} catch (err) {
+  console.warn(`Rental data skipped: ${err.message}`);
+  rentByTown = new Map();
+  rentMonths = [];
+}
 const towns = [...byTown.keys()].sort();
 console.log(`${towns.length} towns, ${all.length} transactions`);
 
@@ -112,7 +170,7 @@ function fitTitle(preferred, short) {
   return decoded.length <= 60 ? preferred : short;
 }
 
-function pageShell({ path: pagePath, titleTag, desc, h1, lede, body, breadcrumbName, extraSchema, leadScripts, leadCapture }) {
+function pageShell({ path: pagePath, titleTag, desc, h1, lede, srcLine, body, breadcrumbName, extraSchema, leadScripts, leadCapture }) {
   const canonical = `${SITE}${pagePath}`;
   return `<!DOCTYPE html>
 <html lang="en-SG">
@@ -145,7 +203,10 @@ ${JSON.stringify({
   url: canonical,
   description: desc,
   inLanguage: 'en-SG',
+  dateModified: today,
   isPartOf: { '@type': 'WebSite', name: 'PropertySG', url: SITE + '/' },
+  // The same entity as the homepage's RealEstateAgent node.
+  publisher: { '@type': 'RealEstateAgent', '@id': `${SITE}/#agent`, name: 'PropertySG', url: SITE + '/' },
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
@@ -187,6 +248,26 @@ th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
 tr:last-child td{border-bottom:none}
 td:nth-child(n+2),th:nth-child(n+2){text-align:right}
+.tbl table.mini{min-width:0}
+.tbl table.mini th,.tbl table.mini td{padding:9px 12px}
+.tbl table.mini td{white-space:nowrap}
+.tbl table.mini td.l,details.blk td:nth-child(4){white-space:normal}
+.tbl td.l,.tbl th.l{text-align:left}
+.tbl+.tbl{margin-top:12px}
+section[data-est] p{margin-bottom:10px}
+details.blk{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff}
+details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+details.blk .tbl{margin-top:10px;border:0}
+details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
+details.blk .src{margin:8px 0 0}
+.hub-tbl table{min-width:760px;font-size:0.82rem}
+.hub-tbl th,.hub-tbl td{padding:9px 10px}
+.hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
+.hub-tbl th button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -211,7 +292,7 @@ ${crumbsNav(breadcrumbName, esc)}
   <div class="eyebrow">Official HDB data · Updated monthly</div>
   <h1>${h1}</h1>
   <p class="lede">${lede}</p>
-  <p class="src">Source: HDB Resale Flat Prices via data.gov.sg · latest full month ${generatedAt} · figures below use the last 12 months unless stated.</p>
+  <p class="src">${srcLine}</p>
 ${body}
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>
@@ -260,14 +341,17 @@ for (const town of towns) {
   const yoy = likeForLikeChange(window12, prior12, recs, likeForLike);
 
   // per-flat-type table (12m)
-  const types = ['2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM', 'EXECUTIVE', 'MULTI-GENERATION'];
-  const typeRows = types.map((ft) => {
+  const typeRows = FLAT_TYPES.map((ft) => {
     const tx = cur.inWin.filter((r) => r.flat_type === ft);
     if (tx.length < 5) return null;
     const p = median(tx.map((r) => Number(r.resale_price)));
     const area = median(tx.map((r) => Number(r.floor_area_sqm)));
-    return `<tr><td>${title(ft)}</td><td>${money(p)}</td><td>${Math.round(area)} sqm</td><td>${tx.length}</td></tr>`;
+    const label = ft === 'EXECUTIVE' ? 'Executive (incl. maisonette)' : title(ft);
+    const cell = tx.length >= MIN_TYPE_SALES ? `<a href="#${typeLabel(ft).toLowerCase()}">${label}</a>` : label;
+    return `<tr><td>${cell}</td><td>${money(p)}</td><td>${Math.round(area)} sqm</td><td>${tx.length}</td></tr>`;
   }).filter(Boolean).join('\n      ');
+  // JOE-469: per-flat-type sections, FAQ and description (types with ≥10 sales).
+  const types = typeStats(cur.inWin);
 
   // Prices by street (JOE-345): the town pages shared one template and differed
   // only in their figures, and Google crawled Bedok on 15 Oct 2026 but chose
@@ -306,7 +390,24 @@ for (const town of towns) {
     .map((r) => `<tr><td>${r.month}</td><td style="text-align:left">${esc(title(r.flat_type))} · Blk ${esc(r.block)} ${esc(title(r.street_name))}</td><td>${esc(r.storey_range)}</td><td>${money(Number(r.resale_price))}</td></tr>`)
     .join('\n      ');
 
-  const desc = `${t} HDB resale prices from official data: 12-month median ${money(cur.med)} across ${cur.n} sales, median ${'$' + Math.round(cur.psf)} psf. Updated monthly.`.slice(0, 158);
+  const desc = townDescription({ t, types, n: cur.n, latestFullMonth: generatedAt });
+
+  // The detail sections share one byte budget so the page stays light: the
+  // block index takes what the others leave, raising its minimum sales per
+  // block until it fits (DETAIL_BUDGET; tests/estate-sections.test.mjs).
+  const detail = [
+    flatTypeSections({ t, types, window12, esc }),
+    flatModelBlock({ t, inWin: cur.inWin, esc }),
+  ].filter(Boolean).join('\n');
+  const rent = rentalSection({ t, rents: rentByTown.get(town), rentMonths, types, esc });
+  const buyer = buyerSection({ t, esc });
+  const blockBudget = DETAIL_BUDGET - Buffer.byteLength(detail + rent + buyer);
+  let blocks = { html: '', blocks: 0 };
+  for (let minSales = 2; minSales <= 20; minSales += 1) {
+    const candidate = blockIndex({ t, inWin: cur.inWin, latestFullMonth: generatedAt, esc, minSales });
+    if (Buffer.byteLength(candidate.html) <= blockBudget) { blocks = candidate; break; }
+  }
+  const profile = leaseProfile(cur.inWin);
 
   const series = rollingPsfSeries(window12, recs, { ...likeForLike, level: cur.psf });
   const body = `${valueCardHtml({
@@ -327,7 +428,9 @@ for (const town of towns) {
     <tbody>
       ${typeRows}
     </tbody>
-  </table></div>${streetTable}
+  </table></div>
+${detail}${streetTable}
+${blocks.html}
   <h2>Most recent transactions</h2>
   <div class="tbl"><table>
     <thead><tr><th>Month</th><th style="text-align:left">Flat</th><th>Storey</th><th>Price</th></tr></thead>
@@ -335,12 +438,12 @@ for (const town of towns) {
       ${latest}
     </tbody>
   </table></div>
-${[nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsByDistrict, esc), readingBlock(t, esc)].filter(Boolean).join('\n')}`;
+${[rent, buyer, nearbyTownsBlock(s, townMeta), newLaunchesBlock(s, t, projectsByDistrict, esc), readingBlock(t, esc, profile)].filter(Boolean).join('\n')}`;
 
   const canonical = `${SITE}/hdb-prices/${s}/`;
   // Busiest streets and the highest sale, counted from the same 12-month rows.
   const facts = townFacts(cur.inWin);
-  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts });
+  const extraSchema = buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts, types, dateModified: today, rentDataset: rent ? RENT_DATASET : null });
   // FAQPage markup requires the Q&A to be visible on the page, so render it from
   // the same node that becomes the JSON-LD.
   const bodyWithFaq = `${body}
@@ -349,29 +452,113 @@ ${faqHtml(extraSchema[1], esc)}`;
   fs.mkdirSync(path.join(OUT, s), { recursive: true });
   fs.writeFileSync(path.join(OUT, s, 'index.html'), pageShell({
     path: `/hdb-prices/${s}/`,
-    titleTag: fitTitle(`${t} HDB Resale Prices &amp; Recent Sales | PropertySG`, `${t} HDB Resale Prices &amp; Sales | PropertySG`),
+    titleTag: fitTitle(`${t} HDB Resale Prices ${dataYear} by Flat Type | PropertySG`, `${t} HDB Resale Prices by Flat Type | PropertySG`),
     desc: esc(desc),
     h1: `${t} HDB resale prices`,
-    lede: `Every figure on this page comes from actual registered resale transactions in ${t} — no estimates, no modelling.`,
+    lede: `${t} HDB resale flat prices by flat type, street and block. Every figure comes from registered resale transactions in ${t} — no estimates, no modelling.`,
+    srcLine: `${freshness} · HDB Resale Flat Prices dataset · figures below cover the 12 months ${monthLabel(window12[11])} to ${monthLabel(generatedAt)} unless stated.`,
     body: bodyWithFaq,
     breadcrumbName: t,
     extraSchema,
     leadScripts: true,
     leadCapture: leadCaptureHtml(t, esc),
   }));
-  indexRows.push({ town: t, s, med: cur.med, n: cur.n });
+  indexRows.push({
+    town: t, s, med: cur.med, n: cur.n, psf: cur.psf, yoy,
+    types: Object.fromEntries(types.map((ts) => [ts.ft, { med: ts.med, n: ts.n }])),
+  });
 }
 
 // ── Index page ──
-const grid = indexRows.map((r) => `    <a class="town-card" href="/hdb-prices/${r.s}/"><span class="t">${r.town}</span><span class="m" style="display:block">median ${money(r.med)} · ${r.n} sales/12m</span></a>`).join('\n');
-const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API });
+// JOE-469: the hub had no table, and its "lowest median" FAQ named a town of
+// mostly smaller flats. Now one row per town with medians by flat type, plus
+// a Singapore row from the same 12-month rows; cells under MIN_TYPE_SALES
+// sales show '–'. The sort script only adds buttons; without it the table is
+// a plain table.
+const allInWin = towns.flatMap((town) => stats(byTown.get(town), window12).inWin);
+const sgCur = stats(allInWin, window12);
+const sgYoy = likeForLikeChange(window12, prior12, all, {
+  monthOf: (r) => r.month,
+  psfOf: (r) => Number(r.resale_price) / (Number(r.floor_area_sqm) * SQM_TO_SQFT),
+  stratumOf: (r) => `${r.town}|${r.flat_type}|${leaseBand(r.lease_commence_date)}`,
+});
+const singapore = {
+  med: sgCur.med, n: sgCur.n, psf: sgCur.psf, yoy: sgYoy,
+  types: Object.fromEntries(typeStats(sgCur.inWin).map((ts) => [ts.ft, { med: ts.med, n: ts.n }])),
+};
+const HUB_TYPES = ['2 ROOM', '3 ROOM', '4 ROOM', '5 ROOM', 'EXECUTIVE'];
+const pct = (v) => (v === null ? '–' : Math.abs(v) < 0.05 ? '0.0%' : `${v > 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}%`);
+const hubCells = (r) => [
+  `<td data-v="${Math.round(r.med)}">${money(r.med)}</td>`,
+  `<td data-v="${r.yoy === null ? '' : r.yoy.toFixed(1)}">${pct(r.yoy)}</td>`,
+  `<td data-v="${Math.round(r.psf)}">$${Math.round(r.psf)}</td>`,
+  ...HUB_TYPES.map((ft) => (r.types[ft] ? `<td data-v="${Math.round(r.types[ft].med)}">${money(r.types[ft].med)}</td>` : '<td data-v="">–</td>')),
+  `<td data-v="${r.n}">${r.n.toLocaleString('en-SG')}</td>`,
+].join('');
+const hubRows = indexRows
+  .map((r) => `      <tr><td data-v="${esc(r.town)}"><a href="/hdb-prices/${r.s}/">${esc(r.town)}</a></td>${hubCells(r)}</tr>`)
+  .join('\n');
+const fourRoom = indexRows.filter((r) => r.types['4 ROOM']).sort((a, b) => a.types['4 ROOM'].med - b.types['4 ROOM'].med);
+const callout = (label, r) => `    <p><strong>${label}</strong><br><a href="/hdb-prices/${r.s}/#4-room">${esc(r.town)}</a>: median ${money(r.types['4 ROOM'].med)} across ${r.types['4 ROOM'].n} sales.</p>`;
+const callouts = fourRoom.length >= 2 ? `  <div class="callouts">
+${callout('Cheapest town for a 4-room resale flat', fourRoom[0])}
+${callout('Most expensive town for a 4-room resale flat', fourRoom[fourRoom.length - 1])}
+  </div>` : '';
+const hubTable = `  <h2>HDB resale prices by town and flat type</h2>
+  <p class="src">12-month medians to ${monthLabel(generatedAt)}. Year on year is like for like (the same flat types and lease ages compared with themselves). '–' means fewer than ${MIN_TYPE_SALES} sales of that flat type. Select a column heading to sort.</p>
+  <div class="tbl hub-tbl"><table id="town-table">
+    <thead><tr><th scope="col">Town</th><th scope="col">Median</th><th scope="col">Year on year</th><th scope="col">Median $psf</th>${HUB_TYPES.map((ft) => `<th scope="col">${typeLabel(ft)}</th>`).join('')}<th scope="col">Sales</th></tr></thead>
+    <tbody>
+${hubRows}
+    </tbody>
+    <tfoot>
+      <tr><td>Singapore</td>${hubCells(singapore)}</tr>
+    </tfoot>
+  </table></div>
+${callouts}
+  <script>
+  (function () {
+    var table = document.getElementById('town-table');
+    if (!table || !table.tBodies.length) return;
+    var heads = table.tHead.rows[0].cells;
+    var body = table.tBodies[0];
+    Array.prototype.forEach.call(heads, function (th, col) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = th.textContent;
+      th.textContent = '';
+      th.appendChild(btn);
+      btn.addEventListener('click', function () {
+        var asc = th.getAttribute('aria-sort') !== 'ascending';
+        Array.prototype.forEach.call(heads, function (h) { h.removeAttribute('aria-sort'); });
+        th.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
+        var rows = Array.prototype.slice.call(body.rows);
+        rows.sort(function (a, b) {
+          var x = a.cells[col].getAttribute('data-v'), y = b.cells[col].getAttribute('data-v');
+          if (x === y) return 0;
+          if (x === '') return 1;
+          if (y === '') return -1;
+          var nx = Number(x), ny = Number(y);
+          var cmp = isNaN(nx) || isNaN(ny) ? x.localeCompare(y) : nx - ny;
+          return asc ? cmp : -cmp;
+        });
+        rows.forEach(function (row) { body.appendChild(row); });
+      });
+    });
+  })();
+  </script>`;
+const hubSchema = buildHubSchema({ canonical: `${SITE}/hdb-prices/`, generatedAt, indexRows, DATASET, API, singapore, dateModified: today });
 fs.writeFileSync(path.join(OUT, 'index.html'), pageShell({
   path: '/hdb-prices/',
-  titleTag: 'HDB Resale Prices by Town — Updated Monthly | PropertySG',
-  desc: `Median HDB resale prices for all ${indexRows.length} towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.`,
-  h1: 'HDB resale prices, town by town',
-  lede: 'Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.',
-  body: `  <div class="town-grid">\n${grid}\n  </div>\n  <div class="cta">\n    <h2>Can your budget reach your target town?</h2>\n    <p>Use your household income, cash and CPF to estimate your HDB loan, maximum property budget and monthly repayment.</p>\n    <div class="btns"><a class="primary" href="/calculator/">Use the HDB loan calculator →</a></div>\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
+  titleTag: `HDB Resale Prices ${dataYear} by Town &amp; Flat Type | PropertySG`,
+  desc: `HDB resale prices for all ${indexRows.length} towns by flat type: 12-month medians for 2-room to Executive flats, $psf and like-for-like change, from data.gov.sg.`,
+  h1: `HDB resale prices ${dataYear}: every town, every flat type`,
+  lede: 'Medians by town and flat type from every registered HDB resale transaction in the last 12 months. Pick a town for prices by street and block.',
+  srcLine: `${freshness} · HDB Resale Flat Prices dataset · figures cover the 12 months ${monthLabel(window12[11])} to ${monthLabel(generatedAt)}.`,
+  body: `${hubTable}
+  <h2>Selling? Check what flats like yours transacted for</h2>
+  <p>Town medians mix every block and storey. Open your town for sales by flat type, street and block, look up <a href="/neighbour-prices/">your own block's sold prices</a>, or ask me for a <a href="/valuation.html">free valuation</a> based on the sales nearest your flat.</p>
+  <div class="cta">\n    <h2>Can your budget reach your target town?</h2>\n    <p>Use your household income, cash and CPF to estimate your HDB loan, maximum property budget and monthly repayment.</p>\n    <div class="btns"><a class="primary" href="/calculator/">Use the HDB loan calculator →</a></div>\n  </div>\n${faqHtml(hubSchema[1], esc)}`,
   breadcrumbName: null,
   extraSchema: hubSchema,
 }));
@@ -383,7 +570,6 @@ sm = sm.replace(/  <!-- hdb-prices:start -->[\s\S]*?<!-- hdb-prices:end -->\n/g,
 // hint about the PAGE, and these pages change (schema, links, copy) far more
 // often than the dataset month rolls over. refresh-sitemap-lastmod.mjs later
 // reconciles this against git history.
-const today = new Date().toISOString().slice(0, 10);
 const entries = ['/hdb-prices/', ...indexRows.map((r) => `/hdb-prices/${r.s}/`)]
   .map((p) => `  <url>\n    <loc>${SITE}${p}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`)
   .join('\n');

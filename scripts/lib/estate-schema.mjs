@@ -17,6 +17,11 @@ const LICENCE = 'https://data.gov.sg/open-data-licence';
 const monthRange = (window12) => `${window12[window12.length - 1]}/${window12[0]}`;
 
 const money = (n) => '$' + Math.round(n).toLocaleString('en-SG');
+
+// Hub FAQ: the flat types compared town by town, and the minimum sales a
+// town needs before its median for that type is compared.
+export const HUB_FAQ_TYPES = [['3 ROOM', '3-room'], ['4 ROOM', '4-room'], ['5 ROOM', '5-room'], ['EXECUTIVE', 'Executive']];
+export const HUB_MIN_TYPE_SALES = 10;
 const listJoin = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
 
 /**
@@ -68,8 +73,10 @@ export function townFacts(inWin) {
 }
 
 /** Dataset + FAQPage nodes for a single town page. */
-export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts = null }) {
+export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy, DATASET, API, facts = null, types = [], dateModified = null, rentDataset = null }) {
   const sourceUrl = `https://data.gov.sg/datasets/${DATASET}/view`;
+  // Pages that show the rental section also draw on HDB's Renting Out of Flats dataset.
+  const basedOn = rentDataset ? [sourceUrl, `https://data.gov.sg/datasets/${rentDataset}/view`] : sourceUrl;
 
   const dataset = {
     '@type': 'Dataset',
@@ -78,6 +85,7 @@ export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy,
     url: canonical,
     license: LICENCE,
     isAccessibleForFree: true,
+    ...(dateModified ? { dateModified } : {}),
     temporalCoverage: monthRange(window12),
     spatialCoverage: {
       '@type': 'Place',
@@ -85,7 +93,7 @@ export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy,
       address: { '@type': 'PostalAddress', addressLocality: t, addressCountry: 'SG' },
     },
     creator: { '@type': 'GovernmentOrganization', name: 'Housing & Development Board', url: sourceUrl },
-    isBasedOn: sourceUrl,
+    isBasedOn: basedOn,
     distribution: { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${API}?resource_id=${DATASET}` },
     variableMeasured: [
       { '@type': 'PropertyValue', name: 'Median resale price', value: Math.round(cur.med), unitText: 'SGD' },
@@ -134,17 +142,29 @@ export function buildTownSchema({ t, canonical, generatedAt, window12, cur, yoy,
     ];
   }
 
+  // JOE-469: one question per flat type with enough sales, phrased the way
+  // people search ("how much is a 3-room resale flat in Tampines in 2026").
+  // The answer quotes the same median, range and count as the flat-type section.
+  const year = generatedAt.slice(0, 4);
+  const k1000 = (v) => money(Math.round(v / 1000) * 1000);
+  for (const s of types) {
+    const label = s.label;
+    mainEntity.push(question(
+      `How much is ${/^[aeiou]/i.test(label) ? 'an' : 'a'} ${label} resale flat in ${t} in ${year}?`,
+      `In the 12 months to ${generatedAt}, ${label} resale flats in ${t} sold for a median ${money(s.med)} across ${s.n} sales. Half sold between ${k1000(s.p25)} and ${k1000(s.p75)}.`,
+    ));
+  }
+
   const faq = { '@type': 'FAQPage', mainEntity };
 
   return [dataset, faq];
 }
 
 /** Dataset + FAQPage nodes for the /hdb-prices/ hub page. */
-export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API }) {
+export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API, singapore = null, dateModified = null }) {
   const sourceUrl = `https://data.gov.sg/datasets/${DATASET}/view`;
   const totalTx = indexRows.reduce((sum, r) => sum + r.n, 0);
   const highest = indexRows.reduce((a, b) => (b.med > a.med ? b : a));
-  const lowest = indexRows.reduce((a, b) => (b.med < a.med ? b : a));
 
   const dataset = {
     '@type': 'Dataset',
@@ -153,6 +173,7 @@ export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API
     url: canonical,
     license: LICENCE,
     isAccessibleForFree: true,
+    ...(dateModified ? { dateModified } : {}),
     creator: { '@type': 'GovernmentOrganization', name: 'Housing & Development Board', url: sourceUrl },
     isBasedOn: sourceUrl,
     distribution: { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: `${API}?resource_id=${DATASET}` },
@@ -186,13 +207,40 @@ export function buildHubSchema({ canonical, generatedAt, indexRows, DATASET, API
         name: 'Which HDB town has the highest median resale price?',
         acceptedAnswer: { '@type': 'Answer', text: `${highest.town}, with a 12-month median of ${money(highest.med)}.` },
       },
-      {
-        '@type': 'Question',
-        name: 'Which HDB town has the lowest median resale price?',
-        acceptedAnswer: { '@type': 'Answer', text: `${lowest.town}, with a 12-month median of ${money(lowest.med)}.` },
-      },
     ],
   };
+
+  // JOE-469: "Which town has the lowest median?" answered across all flat
+  // types, so a town of mostly 3-room flats looked cheapest although its
+  // 4-room flats were not. Answer per flat type instead, among towns with at
+  // least HUB_MIN_TYPE_SALES sales of that type.
+  const question = (name, text) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } });
+  for (const [ft, label] of HUB_FAQ_TYPES) {
+    const ranked = indexRows
+      .filter((r) => r.types?.[ft] && r.types[ft].n >= HUB_MIN_TYPE_SALES)
+      .sort((a, b) => a.types[ft].med - b.types[ft].med);
+    if (ranked.length < 2) continue;
+    const [cheapest, next] = ranked;
+    faq.mainEntity.push(question(
+      `Which town has the cheapest ${label} HDB resale flats?`,
+      `${cheapest.town}, with a median ${label} resale price of ${money(cheapest.types[ft].med)} across ${cheapest.types[ft].n} sales in the 12 months to ${generatedAt}. Next was ${next.town} at ${money(next.types[ft].med)}. Only towns with at least ${HUB_MIN_TYPE_SALES} ${label} sales are compared.`,
+    ));
+  }
+
+  if (singapore) {
+    const year = generatedAt.slice(0, 4);
+    const byType = HUB_FAQ_TYPES.filter(([ft]) => singapore.types?.[ft]).map(([ft, label]) => `${label} ${money(singapore.types[ft].med)}`);
+    faq.mainEntity.splice(2, 0, question(
+      'What is the median HDB resale price in Singapore?',
+      `${money(singapore.med)}, across ${singapore.n.toLocaleString('en-SG')} registered HDB resale transactions in the 12 months to ${generatedAt}.${byType.length ? ` By flat type: ${listJoin(byType)}.` : ''}`,
+    ));
+    faq.mainEntity.splice(3, 0, question(
+      `Are HDB resale prices going down in ${year}?`,
+      singapore.yoy === null
+        ? `There isn't enough data to compare like with like across the two years, so no year-on-year change is given.`
+        : `${singapore.yoy < 0 ? 'Yes' : 'No'}. Like for like, HDB resale prices across Singapore have ${singapore.yoy >= 0 ? 'risen' : 'fallen'} ${Math.abs(singapore.yoy).toFixed(1)}% in the 12 months to ${generatedAt} compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.`,
+    ));
+  }
 
   return [dataset, faq];
 }
