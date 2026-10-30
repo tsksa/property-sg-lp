@@ -81,12 +81,13 @@ export function tenureLabel(tenure) {
 }
 
 /**
- * Freehold (999-year leases counted with it, as the trend line does) vs
- * 99-year leasehold. Any other lease length is 'other' and sits in neither side.
+ * Freehold (999- and 9999-year leases counted with it, as the trend line's
+ * tenureBand does) vs 99-year leasehold. Any other lease length is 'other' and
+ * sits in neither side.
  */
 export function tenureKind(tenure) {
   const s = String(tenure ?? '');
-  if (/freehold|^\s*999\s*yrs?/i.test(s)) return 'freehold';
+  if (/freehold|^\s*9{3,4}\s*yrs?/i.test(s)) return 'freehold';
   if (/^\s*99\s*yrs?/i.test(s)) return 'leasehold';
   return s.trim() ? 'other' : null;
 }
@@ -110,14 +111,15 @@ const mostCommon = (values) => {
 
 /**
  * One row per project from the window's sales: URA project name verbatim,
- * street, tenure (the project's most common tenure), sales, median $psf,
+ * street (the project's most common, as URA can record one project under
+ * more than one street), tenure (the project's most common tenure), sales, median $psf,
  * median price and the latest contract month. Projects under `minSales` are
  * dropped. Sorted by sales, then $psf, then name; anchors are unique.
  */
 export function projectRows(inWin, minSales) {
   const groups = new Map();
   for (const r of inWin) {
-    const key = `${r.project}|${r.street ?? ''}`;
+    const key = r.project;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(r);
   }
@@ -127,7 +129,7 @@ export function projectRows(inWin, minSales) {
     const months = recs.map((r) => toYearMonth(r.contractDate)).filter(Boolean).sort();
     out.push({
       project: recs[0].project,
-      street: recs[0].street ?? '',
+      street: mostCommon(recs.map((r) => r.street ?? '')) ?? '',
       tenure: tenureLabel(mostCommon(recs.map((r) => r.tenure ?? ''))),
       n: recs.length,
       psf: median(recs.map(psf)),
@@ -175,11 +177,13 @@ export function trimSentence(text, max = 160) {
 /**
  * Meta description, figures first. Plain text (escape after): the 160-char
  * budget applies to what the reader sees. Drops the closing sentence, then the
- * area name, before falling back to a word-boundary trim.
+ * area name, before falling back to a word-boundary trim. `hasProjects` is
+ * whether the page renders the by-project table; without it the tail does not
+ * promise one.
  */
-export function districtDescription({ dn, area, med, psf: psfValue, n }) {
+export function districtDescription({ dn, area, med, psf: psfValue, n, hasProjects = true }) {
   const figures = `12-month median $${Math.round(med).toLocaleString('en-SG')}, $${Math.round(psfValue).toLocaleString('en-SG')} psf across ${n.toLocaleString('en-SG')} URA caveats.`;
-  const tail = ' By size and project; updated monthly.';
+  const tail = hasProjects ? ' By size and project; updated monthly.' : ' By size; updated monthly.';
   const candidates = [
     `District ${dn} (${area}) condo resale prices: ${figures}${tail}`,
     `District ${dn} (${area}) condo resale prices: ${figures}`,
@@ -187,6 +191,22 @@ export function districtDescription({ dn, area, med, psf: psfValue, n }) {
     `District ${dn} condo resale prices: ${figures}`,
   ];
   return candidates.find((c) => c.length <= 160) ?? trimSentence(candidates[3]);
+}
+
+const LAUNCH_STATUS = { selling: 'Selling now', upcoming: 'Upcoming', 'sold-out': 'Sold out' };
+
+/**
+ * Plain-text detail for one "New launches in District N" entry, from the
+ * launch catalogue row: location, an EC tag (EC buyers face eligibility rules),
+ * and the catalogue status dated by its verifiedAt, since the condo pages
+ * regenerate on their own schedule. No date, no status.
+ */
+export function launchDetail(p) {
+  const parts = [p.location];
+  if (p.propertyType === 'executive-condominium') parts.push('EC');
+  const status = LAUNCH_STATUS[p.status];
+  if (status && /^\d{4}-\d{2}-\d{2}$/.test(p.verifiedAt ?? '')) parts.push(`${status} (as of ${dateLabel(p.verifiedAt)})`);
+  return parts.filter(Boolean).join(' · ');
 }
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

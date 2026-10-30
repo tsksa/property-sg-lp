@@ -14,8 +14,9 @@
 //
 // A town listed here has at least one HDB estate in the district. It does not
 // mean the town and the district share a boundary, which is why the page block
-// says "Nearby HDB towns". Districts with no HDB town page (D01, D06–D09, D11,
-// D17, D24, D26) are left out rather than guessed.
+// says "Nearby HDB towns". Districts with no evidenced HDB town (D06, D09,
+// D11, D24, D26) are left out rather than guessed; that is not a claim that
+// they have no HDB blocks.
 
 export const POSTAL_SECTORS = {
   '01': ['01', '02', '03', '04', '05', '06'],
@@ -53,6 +54,7 @@ export const POSTAL_SECTORS = {
 const t = (slug, name, sample, postal) => ({ slug, name, sample, postal });
 
 export const DISTRICT_TOWNS = {
+  '01': [t('central-area', 'Central Area', 'Blk 335A Smith Street', '051335')],
   '02': [t('central-area', 'Central Area', 'Blk 5 Tanjong Pagar Plaza', '081005')],
   '03': [
     t('queenstown', 'Queenstown', 'Blk 171 Stirling Road', '140171'),
@@ -63,6 +65,11 @@ export const DISTRICT_TOWNS = {
     t('clementi', 'Clementi', 'Blk 449 Clementi Avenue 3', '120449'),
     t('queenstown', 'Queenstown', 'Blk 18 Dover Crescent', '130018'),
   ],
+  '07': [
+    t('kallang-whampoa', 'Kallang/Whampoa', 'Blk 1 Beach Road', '190001'),
+    t('central-area', 'Central Area', 'Blk 10 Selegie Road', '180010'),
+  ],
+  '08': [t('kallang-whampoa', 'Kallang/Whampoa', 'Blk 801 French Road', '200801')],
   '10': [
     t('bukit-timah', 'Bukit Timah', 'Blk 5 Farrer Road', '260005'),
     t('queenstown', 'Queenstown', 'Blk 3 Ghim Moh Road', '270003'),
@@ -78,6 +85,7 @@ export const DISTRICT_TOWNS = {
   '14': [t('geylang', 'Geylang', 'Blk 24 Eunos Crescent', '400024')],
   '15': [t('marine-parade', 'Marine Parade', 'Blk 81 Marine Parade Central', '440081')],
   '16': [t('bedok', 'Bedok', 'Blk 214 Bedok North Street 1', '460214')],
+  '17': [t('pasir-ris', 'Pasir Ris', 'Blk 4 Changi Village Road', '500004')],
   '18': [
     t('tampines', 'Tampines', 'Blk 261 Tampines Street 21', '520261'),
     t('pasir-ris', 'Pasir Ris', 'Blk 109 Pasir Ris Street 11', '510109'),

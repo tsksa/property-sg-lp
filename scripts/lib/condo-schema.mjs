@@ -12,17 +12,22 @@ const q = (name, text) => ({ '@type': 'Question', name, acceptedAnswer: { '@type
 
 /**
  * The two project questions, answered from the same rows the page's project
- * table shows. None when no project clears the table's sales floor.
+ * table shows. None when fewer than two projects clear the table's sales
+ * floor: with one project the "highest" and "cheapest" answers would name the
+ * same condo. The cheapest project never appears in the highest list.
  */
 export function projectFaqs({ dn, projects, generatedAt, minSales }) {
-  if (!projects.length) return [];
+  if (projects.length < 2) return [];
   const byPsf = [...projects].sort((a, b) => b.psf - a.psf || a.project.localeCompare(b.project));
-  const top = byPsf.slice(0, 3).map((p) => `${p.project} (${psfText(p.psf)}, ${p.n} sales)`);
+  const top = byPsf.slice(0, Math.min(3, projects.length - 1)).map((p) => `${p.project} (${psfText(p.psf)}, ${p.n} sales)`);
   const low = byPsf[byPsf.length - 1];
   const scope = `projects with at least ${minSales} resale caveats in the 12 months to ${generatedAt}`;
+  const highest = top.length > 1
+    ? `the highest median prices per square foot were ${top.slice(0, -1).join(', ')} and ${top[top.length - 1]}`
+    : `the highest median price per square foot was ${top[0]}`;
   return [
     q(`Which condos in District ${dn} have the highest $psf?`,
-      `Among ${scope}, the highest median prices per square foot were ${top.length > 1 ? `${top.slice(0, -1).join(', ')} and ${top[top.length - 1]}` : top[0]}. These medians are not adjusted for unit size, floor or remaining lease.`),
+      `Among ${scope}, ${highest}. ${top.length > 1 ? 'These medians are' : 'The median is'} not adjusted for unit size, floor or remaining lease.`),
     q(`What is the cheapest condo in District ${dn} by $psf?`,
       `Among ${scope}, ${low.project} had the lowest median at ${psfText(low.psf)} across ${low.n} sales. The median is not adjusted for unit size, floor or remaining lease.`),
   ];
@@ -37,7 +42,7 @@ export function tenureFaq({ dn, split, generatedAt }) {
     ? 'about the same'
     : `${Math.abs(diff).toFixed(0)}% ${diff > 0 ? 'higher' : 'lower'} for freehold`;
   return [q(`Are freehold condos in District ${dn} more expensive?`,
-    `In the 12 months to ${generatedAt}, freehold and 999-year resale condos had a median ${psfText(f.psf)} across ${f.n.toLocaleString('en-SG')} caveats, against ${psfText(l.psf)} across ${l.n.toLocaleString('en-SG')} caveats for 99-year leasehold: ${verdict}. The two groups differ in age, location and unit size, so this is not a like-for-like premium.`)];
+    `In the 12 months to ${generatedAt}, freehold, 999- and 9999-year resale condos had a median ${psfText(f.psf)} across ${f.n.toLocaleString('en-SG')} caveats, against ${psfText(l.psf)} across ${l.n.toLocaleString('en-SG')} caveats for 99-year leasehold: ${verdict}. The two groups differ in age, location and unit size, so this is not a like-for-like premium.`)];
 }
 
 export function buildDistrictSchema({ d, areaName, canonical, generatedAt, window12, cur, yoy, projects = [], minSales = 3, split = null, dateModified = null }) {

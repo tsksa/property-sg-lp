@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SQM_TO_SQFT,
   tenureLabel, tenureKind, minProjectSales, projectAnchor, projectRows, tenureSplit,
-  trimSentence, districtDescription, monthLabel, dateLabel,
+  trimSentence, districtDescription, monthLabel, dateLabel, launchDetail,
 } from '../scripts/lib/condo-stats.mjs';
 import { DISTRICTS } from '../scripts/lib/condo-districts.mjs';
 import { projectFaqs, tenureFaq, buildDistrictSchema } from '../scripts/lib/condo-schema.mjs';
@@ -89,6 +89,8 @@ test('tenure: URA wording shortened for the table and grouped for the split', ()
   assert.equal(tenureLabel(undefined), '—');
   assert.equal(tenureKind('Freehold'), 'freehold');
   assert.equal(tenureKind('999 yrs lease commencing from 1885'), 'freehold');
+  assert.equal(tenureKind('9999 yrs lease commencing from 1826'), 'freehold', 'counted with freehold, as tenureBand does');
+  assert.equal(tenureLabel('9999 yrs lease commencing from 1826'), '9999 yrs from 1826');
   assert.equal(tenureKind(LEASE(2012)), 'leasehold');
   assert.equal(tenureKind('103 yrs lease commencing from 1996'), 'other');
   assert.equal(tenureKind(''), null);
@@ -118,6 +120,13 @@ test('project rows: grouped by project, floored, sorted by sales, unique anchors
   // two URA projects whose names slug the same still get distinct anchors
   const clash = projectRows([sale('The Tre-Ver'), sale('The Tre-Ver'), sale('THE TRE VER', { street: 'Other Rd' }), sale('THE TRE VER', { street: 'Other Rd' })], 2);
   assert.deepEqual(clash.map((p) => p.id).sort(), ['p-the-tre-ver', 'p-the-tre-ver-2']);
+  // one URA project recorded under two streets is one row, on its most common street
+  const split = projectRows([
+    sale('Kappa', { street: 'Kappa Road' }), sale('Kappa', { street: 'Kappa Road' }), sale('Kappa', { street: 'Kappa Lane' }),
+  ], 2);
+  assert.equal(split.length, 1);
+  assert.equal(split[0].n, 3);
+  assert.equal(split[0].street, 'Kappa Road');
   assert.equal(minProjectSales(149), 2);
   assert.equal(minProjectSales(150), 3);
   assert.equal(projectAnchor('#1 Loft'), 'p-1-loft');
@@ -146,6 +155,9 @@ test('description: figures first, at most 160 characters, ends with a full stop'
       assert.match(desc, /median \$[\d,]+, \$[\d,]+ psf across [\d,]+ URA caveats/);
     }
   }
+  // no project table on the page, so the description does not promise one
+  const thin = districtDescription({ dn: 15, area: 'East Coast', med: 2145000, psf: 1836.4, n: 40, hasProjects: false });
+  assert.equal(thin, 'District 15 (East Coast) condo resale prices: 12-month median $2,145,000, $1,836 psf across 40 URA caveats. By size; updated monthly.');
   // a very long area name drops the closing sentence before anything else
   const long = districtDescription({ dn: 21, area: 'X'.repeat(40), med: 1e6, psf: 1500, n: 300 });
   assert.ok(long.length <= 160 && long.endsWith('.'));
@@ -182,6 +194,26 @@ test('project FAQs name the highest and lowest $psf projects from the table rows
   assert.equal(low.name, 'What is the cheapest condo in District 15 by $psf?');
   assert.match(low.acceptedAnswer.text, /Beta had the lowest median at \$1,500 psf across 6 sales/);
   assert.deepEqual(projectFaqs({ dn: 15, projects: [], generatedAt: '2026-09', minSales: 3 }), []);
+});
+
+test('project FAQs with few projects never name the cheapest as a highest', () => {
+  const args = { dn: 15, generatedAt: '2026-09', minSales: 2 };
+  assert.deepEqual(projectFaqs({ ...args, projects: PROJECTS.slice(0, 1) }), [], 'one project: no highest-vs-cheapest pair');
+  const [high2, low2] = projectFaqs({ ...args, projects: PROJECTS.slice(0, 2) });
+  assert.match(high2.acceptedAnswer.text, /the highest median price per square foot was Alpha \(\$2,100 psf, 9 sales\)\. The median is not adjusted/);
+  assert.doesNotMatch(high2.acceptedAnswer.text, /Beta/);
+  assert.match(low2.acceptedAnswer.text, /Beta had the lowest median/);
+  const [high3, low3] = projectFaqs({ ...args, projects: PROJECTS.slice(0, 3) });
+  assert.match(high3.acceptedAnswer.text, /were Gamma \(\$2,500 psf, 4 sales\) and Alpha \(\$2,100 psf, 9 sales\)\. These medians/);
+  assert.doesNotMatch(high3.acceptedAnswer.text, /Beta/);
+  assert.match(low3.acceptedAnswer.text, /Beta had the lowest median/);
+});
+
+test('launch entries tag ECs and date the catalogue status', () => {
+  const ec = { location: 'Pasir Ris', propertyType: 'executive-condominium', status: 'selling', verifiedAt: '2026-09-16' };
+  assert.equal(launchDetail(ec), 'Pasir Ris · EC · Selling now (as of 16 Sep 2026)');
+  assert.equal(launchDetail({ ...ec, propertyType: 'condominium', status: 'upcoming' }), 'Pasir Ris · Upcoming (as of 16 Sep 2026)');
+  assert.equal(launchDetail({ ...ec, propertyType: 'condominium', verifiedAt: undefined }), 'Pasir Ris', 'no date, no status');
 });
 
 test('freehold FAQ appears only with a shown split and states the gap honestly', () => {
@@ -231,5 +263,8 @@ test('district → HDB town map: every town is evidenced inside the district and
   assert.deepEqual(hdbTownsForDistrict('15').map((t) => t.slug), ['marine-parade']);
   assert.ok(hdbTownsForDistrict('05').some((t) => t.slug === 'clementi'));
   assert.ok(!hdbTownsForDistrict('15').some((t) => t.slug === 'bedok'), 'Bedok estates sit in D16, not D15');
-  assert.deepEqual(hdbTownsForDistrict('09'), [], 'no guessed town for a district with no HDB town page');
+  assert.deepEqual(hdbTownsForDistrict('09'), [], 'no guessed town for a district with no evidenced HDB town');
+  // the review's spot checks (data.gov.sg town + OneMap postal code)
+  assert.deepEqual(hdbTownsForDistrict('07').map((t) => t.slug), ['kallang-whampoa', 'central-area']);
+  assert.deepEqual(hdbTownsForDistrict('17').map((t) => t.slug), ['pasir-ris']);
 });

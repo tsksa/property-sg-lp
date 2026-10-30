@@ -21,7 +21,7 @@ import { DISTRICTS } from './lib/condo-districts.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import {
   isCondoResale, toYearMonth, windowStats, median, psf, bandFor, SIZE_BANDS, SQM_TO_SQFT,
-  projectRows, minProjectSales, tenureSplit, districtDescription, monthLabel, dateLabel,
+  projectRows, minProjectSales, tenureSplit, districtDescription, monthLabel, dateLabel, launchDetail,
 } from './lib/condo-stats.mjs';
 import { hdbTownsForDistrict } from './lib/district-town-map.mjs';
 import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
@@ -36,7 +36,6 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const psfMoney = (n) => '$' + Math.round(n).toLocaleString('en-SG');
 const today = new Date().toISOString().slice(0, 10);
 const PROJECT_TABLE_TOP = 20; // rows beyond this sit in a collapsed <details>
-const LAUNCH_STATUS = { selling: 'Selling now', upcoming: 'Upcoming', 'sold-out': 'Sold out' };
 
 // ── Fetch ──
 async function fetchAllBatches() {
@@ -95,7 +94,7 @@ for (const [d, recs] of [...byDistrict.entries()].sort()) {
   else console.log(`  skip D${d} (only ${cur.n} tx in 12m)`);
 }
 
-// Like-for-like tenure group for the trend line: freehold (and 999-year) in
+// Like-for-like tenure group for the trend line: freehold (and 999-/9999-year) in
 // one group, leaseholds by the year their lease started, which tracks the
 // building's age. URA writes e.g. "99 yrs lease commencing from 2012".
 function tenureBand(tenure) {
@@ -318,7 +317,7 @@ for (const [d, cur] of live) {
   <div class="tbl"><table>
     <thead><tr><th>Tenure</th><th>Median $psf</th><th>Median price</th><th>Sales</th></tr></thead>
     <tbody>
-      <tr><td>Freehold and 999-year</td><td>${psfMoney(split.freehold.psf)}</td><td>${money(split.freehold.med)}</td><td>${split.freehold.n}</td></tr>
+      <tr><td>Freehold, 999- and 9999-year</td><td>${psfMoney(split.freehold.psf)}</td><td>${money(split.freehold.med)}</td><td>${split.freehold.n}</td></tr>
       <tr><td>99-year leasehold</td><td>${psfMoney(split.leasehold.psf)}</td><td>${money(split.leasehold.med)}</td><td>${split.leasehold.n}</td></tr>
     </tbody>
   </table></div>
@@ -328,7 +327,7 @@ for (const [d, cur] of live) {
   const launchSection = launches.length ? `
   <h2>New launches in District ${dn}</h2>
   <ul class="launches">
-${launches.map((p) => `    <li><a href="/new-launches/${p.slug}.html">${esc(p.name)}</a> <span class="m">· ${esc(p.location)}${LAUNCH_STATUS[p.status] ? ` · ${LAUNCH_STATUS[p.status]}` : ''}</span></li>`).join('\n')}
+${launches.map((p) => `    <li><a href="/new-launches/${p.slug}.html">${esc(p.name)}</a> <span class="m">· ${esc(launchDetail(p))}</span></li>`).join('\n')}
   </ul>` : '';
 
   const towns = hdbTownsForDistrict(d).filter((t) => fs.existsSync(path.join('hdb-prices', t.slug, 'index.html')));
@@ -377,7 +376,7 @@ ${faqHtml(extraSchema[1], esc)}`;
   fs.writeFileSync(`${OUT}/d${d}/index.html`, pageShell({
     path: `/condo-prices/d${d}/`,
     titleTag: fitTitle(`District ${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`, `D${dn} Condo Resale Prices — ${esc(areaName.split(',')[0])} | PropertySG`),
-    desc: esc(districtDescription({ dn, area: areaName.split(',')[0], med: cur.med, psf: cur.psf, n: cur.n })),
+    desc: esc(districtDescription({ dn, area: areaName.split(',')[0], med: cur.med, psf: cur.psf, n: cur.n, hasProjects: projectList.length > 0 })),
     h1: `District ${dn} condo resale prices`,
     lede: `${areaName}. Every figure comes from caveats actually lodged with URA — no estimates, no modelling.`,
     body,
