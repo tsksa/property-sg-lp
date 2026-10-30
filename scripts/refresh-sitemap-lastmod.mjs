@@ -87,6 +87,33 @@ function lastCommitDate(file) {
   }
 }
 
+/**
+ * The Article dateModified an insights article declares, if any (YYYY-MM-DD).
+ *
+ * An article's lastmod should move when its content does, which its own
+ * dateModified (and visible "Updated" line) records. A schema- or markup-only
+ * commit changes the file's git date without changing what a reader sees;
+ * stamping lastmod with that date tells Google the page is fresher than its
+ * own dateModified says. Found 2026-10-30, when adding entity @ids to ten
+ * articles would have bumped all ten.
+ */
+function declaredDateModified(file) {
+  if (!/^insights\/[^/]+\.html$/.test(file)) return null;
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    let data;
+    try { data = JSON.parse(m[1]); } catch { continue; }
+    const nodes = Array.isArray(data?.['@graph']) ? data['@graph'] : [data];
+    for (const node of nodes) {
+      const types = [].concat(node?.['@type'] ?? []);
+      if (!types.some((t) => ['Article', 'BlogPosting', 'NewsArticle'].includes(t))) continue;
+      const date = String(node.dateModified ?? '').slice(0, 10);
+      if (/^\d{4}-\d{2}-\d{2}$/.test(date) && date <= TODAY) return date;
+    }
+  }
+  return null;
+}
+
 const xml = fs.readFileSync(SITEMAP, 'utf8');
 const stale = [];
 const unresolved = [];
@@ -107,7 +134,9 @@ const updated = xml.replace(/<url>([\s\S]*?)<\/url>/g, (block) => {
   // today is its real change date. Using the last commit instead would stamp
   // every page edited in this same commit with its PREVIOUS date — which is
   // exactly the one-commit lag that made CI reject an otherwise correct run.
-  const date = hasUncommittedChanges(file) ? TODAY : lastCommitDate(file);
+  // An insights article's own dateModified wins over git (see above).
+  const date = declaredDateModified(file)
+    ?? (hasUncommittedChanges(file) ? TODAY : lastCommitDate(file));
   if (!date) return block;
 
   const current = block.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1];
