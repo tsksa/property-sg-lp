@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HDB Resale Prices by Town — Updated Monthly | PropertySG</title>
-<meta name="description" content="Median HDB resale prices for all 26 towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.">
+<title>HDB Resale Prices 2026 by Town &amp; Flat Type | PropertySG</title>
+<meta name="description" content="HDB resale prices for all 26 towns by flat type: 12-month medians for 2-room to Executive flats, $psf and like-for-like change, from data.gov.sg.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/hdb-prices/">
@@ -12,8 +12,8 @@
 <link rel="alternate" hreflang="x-default" href="https://joetay.com/hdb-prices/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
-<meta property="og:title" content="HDB Resale Prices by Town — Updated Monthly | PropertySG">
-<meta property="og:description" content="Median HDB resale prices for all 26 towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.">
+<meta property="og:title" content="HDB Resale Prices 2026 by Town &amp; Flat Type | PropertySG">
+<meta property="og:description" content="HDB resale prices for all 26 towns by flat type: 12-month medians for 2-room to Executive flats, $psf and like-for-like change, from data.gov.sg.">
 <meta property="og:url" content="https://joetay.com/hdb-prices/">
 <meta property="og:locale" content="en_SG">
 <meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
@@ -27,12 +27,19 @@
 {
  "@context": "https://schema.org",
  "@type": "WebPage",
- "name": "HDB Resale Prices by Town — Updated Monthly | PropertySG",
+ "name": "HDB Resale Prices 2026 by Town &amp; Flat Type | PropertySG",
  "url": "https://joetay.com/hdb-prices/",
- "description": "Median HDB resale prices for all 26 towns from official transaction data — by flat type, with recent sales. Updated monthly from data.gov.sg.",
+ "description": "HDB resale prices for all 26 towns by flat type: 12-month medians for 2-room to Executive flats, $psf and like-for-like change, from data.gov.sg.",
  "inLanguage": "en-SG",
+ "dateModified": "2026-10-30",
  "isPartOf": {
   "@type": "WebSite",
+  "name": "PropertySG",
+  "url": "https://joetay.com/"
+ },
+ "publisher": {
+  "@type": "RealEstateAgent",
+  "@id": "https://joetay.com/#agent",
   "name": "PropertySG",
   "url": "https://joetay.com/"
  },
@@ -62,10 +69,11 @@
   {
    "@type": "Dataset",
    "name": "HDB resale prices by town — 12-month medians",
-   "description": "Median HDB resale prices for 26 Singapore towns, computed from 24,655 registered resale transactions in the 12 months to 2026-09.",
+   "description": "Median HDB resale prices for 26 Singapore towns, computed from 24,652 registered resale transactions in the 12 months to 2026-09.",
    "url": "https://joetay.com/hdb-prices/",
    "license": "https://data.gov.sg/open-data-licence",
    "isAccessibleForFree": true,
+   "dateModified": "2026-10-30",
    "creator": {
     "@type": "GovernmentOrganization",
     "name": "Housing & Development Board",
@@ -87,7 +95,7 @@
     {
      "@type": "PropertyValue",
      "name": "Total 12-month transaction count",
-     "value": 24655,
+     "value": 24652,
      "unitText": "count"
     }
    ]
@@ -113,6 +121,22 @@
     },
     {
      "@type": "Question",
+     "name": "What is the median HDB resale price in Singapore?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "$630,000, across 24,652 registered HDB resale transactions in the 12 months to 2026-09. By flat type: 3-room $440,000, 4-room $630,000, 5-room $740,000 and Executive $915,000."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Are HDB resale prices going down in 2026?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Broadly flat. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "Which HDB town has the highest median resale price?",
      "acceptedAnswer": {
       "@type": "Answer",
@@ -121,10 +145,18 @@
     },
     {
      "@type": "Question",
-     "name": "Which HDB town has the lowest median resale price?",
+     "name": "Which town has the cheapest 3-room HDB resale flats?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Ang Mo Kio, with a 12-month median of $512,400."
+      "text": "Toa Payoh, with a median 3-room resale price of $380,000 across 420 sales in the 12 months to 2026-09. Next was Geylang at $382,500. Only towns with at least 10 3-room sales are compared."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which town has the cheapest Executive HDB resale flats?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sembawang, with a median Executive resale price of $751,000 across 57 sales in the 12 months to 2026-09. Next was Jurong West at $781,900. Only towns with at least 10 Executive sales are compared."
      }
     }
    ]
@@ -133,6 +165,7 @@
 }
 </script>
 <script src="/assets/analytics-loader.js" defer data-meta="false"></script>
+
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;font-size:0.9rem;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -207,6 +240,27 @@ th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
 tr:last-child td{border-bottom:none}
 td:nth-child(n+2),th:nth-child(n+2){text-align:right}
+.tbl table.mini{min-width:0}
+.tbl table.mini th,.tbl table.mini td{padding:9px 12px}
+.tbl table.mini td{white-space:nowrap}
+.tbl table.mini td.l,details.blk td:nth-child(4){white-space:normal}
+.tbl td.l,.tbl th.l{text-align:left}
+.tbl+.tbl{margin-top:12px}
+section[data-est] p{margin-bottom:10px}
+details.blk{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff}
+details.blk summary{cursor:pointer;font-weight:600;color:var(--navy)}
+details.blk summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+details.blk .tbl{margin-top:10px;border:0}
+details.blk td:nth-child(4),details.blk th:nth-child(4){text-align:left}
+.hub-tbl table{min-width:760px;font-size:0.82rem}
+.hub-tbl th,.hub-tbl td{padding:9px 10px}
+.hub-tbl tfoot td{font-weight:700;border-top:1px solid rgba(11,30,63,0.12)}
+.hub-tbl th button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.hub-tbl th button:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
+.callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.callouts p{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:14px 16px}
+html.jt-theme-dark :is(.callouts p,details.blk){background:#102447;border-color:rgba(255,255,255,.12);color:#c1cad8;box-shadow:none}
+html.jt-theme-dark :is(.callouts strong,details.blk summary){color:#f8fafc}
 .town-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .town-card{background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:12px;padding:16px 18px;display:block;color:inherit}
 .town-card:hover{border-color:rgba(16,185,129,0.4);text-decoration:none}
@@ -276,37 +330,83 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/hdb-prices/">HDB Prices by Town</a></nav>
 <main id="main" tabindex="-1">
   <div class="eyebrow">Official HDB data · Updated monthly</div>
-  <h1>HDB resale prices, town by town</h1>
-  <p class="lede">Pick your town for medians by flat type and the latest registered transactions — straight from official HDB data.</p>
-  <p class="src">Source: HDB Resale Flat Prices via data.gov.sg · latest full month 2026-09 · figures below use the last 12 months unless stated.</p>
-  <div class="town-grid">
-    <a class="town-card" href="/hdb-prices/ang-mo-kio/"><span class="t">Ang Mo Kio</span><span class="m" style="display:block">median $512,400 · 866 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bedok/"><span class="t">Bedok</span><span class="m" style="display:block">median $550,000 · 1301 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bishan/"><span class="t">Bishan</span><span class="m" style="display:block">median $848,000 · 410 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bukit-batok/"><span class="t">Bukit Batok</span><span class="m" style="display:block">median $610,000 · 1370 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bukit-merah/"><span class="t">Bukit Merah</span><span class="m" style="display:block">median $790,000 · 908 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bukit-panjang/"><span class="t">Bukit Panjang</span><span class="m" style="display:block">median $610,000 · 780 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/bukit-timah/"><span class="t">Bukit Timah</span><span class="m" style="display:block">median $1,010,000 · 58 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/central-area/"><span class="t">Central Area</span><span class="m" style="display:block">median $756,000 · 174 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/choa-chu-kang/"><span class="t">Choa Chu Kang</span><span class="m" style="display:block">median $590,000 · 1010 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/clementi/"><span class="t">Clementi</span><span class="m" style="display:block">median $635,000 · 497 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/geylang/"><span class="t">Geylang</span><span class="m" style="display:block">median $598,000 · 653 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/hougang/"><span class="t">Hougang</span><span class="m" style="display:block">median $629,000 · 1233 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/jurong-east/"><span class="t">Jurong East</span><span class="m" style="display:block">median $526,000 · 477 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/jurong-west/"><span class="t">Jurong West</span><span class="m" style="display:block">median $558,444 · 1470 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/kallang-whampoa/"><span class="t">Kallang/Whampoa</span><span class="m" style="display:block">median $728,888 · 750 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/marine-parade/"><span class="t">Marine Parade</span><span class="m" style="display:block">median $568,000 · 131 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/pasir-ris/"><span class="t">Pasir Ris</span><span class="m" style="display:block">median $722,388 · 766 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/punggol/"><span class="t">Punggol</span><span class="m" style="display:block">median $672,000 · 1639 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/queenstown/"><span class="t">Queenstown</span><span class="m" style="display:block">median $850,000 · 751 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/sembawang/"><span class="t">Sembawang</span><span class="m" style="display:block">median $600,000 · 871 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/sengkang/"><span class="t">Sengkang</span><span class="m" style="display:block">median $658,000 · 1742 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/serangoon/"><span class="t">Serangoon</span><span class="m" style="display:block">median $670,000 · 387 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/tampines/"><span class="t">Tampines</span><span class="m" style="display:block">median $715,000 · 2006 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/toa-payoh/"><span class="t">Toa Payoh</span><span class="m" style="display:block">median $797,500 · 1003 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/woodlands/"><span class="t">Woodlands</span><span class="m" style="display:block">median $585,000 · 1827 sales/12m</span></a>
-    <a class="town-card" href="/hdb-prices/yishun/"><span class="t">Yishun</span><span class="m" style="display:block">median $538,000 · 1575 sales/12m</span></a>
+  <h1>HDB resale prices 2026: every town, every flat type</h1>
+  <p class="lede">Medians by town and flat type from every registered HDB resale transaction in the last 12 months. Pick a town for prices by street and block.</p>
+  <p class="src">Data to Sep 2026 (data.gov.sg) · HDB Resale Flat Prices dataset · figures cover the 12 months Oct 2025 to Sep 2026.</p>
+  <h2>HDB resale prices by town and flat type</h2>
+  <p class="src">12-month medians to Sep 2026. Year on year is like for like (the same flat types and lease ages compared with themselves). '–' means fewer than 10 sales of that flat type. Select a column heading to sort.</p>
+  <div class="tbl hub-tbl"><table id="town-table">
+    <thead><tr><th scope="col">Town</th><th scope="col">Median</th><th scope="col">Year on year</th><th scope="col">Median $psf</th><th scope="col">2-room</th><th scope="col">3-room</th><th scope="col">4-room</th><th scope="col">5-room</th><th scope="col">Executive</th><th scope="col">Sales</th></tr></thead>
+    <tbody>
+      <tr><td data-v="Ang Mo Kio"><a href="/hdb-prices/ang-mo-kio/">Ang Mo Kio</a></td><td data-v="512400">$512,400</td><td data-v="0.2">+0.2%</td><td data-v="582">$582</td><td data-v="330000">$330,000</td><td data-v="430888">$430,888</td><td data-v="615000">$615,000</td><td data-v="995000">$995,000</td><td data-v="">–</td><td data-v="866">866</td></tr>
+      <tr><td data-v="Bedok"><a href="/hdb-prices/bedok/">Bedok</a></td><td data-v="550000">$550,000</td><td data-v="-0.4">−0.4%</td><td data-v="586">$586</td><td data-v="325000">$325,000</td><td data-v="417944">$417,944</td><td data-v="594000">$594,000</td><td data-v="795000">$795,000</td><td data-v="1010000">$1,010,000</td><td data-v="1301">1,301</td></tr>
+      <tr><td data-v="Bishan"><a href="/hdb-prices/bishan/">Bishan</a></td><td data-v="848000">$848,000</td><td data-v="-0.9">−0.9%</td><td data-v="743">$743</td><td data-v="">–</td><td data-v="530000">$530,000</td><td data-v="788000">$788,000</td><td data-v="970000">$970,000</td><td data-v="1292500">$1,292,500</td><td data-v="410">410</td></tr>
+      <tr><td data-v="Bukit Batok"><a href="/hdb-prices/bukit-batok/">Bukit Batok</a></td><td data-v="610000">$610,000</td><td data-v="0.1">+0.1%</td><td data-v="621">$621</td><td data-v="380000">$380,000</td><td data-v="412944">$412,944</td><td data-v="630000">$630,000</td><td data-v="810000">$810,000</td><td data-v="868000">$868,000</td><td data-v="1369">1,369</td></tr>
+      <tr><td data-v="Bukit Merah"><a href="/hdb-prices/bukit-merah/">Bukit Merah</a></td><td data-v="790000">$790,000</td><td data-v="1.7">+1.7%</td><td data-v="796">$796</td><td data-v="290000">$290,000</td><td data-v="430000">$430,000</td><td data-v="935000">$935,000</td><td data-v="1065000">$1,065,000</td><td data-v="">–</td><td data-v="908">908</td></tr>
+      <tr><td data-v="Bukit Panjang"><a href="/hdb-prices/bukit-panjang/">Bukit Panjang</a></td><td data-v="610000">$610,000</td><td data-v="-0.5">−0.5%</td><td data-v="569">$569</td><td data-v="368888">$368,888</td><td data-v="460444">$460,444</td><td data-v="570000">$570,000</td><td data-v="695888">$695,888</td><td data-v="850000">$850,000</td><td data-v="780">780</td></tr>
+      <tr><td data-v="Bukit Timah"><a href="/hdb-prices/bukit-timah/">Bukit Timah</a></td><td data-v="1010000">$1,010,000</td><td data-v="0.0">0.0%</td><td data-v="834">$834</td><td data-v="">–</td><td data-v="">–</td><td data-v="938000">$938,000</td><td data-v="1107500">$1,107,500</td><td data-v="">–</td><td data-v="58">58</td></tr>
+      <tr><td data-v="Central Area"><a href="/hdb-prices/central-area/">Central Area</a></td><td data-v="756000">$756,000</td><td data-v="-0.2">−0.2%</td><td data-v="817">$817</td><td data-v="">–</td><td data-v="550000">$550,000</td><td data-v="870000">$870,000</td><td data-v="1473000">$1,473,000</td><td data-v="">–</td><td data-v="174">174</td></tr>
+      <tr><td data-v="Choa Chu Kang"><a href="/hdb-prices/choa-chu-kang/">Choa Chu Kang</a></td><td data-v="590000">$590,000</td><td data-v="0.0">0.0%</td><td data-v="515">$515</td><td data-v="357500">$357,500</td><td data-v="456500">$456,500</td><td data-v="555000">$555,000</td><td data-v="670000">$670,000</td><td data-v="835000">$835,000</td><td data-v="1010">1,010</td></tr>
+      <tr><td data-v="Clementi"><a href="/hdb-prices/clementi/">Clementi</a></td><td data-v="635000">$635,000</td><td data-v="3.1">+3.1%</td><td data-v="633">$633</td><td data-v="">–</td><td data-v="434000">$434,000</td><td data-v="821500">$821,500</td><td data-v="1160000">$1,160,000</td><td data-v="">–</td><td data-v="497">497</td></tr>
+      <tr><td data-v="Geylang"><a href="/hdb-prices/geylang/">Geylang</a></td><td data-v="598000">$598,000</td><td data-v="0.7">+0.7%</td><td data-v="629">$629</td><td data-v="290000">$290,000</td><td data-v="382500">$382,500</td><td data-v="740000">$740,000</td><td data-v="916500">$916,500</td><td data-v="1070000">$1,070,000</td><td data-v="653">653</td></tr>
+      <tr><td data-v="Hougang"><a href="/hdb-prices/hougang/">Hougang</a></td><td data-v="629000">$629,000</td><td data-v="1.1">+1.1%</td><td data-v="607">$607</td><td data-v="385250">$385,250</td><td data-v="452500">$452,500</td><td data-v="618888">$618,888</td><td data-v="785000">$785,000</td><td data-v="970000">$970,000</td><td data-v="1233">1,233</td></tr>
+      <tr><td data-v="Jurong East"><a href="/hdb-prices/jurong-east/">Jurong East</a></td><td data-v="526000">$526,000</td><td data-v="-0.5">−0.5%</td><td data-v="547">$547</td><td data-v="352000">$352,000</td><td data-v="410000">$410,000</td><td data-v="548000">$548,000</td><td data-v="715000">$715,000</td><td data-v="935000">$935,000</td><td data-v="477">477</td></tr>
+      <tr><td data-v="Jurong West"><a href="/hdb-prices/jurong-west/">Jurong West</a></td><td data-v="558444">$558,444</td><td data-v="-0.7">−0.7%</td><td data-v="515">$515</td><td data-v="360000">$360,000</td><td data-v="394000">$394,000</td><td data-v="535000">$535,000</td><td data-v="635000">$635,000</td><td data-v="781900">$781,900</td><td data-v="1470">1,470</td></tr>
+      <tr><td data-v="Kallang/Whampoa"><a href="/hdb-prices/kallang-whampoa/">Kallang/Whampoa</a></td><td data-v="728888">$728,888</td><td data-v="1.4">+1.4%</td><td data-v="723">$723</td><td data-v="329000">$329,000</td><td data-v="458944">$458,944</td><td data-v="905000">$905,000</td><td data-v="968888">$968,888</td><td data-v="994000">$994,000</td><td data-v="750">750</td></tr>
+      <tr><td data-v="Marine Parade"><a href="/hdb-prices/marine-parade/">Marine Parade</a></td><td data-v="568000">$568,000</td><td data-v="1.7">+1.7%</td><td data-v="689">$689</td><td data-v="">–</td><td data-v="470000">$470,000</td><td data-v="645000">$645,000</td><td data-v="978888">$978,888</td><td data-v="">–</td><td data-v="131">131</td></tr>
+      <tr><td data-v="Pasir Ris"><a href="/hdb-prices/pasir-ris/">Pasir Ris</a></td><td data-v="722388">$722,388</td><td data-v="1.2">+1.2%</td><td data-v="560">$560</td><td data-v="412500">$412,500</td><td data-v="608000">$608,000</td><td data-v="635000">$635,000</td><td data-v="732000">$732,000</td><td data-v="925888">$925,888</td><td data-v="766">766</td></tr>
+      <tr><td data-v="Punggol"><a href="/hdb-prices/punggol/">Punggol</a></td><td data-v="672000">$672,000</td><td data-v="1.9">+1.9%</td><td data-v="693">$693</td><td data-v="398000">$398,000</td><td data-v="545000">$545,000</td><td data-v="680000">$680,000</td><td data-v="780000">$780,000</td><td data-v="832500">$832,500</td><td data-v="1639">1,639</td></tr>
+      <tr><td data-v="Queenstown"><a href="/hdb-prices/queenstown/">Queenstown</a></td><td data-v="850000">$850,000</td><td data-v="5.6">+5.6%</td><td data-v="983">$983</td><td data-v="515000">$515,000</td><td data-v="450000">$450,000</td><td data-v="1028000">$1,028,000</td><td data-v="1230940">$1,230,940</td><td data-v="">–</td><td data-v="751">751</td></tr>
+      <tr><td data-v="Sembawang"><a href="/hdb-prices/sembawang/">Sembawang</a></td><td data-v="600000">$600,000</td><td data-v="0.1">+0.1%</td><td data-v="604">$604</td><td data-v="377500">$377,500</td><td data-v="520000">$520,000</td><td data-v="600000">$600,000</td><td data-v="640000">$640,000</td><td data-v="751000">$751,000</td><td data-v="871">871</td></tr>
+      <tr><td data-v="Sengkang"><a href="/hdb-prices/sengkang/">Sengkang</a></td><td data-v="658000">$658,000</td><td data-v="0.1">+0.1%</td><td data-v="629">$629</td><td data-v="388000">$388,000</td><td data-v="544000">$544,000</td><td data-v="640000">$640,000</td><td data-v="700000">$700,000</td><td data-v="845000">$845,000</td><td data-v="1742">1,742</td></tr>
+      <tr><td data-v="Serangoon"><a href="/hdb-prices/serangoon/">Serangoon</a></td><td data-v="670000">$670,000</td><td data-v="2.7">+2.7%</td><td data-v="653">$653</td><td data-v="">–</td><td data-v="464000">$464,000</td><td data-v="660000">$660,000</td><td data-v="830000">$830,000</td><td data-v="1105000">$1,105,000</td><td data-v="387">387</td></tr>
+      <tr><td data-v="Tampines"><a href="/hdb-prices/tampines/">Tampines</a></td><td data-v="715000">$715,000</td><td data-v="1.5">+1.5%</td><td data-v="622">$622</td><td data-v="425000">$425,000</td><td data-v="490000">$490,000</td><td data-v="665000">$665,000</td><td data-v="810000">$810,000</td><td data-v="980000">$980,000</td><td data-v="2005">2,005</td></tr>
+      <tr><td data-v="Toa Payoh"><a href="/hdb-prices/toa-payoh/">Toa Payoh</a></td><td data-v="797500">$797,500</td><td data-v="-0.6">−0.6%</td><td data-v="736">$736</td><td data-v="280000">$280,000</td><td data-v="380000">$380,000</td><td data-v="1000000">$1,000,000</td><td data-v="1050000">$1,050,000</td><td data-v="988000">$988,000</td><td data-v="1003">1,003</td></tr>
+      <tr><td data-v="Woodlands"><a href="/hdb-prices/woodlands/">Woodlands</a></td><td data-v="585000">$585,000</td><td data-v="-0.3">−0.3%</td><td data-v="525">$525</td><td data-v="378000">$378,000</td><td data-v="412500">$412,500</td><td data-v="550000">$550,000</td><td data-v="655000">$655,000</td><td data-v="918000">$918,000</td><td data-v="1826">1,826</td></tr>
+      <tr><td data-v="Yishun"><a href="/hdb-prices/yishun/">Yishun</a></td><td data-v="538000">$538,000</td><td data-v="-1.4">−1.4%</td><td data-v="566">$566</td><td data-v="362500">$362,500</td><td data-v="433000">$433,000</td><td data-v="550000">$550,000</td><td data-v="690444">$690,444</td><td data-v="900000">$900,000</td><td data-v="1575">1,575</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Singapore</td><td data-v="630000">$630,000</td><td data-v="0.6">+0.6%</td><td data-v="602">$602</td><td data-v="372000">$372,000</td><td data-v="440000">$440,000</td><td data-v="630000">$630,000</td><td data-v="740000">$740,000</td><td data-v="915000">$915,000</td><td data-v="24652">24,652</td></tr>
+    </tfoot>
+  </table></div>
+  <div class="callouts">
+    <p><strong>Cheapest town for a 4-room resale flat</strong><br><a href="/hdb-prices/jurong-west/#4-room">Jurong West</a>: median $535,000 across 590 sales.</p>
+    <p><strong>Most expensive town for a 4-room resale flat</strong><br><a href="/hdb-prices/queenstown/#4-room">Queenstown</a>: median $1,028,000 across 299 sales.</p>
   </div>
+  <p>Every town ranked by 4-room and 5-room median, with remaining lease, is in <a href="/insights/cheapest-4-room-5-room-hdb-resale-flats.html">cheapest 4-room and 5-room towns explained</a>.</p>
+  <script>
+  (function () {
+    var table = document.getElementById('town-table');
+    if (!table || !table.tBodies.length) return;
+    var heads = table.tHead.rows[0].cells;
+    var body = table.tBodies[0];
+    Array.prototype.forEach.call(heads, function (th, col) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = th.textContent;
+      th.textContent = '';
+      th.appendChild(btn);
+      btn.addEventListener('click', function () {
+        var asc = th.getAttribute('aria-sort') !== 'ascending';
+        Array.prototype.forEach.call(heads, function (h) { h.removeAttribute('aria-sort'); });
+        th.setAttribute('aria-sort', asc ? 'ascending' : 'descending');
+        var rows = Array.prototype.slice.call(body.rows);
+        rows.sort(function (a, b) {
+          var x = a.cells[col].getAttribute('data-v'), y = b.cells[col].getAttribute('data-v');
+          if (x === y) return 0;
+          if (x === '') return 1;
+          if (y === '') return -1;
+          var nx = Number(x), ny = Number(y);
+          var cmp = isNaN(nx) || isNaN(ny) ? x.localeCompare(y) : nx - ny;
+          return asc ? cmp : -cmp;
+        });
+        rows.forEach(function (row) { body.appendChild(row); });
+      });
+    });
+  })();
+  </script>
+  <h2>Selling? Check what flats like yours transacted for</h2>
+  <p>Town medians mix every block and storey. Open your town for sales by flat type, street and block, look up <a href="/neighbour-prices/">your own block's sold prices</a>, or ask me for a <a href="/valuation.html">free valuation</a> based on the sales nearest your flat.</p>
   <div class="cta">
     <h2>Can your budget reach your target town?</h2>
     <p>Use your household income, cash and CPF to estimate your HDB loan, maximum property budget and monthly repayment.</p>
@@ -316,8 +416,11 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
   <div class="faq">
       <details class="faq-item"><summary>How many HDB towns does this cover?</summary><p>26 towns across Singapore, each with a 12-month resale median computed from official transactions.</p></details>
       <details class="faq-item"><summary>Where does this HDB resale price data come from?</summary><p>The Housing &amp; Development Board's official HDB Resale Flat Prices dataset, published via data.gov.sg under the Singapore Open Data Licence v1.0.</p></details>
+      <details class="faq-item"><summary>What is the median HDB resale price in Singapore?</summary><p>$630,000, across 24,652 registered HDB resale transactions in the 12 months to 2026-09. By flat type: 3-room $440,000, 4-room $630,000, 5-room $740,000 and Executive $915,000.</p></details>
+      <details class="faq-item"><summary>Are HDB resale prices going down in 2026?</summary><p>Broadly flat. Like for like, HDB resale prices across Singapore have risen 0.6% in the 12 months to 2026-09 compared with the 12 months before. This compares the median price per square foot of the same flat types and lease ages in each town, and describes past sales, not a forecast.</p></details>
       <details class="faq-item"><summary>Which HDB town has the highest median resale price?</summary><p>Bukit Timah, with a 12-month median of $1,010,000.</p></details>
-      <details class="faq-item"><summary>Which HDB town has the lowest median resale price?</summary><p>Ang Mo Kio, with a 12-month median of $512,400.</p></details>
+      <details class="faq-item"><summary>Which town has the cheapest 3-room HDB resale flats?</summary><p>Toa Payoh, with a median 3-room resale price of $380,000 across 420 sales in the 12 months to 2026-09. Next was Geylang at $382,500. Only towns with at least 10 3-room sales are compared.</p></details>
+      <details class="faq-item"><summary>Which town has the cheapest Executive HDB resale flats?</summary><p>Sembawang, with a median Executive resale price of $751,000 across 57 sales in the 12 months to 2026-09. Next was Jurong West at $781,900. Only towns with at least 10 Executive sales are compared.</p></details>
   </div>
   <div class="cta">
     <h2>What would <em>your</em> flat fetch?</h2>

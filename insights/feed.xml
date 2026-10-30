@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-10-28T00:00:00+08:00</updated>
+  <updated>2026-10-30T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -13,6 +13,14 @@
     <uri>https://joetay.com/about-joe/</uri>
   </author>
   <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
+  <entry>
+    <title>How to Sell an HDB Flat: Steps, Fees &amp; Proceeds</title>
+    <link href="https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html</id>
+    <published>2026-10-30T00:00:00+08:00</published><updated>2026-10-30T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">How to sell an HDB flat step by step: MOP, Intent to Sell, OTP, resale application and completion, with HDB fees, CPF refund and a net-proceeds example.</summary>
+  </entry>
   <entry>
     <title>Q3 2026 URA Prices: Buyer and Seller Guide</title>
     <link href="https://joetay.com/insights/q3-2026-ura-private-home-prices.html" rel="alternate" type="text/html"/>
@@ -158,16 +166,16 @@
     <summary type="text">Compare HDB and bank interest rates, cash needed for a $600,000 flat, and the questions to ask before accepting a bank offer.</summary>
   </entry>
   <entry>
-    <title>HDB Valuation Explained: How Agents Price Flats</title>
+    <title>HDB Valuation: $120 Fee, Process &amp; Who Pays</title>
     <link href="https://joetay.com/insights/hdb-valuation-explained.html" rel="alternate" type="text/html"/>
     <id>https://joetay.com/insights/hdb-valuation-explained.html</id>
     <published>2026-04-21T00:00:00+08:00</published>
-    <updated>2026-10-05T00:00:00+08:00</updated>
+    <updated>2026-10-30T00:00:00+08:00</updated>
     <author>
       <name>Joe Tay</name>
       <uri>https://joetay.com/about-joe/</uri>
     </author>
-    <summary type="text">Understand HDB's Request for Value, CPF and loan limits, and cash over valuation, with illustrative examples and recent resale data for sellers.</summary>
+    <summary type="text">HDB valuation fee is $120 (incl. GST), paid by the buyer. How the Request for Value works, its timing vs the OTP, and how sellers price from registered sales.</summary>
   </entry>
   <entry>
     <title>How Long to Sell an HDB Flat in Singapore?</title>
@@ -182,11 +190,11 @@
     <summary type="text">How long to sell an HDB flat? Separate buyer search, the 21-day OTP and completion about 8 weeks after HDB acceptance. See fees and a moving checklist.</summary>
   </entry>
   <entry>
-    <title>Property Agent Commission Singapore: What 2% Covers</title>
+    <title>Property Agent Commission Singapore: 2026 Guide</title>
     <link href="https://joetay.com/insights/property-agent-commission-singapore.html" rel="alternate" type="text/html"/>
     <id>https://joetay.com/insights/property-agent-commission-singapore.html</id>
     <published>2026-04-21T00:00:00+08:00</published>
-    <updated>2026-08-26T00:00:00+08:00</updated>
+    <updated>2026-10-30T00:00:00+08:00</updated>
     <author>
       <name>Joe Tay</name>
       <uri>https://joetay.com/about-joe/</uri>

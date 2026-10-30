@@ -112,7 +112,9 @@ test('recent sales reach back a month only when the newest one runs out', () => 
 test('a town page table lists only 12-month-window sales and at least three flat types', () => {
   const html = fs.readFileSync(path.join(ROOT, 'hdb-prices', 'bedok', 'index.html'), 'utf8');
   const table = html.split('<h2>Most recent transactions</h2>')[1].split('</table>')[0];
-  const latest = html.match(/latest full month (\d{4}-\d{2})/)[1];
+  // "Data to Sep 2026 (data.gov.sg)": the newest full month of the window.
+  const [, mon, year] = html.match(/Data to ([A-Z][a-z]{2}) (\d{4}) \(data\.gov\.sg\)/);
+  const latest = `${year}-${String(new Date(`${mon} 1, ${year}`).getMonth() + 1).padStart(2, '0')}`;
   const window12 = monthsBack(13, new Date(`${latest}-15`)).slice(0, 12);
   const rows = [...table.matchAll(/<tr><td>(\d{4}-\d{2})<\/td><td[^>]*>([^·<]+) ·/g)];
   assert.equal(rows.length, 12);

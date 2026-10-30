@@ -6,13 +6,15 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (relative) => fs.readFileSync(path.join(ROOT, relative), 'utf8');
-const ARTICLE_TITLE = 'Property Agent Commission Singapore: What 2% Covers';
+const ARTICLE_TITLE = 'Property Agent Commission Singapore: 2026 Guide | PropertySG';
+// Feeds carry the title without the brand suffix.
+const FEED_TITLE = 'Property Agent Commission Singapore: 2026 Guide';
 const HUB_TITLE = 'Property agent commission in Singapore: what 2% covers';
 
 test('commission article answers the Search Console query intent with sourced visible guidance', () => {
   const html = read('insights/property-agent-commission-singapore.html');
 
-  assert.match(html, new RegExp(`<title>${ARTICLE_TITLE}</title>`));
+  assert.ok(html.includes(`<title>${ARTICLE_TITLE}</title>`));
   assert.match(html, /<h1[^>]*>Property agent commission in Singapore: what 2% covers<\/h1>/);
   assert.match(html, /<h2[^>]*>Are property agent commission rates fixed in Singapore\?<\/h2>/);
   assert.match(html, /<h2[^>]*>HDB, condo and buyer-agent fees at a glance<\/h2>/);
@@ -21,6 +23,7 @@ test('commission article answers the Search Console query intent with sourced vi
   assert.match(html, /<h3 id="buyer-agent-fees">Who pays a dedicated buyer's agent in Singapore\?<\/h3>/);
   assert.match(html, /<h3>When is property agent commission paid, and is GST added\?<\/h3>/);
   assert.match(html, /<h2 id="portal-agent-fees">Do you pay an agent fee if you found the property on 99\.co\?<\/h2>/);
+  assert.match(html, /<h2 id="buyers-agent-commission">Buyer's agent commission in Singapore<\/h2>/);
   assert.match(html, /https:\/\/www\.cea\.gov\.sg\/consumers\/engaging-a-property-agent\//);
   assert.match(html, /https:\/\/www\.hdb\.gov\.sg\/managing-my-home\/selling-a-flat\//);
   assert.match(html, /https:\/\/intercom\.help\/99faq\/en\/articles\/117729-do-i-need-to-pay-commission/);
@@ -97,8 +100,8 @@ test('insights hub and feeds use the same search-focused title', () => {
 
   assert.ok(hub.includes(HUB_TITLE));
   assert.match(hub, /<span>10 min read<\/span>[\s\S]*?<h2>Property agent commission in Singapore: what 2% covers<\/h2>/);
-  assert.ok(atom.includes(`<title>${ARTICLE_TITLE}</title>`));
-  assert.equal(item?.title, ARTICLE_TITLE);
+  assert.ok(atom.includes(`<title>${FEED_TITLE}</title>`));
+  assert.equal(item?.title, FEED_TITLE);
 });
 
 // The ad landers carried "2% is the Singapore industry standard" after the
@@ -129,4 +132,25 @@ test('the landlord page says the landlord pays the rental commission', () => {
   // so it says neither "negotiable" nor "non-negotiable" (2026-09-21).
   assert.doesNotMatch(html, /negotiable/i, 'the landlord page should not discuss whether commission is negotiable');
   assert.match(html, /The same rate for every landlord, every lease\./);
+});
+
+// The transaction-type table and worked examples may only use the article's
+// own 2% quote and 9% GST; CEA publishes no rate (JOE-469).
+test('commission table and worked examples stay sourced and reconcile', () => {
+  const html = read('insights/property-agent-commission-singapore.html');
+  assert.match(html, /Commission by transaction type \(negotiable, not fixed\)/);
+  assert.match(html, /no fixed commission rates nor prescribed guidelines on commission amounts/);
+  const table = html.split('id="commission-worked-examples"')[1].split('</table>')[0];
+  const rows = [...table.matchAll(/<tr><th scope="row">\$([\d,]+)<\/th><td>\$([\d,]+)<\/td><td>\$([\d,]+)<\/td><td>\$([\d,]+)<\/td><\/tr>/g)]
+    .map((m) => m.slice(1).map((v) => Number(v.replaceAll(',', ''))));
+  assert.deepEqual(rows.map((r) => r[0]), [550000, 700000, 1500000]);
+  for (const [price, fee, gst, total] of rows) {
+    assert.equal(fee, price * 0.02);
+    assert.equal(gst, Math.round(fee * 0.09));
+    assert.equal(total, fee + gst);
+  }
+  assert.match(html, /Illustrative arithmetic only/);
+  assert.ok(html.includes('href="/insights/how-to-sell-hdb-flat-singapore.html'));
+  assert.ok(html.includes('href="/sell-hdb/singapore/"'));
+  assert.doesNotMatch(html, /SEAA|co-broking guide/i);
 });

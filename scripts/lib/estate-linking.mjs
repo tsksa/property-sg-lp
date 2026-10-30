@@ -153,16 +153,33 @@ export function newLaunchesBlock(slug, townTitle, projectsByDistrict, esc) {
 
 // JOE-448: town pages answer "<town> HDB resale price" searches from sellers
 // but linked only articles and tools, never the selling service itself.
-export function readingBlock(townTitle, esc) {
+//
+// JOE-469: the calculator anchor names what it is ("HDB loan calculator"),
+// the loan comparison guide is linked, and two links follow the town's lease
+// profile (counted from its 12-month sales, see leaseProfile()): where more
+// than 40% of sales had under 60 years left, the valuation guide leads the
+// reading list; where more than 40% had 80 or more, the MOP timeline does.
+export const OLD_LEASE_SHARE = 0.4;
+
+export function readingBlock(townTitle, esc, profile = null) {
+  const valuation = '<li><a href="/insights/hdb-valuation-explained.html">How agents actually price a flat</a></li>';
+  const howLong = '<li><a href="/insights/how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell in 2026</a></li>';
+  const mop = '<li><a href="/insights/selling-hdb-after-mop-singapore.html">Selling after MOP: the 5-step timeline</a></li>';
+  let articles = [valuation, howLong, mop];
+  if (profile?.under60 > OLD_LEASE_SHARE) {
+    articles = ['<li><a href="/insights/hdb-valuation-explained.html">Older lease? How HDB valuation and pricing work</a></li>', howLong, mop];
+  } else if (profile?.over80 > OLD_LEASE_SHARE) {
+    articles = ['<li><a href="/insights/selling-hdb-after-mop-singapore.html">Just past MOP? The 5-step selling timeline</a></li>', valuation, howLong];
+  }
   return `  <h2>Useful reading for ${esc(townTitle)} sellers</h2>
   <ul class="link-list">
     <li>Selling a flat in ${esc(townTitle)}? <a href="/sell-hdb/singapore/">HDB selling service</a></li>
     <li><a href="/valuation.html">Free valuation</a></li>
-    <li><a href="/insights/hdb-valuation-explained.html">How agents actually price a flat</a></li>
-    <li><a href="/insights/how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell in 2026</a></li>
-    <li><a href="/insights/selling-hdb-after-mop-singapore.html">Selling after MOP: the 5-step timeline</a></li>
+    <li><a href="/insights/how-to-sell-hdb-flat-singapore.html">How to sell your HDB flat, step by step</a></li>
+    ${articles.join('\n    ')}
     <li><a href="/insights/property-agent-commission-singapore.html">What that 2% commission covers</a></li>
-    <li><a href="/calculator/">Affordability calculator</a></li>
+    <li><a href="/calculator/">HDB loan calculator</a></li>
+    <li><a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan: rates and downpayment</a></li>
     <li><a href="/glossary/">Property glossary — CPF, OTP, MOP &amp; more</a></li>
   </ul>`;
 }

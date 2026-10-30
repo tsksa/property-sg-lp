@@ -97,3 +97,29 @@ test('every town page links the HDB selling service and the free valuation first
     assert.ok(html.includes('<li><a href="/valuation.html">Free valuation</a></li>'), `${town}: no valuation link`);
   }
 });
+
+// JOE-469: the calculator link names what it is, the loan comparison guide is
+// linked, and two links follow the town's lease profile.
+test('the reading list names the HDB loan calculator and varies two links by lease profile', () => {
+  const plain = readingBlock('Bedok', esc);
+  assert.match(plain, /<li><a href="\/calculator\/">HDB loan calculator<\/a><\/li>/);
+  assert.doesNotMatch(plain, /Affordability calculator/);
+  assert.match(plain, /<li><a href="\/insights\/hdb-loan-vs-bank-loan-singapore\.html">HDB loan vs bank loan: rates and downpayment<\/a><\/li>/);
+  assert.match(plain, /href="\/insights\/selling-hdb-after-mop-singapore\.html"/);
+  assert.match(plain, /<li><a href="\/insights\/how-to-sell-hdb-flat-singapore\.html">How to sell your HDB flat, step by step<\/a><\/li>/);
+
+  const third = (block) => [...block.matchAll(/<li>([\s\S]*?)<\/li>/g)][3][1];
+  assert.match(third(plain), /hdb-valuation-explained\.html">How agents actually price a flat/);
+  assert.match(third(readingBlock('Bedok', esc, { under60: 0.55, over80: 0.1 })), /hdb-valuation-explained\.html">Older lease\?/);
+  assert.match(third(readingBlock('Punggol', esc, { under60: 0, over80: 0.7 })), /selling-hdb-after-mop-singapore\.html">Just past MOP\?/);
+  for (const profile of [null, { under60: 0.55, over80: 0 }, { under60: 0, over80: 0.7 }]) {
+    const items = [...readingBlock('Bedok', esc, profile).matchAll(/<li>/g)];
+    assert.equal(items.length, 10);
+    for (const href of ['/insights/hdb-valuation-explained.html', '/insights/selling-hdb-after-mop-singapore.html', '/insights/how-long-to-sell-hdb-singapore-2026.html']) {
+      assert.ok(readingBlock('Bedok', esc, profile).includes(`href="${href}"`), `${href} missing for ${JSON.stringify(profile)}`);
+    }
+  }
+  for (const target of ['insights/hdb-loan-vs-bank-loan-singapore.html', 'insights/selling-hdb-after-mop-singapore.html', 'insights/hdb-valuation-explained.html']) {
+    assert.ok(fs.existsSync(path.join(ROOT, target)), `${target} does not exist`);
+  }
+});

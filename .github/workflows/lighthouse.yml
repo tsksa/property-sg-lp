@@ -1,6 +1,6 @@
 name: Lighthouse
 
-# Audits four live joetay.com pages weekly and on pushes to main.
+# Audits seven live joetay.com pages weekly and on pushes to main.
 # A push-triggered audit samples current production, which may still precede
 # Netlify publication. Use timestamps; rerun manually after a deployment.
 #
@@ -35,6 +35,12 @@ jobs:
             url: https://joetay.com/calculator/
           - page: insights
             url: https://joetay.com/insights/
+          - page: hdb-town
+            url: https://joetay.com/hdb-prices/yishun/
+          - page: condo-district
+            url: https://joetay.com/condo-prices/d15/
+          - page: new-launch
+            url: https://joetay.com/new-launches/newport-residences.html
     steps:
       - uses: actions/checkout@v7
 
