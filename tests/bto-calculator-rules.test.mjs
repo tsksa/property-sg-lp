@@ -28,15 +28,16 @@ test('tenure is capped at the 25-year HDB ceiling and by age 65', () => {
   assert.doesNotMatch(html, /Math\.min\(30,/, 'the private 30-year ceiling has crept in');
 });
 
-test('HDB eligibility uses the 3% floor while the displayed payment stays at 2.6%', () => {
+test('HDB eligibility uses the 3% floor while the displayed payment stays at 2.6%; no unsourced bank rate', () => {
   assert.match(html, /const annualRate = loanType === 'HDB' \? Math\.max\(0\.03, 0\.026\) : 0\.040/);
-  assert.match(html, /const marketRate = loanType === 'HDB' \? 0\.026 : 0\.025/);
+  assert.match(html, /const marketRate = loanType === 'HDB' \? 0\.026 : annualRate;/);
+  assert.doesNotMatch(html, /illustrative bank rate/, 'bank repayment must not use an unsourced market rate');
 });
 
 test('shared loan rules are byte-identical with the resale calculator (drift guard)', () => {
   for (const rule of [
     /const annualRate = loanType === 'HDB' \? Math\.max\(0\.03, 0\.026\) : 0\.040/,
-    /const marketRate = loanType === 'HDB' \? 0\.026 : 0\.025/,
+    /const marketRate = loanType === 'HDB' \? 0\.026 : annualRate;/,
     /const msrMax = income \* 0\.30/,
     /const ltv = 0\.75/,
   ]) {

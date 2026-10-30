@@ -124,6 +124,14 @@ html.jt-theme-dark .article-body th{color:#a3adba;background:#0b1e3f}
 .article-body .article-cta p{margin:0 auto 22px}
 .article-body .article-cta a,
 .article-body .article-cta a:hover{border-bottom:0;color:#fff;text-decoration:none}
+/* A CTA with two links: the main next step keeps the emerald button and the
+   WhatsApp (or other) alternative is an outlined button beside it. */
+.article-cta-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.article-cta a.article-cta-secondary{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.7)}
+.article-cta a.article-cta-secondary:hover{background:rgba(255,255,255,0.12)}
+/* Dark theme recolours every link in <main> to #6ee7c1, which is 3.6:1 on the
+   emerald button when the CTA sits after .article-body. Keep CTA text white. */
+html.jt-theme-dark .article-cta a{color:#fff}
 
 /* ── Article footer / related ── */
 .article-footer{margin-top:56px;padding-top:32px;border-top:1px solid #eee}

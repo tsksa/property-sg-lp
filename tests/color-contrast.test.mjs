@@ -211,6 +211,13 @@ const cases = [
     background: ['.calc-cta', 'background'],
   },
   {
+    // JOE-470: must out-rank site-theme.css's (1,1,2) dark :is(...) p grey.
+    name: 'calculator guide-end CTA text, dark',
+    file: 'calculator/index.html',
+    foreground: ['html.jt-theme-dark .calc-guide #calc-guide-cta-title ~ p', 'color'],
+    background: ['.calc-cta', 'background'],
+  },
+  {
     name: 'calculator WhatsApp CTA',
     file: 'calculator/index.html',
     foreground: ['.calc-cta a.calc-cta-whatsapp', 'color'],
@@ -409,6 +416,31 @@ const cases = [
     file: 'insights/blog.css',
     foreground: ['.insights-whatsapp-cta', 'color'],
     background: ['.insights-whatsapp-cta', 'background'],
+  },
+  {
+    name: 'insights article CTA button',
+    file: 'insights/blog.css',
+    foreground: ['.article-cta a', 'color'],
+    background: ['.article-cta a', 'background'],
+  },
+  {
+    name: 'insights article CTA button, dark',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .article-cta a', 'color'],
+    background: ['.article-cta a', 'background'],
+  },
+  // The CTA box is a navy gradient; #0b1e3f is its lighter end.
+  {
+    name: 'insights article CTA secondary link',
+    file: 'insights/blog.css',
+    foreground: ['.article-cta a.article-cta-secondary', 'color'],
+    background: '#0b1e3f',
+  },
+  {
+    name: 'insights article CTA secondary link hover',
+    file: 'insights/blog.css',
+    foreground: ['.article-cta a.article-cta-secondary', 'color'],
+    background: ['.article-cta a.article-cta-secondary:hover', 'background', '#0b1e3f'],
   },
   {
     name: 'insights footer',

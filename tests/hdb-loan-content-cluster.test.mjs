@@ -19,7 +19,7 @@ test('the HDB loan and policy guides are indexable, sourced and calculator-linke
     const html = read(`insights/${slug}.html`);
     assert.match(html, /<link rel="canonical" href="https:\/\/joetay\.com\/insights\//);
     assert.match(html, /<meta name="robots" content="index,follow/);
-    assert.match(html, slug === 'hdb-loan-vs-bank-loan-singapore' ? /Reviewed 24 Oct 2026/ : /Reviewed (25|26) Aug 2026/);
+    assert.match(html, slug === 'hdb-loan-vs-bank-loan-singapore' ? /Reviewed 30 Oct 2026/ : /Reviewed (25|26) Aug 2026/);
     assert.match(html, /href="\/calculator\/">HDB loan calculator<\/a>/);
     assert.match(html, /https:\/\/(?:www\.)?(?:hdb\.gov\.sg|cpf\.gov\.sg)\//);
     assert.doesNotMatch(html, /guaranteed approval|financial advice tailored to you/i);
@@ -94,8 +94,64 @@ test('the HDB-vs-bank guide answers the bank-rate and mortgage queries it ranks 
   assert.match(html, /<h2[^>]*>Bank loan for an HDB flat: what the bank will ask for<\/h2>/);
   assert.match(html, /<h3>Does the 30% MSR apply to a bank loan for an HDB flat\?<\/h3>/);
   assert.match(html, /<h3>What is the bank loan interest rate for an HDB flat\?<\/h3>/);
-  assert.doesNotMatch(html, /\d\.\d{1,2}% (?:fixed|floating|bank package)/i, 'bank rates must never be quoted');
-  assert.match(html, /"dateModified": "2026-10-24"/);
+  assert.match(html, /"dateModified": "2026-10-30"/);
+});
+
+// 30 Oct 2026 rewrite (JOE-470): the top query is "hdb bank loan interest
+// rate", so the page now quotes current rates. Only figures a bank publishes on
+// its own site may appear, each next to that bank's URL and a check date, and
+// the SORA level must carry its MAS value date. No aggregator or broker rates.
+test('the HDB-vs-bank guide quotes dated, primary-source rates and worked numbers', () => {
+  const html = read('insights/hdb-loan-vs-bank-loan-singapore.html');
+  const title = html.match(/<title>([^<]+)<\/title>/)[1];
+  assert.match(title, /HDB Loan vs Bank Loan Interest Rate/);
+  assert.match(html, /<h1 id="article-title">HDB loan vs bank loan in 2026: interest rates, cash and which costs less<\/h1>/);
+  assert.match(html, /<h2[^>]*>HDB bank loan interest rates today \(checked 30 Oct 2026\)<\/h2>/);
+
+  const rates = html.match(/<table aria-label="HDB loan rate and bank-published HDB flat loan rates, checked 30 Oct 2026"[\s\S]*?<\/table>/)?.[0];
+  assert.ok(rates, 'missing the dated rates table');
+  assert.match(rates, /href="https:\/\/www\.hdb\.gov\.sg\/managing-my-home\/finances\/loan-matters\/interest-rate"[^>]*>HDB housing loan<\/a><\/td><td>2\.60%/);
+  assert.match(rates, /href="https:\/\/www\.dbs\.com\.sg\/[^"]+"[^>]*>DBS[^<]*<\/a><\/td><td>1\.78% in years 1 to 3/);
+  assert.match(rates, /href="https:\/\/www\.uob\.com\.sg\/[^"]+"[^>]*>UOB[^<]*<\/a><\/td><td>SORA \+ 0\.70%/);
+  for (const link of rates.matchAll(/href="https:\/\/([^/"]+)\//g)) {
+    assert.match(link[1], /^www\.(?:hdb\.gov\.sg|dbs\.com\.sg|uob\.com\.sg)$/, `rates table cites a non-primary source: ${link[1]}`);
+  }
+  assert.doesNotMatch(html, /moneysmart|singsaver|roshi|propertyguru|dollarback|smartcalculator/i, 'no aggregator rates');
+  assert.match(html, /1\.2748%<\/strong> for 29 Oct 2026, published by <a href="https:\/\/eservices\.mas\.gov\.sg\/statistics\/dir\/DomesticInterestRates\.aspx"/);
+
+  // Worked example: $450,000 over 25 years, standard amortisation.
+  for (const figure of ['$2,041.51', '$1,859.52', '$1,901.83', '$2,133.95', '$2,375.27', 'About $7,114', 'About $7,918']) {
+    assert.ok(html.includes(figure), `missing worked figure ${figure}`);
+  }
+  const pmt = (loan, pct, years) => { const r = pct / 1200; return loan * r / (1 - (1 + r) ** -(years * 12)); };
+  assert.equal(pmt(450000, 2.6, 25).toFixed(2), '2041.51');
+  assert.equal(pmt(450000, 1.78, 25).toFixed(2), '1859.52');
+  assert.equal(pmt(450000, 1.2748 + 0.7, 25).toFixed(2), '1901.83');
+  assert.equal(pmt(450000, 3, 25).toFixed(2), '2133.95');
+  assert.equal(pmt(450000, 4, 25).toFixed(2), '2375.27');
+  // Income needed is rounded up: the smallest whole-dollar income whose 30% covers the instalment.
+  assert.equal(Math.ceil(pmt(450000, 3, 25) / 0.3), 7114);
+  assert.equal(Math.ceil(pmt(450000, 4, 25) / 0.3), 7918);
+  assert.match(html, /once SORA is above 1\.60%/);
+  assert.match(html, /75% if the tenure is 25 years or less and the loan ends by age 65; otherwise 55%/);
+});
+
+test('loan guides carry at most two tracked CTAs', () => {
+  for (const slug of ['hdb-loan-vs-bank-loan-singapore', 'hfe-letter-singapore-guide']) {
+    const html = read(`insights/${slug}.html`);
+    const body = html.slice(html.indexOf('<section class="article-body"'), html.indexOf('</article>'));
+    const ctas = body.split('<div class="article-cta">').slice(1).map((chunk) => chunk.slice(0, chunk.indexOf('\n</div>')));
+    assert.equal(ctas.length, 2, `${slug}: expected 2 CTAs`);
+    for (const cta of ctas) {
+      for (const link of cta.matchAll(/<a [^>]*>/g)) {
+        assert.match(link[0], /data-cta-location="insights_[a-z0-9_]+"/, `${slug}: untracked CTA link ${link[0]}`);
+        assert.match(link[0], /data-lead-type="hdb_buyer"/);
+        if (/wa\.me/.test(link[0])) assert.doesNotMatch(decodeURIComponent(link[0].match(/\?text=([^"]+)/)[1]), /[\d$]/, 'WhatsApp text must carry no figures');
+      }
+    }
+  }
+  const hfe = read('scripts/generate-hdb-loan-cluster.mjs').match(/slug: 'hfe-letter-singapore-guide',\n[^\n]*\n\s*modified: '([^']+)'/)[1];
+  assert.equal(hfe, '2026-10-09', 'adding CTAs must not bump the HFE guide date');
 });
 
 test('every calculator and the hub link into the financing cluster from outside it', () => {
@@ -141,4 +197,23 @@ test('loan comparison gives a dated rate answer and qualifies its cash example',
   assert.match(html, /role="region" aria-label="Scrollable HDB and bank loan comparison" tabindex="0"/);
   assert.match(html, /fixed-rate end date and lock-in end date separately/);
   assert.ok(html.indexOf('>HDB bank loan interest rate:') < html.indexOf('>When an HDB loan may fit better<'));
+});
+
+test('calculator and bank-loan guide state the MAS stress-test rate the same way (JOE-470)', () => {
+  // MAS, Calculating TDSR (checked 30 Oct 2026): "The higher of a 4% floor or
+  // the thereafter interest rate." Both pages cite that page, so both must
+  // use the thereafter rate, not the package's highest rate.
+  const calculator = read('calculator/index.html');
+  const article = read('insights/hdb-loan-vs-bank-loan-singapore.html');
+  assert.match(calculator, /4% or the package(?:'|&#39;)s thereafter rate, whichever is higher/);
+  assert.match(article, /higher of 4% or (?:the package|your package)(?:'|&#39;)s thereafter rate/i);
+  for (const [name, html] of [['calculator', calculator], ['article', article]]) {
+    assert.doesNotMatch(html, /highest rate in (?:the|your) package|package(?:'|&#39;)s highest rate/i, `${name} uses non-MAS stress-test wording`);
+  }
+});
+
+test('the bank rates table has a stable anchor the calculator links to (JOE-470)', () => {
+  const article = read('insights/hdb-loan-vs-bank-loan-singapore.html');
+  assert.match(article, /<h2 id="bank-loan-rates-today">HDB bank loan interest rates today/);
+  assert.match(read('calculator/index.html'), /href="\/insights\/hdb-loan-vs-bank-loan-singapore\.html#bank-loan-rates-today"/);
 });

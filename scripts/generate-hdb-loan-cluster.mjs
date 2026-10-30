@@ -39,6 +39,35 @@ const SOURCES = {
   hfeKeo: 'https://www.hdb.gov.sg/business/estate-agents-and-salespersons/letters-to-keos/Implementation-of-HDB-Flat-Eligibility-Letter',
 };
 
+// Primary sources for the HDB-vs-bank comparison. Bank rates are quoted only
+// from each bank's own HDB-loan page, never from comparison sites or brokers.
+const LOAN_SOURCES = {
+  hdbRate: SOURCES.rate,
+  hdbFi: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/housing-loan/housing-loan-from-financial-institutions',
+  cpfOa: 'https://www.cpf.gov.sg/member/growing-your-savings/earning-higher-returns/earning-attractive-interest',
+  masLtv: 'https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits',
+  masMsr: 'https://www.mas.gov.sg/regulation/explainers/new-housing-loans/msr-and-tdsr-rules',
+  masTdsr: 'https://www.mas.gov.sg/regulation/explainers/tdsr-for-property-loans/calculating-tdsr',
+  mas2022: 'https://www.mas.gov.sg/news/media-releases/2022/measures-to-promote-sustainable-conditions-in-the-property-market-by-ensuring-prudent-borrowing-and-moderating-demand',
+  sora: 'https://eservices.mas.gov.sg/statistics/dir/DomesticInterestRates.aspx',
+  dbs: 'https://www.dbs.com.sg/personal/loans/home-loans/hdb-loan',
+  uob: 'https://www.uob.com.sg/personal/borrow/property-loans/hdb-home-loan.page',
+  ocbc: 'https://www.ocbc.com/personal-banking/loans/new-purchase-of-hdb-private-property',
+};
+
+// REFRESH STEP (monthly, and whenever HDB revises its rate in Jan/Apr/Jul/Oct):
+// 1. Re-check HDB's rate page, the CPF OA rate, and the DBS, UOB and OCBC pages
+//    above. Update the rates table, quick answer and FAQs in the
+//    hdb-loan-vs-bank-loan-singapore entry; drop any package a bank no longer
+//    publishes.
+// 2. Read the latest 3M compounded SORA from MAS and update SORA_LATEST, the
+//    SORA table and the break-even sentence.
+// 3. Re-run the instalment maths if any rate changed, then bump `modified`,
+//    the "Reviewed" line and BANK_RATES_CHECKED, and regenerate.
+const BANK_RATES_CHECKED = { iso: '2026-10-30', label: '30 Oct 2026' };
+const SORA_LATEST = { value: '1.2748%', valueDate: '29 Oct 2026', published: '30 Oct 2026' };
+const RATE_STALE_DAYS = 45;
+
 const ARTICLES = [
   {
     slug: 'hdb-loan-eligibility-singapore',
@@ -146,7 +175,7 @@ const ARTICLES = [
 <div class="article-cta">
   <h3>Waiting for your HFE letter?</h3>
   <p>Use the month to shortlist flats your letter is likely to cover. Joe can go through your expected loan, CPF and cash with you, so you are ready to view and make an offer once the letter arrives.</p>
-  <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20am%20applying%20for%20my%20HFE%20letter%20and%20would%20like%20help%20planning%20my%20flat%20budget." rel="noopener">WhatsApp Joe about your budget →</a>
+  <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20am%20applying%20for%20my%20HFE%20letter%20and%20would%20like%20help%20planning%20my%20flat%20budget." target="_blank" rel="noopener" data-cta-location="insights_hfe_guide_mid" data-lead-type="hdb_buyer">WhatsApp Joe about your budget →</a>
 </div>
 
 <h2>How to view your HFE letter</h2>
@@ -164,6 +193,15 @@ const ARTICLES = [
 <h2>Can you compare bank loans during the HFE process?</h2>
 <p>Yes. HDB's integrated loan application service lets buyers request an In-Principle Approval from participating financial institutions while applying for the HFE letter. An IPA is indicative; the confirmed Letter of Offer comes later after a flat is secured.</p>
 <p>Before choosing, compare the current differences in <a href="/insights/hdb-loan-vs-bank-loan-singapore.html">HDB loans versus bank loans</a>, including cash downpayment, rate variability, lock-ins and refinancing options.</p>
+
+<div class="article-cta">
+  <h3>Got your HFE letter?</h3>
+  <p>The letter shows the HDB loan you qualify for, not what the monthly instalment will feel like. Check the instalment in the calculator, then compare it with a bank offer before you take an OTP.</p>
+  <div class="article-cta-actions">
+    <a href="/calculator/" data-calculator="repayment" data-entry-point="hfe_guide" data-cta-location="insights_hfe_guide_end" data-lead-type="hdb_buyer">Check your monthly instalment →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20have%20my%20HFE%20letter%20and%20would%20like%20help%20choosing%20between%20an%20HDB%20loan%20and%20a%20bank%20loan." target="_blank" rel="noopener" data-cta-location="insights_hfe_guide_end" data-lead-type="hdb_buyer">WhatsApp Joe about your loan</a>
+  </div>
+</div>
 
 <h2>Official source and review date</h2>
 <p>Reviewed ${reviewed} against HDB's <a href="${SOURCES.hfe}" rel="noopener">Application for an HFE Letter</a> and <a href="${SOURCES.loan}" rel="noopener">Housing Loan from HDB</a> pages. The application steps, documents, validity and HLE sections were checked on 9 October 2026 against HDB's <a href="${SOURCES.hfeIncome}" rel="noopener">Income Guidelines and Documents</a> page and its <a href="${SOURCES.hfeKeo}" rel="noopener">notice introducing the HFE letter</a>.</p>`,
@@ -224,48 +262,135 @@ const ARTICLES = [
   },
   {
     slug: 'hdb-loan-vs-bank-loan-singapore',
-    title: 'HDB Loan vs Bank Loan: Rates & Cash (2026) | PropertySG',
-    modified: '2026-10-24',
-    headline: 'HDB loan vs bank loan: interest rates and cash needed',
-    description: 'Compare HDB’s 2.6% rate for Oct–Dec 2026 with bank loan terms, cash downpayment and switching rules. See a $600,000 flat example and offer checklist.',
+    title: 'HDB Loan vs Bank Loan Interest Rate (2026) | PropertySG',
+    modified: '2026-10-30',
+    headline: 'HDB loan vs bank loan in 2026: interest rates, cash and which costs less',
+    description: 'HDB loan: 2.6% for Oct–Dec 2026. 3M SORA: 1.27% (29 Oct). Compare bank rates for HDB flats, cash needed, the 4% stress test and a $450,000 example.',
     category: 'Loan comparison',
-    readTime: '11 min read',
-    lede: 'HDB’s concessionary loan rate is 2.6% p.a. for October–December 2026. Banks have no single HDB-flat rate: compare the written offer, cash required and repayment flexibility before choosing.',
+    readTime: '14 min read',
+    lede: 'HDB charges 2.6% a year from 1 October to 31 December 2026. Some banks now advertise HDB-flat packages below that, from 1.78%. This guide shows what each loan costs on $450,000, the cash each needs, and what you give up for the lower rate.',
     body: `
-<h2>HDB or bank loan: the short answer</h2>
-<p>An HDB loan may suit eligible buyers who need flexibility with their cash and early repayments. A bank loan may suit buyers who do not qualify for HDB financing or whose written offer fits their budget and plans. A lower starting rate alone does not settle the decision: check the later rate, fees and cash needed.</p>
-<p><a href="https://ask.gov.sg/cpf/questions/cm2s5b54c005r12kzrep7aayw" rel="noopener">CPF Board confirms the 2.6% HDB rate for 1 October–31 December 2026</a>. It is pegged to CPF Ordinary Account interest plus 0.1 percentage point, so it is not a lifetime fixed rate. Bank packages change; this guide does not quote an advertised bank rate as a current offer.</p>
-<p>On a small screen, scroll the comparison sideways to see both loan options.</p>
-<div role="region" aria-label="Scrollable HDB and bank loan comparison" tabindex="0" style="overflow-x:auto">
-<table aria-label="HDB housing loan and bank loan comparison" style="min-width:600px">
-  <tr><th>Feature</th><th>HDB housing loan</th><th>Bank housing loan</th></tr>
-  <tr><td>Interest</td><td>2.6% p.a. for Oct–Dec 2026; pegged 0.1 percentage point above the CPF OA rate</td><td>Market package; fixed or floating terms can change</td></tr>
-  <tr><td>Maximum LTV</td><td>Up to 75%, subject to eligibility and assessment</td><td>Generally up to 75% for a first housing loan, subject to lender and regulatory rules</td></tr>
-  <tr><td>Minimum downpayment at 75% LTV</td><td>25%, payable using CPF OA, cash or both</td><td>25%, with at least 5% in cash and the balance in cash or CPF OA</td></tr>
-  <tr><td>Lock-in and early repayment</td><td>No lock-in or early repayment penalty</td><td>Lock-in periods and early repayment charges may apply</td></tr>
-  <tr><td>Future switch</td><td>Can refinance to a bank later</td><td>Cannot switch that flat's bank loan back to an HDB housing loan</td></tr>
+<div class="callout"><strong>Quick answer</strong><p>HDB's loan rate is 2.6% a year from 1 October to 31 December 2026, set at 0.1 percentage point above the CPF Ordinary Account rate. Bank packages for HDB flats, as published on the banks' own websites on ${BANK_RATES_CHECKED.label}, start lower: DBS advertises 1.78% for the first three years, and UOB advertises 3-month compounded SORA + 0.70%, about 1.97% at the latest SORA of ${SORA_LATEST.value} (${SORA_LATEST.valueDate}). On a $450,000 loan over 25 years, that is $140 to $182 a month less than HDB in the first years.</p><p>The trade-off: a bank loan needs at least 5% of the price in cash, is tested at 4% instead of HDB's 3% so it can approve a smaller loan, usually comes with a lock-in, and you can never move that flat back to an HDB loan.</p></div>
+
+<h2 id="bank-loan-rates-today">HDB bank loan interest rates today (checked ${BANK_RATES_CHECKED.label})</h2>
+<p>These are the rates each lender publishes on its own website for HDB flats. They are advertised rates, not offers. UOB, for example, says its rates are confirmed only in the Letter of Offer and can change without notice. Rates from comparison sites and mortgage brokers are left out.</p>
+<p>On a small screen, scroll the tables sideways.</p>
+<div role="region" aria-label="Scrollable table of current HDB and bank loan rates" tabindex="0" style="overflow-x:auto">
+<table aria-label="HDB loan rate and bank-published HDB flat loan rates, checked ${BANK_RATES_CHECKED.label}" style="min-width:640px">
+  <tr><th>Lender and package</th><th>Early years</th><th>After that</th><th>How the rate moves</th><th>Lock-in and conditions</th></tr>
+  <tr><td><a href="${LOAN_SOURCES.hdbRate}" rel="noopener">HDB housing loan</a></td><td>2.60%</td><td>2.60% for now</td><td>CPF OA rate (2.5%) plus 0.10 point. HDB can revise it in January, April, July and October.</td><td>No lock-in and no early repayment penalty</td></tr>
+  <tr><td><a href="${LOAN_SOURCES.dbs}" rel="noopener">DBS 3-Year CPF-OA HDB Loan</a></td><td>1.78% in years 1 to 3</td><td>2.20% in years 4 and 5, then 2.40%</td><td>Pegged below the CPF OA rate: 0.72 point below, then 0.30, then 0.10</td><td>3-year commitment period; minimum loan $100,000</td></tr>
+  <tr><td><a href="${LOAN_SOURCES.uob}" rel="noopener">UOB HDB Home Loan, SORA package</a></td><td>SORA + 0.70% in years 1 and 2 (about 1.97% today), SORA + 0.80% in year 3 (about 2.07%)</td><td>SORA + 1.00% (about 2.27% today)</td><td>3-month compounded SORA plus a fixed spread, so it rises and falls with SORA</td><td>2-year lock-in; minimum loan $250,000; completed flats; new Direct-to-Bank+ customers; applications 1 Oct 2026 to 31 Mar 2027</td></tr>
 </table>
+</div>
+<p>"Today" uses 3-month compounded SORA of <strong>${SORA_LATEST.value}</strong> for ${SORA_LATEST.valueDate}, published by <a href="${LOAN_SOURCES.sora}" rel="noopener">MAS</a> on ${SORA_LATEST.published}. The UOB figures will move as SORA moves. OCBC's <a href="${LOAN_SOURCES.ocbc}" rel="noopener">home loan page</a> lists 3-month SORA and two-year fixed packages for HDB flats without rates for them, so ask OCBC for a written offer.</p>
+
+<div class="article-cta">
+  <h3>What would your instalment be?</h3>
+  <p>Put your flat price, loan and rate into the calculator to see the monthly instalment. To compare an HDB loan with a bank offer on a flat you are looking at, WhatsApp Joe.</p>
+  <div class="article-cta-actions">
+    <a href="/calculator/" data-calculator="repayment" data-entry-point="hdb_vs_bank_guide" data-cta-location="insights_hdb_vs_bank_mid" data-lead-type="hdb_buyer">Check your monthly instalment →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20loan%20vs%20bank%20loan%20guide%20and%20would%20like%20help%20choosing%20a%20loan." target="_blank" rel="noopener" data-cta-location="insights_hdb_vs_bank_mid" data-lead-type="hdb_buyer">WhatsApp Joe about your loan</a>
+  </div>
 </div>
 
 <h2>HDB bank loan interest rate: how bank packages are priced</h2>
-<p>Banks do not publish a single "HDB bank loan interest rate". A package is either fixed for a stated period, typically one to three years, and then floating, or floating from day one, pegged to a reference rate such as 3-month compounded SORA plus the bank's spread. Once the fixed period ends the rate resets to the floating formula, so the year-one rate and the year-four rate can differ a great deal. No bank rate is quoted on this page because packages change; ask each bank for a written offer that states the fixed-period rate, the follow-on formula and the lock-in.</p>
-<p>Whatever the package rate, the bank assesses whether you can pay at a higher stress-test rate (4% for residential property loans under MAS rules), within the 55% Total Debt Servicing Ratio and, because the property is an HDB flat, the 30% Mortgage Servicing Ratio as well. <a href="msr-vs-tdsr-singapore.html">MSR vs TDSR</a> explains how the two ratios cap the loan.</p>
+<p>Banks price loans for HDB flats in three ways:</p>
+<ul>
+  <li><strong>Fixed, then floating.</strong> The rate is fixed for one to three years, then moves to a floating formula. The formula after the fixed years matters more than the fixed rate, because it applies for most of the loan.</li>
+  <li><strong>Pegged to SORA.</strong> The rate is 3-month compounded SORA plus the bank's spread. SORA is the Singapore Overnight Rate Average, published daily by MAS. The 3-month compounded figure averages the past three months, so it moves slowly. Ask how often the bank resets your rate.</li>
+  <li><strong>Pegged to the CPF OA rate.</strong> The rate is a fixed margin below the CPF Ordinary Account rate, the same rate HDB adds 0.1 point to. DBS's package works this way. If the CPF OA rate changes, HDB's rate and the package rate move by the same amount, so the gap stays. The CPF OA rate has a legislated minimum of 2.5%, so DBS's year 1 to 3 rate cannot fall below 1.78% either.</li>
+</ul>
+<p>The rate after the promotional years is called the thereafter rate. It is 2.40% on the DBS package and SORA + 1.00% on the UOB package. That is the rate you pay for most of a 25-year loan, so compare it with HDB's 2.6% before the year-one rate.</p>
+<p>Whatever the package rate, the bank must check that you could pay at a higher rate. <a href="${LOAN_SOURCES.masTdsr}" rel="noopener">MAS</a> sets this at the higher of 4% or the package's thereafter rate, within the 30% Mortgage Servicing Ratio and the 55% Total Debt Servicing Ratio. <a href="msr-vs-tdsr-singapore.html">MSR vs TDSR</a> explains both ratios.</p>
 
+<h2>3-month SORA since 2024, and when a SORA loan costs more than 2.6%</h2>
+<p>A SORA package is cheaper than an HDB loan only while SORA stays low. These are MAS's 3-month compounded SORA figures on the first business day of each month shown.</p>
+<table aria-label="3-month compounded SORA, January 2024 to October 2026">
+  <tr><th>Date</th><th>3M compounded SORA</th></tr>
+  <tr><td>January 2024</td><td>3.7012%</td></tr>
+  <tr><td>October 2024</td><td>3.4966%</td></tr>
+  <tr><td>January 2025</td><td>3.0227%</td></tr>
+  <tr><td>April 2025</td><td>2.5496%</td></tr>
+  <tr><td>July 2025</td><td>2.0470%</td></tr>
+  <tr><td>October 2025</td><td>1.4489%</td></tr>
+  <tr><td>January 2026</td><td>1.1797%</td></tr>
+  <tr><td>May 2026 (lowest of the dates shown)</td><td>1.0356%</td></tr>
+  <tr><td>July 2026</td><td>1.0871%</td></tr>
+  <tr><td>September 2026</td><td>1.1905%</td></tr>
+  <tr><td>October 2026</td><td>1.2337%</td></tr>
+  <tr><td>${SORA_LATEST.valueDate} (latest)</td><td>${SORA_LATEST.value}</td></tr>
+</table>
+<p><strong>Break-even with HDB's 2.6%:</strong> a package at SORA + 1.00% costs more than an HDB loan once SORA is above 1.60%. At SORA + 0.70%, the line is 1.90%. SORA is 1.27% now, 0.33 point below the first line. It was 2.05% in July 2025 and 3.02% in January 2025. If it went back to 3.02%, a SORA + 1.00% loan would charge 4.02%.</p>
+<p>A CPF-OA-pegged package such as DBS's carries no SORA risk, because every stage of the published package is pegged below the CPF OA rate. Its risks are the commitment period and giving up the HDB loan for good.</p>
+
+<h2>HDB loan vs bank loan: side-by-side</h2>
+<div role="region" aria-label="Scrollable HDB and bank loan comparison" tabindex="0" style="overflow-x:auto">
+<table aria-label="HDB housing loan and bank loan comparison" style="min-width:600px">
+  <tr><th>Feature</th><th>HDB housing loan</th><th>Bank loan for an HDB flat</th></tr>
+  <tr><td>Interest rate</td><td>2.6% a year for 1 October to 31 December 2026; 0.1 point above the CPF OA rate, reviewed quarterly</td><td>Set by each bank: fixed, SORA-pegged or CPF-OA-pegged (see the table above)</td></tr>
+  <tr><td>Who can borrow</td><td>At least one Singapore Citizen; household income up to $16,000 a month for families, $24,000 for extended families, $8,000 for singles; fewer than two previous HDB loans</td><td>No HDB income ceiling; the bank's credit assessment and MAS limits apply</td></tr>
+  <tr><td>Maximum loan-to-value</td><td>75% of the price, or of the lower of price and valuation for resale</td><td>75% if the tenure is 25 years or less and the loan ends by age 65; otherwise 55%</td></tr>
+  <tr><td>Minimum cash downpayment</td><td>None: the 25% can be paid from CPF OA, cash or both</td><td>5% of the lower of price and valuation (10% when the 55% limit applies)</td></tr>
+  <tr><td>Longest tenure</td><td>25 years, or less if 65 minus your average age, or the remaining lease minus 20 years, is shorter</td><td>30 years, but over 25 years the limit drops to 55%</td></tr>
+  <tr><td>Rate used to test affordability</td><td>Higher of 3% or the HDB rate: 3% now</td><td>Higher of 4% or the package's thereafter rate: 4% for the packages above</td></tr>
+  <tr><td>Debt limits</td><td>30% MSR; HDB also looks at existing debts</td><td>30% MSR and 55% TDSR covering all debts</td></tr>
+  <tr><td>CPF savings</td><td>You must use your OA savings first, keeping up to $20,000 in each OA</td><td>HDB's OA rule does not apply</td></tr>
+  <tr><td>Lock-in and early repayment</td><td>No lock-in, no penalty</td><td>Usually 1 to 3 years; CPF Board says the penalty could be around 1.5% of the outstanding loan</td></tr>
+  <tr><td>Cash-over-valuation</td><td>Paid in cash</td><td>Paid in cash</td></tr>
+  <tr><td>Switching later</td><td>Can refinance to a bank at any time</td><td>Can never switch that flat back to an HDB loan</td></tr>
+</table>
+</div>
+
+<h2>Worked example: $600,000 resale flat, $450,000 loan over 25 years</h2>
+<p>This is the same flat as the worked example in the <a href="/calculator/#worked-example-title">home loan calculator</a>, with two bank packages added. Assume a resale flat has both a $600,000 purchase price and a $600,000 valuation, the buyers qualify for 75% LTV, and a 25-year loan ends before they turn 65. The loan is $450,000 and the minimum downpayment is $150,000.</p>
+<ul>
+  <li><strong>HDB loan:</strong> the $150,000 can come from CPF OA, cash or both. There is no minimum cash amount.</li>
+  <li><strong>Bank loan:</strong> at least $30,000 (5% of the flat price) must be cash. The other $120,000 can be cash or CPF OA.</li>
+  <li><strong>Either loan:</strong> stamp duty, legal fees and any cash-over-valuation come on top. If the price is above valuation, the difference is paid in cash and the loan is still capped at 75% of the valuation.</li>
+</ul>
+<div role="region" aria-label="Scrollable worked instalment comparison" tabindex="0" style="overflow-x:auto">
+<table aria-label="Monthly instalments and interest on a $450,000 loan over 25 years" style="min-width:600px">
+  <tr><th>Loan</th><th>Rate</th><th>Monthly instalment</th><th>Interest, first 3 years</th><th>Interest, first 5 years</th></tr>
+  <tr><td>HDB</td><td>2.6%</td><td>$2,041.51</td><td>$33,608</td><td>$54,233</td></tr>
+  <tr><td>DBS CPF-OA package</td><td>1.78%, then 2.20% (years 4 to 5), then 2.40%</td><td>$1,859.52, then $1,941.12, then $1,977.40</td><td>$22,897</td><td>$40,145</td></tr>
+  <tr><td>UOB SORA package</td><td>1.9748% (SORA ${SORA_LATEST.value} + 0.70%), then 2.0748% (+ 0.80%, year 3), then 2.2748% (+ 1.00%)</td><td>$1,901.83, then $1,922.16, then $1,961.58</td><td>$25,850</td><td>$43,742</td></tr>
+</table>
+</div>
+<p>Assumptions: the CPF OA rate stays at 2.5%, 3-month SORA stays at ${SORA_LATEST.value}, and the instalment is recalculated over the remaining term each time the rate changes, using the standard formula: instalment = loan × r ÷ (1 − (1 + r)^−n), where r is the monthly rate and n the number of months. On those assumptions, over five years the DBS package costs about $14,088 less in interest than HDB and the UOB package about $10,492 less. Over the full 25 years, total interest comes to about $162,454 with HDB, $138,106 with DBS and $136,568 with UOB. Rates will not stay still for 25 years, so treat the long-run figures as a direction, not a forecast.</p>
+<p>The bank saving has a price: $30,000 in cash up front, a lock-in, and no way back to HDB. If SORA rises above 1.60%, the UOB package costs more than HDB from year 4.</p>
+
+<h2>Stress test: why a bank may lend you less than HDB</h2>
+<p>Neither lender approves a loan on today's rate. <a href="${SOURCES.loan}" rel="noopener">HDB</a> checks the 30% MSR at the higher of 3% or its own rate, which is 3% now. Banks use the higher of 4% or the package's thereafter rate, which is 4% for every package above. <a href="${LOAN_SOURCES.mas2022}" rel="noopener">MAS raised its floor to 4% and HDB brought in its 3% floor</a> from 30 September 2022.</p>
+<table aria-label="Income needed for a $450,000 loan over 25 years under the HDB and bank stress tests">
+  <tr><th>Same $450,000 loan over 25 years</th><th>HDB loan</th><th>Bank loan</th></tr>
+  <tr><td>Rate used for the test</td><td>3%</td><td>4%</td></tr>
+  <tr><td>Test instalment</td><td>$2,133.95</td><td>$2,375.27</td></tr>
+  <tr><td>Gross monthly income needed at 30% MSR</td><td>About $7,114</td><td>About $7,918</td></tr>
+  <tr><td>Largest 25-year loan on $7,000 a month</td><td>About $442,800</td><td>About $397,900</td></tr>
+</table>
+<p>So a household earning $7,000 a month could borrow about $45,000 less from a bank than from HDB, before LTV, other debts and credit checks. A lower bank rate does not help if the bank will not lend enough. Banks also apply the 55% TDSR across all your debts, including car and personal loans.</p>
+
+<h2>Can you switch? HDB to bank yes, bank to HDB never</h2>
+<p>You can refinance an HDB loan to a bank at any time, subject to the bank's approval. You cannot go the other way: once a flat's loan is with a bank, <a href="${SOURCES.compare}" rel="noopener">CPF Board</a> and <a href="${LOAN_SOURCES.hdbFi}" rel="noopener">HDB</a> say it cannot be refinanced to an HDB loan. After a bank's lock-in ends, you can reprice with the same bank or refinance to another bank.</p>
+<p>That makes the choice lopsided. Starting with HDB keeps both doors open: if bank rates stay well below 2.6%, you can refinance later. Starting with a bank closes the HDB door for that flat. Leaving a bank during its lock-in costs a penalty, which CPF Board says could be around 1.5% of the outstanding loan, or about $6,750 on $450,000.</p>
 
 <h2>When an HDB loan may fit better</h2>
 <ul>
-  <li>You qualify and value a stable published rate.</li>
-  <li>You need the option to use CPF OA or cash for the full downpayment.</li>
-  <li>You want flexibility to make lump-sum repayments without a bank penalty.</li>
-  <li>You prefer keeping the option to refinance to a bank later.</li>
+  <li><strong>You have little cash.</strong> The HDB loan needs no cash downpayment; a bank loan needs at least 5% of the price.</li>
+  <li><strong>Your income is close to the limit.</strong> HDB's 3% test lets you borrow more than a bank's 4% test on the same income.</li>
+  <li><strong>You may sell or repay early.</strong> There is no lock-in and no early repayment penalty.</li>
+  <li><strong>You want to keep the choice open.</strong> You can move to a bank later when the rate suits you, but not back.</li>
+  <li><strong>You want a rate that is not tied to market rates.</strong> The HDB rate follows the CPF OA rate, which has a legislated minimum of 2.5%, not SORA.</li>
 </ul>
 
 <h2>When a bank loan may fit better</h2>
 <ul>
-  <li>You do not qualify for an HDB housing loan.</li>
-  <li>You have enough cash for the mandatory cash portion of the downpayment.</li>
-  <li>You understand the package after its fixed period and can absorb rate changes.</li>
-  <li>You are comfortable with the lock-in, repricing and redemption terms.</li>
+  <li><strong>You do not qualify for an HDB loan</strong>, for example because household income is above $16,000 for a family or no applicant is a Singapore Citizen.</li>
+  <li><strong>You have the 5% cash and pass the 4% test with room to spare.</strong></li>
+  <li><strong>You will keep the loan past the lock-in and want the lower rate now.</strong> DBS's published package is below HDB's rate at every stage.</li>
+  <li><strong>You accept SORA risk.</strong> A SORA package costs more than HDB if SORA climbs back above about 1.6% to 1.9%.</li>
+  <li><strong>You need a longer tenure than HDB allows</strong> and accept that a bank loan over 25 years on an HDB flat is capped at 55% with 10% cash.</li>
 </ul>
 
 <h2>Compare the total package, not only year-one interest</h2>
@@ -278,10 +403,6 @@ const ARTICLES = [
 </ol>
 <p>Start with your HFE outcome and the <a href="/calculator/">HDB loan calculator</a>. Then compare the same property price, loan amount and tenure across offers.</p>
 
-<h2>Downpayment example</h2>
-<p>Assume a resale flat has both a $600,000 purchase price and a $600,000 valuation, and you qualify for 75% LTV. Then the minimum downpayment is $150,000. With an HDB loan, it may be paid using CPF OA, cash or both. With a bank loan, at least $30,000 (5% of the flat price) must be cash, while the remaining $120,000 can be cash or CPF OA, subject to applicable rules.</p>
-<p>This example excludes stamp duty, legal fees and other purchase costs. If the price exceeds valuation, the excess is cash-over-valuation and must be paid in cash on top. A lower approved loan or insufficient usable CPF means more cash is needed. Use the <a href="hdb-downpayment-cash-cpf-grants.html">HDB downpayment guide</a> to budget for those gaps.</p>
-
 <h2>HDB mortgage loan: which loans an HDB flat can take</h2>
 <p>Both options are mortgage loans secured on the flat. With an HDB housing loan the flat is mortgaged to HDB at the concessionary rate. With a bank loan it is mortgaged to the bank at the package rate. A flat carries one or the other, never both, and a flat already financed by a bank cannot move back to an HDB housing loan. An executive condominium bought from the developer and any private property cannot take an HDB housing loan at all, so for those the bank route is the only route.</p>
 
@@ -289,18 +410,51 @@ const ARTICLES = [
 <ul>
   <li>For a resale flat at 75% LTV, at least 5% of the lower of purchase price and valuation in cash, with the remaining 20% in cash or CPF Ordinary Account savings. Cash-over-valuation is additional; lower LTV limits require a larger downpayment.</li>
   <li>Income documents to assess the 30% MSR and 55% TDSR at the stress-test rate, counting existing car, renovation and personal loans.</li>
-  <li>Your HFE letter for the flat purchase, plus the bank's own in-principle approval for the loan. Read the <a href="hfe-letter-singapore-guide.html">HFE letter guide</a> for timing.</li>
-  <li>A valuation of the flat. The loan is capped at 75% of the lower of price and valuation, so any cash-over-valuation is paid in cash on top of the downpayment.</li>
+</ul>
+<p>The steps, in order:</p>
+<ol>
+  <li><strong>Get your HFE letter.</strong> It confirms you can buy the flat and whether you qualify for an HDB loan. Read the <a href="hfe-letter-singapore-guide.html">HFE letter guide</a> for timing.</li>
+  <li><strong>Get an In-Principle Approval.</strong> The HDB Flat Portal's integrated loan application lets you request one from DBS, Hong Leong Finance, Maybank, OCBC and UOB while you apply for the HFE letter. You can also go to a bank directly.</li>
+  <li><strong>Get a Letter of Offer before you commit.</strong> <a href="${LOAN_SOURCES.hdbFi}" rel="noopener">HDB</a> requires a valid Letter of Offer before you sign the Agreement for Lease for a new flat or exercise the Option to Purchase for a resale flat.</li>
+  <li><strong>Check the valuation.</strong> The loan is capped at 75% of the lower of price and valuation, so any cash-over-valuation is paid in cash on top of the downpayment.</li>
+</ol>
+
+<h2>What changed in 2024 to 2026</h2>
+<ul>
+  <li><strong>20 August 2024:</strong> HDB cut its loan limit from 80% to 75% for complete resale applications from that date, and for new flats from the October 2024 sales exercise.</li>
+  <li><strong>SORA fell:</strong> from 3.7012% in January 2024 to 1.0356% in May 2026, the lowest of the dates in the table above. It was ${SORA_LATEST.value} on ${SORA_LATEST.valueDate}.</li>
+  <li><strong>Bank rates went below HDB's:</strong> the packages above start under 2.6%. CPF Board notes some bank rates went above 4% in 2022 and 2023, when HDB was the cheaper loan.</li>
+  <li><strong>24 August 2026:</strong> HDB loan income ceilings rose to $16,000 for families, $24,000 for extended families and $8,000 for singles, for HFE applications from that date. See the <a href="hdb-income-ceiling-2026-ndr-changes.html">income-ceiling changes</a>.</li>
+  <li><strong>Unchanged:</strong> MAS's 4% stress-test floor and HDB's 3% floor, both in place since 30 September 2022, and the 2.5% legislated minimum for the CPF OA rate.</li>
 </ul>
 
+<div class="article-cta">
+  <h3>Choosing between an HDB loan and a bank offer?</h3>
+  <p>Send Joe the flat you are considering. He can lay out the HDB loan and the bank offer on the same price, loan and tenure, including the cash each one needs before you take an OTP.</p>
+  <div class="article-cta-actions">
+    <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20would%20like%20to%20compare%20an%20HDB%20loan%20with%20a%20bank%20loan%20for%20an%20HDB%20flat." target="_blank" rel="noopener" data-cta-location="insights_hdb_vs_bank_end" data-lead-type="hdb_buyer">WhatsApp Joe to compare your loans →</a>
+    <a class="article-cta-secondary" href="/#book" data-cta-location="insights_hdb_vs_bank_end" data-lead-type="hdb_buyer">Book a 30-minute call</a>
+  </div>
+</div>
+
 <h2>Official sources and review date</h2>
-<p>Reviewed 24 Oct 2026 against HDB's <a href="${SOURCES.rate}" rel="noopener">interest-rate page</a> and CPF Board's current <a href="${SOURCES.compare}" rel="noopener">HDB loan or bank loan comparison</a>. Downpayment requirements were checked against HDB's <a href="https://www.hdb.gov.sg/buying-a-flat/financial-planning-for-a-flat-purchase/credit-to-finance-a-flat-purchase" rel="noopener">credit-to-finance guide</a> and CPF Board's <a href="${SOURCES.ratios}" rel="noopener">home-buying guide</a>. Bank packages are not quoted because they change; obtain current written offers.</p>`,
+<p>Reviewed 30 Oct 2026. Bank package rates were checked on the banks' own pages, and 3-month compounded SORA on MAS's domestic interest rates page, on ${BANK_RATES_CHECKED.label}. The loan rules on this page come from these official sources:</p>
+<ul>
+  <li>HDB: <a href="${SOURCES.rate}" rel="noopener">concessionary interest rate</a>, <a href="${SOURCES.loan}" rel="noopener">housing loan from HDB</a>, <a href="${LOAN_SOURCES.hdbFi}" rel="noopener">housing loan from financial institutions</a> and <a href="https://www.hdb.gov.sg/buying-a-flat/financial-planning-for-a-flat-purchase/credit-to-finance-a-flat-purchase" rel="noopener">credit to finance a flat purchase</a>.</li>
+  <li>CPF Board: <a href="${LOAN_SOURCES.cpfOa}" rel="noopener">CPF interest rates</a>, <a href="${SOURCES.compare}" rel="noopener">3 differences between an HDB loan and a bank loan</a> and the <a href="${SOURCES.ratios}" rel="noopener">home-buying guide</a>.</li>
+  <li>MAS: <a href="${LOAN_SOURCES.masLtv}" rel="noopener">loan tenure and LTV limits</a>, <a href="${LOAN_SOURCES.masMsr}" rel="noopener">MSR and TDSR rules</a>, <a href="${LOAN_SOURCES.masTdsr}" rel="noopener">calculating TDSR</a>, the <a href="${LOAN_SOURCES.mas2022}" rel="noopener">29 September 2022 media release</a> and <a href="${LOAN_SOURCES.sora}" rel="noopener">domestic interest rates (SORA)</a>.</li>
+  <li>Banks' own pages: <a href="${LOAN_SOURCES.dbs}" rel="noopener">DBS HDB Loan</a>, <a href="${LOAN_SOURCES.uob}" rel="noopener">UOB HDB Home Loan</a> and <a href="${LOAN_SOURCES.ocbc}" rel="noopener">OCBC home loans</a>.</li>
+</ul>
+<p>Instalments and interest figures are our own calculations from those rates. Bank packages change often; only a Letter of Offer confirms your rate.</p>`,
     faqs: [
       ['What is the HDB housing loan interest rate in 2026?', 'HDB publishes a 2.6% concessionary rate for 1 October to 31 December 2026. The rate is pegged 0.1 percentage point above the prevailing CPF Ordinary Account rate and can be reviewed quarterly.'],
+      ['Is a bank loan cheaper than an HDB loan now?', 'At the rates banks published on 30 October 2026, yes for the first years. DBS advertises 1.78% for years one to three on a package pegged below the CPF OA rate, and UOB advertises 3-month compounded SORA plus 0.70%, about 1.97% at the 29 October 2026 SORA of 1.2748%, against 2.6% for HDB. A bank loan needs at least 5% cash, is tested at 4% instead of 3%, usually has a lock-in, and cannot be switched back to an HDB loan.'],
+      ['What is the bank loan interest rate for an HDB flat?', 'There is no single rate. On 30 October 2026, DBS published 1.78% for years one to three, 2.20% for years four and five and 2.40% after that. UOB published 3-month compounded SORA plus 0.70% in years one and two, plus 0.80% in year three and plus 1.00% after that. These are advertised rates; only a Letter of Offer confirms yours.'],
+      ['What is the stress test rate for an HDB bank loan?', 'Banks must work out your instalment at the higher of 4% or the thereafter rate of your package, under MAS rules in place since 30 September 2022. HDB uses the higher of 3% or its own loan rate. On a $450,000 loan over 25 years, that means about $7,918 of monthly income for a bank loan against about $7,114 for an HDB loan under the 30% MSR.'],
+      ['What is the maximum bank loan tenure for an HDB flat?', 'MAS allows up to 30 years. But for an HDB flat, a tenure over 25 years, or a loan that runs past age 65, cuts the bank loan limit from 75% to 55% and raises the minimum cash downpayment from 5% to 10%. An HDB loan is capped at 25 years.'],
       ['Can I switch from a bank loan back to an HDB loan?', 'No. CPF Board states that a flat already financed with a bank loan cannot switch back to an HDB housing loan for that property.'],
       ['How much cash is required for an HDB flat with a bank loan?', 'For a resale flat at 75% LTV, at least 5% of the lower of price and valuation must be cash. The remaining 20% can be cash or CPF OA, subject to the applicable rules. Cash-over-valuation and any funding shortfall require additional cash.'],
       ['Does the 30% MSR apply to a bank loan for an HDB flat?', 'Yes. The Mortgage Servicing Ratio applies to housing loans for HDB flats and executive condominiums whether the lender is HDB or a bank, and a bank loan must also pass the 55% Total Debt Servicing Ratio at the stress-test rate.'],
-      ['What is the bank loan interest rate for an HDB flat?', 'There is no single rate. Banks price HDB flat loans as fixed-then-floating or floating packages, usually pegged to SORA plus a spread, and the rate resets after any fixed period. Compare written offers on the follow-on formula, lock-in and fees, not only the headline rate.'],
     ],
   },
   hdbPolicyArticle,
@@ -434,6 +588,13 @@ ${consentBannerHtml()}
 </body>
 </html>
 `;
+}
+
+// Warn (never fail: the build must stay deterministic) when the quoted bank
+// rates are older than RATE_STALE_DAYS, so the refresh step above is not missed.
+const rateAgeDays = Math.floor((Date.now() - Date.parse(`${BANK_RATES_CHECKED.iso}T00:00:00+08:00`)) / 86400000);
+if (rateAgeDays > RATE_STALE_DAYS) {
+  console.warn(`::warning file=scripts/generate-hdb-loan-cluster.mjs::bank rates on hdb-loan-vs-bank-loan-singapore were checked ${rateAgeDays} days ago (${BANK_RATES_CHECKED.label}); re-check the bank and MAS sources`);
 }
 
 let changed = 0;
