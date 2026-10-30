@@ -114,7 +114,7 @@ test('the reading list names the HDB loan calculator and varies two links by lea
   assert.match(third(readingBlock('Punggol', esc, { under60: 0, over80: 0.7 })), /selling-hdb-after-mop-singapore\.html">Just past MOP\?/);
   for (const profile of [null, { under60: 0.55, over80: 0 }, { under60: 0, over80: 0.7 }]) {
     const items = [...readingBlock('Bedok', esc, profile).matchAll(/<li>/g)];
-    assert.equal(items.length, 9);
+    assert.equal(items.length, 10);
     for (const href of ['/insights/hdb-valuation-explained.html', '/insights/selling-hdb-after-mop-singapore.html', '/insights/how-long-to-sell-hdb-singapore-2026.html']) {
       assert.ok(readingBlock('Bedok', esc, profile).includes(`href="${href}"`), `${href} missing for ${JSON.stringify(profile)}`);
     }
