@@ -73,15 +73,18 @@ test('Q3 2026 URA guide uses final figures with consistent cover, sources and up
   assert.ok(entry.includes(`<published>${item.date_published}</published>`));
   assert.ok(entry.includes(`<updated>${item.date_modified}</updated>`));
   assert.ok(entry.includes(item.summary));
-  assert.ok(xml.split('<entry>')[0].includes(`<updated>${item.date_modified}</updated>`));
+  // A newer article can move the feed timestamp on; it must never fall behind this entry.
+  const feedUpdated = xml.split('<entry>')[0].match(/<updated>([^<]+)<\/updated>/)[1];
+  assert.ok(Date.parse(feedUpdated) >= Date.parse(item.date_modified), feedUpdated);
   for (const file of ['index.html', 'insights/index.html']) {
     assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(item.summary), file);
   }
   const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
+  const lastmod = loc => [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)]
+    .find(m => m[1].includes(`<loc>${loc}</loc>`))?.[1].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+  // Later related-reads links can move a page's lastmod on; it must never fall behind the update.
   for (const loc of [url, 'https://joetay.com/', 'https://joetay.com/insights/']) {
-    const block = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)]
-      .find(m => m[1].includes(`<loc>${loc}</loc>`))?.[1];
-    assert.ok(block?.includes(`<lastmod>${updated}</lastmod>`), loc);
+    assert.ok(lastmod(loc) >= updated, loc);
   }
 });
 
