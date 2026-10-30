@@ -86,3 +86,75 @@ test('glossary OTP definition matches its schema and links to the fee explanatio
   assert.ok(definition.includes(otp.description));
   assert.ok(definition.includes(`href="/${ARTICLE}#hdb-option-fee"`));
 });
+
+// The step-by-step selling guide (JOE-469) covers process and costs; the
+// timeline article keeps the week-by-week detail. Each links the other.
+const GUIDE = 'insights/how-to-sell-hdb-flat-singapore.html';
+const GUIDE_URL = `https://joetay.com/${GUIDE}`;
+
+test('how-to-sell guide exists with breadcrumb, FAQ parity and Joe as author', () => {
+  const guide = read(GUIDE);
+  const guideVisible = guide.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+  const guideSchemas = [...guide.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)]
+    .map(match => JSON.parse(match[1]));
+  assert.ok(guide.includes(`<link rel="canonical" href="${GUIDE_URL}">`));
+  assert.equal((guideVisible.match(/<h1\b/g) || []).length, 1);
+  const article = guideSchemas.find(schema => schema['@type'] === 'Article');
+  assert.equal(article.author['@id'], 'https://joetay.com/about-joe/#joe-tay');
+  assert.equal(article.publisher['@id'], 'https://joetay.com/#agent');
+  assert.equal(article.author.jobTitle, undefined);
+  assert.equal(article.mainEntityOfPage, GUIDE_URL);
+  const crumbs = guideSchemas.find(schema => schema['@type'] === 'BreadcrumbList');
+  assert.equal(crumbs.itemListElement.at(-1).item, GUIDE_URL);
+  const faqs = guideSchemas.filter(schema => schema['@type'] === 'FAQPage');
+  assert.equal(faqs.length, 1);
+  for (const item of faqs[0].mainEntity) {
+    assert.ok(guideVisible.includes(`<summary>${item.name}</summary><p>${item.acceptedAnswer.text}</p>`), item.name);
+  }
+  assert.match(guideVisible, /Joe Tay<\/a><\/strong> · CEA R009618D · Updated 30 Oct 2026/);
+  assert.doesNotMatch(guide, /500\+|16\+ y|\$200M|\$8M|jobTitle/);
+});
+
+test('how-to-sell guide cites official sources and reconciles its worked example', () => {
+  const guide = read(GUIDE);
+  for (const source of [
+    'https://www.hdb.gov.sg/managing-my-home/selling-a-flat/eligibility',
+    'https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/intent-to-sell',
+    'https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/option-to-purchase',
+    'https://www.hdb.gov.sg/managing-my-home/selling-a-flat/process-for-selling-a-flat/resale-flat-application/application-process',
+    'https://www.hdb.gov.sg/e-resale/valuation-request',
+    'https://www.cpf.gov.sg/member/infohub/educational-resources/sales-proceeds-after-selling-your-home',
+    'https://www.cea.gov.sg/consumers/engaging-a-property-agent/buying-or-selling/',
+  ]) assert.ok(guide.includes(`href="${source}"`), source);
+  assert.match(guide, /Illustrative figures only, not a quote, a valuation or a client result/);
+  // HDB's conveyancing scale on $600,000, rounded up to the dollar.
+  const legal = Math.ceil((300 * 6.75 + 300 * 5.4 + 5400 * 4.5) / 100);
+  assert.equal(legal, 280);
+  const cash = 600000 - 150000 - 220000;
+  assert.ok(guide.includes(`<td>$${cash.toLocaleString('en-SG')}</td>`));
+  const left = cash - 12000 - 1080 - legal - 59.95 - 80;
+  assert.ok(guide.includes(`<td>$${left.toLocaleString('en-SG', { minimumFractionDigits: 2 })}</td>`));
+  // CEA is cited only for "no fixed rate"; 2% is presented as Joe's quote.
+  assert.match(guide, /CEA publishes no fixed rates or guidelines on commission amounts/);
+  assert.doesNotMatch(guide, /CEA[^.]{0,80}2%/);
+});
+
+test('how-to-sell guide and the related seller pages link to each other', () => {
+  const guide = read(GUIDE);
+  for (const target of [
+    `/${ARTICLE}`,
+    '/insights/hdb-valuation-explained.html',
+    '/insights/property-agent-commission-singapore.html',
+    '/insights/selling-hdb-after-mop-singapore.html',
+    '/insights/hfe-letter-singapore-guide.html',
+    '/hdb-prices/',
+    '/sell-hdb/singapore/',
+  ]) assert.ok(guide.includes(`href="${target}"`), target);
+  assert.ok(visible.includes(`<a href="/${GUIDE}">how to sell your HDB flat, step by step</a>`));
+  for (const file of ['insights/hdb-valuation-explained.html', 'insights/property-agent-commission-singapore.html', 'sell-hdb/singapore/index.html']) {
+    assert.ok(read(file).includes(`href="/${GUIDE}`), file);
+  }
+  for (const file of ['insights/index.html', 'insights/feed.xml', 'insights/feed.json', 'sitemap.xml', 'llms.txt']) {
+    assert.ok(read(file).includes(GUIDE_URL.replace('https://joetay.com/insights/', '')), file);
+  }
+});

@@ -16,8 +16,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 //     match the ad copy; they are never retitled with organic pages, so neither
 //     rule applies to them.
 //   - index.html is brand-first ("PropertySG | ..."), so the suffix is redundant.
-//   - the commission article is the best-ranking page on the site (position
-//     26.5) and keeps the exact title Google already ranks.
+// The commission article was exempt while it held position 26.5; it had slipped
+// to 46 by October 2026 and was retitled with the suffix (JOE-469).
 const BUDGET = 60;
 const SUFFIX = ' | PropertySG';
 const AD_LANDERS = new Set([
@@ -27,7 +27,6 @@ const AD_LANDERS = new Set([
 ]);
 const NO_SUFFIX = new Set([
   'index.html',
-  'insights/property-agent-commission-singapore.html',
 ]);
 const SKIP_DIRS = /^(node_modules|\.git|\.claude|tests|scripts|netlify|\.github|assets|js)(\/|$)/;
 

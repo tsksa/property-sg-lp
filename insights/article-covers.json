@@ -210,6 +210,20 @@
       ]
     },
     {
+      "slug": "how-to-sell-hdb-flat-singapore",
+      "title": "How to sell an HDB flat",
+      "figures": [
+        {
+          "value": "7 days",
+          "label": "minimum wait from Intent to Sell to the OTP"
+        },
+        {
+          "value": "$80",
+          "label": "HDB resale application fee, 3-room and bigger"
+        }
+      ]
+    },
+    {
       "slug": "msr-vs-tdsr-singapore",
       "title": "MSR vs TDSR: the two limits on your loan",
       "figures": [

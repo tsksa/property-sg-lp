@@ -76,6 +76,16 @@ const lines = [
   `- [Free property valuation](${APEX}valuation.html): postal-code lookup and a same-day indicative valuation.`,
   '- WhatsApp: https://wa.me/6581881488',
   '',
+  // Only registration facts a reader can verify; no sales counts, ratings or
+  // years-of-experience claims here.
+  '## About Joe Tay',
+  '',
+  '- Joe Tay is a CEA-registered salesperson, registration no. R009618D.',
+  '- Agency: ERA Realty Network Pte Ltd, Agency Lic. No. L3002382K.',
+  '- Verify the registration: CEA Public Register, https://eservices.cea.gov.sg/aceas/public-register/',
+  `- Services: [selling an HDB flat](${APEX}sell-hdb/singapore/), [selling a property](${APEX}sell/), [renting out a property](${APEX}rent-out/) and [indicative valuations](${APEX}valuation.html).`,
+  `- Profile and contact: [About Joe](${APEX}about-joe/). Commission is negotiable in Singapore; see the [property agent commission guide](${APEX}insights/property-agent-commission-singapore.html).`,
+  '',
 ];
 
 const claimed = new Set();

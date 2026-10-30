@@ -133,28 +133,45 @@ test('review date and descriptions stay aligned across the article, card and fee
   const article = schemas.find(schema => schema['@type'] === 'Article');
   const description = html.match(/<meta name="description" content="([^"]+)"/)[1];
   assert.equal(article.datePublished, '2026-04-21');
-  assert.equal(article.dateModified, '2026-10-05');
+  assert.equal(article.dateModified, '2026-10-30');
   assert.equal(article.description, description);
-  assert.ok(visible.includes('<time datetime="2026-10-05">Updated Oct 5, 2026</time>'));
-  assert.match(visible, /Reviewed 5 Oct 2026/);
+  assert.ok(visible.includes('<time datetime="2026-10-30">Updated Oct 30, 2026</time>'));
+  assert.match(visible, /Reviewed 30 Oct 2026/);
   for (const key of ['og:description', 'twitter:description']) assert.ok(html.includes(`="${key}" content="${description}"`));
-  assert.ok(html.includes('property="article:modified_time" content="2026-10-05"'));
+  assert.ok(html.includes('property="article:modified_time" content="2026-10-30"'));
   const card = read('insights/index.html').split('<a href="hdb-valuation-explained.html" class="blog-card">')[1].split('</a>')[0];
   assert.ok(card.includes(description));
   const item = JSON.parse(read('insights/feed.json')).items.find(item => item.url === ARTICLE_URL);
   assert.equal(item.summary, description);
   assert.equal(item.content_text, description);
   assert.equal(item.date_published, '2026-04-21T00:00:00+08:00');
-  assert.equal(item.date_modified, '2026-10-05T00:00:00+08:00');
+  assert.equal(item.date_modified, '2026-10-30T00:00:00+08:00');
   const xml = read('insights/feed.xml');
   const entry = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].find(match => match[1].includes(ARTICLE_URL))[1];
   assert.ok(entry.includes(`<summary type="text">${description}</summary>`));
   assert.ok(entry.includes('<published>2026-04-21T00:00:00+08:00</published>'));
-  assert.ok(entry.includes('<updated>2026-10-05T00:00:00+08:00</updated>'));
+  assert.ok(entry.includes('<updated>2026-10-30T00:00:00+08:00</updated>'));
   // The feed can be updated by another article without redating this one.
   const feedUpdated = Date.parse(xml.split('<entry>')[0].match(/<updated>([^<]+)<\/updated>/)[1]);
   const entryUpdates = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
     .map(match => Date.parse(match[1].match(/<updated>([^<]+)<\/updated>/)[1]));
   assert.ok(Number.isFinite(feedUpdated) && entryUpdates.every(Number.isFinite));
   assert.ok(feedUpdated >= Math.max(...entryUpdates), 'feed timestamp must cover its newest entry');
+});
+
+test('valuation fee intent: title, answer box, fee section and sources', () => {
+  const title = html.match(/<title>([^<]+)<\/title>/)[1].replace(/&amp;/g, '&');
+  assert.match(title, /Fee/);
+  assert.ok(title.length <= 60, title);
+  assert.ok((visible.match(/valuation fee/gi) || []).length >= 2);
+  assert.match(visible, /<h2 id="hdb-valuation-fee">HDB valuation fee and who pays<\/h2>/);
+  // The answer box sits before the first H2 and cites HDB.
+  const intro = visible.split('<section class="article-body"')[1].split('<h2 ')[0];
+  assert.match(intro, /HDB valuation fee: the short answer/);
+  assert.match(intro, /\$120 including GST/);
+  assert.ok(intro.includes('href="https://www.hdb.gov.sg/e-resale/valuation-request"'));
+  assert.ok(visible.includes('href="/insights/how-to-sell-hdb-flat-singapore.html"'));
+  // Only one worked-example table and one "check the data" section.
+  assert.equal((visible.match(/<table aria-label="Illustrative HDB price and valuation examples">/g) || []).length, 1);
+  assert.equal((visible.match(/<h2 id="check-the-transaction-data/g) || []).length, 1);
 });

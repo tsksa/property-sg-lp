@@ -16,6 +16,17 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html",
+      "url": "https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html",
+      "title": "How to Sell an HDB Flat: Steps, Fees & Proceeds",
+      "summary": "How to sell an HDB flat step by step: MOP, Intent to Sell, OTP, resale application and completion, with HDB fees, CPF refund and a net-proceeds example.",
+      "content_text": "How to sell an HDB flat step by step: MOP, Intent to Sell, OTP, resale application and completion, with HDB fees, CPF refund and a net-proceeds example.",
+      "date_published": "2026-10-30T00:00:00+08:00",
+      "date_modified": "2026-10-30T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Selling"]
+    },
+    {
       "id": "https://joetay.com/insights/q3-2026-ura-private-home-prices.html",
       "url": "https://joetay.com/insights/q3-2026-ura-private-home-prices.html",
       "title": "Q3 2026 URA Prices: Buyer and Seller Guide",
@@ -232,11 +243,11 @@
     {
       "id": "https://joetay.com/insights/hdb-valuation-explained.html",
       "url": "https://joetay.com/insights/hdb-valuation-explained.html",
-      "title": "HDB Valuation Explained: How Agents Price Flats",
-      "summary": "Understand HDB's Request for Value, CPF and loan limits, and cash over valuation, with illustrative examples and recent resale data for sellers.",
-      "content_text": "Understand HDB's Request for Value, CPF and loan limits, and cash over valuation, with illustrative examples and recent resale data for sellers.",
+      "title": "HDB Valuation: $120 Fee, Process & Price Check",
+      "summary": "HDB valuation fee is $120 (incl. GST), paid by the buyer. How the Request for Value works, timing vs the OTP, and how to check your flat's valuation price.",
+      "content_text": "HDB valuation fee is $120 (incl. GST), paid by the buyer. How the Request for Value works, timing vs the OTP, and how to check your flat's valuation price.",
       "date_published": "2026-04-21T00:00:00+08:00",
-      "date_modified": "2026-10-05T00:00:00+08:00",
+      "date_modified": "2026-10-30T00:00:00+08:00",
       "authors": [
         {
           "name": "Joe Tay",
@@ -262,11 +273,11 @@
     {
       "id": "https://joetay.com/insights/property-agent-commission-singapore.html",
       "url": "https://joetay.com/insights/property-agent-commission-singapore.html",
-      "title": "Property Agent Commission Singapore: What 2% Covers",
+      "title": "Property Agent Commission Singapore: 2026 Guide",
       "summary": "Compare Singapore property agent fees for HDB and condo sellers, buyer-agent fees, GST and payment timing, plus what Joe Tay's 2% seller service covers.",
       "content_text": "Compare Singapore property agent fees for HDB and condo sellers, buyer-agent fees, GST and payment timing, plus what Joe Tay's 2% seller service covers.",
       "date_published": "2026-04-21T00:00:00+08:00",
-      "date_modified": "2026-08-26T00:00:00+08:00",
+      "date_modified": "2026-10-30T00:00:00+08:00",
       "authors": [
         {
           "name": "Joe Tay",
