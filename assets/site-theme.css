@@ -32,6 +32,11 @@ html.jt-theme-dark main a{color:#6ee7c1}
 html.jt-theme-dark main :is(input,select,textarea){background:#07172f;color:#f8fafc;border-color:rgba(255,255,255,.2)}
 html.jt-theme-dark main :is(input,textarea)::placeholder{color:#93a0b4}
 html.jt-theme-dark :is(.calc-footer,.blog-footer,.nl-footer,.site-footer){background:#07172f;color:#c1cad8;border-color:rgba(255,255,255,.08)}
+/* The shared site footer's column headings are meant to take the footer's text
+   colour, but the HDB town and condo district templates set a page-wide
+   h2{color:navy}, which left them navy on near-black (1.2:1) in dark mode
+   (JOE-474). Every other template already matches the footer text. */
+html.jt-theme-dark .jt-sf-col h2{color:inherit}
 html.jt-theme-dark .section-cream{background:#07172f}
 html.jt-theme-dark .val-progress-bar{background:#263b5d}
 html.jt-theme-dark .val-chip{background:#102447;border-color:rgba(255,255,255,.18);color:#e8ecf3}
