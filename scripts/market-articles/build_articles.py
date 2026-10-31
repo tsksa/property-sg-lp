@@ -86,6 +86,15 @@ def a1():
 </table>
 <p>For context, URA's private home price index rose 0.5% in the same quarter, so the gap between HDB and private prices widened slightly. More transactions but slightly lower prices means buyers had more flats to pick from, not that demand dried up.</p>
 
+<div class="article-cta">
+  <h3>What is your own flat worth?</h3>
+  <p>A town median mixes old and young leases, high and low floors. A free valuation accounts for your remaining lease, floor and condition, not just the town median.</p>
+  <div class="article-cta-actions">
+    <a href="/valuation.html?propType=HDB" data-cta-location="insights_resale_prices_mid" data-lead-type="valuation">Get a free valuation →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20to%20ask%20about%20my%20flat%27s%20value." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_mid" data-lead-type="valuation">WhatsApp Joe</a>
+  </div>
+</div>
+
 <h2 id="median-prices-by-flat-type">Median prices by flat type</h2>
 <p>HDB's index is adjusted for flat age, size and location, so it doesn't give a dollar figure for any flat. For dollar figures I used HDB's own transaction records on data.gov.sg: 6,185 resale deals registered from April to June 2026. That total is slightly below HDB's 6,396 because the two sources count deals differently.</p>
 <table aria-label="Median HDB resale price by flat type, 2Q 2026">
@@ -147,6 +156,15 @@ def a1():
   <li>If you are selling to upgrade, check the numbers on the next home with the <a href="/calculator/">affordability calculator</a> and read <a href="selling-hdb-after-mop-singapore.html">selling after MOP</a>.</li>
 </ol>
 <p><a href="/#book">Book a 15-minute call with me</a> to go through your block's numbers. If you are comparing agents, <a href="property-agent-commission-singapore.html">the commission guide</a> sets out what the fee should cover.</p>
+
+<div class="article-cta">
+  <h3>Buying a resale flat in one of these towns?</h3>
+  <p>Once you have a flat in mind, check how much cash you need on top of your loan and CPF, including any cash over valuation.</p>
+  <div class="article-cta-actions">
+    <a href="/calculator/#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="resale_prices_guide" data-cta-location="insights_resale_prices_end" data-lead-type="hdb_buyer">Check resale cash needed →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20help%20buying%20a%20resale%20flat." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_end" data-lead-type="hdb_buyer">Ask Joe about a town</a>
+  </div>
+</div>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
 <p>Reviewed 17 Sep 2026. Official figures come from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/2nd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">2nd Quarter 2026 public housing data</a> (24 July 2026), the <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/flash-estimate-of-2nd-quarter-2026-resale-price-index-and-upcoming-flat-supply" rel="noopener">flash estimate</a> (1 July 2026), HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners" rel="noopener">wait-out announcement</a> (28 July 2026) for MOP supply, and URA's <a href="https://www.ura.gov.sg/news/media/pr26-57/" rel="noopener">2nd Quarter 2026 real estate statistics</a>. Medians, lease splits, million-dollar counts and the July–August read are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 17 September 2026, grouped by registration month.</p>
@@ -273,6 +291,15 @@ def a3():
 <p>This guide uses every 4-room and 5-room resale deal in HDB's records from March to August 2026: 5,903 4-room and 3,156 5-room flats. Six months gives each town enough deals to be meaningful, and the figures are recent enough to use now. Towns with fewer than ten deals of a flat type are left out. For each town you get the median price, the median lease left and the median floor area. The last column is the median for flats with at least 70 years of lease left, shown where there were at least ten such deals.</p>
 <p>That last column matters because the cheapest flat in a town is almost always its oldest. Lease affects how much CPF you can use and how big a loan you can get. HDB and CPF allow full use when the remaining lease covers the youngest buyer to age 95; less than that and the amount shrinks. For a 35-year-old buyer, a flat with 55 years left gets pro-rated CPF use, so a cheaper old flat can still need more cash upfront than a dearer flat with 75 years left, depending on CPF balances and the loan. <a href="use-cpf-buy-hdb-flat-singapore.html">Using CPF to buy an HDB flat</a> sets out the rule.</p>
 
+<div class="article-cta">
+  <h3>Check the repayment before you pick a town</h3>
+  <p>Put a price from the tables below into the HDB loan calculator to see the monthly instalment, then compare it with what your household can pay each month.</p>
+  <div class="article-cta-actions">
+    <a href="/calculator/" data-calculator="repayment" data-entry-point="cheapest_towns_guide" data-cta-location="insights_cheapest_towns_mid" data-lead-type="hdb_buyer">Estimate the monthly repayment →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20guide%20to%20the%20cheapest%20HDB%20resale%20towns%20and%20would%20like%20help%20shortlisting%20flats." target="_blank" rel="noopener" data-cta-location="insights_cheapest_towns_mid" data-lead-type="hdb_buyer">Ask Joe about these towns</a>
+  </div>
+</div>
+
 <h2 id="cheapest-4-room-resale-flats-by-town">Cheapest 4-room resale flats by town</h2>
 {table('4 ROOM', 'Median 4-room HDB resale price by town, March to August 2026, cheapest first')}
 <p>Three things stand out:</p>
@@ -300,6 +327,12 @@ def a3():
   <li>If you are also selling, get a <a href="/valuation.html">valuation</a> and check the <a href="how-long-to-sell-hdb-singapore-2026.html">selling timeline</a>.</li>
 </ol>
 <p><a href="/#book">Book a 15-minute call with me</a> to compare specific blocks in the towns you are considering. For newer homes, <a href="new-condo-launches-2026-2027-calendar.html">the new launch calendar</a> lists every condo and EC coming up.</p>
+
+<div class="article-cta">
+  <h3>Comparing blocks in these towns?</h3>
+  <p>Send Joe the towns and flat type you are looking at. He can go through recent sales, remaining lease and upgrading history block by block before you view.</p>
+  <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20guide%20to%20the%20cheapest%20HDB%20resale%20towns%20and%20would%20like%20to%20compare%20some%20blocks." target="_blank" rel="noopener" data-cta-location="insights_cheapest_towns_end" data-lead-type="hdb_buyer">WhatsApp Joe about a block →</a>
+</div>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
 <p>Reviewed 17 Sep 2026. All prices are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 17 September 2026, for deals registered March to August 2026. Remaining lease is as recorded at the time of sale. CPF and loan lease rules are from HDB and CPF Board; confirm your own limits with CPF's home-purchase tools before committing.</p>
@@ -492,6 +525,15 @@ def a5():
 </table>
 </div>
 
+<div class="article-cta">
+  <h3>Want the price list before the preview?</h3>
+  <p>Each project in the table links to its own page, where you can send Joe an enquiry for floor plans and prices once the developer releases them. Not sure which project fits yet? Ask on WhatsApp.</p>
+  <div class="article-cta-actions">
+    <a href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20new%20launch%20calendar%20and%20would%20like%20the%20price%20list%20and%20floor%20plans%20for%20a%20project." target="_blank" rel="noopener" data-cta-location="insights_launch_calendar_mid" data-lead-type="new_launch">Ask Joe about a launch →</a>
+    <a class="article-cta-secondary" href="/new-launches/" data-cta-location="insights_launch_calendar_mid" data-lead-type="new_launch">Browse all new launches</a>
+  </div>
+</div>
+
 <h2 id="the-fourth-quarter-of-2026">The fourth quarter of 2026</h2>
 <p>From October to December, about {q4_units:,} homes are expected across four projects:</p>
 <ul>
@@ -532,6 +574,15 @@ def a5():
   <li>Ask for a project's price list and floor plans on its page or by WhatsApp before the preview weekend.</li>
 </ol>
 <p><a href="/#book">Book a 15-minute call with me</a> to match launches to your budget and sale timeline. <a href="property-agent-commission-singapore.html">The commission guide</a> explains who pays the agent on a new launch.</p>
+
+<div class="article-cta">
+  <h3>Selling an HDB flat to buy a launch?</h3>
+  <p>Price the flat before the preview weekend. The sale sets your budget, and the booking fee is due on the day you book.</p>
+  <div class="article-cta-actions">
+    <a href="/valuation.html?propType=HDB" data-cta-location="insights_launch_calendar_end" data-lead-type="valuation">Get a free valuation →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20new%20launch%20calendar%20and%20would%20like%20help%20timing%20my%20HDB%20sale%20with%20a%20new%20launch." target="_blank" rel="noopener" data-cta-location="insights_launch_calendar_end" data-lead-type="upgrader">Plan my timeline with Joe</a>
+  </div>
+</div>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
 <p>Reviewed 17 Sep 2026 and updated 16 Oct 2026 against this site's project tracker, which records a source for every fact. Those sources include developer announcements and results filings (City Developments, UOL, CapitaLand, GuocoLand, Sing Holdings, Keppel, Far East Organization, Sim Lian), HDB's list of upcoming EC sites, URA's list of uncompleted private projects and published launch coverage. Expected windows are guidance, not commitments; a project's page shows a preview or booking date only once it is confirmed. The <a href="https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits" rel="noopener">loan limits</a> are MAS's and the ABSD refund rule is <a href="https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/additional-buyer's-stamp-duty-(absd)" rel="noopener">IRAS's</a>.</p>

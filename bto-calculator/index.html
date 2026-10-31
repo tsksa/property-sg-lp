@@ -574,7 +574,8 @@ import { attachResultCopy } from '/assets/calculator-result-copy.mjs';
 //   - MSR 30% of gross monthly income (MAS, HDB purchases)
 //   - tenure capped at 25 years (HDB ceiling) and by age 65
 //   - HDB eligibility at the 3% floor, repayment displayed at 2.6%
-//   - bank eligibility at 4.0%, repayment displayed at 2.5%
+//   - bank eligibility at 4.0% (MAS floor); repayment also shown at 4.0%,
+//     since bank package rates vary and are not published here
 //   - LTV 75% (HDB loans since 20 Aug 2024; bank loans per MAS)
 // Option fees: $500 / $1,000 / $2,000 by flat type (HDB BTO sales exercise
 // administrative details, Oct 2025).
@@ -641,7 +642,7 @@ function recalc(trackResult = false) {
   const tenure = Math.min(25, ageCapTenure);
 
   const annualRate = loanType === 'HDB' ? Math.max(0.03, 0.026) : 0.040;
-  const marketRate = loanType === 'HDB' ? 0.026 : 0.025;
+  const marketRate = loanType === 'HDB' ? 0.026 : annualRate;
 
   const msrMax = income * 0.30;
   const maxLoan = income > 0 ? amortisedLoan(msrMax, annualRate, tenure) : 0;
@@ -680,7 +681,9 @@ function recalc(trackResult = false) {
     document.getElementById('loanDetail').textContent =
       `${loanType} loan, ${tenure}-year tenure, eligibility at ${(annualRate * 100).toFixed(1)}%`;
     document.getElementById('monthlyDetail').textContent =
-      `at ${(marketRate * 100).toFixed(1)}% — ${loanType === 'HDB' ? 'HDB concessionary rate' : 'illustrative bank rate'}`;
+      loanType === 'HDB'
+        ? `at ${(marketRate * 100).toFixed(1)}% — HDB concessionary rate`
+        : `at the ${(marketRate * 100).toFixed(1)}% MAS stress rate, not the rate you will pay — use your bank's quoted rate for your actual instalment`;
     document.getElementById('tlOption').textContent = `1. Book flat: ${fmt(optionFee)} option fee`;
     document.getElementById('tlSigning').textContent =
       `2. Sign Agreement for Lease: downpayment ${fmt(Math.max(0, downpayment - optionFee))} more (25% total; eligible buyers can stagger part to key collection)`;
@@ -702,7 +705,7 @@ function recalc(trackResult = false) {
     `Estimated loan: ${fmt(loan)} (${loanType}, ${tenure} years)`,
     `Eligibility interest rate: ${(annualRate * 100).toFixed(1)}% p.a.`,
     `Estimated downpayment: ${fmt(downpayment)}`,
-    `Estimated monthly repayment: ${fmt(monthly)} at ${(marketRate * 100).toFixed(1)}% p.a.`,
+    `Estimated monthly repayment: ${fmt(monthly)} at ${(marketRate * 100).toFixed(1)}% p.a.${loanType === 'HDB' ? '' : ' (MAS stress rate; your bank quote sets the actual rate)'}`,
     'Planning estimate only; EHG eligibility is not verified. HFE/lender approval determines actual financing. Stamp duty and other costs are not included.',
     'https://joetay.com/bto-calculator/',
   ].join('\n') : '';
