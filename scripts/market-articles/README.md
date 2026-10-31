@@ -2,7 +2,7 @@
 
 Builds the five data-led guides in `insights/` (JOE-389):
 
-- `hdb-resale-prices-2q-2026-by-town.html`
+- `hdb-resale-prices-3q-2026-by-town.html` (the 2Q 2026 edition is no longer rebuilt)
 - `15-month-wait-out-removed-private-owners-hdb.html`
 - `cheapest-4-room-5-room-hdb-resale-flats.html`
 - `singapore-rental-market-2q-2026.html`
@@ -19,14 +19,15 @@ Builds the five data-led guides in `insights/` (JOE-389):
 3. Compare `summary.json` with the prose in `build_articles.py` and rewrite every figure that changed. The official HDB and URA figures (price index, transaction counts, rental approvals, vacancy) come from the quarter's press releases, not from these datasets; update them and their source links by hand.
 4. Build, then redraw the covers (their charts and figures quote the articles), re-apply the TOC and covers, and run the checks:
    ```bash
-   python3 scripts/market-articles/build_articles.py
+   python3 scripts/market-articles/build_articles.py            # all five
+   python3 scripts/market-articles/build_articles.py <slug>     # or only the ones you rewrote
    node scripts/build-article-covers.mjs
    npm run apply:article-toc
    npm run apply:article-cover
    npm run check
    ```
    A cover figure that no longer appears in its article stops the cover build; update `insights/article-covers.json` to match.
-5. For a new quarter, consider new slugs (for example `hdb-resale-prices-3q-2026-by-town`) and update `insights/article-covers.json`, the insights index, both feeds, the sitemap, llms.txt and the sibling-link lists in `generate-hdb-loan-cluster.mjs`, `generate-hdb-grants-cluster.mjs` and the hand-built articles.
+5. For a new quarter, consider new slugs (3Q 2026 moved the resale guide to `hdb-resale-prices-3q-2026-by-town` and left the 2Q edition as a static page) and update `insights/article-covers.json`, the insights index, both feeds, the sitemap, llms.txt and the sibling-link lists in `generate-hdb-loan-cluster.mjs`, `generate-hdb-grants-cluster.mjs` and the hand-built articles.
 
 The launch calendar reads `new-launches/projects.json`; rebuild it whenever a launch date is confirmed or moves.
 

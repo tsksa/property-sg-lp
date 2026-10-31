@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-10-30T00:00:00+08:00</updated>
+  <updated>2026-10-31T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -13,6 +13,14 @@
     <uri>https://joetay.com/about-joe/</uri>
   </author>
   <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
+  <entry>
+    <title>HDB Resale Prices 3Q 2026 by Town</title>
+    <link href="https://joetay.com/insights/hdb-resale-prices-3q-2026-by-town.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/hdb-resale-prices-3q-2026-by-town.html</id>
+    <published>2026-10-31T00:00:00+08:00</published><updated>2026-10-31T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">HDB resale prices dipped 0.1% in 3Q 2026 as sales rose 19.5%. Median 3-, 4- and 5-room prices for all 26 towns, record $1m flats and the lease effect.</summary>
+  </entry>
   <entry>
     <title>How to Sell an HDB Flat: Steps, Fees &amp; Proceeds</title>
     <link href="https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html" rel="alternate" type="text/html"/>

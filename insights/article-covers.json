@@ -18,6 +18,11 @@
       ]
     },
     {
+      "slug": "hdb-resale-prices-3q-2026-by-town",
+      "title": "HDB resale prices, 3Q 2026",
+      "chart": {"table": 2, "labelColumn": "Town", "valueColumn": "4-room", "caption": "Median 4-room resale price by town, 3Q 2026", "highlight": "ends"}
+    },
+    {
       "slug": "hdb-resale-prices-2q-2026-by-town",
       "title": "HDB resale prices, 2Q 2026",
       "chart": {
