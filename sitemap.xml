@@ -194,13 +194,19 @@
   </url>
   <url>
     <loc>https://joetay.com/insights/15-month-wait-out-removed-private-owners-hdb.html</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://joetay.com/insights/cheapest-4-room-5-room-hdb-resale-flats.html</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://joetay.com/insights/singapore-rental-market-3q-2026.html</loc>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -22,7 +22,7 @@ import json, re, html, sys
 from datetime import date
 from pathlib import Path
 
-from config import DATA_DIR, MIN_DEALS_YIELD, ROOT
+from config import DATA_DIR, MIN_DEALS_YIELD, RENT_QUARTER, RENT_YEAR_AGO, ROOT
 
 WT = ROOT
 INS = WT / 'insights'
@@ -219,6 +219,9 @@ def a2():
 </table>
 <p>HDB gave two reasons. First, resale prices have eased: the Resale Price Index fell 0.1% in the first quarter and 0.3% in the second, after five quarters of slow or no growth. Second, many more flats are reaching the end of their minimum occupation period (MOP): 8,000 in 2025, 13,500 in 2026, 15,000 in 2027 and 19,500 in 2028. The quarter's figures are in <a href="hdb-resale-prices-2q-2026-by-town.html">HDB resale prices 2Q 2026 by town</a>.</p>
 
+<h2 id="what-happened-after-the-change">What happened after the change</h2>
+<p>HDB's figures for the third quarter, the first to include the change, came out on 23 October 2026. Resale sales rose 19.5% to 7,645 flats while the Resale Price Index slipped another 0.1%. HDB said it had not seen a significant increase in the prices or the number of resale flats bought by private owners and former private owners since the wait-out was removed. In other words, the extra sales came mostly from ordinary buyers and sellers, and private owners have not pushed prices up so far. <a href="hdb-resale-prices-3q-2026-by-town.html">HDB resale prices 3Q 2026 by town</a> has the full figures.</p>
+
 <h2 id="the-conditions-that-still-apply">The conditions that still apply</h2>
 <ul>
   <li><strong>An HFE letter first.</strong> Private owners must get an HDB Flat Eligibility (HFE) letter before buying a resale flat, as every buyer does. The <a href="hfe-letter-singapore-guide.html">HFE letter guide</a> explains the timing.</li>
@@ -259,10 +262,10 @@ def a2():
   <li>Get a <a href="/valuation.html">valuation</a> for the home you are selling, whether it is private or HDB.</li>
   <li>Run the bank loan limit that will apply to you through the <a href="/calculator/">affordability calculator</a> before you commit to an order of sale.</li>
 </ol>
-<p><a href="/#book">Book a 15-minute call with me</a> to work out the sell-first or buy-first order for your household. If you need two agents for two transactions, <a href="property-agent-commission-singapore.html">the commission guide</a> explains what each fee should cover.</p>
+<p><a href="/#book">Book a call with me</a> to work out the sell-first or buy-first order for your household. If you need two agents for two transactions, <a href="property-agent-commission-singapore.html">the commission guide</a> explains what each fee should cover.</p>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
-<p>Reviewed 17 Sep 2026 against HDB's release <a href="https://www.mnd.gov.sg/newsroom/press-releases/view/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners-purchasing-non-subsidised-hdb-resale-flats" rel="noopener">Removal of the 15-month wait-out period</a> (28 July 2026, published on MND's site and <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners" rel="noopener">HDB's</a>), the <a href="https://www.mnd.gov.sg/newsroom/press-releases/view/joint-mas-mnd-hdb-press-release-measures-to-promote-sustainable-conditions-in-the-property-market-by-ensuring-prudent-borrowing-and-moderating-demand" rel="noopener">joint MAS–MND–HDB release</a> of 29 September 2022 that introduced the wait, IRAS's <a href="https://ask.gov.sg/iras/questions/cln4esmvj003o5v0xawe9oj18" rel="noopener">answer on ABSD for downgraders</a>, and MAS's <a href="https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits" rel="noopener">loan tenure and loan-to-value limits</a>. The 45% figure assumes a loan tenure of up to 30 years that ends by age 65; longer loans have lower limits.</p>
+<p>Reviewed 31 Oct 2026 against HDB's release <a href="https://www.mnd.gov.sg/newsroom/press-releases/view/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners-purchasing-non-subsidised-hdb-resale-flats" rel="noopener">Removal of the 15-month wait-out period</a> (28 July 2026, published on MND's site and <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners" rel="noopener">HDB's</a>), the <a href="https://www.mnd.gov.sg/newsroom/press-releases/view/joint-mas-mnd-hdb-press-release-measures-to-promote-sustainable-conditions-in-the-property-market-by-ensuring-prudent-borrowing-and-moderating-demand" rel="noopener">joint MAS–MND–HDB release</a> of 29 September 2022 that introduced the wait, IRAS's <a href="https://ask.gov.sg/iras/questions/cln4esmvj003o5v0xawe9oj18" rel="noopener">answer on ABSD for downgraders</a>, and MAS's <a href="https://www.mas.gov.sg/regulation/explainers/new-housing-loans/loan-tenure-and-loan-to-value-limits" rel="noopener">loan tenure and loan-to-value limits</a>. The third-quarter figures and HDB's comment on private owners' purchases are from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/3rd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">3rd Quarter 2026 public housing data</a> (23 October 2026). The 45% figure assumes a loan tenure of up to 30 years that ends by age 65; longer loans have lower limits.</p>
 '''
     faqs = [
         ('Has the 15-month wait-out period been removed?', 'Yes. From 28 July 2026, private property owners and former owners can buy a non-subsidised HDB resale flat of any size without waiting 15 months, provided they do not take an HDB housing loan and sell all private residential property within six months of completing the flat purchase.'),
@@ -270,7 +273,7 @@ def a2():
         ('Do I pay ABSD if I buy an HDB resale flat before selling my condo?', 'IRAS’s published answer for a Singapore citizen downgrading from private property is that ABSD remission is given upfront, because HDB requires the private property to be sold within six months. Buyer’s stamp duty still applies. Permanent residents and unusual ownership structures should confirm with IRAS.'),
         ('Can a private property owner take a bank loan for an HDB flat?', 'Yes, and it is the only loan available under the new route. The bank limit is 75% of the price or valuation with no other outstanding housing loan, but falls to 45% if the private property still has a mortgage, so many owners sell or redeem the mortgage first.'),
     ]
-    return dict(slug='15-month-wait-out-removed-private-owners-hdb', title='15-Month Wait-Out Removed: What Owners Do Now', cat='Housing policy', mins=7,
+    return dict(slug='15-month-wait-out-removed-private-owners-hdb', title='15-Month Wait-Out Removed: What Owners Do Now', cat='Housing policy', mins=7, modified='2026-10-31',
                 headline='The 15-month wait-out is gone: what private owners and HDB sellers should do now',
                 crumb='15-month wait-out removed',
                 desc='Since 28 July 2026, private owners can buy a resale flat without grants or an HDB loan with no 15-month wait. Conditions, ABSD, loan limits and next steps.',
@@ -298,10 +301,10 @@ def a3():
 </table>
 </div>'''
     body = f'''
-<div class="callout"><strong>The short version</strong><p>Over the six months to August 2026, the cheapest towns for a 4-room resale flat were <strong>Jurong West</strong> (median $535,000), <strong>Woodlands</strong> and <strong>Yishun</strong> (both $550,000). For a 5-room flat they were <strong>Jurong West</strong> ($630,500), <strong>Sembawang</strong> ($644,444) and <strong>Woodlands</strong> ($655,000). Some towns look cheap only because their flats are old. Count only flats with at least 70 years of lease left and the cheapest 4-room towns become Woodlands ($560,444), Jurong West and Choa Chu Kang, both about $571,000.</p></div>
+<div class="callout"><strong>The short version</strong><p>Over the six months to September 2026, the cheapest towns for a 4-room resale flat were <strong>Jurong West</strong> (median $530,000), <strong>Woodlands</strong> and <strong>Yishun</strong> (both $548,000). For a 5-room flat they were <strong>Jurong West</strong> ($630,000), <strong>Sembawang</strong> ($638,444) and <strong>Woodlands</strong> ($650,000). Some towns look cheap only because their flats are old. Count only flats with at least 70 years of lease left and the cheapest 4-room towns become Woodlands ($558,888), Jurong West ($570,000) and Choa Chu Kang ($575,000).</p></div>
 
 <h2 id="how-this-ranking-works">How this ranking works</h2>
-<p>This guide uses every 4-room and 5-room resale deal in HDB's records from March to August 2026: 5,903 4-room and 3,156 5-room flats. Six months gives each town enough deals to be meaningful, and the figures are recent enough to use now. Towns with fewer than ten deals of a flat type are left out. For each town you get the median price, the median lease left and the median floor area. The last column is the median for flats with at least 70 years of lease left, shown where there were at least ten such deals.</p>
+<p>This guide uses every 4-room and 5-room resale deal in HDB's records from April to September 2026: 5,969 4-room and 3,236 5-room flats. Six months gives each town enough deals to be meaningful, and the figures are recent enough to use now. Towns with fewer than ten deals of a flat type are left out. For each town you get the median price, the median lease left and the median floor area. The last column is the median for flats with at least 70 years of lease left, shown where there were at least ten such deals.</p>
 <p>That last column matters because the cheapest flat in a town is almost always its oldest. Lease affects how much CPF you can use and how big a loan you can get. HDB and CPF allow full use when the remaining lease covers the youngest buyer to age 95; less than that and the amount shrinks. For a 35-year-old buyer, a flat with 55 years left gets pro-rated CPF use, so a cheaper old flat can still need more cash upfront than a dearer flat with 75 years left, depending on CPF balances and the loan. <a href="use-cpf-buy-hdb-flat-singapore.html">Using CPF to buy an HDB flat</a> sets out the rule.</p>
 
 <div class="article-cta">
@@ -314,20 +317,20 @@ def a3():
 </div>
 
 <h2 id="cheapest-4-room-resale-flats-by-town">Cheapest 4-room resale flats by town</h2>
-{table('4 ROOM', 'Median 4-room HDB resale price by town, March to August 2026, cheapest first')}
+{table('4 ROOM', 'Median 4-room HDB resale price by town, April to September 2026, cheapest first')}
 <p>Three things stand out:</p>
 <ul>
-  <li><strong>Cheap and long leases:</strong> {town_link('WOODLANDS')}, {town_link('JURONG WEST')}, {town_link('CHOA CHU KANG')} and {town_link('BUKIT PANJANG')} have medians of $535,000 to $570,500 and typically more than 70 years left. They are the best value for buyers who need full CPF use and a full loan.</li>
-  <li><strong>Cheap because old:</strong> {town_link('YISHUN')} (61 years left), {town_link('BEDOK')} (60) and {town_link('ANG MO KIO')} (55) rank low on the median alone. Count only flats with 70+ years left and Bedok's median jumps to $860,000 and Ang Mo Kio's to $984,084. Those are newer flats in mature towns, a different product.</li>
-  <li><strong>New-flat towns that aren't cheap:</strong> {town_link('SEMBAWANG')} ($605,000), {town_link('SENGKANG')} ($640,000) and {town_link('PUNGGOL')} ($680,000) have almost no old flats. Nearly every deal there has 70+ years left, so their median is what a young-lease flat costs.</li>
+  <li><strong>Cheap and long leases:</strong> {town_link('WOODLANDS')}, {town_link('JURONG WEST')}, {town_link('CHOA CHU KANG')} and {town_link('BUKIT PANJANG')} have medians of $530,000 to $570,000 and typically about 70 years or more left. They are the best value for buyers who need full CPF use and a full loan.</li>
+  <li><strong>Cheap because old:</strong> {town_link('YISHUN')} (61 years left), {town_link('BEDOK')} (60) and {town_link('ANG MO KIO')} (54) rank low on the median alone. Count only flats with 70+ years left and Bedok's median jumps to $898,000 and Ang Mo Kio's to $985,528. Those are newer flats in mature towns, a different product.</li>
+  <li><strong>New-flat towns that aren't cheap:</strong> {town_link('SEMBAWANG')} ($602,500), {town_link('SENGKANG')} ($638,888) and {town_link('PUNGGOL')} ($680,000) have no old flats. Every deal there in the six months had 70+ years left, so their median is what a young-lease flat costs.</li>
 </ul>
 
 <h2 id="cheapest-5-room-resale-flats-by-town">Cheapest 5-room resale flats by town</h2>
-{table('5 ROOM', 'Median 5-room HDB resale price by town, March to August 2026, cheapest first')}
-<p>For 5-room flats the lease effect is smaller. {town_link('JURONG WEST')}, {town_link('SEMBAWANG')}, {town_link('WOODLANDS')} and {town_link('CHOA CHU KANG')} all have medians between $630,500 and $663,500 with typical leases above 70 years. The step up from a 4-room flat in the same town is small: about $95,000 in Jurong West, $105,000 in Woodlands and $113,000 in Choa Chu Kang, for roughly 20 extra square metres. In mature estates it is much bigger. That is why many families upgrade to a 5-room flat in the north and west rather than a 4-room in the centre.</p>
+{table('5 ROOM', 'Median 5-room HDB resale price by town, April to September 2026, cheapest first')}
+<p>For 5-room flats the lease effect is smaller. {town_link('JURONG WEST')}, {town_link('SEMBAWANG')}, {town_link('WOODLANDS')} and {town_link('CHOA CHU KANG')} all have medians between $630,000 and $660,000 with typical leases above 70 years. The step up from a 4-room flat in the same town is small: about $100,000 in Jurong West, $102,000 in Woodlands and $105,000 in Choa Chu Kang, for 13 to 22 extra square metres. In mature estates it is much bigger. That is why many families upgrade to a 5-room flat in the north and west rather than a 4-room in the centre.</p>
 
 <h2 id="what-the-cheapest-flats-actually-sold-for">What the cheapest flats actually sold for</h2>
-<p>The lowest single price in the six months was $385,000 for a 4-room flat in Woodlands. Every 4-room flat that sold below $420,000 had about 50 years of lease or less left, and almost all of those up to $440,000 had under 60 years. If your budget is near those prices, expect a short lease, possible upgrading works and a smaller CPF limit. Check the lease and the block's upgrading history, not just the price. The quarter-by-quarter picture is in <a href="hdb-resale-prices-2q-2026-by-town.html">HDB resale prices 2Q 2026 by town</a>.</p>
+<p>The lowest single price in the six months was $385,000 for a 4-room flat in Woodlands with 47 years of lease left. Every 4-room flat that sold below $420,000 had under 60 years left, and so did 56 of the 58 that sold for $440,000 or less. If your budget is near those prices, expect a short lease, possible upgrading works and a smaller CPF limit. Check the lease and the block's upgrading history, not just the price. The quarter-by-quarter picture is in <a href="hdb-resale-prices-3q-2026-by-town.html">HDB resale prices 3Q 2026 by town</a>.</p>
 
 <h2 id="stretching-the-budget-grants-and-loans">Stretching the budget: grants and loans</h2>
 <p>First-timers buying a resale flat may be able to take a CPF housing grant, the Enhanced CPF Housing Grant and the Proximity Housing Grant. Together they can reduce a Jurong West 4-room flat's effective price by a large share. The <a href="hdb-resale-grants-singapore.html">resale grants guide</a> and <a href="enhanced-cpf-housing-grant-singapore.html">EHG guide</a> set out the current amounts and the 2026 income ceilings from <a href="hdb-income-ceiling-2026-ndr-changes.html">the August changes</a>. For the loan, <a href="hdb-loan-eligibility-singapore.html">HDB loan eligibility</a> and <a href="hdb-loan-vs-bank-loan-singapore.html">HDB loan vs bank loan</a> cover the options, and <a href="hdb-downpayment-cash-cpf-grants.html">the downpayment guide</a> shows how much cash you need upfront. Private property owners, who can now buy without the wait-out, should read <a href="15-month-wait-out-removed-private-owners-hdb.html">the wait-out guide</a> first.</p>
@@ -339,7 +342,7 @@ def a3():
   <li>Get your <a href="hfe-letter-singapore-guide.html">HFE letter</a> before you view seriously, so you know your grants and loan.</li>
   <li>If you are also selling, get a <a href="/valuation.html">valuation</a> and check the <a href="how-long-to-sell-hdb-singapore-2026.html">selling timeline</a>.</li>
 </ol>
-<p><a href="/#book">Book a 15-minute call with me</a> to compare specific blocks in the towns you are considering. For newer homes, <a href="new-condo-launches-2026-2027-calendar.html">the new launch calendar</a> lists every condo and EC coming up.</p>
+<p><a href="/#book">Book a call with me</a> to compare specific blocks in the towns you are considering. For newer homes, <a href="new-condo-launches-2026-2027-calendar.html">the new launch calendar</a> lists every condo and EC coming up.</p>
 
 <div class="article-cta">
   <h3>Comparing blocks in these towns?</h3>
@@ -348,33 +351,35 @@ def a3():
 </div>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
-<p>Reviewed 17 Sep 2026. All prices are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 17 September 2026, for deals registered March to August 2026. Remaining lease is as recorded at the time of sale. CPF and loan lease rules are from HDB and CPF Board; confirm your own limits with CPF's home-purchase tools before committing.</p>
+<p>Reviewed 31 Oct 2026. All prices are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 31 October 2026, for deals registered April to September 2026. Remaining lease is as recorded at the time of sale. CPF and loan lease rules are from HDB and CPF Board; confirm your own limits with CPF's home-purchase tools before committing.</p>
 '''
     faqs = [
-        ('Which town has the cheapest 4-room HDB resale flats in 2026?', 'Jurong West had the lowest 4-room median over March to August 2026 at $535,000, followed by Woodlands and Yishun at $550,000. Counting only flats with at least 70 years of lease left, Woodlands was cheapest at a median of $560,444.'),
-        ('Which town has the cheapest 5-room HDB resale flats?', 'Jurong West, with a 5-room median of $630,500 over March to August 2026, followed by Sembawang at $644,444 and Woodlands at $655,000. All three typically sell 5-room flats with more than 70 years of lease left.'),
-        ('Why are some mature-town 4-room flats so cheap?', 'Because they are old. Ang Mo Kio’s median 4-room resale flat had 55 years of lease left and Bedok’s 60, which pulls their medians down. Among flats with 70 or more years left, the medians were $984,084 in Ang Mo Kio and $860,000 in Bedok.'),
-        ('What is the cheapest 4-room HDB flat sold recently?', 'The lowest 4-room price between March and August 2026 was $385,000 in Woodlands. Flats at that level are nearly always in the oldest blocks, so check the remaining lease, CPF usage limits and loan eligibility before treating a low price as a bargain.'),
+        ('Which town has the cheapest 4-room HDB resale flats in 2026?', 'Jurong West had the lowest 4-room median over April to September 2026 at $530,000, followed by Woodlands and Yishun at $548,000. Counting only flats with at least 70 years of lease left, Woodlands was cheapest at a median of $558,888.'),
+        ('Which town has the cheapest 5-room HDB resale flats?', 'Jurong West, with a 5-room median of $630,000 over April to September 2026, followed by Sembawang at $638,444 and Woodlands at $650,000. All three typically sell 5-room flats with more than 70 years of lease left.'),
+        ('Why are some mature-town 4-room flats so cheap?', 'Because they are old. Ang Mo Kio’s median 4-room resale flat had 54 years of lease left and Bedok’s 60, which pulls their medians down. Among flats with 70 or more years left, the medians were $985,528 in Ang Mo Kio and $898,000 in Bedok.'),
+        ('What is the cheapest 4-room HDB flat sold recently?', 'The lowest 4-room price between April and September 2026 was $385,000 in Woodlands. Flats at that level are nearly always in the oldest blocks, so check the remaining lease, CPF usage limits and loan eligibility before treating a low price as a bargain.'),
     ]
-    return dict(slug='cheapest-4-room-5-room-hdb-resale-flats', title='Cheapest 4-Room and 5-Room HDB Resale Towns', cat='Buying', mins=7,
+    return dict(slug='cheapest-4-room-5-room-hdb-resale-flats', title='Cheapest 4-Room and 5-Room HDB Resale Towns', cat='Buying', mins=7, modified='2026-10-31',
                 headline='The cheapest towns for 4-room and 5-room HDB resale flats in 2026, and when cheap means an old lease',
                 crumb='Cheapest 4-room and 5-room resale flats',
-                desc='Every town ranked by median 4-room and 5-room resale price, March to August 2026, with remaining lease and prices for flats with 70+ years left.',
+                desc='Every town ranked by median 4-room and 5-room resale price, April to September 2026, with remaining lease and prices for flats with 70+ years left.',
                 og_desc='Jurong West, Woodlands and Yishun lead for 4-room flats; Jurong West, Sembawang and Woodlands for 5-room. The full town ranking with lease left and like-for-like prices.',
-                lede='A cheap median can mean a good-value town or an old lease. This ranks every town by 4-room and 5-room resale price over the six months to August 2026, then ranks them again counting only flats with at least 70 years left.',
+                lede='A cheap median can mean a good-value town or an old lease. This ranks every town by 4-room and 5-room resale price over the six months to September 2026, then ranks them again counting only flats with at least 70 years left.',
                 card='Every town ranked by median 4-room and 5-room price over six months, with lease left and like-for-like prices for flats with 70+ years.',
                 body=body, faqs=faqs,
                 disclaimer='This guide is general market information, not financial advice. Medians describe past transactions; grants, CPF usage and loans are decided by HDB, CPF Board and banks on your own application. Verify your eligibility before you commit.',
                 related_top=[('/hdb-prices/', 'HDB resale prices by town'), ('/calculator/', 'Affordability &amp; HDB loan calculator')])
 ARTICLES.append(('cheapest-4-room-5-room-hdb-resale-flats', a3))
 
-# ================================================================ 4. rental market 2Q 2026
+# ================================================================ 4. rental market 3Q 2026
+# The 2Q 2026 edition (singapore-rental-market-2q-2026.html) is kept as a static page:
+# its prose quotes 2Q figures, so it is no longer rebuilt from the current quarter's data.
 def a4():
     rows = []
     towns = sorted(t2.keys())
     for town in towns:
-        r3, r4, r5 = rent_of('2026-Q2', town, '3-RM'), rent_of('2026-Q2', town, '4-RM'), rent_of('2026-Q2', town, '5-RM')
-        r4y = rent_of('2025-Q2', town, '4-RM')
+        r3, r4, r5 = rent_of(RENT_QUARTER, town, '3-RM'), rent_of(RENT_QUARTER, town, '4-RM'), rent_of(RENT_QUARTER, town, '5-RM')
+        r4y = rent_of(RENT_YEAR_AGO, town, '4-RM')
         if not any([r3, r4, r5]):
             continue
         ch = f"{(r4 / r4y - 1) * 100:+.1f}%" if r4 and r4y else '—'
@@ -382,60 +387,70 @@ def a4():
         f = lambda v: money(v) if v else '—'
         rows.append(f"    <tr><th scope=\"row\">{town_link(town)}</th><td>{f(r3)}</td><td>{f(r4)}</td><td>{ch}</td><td>{f(r5)}</td></tr>")
     rent_table = '\n'.join(rows)
-    y4 = sorted([('4 ROOM', t, rent_of('2026-Q2', t, '4-RM'), int(rec['4 ROOM']['med']), rec['4 ROOM']['n'], rent_of('2026-Q2', t, '4-RM') * 12 / rec['4 ROOM']['med'] * 100)
-                 for t, rec in t2.items() if rec['4 ROOM']['n'] >= MIN_DEALS_YIELD and rent_of('2026-Q2', t, '4-RM')], key=lambda y: -y[5])
+    y4 = sorted([('4 ROOM', t, rent_of(RENT_QUARTER, t, '4-RM'), int(rec['4 ROOM']['med']), rec['4 ROOM']['n'], rent_of(RENT_QUARTER, t, '4-RM') * 12 / rec['4 ROOM']['med'] * 100)
+                 for t, rec in t2.items() if rec['4 ROOM']['n'] >= MIN_DEALS_YIELD and rent_of(RENT_QUARTER, t, '4-RM')], key=lambda y: -y[5])
     yrows = '\n'.join(f"    <tr><th scope=\"row\">{town_link(y[1])}</th><td>{money(y[2])}</td><td>{money(y[3])}</td><td>{y[5]:.1f}%</td></tr>" for y in y4)
     body = f'''
-<div class="callout"><strong>The short version</strong><p>Rents in the second quarter of 2026 held steady and rose slightly. HDB approved <strong>10,002</strong> applications to rent out flats, up 4.9% on the quarter. The typical 4-room HDB rent was <strong>$3,400</strong> a month, up from $3,300 a year earlier. URA's private rental index rose <strong>0.7%</strong>. But private vacancy rose to 6.4% and suburban condo rents slipped, and more new flats reach their MOP every year. Landlords should expect steady rents, not rises, and price by their block and unit, not headlines.</p></div>
+<div class="callout"><strong>The short version</strong><p>HDB rents held steady in the third quarter of 2026. The typical 4-room rent was <strong>$3,400</strong> a month, the same as in the second quarter and up from $3,300 a year earlier. HDB approved <strong>9,381</strong> applications to rent out flats, 6.2% fewer than in the second quarter, while the number of flats rented out still rose to 59,378. URA's private rental index rose <strong>1.3%</strong>, led by suburban condos, but private vacancy jumped to <strong>7.2%</strong> as a wave of new homes was completed. Landlords should expect steady rents, not rises, and price by their block and unit, not headlines.</p></div>
 
-<h2 id="the-official-2q-2026-figures">The official 2Q 2026 figures</h2>
-<table aria-label="HDB and URA official rental market figures for 2Q 2026">
-  <thead><tr><th scope="col">Measure</th><th scope="col">2Q 2026</th><th scope="col">Change</th></tr></thead>
+<h2 id="the-official-3q-2026-figures">The official 3Q 2026 figures</h2>
+<table aria-label="HDB and URA official rental market figures for 3Q 2026">
+  <thead><tr><th scope="col">Measure</th><th scope="col">3Q 2026</th><th scope="col">Change</th></tr></thead>
   <tbody>
-    <tr><th scope="row">HDB applications approved to rent out a flat</th><td>10,002</td><td>+4.9% on 1Q (9,535); −0.6% on 2Q 2025</td></tr>
-    <tr><th scope="row">HDB flats rented out, end of quarter</th><td>58,855</td><td>+0.3% on 1Q</td></tr>
-    <tr><th scope="row">URA private rental index</th><td>—</td><td>+0.7% (1Q: +0.3%)</td></tr>
-    <tr><th scope="row">Private non-landed rents: city centre (CCR)</th><td>—</td><td>+1.2%</td></tr>
-    <tr><th scope="row">Private non-landed rents: city fringe (RCR)</th><td>—</td><td>0.0%</td></tr>
-    <tr><th scope="row">Private non-landed rents: suburbs (OCR)</th><td>—</td><td>−0.3%</td></tr>
-    <tr><th scope="row">Vacancy, completed private homes</th><td>6.4%</td><td>up from 6.2%; CCR 8.3%, RCR 6.1%, OCR 5.6%</td></tr>
+    <tr><th scope="row">HDB applications approved to rent out a flat</th><td>9,381</td><td>−6.2% on 2Q (10,002); −7.3% on 3Q 2025 (10,123)</td></tr>
+    <tr><th scope="row">HDB flats rented out, end of quarter</th><td>59,378</td><td>+0.9% on 2Q (58,855)</td></tr>
+    <tr><th scope="row">URA private rental index</th><td>—</td><td>+1.3% (2Q: +0.7%)</td></tr>
+    <tr><th scope="row">Private non-landed rents: city centre (CCR)</th><td>—</td><td>−0.3%</td></tr>
+    <tr><th scope="row">Private non-landed rents: city fringe (RCR)</th><td>—</td><td>+1.5%</td></tr>
+    <tr><th scope="row">Private non-landed rents: suburbs (OCR)</th><td>—</td><td>+3.1%</td></tr>
+    <tr><th scope="row">Vacancy, completed private homes</th><td>7.2%</td><td>up from 6.4%; CCR 8.4%, RCR 7.4%, OCR 6.5%</td></tr>
   </tbody>
 </table>
-<p>Landed homes drove most of the private rise, at +2.7% against +0.4% for condos and apartments. The table shows URA's quarterly changes. The more telling private figure is vacancy: it rose in the city centre and the suburbs. New supply kept coming, with 1,611 private homes and 872 executive condos completed in the first half of 2026.</p>
+<p>Approvals fell, yet the number of HDB flats rented out still edged up 0.9%. On the private side, landed rents rose 2.1% and condos and apartments 1.2%. The more telling private figure is vacancy: 3,559 private homes and ECs were completed in the quarter, the most since 3Q 2024, and vacancy rose in every region, most in the city fringe.</p>
+<p>This is the 3Q 2026 edition. <a href="singapore-rental-market-2q-2026.html">The 2Q 2026 edition</a> has the April to June figures.</p>
+
+<div class="article-cta">
+  <h3>Renting out or selling?</h3>
+  <p>A free valuation tells you what your flat would sell for, so you can weigh it against a year's rent before you sign a lease.</p>
+  <div class="article-cta-actions">
+    <a href="/valuation.html?propType=HDB" data-cta-location="insights_rental_3q_mid" data-lead-type="valuation">Get a free valuation →</a>
+    <a class="article-cta-secondary" href="/rent-out/" data-cta-location="insights_rental_3q_mid" data-lead-type="landlord">Rent out with Joe</a>
+  </div>
+</div>
 
 <h2 id="hdb-median-rents-by-town">HDB median rents by town</h2>
-<p>HDB publishes a median monthly rent for each town and flat type every quarter, based on the rentals it approves. The 4-room change compares 2Q 2026 with 2Q 2025. A dash means HDB did not publish a figure because there were too few rentals.</p>
+<p>HDB publishes a median monthly rent for each town and flat type every quarter, based on the rentals it approves. The 4-room change compares 3Q 2026 with 3Q 2025. A dash means HDB did not publish a figure because there were too few rentals.</p>
 <div class="table-scroll" style="overflow-x:auto">
-<table aria-label="HDB median monthly rent by town and flat type, 2Q 2026">
+<table aria-label="HDB median monthly rent by town and flat type, 3Q 2026">
   <thead><tr><th scope="col">Town</th><th scope="col">3-room</th><th scope="col">4-room</th><th scope="col">4-room, year on year</th><th scope="col">5-room</th></tr></thead>
   <tbody>
 {rent_table}
   </tbody>
 </table>
 </div>
-<p>Of the 25 towns with a 4-room figure, 17 were higher than a year earlier and 3 were lower, and the typical town was up 2.6%. The top 4-room rents were in the Central Area ($4,600), Queenstown ($4,130) and Bukit Merah ($4,000). The lowest were in Bukit Panjang and Choa Chu Kang ($3,000). Across all approved rentals from April to June, the median was $2,850 for a 3-room flat, $3,400 for a 4-room, $3,500 for a 5-room and $3,800 for an executive flat. In July and August, the 3-room median rose to $2,900 and the 4-room median stayed at $3,400.</p>
+<p>Of the 25 towns with a 4-room figure, 19 were higher than a year earlier and only Ang Mo Kio was lower, and the typical town was up 2.8%. The top 4-room rents were in the Central Area ($4,800), Queenstown ($4,300) and Clementi ($4,100). The lowest was in Bukit Panjang ($3,000), followed by Choa Chu Kang, Woodlands and Yishun ($3,100). Across all approved rentals from July to September, the median was $2,900 for a 3-room flat, $3,400 for a 4-room, $3,500 for a 5-room and $3,890 for an executive flat.</p>
 
 <h2 id="gross-rental-yield-by-town">Gross rental yield by town</h2>
 <p>Yield is the question most landlords are really asking. Divide a year's median rent by the median resale price for the same town and flat type, and you get a rough gross yield. It is before property tax, maintenance, agent fees and empty months, and it assumes an average flat. The table covers towns with at least 20 4-room resale deals in the quarter.</p>
 <div class="table-scroll" style="overflow-x:auto">
-<table aria-label="Indicative gross rental yield for 4-room HDB flats by town, 2Q 2026">
+<table aria-label="Indicative gross rental yield for 4-room HDB flats by town, 3Q 2026">
   <thead><tr><th scope="col">Town (4-room)</th><th scope="col">Median rent</th><th scope="col">Median resale price</th><th scope="col">Gross yield</th></tr></thead>
   <tbody>
 {yrows}
   </tbody>
 </table>
 </div>
-<p>The pattern is consistent: rents vary far less between towns than prices do. A 4-room flat in Jurong West rents for $3,500 on a $530,000 median price, about 7.9% gross. In Toa Payoh it rents for $3,800 on a median above $1 million, about 4.5%. The same holds for 3-room flats, which yield most in older central towns like Geylang and Toa Payoh. Treat these as a guide, not a forecast. The flats rented out are often older and cheaper than the flats sold in the same town, which flatters the high-yield towns somewhat.</p>
+<p>The pattern is consistent: rents vary far less between towns than prices do. A 4-room flat in Jurong West rents for $3,600 on a $538,000 median price, about 8.0% gross. In Toa Payoh it rents for $3,850 on a median above $1 million, about 4.5%. The Central Area's 6.9% is flattered this quarter: the 4-room flats that sold there had much shorter leases than a year ago, which pulled its price median down. 3-room flats yield most in older central towns like Toa Payoh and Geylang. Treat these as a guide, not a forecast. The flats rented out are often older and cheaper than the flats sold in the same town, which flatters the high-yield towns somewhat. <a href="hdb-resale-prices-3q-2026-by-town.html">The 3Q 2026 resale price guide</a> has the price side.</p>
 
 <h2 id="what-private-landlords-are-seeing">What private landlords are seeing</h2>
-<p>Monthly flash estimates from SRX and 99.co, which are not official statistics, show condo rents about 2% to 2.5% higher year on year in each month from April to July 2026. July was busy: a record 9,627 condo rentals, up 38% on June, with rents up 1.6% on the month. Part of that jump is seasonal. The official quarter tells a more cautious story for suburban condos: rents in the outer suburbs slipped 0.3% while vacancy rose to 5.6%. Newly completed projects compete directly with older condos for the same tenants.</p>
+<p>The quarter split private landlords in two. In the suburbs, non-landed rents rose 3.1%, after slipping 0.3% in the second quarter. In the city centre they fell 0.3%. At the same time vacancy rose everywhere: from 5.6% to 6.5% in the suburbs, from 6.1% to 7.4% in the city fringe and from 8.3% to 8.4% in the centre. That combination suggests newly completed units are taking time to fill while well-located existing units still let. A new project nearby competes directly with your unit for the same tenants.</p>
 
-<h2 id="what-landlords-can-expect-for-the-rest-of-2026">What landlords can expect for the rest of 2026</h2>
+<h2 id="what-landlords-can-expect-into-2027">What landlords can expect into 2027</h2>
 <ul>
   <li><strong>More flats competing for tenants.</strong> 13,500 flats reach their MOP in 2026 and 15,000 in 2027, according to HDB. Many owners of those flats will rent them out. Expect HDB rents to hold rather than rise quickly.</li>
-  <li><strong>Private vacancy is the risk.</strong> About 25,900 private homes in URA's pipeline are due by 2028. Suburban vacancy rose from 5.2% to 5.6% in one quarter, so condo landlords there should price to fill the unit, not to hold out.</li>
+  <li><strong>Private vacancy is the risk.</strong> About 22,300 private homes and ECs in URA's pipeline are due by 2028, after the busiest quarter for completions in two years. Condo landlords in areas with new completions should price to fill the unit, not to hold out.</li>
   <li><strong>Renewals beat new leases.</strong> With rents flat to slightly up, keeping a good tenant at a modest increase usually earns more than a better rent with an empty month or two.</li>
-  <li><strong>Selling may beat renting.</strong> Since 28 July, private owners can buy resale flats without the 15-month wait. That brings more cash buyers for larger flats. Some landlords of mature-town 5-room flats may do better selling than renting. <a href="15-month-wait-out-removed-private-owners-hdb.html">The wait-out guide</a> explains the change, and <a href="hdb-resale-prices-2q-2026-by-town.html">the 2Q 2026 resale price guide</a> shows the prices.</li>
+  <li><strong>Selling may beat renting.</strong> Since 28 July, private owners can buy resale flats without the 15-month wait, and resale sales rose 19.5% in the third quarter. Some landlords of mature-town 5-room flats may do better selling than renting. <a href="15-month-wait-out-removed-private-owners-hdb.html">The wait-out guide</a> explains the change.</li>
 </ul>
 
 <h2 id="rules-before-you-rent-out-an-hdb-flat">Rules before you rent out an HDB flat</h2>
@@ -447,28 +462,29 @@ def a4():
   <li>Check HDB's <a href="https://services2.hdb.gov.sg/webapp/BR12AWNCQuota/" rel="noopener">non-citizen quota for your block</a> before choosing tenants.</li>
   <li>If you are weighing renting against selling, get a <a href="/valuation.html">valuation</a> and read <a href="selling-hdb-after-mop-singapore.html">selling after MOP</a>.</li>
 </ol>
-<p><a href="/rent-out/">List your flat for rent with me</a> or <a href="/#book">book a 15-minute call</a> to compare renting with selling on your own flat. <a href="property-agent-commission-singapore.html">The commission guide</a> covers what a rental agent's fee should include.</p>
+<p><a href="/rent-out/">List your flat for rent with me</a> or <a href="/#book">book a call</a> to compare renting with selling on your own flat. <a href="property-agent-commission-singapore.html">The commission guide</a> covers what a rental agent's fee should include.</p>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
-<p>Reviewed 17 Sep 2026. Official figures are from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/2nd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">2nd Quarter 2026 public housing data</a> (24 July 2026) and URA's <a href="https://www.ura.gov.sg/news/media/pr26-57/" rel="noopener">2nd Quarter 2026 real estate statistics</a> (24 July 2026). Town medians are from HDB's <a href="https://data.gov.sg/datasets/d_23000a00c52996c55106084ed0339566/view" rel="noopener">median rent by town and flat type</a>. Islandwide medians are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view" rel="noopener">renting out of flats</a> records, which count 9,424 approvals in the quarter against HDB's headline 10,002. Yields combine those rents with HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale prices</a>; all data.gov.sg data is under the Singapore Open Data Licence and was downloaded 17 September 2026. Private flash estimates are from SRX and 99.co's monthly reports for <a href="https://www.99.co/singapore/insider/condo-hdb-rental-market-rebound-june-2026/" rel="noopener">June</a> and <a href="https://www.99.co/singapore/insider/condo-rental-prices-volumes-record-high-july-2026/" rel="noopener">July 2026</a>. MOP supply is from HDB's 28 July 2026 release, and rental rules are from <a href="https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility" rel="noopener">HDB's eligibility page</a>.</p>
+<p>Reviewed 31 Oct 2026. Official figures are from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/3rd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">3rd Quarter 2026 public housing data</a> (23 October 2026) and URA's <a href="https://www.ura.gov.sg/news/media/pr26-73/" rel="noopener">3rd Quarter 2026 real estate statistics</a> (23 October 2026). Town medians are from HDB's <a href="https://data.gov.sg/datasets/d_23000a00c52996c55106084ed0339566/view" rel="noopener">median rent by town and flat type</a>. Islandwide medians are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_c9f57187485a850908655db0e8cfe651/view" rel="noopener">renting out of flats</a> records, which count 8,808 approvals in the quarter against HDB's headline 9,381. Yields combine those rents with HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale prices</a>; all data.gov.sg data is under the Singapore Open Data Licence and was downloaded 31 October 2026. MOP supply is from HDB's 28 July 2026 release, and rental rules are from <a href="https://www.hdb.gov.sg/managing-my-home/home-ownership/renting-out-a-flat-or-bedrooms/renting-out-a-flat/eligibility" rel="noopener">HDB's eligibility page</a>.</p>
 '''
     faqs = [
-        ('Are HDB rents going up in 2026?', 'Slowly. The median 4-room HDB rent was $3,400 a month in 2Q 2026, up from $3,300 a year earlier, and 17 of 25 towns with a 4-room figure were higher than a year before. HDB approved 10,002 applications to rent out flats in the quarter, 4.9% more than in 1Q.'),
-        ('What is the average rent for a 4-room HDB flat?', 'The median across all 4-room rentals HDB approved in April to June 2026 was $3,400 a month. Town medians ranged from $3,000 in Bukit Panjang and Choa Chu Kang to $4,600 in the Central Area.'),
-        ('Which HDB towns have the highest rental yield?', 'Dividing 2Q 2026 median rent by median resale price, 4-room flats yielded most in Jurong West (about 7.9% gross), Jurong East (7.3%) and Bedok (7.0%), and least in Toa Payoh (4.5%) and the Central Area (4.6%). These are gross figures before costs and vacancy.'),
-        ('Did private condo rents rise in 2Q 2026?', 'URA’s private rental index rose 0.7% in 2Q 2026. Non-landed rents rose 1.2% in the city centre, were flat in the city fringe and fell 0.3% in the suburbs, while vacancy of completed private homes rose to 6.4%.'),
+        ('Are HDB rents going up in 2026?', 'Slowly. The median 4-room HDB rent was $3,400 a month in 3Q 2026, the same as in 2Q and up from $3,300 a year earlier, and 19 of 25 towns with a 4-room figure were higher than a year before. HDB approved 9,381 applications to rent out flats in the quarter, 6.2% fewer than in 2Q.'),
+        ('What is the average rent for a 4-room HDB flat?', 'The median across all 4-room rentals HDB approved in July to September 2026 was $3,400 a month. Town medians ranged from $3,000 in Bukit Panjang to $4,800 in the Central Area.'),
+        ('Which HDB towns have the highest rental yield?', 'Dividing 3Q 2026 median rent by median resale price, 4-room flats yielded most in Jurong West (about 8.0% gross) and Jurong East (7.8%), and least in Toa Payoh (4.5%) and Queenstown (4.8%). These are gross figures before costs and vacancy.'),
+        ('Did private condo rents rise in 3Q 2026?', 'URA’s private rental index rose 1.3% in 3Q 2026. Non-landed rents rose 3.1% in the suburbs and 1.5% in the city fringe and fell 0.3% in the city centre, while vacancy of completed private homes rose to 7.2%.'),
     ]
-    return dict(slug='singapore-rental-market-2q-2026', title='Singapore Rental Market 2Q 2026: Landlord Guide', cat='Renting out', mins=8,
-                headline='Singapore’s rental market in 2Q 2026: HDB rents by town, yields, and what landlords can expect',
-                crumb='Rental market 2Q 2026',
-                desc='HDB and condo rents in 2Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect for the rest of 2026.',
-                og_desc='HDB rental approvals rose 4.9% and the 4-room median reached $3,400 while private vacancy climbed to 6.4%. Town-by-town rents, gross yields and the outlook for landlords.',
-                lede='Rents held up in the second quarter, but supply is building on both sides of the market. Here are the official HDB and URA figures, median HDB rents and gross yields for every town, and what that means for pricing a lease this year.',
-                card='Official HDB and URA figures, median HDB rents and gross yields for every town, and what landlords should expect for the rest of 2026.',
+    return dict(slug='singapore-rental-market-3q-2026', title='Singapore Rental Market 3Q 2026: Landlord Guide', cat='Renting out', mins=8,
+                published='2026-10-31',
+                headline='Singapore’s rental market in 3Q 2026: HDB rents by town, yields, and what landlords can expect',
+                crumb='Rental market 3Q 2026',
+                desc='HDB and condo rents in 3Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect into 2027.',
+                og_desc='The 4-room HDB median held at $3,400 while URA’s private rental index rose 1.3% and private vacancy climbed to 7.2%. Town-by-town rents, gross yields and the outlook for landlords.',
+                lede='HDB rents held steady in the third quarter while private rents rose and private vacancy climbed. Here are the official HDB and URA figures, median HDB rents and gross yields for every town, and what that means for pricing a lease.',
+                card='Official HDB and URA figures, median HDB rents and gross yields for every town, and what landlords should expect into 2027.',
                 body=body, faqs=faqs,
                 disclaimer='This guide is general market information, not tax, legal or investment advice. Rental approval, quotas and tax are decided by HDB and IRAS on your own case. Check the official pages linked above before signing a tenancy.',
                 related_top=[('/rent-out/', 'Rent out your flat with Joe'), ('/hdb-prices/', 'HDB resale prices by town')])
-ARTICLES.append(('singapore-rental-market-2q-2026', a4))
+ARTICLES.append(('singapore-rental-market-3q-2026', a4))
 
 # ================================================================ 5. new launch calendar
 def a5():

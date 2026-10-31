@@ -115,7 +115,7 @@ test('every tracker-bearing page uses the deferred loader with no inline vendor 
     assert.doesNotMatch(html, /facebook\.com\/tr[?]/, `${rel} sends a tracking pixel without a consent choice`);
     assert.doesNotMatch(html, /<link[^>]+rel="(?:preconnect|dns-prefetch)"[^>]+(?:googletagmanager|connect\.facebook)/, `${rel} connects to a vendor before consent`);
   }
-  assert.equal(count, 128, 'all current direct-entry pages are covered');
+  assert.equal(count, 129, 'all current direct-entry pages are covered');
 });
 
 test('calculator pages keep their existing Google-only analytics scope', () => {
