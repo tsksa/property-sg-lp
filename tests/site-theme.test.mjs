@@ -63,3 +63,14 @@ test('dark theme covers discovery, calculator and authority surfaces', () => {
   }
   assert.match(css, /html\.jt-theme-dark main :is\(input,select,textarea\)/);
 });
+
+test('site footer headings follow the footer text colour in dark mode', () => {
+  const css = read('assets/site-theme.css');
+  assert.match(css, /html\.jt-theme-dark \.jt-sf-col h2\{color:inherit\}/);
+  // The templates that needed it: a page-wide navy h2 that reaches the footer.
+  for (const page of ['hdb-prices/yishun/index.html', 'condo-prices/d15/index.html', 'hdb-prices/index.html', 'condo-prices/index.html']) {
+    const html = read(page);
+    assert.match(html, /<link rel="stylesheet" href="\/assets\/site-theme\.css">/, page);
+    assert.match(html, /class="jt-sf-col"/, page);
+  }
+});
