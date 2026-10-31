@@ -16,6 +16,17 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/singapore-rental-market-3q-2026.html",
+      "url": "https://joetay.com/insights/singapore-rental-market-3q-2026.html",
+      "title": "Singapore Rental Market 3Q 2026: Landlord Guide",
+      "summary": "HDB and condo rents in 3Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect into 2027.",
+      "content_text": "HDB and condo rents in 3Q 2026: official figures, median HDB rents for every town, gross rental yields and what landlords should expect into 2027.",
+      "date_published": "2026-10-31T00:00:00+08:00",
+      "date_modified": "2026-10-31T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Renting out"]
+    },
+    {
       "id": "https://joetay.com/insights/hdb-resale-prices-3q-2026-by-town.html",
       "url": "https://joetay.com/insights/hdb-resale-prices-3q-2026-by-town.html",
       "title": "HDB Resale Prices 3Q 2026 by Town",
@@ -88,7 +99,7 @@
       "summary": "Since 28 July 2026, private owners can buy a resale flat without grants or an HDB loan with no 15-month wait. Conditions, ABSD, loan limits and next steps.",
       "content_text": "Since 28 July 2026, private owners can buy a resale flat without grants or an HDB loan with no 15-month wait. Conditions, ABSD, loan limits and next steps.",
       "date_published": "2026-09-17T00:00:00+08:00",
-      "date_modified": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-10-31T00:00:00+08:00",
       "authors": [
         {
           "name": "Joe Tay",
@@ -103,7 +114,7 @@
       "summary": "Every town ranked by median 4-room and 5-room resale price, March to August 2026, with remaining lease and prices for flats with 70+ years left.",
       "content_text": "Every town ranked by median 4-room and 5-room resale price, March to August 2026, with remaining lease and prices for flats with 70+ years left.",
       "date_published": "2026-09-17T00:00:00+08:00",
-      "date_modified": "2026-09-17T00:00:00+08:00",
+      "date_modified": "2026-10-31T00:00:00+08:00",
       "authors": [
         {
           "name": "Joe Tay",

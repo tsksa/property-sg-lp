@@ -54,7 +54,7 @@
         "table": 0,
         "labelColumn": "Town",
         "valueColumn": "Median price",
-        "caption": "Median 4-room resale price by town, March to August 2026",
+        "caption": "Median 4-room resale price by town, April to September 2026",
         "highlight": "lowest3"
       }
     },
@@ -297,6 +297,11 @@
           "label": "psf ppr: the land price"
         }
       ]
+    },
+    {
+      "slug": "singapore-rental-market-3q-2026",
+      "title": "HDB rents by town, 3Q 2026",
+      "chart": {"table": 1, "labelColumn": "Town", "valueColumn": "4-room", "caption": "Median 4-room HDB rent by town, 3Q 2026", "highlight": "ends"}
     },
     {
       "slug": "singapore-rental-market-2q-2026",
