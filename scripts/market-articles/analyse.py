@@ -120,7 +120,8 @@ def main():
     arows = lambda months: [r for m in months for r in approvals[m]]
     summary['rent_islandwide'] = {}
     for ft in ['3-ROOM', '4-ROOM', '5-ROOM', 'EXECUTIVE']:
-        med = lambda months: st.median([float(r['monthly_rent']) for r in arows(months) if r['flat_type'] == ft])
+        # None when a month has no approvals published yet (early in the following quarter).
+        med = lambda months: st.median(v) if (v := [float(r['monthly_rent']) for r in arows(months) if r['flat_type'] == ft]) else None
         summary['rent_islandwide'][ft] = {'quarter': med(QUARTER), 'prev': med(PREV_QUARTER), 'year_ago': med(YEAR_AGO_QUARTER), 'since': med(SINCE_QUARTER)}
     summary['rent_approvals_in_dataset'] = {'quarter': len(arows(QUARTER)), 'year_ago': len(arows(YEAR_AGO_QUARTER))}
 

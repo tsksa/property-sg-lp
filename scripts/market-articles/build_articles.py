@@ -4,17 +4,22 @@
 
     python3 scripts/market-articles/fetch_data.py
     python3 scripts/market-articles/analyse.py
-    python3 scripts/market-articles/build_articles.py
+    python3 scripts/market-articles/build_articles.py [slug ...]
     npm run apply:article-toc && npm run check
+
+Pass one or more slugs to rebuild only those articles; the others keep their
+committed files (their prose quotes the quarter they were written for).
 
 Tables are generated from the analysed data in $MARKET_DATA_DIR; the prose quotes
 figures from summary.json and official releases by hand, so a refresh means
 updating config.py, re-running the three steps and rewriting the prose numbers
 that changed. The page shell (head assets, top bar, footer, consent banner) is
 copied from insights/ec-vs-private-condo-2027.html so it stays in step with the
-site's apply-* scripts. Publish dates are PUB below.
+site's apply-* scripts. Publish dates are PUB below, unless an article sets its
+own 'published'.
 """
-import json, re, html
+import json, re, html, sys
+from datetime import date
 from pathlib import Path
 
 from config import DATA_DIR, MIN_DEALS_YIELD, ROOT
@@ -23,6 +28,10 @@ WT = ROOT
 INS = WT / 'insights'
 PUB = '2026-09-17'
 PUB_H = 'Sep 17, 2026'
+
+def human_date(iso):
+    d = date.fromisoformat(iso)
+    return f"{d:%b} {d.day}, {d.year}"
 
 tpl = (INS / 'ec-vs-private-condo-2027.html').read_text()
 HEAD_ASSETS = tpl[tpl.index('<link rel="preload" as="font"'):tpl.index('</head>')]
@@ -59,7 +68,9 @@ def rent_of(q, town, code):
 
 ARTICLES = []
 
-# ================================================================ 1. HDB resale prices 2Q 2026 by town
+# ================================================================ 1. HDB resale prices 3Q 2026 by town
+# The 2Q 2026 edition (hdb-resale-prices-2q-2026-by-town.html) is kept as a static page:
+# its prose quotes 2Q figures, so it is no longer rebuilt from the current quarter's data.
 def a1():
     rows = []
     for town, rec in t2.items():
@@ -71,82 +82,83 @@ def a1():
         rows.append(f"    <tr><th scope=\"row\">{town_link(town)}</th>{cell('3 ROOM')}{cell('4 ROOM')}{cell('5 ROOM')}<td>{rec['all']['m1']}</td><td>{rec['all']['n']}</td></tr>")
     town_table = '\n'.join(rows)
     body = f'''
-<div class="callout"><strong>The short version</strong><p>HDB's Resale Price Index fell <strong>0.3%</strong> in the second quarter of 2026, after a 0.1% dip in the first, which was the index's first fall since 2019. HDB cited the two declines on 28 July when it scrapped the 15-month wait-out for private owners. Transaction data shows the same thing town by town: a 4-room flat's median price was <strong>$630,000</strong>, almost the same as a year earlier. Several towns look like they jumped or fell, but those moves mostly reflect which flats sold, not a change in value.</p></div>
+<div class="callout"><strong>The short version</strong><p>HDB's Resale Price Index slipped <strong>0.1%</strong> in the third quarter of 2026, its third small fall in a row, while resale sales jumped <strong>19.5%</strong> to 7,645 flats. More flats changed hands at almost the same prices: a 4-room flat's median price was <strong>$628,000</strong>, level with a year earlier. A record number of flats sold for $1 million or more, and the gap between young and old leases kept widening.</p></div>
 
-<h2 id="what-hdb-reported-for-2q-2026">What HDB reported for 2Q 2026</h2>
-<p>HDB published its final second-quarter figures on 24 July 2026, three weeks after a flash estimate that turned out almost exactly right.</p>
-<table aria-label="HDB official resale market figures for 2Q 2026">
-  <thead><tr><th scope="col">Measure</th><th scope="col">2Q 2026</th><th scope="col">Change</th></tr></thead>
+<h2 id="what-hdb-reported-for-3q-2026">What HDB reported for 3Q 2026</h2>
+<p>HDB published its final third-quarter figures on 23 October 2026. Its flash estimate on 1 October had pointed to a 0.2% fall; the final figure was a little better.</p>
+<table aria-label="HDB official resale market figures for 3Q 2026">
+  <thead><tr><th scope="col">Measure</th><th scope="col">3Q 2026</th><th scope="col">Change</th></tr></thead>
   <tbody>
-    <tr><th scope="row">Resale Price Index</th><td>202.8</td><td>−0.3% on 1Q 2026 (203.4)</td></tr>
-    <tr><th scope="row">Resale Price Index, 1Q 2026</th><td>203.4</td><td>−0.1% on 4Q 2025</td></tr>
-    <tr><th scope="row">Resale transactions</th><td>6,396</td><td>+1.8% on 1Q (6,285); −9.9% on 2Q 2025 (7,102)</td></tr>
-    <tr><th scope="row">Flash estimate, 1 July</th><td>202.7</td><td>−0.3%</td></tr>
+    <tr><th scope="row">Resale Price Index</th><td>202.5</td><td>−0.1% on 2Q 2026 (202.8)</td></tr>
+    <tr><th scope="row">Resale transactions</th><td>7,645</td><td>+19.5% on 2Q (6,396); +5.9% on 3Q 2025 (7,221)</td></tr>
+    <tr><th scope="row">Flash estimate, 1 October</th><td>202.4</td><td>−0.2%</td></tr>
+    <tr><th scope="row">Index in 1Q and 2Q 2026</th><td>203.4, 202.8</td><td>−0.1% and −0.3%</td></tr>
   </tbody>
 </table>
-<p>For context, URA's private home price index rose 0.5% in the same quarter, so the gap between HDB and private prices widened slightly. More transactions but slightly lower prices means buyers had more flats to pick from, not that demand dried up.</p>
+<p>The jump in sales came in the quarter HDB removed the 15-month wait-out for private property owners, on 28 July. HDB says it has not seen a significant increase in the prices or number of resale flats bought by private owners since then, so the extra sales came mostly from ordinary buyers and sellers. URA's private home price index rose 1.4% in the same quarter, so the gap between HDB and private prices widened again.</p>
+<p>This is the 3Q 2026 edition. <a href="hdb-resale-prices-2q-2026-by-town.html">The 2Q 2026 edition</a> has the April to June figures.</p>
 
 <div class="article-cta">
   <h3>What is your own flat worth?</h3>
   <p>A town median mixes old and young leases, high and low floors. A free valuation accounts for your remaining lease, floor and condition, not just the town median.</p>
   <div class="article-cta-actions">
-    <a href="/valuation.html?propType=HDB" data-cta-location="insights_resale_prices_mid" data-lead-type="valuation">Get a free valuation →</a>
-    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20to%20ask%20about%20my%20flat%27s%20value." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_mid" data-lead-type="valuation">WhatsApp Joe</a>
+    <a href="/valuation.html?propType=HDB" data-cta-location="insights_resale_prices_3q_mid" data-lead-type="valuation">Get a free valuation →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20to%20ask%20about%20my%20flat%27s%20value." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_3q_mid" data-lead-type="valuation">WhatsApp Joe</a>
   </div>
 </div>
 
 <h2 id="median-prices-by-flat-type">Median prices by flat type</h2>
-<p>HDB's index is adjusted for flat age, size and location, so it doesn't give a dollar figure for any flat. For dollar figures I used HDB's own transaction records on data.gov.sg: 6,185 resale deals registered from April to June 2026. That total is slightly below HDB's 6,396 because the two sources count deals differently.</p>
-<table aria-label="Median HDB resale price by flat type, 2Q 2026">
-  <thead><tr><th scope="col">Flat type</th><th scope="col">Deals</th><th scope="col">Median 2Q 2026</th><th scope="col">1Q 2026</th><th scope="col">2Q 2025</th><th scope="col">Year on year</th></tr></thead>
+<p>HDB's index is adjusted for flat age, size and location, so it doesn't give a dollar figure for any flat. For dollar figures I used HDB's own transaction records on data.gov.sg: 7,406 resale deals registered from July to September 2026. That total is slightly below HDB's 7,645 because the two sources count deals differently.</p>
+<table aria-label="Median HDB resale price by flat type, 3Q 2026">
+  <thead><tr><th scope="col">Flat type</th><th scope="col">Deals</th><th scope="col">Median 3Q 2026</th><th scope="col">2Q 2026</th><th scope="col">3Q 2025</th><th scope="col">Year on year</th></tr></thead>
   <tbody>
-    <tr><th scope="row">2-room</th><td>192</td><td>$378,000</td><td>$372,000</td><td>$365,000</td><td>+3.6%</td></tr>
-    <tr><th scope="row">3-room</th><td>1,491</td><td>$440,000</td><td>$445,000</td><td>$448,000</td><td>−1.8%</td></tr>
-    <tr><th scope="row">4-room</th><td>2,703</td><td>$630,000</td><td>$628,000</td><td>$632,800</td><td>−0.4%</td></tr>
-    <tr><th scope="row">5-room</th><td>1,418</td><td>$738,000</td><td>$745,000</td><td>$738,444</td><td>−0.1%</td></tr>
-    <tr><th scope="row">Executive</th><td>375</td><td>$920,000</td><td>$900,000</td><td>$908,500</td><td>+1.3%</td></tr>
+    <tr><th scope="row">2-room</th><td>207</td><td>$370,000</td><td>$378,000</td><td>$375,000</td><td>−1.3%</td></tr>
+    <tr><th scope="row">3-room</th><td>1,579</td><td>$435,000</td><td>$440,000</td><td>$450,000</td><td>−3.3%</td></tr>
+    <tr><th scope="row">4-room</th><td>3,266</td><td>$628,000</td><td>$630,000</td><td>$630,000</td><td>−0.3%</td></tr>
+    <tr><th scope="row">5-room</th><td>1,818</td><td>$741,888</td><td>$738,000</td><td>$740,000</td><td>+0.3%</td></tr>
+    <tr><th scope="row">Executive</th><td>531</td><td>$920,000</td><td>$920,000</td><td>$900,888</td><td>+2.1%</td></tr>
   </tbody>
 </table>
-<p>A flat year for 4-room and 5-room flats and a small dip for 3-room flats is what the index describes. The median price per square foot was $594 for a 3-room flat, $619 for a 4-room and $580 for a 5-room.</p>
+<p>Larger flats held their value and 3-room flats slipped, the same split as last quarter but a little wider. The median price per square foot was $582 for a 3-room flat, $609 for a 4-room and $578 for a 5-room.</p>
 
-<h2 id="2q-2026-resale-prices-by-town">2Q 2026 resale prices by town</h2>
+<h2 id="3q-2026-resale-prices-by-town">3Q 2026 resale prices by town</h2>
 <p>Each figure is the median price, with the number of deals in brackets. A dash means fewer than ten deals, too few for a median to mean much. Each town name links to its price page, which covers the last 12 months by flat type and street.</p>
 <div class="table-scroll" style="overflow-x:auto">
-<table aria-label="Median HDB resale price by town and flat type, April to June 2026">
+<table aria-label="Median HDB resale price by town and flat type, July to September 2026">
   <thead><tr><th scope="col">Town</th><th scope="col">3-room</th><th scope="col">4-room</th><th scope="col">5-room</th><th scope="col">$1m+ deals</th><th scope="col">All deals</th></tr></thead>
   <tbody>
 {town_table}
   </tbody>
 </table>
 </div>
-<p>The cheapest towns for a 4-room flat were {town_link('JURONG WEST')} ($530,000), {town_link('YISHUN')} ($545,000) and {town_link('WOODLANDS')} ($550,000). The most expensive were {town_link('CENTRAL AREA')}, {town_link('QUEENSTOWN')} and {town_link('TOA PAYOH')}, all above $1 million. <a href="cheapest-4-room-5-room-hdb-resale-flats.html">The cheapest 4-room and 5-room towns guide</a> ranks every town over six months and separates cheap flats from short leases.</p>
+<p>The cheapest towns for a 4-room flat were {town_link('JURONG WEST')} ($538,000), {town_link('JURONG EAST')} ($540,944) and {town_link('WOODLANDS')} ($545,000). The most expensive were {town_link('QUEENSTOWN')} ($1,065,000) and {town_link('TOA PAYOH')} ($1,023,500), both above $1 million, then {town_link('BUKIT MERAH')} ($934,000). {town_link('TAMPINES')} had the most resale deals of any town, 651. <a href="cheapest-4-room-5-room-hdb-resale-flats.html">The cheapest 4-room and 5-room towns guide</a> ranks every town over six months and separates cheap flats from short leases.</p>
 
-<h2 id="why-some-town-medians-jumped">Why some town medians jumped</h2>
-<p>Clementi's 4-room median rose 32% on a year earlier, to $882,000. Read quickly, that looks like a boom. It isn't. In 2Q 2025 the typical 4-room flat sold there had 55 years of lease left. In 2Q 2026 it had 76 years, and the share with 90 years or more doubled, from 10% to 21%, as newer blocks passed their minimum occupation period. The town didn't get more expensive. Newer flats made up more of the sales.</p>
-<p>Sembawang shows the reverse. Its 4-room median fell 6.6% because fewer new flats sold: flats with 90 years or more left fell from 71% of deals to 47%. Ang Mo Kio's 19% jump in 5-room prices has the same cause as Clementi's.</p>
+<h2 id="why-some-town-medians-moved">Why some town medians moved</h2>
+<p>The Central Area's 4-room median fell 38% on a year earlier, to $830,000. That is not a crash. In 3Q 2025 the typical 4-room flat sold there had 84 years of lease left; in 3Q 2026 it had 58. With only 23 deals in each quarter, a few newer flats selling or not selling moves the median a long way.</p>
+<p>Choa Chu Kang's 3-room median fell 13% for the same reason: the typical flat sold had 62 years left, against 90 a year earlier. Toa Payoh shows the reverse. Its 4-room median rose 3.8% to $1,023,500 because more newer flats sold: those with 90 years or more left rose from 40% of deals to 61%. Queenstown's 7.8% rise in 4-room prices came with little change in the leases sold (a median of 89 years left against 86), so it is closer to a real increase, though it rests on 95 deals.</p>
 <p>To see the real direction, compare flats with similar leases across the island. For 4-room flats:</p>
-<table aria-label="4-room median resale price by remaining lease, 2Q 2026 against 2Q 2025">
-  <thead><tr><th scope="col">Remaining lease</th><th scope="col">Deals, 2Q 2026</th><th scope="col">Median 2Q 2026</th><th scope="col">Median 2Q 2025</th><th scope="col">Change</th></tr></thead>
+<table aria-label="4-room median resale price by remaining lease, 3Q 2026 against 3Q 2025">
+  <thead><tr><th scope="col">Remaining lease</th><th scope="col">Deals, 3Q 2026</th><th scope="col">Median 3Q 2026</th><th scope="col">Median 3Q 2025</th><th scope="col">Change</th></tr></thead>
   <tbody>
-    <tr><th scope="row">Under 60 years</th><td>539</td><td>$550,000</td><td>$560,000</td><td>−1.8%</td></tr>
-    <tr><th scope="row">60 to 80 years</th><td>979</td><td>$580,000</td><td>$585,000</td><td>−0.9%</td></tr>
-    <tr><th scope="row">80 to 95 years</th><td>1,183</td><td>$710,000</td><td>$700,000</td><td>+1.4%</td></tr>
+    <tr><th scope="row">Under 60 years</th><td>682</td><td>$545,000</td><td>$560,000</td><td>−2.7%</td></tr>
+    <tr><th scope="row">60 to 80 years</th><td>1,178</td><td>$580,000</td><td>$582,828</td><td>−0.5%</td></tr>
+    <tr><th scope="row">80 to 95 years</th><td>1,406</td><td>$708,888</td><td>$702,000</td><td>+1.0%</td></tr>
   </tbody>
 </table>
-<p>Newer flats still gained a little. Older flats slipped, and the shortest leases slipped most. That split matters more to a seller than any town median. If your flat has less than 60 years left, price it against recent sales in your own block and street, not the town median. <a href="hdb-valuation-explained.html">How HDB valuation works</a> explains why.</p>
+<p>Newer flats gained a little, older flats slipped, and the shortest leases slipped most, by more than last quarter. That split matters more to a seller than any town median. If your flat has less than 60 years left, price it against recent sales in your own block and street, not the town median. <a href="hdb-valuation-explained.html">How HDB valuation works</a> explains why.</p>
 
 <h2 id="million-dollar-flats">Million-dollar flats</h2>
-<p>491 flats sold for $1 million or more between April and June, up from 411 in the first quarter and 415 a year earlier. The count comes from the transaction records. Most were 4-room (212) and 5-room (183) flats, plus 93 executive flats. Toa Payoh (66), Queenstown (65) and Bukit Merah (64) led. The highest price was $1,728,000 for a 5-room flat on the 46th to 48th floors of Block 96A Henderson Road, sold in April. More million-dollar sales while the index fell is consistent: more newer, central flats reached their MOP and sold, and they sold high.</p>
+<p>596 flats sold for $1 million or more between July and September, a record, up from 490 in the second quarter and 480 a year earlier. The count comes from the transaction records. Most were 4-room (241) and 5-room (202) flats, plus 146 executive flats, and 23 of the 26 towns had at least one. Toa Payoh (93), Queenstown (86) and Bukit Merah (56) led. The highest price was $1,720,000 for a 5-room flat on the 19th to 21st floors of Block 1C Cantonment Road, sold in September. A record number of million-dollar sales while the index slipped is consistent: more newer, central flats reached their MOP and sold, and they sold high.</p>
 
-<h2 id="july-and-august-early-read">July and August: an early read</h2>
-<p>Transaction records to the end of August show 5,170 deals in two months. The 4-room median was $625,000 and the 5-room median $735,000, a touch below the second quarter. 388 flats sold for $1 million or more. This covers only two-thirds of a quarter and doesn't yet show the full effect of the wait-out removal on 28 July. Treat it as a direction, not a result. HDB's flash estimate for the third quarter is due at the start of October.</p>
+<h2 id="october-early-read">October: an early read</h2>
+<p>Transaction records published by 31 October show 2,176 deals registered in October. The 4-room median was $628,844 and the 5-room median $760,000, and 238 flats sold for $1 million or more. That is one month, and not yet a complete one, so treat it as a direction, not a result. HDB's flash estimate for the fourth quarter is due at the start of January.</p>
 
 <h2 id="what-it-means-if-you-are-selling-or-buying">What it means if you are selling or buying</h2>
 <ul>
-  <li><strong>More flats to choose from.</strong> HDB says 13,500 flats reach their MOP in 2026, then 15,000 in 2027 and 19,500 in 2028, against 8,000 in 2025. Buyers get more choice every year. Sellers of ordinary flats in the same estates face more competition.</li>
-  <li><strong>A new group of buyers.</strong> Since 28 July, private property owners can buy a resale flat of any size without waiting 15 months. They must buy without grants or an HDB loan, and sell their private property within six months. That mostly helps sellers of larger flats in mature and central towns. <a href="15-month-wait-out-removed-private-owners-hdb.html">The wait-out guide</a> covers who qualifies.</li>
-  <li><strong>New BTO flats in October.</strong> HDB's October 2026 exercise offers about 7,960 flats in Bedok, Geylang, Sembawang, Tengah, Toa Payoh and Yishun. First-timers who can wait for a new flat may hold off on buying resale in those towns.</li>
-  <li><strong>Lease matters more than town.</strong> The table above shows the gap between young and old leases widening. Older-lease sellers should price realistically from the start instead of cutting later. <a href="how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell</a> sets out what an overpriced listing costs in time.</li>
+  <li><strong>More sales, steady prices.</strong> Sales rose by a fifth while prices barely moved, so buyers and sellers both turned up in numbers. HDB says 13,500 flats reach their MOP in 2026, then 15,000 in 2027 and 19,500 in 2028, against 8,000 in 2025. Buyers keep getting more choice. Sellers of ordinary flats in the same estates face more competition.</li>
+  <li><strong>Private owners are back, quietly.</strong> Since 28 July, private property owners can buy a resale flat of any size without waiting 15 months, without grants or an HDB loan, and must sell their private property within six months. HDB has not seen them push prices up so far. <a href="15-month-wait-out-removed-private-owners-hdb.html">The wait-out guide</a> covers who qualifies.</li>
+  <li><strong>New BTO flats in November.</strong> HDB's November 2026 exercise offers about 7,960 flats in Bedok, Geylang, Sembawang, Tengah, Toa Payoh and Yishun, plus Community Care Apartments in Toa Payoh. First-timers who can wait for a new flat may hold off on buying resale in those towns.</li>
+  <li><strong>Lease matters more than town.</strong> The lease table above shows the gap between young and old leases widening for a second quarter. Older-lease sellers should price realistically from the start instead of cutting later. <a href="how-long-to-sell-hdb-singapore-2026.html">How long it takes to sell</a> sets out what an overpriced listing costs in time.</li>
 </ul>
 
 <h2 id="your-next-steps">Your next steps</h2>
@@ -155,37 +167,38 @@ def a1():
   <li>Get a <a href="/valuation.html">free valuation</a> that accounts for your remaining lease, floor and condition, not just the town median.</li>
   <li>If you are selling to upgrade, check the numbers on the next home with the <a href="/calculator/">affordability calculator</a> and read <a href="selling-hdb-after-mop-singapore.html">selling after MOP</a>.</li>
 </ol>
-<p><a href="/#book">Book a 15-minute call with me</a> to go through your block's numbers. If you are comparing agents, <a href="property-agent-commission-singapore.html">the commission guide</a> sets out what the fee should cover.</p>
+<p><a href="/#book">Book a call with me</a> to go through your block's numbers. If you are comparing agents, <a href="property-agent-commission-singapore.html">the commission guide</a> sets out what the fee should cover.</p>
 
 <div class="article-cta">
   <h3>Buying a resale flat in one of these towns?</h3>
   <p>Once you have a flat in mind, check how much cash you need on top of your loan and CPF, including any cash over valuation.</p>
   <div class="article-cta-actions">
-    <a href="/calculator/#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="resale_prices_guide" data-cta-location="insights_resale_prices_end" data-lead-type="hdb_buyer">Check resale cash needed →</a>
-    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20help%20buying%20a%20resale%20flat." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_end" data-lead-type="hdb_buyer">Ask Joe about a town</a>
+    <a href="/calculator/#resaleCashPanel" data-calculator="resale_cash_readiness" data-entry-point="resale_prices_guide" data-cta-location="insights_resale_prices_3q_end" data-lead-type="hdb_buyer">Check resale cash needed →</a>
+    <a class="article-cta-secondary" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%20read%20your%20HDB%20resale%20prices%20by%20town%20guide%20and%20would%20like%20help%20buying%20a%20resale%20flat." target="_blank" rel="noopener" data-cta-location="insights_resale_prices_3q_end" data-lead-type="hdb_buyer">Ask Joe about a town</a>
   </div>
 </div>
 
 <h2 id="sources-and-review-date">Sources and review date</h2>
-<p>Reviewed 17 Sep 2026. Official figures come from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/2nd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">2nd Quarter 2026 public housing data</a> (24 July 2026), the <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/flash-estimate-of-2nd-quarter-2026-resale-price-index-and-upcoming-flat-supply" rel="noopener">flash estimate</a> (1 July 2026), HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners" rel="noopener">wait-out announcement</a> (28 July 2026) for MOP supply, and URA's <a href="https://www.ura.gov.sg/news/media/pr26-57/" rel="noopener">2nd Quarter 2026 real estate statistics</a>. Medians, lease splits, million-dollar counts and the July–August read are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 17 September 2026, grouped by registration month.</p>
+<p>Reviewed 31 Oct 2026. Official figures come from HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/3rd-quarter-2026-public-housing-data-and-upcoming-flat-supply" rel="noopener">3rd Quarter 2026 public housing data</a> (23 October 2026), the <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/20261001-Flash-Estimate-of-3rd-Quarter-2026-Resale-Price-Index-and-Upcoming-Flat-Supply" rel="noopener">flash estimate</a> (1 October 2026), HDB's <a href="https://www.hdb.gov.sg/hdb-pulse/news/2026/removal-of-the-15-month-wait-out-period-for-private-residential-property-owners" rel="noopener">wait-out announcement</a> (28 July 2026) for MOP supply, and URA's <a href="https://www.ura.gov.sg/news/media/pr26-73/" rel="noopener">3rd Quarter 2026 real estate statistics</a>. Medians, lease splits, million-dollar counts and the October read are my own analysis of HDB's <a href="https://data.gov.sg/datasets/d_8b84c4ee58e3cfc0ece0d773c8ca6abc/view" rel="noopener">resale flat prices dataset</a> on data.gov.sg (Singapore Open Data Licence), downloaded 31 October 2026, grouped by registration month.</p>
 '''
     faqs = [
-        ('Did HDB resale prices fall in 2Q 2026?', 'Yes, slightly. HDB’s Resale Price Index fell 0.3% in the second quarter of 2026 to 202.8, after a 0.1% fall in the first quarter. It was the second quarterly decline in a row, while resale transactions rose 1.8% on the quarter to 6,396.'),
-        ('What is the median price of a 4-room HDB resale flat in 2026?', 'The median 4-room resale price was $630,000 in April to June 2026, based on 2,703 transactions in HDB’s data.gov.sg records. That is 0.4% below a year earlier. Town medians ranged from $530,000 in Jurong West to about $1.19 million in the Central Area.'),
-        ('Which town has the cheapest 4-room resale flats?', 'Jurong West had the lowest 4-room median in 2Q 2026 at $530,000, followed by Yishun at $545,000 and Woodlands at $550,000. Some cheap medians reflect short remaining leases, so compare flats with similar lease left.'),
-        ('How many HDB flats sold for over $1 million in 2Q 2026?', '491 flats sold for $1 million or more between April and June 2026 in HDB’s transaction records, up from 411 in the first quarter. Toa Payoh, Queenstown and Bukit Merah had the most. The count comes from the transaction records.'),
+        ('Did HDB resale prices fall in 3Q 2026?', 'Barely. HDB’s Resale Price Index fell 0.1% in the third quarter of 2026 to 202.5, its third small quarterly fall in a row. Resale transactions rose 19.5% on the quarter to 7,645, so more flats sold at almost the same prices.'),
+        ('What is the median price of a 4-room HDB resale flat in 3Q 2026?', 'The median 4-room resale price was $628,000 in July to September 2026, based on 3,266 transactions in HDB’s data.gov.sg records. That is 0.3% below a year earlier. Town medians ranged from $538,000 in Jurong West to $1,065,000 in Queenstown.'),
+        ('Which town has the cheapest 4-room resale flats?', 'Jurong West had the lowest 4-room median in 3Q 2026 at $538,000, followed by Jurong East at $540,944 and Woodlands at $545,000. Some cheap medians reflect short remaining leases, so compare flats with similar lease left.'),
+        ('How many HDB flats sold for over $1 million in 3Q 2026?', '596 flats sold for $1 million or more between July and September 2026 in HDB’s transaction records, a record, up from 490 in the second quarter. Toa Payoh, Queenstown and Bukit Merah had the most.'),
     ]
-    return dict(slug='hdb-resale-prices-2q-2026-by-town', title='HDB Resale Prices 2Q 2026 by Town', cat='Market data', mins=8,
-                headline='HDB resale prices in 2Q 2026 by town: the index dipped, and town medians hide where',
-                crumb='HDB resale prices 2Q 2026',
-                desc='HDB resale prices fell 0.3% in 2Q 2026. Median 3-, 4- and 5-room prices for all 26 towns, million-dollar flats and why some town medians mislead.',
-                og_desc='The Resale Price Index fell 0.3% in 2Q 2026. Median prices by town and flat type from 6,185 transactions, and the lease effect behind the biggest moves.',
-                lede='HDB resale prices dipped for a second quarter while more flats changed hands. Here are the official figures, median prices for every town and flat type, and why the biggest town moves came from newer flats selling, not from values changing.',
-                card='The Resale Price Index fell 0.3%. Median 3-, 4- and 5-room prices for every town, million-dollar flats, and why some town medians mislead.',
+    return dict(slug='hdb-resale-prices-3q-2026-by-town', title='HDB Resale Prices 3Q 2026 by Town', cat='Market data', mins=8,
+                published='2026-10-31',
+                headline='HDB resale prices in 3Q 2026 by town: more flats sold, prices barely moved',
+                crumb='HDB resale prices 3Q 2026',
+                desc='HDB resale prices dipped 0.1% in 3Q 2026 as sales rose 19.5%. Median 3-, 4- and 5-room prices for all 26 towns, record $1m flats and the lease effect.',
+                og_desc='The Resale Price Index fell 0.1% in 3Q 2026 while sales rose 19.5%. Median prices by town and flat type from 7,406 transactions, and the lease effect behind the biggest moves.',
+                lede='HDB resale sales jumped by a fifth in the third quarter while prices barely moved. Here are the official figures, median prices for every town and flat type, a record count of million-dollar flats, and why the biggest town moves came from which flats sold, not from values changing.',
+                card='The Resale Price Index slipped 0.1% as sales rose 19.5%. Median 3-, 4- and 5-room prices for every town, record million-dollar flats, and why some town medians mislead.',
                 body=body, faqs=faqs,
                 disclaimer='This guide is general market information, not a valuation or financial advice. Medians describe transactions that happened, not what a particular flat will fetch. Get a valuation for your own flat before setting a price.',
                 related_top=[('/hdb-prices/', 'HDB resale prices by town'), ('/neighbour-prices/', 'Your block’s sold prices')])
-ARTICLES.append(a1)
+ARTICLES.append(('hdb-resale-prices-3q-2026-by-town', a1))
 
 # ================================================================ 2. wait-out removal
 def a2():
@@ -267,7 +280,7 @@ def a2():
                 body=body, faqs=faqs,
                 disclaimer='This guide is general education, not legal, tax or financial advice. HDB decides eligibility, IRAS decides stamp duty and banks decide loans on your own circumstances. Check the official sources linked above before you sign an option to purchase.',
                 related_top=[('/calculator/', 'Affordability &amp; HDB loan calculator'), ('/stamp-duty-calculator/', 'Stamp duty calculator')])
-ARTICLES.append(a2)
+ARTICLES.append(('15-month-wait-out-removed-private-owners-hdb', a2))
 
 # ================================================================ 3. cheapest 4-room / 5-room
 def a3():
@@ -353,7 +366,7 @@ def a3():
                 body=body, faqs=faqs,
                 disclaimer='This guide is general market information, not financial advice. Medians describe past transactions; grants, CPF usage and loans are decided by HDB, CPF Board and banks on your own application. Verify your eligibility before you commit.',
                 related_top=[('/hdb-prices/', 'HDB resale prices by town'), ('/calculator/', 'Affordability &amp; HDB loan calculator')])
-ARTICLES.append(a3)
+ARTICLES.append(('cheapest-4-room-5-room-hdb-resale-flats', a3))
 
 # ================================================================ 4. rental market 2Q 2026
 def a4():
@@ -455,7 +468,7 @@ def a4():
                 body=body, faqs=faqs,
                 disclaimer='This guide is general market information, not tax, legal or investment advice. Rental approval, quotas and tax are decided by HDB and IRAS on your own case. Check the official pages linked above before signing a tenancy.',
                 related_top=[('/rent-out/', 'Rent out your flat with Joe'), ('/hdb-prices/', 'HDB resale prices by town')])
-ARTICLES.append(a4)
+ARTICLES.append(('singapore-rental-market-2q-2026', a4))
 
 # ================================================================ 5. new launch calendar
 def a5():
@@ -603,10 +616,16 @@ def a5():
                 body=body, faqs=faqs,
                 disclaimer='This calendar is general information, not investment advice. Launch timing, prices and unit mix are set by developers and change; confirm dates and terms with the developer’s sales team before committing to a purchase.',
                 related_top=[('/new-launches/', 'All new launches'), ('/calculator/', 'Affordability &amp; HDB loan calculator')])
-ARTICLES.append(a5)
+ARTICLES.append(('new-condo-launches-2026-2027-calendar', a5))
 
 # ---------------------------------------------------------------- assemble
-built = [f() for f in ARTICLES]
+ONLY = set(sys.argv[1:])
+unknown = ONLY - {slug for slug, _ in ARTICLES}
+if unknown:
+    raise SystemExit(f'unknown article slug(s): {", ".join(sorted(unknown))}')
+built = [f() for slug, f in ARTICLES if not ONLY or slug in ONLY]
+for a, (slug, _) in zip(built, [x for x in ARTICLES if not ONLY or x[0] in ONLY]):
+    assert a['slug'] == slug, (a['slug'], slug)
 
 def existing_titles():
     out = []
@@ -623,12 +642,13 @@ EXISTING = existing_titles()
 
 def page(a):
     url = f"https://joetay.com/insights/{a['slug']}.html"
+    pub = a.get('published', PUB)
     faq_ld = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': ans}} for q, ans in a['faqs']]}
     art_ld = {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['headline'], 'description': a['desc'],
-              'image': 'https://joetay.com/joetay-social-preview.jpg', 'datePublished': PUB, 'dateModified': a.get('modified', PUB), 'inLanguage': 'en-SG',
-              'author': {'@type': 'Person', 'name': 'Joe Tay', 'url': 'https://joetay.com/about-joe/', 'jobTitle': 'District Director, ERA Realty Network', 'identifier': 'CEA R009618D'},
-              'publisher': {'@type': 'RealEstateAgent', 'name': 'PropertySG', 'url': 'https://joetay.com/', 'alternateName': 'Joe Tay'},
+              'image': 'https://joetay.com/joetay-social-preview.jpg', 'datePublished': pub, 'dateModified': a.get('modified', pub), 'inLanguage': 'en-SG',
+              'author': {'@type': 'Person', '@id': 'https://joetay.com/about-joe/#joe-tay', 'name': 'Joe Tay', 'url': 'https://joetay.com/about-joe/', 'identifier': 'CEA R009618D'},
+              'publisher': {'@type': 'RealEstateAgent', '@id': 'https://joetay.com/#agent', 'name': 'PropertySG', 'url': 'https://joetay.com/', 'alternateName': 'Joe Tay'},
               'mainEntityOfPage': url}
     bc_ld = {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
         {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://joetay.com/'},
@@ -664,8 +684,8 @@ def page(a):
 <meta name="twitter:description" content="{esc(a['og_desc'])}">
 <meta name="twitter:image" content="https://joetay.com/joetay-social-preview.jpg">
 <meta property="article:author" content="Joe Tay">
-<meta property="article:published_time" content="{PUB}">
-<meta property="article:modified_time" content="{a.get('modified', PUB)}">
+<meta property="article:published_time" content="{pub}">
+<meta property="article:modified_time" content="{a.get('modified', pub)}">
 <meta property="article:section" content="{esc(a['cat'])}">
 <script type="application/ld+json">
 {j(art_ld)}
@@ -682,7 +702,7 @@ def page(a):
 {TOPBAR}
 <main id="main" tabindex="-1" class="blog-main"><article class="article">
 <div class="article-breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep">›</span><a href="/insights/">Insights</a><span class="sep">›</span><span aria-current="page">{esc(a['crumb'])}</span></div>
-<header class="article-header"><div class="article-meta-top"><span class="cat">{esc(a['cat'])}</span><span class="dot" aria-hidden="true">·</span><span>{a['mins']} min read</span><span class="dot" aria-hidden="true">·</span><time datetime="{PUB}">{PUB_H}</time></div>
+<header class="article-header"><div class="article-meta-top"><span class="cat">{esc(a['cat'])}</span><span class="dot" aria-hidden="true">·</span><span>{a['mins']} min read</span><span class="dot" aria-hidden="true">·</span><time datetime="{pub}">{PUB_H if pub == PUB else human_date(pub)}</time></div>
 <h1 id="article-title">{esc(a['headline'])}</h1><p class="article-lede">{esc(a['lede'])}</p>
 {BYLINE}</header>
 <section class="article-body" aria-labelledby="article-title">
