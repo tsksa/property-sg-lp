@@ -19,7 +19,7 @@ test('every gallery image exists in both sizes, with alt text', () => {
   for (const [slug, entry] of Object.entries(manifest.projects)) {
     assert.ok(projects.some((project) => project.slug === slug), `${slug} is not a project`);
     for (const image of entry.images) {
-      for (const size of ['lg', 'sm']) {
+      for (const size of ['lg', 'sm', 'md']) {
         const file = `new-launches/img/gallery/${slug}/${image.file}-${size}.webp`;
         assert.ok(fs.existsSync(path.join(ROOT, file)), `${file} missing`);
       }
