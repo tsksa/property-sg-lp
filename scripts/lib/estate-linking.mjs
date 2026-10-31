@@ -184,4 +184,4 @@ export function readingBlock(townTitle, esc, profile = null) {
   </ul>`;
 }
 
-export const ESTATE_LINKING_CSS = `.crumbs{max-width:1000px;margin:14px auto 0;padding:0 24px;font-size:0.82rem;color:#767676}.crumbs a{color:#767676}.crumbs a:hover{color:var(--emerald)}.link-list{list-style:none}.link-list li{padding:10px 0;border-bottom:1px solid rgba(11,30,63,0.06)}.link-list li:last-child{border-bottom:none}`;
+export const ESTATE_LINKING_CSS = `.crumbs{max-width:1000px;margin:14px auto 0;padding:0 24px;font-size:0.82rem;color:var(--muted)}.crumbs a{color:var(--muted)}.crumbs a:hover{color:var(--emerald-text)}.link-list{list-style:none}.link-list li{padding:10px 0;border-bottom:1px solid rgba(11,30,63,0.06)}.link-list li:last-child{border-bottom:none}`;
