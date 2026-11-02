@@ -73,10 +73,13 @@ test('every town page is linked from at least 5 target pages, every district pag
   assert.ok(staticHrefs(read('index.html')).has('/condo-prices/'), 'the homepage body should link the condo hub');
 });
 
-test('anchors describe the page they link to', () => {
+test('anchors name the town or district under a heading that says what the pages are', () => {
   const html = priceLinksHtml({ towns: priceTowns(), districts: priceDistricts(), hubs: ['hdb', 'condo'] });
-  assert.match(html, /<a href="\/hdb-prices\/tampines\/">Tampines HDB resale prices<\/a>/);
-  assert.match(html, /<a href="\/condo-prices\/d19\/">D19 Serangoon, Hougang, Punggol, Sengkang condo resale prices<\/a>/);
+  // JOE-479: the bare name, not "<town> HDB resale prices" 26 times over.
+  assert.match(html, /<h3 class="jt-pl-sub">HDB resale prices by town<\/h3>/);
+  assert.match(html, /<h3 class="jt-pl-sub">Condo resale prices by district<\/h3>/);
+  assert.match(html, /<a href="\/hdb-prices\/tampines\/">Tampines<\/a>/);
+  assert.match(html, /<a href="\/condo-prices\/d19\/"><span class="jt-pl-code">D19<\/span> <span class="jt-pl-area">Serangoon, Hougang, Punggol, Sengkang<\/span><\/a>/);
   assert.match(html, /<a href="\/condo-prices\/">Condo resale prices, district by district<\/a>/);
   // Not "every condo district": districts under the caveat floor get no page.
   assert.match(html, new RegExp(`for ${priceTowns().length} HDB towns and ${priceDistricts().length} condo districts`));
@@ -85,6 +88,22 @@ test('anchors describe the page they link to', () => {
   const districts = read('insights/index.html').match(/<section class="blog-guide blog-districts" id="condo-districts"[\s\S]*?<\/section>/)[0];
   assert.doesNotMatch(districts, />District \d+</);
   assert.match(districts, /<a href="\/condo-prices\/d01\/">D01 Raffles Place, Marina, Cecil<\/a>/);
+});
+
+test('each town shows the 4-room median its own page states, with the window named once', () => {
+  const towns = priceTowns();
+  for (const town of towns) {
+    const desc = read(`hdb-prices/${town.slug}/index.html`).match(/<meta name="description" content="([^"]*)"/)[1];
+    assert.ok(town.fourRoom && desc.includes(`4-room ${town.fourRoom}`), `${town.slug}: ${town.fourRoom} not in its description`);
+  }
+  const html = priceLinksHtml({ towns, districts: priceDistricts() });
+  const tampines = towns.find((t) => t.slug === 'tampines');
+  assert.ok(html.includes(`<a href="/hdb-prices/tampines/">Tampines</a> <span class="jt-pl-med">${tampines.fourRoom}</span>`));
+  assert.equal((html.match(/4-room medians over the 12 months to [A-Z][a-z]{2} \d{4}/g) || []).length, 1);
+  // No figure, no note: a town page without a 4-room median just shows its name.
+  const bare = priceLinksHtml({ towns: [{ ...tampines, fourRoom: null, window: null }] });
+  assert.ok(bare.includes('<li><a href="/hdb-prices/tampines/">Tampines</a></li>'));
+  assert.doesNotMatch(bare, /class="jt-pl-note"/);
 });
 
 test('placement: homepage between FAQ and guides, insights towns before districts, articles keep their h2 outline', () => {
