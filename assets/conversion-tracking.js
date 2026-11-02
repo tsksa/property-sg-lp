@@ -1,5 +1,6 @@
 // JoeTay.com conversion tracking helpers
-// Tracks lead form submissions, call taps, WhatsApp clicks, Calendly clicks, and Calendly bookings.
+// Tracks lead form submissions, call taps, WhatsApp clicks, Calendly clicks, Calendly bookings,
+// and clicks on on-site CTA links (cta_click).
 // Google Ads direct conversion IDs/labels can be filled in after creating conversions in Google Ads.
 (function(){
   var attributionKey = 'jt_lead_attribution_v1';
@@ -417,6 +418,21 @@
       : href;
   }
 
+  // On-site next-step CTAs (valuation, calculator, booking) never reach
+  // contact_click, so record them separately with fixed labels. Root-relative
+  // links only; the query string and hash are dropped from the path.
+  function trackInternalCta(a){
+    var ctaLocation = a.getAttribute('data-cta-location');
+    var href = a.getAttribute('href') || '';
+    if(!ctaLocation || !/^\/(?!\/)/.test(href)) return;
+    window.jtTrackConversion('cta_click', {
+      cta_location: safeFunnelLabel(ctaLocation, 'unclassified'),
+      lead_type: safeFunnelLabel(a.getAttribute('data-lead-type'), 'unclassified'),
+      link_path: safePath(href.replace(/[?#].*$/, '')),
+      link_text: (a.textContent || a.getAttribute('aria-label') || '').trim().slice(0,120)
+    });
+  }
+
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href]');
     if(!a) return;
@@ -430,7 +446,10 @@
       });
     }
     var method = classifyLink(a);
-    if(!method) return;
+    if(!method){
+      trackInternalCta(a);
+      return;
+    }
     var contactCalculator = a.getAttribute('data-contact-calculator');
     contactCalculator = contactCalculator === null ? activeCalculator :
       (calculatorNames.indexOf(contactCalculator) !== -1 ? contactCalculator : null);

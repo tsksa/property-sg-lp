@@ -609,6 +609,49 @@ for (const file of ['bto-calculator/index.html', 'stamp-duty-calculator/index.ht
   }
 }
 
+// JOE-472: the HDB town and condo district pages, which Lighthouse audits as
+// /hdb-prices/yishun/ and /condo-prices/d15/. The page is #fdfbf6; tables are white.
+for (const file of ['hdb-prices/yishun/index.html', 'condo-prices/d15/index.html']) {
+  for (const [name, selector, background] of [
+    ['source line', '.src', '#fdfbf6'],
+    ['table header', 'th', '#ffffff'],
+    ['footer text', 'footer', '#fdfbf6'],
+    ['eyebrow', '.eyebrow', ['.eyebrow', 'background', '#fdfbf6']],
+    ['primary CTA label', '.cta a.primary', ['.cta a.primary', 'background']],
+  ]) {
+    cases.push({ name: `${file} ${name}`, file, foreground: [selector, 'color'], background });
+  }
+}
+for (const [name, selector, background] of [
+  ['breadcrumb', '.crumbs', '#fdfbf6'],
+  ['breadcrumb link', '.crumbs a', '#fdfbf6'],
+  ['WhatsApp link', '.est-wa', '#fdfbf6'],
+  ['WhatsApp link on the navy CTA', '.cta .est-wa,.cta .est-lead-note a', '#0b1e3f'],
+  ['lead form button', '.est-lead button', ['.est-lead button', 'background']],
+]) {
+  cases.push({ name: `HDB town page ${name}`, file: 'hdb-prices/yishun/index.html', foreground: [selector, 'color'], background });
+}
+
+test('price pages give links and small print AA colours in both themes and underline links in text', () => {
+  for (const file of ['hdb-prices/yishun/index.html', 'condo-prices/d15/index.html']) {
+    const html = source(file);
+    assert.match(html, /\ba\{color:var\(--emerald-text\);text-decoration:none\}/, `${file}: links must use --emerald-text`);
+    assert.match(html, /main p a:not\(\[class\]\),footer p a\{text-decoration:underline\}/, `${file}: links in text must be underlined`);
+    const light = variables(file);
+    const dark = Object.fromEntries([...html.match(/html\.jt-theme-dark\{(--emerald-text:[^}]*)\}/)[1].matchAll(/--([a-z-]+):(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]));
+    for (const token of ['emerald-text', 'muted']) {
+      for (const surface of ['#fdfbf6', '#ffffff']) {
+        const ratio = contrastRatio(parseHex(light.get(token)), parseHex(surface));
+        assert.ok(ratio >= MINIMUM_AA_RATIO, `${file}: --${token} on ${surface}: ${ratio.toFixed(2)}:1`);
+      }
+      for (const surface of ['#030a1a', '#102447']) {
+        const ratio = contrastRatio(parseHex(dark[token]), parseHex(surface));
+        assert.ok(ratio >= MINIMUM_AA_RATIO, `${file}: dark --${token} on ${surface}: ${ratio.toFixed(2)}:1`);
+      }
+    }
+  }
+});
+
 for (const contrastCase of cases) {
   test(`${contrastCase.name} meets WCAG AA contrast`, () => {
     const foreground = cssColour(

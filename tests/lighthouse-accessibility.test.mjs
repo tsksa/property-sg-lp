@@ -234,3 +234,25 @@ test('every insights page exposes exactly one skip link', () => {
     assert.equal(skipLinks.length, 1, `${file}: expected one skip link`);
   }
 });
+
+// JOE-472: the new-launch Lighthouse audit (newport-residences.html) failed on
+// a tour grid without list items, an eagerly loaded full-size map below the
+// fold, gallery images a fifth larger than a phone shows, and unminified JS.
+test('project pages keep tour lists valid, the map lazy and responsive, and load the built script', () => {
+  const dir = path.join(ROOT, 'new-launches');
+  for (const name of fs.readdirSync(dir).filter((file) => file.endsWith('.html'))) {
+    const html = read(`new-launches/${name}`);
+    assert.doesNotMatch(html, /<div class="project-tour-card">/, `${name}: tour card outside a listitem`);
+    assert.doesNotMatch(html, /src="new-launches\.js"/, `${name}: load new-launches.min.js`);
+    const map = html.match(/<figure class="project-map">\s*<picture>[\s\S]*?<\/picture>/)?.[0];
+    if (map) {
+      assert.match(map, /srcset="[^"]+-600\.webp 600w, [^"]+\.webp 1200w" sizes="/, `${name}: map srcset`);
+      assert.match(map, /loading="lazy"/, `${name}: map must lazy-load`);
+      assert.doesNotMatch(map, /fetchpriority/, `${name}: map is below the fold`);
+    }
+    // The featured tile shares its sm download with the phone hero, so only the rest carry md.
+    for (const img of html.matchAll(/class="project-gallery-item" data-gallery-item(?: hidden)?><img [^>]+>/g)) {
+      assert.match(img[0], /srcset="[^"]+-md\.webp 720w, [^"]+-sm\.webp 800w" sizes="/, `${name}: gallery srcset`);
+    }
+  }
+});

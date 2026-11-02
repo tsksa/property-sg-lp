@@ -19,7 +19,7 @@ export const RESOURCE_CONTRACTS = [
   },
   {
     path: '/new-launches/',
-    markers: ['new-launches.js', '/assets/conversion-tracking.js'],
+    markers: ['new-launches.min.js', '/assets/conversion-tracking.js'],
   },
   {
     path: '/new-launches/keppel-bay-plot-6.html',
@@ -30,7 +30,7 @@ export const RESOURCE_CONTRACTS = [
     markers: ['window.jtShowFormRecovery', 'data-jt-form-recovery', 'data-cta-location', 'data-lead-type'],
   },
   {
-    path: '/new-launches/new-launches.js',
+    path: '/new-launches/new-launches.min.js',
     markers: ['full_name:', 'mobile_number:', 'new_launch_modal_recovery', 'jtShowFormRecovery'],
   },
   {

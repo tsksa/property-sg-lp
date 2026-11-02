@@ -285,9 +285,11 @@ const LOAN_GUIDES = [
 const EDITORIAL_GUIDES = [
   ['sell-hdb-first-or-buy-condo-first', 'Sell HDB first or buy condo first?'],
   ['q3-2026-ura-private-home-prices', 'Q3 2026 URA prices: buyer and seller guide'],
+  ['hdb-resale-prices-3q-2026-by-town', 'HDB Resale Prices 3Q 2026 by Town'],
   ['hdb-resale-prices-2q-2026-by-town', 'HDB Resale Prices 2Q 2026 by Town'],
   ['15-month-wait-out-removed-private-owners-hdb', '15-Month Wait-Out Removed: What Owners Do Now'],
   ['cheapest-4-room-5-room-hdb-resale-flats', 'Cheapest 4-Room and 5-Room HDB Resale Towns'],
+  ['singapore-rental-market-3q-2026', 'Singapore Rental Market 3Q 2026: Landlord Guide'],
   ['singapore-rental-market-2q-2026', 'Singapore Rental Market 2Q 2026: Landlord Guide'],
   ['new-condo-launches-2026-2027-calendar', 'New Condo Launches 2026–2027: Launch Calendar'],
   ['ec-vs-private-condo-2027', 'EC vs private condo in 2027: which to buy'],

@@ -431,6 +431,18 @@ const galleryPath = (project, file) => `/new-launches/img/gallery/${project.slug
 
 // A 2x2 featured tile plus five more fills a three-column grid exactly (and, with the featured tile at normal size, a two-column one on phones).
 const GALLERY_VISIBLE = 6;
+// Rendered tile widths from new-launches.css: one column up to 420px, two up to
+// 640px, then three in a 1180px container (the featured tile spans two). With md
+// (720px) beside sm (800px), a 1.75x phone showing a 380px tile no longer downloads
+// an image a fifth wider than it can show (JOE-472, Lighthouse uses-responsive-images).
+// The featured first image keeps plain sm: it is also the hero photo on phones
+// (heroImage), so the gallery reuses that download instead of fetching md too.
+const GALLERY_SIZES = '(max-width: 420px) calc(100vw - 32px), (max-width: 640px) calc(50vw - 31px), (max-width: 1228px) calc(33.3vw - 25px), 384px';
+function gallerySrcset(project, image, index) {
+  if (index === 0 || !image.mediumWidth) return '';
+  const srcset = `${galleryPath(project, `${image.file}-md.webp`)} ${image.mediumWidth}w, ${galleryPath(project, `${image.file}-sm.webp`)} ${image.smallWidth}w`;
+  return ` srcset="${esc(srcset)}" sizes="${GALLERY_SIZES}"`;
+}
 
 function gallerySection(project) {
   const images = galleryFor(project);
@@ -442,7 +454,7 @@ function gallerySection(project) {
     const more = index === GALLERY_VISIBLE - 1 && images.length > GALLERY_VISIBLE
       ? `<span class="project-gallery-count">+${images.length - GALLERY_VISIBLE} more</span>`
       : '';
-    return `      <a href="${esc(galleryPath(project, `${image.file}-lg.webp`))}" class="project-gallery-item${featured}" data-gallery-item${hidden ? ' hidden' : ''}><img src="${esc(galleryPath(project, `${image.file}-sm.webp`))}" width="${image.smallWidth}" height="${image.smallHeight}" alt="${esc(image.alt)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>${more}</a>`;
+    return `      <a href="${esc(galleryPath(project, `${image.file}-lg.webp`))}" class="project-gallery-item${featured}" data-gallery-item${hidden ? ' hidden' : ''}><img src="${esc(galleryPath(project, `${image.file}-sm.webp`))}"${gallerySrcset(project, image, index)} width="${image.smallWidth}" height="${image.smallHeight}" alt="${esc(image.alt)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>${more}</a>`;
   }).join('\n');
   const hasSitePlan = images.some((image) => image.kind === 'site-plan');
   const kinds = [
@@ -468,6 +480,14 @@ ${items}
 }
 const hasMap = (project) => fs.existsSync(path.join(MAP_DIR, `${project.slug}.webp`));
 const mapPath = (project, ext) => `/new-launches/img/maps/${project.slug}.${ext}`;
+// The map sits below the gallery, so it loads lazily and at normal priority. It
+// renders the full container width up to 860px and 1.65fr of a 1180px grid above
+// that; render-project-maps.py's 600px card variant serves phones (JOE-472).
+const MAP_SIZES = '(max-width: 860px) calc(100vw - 48px), (max-width: 1228px) calc(62.3vw - 50px), 715px';
+function mapSrcset(project) {
+  const small = fs.existsSync(path.join(MAP_DIR, `${project.slug}-600.webp`)) ? `/new-launches/img/maps/${project.slug}-600.webp 600w, ` : '';
+  return `${small}${mapPath(project, 'webp')} 1200w`;
+}
 const nf = new Intl.NumberFormat('en-SG');
 
 function metresBetween(a, b) {
@@ -511,7 +531,7 @@ function visualSection(project) {
   return `<section class="project-visual reveal" aria-labelledby="visual-${esc(project.slug)}">
   <div class="project-visual-inner">
     <figure class="project-map">
-      <picture><source type="image/webp" srcset="${mapPath(project, 'webp')}"><img src="${mapPath(project, 'jpg')}" width="1200" height="630" alt="Map of ${esc(project.name)} at ${esc(project.location)}, ${esc(project.district)}${nearest ? `, ${esc(distanceLabel(nearest.metres))} from ${esc(nearest.name)} ${esc(nearest.kind)}` : ''}" decoding="async" fetchpriority="high"></picture>
+      <picture><source type="image/webp" srcset="${mapSrcset(project)}" sizes="${MAP_SIZES}"><img src="${mapPath(project, 'jpg')}" width="1200" height="630" alt="Map of ${esc(project.name)} at ${esc(project.location)}, ${esc(project.district)}${nearest ? `, ${esc(distanceLabel(nearest.metres))} from ${esc(nearest.name)} ${esc(nearest.kind)}` : ''}" loading="lazy" decoding="async"></picture>
       <figcaption>Location of ${esc(project.name)}, ${esc(project.location)}.${approx} Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>; station positions from LTA via data.gov.sg.</figcaption>
     </figure>
     <div class="project-visual-side">
@@ -988,7 +1008,7 @@ ${searchIntentFaq ? `<script type="application/ld+json">${jsonForHtml(searchInte
 ${projectFaq ? `<script type="application/ld+json">${jsonForHtml(projectFaq)}</script>` : ''}
 ${fontLinksHtml()}
 ${heroPreloadHtml(project)}
-<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
+<link rel="stylesheet" href="new-launches.css"><script defer src="new-launches.min.js"></script><script defer src="project-page-form.js"></script><script defer src="project-live.js"></script><script defer src="project-gallery.js"></script><script src="/js/recaptcha-helper.js" defer></script>
 <script src="/assets/analytics-loader.js" defer data-meta="false"></script>
 <noscript><style>.reveal,.reveal-stagger>*{opacity:1!important;transform:none!important}</style></noscript>
 ${SITE_THEME_ASSETS_HTML}
@@ -1198,6 +1218,11 @@ export function refreshExistingPage(html, project) {
   html = replaceSection(html, 'project-related', relatedSection(project));
   html = replaceSection(html, 'nl-register-band', contactSection(project));
   html = wrapInMain(html);
+  // The hand-built tour grids are role="list" but their cards had no listitem
+  // role, which Lighthouse fails as aria-required-children (JOE-472).
+  html = html.replaceAll('<div class="project-tour-card">', '<div class="project-tour-card" role="listitem">');
+  // Pages load the built copy of new-launches.js (scripts/build-new-launches-js.mjs).
+  html = html.replace('<script defer src="new-launches.js"></script>', '<script defer src="new-launches.min.js"></script>');
   html = html
     .replaceAll('then register below to lock in your preferred stack before public launch.', 'then ask Joe to confirm the current unit list and suitable stacks.')
     .replaceAll('then register below to secure your preferred stack at VVIP preview.', 'then ask Joe to confirm the current unit list and suitable stacks.')

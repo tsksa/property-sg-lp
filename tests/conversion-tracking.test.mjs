@@ -93,6 +93,60 @@ test('calculator entry links record fixed labels without financial values', () =
   }
 });
 
+test('on-site CTA links record cta_click with fixed labels and a path without query or hash', () => {
+  const h = harness();
+  h.contact('/valuation.html?propType=HDB#form', {
+    'data-cta-location': 'insights_sell_first_mid',
+    'data-lead-type': 'valuation',
+  });
+
+  assert.equal(h.events.length, 1);
+  assert.equal(h.events[0][1], 'cta_click');
+  assert.equal(h.events[0][2].cta_location, 'insights_sell_first_mid');
+  assert.equal(h.events[0][2].lead_type, 'valuation');
+  assert.equal(h.events[0][2].link_path, '/valuation.html');
+  assert.doesNotMatch(JSON.stringify(h.events[0][2]), /propType|#form/);
+  assert.equal(h.pixels.length, 0);
+});
+
+test('a calculator CTA records both its entry click and its cta_click', () => {
+  const h = harness();
+  h.contact('/calculator/', {
+    'data-calculator': 'repayment',
+    'data-entry-point': 'hdb_vs_bank_guide',
+    'data-cta-location': 'insights_hdb_vs_bank_mid',
+    'data-lead-type': 'hdb_buyer',
+  });
+
+  assert.deepEqual(h.events.map(e => e[1]), ['calculator_entry_click', 'cta_click']);
+  assert.equal(h.events[1][2].link_path, '/calculator/');
+});
+
+test('cta_click ignores external and unlabelled links, rejects odd labels and respects consent', () => {
+  const h = harness();
+  h.contact('/valuation.html');
+  h.contact('https://example.com/offer', { 'data-cta-location': 'insights_sell_first_end' });
+  h.contact('//example.com/offer', { 'data-cta-location': 'insights_sell_first_end' });
+  assert.equal(h.events.length, 0);
+
+  h.contact('/#book', { 'data-cta-location': 'mid cta <b>', 'data-lead-type': 'a@b.com' });
+  assert.equal(h.events[0][2].cta_location, 'unclassified');
+  assert.equal(h.events[0][2].lead_type, 'unclassified');
+  assert.equal(h.events[0][2].link_path, '/');
+
+  const declined = harness({ consent: 'declined' });
+  declined.contact('/valuation.html', { 'data-cta-location': 'insights_sell_first_end' });
+  const unanswered = harness({ consent: null });
+  unanswered.contact('/valuation.html', { 'data-cta-location': 'insights_sell_first_end' });
+  assert.equal(declined.events.length + unanswered.events.length, 0);
+});
+
+test('WhatsApp CTAs still record contact_click only, never a second cta_click', () => {
+  const h = harness();
+  h.contact('https://wa.me/6581881488?text=Hi', { 'data-cta-location': 'calculator_guide_end', 'data-lead-type': 'buyer_financing' });
+  assert.deepEqual(h.events.map(e => e[1]), ['contact_click']);
+});
+
 test('calculator v2 tracks consented starts and results once per tool, never from link clicks', () => {
   const h = harness();
   h.context.jtTrackCalculator('affordability', 'start');

@@ -9,7 +9,8 @@ Input:  new-launches/project-gallery-selection.json — the images chosen for ea
         candidate, not by filename: ERA's labels mix renders with logos, maps,
         sales charts and forwarded WhatsApp photos that can carry prices or
         another agent's details.
-Output: new-launches/img/gallery/<slug>/NN-lg.webp (1400px) and NN-sm.webp (800px) per image,
+Output: new-launches/img/gallery/<slug>/NN-lg.webp (1400px), NN-sm.webp (800px) and
+        NN-md.webp (720px, JOE-472: the one-column phone grid) per image,
         og.jpg (1200x630) and card-600.webp (600x315) cut from the first image,
         and new-launches/project-gallery.json, the manifest the page generators read.
 
@@ -37,6 +38,9 @@ CACHE = Path('/tmp/joetay-gallery-cache')
 UA = {'User-Agent': 'joetay.com gallery build (joe@joetay.com)'}
 
 LARGE, SMALL = 1400, 800  # lg opens full-screen; sm fills the grid
+# md is the srcset step below sm. A phone shows each tile about 380px wide, about
+# 665 device pixels at 1.75x, so sm's 800px was a fifth wider than it could show.
+MEDIUM = 720
 
 
 def fetch(url):
@@ -70,10 +74,12 @@ def build(slug, spec):
         stem = f'{index:02d}'
         large = fit_width(source, LARGE)
         small = fit_width(source, SMALL)
+        medium = fit_width(source, MEDIUM)
         # ERA's tiled watermark is high-entropy detail, so these compress poorly;
         # q70 at 1400px cut the gallery total from 55 MB to 37 MB with no visible loss at screen size.
         large.save(folder / f'{stem}-lg.webp', 'WEBP', quality=70, method=6)
         small.save(folder / f'{stem}-sm.webp', 'WEBP', quality=72, method=6)
+        medium.save(folder / f'{stem}-md.webp', 'WEBP', quality=72, method=6)
         if index == 1:
             cover(source, (1200, 630)).save(folder / 'og.jpg', 'JPEG', quality=82, optimize=True, progressive=True)
             cover(source, (600, 315)).save(folder / 'card-600.webp', 'WEBP', quality=80, method=6)
@@ -85,6 +91,8 @@ def build(slug, spec):
             'height': large.height,
             'smallWidth': small.width,
             'smallHeight': small.height,
+            'mediumWidth': medium.width,
+            'mediumHeight': medium.height,
             'sourceUrl': item['url'],
         })
     return {'eraId': spec.get('eraId'), 'images': images}
