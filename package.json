@@ -115,6 +115,6 @@
     "test:hreflang": "node --test tests/hreflang.test.mjs"
   },
   "dependencies": {
-    "@netlify/blobs": "^11.1.6"
+    "@netlify/blobs": "^11.1.7"
   }
 }
