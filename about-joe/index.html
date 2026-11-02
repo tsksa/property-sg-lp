@@ -94,9 +94,9 @@
 </style>
 <style>
 .ai-flow{--bp:#0b2a55;--bp-line:rgba(136,225,199,.16);background:var(--bp);background-image:linear-gradient(var(--bp-line) 1px,transparent 1px),linear-gradient(90deg,var(--bp-line) 1px,transparent 1px);background-size:32px 32px;color:#e8ecf3;padding:78px 0}
-.ai-flow-label{color:#88e1c7;font-size:.78rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px}
+#ai-team .ai-flow-label{color:#88e1c7;font-size:.78rem;font-weight:850;letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px}
 .ai-flow h2{font-family:Georgia,serif;color:#fff;font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-.035em;margin:0 0 18px}
-.ai-flow .ai-flow-intro{font-size:1.08rem;color:#c8d3e3;max-width:760px;margin:0 0 26px}
+#ai-team .ai-flow-intro{font-size:1.08rem;color:#c8d3e3;max-width:760px;margin:0 0 26px}
 .ai-flow-legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 34px}
 .ai-chip{border:1.5px solid;border-radius:8px;padding:5px 12px;font-size:.82rem;font-weight:750;background:rgba(6,20,46,.55)}
 .ai-chip-you,.ai-node-you{border-color:#7cc4ff}.ai-chip-ai,.ai-node-ai{border-color:#88e1c7}.ai-chip-joe,.ai-node-joe{border-color:#f5c96a}
@@ -114,7 +114,7 @@
 .ai-node-joe{background:rgba(245,201,106,.08)}.ai-node-end{box-shadow:0 0 0 4px rgba(245,201,106,.16)}
 .ai-split{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;border:1.5px dashed rgba(136,225,199,.4);border-radius:16px;padding:22px 16px}
 .ai-split .ai-node{width:100%}
-.ai-flow .ai-flow-note{text-align:center;color:#fbe2a8;font-weight:700;margin:34px auto 0;max-width:620px}
+#ai-team .ai-flow-note{text-align:center;color:#fbe2a8;font-weight:700;margin:34px auto 0;max-width:620px}
 @media(max-width:720px){.ai-flow{padding:58px 0}.ai-split{grid-template-columns:1fr;gap:44px;padding:18px 12px}.ai-split>.ai-branch+.ai-branch{border-top:1.5px dashed rgba(136,225,199,.4);padding-top:22px;margin-top:-22px}}
 .case-detail{margin-top:16px}.case-detail dt{color:var(--navy);font-weight:800}.case-detail dd{color:var(--muted);margin:2px 0 13px}.case-source{border-top:1px solid var(--line);padding-top:14px;font-size:.86rem}.case-source a{font-weight:750}
 </style>
@@ -227,14 +227,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
       </div>
       <ol class="ai-flow-chart">
         <li class="ai-node ai-node-you"><span class="ai-tag">You</span><strong>You reach out</strong><span>A valuation request, an enquiry form or a block price alert.</span></li>
-        <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>Screened for spam</strong><span>Bots and fake submissions are filtered out, so real enquiries never wait behind junk.</span></li>
+        <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>Screened for spam</strong><span>Obvious bots are filtered out; anything borderline is flagged for me to check.</span></li>
         <li class="ai-split">
-          <ol class="ai-branch">
-            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>Logged and alerted</strong><span>Your enquiry is saved to my client record and a WhatsApp alert reaches my phone right away.</span></li>
-            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>AI copilot lines up the follow-up</strong><span>My AI assistant gets a copy, so nothing slips through the cracks.</span></li>
+          <ol class="ai-branch" aria-label="Valuation requests and enquiries">
+            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>Logged and alerted</strong><span>Your valuation request or enquiry is saved to my client record and a WhatsApp alert reaches my phone right away.</span></li>
+            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · seconds</span><strong>AI copilot preps the follow-up</strong><span>A copy also goes to my AI assistant to help me prepare the follow-up.</span></li>
           </ol>
-          <ol class="ai-branch">
-            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · monthly</span><strong>Market watch</strong><span>When HDB releases new resale data, your block is checked for fresh transactions automatically.</span></li>
+          <ol class="ai-branch" aria-label="Block price alerts, checked alongside every month">
+            <li class="ai-node ai-node-ai"><span class="ai-tag">AI &amp; automation · monthly</span><strong>Market watch for block alerts</strong><span>If you set a block alert, new resale records for your block and street are checked once a month.</span></li>
           </ol>
         </li>
         <li class="ai-node ai-node-joe"><span class="ai-tag">Joe, personally</span><strong>I reply myself</strong><span>No chatbot scripts. I study the evidence and give you a straight answer.</span></li>
