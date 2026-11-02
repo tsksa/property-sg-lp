@@ -38,7 +38,13 @@ export function priceTowns(root = ROOT) {
       const html = fs.readFileSync(path.join(dir, slug, 'index.html'), 'utf8');
       const name = html.match(/<h1>([^<]+) HDB resale prices<\/h1>/)?.[1];
       if (!name) throw new Error(`hdb-prices/${slug}/index.html has no "<town> HDB resale prices" H1`);
-      return { slug, name, href: `/hdb-prices/${slug}/`, label: `${name} HDB resale prices` };
+      // The town page's own description carries its 4-room median and window
+      // ("… 4-room $550k … (1,826 sales, 12 months to Sep 2026)"), so the block
+      // shows the same figure the page does and moves with the monthly refresh.
+      const desc = html.match(/<meta name="description" content="([^"]*)"/)?.[1] || '';
+      const fourRoom = desc.match(/4-room (\$[\d.]+[km])/)?.[1] || null;
+      const period = desc.match(/\(\d[\d,]* sales, (12 months to [A-Z][a-z]{2} \d{4})\)/)?.[1] || null;
+      return { slug, name, href: `/hdb-prices/${slug}/`, label: `${name} HDB resale prices`, fourRoom, window: period };
     });
 }
 
@@ -61,7 +67,7 @@ export function priceDistricts(root = ROOT) {
     .map((dirName) => {
       const id = dirName.toUpperCase();
       const name = districtName(id);
-      return { id, href: `/condo-prices/${dirName}/`, name, label: `${name} condo resale prices` };
+      return { id, href: `/condo-prices/${dirName}/`, name, area: DISTRICTS[id.slice(1)], label: `${name} condo resale prices` };
     });
 }
 
@@ -78,8 +84,22 @@ const LEDES = {
   both: (towns, districts) => `Medians and the latest transactions for ${towns} HDB towns and ${districts} condo districts, from official HDB and URA data.`,
 };
 
-const listHtml = (className, items) => `    <ul class="jt-pl-list ${className}">
-${items.map((item) => `      <li><a href="${esc(item.href)}">${esc(item.label)}</a></li>`).join('\n')}
+// The figure beside each town, named once instead of on every row.
+const medianNote = (towns) => {
+  const windows = new Set(towns.map((t) => t.window).filter(Boolean));
+  return towns.some((t) => t.fourRoom) && windows.size === 1 ? `Figures are 4-room medians over the ${[...windows][0]}.` : '';
+};
+
+// JOE-479: the visible anchor is the bare town or district. Repeating "HDB
+// resale prices" on all 26 rows wrapped half of them onto a second line and
+// read as a wall of identical links; the group headings now say what the pages
+// are. The launch-page generators still use each entry's full `label`.
+// A break opportunity after the slash, so "Kallang/Whampoa" never splits mid-word.
+const townItem = (t) => `      <li><a href="${esc(t.href)}">${esc(t.name).replace(/\//g, '/<wbr>')}</a>${t.fourRoom ? ` <span class="jt-pl-med">${esc(t.fourRoom)}</span>` : ''}</li>`;
+const districtItem = (d) => `      <li><a href="${esc(d.href)}"><span class="jt-pl-code">${esc(d.id)}</span> <span class="jt-pl-area">${esc(d.area)}</span></a></li>`;
+
+const listHtml = (className, items, item) => `    <ul class="jt-pl-list ${className}">
+${items.map(item).join('\n')}
     </ul>`;
 
 // Colours are inherited or translucent so one stylesheet reads correctly on
@@ -95,21 +115,34 @@ const STYLE = `<style data-jt-price-links-css>
 .jt-pl-band .jt-pl-title{font-size:clamp(1.6rem,3.2vw,2.2rem);margin-bottom:10px}
 .jt-pl .jt-pl-lede{margin:0 0 12px;font-size:.92rem;line-height:1.55}
 .jt-pl .jt-pl-sub{margin:16px 0 4px;font-family:inherit;font-size:.74rem;line-height:1.4;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
-.jt-pl .jt-pl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:0 20px}
+.jt-pl .jt-pl-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:0 24px}
 .jt-pl .jt-pl-districts{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
 .jt-pl .jt-pl-list li{margin:0;padding:0;border:0;min-width:0}
 .jt-pl .jt-pl-list li::before{content:none}
+.jt-pl .jt-pl-towns li{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(127,127,127,.16)}
 .jt-pl a{color:var(--emerald-aa,#047857);text-decoration:none}
-.jt-pl .jt-pl-list a{display:block;padding:7px 0;font-size:.9rem;line-height:1.35;font-weight:500;overflow-wrap:anywhere}
+.jt-pl .jt-pl-list a{display:block;padding:7px 0;font-size:.9rem;line-height:1.35;font-weight:500;overflow-wrap:break-word}
+.jt-pl .jt-pl-med{flex:none;font-size:.85rem;font-variant-numeric:tabular-nums;color:inherit}
+/* Code then area on one row; a long area wraps under itself, not under the code. */
+.jt-pl .jt-pl-districts a{display:grid;grid-template-columns:2.4em 1fr;gap:0 8px;color:inherit}
+.jt-pl .jt-pl-code{font-weight:700;color:var(--emerald-aa,#047857);font-variant-numeric:tabular-nums}
+.jt-pl .jt-pl-districts a:hover .jt-pl-area{text-decoration:underline}
 .jt-pl a:hover{text-decoration:underline}
+.jt-pl .jt-pl-note{margin:0 0 4px;font-size:.82rem;line-height:1.5}
 .jt-pl .jt-pl-hubs{margin:14px 0 0;font-size:.9rem;line-height:1.6}
 .jt-pl .jt-pl-hubs a{font-weight:700;text-decoration:underline;text-underline-offset:.15em}
-html.jt-theme-dark .jt-pl a{color:#6ee7c1}
+html.jt-theme-dark .jt-pl a,html.jt-theme-dark .jt-pl .jt-pl-code{color:#6ee7c1}
+html.jt-theme-dark .jt-pl .jt-pl-districts a{color:inherit}
 @media(max-width:600px){
 .jt-pl .jt-pl-inner{padding:18px 16px}
 .jt-pl-band{padding:0 20px 48px}
 .jt-pl-band .jt-pl-inner{padding:0}
 .jt-pl .jt-pl-towns{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px}
+/* Two ~150px columns cannot hold "Kallang/Whampoa" and a price on one line, so
+   every row stacks the price under the name and the rows stay one height. */
+.jt-pl .jt-pl-towns li{display:block;padding:0 0 7px}
+.jt-pl .jt-pl-towns a{padding:7px 0 0}
+.jt-pl .jt-pl-med{display:block;font-size:.8rem}
 }
 </style>`;
 
@@ -131,8 +164,9 @@ export function priceLinksHtml({ towns = [], districts = [], hubs = [], level = 
   const title = both ? 'Resale prices by town and district' : towns.length ? 'HDB resale prices by town' : 'Condo resale prices by district';
   const lede = both ? LEDES.both(towns.length, districts.length) : towns.length ? LEDES.towns : '';
   const groups = [];
-  if (towns.length) groups.push(`${both ? `    <h${sub} class="jt-pl-sub">HDB towns</h${sub}>\n` : ''}${listHtml('jt-pl-towns', towns)}`);
-  if (districts.length) groups.push(`${both ? `    <h${sub} class="jt-pl-sub">Condo districts</h${sub}>\n` : ''}${listHtml('jt-pl-districts', districts)}`);
+  const note = medianNote(towns);
+  if (towns.length) groups.push(`${both ? `    <h${sub} class="jt-pl-sub">HDB resale prices by town</h${sub}>\n` : ''}${note ? `    <p class="jt-pl-note">${note}</p>\n` : ''}${listHtml('jt-pl-towns', towns, townItem)}`);
+  if (districts.length) groups.push(`${both ? `    <h${sub} class="jt-pl-sub">Condo resale prices by district</h${sub}>\n` : ''}${listHtml('jt-pl-districts', districts, districtItem)}`);
   const hubLinks = hubs.map((key) => `<a href="${HUBS[key][0]}">${HUBS[key][1]}</a>`).join(' · ');
   return `<!-- Price links — generated by scripts/apply-price-links.mjs -->
 <section class="jt-pl${className ? ` ${className}` : ''}" id="${esc(id)}" ${PRICE_LINKS_MARKER} aria-labelledby="${esc(id)}-title">
