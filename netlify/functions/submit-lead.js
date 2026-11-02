@@ -320,6 +320,9 @@ exports.handler = async (event) => {
     recaptcha_hostname: recaptchaHostname,
     review_required: reviewRequired,
   };
+  // The token is only for Google verification, never Sheets/email or CRM storage.
+  // Remove it even when verification is unavailable or not configured.
+  delete enriched.recaptcha_token;
 
   const tasks = [];
 
