@@ -65,7 +65,7 @@
     "apply:site-header": "node scripts/apply-site-header.mjs",
     "check:site-header": "node scripts/apply-site-header.mjs --check",
     "test:site-header": "node --test tests/site-header.test.mjs",
-    "test:block-estimate": "node --test tests/block-estimate.test.mjs",
+    "test:block-estimate": "node --test tests/block-estimate.test.mjs tests/valuation-postal.test.mjs",
     "check:mobile-header": "node scripts/apply-mobile-header.mjs --check",
     "generate:new-launches-block": "node scripts/patch-new-launches-block.mjs",
     "check:new-launches-block": "node scripts/patch-new-launches-block.mjs --check",

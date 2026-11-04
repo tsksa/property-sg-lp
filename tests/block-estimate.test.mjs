@@ -189,6 +189,9 @@ function descend(node) { return node.children.flatMap((n) => n instanceof Render
 
 function renderHarness() {
   const nodes = new Map();
+  const link = Object.assign(new RenderNode('a'), {className:'np-val'});
+  const results = new RenderNode(); results.append(link); nodes.set('results', results);
+  const handoffs = [];
   const document = {
     createElement: (tag) => new RenderNode(tag), createTextNode: (text) => String(text), createDocumentFragment: () => new RenderNode('fragment'),
     getElementById(id) { if (!nodes.has(id)) nodes.set(id, new RenderNode()); return nodes.get(id); }, querySelectorAll: () => [],
@@ -198,11 +201,18 @@ function renderHarness() {
   const imports = /^import[\s\S]*?from ['"][^'"]+['"];\s*/gm;
   const widget = { ...context };
   vm.runInNewContext(read('assets/block-estimate.js').replace(imports, '') + '\nglobalThis.renderWidget = renderResult;', widget);
-  const neighbour = { ...context };
+  const neighbour = { ...context, window:{jtBindWrittenValuation:(...args)=>handoffs.push(args)} };
   const page = read('neighbour-prices/index.html').match(/<script type="module">([\s\S]*?)<\/script>/)[1];
   vm.runInNewContext(page.replace(imports, '').replace(/\}\)\(\);\s*$/, 'globalThis.renderNeighbour = render;\n})();'), neighbour);
-  return { nodes, widget: widget.renderWidget, neighbour: neighbour.renderNeighbour };
+  return { nodes, link, handoffs, widget: widget.renderWidget, neighbour: neighbour.renderNeighbour };
 }
+
+test('written valuation receives the rendered result code even when the lookup input has changed', () => {
+  const h = renderHarness();
+  h.nodes.get('npPostal').value = '999999';
+  h.neighbour({block:'8',road:'TEST ROAD'}, {block:[],street:[]}, '012345');
+  assert.deepEqual(h.handoffs, [[h.link, '012345']]);
+});
 
 test('both actual renderers show identical per-type medians, periods and fallback scope', () => {
   const h = renderHarness();
@@ -296,10 +306,6 @@ test('the homepage and valuation page carry the widget with a no-JavaScript fall
     assert.match(html, /<link rel="stylesheet" href="\/assets\/block-estimate\.css">/, rel);
     assert.match(html, /addEventListener\('jte:valuation'/, `${rel}: valuation handoff`);
   }
-  const valuation = read('valuation.html');
-  assert.match(valuation, /params\.get\('postal'\)/, 'valuation page must accept ?postal=');
-  const neighbour = read('neighbour-prices/index.html');
-  assert.match(neighbour, /new URLSearchParams\(location\.search\)\.get\('postal'\)/, 'neighbour-prices must run a ?postal= lookup');
 });
 
 test('the widget renders API data as text, keeps its figures labelled and tracks the funnel', () => {
