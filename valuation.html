@@ -279,6 +279,7 @@ footer > span a{text-decoration:underline;text-underline-offset:0.18em}
   .val-card{padding-left:18px;padding-right:18px}
 }
 </style>
+<script src="/assets/valuation-postal.js" defer></script>
 <!-- Consent-aware GA4 + Meta loader; queues conversions before vendor download. -->
 <script src="/assets/analytics-loader.js" defer></script>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
@@ -708,9 +709,6 @@ const PAGE_LOADED_AT = Date.now();
 
 // ── Pre-fill from URL params (e.g. redirected from hero form) ──
 const params = new URLSearchParams(location.search);
-// ?postal=520123 arrives from the sold-prices widget and the neighbour-prices page.
-const presetPostal=(params.get('postal')||'').replace(/\D/g,'');
-if(/^\d{6}$/.test(presetPostal)){ const el=document.getElementById('postalCode'); if(el) el.value=presetPostal; }
 ['fullName','mobile','email','propType','hdbType'].forEach(key=>{
   const val = params.get(key);
   if(!val) return;
@@ -825,19 +823,12 @@ document.getElementById('valEstimate')?.addEventListener('jte:valuation',e=>{
   card.scrollIntoView({behavior:'smooth',block:'start'});
   card.querySelector('[data-next]')?.focus({preventScroll:true});
 });
-// Run address detection for a ?postal= preset once the listener below is attached.
-setTimeout(()=>{ if(postalEl.value) postalEl.dispatchEvent(new Event('input',{bubbles:true})); },0);
-
-postalEl.addEventListener('input', debounce(async ()=>{
-  const code = postalEl.value.trim();
-  if(code.length !== 6 || !/^\d{6}$/.test(code)){
-    addrBox.style.display='none';
-    detectedAddress='';
-    return;
-  }
+const detectPostalAddress = debounce(async code=>{
+  if(!/^\d{6}$/.test(code)) return;
   try {
     const res = await fetch(`https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${encodeURIComponent(code)}&returnGeom=N&getAddrDetails=Y&pageNum=1`);
     const data = await res.json();
+    if(postalEl.value.trim() !== code) return;
     if(data.results && data.results.length > 0){
       const r = data.results[0];
       detectedAddress = `${r.BLK_NO ? r.BLK_NO + ' ' : ''}${r.ROAD_NAME}, Singapore ${r.POSTAL}`.trim();
@@ -857,10 +848,17 @@ postalEl.addEventListener('input', debounce(async ()=>{
       detectedAddress = '';
     }
   } catch(err){
+    if(postalEl.value.trim() !== code) return;
     addrBox.style.display='none';
     detectedAddress='';
   }
-}, 400));
+}, 400);
+postalEl.addEventListener('input', ()=>{
+  detectedAddress='';
+  addrBox.style.display='none';
+  detectPostalAddress(postalEl.value.trim());
+});
+if(postalEl.value) detectPostalAddress(postalEl.value.trim());
 
 // ── Validation ──
 // Errors are programmatically associated with their fields (WCAG 3.3.1/4.1.3):
