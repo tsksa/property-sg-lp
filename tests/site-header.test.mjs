@@ -109,3 +109,23 @@ test('the shared assets enhance the shared header, not the retired variants', ()
   assert.doesNotMatch(theme, /\.site-nav|\.calc-topbar|\.blog-topbar|\.nl-topbar|\.jt-hn/);
   assert.ok(!fs.existsSync(path.join(ROOT, 'scripts/apply-header-nav.mjs')));
 });
+
+test('glossary quick-jump targets reserve space below the sticky header', () => {
+  const html = read('glossary/index.html');
+  const toc = html.match(/<ul class="g-toc-grid"[\s\S]*?<\/ul>/)?.[0];
+  assert.ok(toc, 'glossary quick-jump list is present');
+  const targets = [...toc.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(targets.length, 20);
+  assert.ok(targets.includes('bto') && targets.includes('mop'));
+  for (const id of targets) {
+    assert.ok(html.includes(`<div class="g-term" id="${id}">`), `#${id} must inherit the term scroll offset`);
+  }
+  const rule = html.match(/\.g-term\{([^}]+)\}/)?.[1] || '';
+  const offset = rule.match(/scroll-margin-top:\s*([\d.]+)(px|rem)/);
+  assert.ok(offset, 'glossary targets need an explicit scroll margin');
+  const pixels = Number(offset[1]) * (offset[2] === 'rem' ? 16 : 1);
+  const headerHeights = [...siteHeaderHtml().matchAll(/\.jt-sh-inner\{[^}]*min-height:(\d+)px/g)]
+    .map((match) => Number(match[1]));
+  assert.ok(headerHeights.length > 0, 'shared header heights are known');
+  assert.ok(pixels >= Math.max(...headerHeights) + 16, 'anchor offset must clear the header with a visible gap');
+});
