@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-09-16",
+  "fetchedAt": "2026-11-09",
   "source": "https://propertyportal.era.com.sg/new-launches",
   "projects": {
     "amberwood-at-holland": {
       "eraId": "52114377",
       "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114377",
-      "launched": false,
-      "expectedTop": null,
+      "launched": true,
+      "expectedTop": "2030-06-29",
       "unitTypes": [
         {
           "type": "3 Bedroom",
@@ -480,8 +480,8 @@
     "lucerne-grand": {
       "eraId": "52114378",
       "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/52114378",
-      "launched": false,
-      "expectedTop": null,
+      "launched": true,
+      "expectedTop": "2031-12-06",
       "unitTypes": [
         {
           "type": "2 Bedroom",
@@ -831,8 +831,8 @@
     "the-serra-residences": {
       "eraId": "87664608",
       "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/87664608",
-      "launched": false,
-      "expectedTop": null,
+      "launched": true,
+      "expectedTop": "2030-12-30",
       "unitTypes": [
         {
           "type": "2 BEDROOM + STUDY",
@@ -891,10 +891,84 @@
     "thomson-reserve": {
       "eraId": "28177823",
       "detailUrl": "https://propertyportal.era.com.sg/new-launches/detail/28177823",
-      "launched": false,
-      "expectedTop": null,
-      "unitTypes": [],
-      "facilities": []
+      "launched": true,
+      "expectedTop": "2031-02-27",
+      "unitTypes": [
+        {
+          "type": "2 Bedroom",
+          "minArea": 592,
+          "maxArea": 592,
+          "units": 100
+        },
+        {
+          "type": "2 Bedroom Premium",
+          "minArea": 678,
+          "maxArea": 678,
+          "units": 416
+        },
+        {
+          "type": "2 Bedroom Premium + Study",
+          "minArea": 732,
+          "maxArea": 775,
+          "units": 200
+        },
+        {
+          "type": "3 Bedroom",
+          "minArea": 947,
+          "maxArea": 947,
+          "units": 120
+        },
+        {
+          "type": "3 Bedroom Premium",
+          "minArea": 1055,
+          "maxArea": 1055,
+          "units": 170
+        },
+        {
+          "type": "3 Bedroom Premium + Study",
+          "minArea": 1152,
+          "maxArea": 1152,
+          "units": 60
+        },
+        {
+          "type": "4 Bedroom",
+          "minArea": 1238,
+          "maxArea": 1238,
+          "units": 90
+        },
+        {
+          "type": "4 Bedroom Premium (PL)",
+          "minArea": 1367,
+          "maxArea": 1367,
+          "units": 56
+        },
+        {
+          "type": "4 Bedroom Premium + Study (PL)",
+          "minArea": 1485,
+          "maxArea": 1485,
+          "units": 28
+        },
+        {
+          "type": "5 Bedroom Suite (PL)",
+          "minArea": 1808,
+          "maxArea": 1808,
+          "units": 28
+        }
+      ],
+      "facilities": [
+        "Lap pool",
+        "Leisure pool",
+        "Children's pool",
+        "Jacuzzi / spa pool",
+        "Tennis court",
+        "Gym",
+        "Clubhouse",
+        "Function room",
+        "BBQ pavilion",
+        "Children's playground",
+        "Steam room / sauna",
+        "Yoga / wellness lawn"
+      ]
     },
     "vela-bay": {
       "eraId": "52114373",
