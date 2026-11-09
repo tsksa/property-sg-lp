@@ -126,6 +126,13 @@ html.jt-theme-dark .val-lookup summary{color:#6ee7c1;outline-color:#6ee7c1}
 .val-estimate .jte-heading{font-size:1.2rem}
 @media(max-width:900px){.val-estimate{max-width:none;margin-top:20px}}
 html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,255,.12)}
+/* The form labels are navy !important for the light card, which also beat
+   site-theme's dark-mode label rule and left them navy on navy (1.07:1).
+   The eyebrow, step counter and Back buttons kept light-mode greys too. */
+html.jt-theme-dark .val-group-label{color:#f8fafc !important}
+html.jt-theme-dark .val-eyebrow{color:#6ee7c1}
+html.jt-theme-dark .val-progress-text,html.jt-theme-dark .val-prev{color:#c1cad8}
+html.jt-theme-dark .val-prev:hover{color:#fff}
 .val-benefits{list-style:none;padding:0;margin:0 0 24px;max-width:460px}
 .val-benefits li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;font-size:0.95rem;color:#333;border-bottom:1px solid rgba(11,30,63,0.08)}
 .val-benefits li::before{content:"";flex-shrink:0;width:20px;height:20px;margin-top:2px;border-radius:50%;background:var(--emerald) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2L5 8.5L9.5 4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/60% no-repeat}
@@ -152,7 +159,7 @@ html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,25
 @keyframes slideIn{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
 .val-step h2{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.4rem,2.8vw,1.75rem);font-weight:600;letter-spacing:-0.3px;line-height:1.25;color:var(--navy);margin-bottom:8px}
 .val-optional{font-size:0.85rem;color:#666;font-weight:400;font-family:'DM Sans',sans-serif;letter-spacing:0}
-.val-sub{font-size:0.85rem;color:#888;margin:-2px 0 20px;line-height:1.55}
+.val-sub{font-size:0.85rem;color:#595959;margin:-2px 0 20px;line-height:1.55}
 
 /* Fields */
 .val-step input[type=text],.val-step input[type=tel],.val-step input[type=email],.val-step input[type=number],.val-step select{width:100%;padding:15px 18px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s;margin-top:8px}
@@ -217,7 +224,7 @@ html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,25
 .val-nav:has(.val-prev){justify-content:space-between}
 .val-nav:not(:has(.val-prev)){justify-content:flex-end}
 .val-prev,.val-next,.val-submit{padding:14px 28px;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .25s}
-.val-prev{background:transparent;color:#888;padding-left:4px;padding-right:4px}
+.val-prev{background:transparent;color:#595959;padding-left:4px;padding-right:4px}
 .val-prev:hover{color:var(--navy)}
 .val-next{background:var(--navy);color:#fff;box-shadow:0 4px 16px rgba(11,30,63,0.15)}
 .val-next:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 8px 24px rgba(16,185,129,0.3)}
@@ -231,7 +238,7 @@ html.jt-theme-dark .val-estimate{background:#102447;border-color:rgba(255,255,25
 
 /* Success */
 .val-success{text-align:center;padding:16px 0}
-.val-success-icon{width:64px;height:64px;background:var(--emerald);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+.val-success-icon{width:64px;height:64px;background:var(--emerald-aa);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
 .val-success h2{text-align:center;margin-bottom:12px}
 .val-success p{color:#555;font-size:1rem;max-width:380px;margin:0 auto 24px;line-height:1.65}
