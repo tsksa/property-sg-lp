@@ -93,7 +93,9 @@ test('pre-launch availability must carry a dated source reference', () => {
 test('layout status must carry dated source references', () => {
   const data = clone();
   const thomson = data.projects.find(({ slug }) => slug === 'thomson-reserve');
-  thomson.layoutStatus.sourceIds = ['missing-source'];
+  // Thomson Reserve's layout question was answered at launch (JOE-482); keep
+  // the validator covered with a pending-layout fixture.
+  thomson.layoutStatus = { topic: 'dual-key', state: 'not-confirmed', asOf: '2026-08-25', sourceIds: ['missing-source'] };
 
   assert.ok(
     validate(data).some(

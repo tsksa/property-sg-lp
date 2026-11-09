@@ -293,6 +293,48 @@
       "category": "government",
       "url": "https://www.ura.gov.sg/news/media/pr25-56/",
       "checkedAt": "2026-10-09"
+    },
+    "capitaland-thomson-reserve-launch-release": {
+      "name": "CapitaLand Development and UOL Group press release: Thomson Reserve preview and launch (15 October 2026)",
+      "category": "developer",
+      "url": "https://www.capitaland.com/en/about-capitaland/newsroom/news-releases/international/2026/october/cld-unveil-thomson-reserve.html",
+      "checkedAt": "2026-11-09"
+    },
+    "edgeprop-thomson-reserve-launch-sales": {
+      "name": "EdgeProp: Thomson Reserve launch sales hit over 90%, or 1,143 units, at an average of $2,900 psf (31 October 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/thomson-reserve-launch-sales-hit-over-90-or-1143-units-average-2900-psf",
+      "checkedAt": "2026-11-09"
+    },
+    "edgeprop-lucerne-grand-preview": {
+      "name": "EdgeProp: City Developments to preview Lucerne Grand from 18 September, prices from $2,401 psf (16 September 2026)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/city-developments-preview-lucerne-grand-sept-18-prices-starting-2401-psf",
+      "checkedAt": "2026-11-09"
+    },
+    "guocoland-faber-launch-release": {
+      "name": "GuocoLand media release: Faber Residence sold 86% at launch (October 2025)",
+      "category": "developer",
+      "url": "https://www.guocoland.com.sg/Documents/PressReleases/2025/Media_Release_GuocoLands_Faber_Residence_sold_86_at_launch.pdf",
+      "checkedAt": "2026-11-09"
+    },
+    "cdl-zyon-grand-launch-release": {
+      "name": "City Developments newsroom: 84% of units at Zyon Grand sold on launch weekend (October 2025)",
+      "category": "developer",
+      "url": "https://www.cdl.com.sg/newsroom/84-of-units-at-zyon-grand-sold-on-launch-weekend",
+      "checkedAt": "2026-11-09"
+    },
+    "edgeprop-zyon-grand-launch": {
+      "name": "EdgeProp: Zyon Grand sells 84% at launch, averaging $3,050 psf (26 October 2025)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/zyon-grand-sells-84-launch-averaging-3050-psf-%E2%80%94-capping-strong-year-river-valley-launches",
+      "checkedAt": "2026-11-09"
+    },
+    "edgeprop-w-residences-public-launch": {
+      "name": "EdgeProp: IOI Properties kicks off public launch of W Residences Marina View with 100 units from $3,230 psf (15 October 2025)",
+      "category": "publisher-reporting",
+      "url": "https://www.edgeprop.sg/property-news/ioi-properties-kicks-public-launch-w-residences-marina-view-100-units-3230-psf",
+      "checkedAt": "2026-11-09"
     }
   },
   "projects": [
@@ -848,24 +890,14 @@
       "developer": "UOL Group / CapitaLand Development / Singapore Land Group",
       "unitCount": 1268,
       "inventoryYear": 2026,
-      "previewDate": null,
-      "bookingDate": null,
+      "previewDate": "2026-10-17",
+      "bookingDate": "2026-10-31",
       "launchWindow": "2026-Q4",
-      "status": "upcoming",
+      "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/thomson-reserve.html",
-      "verifiedAt": "2026-09-16",
-      "seoTitle": "Thomson Reserve Dual Key Status & Launch | PropertySG",
-      "seoDescription": "Are Thomson Reserve dual-key units confirmed? Check official layout status, launch timing and verified facts for the 1,268-home Bright Hill project.",
-      "layoutStatus": {
-        "topic": "dual-key",
-        "state": "not-confirmed",
-        "asOf": "2026-08-25",
-        "sourceIds": [
-          "capitaland-thomson-view-acquisition",
-          "uol-annual-report-2025",
-          "propnex-sgx-2026-agm-pipeline"
-        ]
-      },
+      "verifiedAt": "2026-11-09",
+      "seoTitle": "Thomson Reserve Balance Units & Unit Mix | PropertySG",
+      "seoDescription": "Thomson Reserve launched on 31 Oct 2026 and sold 90.1% that weekend. Official unit mix of 1,268 homes (no dual-key layouts) and how to check balance units.",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -882,19 +914,86 @@
         "facts": [
           "uol-thomson-view-option",
           "uol-annual-report-2025",
-          "capitaland-thomson-view-acquisition"
+          "capitaland-thomson-view-acquisition",
+          "capitaland-thomson-reserve-launch-release"
         ],
         "timing": [
-          "propnex-sgx-2026-agm-pipeline"
+          "capitaland-thomson-reserve-launch-release",
+          "edgeprop-thomson-reserve-launch-sales"
         ],
         "status": [
-          "propnex-sgx-2026-agm-pipeline"
+          "edgeprop-thomson-reserve-launch-sales"
         ],
         "dynamics": [
           "99co-2026-guide"
         ]
       },
-      "legacyInventoryEvidence": null
+      "legacyInventoryEvidence": null,
+      "searchIntent": {
+        "state": "launched",
+        "asOf": "2026-11-09",
+        "heading": "Thomson Reserve unit mix, dual-key units and launch sales",
+        "intro": "Thomson Reserve launched on 31 October 2026. The developers' launch release sets out the official unit mix, and their joint statement on launch weekend reported the take-up.",
+        "sourceIds": [
+          "capitaland-thomson-reserve-launch-release",
+          "edgeprop-thomson-reserve-launch-sales"
+        ],
+        "faqs": [
+          {
+            "question": "Does Thomson Reserve have dual-key units?",
+            "answer": "No. The developers' launch release of 15 October 2026 lists ten unit types, from 2-bedroom (592 sq ft) to a 5-bedroom suite (1,808 sq ft), and none is a dual-key layout. The 4-bedroom premium types and the 5-bedroom suite have a private lift."
+          },
+          {
+            "question": "What is the Thomson Reserve unit mix?",
+            "answer": "1,268 homes in six towers (four of 21 storeys and two of 30): 716 two-bedroom units including premium and study types, 350 three-bedroom, 174 four-bedroom and 28 five-bedroom suites, per the developers' launch release."
+          },
+          {
+            "question": "How many Thomson Reserve units were sold at launch?",
+            "answer": "1,143 of the 1,268 units, or 90.1%, over the VIP preview on 30 October and launch day on 31 October 2026, at an average of about $2,900 psf, according to a joint statement by UOL Group and CapitaLand Development. Every three-bedroom, four-bedroom and two-bedroom-plus-study unit was taken that weekend."
+          },
+          {
+            "question": "Are there Thomson Reserve balance units?",
+            "answer": "After launch weekend about 125 units remained, mostly smaller two-bedroom types and two of the 28 five-bedroom suites. Balance units change daily after a launch, so ask Joe to confirm what is available today."
+          },
+          {
+            "question": "When will Thomson Reserve be completed?",
+            "answer": "The developers expect TOP in the second half of 2030, with vacant possession estimated by 28 February 2031. The 99-year lease started on 14 July 2026."
+          }
+        ]
+      },
+      "launchTimeline": {
+        "asOf": "2026-11-09",
+        "sourceIds": [
+          "capitaland-thomson-reserve-launch-release",
+          "edgeprop-thomson-reserve-launch-sales"
+        ],
+        "steps": [
+          {
+            "date": "2026-10-15",
+            "status": "confirmed",
+            "label": "Launch details announced",
+            "detail": "CapitaLand Development and UOL Group announced the preview and launch dates for the 1,268-home project at Bright Hill Drive, developed by Tamarind Development (CapitaLand Development, UOL Group and Singapore Land Group), with prices from $2,608 psf."
+          },
+          {
+            "date": "2026-10-17",
+            "status": "confirmed",
+            "label": "Public preview opened",
+            "detail": "The show flat opened for the public preview on Saturday, 17 October 2026."
+          },
+          {
+            "date": "2026-10-31",
+            "status": "confirmed",
+            "label": "Launched for sale",
+            "detail": "After VIP bookings on 30 October, the official launch was on Saturday, 31 October 2026. Over the two days 1,143 of 1,268 units (90.1%) were sold at an average of about $2,900 psf, per the developers' joint statement."
+          },
+          {
+            "date": "2031-02-28",
+            "status": "expected",
+            "label": "Completion and vacant possession",
+            "detail": "The developers expect TOP in the second half of 2030 and give 28 February 2031 as the estimated vacant possession date."
+          }
+        ]
+      }
     },
     {
       "slug": "lucerne-grand",
@@ -907,12 +1006,12 @@
       "developer": "City Developments Limited",
       "unitCount": 570,
       "inventoryYear": 2026,
-      "previewDate": null,
-      "bookingDate": null,
+      "previewDate": "2026-09-18",
+      "bookingDate": "2026-10-03",
       "launchWindow": "2026-10",
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/lucerne-grand.html",
-      "verifiedAt": "2026-10-09",
+      "verifiedAt": "2026-11-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -933,7 +1032,8 @@
         ],
         "timing": [
           "edgeprop-cdl-1h2026",
-          "edgeprop-lucerne-grand-launch"
+          "edgeprop-lucerne-grand-launch",
+          "edgeprop-lucerne-grand-preview"
         ],
         "status": [
           "99co-2026-guide",
@@ -947,11 +1047,12 @@
       "legacyInventoryEvidence": null,
       "seoTitle": "Lucerne Grand Balance Units & Launch | PropertySG",
       "launchTimeline": {
-        "asOf": "2026-10-09",
+        "asOf": "2026-11-09",
         "sourceIds": [
           "edgeprop-cdl-2026-05",
           "edgeprop-cdl-1h2026",
-          "edgeprop-lucerne-grand-launch"
+          "edgeprop-lucerne-grand-launch",
+          "edgeprop-lucerne-grand-preview"
         ],
         "steps": [
           {
@@ -965,6 +1066,12 @@
             "status": "confirmed",
             "label": "Launch date set for October",
             "detail": "CDL's first-half 2026 results reporting slated Lucerne Grand for launch in October 2026. The project is five 17-storey towers with a commercial first storey, next to Lakeside MRT station and near Jurong Lake Gardens."
+          },
+          {
+            "date": "2026-09-18",
+            "status": "confirmed",
+            "label": "Preview opened",
+            "detail": "City Developments opened the Lucerne Grand preview on 18 September 2026, with indicative prices from $2,401 psf."
           },
           {
             "date": "2026-10-04",
@@ -1803,11 +1910,11 @@
       "unitCount": 399,
       "inventoryYear": 2025,
       "previewDate": null,
-      "bookingDate": null,
+      "bookingDate": "2025-10-18",
       "launchWindow": null,
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/faber-residence.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-11-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1826,7 +1933,8 @@
           "guocoland-fy2026-half-year"
         ],
         "timing": [
-          "guocoland-fy2026-half-year"
+          "guocoland-fy2026-half-year",
+          "guocoland-faber-launch-release"
         ],
         "status": [
           "guocoland-fy2026-half-year",
@@ -1856,12 +1964,12 @@
       "developer": "City Developments Limited / Mitsui Fudosan",
       "unitCount": 706,
       "inventoryYear": 2025,
-      "previewDate": null,
-      "bookingDate": null,
+      "previewDate": "2025-10-08",
+      "bookingDate": "2025-10-25",
       "launchWindow": null,
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/zyon-grand.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-11-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1880,7 +1988,9 @@
           "cdl-q1-2026-operational-update"
         ],
         "timing": [
-          "cdl-q1-2026-operational-update"
+          "cdl-q1-2026-operational-update",
+          "cdl-zyon-grand-launch-release",
+          "edgeprop-zyon-grand-launch"
         ],
         "status": [
           "cdl-q1-2026-operational-update",
@@ -1911,11 +2021,11 @@
       "unitCount": 683,
       "inventoryYear": 2025,
       "previewDate": null,
-      "bookingDate": null,
+      "bookingDate": "2025-10-25",
       "launchWindow": "2025-10",
       "status": "selling",
       "canonicalUrl": "https://joetay.com/new-launches/w-residences-marina-view.html",
-      "verifiedAt": "2026-09-16",
+      "verifiedAt": "2026-11-09",
       "priceFrom": {
         "value": null,
         "asOf": null
@@ -1934,7 +2044,8 @@
           "w-residences-developer-site"
         ],
         "timing": [
-          "ioi-properties-2025-annual-report"
+          "ioi-properties-2025-annual-report",
+          "edgeprop-w-residences-public-launch"
         ],
         "status": [
           "ioi-properties-2025-annual-report",

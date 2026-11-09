@@ -243,21 +243,25 @@ test('Chuan Grove answers balance-unit intent without inventing pre-launch inven
   assert.doesNotMatch(html, /Sing Holdings \/ MCC Singapore|Expected Q3 2026/);
 });
 
-test('Thomson Reserve answers dual-key intent without inventing a layout', () => {
+// JOE-482: launched 31 Oct 2026. The developers' launch release lists the
+// full unit mix, so the dual-key question now has a sourced answer ("no")
+// instead of "not confirmed", and the page leads with balance units.
+test('Thomson Reserve answers dual-key intent from the official unit mix', () => {
   const project = DATA.projects.find(({ slug }) => slug === 'thomson-reserve');
   const html = pageFor(project);
 
-  assert.equal(project.launchWindow, '2026-Q4');
-  assert.equal(project.layoutStatus.state, 'not-confirmed');
+  assert.equal(project.status, 'selling');
+  assert.equal(project.bookingDate, '2026-10-31');
+  assert.equal(project.layoutStatus, undefined);
+  assert.ok(project.searchIntent.sourceIds.includes('capitaland-thomson-reserve-launch-release'));
   assert.ok(project.seoTitle.length <= 60);
   assert.ok(project.seoDescription.length <= 155);
-  assert.match(html, /<title>Thomson Reserve Dual Key Status &amp; Launch \| PropertySG<\/title>/);
+  assert.match(html, /<title>Thomson Reserve Balance Units &amp; Unit Mix \| PropertySG<\/title>/);
   assert.match(html, /Does Thomson Reserve have dual-key units\?/);
-  assert.match(html, /Dual-key units are not officially confirmed for Thomson Reserve/);
-  assert.match(html, /expected to preview in Q4 2026/);
-  assert.match(html, /"@type": "FAQPage"/);
-  assert.match(html, /Ask Joe to verify dual-key layouts/);
-  assert.doesNotMatch(html, /dual-key (?:units|layouts?) are (?:available|officially confirmed)/i);
+  assert.match(html, /none is a dual-key layout/);
+  assert.match(html, /1,143 of the 1,268 units, or 90\.1%/);
+  assert.equal((html.match(/"@type": "FAQPage"/g) || []).length, 1);
+  assert.doesNotMatch(html, /Ask Joe to verify dual-key layouts|expected to preview in Q4 2026|Dual-key units are not officially confirmed/);
 });
 
 test('Keppel Bay Plot 6 answers launch and project-status intent from current primary evidence', () => {
