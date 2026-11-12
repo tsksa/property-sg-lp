@@ -264,6 +264,48 @@ test('Thomson Reserve answers dual-key intent from the official unit mix', () =>
   assert.doesNotMatch(html, /Ask Joe to verify dual-key layouts|expected to preview in Q4 2026|Dual-key units are not officially confirmed/);
 });
 
+test('Lucerne Grand timeline keeps expected TOP consistent with its ERA-backed facts', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'lucerne-grand');
+  const era = JSON.parse(read('new-launches/era-snapshot.json')).projects['lucerne-grand'];
+  const top = project.launchTimeline.steps.find(({ label }) => label === 'Expected TOP (ERA listing)');
+  const html = pageFor(project);
+  const timeline = html.match(/<section class="project-availability project-timeline[\s\S]*?<\/section>/)?.[0];
+
+  assert.ok(top, 'expected TOP must replace the obsolete unannounced-completion step');
+  assert.equal(top.date, era.expectedTop);
+  assert.equal(top.status, 'expected', 'an expected TOP must not become confirmed completion');
+  assert.ok(project.launchTimeline.sourceIds.includes('era-lucerne-grand'));
+  assert.equal(DATA.sources['era-lucerne-grand'].url, era.detailUrl);
+  assert.match(top.detail, /ERA lists an expected TOP/);
+  const expectedDate = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  }).format(new Date(`${era.expectedTop}T00:00:00Z`));
+  assert.ok(top.detail.includes(expectedDate), 'TOP prose must match the structured timeline date');
+  assert.match(top.detail, /developer's documents/);
+  assert.ok(timeline.includes(`<li class="project-timeline-step is-expected"><time datetime="${era.expectedTop}">`));
+  assert.ok(timeline.includes(`href="${era.detailUrl}"`), 'timeline must link to the TOP source');
+  assert.match(html, /<div class="project-stat-label">Expected TOP<\/div><div class="project-stat-value">Dec 2031<\/div>/);
+  assert.match(html, /Expected completion \(TOP\): 6 Dec 2031, as listed on ERA/);
+  assert.doesNotMatch(timeline, /Not announced|Completion and remaining unit details|are not published here/);
+});
+
+test('Lucerne Grand describes conditional live availability without freezing current inventory', () => {
+  const project = DATA.projects.find(({ slug }) => slug === 'lucerne-grand');
+  const html = pageFor(project);
+  const timeline = html.match(/<section class="project-availability project-timeline[\s\S]*?<\/section>/)?.[0];
+  const unitmix = html.match(/<section class="project-unitmix[\s\S]*?<\/section>/)?.[0];
+
+  assert.match(timeline, /Indicative prices and availability load in the unit-mix table when ERA's figures pass checks/);
+  assert.match(timeline, /otherwise, ask Joe for the current unit list/);
+  assert.match(unitmix, /data-project-live data-slug="lucerne-grand"/);
+  const liveCells = [...unitmix.matchAll(/data-live(?:-total)?="[^"]+">([^<]*)</g)];
+  assert.ok(liveCells.length > 0, 'live price and availability placeholders must remain');
+  assert.ok(liveCells.every(([, value]) => value === '—'), 'current prices and inventory must not be hardcoded');
+  for (const field of ['priceFrom', 'averagePsf', 'soldPercent']) assert.equal(project[field].value, null);
+  assert.doesNotMatch(html, /Final pricing, layouts and launch timing must be confirmed/);
+  assert.match(html, /Current unit prices, layouts and availability must be confirmed/);
+});
+
 test('Keppel Bay Plot 6 answers launch and project-status intent from current primary evidence', () => {
   const project = DATA.projects.find(({ slug }) => slug === 'keppel-bay-plot-6');
   const html = pageFor(project);
