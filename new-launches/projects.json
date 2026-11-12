@@ -258,6 +258,12 @@
       "url": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
       "checkedAt": "2026-10-05"
     },
+    "era-lucerne-grand": {
+      "name": "ERA: Lucerne Grand listing — expected TOP",
+      "category": "portal-corroboration",
+      "url": "https://propertyportal.era.com.sg/new-launches/detail/52114378",
+      "checkedAt": "2026-11-11"
+    },
     "edgeprop-lucerne-grand-launch": {
       "name": "EdgeProp: Lucerne Grand 61.4% sold at an average of $2,480 psf (4 October 2026)",
       "category": "publisher-reporting",
@@ -1047,12 +1053,13 @@
       "legacyInventoryEvidence": null,
       "seoTitle": "Lucerne Grand Balance Units & Launch | PropertySG",
       "launchTimeline": {
-        "asOf": "2026-11-09",
+        "asOf": "2026-11-11",
         "sourceIds": [
           "edgeprop-cdl-2026-05",
           "edgeprop-cdl-1h2026",
           "edgeprop-lucerne-grand-launch",
-          "edgeprop-lucerne-grand-preview"
+          "edgeprop-lucerne-grand-preview",
+          "era-lucerne-grand"
         ],
         "steps": [
           {
@@ -1080,10 +1087,10 @@
             "detail": "Over the launch weekend of 3 and 4 October 2026, 350 of the 570 units were sold as at 6pm on 4 October, or 61.4%, at an average price of $2,480 per square foot. CDL reported that about 93% of buyers were Singaporeans and the remaining 7% permanent residents."
           },
           {
-            "date": null,
-            "status": "pending",
-            "label": "Completion and remaining unit details",
-            "detail": "Not announced. Remaining units, stacks and current prices change week to week and are not published here; ask Joe to confirm what is available today."
+            "date": "2031-12-06",
+            "status": "expected",
+            "label": "Expected TOP (ERA listing)",
+            "detail": "ERA lists an expected TOP of 6 December 2031. Confirm completion and handover details against the developer's documents. Indicative prices and availability load in the unit-mix table when ERA's figures pass checks; otherwise, ask Joe for the current unit list."
           }
         ]
       }
