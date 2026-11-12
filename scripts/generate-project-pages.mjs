@@ -512,8 +512,15 @@ function distanceLabel(metres) {
 }
 
 function expectedTop(project) {
+  // A checked developer milestone takes precedence over ERA's completion field,
+  // which can describe vacant possession rather than indicative TOP.
+  if (project.completion) {
+    const value = formatTimelineDate(project.completion.indicativeTop);
+    return { label: 'Indicative TOP', value, shortValue: value };
+  }
   const era = eraFor(project);
-  return era?.launched && era.expectedTop ? era.expectedTop : null;
+  const value = project.factsReview?.expectedTop || (era?.launched && era.expectedTop ? formatDate(era.expectedTop) : null);
+  return value ? { label: 'Expected TOP', value, shortValue: project.factsReview?.expectedTop || value.replace(/^\d+\s/, '') } : null;
 }
 
 function visualSection(project) {
@@ -609,6 +616,11 @@ function connectivitySection(project) {
   const stations = nearestStations(project, 3);
   if (!stations.length) return '';
   const top = expectedTop(project);
+  const completion = project.completion;
+  const source = completion && sourcesById.get(completion.sourceId);
+  const completionCopy = completion
+    ? ` Indicative TOP: ${esc(top.value)}. Expected vacant possession: ${esc(formatDate(completion.expectedVacantPossession))}. Source: <a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.name)}</a> (checked ${esc(formatDate(completion.asOf))}). Estimated dates are subject to change.`
+    : top ? ` Expected completion (TOP): ${esc(top.value)}, as listed on ERA.` : '';
   return `<section class="project-connect reveal" aria-labelledby="connect-${esc(project.slug)}">
   <div class="project-connect-inner">
     <div class="project-eyebrow">Getting around</div>
@@ -616,7 +628,7 @@ function connectivitySection(project) {
     <ol class="project-connect-list">
 ${stations.map((station) => `      <li><strong>${esc(station.name)} ${esc(station.kind)}</strong><span>${esc(distanceLabel(station.metres))}</span></li>`).join('\n')}
     </ol>
-    <p class="project-unitmix-note">Straight-line distances from the site to each station's nearest cluster of exits, calculated from LTA's station exit data. Walking routes are longer.${top ? ` Expected completion (TOP): ${esc(project.factsReview?.expectedTop || formatDate(top))}, as listed on ERA.` : ''}</p>
+    <p class="project-unitmix-note">Straight-line distances from the site to each station's nearest cluster of exits, calculated from LTA's station exit data. Walking routes are longer.${completionCopy}</p>
   </div>
 </section>`;
 }
@@ -644,12 +656,13 @@ ${categories.map(([label, ids]) => `  <div><strong>${esc(label)}</strong><span>$
 }
 
 function statsHtml(project) {
+  const top = expectedTop(project);
   return `<div class="project-stats" role="list" aria-label="Project key facts">
   <div class="project-stat" role="listitem"><div class="project-stat-label">Status</div><div class="project-stat-value">${esc(STATUSES[project.status])}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">District</div><div class="project-stat-value">${esc(project.district)} · ${esc(project.region)}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Tenure</div><div class="project-stat-value">${esc(TENURES[project.tenure])}</div></div>
   <div class="project-stat" role="listitem"><div class="project-stat-label">Units</div><div class="project-stat-value">${new Intl.NumberFormat('en-SG').format(project.unitCount)}</div></div>
-${expectedTop(project) ? `  <div class="project-stat" role="listitem"><div class="project-stat-label">Expected TOP</div><div class="project-stat-value">${esc(project.factsReview?.expectedTop || formatDate(expectedTop(project)).replace(/^\d+\s/, ''))}</div></div>
+${top ? `  <div class="project-stat" role="listitem"><div class="project-stat-label">${esc(top.label)}</div><div class="project-stat-value">${esc(top.shortValue)}</div></div>
 ` : ''}</div>`;
 }
 
@@ -1077,7 +1090,7 @@ export function applyDesignPilot(html, project) {
   form = pilotForm(form, project);
   const mainAttrs = /<section class="project-hero[^>]*\bid="main"/.test(html) ? ' id="main" tabindex="-1"' : '';
   const message = encodeURIComponent(`Hi Joe, please confirm current availability, prices and floor plans for ${project.name}.`);
-  const top = project.factsReview?.expectedTop || (expectedTop(project) ? formatDate(expectedTop(project)).replace(/^\d+\s/, '') : 'To be confirmed');
+  const top = expectedTop(project);
   const checked = project.factsReview?.checkedAt || project.verifiedAt;
   const heroHtml = `<section class="project-hero project-pilot-hero"${mainAttrs} aria-labelledby="page-hero-title">
   <div class="project-pilot-heading">
@@ -1099,7 +1112,7 @@ export function applyDesignPilot(html, project) {
   </div>
 </section>
 <section class="project-pilot-facts" aria-label="Project key facts">
-  <dl><div><dt>Homes</dt><dd>${new Intl.NumberFormat('en-SG').format(project.unitCount)}</dd></div><div><dt>Tenure</dt><dd>${esc(TENURES[project.tenure])}</dd></div><div><dt>Expected TOP</dt><dd>${esc(top)}</dd></div></dl>
+  <dl><div><dt>Homes</dt><dd>${new Intl.NumberFormat('en-SG').format(project.unitCount)}</dd></div><div><dt>Tenure</dt><dd>${esc(TENURES[project.tenure])}</dd></div><div><dt>${esc(top?.label || 'Expected TOP')}</dt><dd>${esc(top?.shortValue || 'To be confirmed')}</dd></div></dl>
   <div class="project-pilot-status"><strong>${esc(marketCopy(project))}</strong><p>Core facts checked ${esc(formatDate(checked))}<br>Sales status checked ${esc(formatDate(project.verifiedAt))}</p></div>
 </section>
 <section class="project-pilot-brief" aria-labelledby="buyer-brief-${esc(project.slug)}">
