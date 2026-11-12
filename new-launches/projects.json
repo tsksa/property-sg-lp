@@ -258,12 +258,6 @@
       "url": "https://propertyportal.era.com.sg/new-launches/detail/52114373",
       "checkedAt": "2026-10-05"
     },
-    "era-lucerne-grand": {
-      "name": "ERA: Lucerne Grand listing — expected TOP",
-      "category": "portal-corroboration",
-      "url": "https://propertyportal.era.com.sg/new-launches/detail/52114378",
-      "checkedAt": "2026-11-11"
-    },
     "edgeprop-lucerne-grand-launch": {
       "name": "EdgeProp: Lucerne Grand 61.4% sold at an average of $2,480 psf (4 October 2026)",
       "category": "publisher-reporting",
@@ -341,6 +335,18 @@
       "category": "publisher-reporting",
       "url": "https://www.edgeprop.sg/property-news/ioi-properties-kicks-public-launch-w-residences-marina-view-100-units-3230-psf",
       "checkedAt": "2026-11-09"
+    },
+    "cdl-construction-progress": {
+      "name": "CDL construction progress — Lucerne Grand TOP and vacant possession",
+      "category": "developer",
+      "url": "https://www.cdlhomes.com.sg/construction/",
+      "checkedAt": "2026-11-12"
+    },
+    "cdl-lucerne-grand-facts": {
+      "name": "CDL Lucerne Grand — developer particulars and vacant possession",
+      "category": "developer",
+      "url": "https://www.cdlhomes.com.sg/lucernegrand/floorplans/amp/",
+      "checkedAt": "2026-11-12"
     }
   },
   "projects": [
@@ -1039,7 +1045,9 @@
         "timing": [
           "edgeprop-cdl-1h2026",
           "edgeprop-lucerne-grand-launch",
-          "edgeprop-lucerne-grand-preview"
+          "edgeprop-lucerne-grand-preview",
+          "cdl-construction-progress",
+          "cdl-lucerne-grand-facts"
         ],
         "status": [
           "99co-2026-guide",
@@ -1053,13 +1061,14 @@
       "legacyInventoryEvidence": null,
       "seoTitle": "Lucerne Grand Balance Units & Launch | PropertySG",
       "launchTimeline": {
-        "asOf": "2026-11-11",
+        "asOf": "2026-11-12",
         "sourceIds": [
           "edgeprop-cdl-2026-05",
           "edgeprop-cdl-1h2026",
           "edgeprop-lucerne-grand-launch",
           "edgeprop-lucerne-grand-preview",
-          "era-lucerne-grand"
+          "cdl-construction-progress",
+          "cdl-lucerne-grand-facts"
         ],
         "steps": [
           {
@@ -1087,12 +1096,24 @@
             "detail": "Over the launch weekend of 3 and 4 October 2026, 350 of the 570 units were sold as at 6pm on 4 October, or 61.4%, at an average price of $2,480 per square foot. CDL reported that about 93% of buyers were Singaporeans and the remaining 7% permanent residents."
           },
           {
-            "date": "2031-12-06",
+            "date": "2030-Q2",
             "status": "expected",
-            "label": "Expected TOP (ERA listing)",
-            "detail": "ERA lists an expected TOP of 6 December 2031. Confirm completion and handover details against the developer's documents. Indicative prices and availability load in the unit-mix table when ERA's figures pass checks; otherwise, ask Joe for the current unit list."
+            "label": "Indicative TOP (CDL)",
+            "detail": "CDL's construction update, as at 2 November 2026, indicates TOP in Q2 2030. This is an estimate and is subject to change."
+          },
+          {
+            "date": "2031-12-07",
+            "status": "expected",
+            "label": "Expected vacant possession (CDL)",
+            "detail": "CDL lists 7 December 2031 as the expected date of vacant possession, separately from indicative TOP. Confirm completion and handover details against the developer's documents. Indicative prices and availability load in the unit-mix table when ERA's figures pass checks; otherwise, ask Joe for the current unit list."
           }
         ]
+      },
+      "completion": {
+        "indicativeTop": "2030-Q2",
+        "expectedVacantPossession": "2031-12-07",
+        "asOf": "2026-11-12",
+        "sourceId": "cdl-construction-progress"
       }
     },
     {

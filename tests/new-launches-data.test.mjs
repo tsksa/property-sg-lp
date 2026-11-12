@@ -34,6 +34,19 @@ test('project fact reviews require dated sources, an address and completion word
   }
 });
 
+test('developer completion milestones require a quarter, real possession date and checked source', () => {
+  const data = clone();
+  const completion = data.projects.find(({ slug }) => slug === 'lucerne-grand').completion;
+  completion.indicativeTop = '2030-Q5';
+  completion.expectedVacantPossession = '2031-02-30';
+  completion.asOf = 'not-a-date';
+  completion.sourceId = 'edgeprop-lucerne-grand-launch';
+  const errors = validate(data);
+  for (const field of ['indicativeTop', 'expectedVacantPossession', 'asOf', 'sourceId']) {
+    assert.ok(errors.some((error) => error.includes(`lucerne-grand.completion.${field}`)));
+  }
+});
+
 test('all 24 approved 2026 projects appear exactly once', () => {
   const names = DATA.projects
     .filter((project) => project.inventoryYear === 2026)

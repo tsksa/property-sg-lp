@@ -264,29 +264,51 @@ test('Thomson Reserve answers dual-key intent from the official unit mix', () =>
   assert.doesNotMatch(html, /Ask Joe to verify dual-key layouts|expected to preview in Q4 2026|Dual-key units are not officially confirmed/);
 });
 
-test('Lucerne Grand timeline keeps expected TOP consistent with its ERA-backed facts', () => {
+test('Lucerne Grand separates CDL indicative TOP from expected vacant possession', () => {
   const project = DATA.projects.find(({ slug }) => slug === 'lucerne-grand');
-  const era = JSON.parse(read('new-launches/era-snapshot.json')).projects['lucerne-grand'];
-  const top = project.launchTimeline.steps.find(({ label }) => label === 'Expected TOP (ERA listing)');
+  const { completion, launchTimeline } = project;
+  const top = launchTimeline.steps.find(({ label }) => label === 'Indicative TOP (CDL)');
+  const possession = launchTimeline.steps.find(({ label }) => label === 'Expected vacant possession (CDL)');
   const html = pageFor(project);
   const timeline = html.match(/<section class="project-availability project-timeline[\s\S]*?<\/section>/)?.[0];
 
-  assert.ok(top, 'expected TOP must replace the obsolete unannounced-completion step');
-  assert.equal(top.date, era.expectedTop);
-  assert.equal(top.status, 'expected', 'an expected TOP must not become confirmed completion');
-  assert.ok(project.launchTimeline.sourceIds.includes('era-lucerne-grand'));
-  assert.equal(DATA.sources['era-lucerne-grand'].url, era.detailUrl);
-  assert.match(top.detail, /ERA lists an expected TOP/);
-  const expectedDate = new Intl.DateTimeFormat('en-GB', {
-    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
-  }).format(new Date(`${era.expectedTop}T00:00:00Z`));
-  assert.ok(top.detail.includes(expectedDate), 'TOP prose must match the structured timeline date');
-  assert.match(top.detail, /developer's documents/);
-  assert.ok(timeline.includes(`<li class="project-timeline-step is-expected"><time datetime="${era.expectedTop}">`));
-  assert.ok(timeline.includes(`href="${era.detailUrl}"`), 'timeline must link to the TOP source');
-  assert.match(html, /<div class="project-stat-label">Expected TOP<\/div><div class="project-stat-value">Dec 2031<\/div>/);
-  assert.match(html, /Expected completion \(TOP\): 6 Dec 2031, as listed on ERA/);
+  assert.equal(completion.indicativeTop, '2030-Q2');
+  assert.equal(completion.expectedVacantPossession, '2031-12-07');
+  assert.equal(top.date, completion.indicativeTop);
+  assert.equal(possession.date, completion.expectedVacantPossession);
+  for (const step of [top, possession]) assert.equal(step.status, 'expected');
+  assert.match(top.detail, /as at 2 November 2026.*TOP in Q2 2030/);
+  assert.match(possession.detail, /7 December 2031.*expected date of vacant possession/);
+  assert.equal(launchTimeline.asOf, completion.asOf);
+  const sourceUrls = {
+    'cdl-construction-progress': 'https://www.cdlhomes.com.sg/construction/',
+    'cdl-lucerne-grand-facts': 'https://www.cdlhomes.com.sg/lucernegrand/floorplans/amp/',
+  };
+  assert.equal(completion.sourceId, 'cdl-construction-progress');
+  for (const [id, url] of Object.entries(sourceUrls)) {
+    assert.ok(launchTimeline.sourceIds.includes(id));
+    assert.equal(DATA.sources[id].url, url);
+    assert.equal(DATA.sources[id].category, 'developer');
+    assert.equal(DATA.sources[id].checkedAt, completion.asOf);
+    assert.ok(timeline.includes(`href="${url}"`));
+  }
+  assert.match(timeline, /<time datetime="2030-Q2">Q2 2030<\/time>/);
+  assert.match(timeline, /<time datetime="2031-12-07">7 Dec 2031<\/time>/);
+  assert.match(html, /<div class="project-stat-label">Indicative TOP<\/div><div class="project-stat-value">Q2 2030<\/div>/);
+  assert.match(html, /Indicative TOP: Q2 2030\. Expected vacant possession: 7 Dec 2031\. Source: <a href="https:\/\/www\.cdlhomes\.com\.sg\/construction\/"/);
+  assert.match(html, /Estimated dates are subject to change/);
+  assert.doesNotMatch(html, /2031-12-06|6 Dec(?:ember)? 2031|Expected TOP \(ERA listing\)|Expected completion \(TOP\):/);
   assert.doesNotMatch(timeline, /Not announced|Completion and remaining unit details|are not published here/);
+});
+
+test('regeneration uses developer milestones ahead of the ERA snapshot', () => {
+  const project = structuredClone(DATA.projects.find(({ slug }) => slug === 'lucerne-grand'));
+  project.completion.indicativeTop = '2030-Q3';
+  project.completion.expectedVacantPossession = '2031-12-08';
+  const refreshed = refreshExistingPage(pageFor(project), project);
+  assert.match(refreshed, /<div class="project-stat-label">Indicative TOP<\/div><div class="project-stat-value">Q3 2030<\/div>/);
+  assert.match(refreshed, /Indicative TOP: Q3 2030\. Expected vacant possession: 8 Dec 2031/);
+  assert.doesNotMatch(refreshed, /Expected completion \(TOP\):|6 Dec(?:ember)? 2031/);
 });
 
 test('Lucerne Grand describes conditional live availability without freezing current inventory', () => {
