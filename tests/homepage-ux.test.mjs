@@ -214,3 +214,13 @@ test('the Calendly calendar loads only after the visitor asks for it', () => {
   assert.match(homepage, /getElementById\('calendlyShow'\)\?\.addEventListener\('click'[\s\S]{0,400}loadCalendlyScript\(\)/);
   assert.doesNotMatch(homepage, /<script[^>]+src="https:\/\/assets\.calendly\.com/, 'Calendly script must not be in the page source');
 });
+
+test('the footer newsletter button and site links stay readable and tappable', () => {
+  const html = read('index.html');
+  // White on the bright emerald measured 2.54:1 in dark mode; use the dark label the header CTA uses.
+  assert.match(html, /body\.dark-mode \.footer-newsletter-form button\{background:var\(--emerald\);color:#04231a\}/);
+  assert.match(html, /body\.dark-mode \.footer-newsletter-form button:hover\{background:#0ea371;color:#04231a\}/);
+  // On touch, each standalone footer site link is padded to a 44px row.
+  const mobile = html.slice(html.indexOf('@media(max-width:720px){\n  footer{'));
+  assert.match(mobile, /\.footer-sitelinks a\{display:inline-block;padding:11px 0\}/);
+});

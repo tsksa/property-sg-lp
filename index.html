@@ -694,8 +694,10 @@ body.dark-mode .footer-bottom{color:rgba(232,236,243,0.75)}
 body.dark-mode .footer-newsletter-form input[type=email]{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
 body.dark-mode .footer-newsletter-form input[type=email]::placeholder{color:rgba(255,255,255,0.4)}
 body.dark-mode .footer-newsletter-form input[type=email]:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
-body.dark-mode .footer-newsletter-form button{background:var(--emerald)}
-body.dark-mode .footer-newsletter-form button:hover{background:#0ea371}
+/* Dark label on the bright emerald, as on the header CTA: white on #10b981
+   measured 2.54:1 here (13 Nov 2026), failing WCAG AA. #04231a gives 6.5:1. */
+body.dark-mode .footer-newsletter-form button{background:var(--emerald);color:#04231a}
+body.dark-mode .footer-newsletter-form button:hover{background:#0ea371;color:#04231a}
 @media(max-width:720px){
   footer{padding:36px 20px 24px}
   .footer-newsletter{flex-direction:column;align-items:flex-start;gap:16px;padding-bottom:22px}
@@ -703,6 +705,10 @@ body.dark-mode .footer-newsletter-form button:hover{background:#0ea371}
   .footer-newsletter-form input[type=email]{min-width:0;width:100%}
   .footer-newsletter-form button{width:100%;padding:14px}
   .footer-bottom{flex-direction:column;gap:6px;font-size:0.74rem}
+  /* On touch these standalone links measured 22px tall with an 8px gap (13 Nov
+     2026). Pad each to a 44px row target, as the site-sections footer does. */
+  .footer-sitelinks{row-gap:0!important}
+  .footer-sitelinks a{display:inline-block;padding:11px 0}
 }
 body.dark-mode .mobile-bar{background:var(--navy);border-top-color:rgba(255,255,255,0.08);box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 
