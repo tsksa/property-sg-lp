@@ -36,7 +36,7 @@ const SOURCES = {
   ratios: 'https://www.cpf.gov.sg/member/home-ownership/home-buying-guide-for-members-below-55',
   compare: 'https://www.cpf.gov.sg/member/infohub/educational-resources/3-differences-between-hdb-loan-and-bank-loan',
   hfeIncome: 'https://www.hdb.gov.sg/buying-a-flat/flat-grant-and-loan-eligibility/application-for-an-hdb-flat-eligibility-hfe-letter/income-guidelines-and-documents',
-  hfeKeo: 'https://www.hdb.gov.sg/business/estate-agents-and-salespersons/letters-to-keos/Implementation-of-HDB-Flat-Eligibility-Letter',
+  hfeKeo: 'https://www.hdb.gov.sg/business-partners/estate-agents-and-salespersons/letters-to-keos/implementation-of-hdb-flat-eligibility-hfe-letter',
 };
 
 // Primary sources for the HDB-vs-bank comparison. Bank rates are quoted only
