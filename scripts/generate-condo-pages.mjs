@@ -244,7 +244,7 @@ ${body}
   </div>
 </main>
 <footer>\n${siteFooterHtml()}
-  <p>Based on caveat data from the <a href="https://eservice.ura.gov.sg/maps/api/" target="_blank" rel="noopener">URA Data Service</a> (PMI_Resi_Transaction), © Urban Redevelopment Authority. Medians are indicative, not a valuation. PropertySG · Joe Tay, District Director, ERA · CEA R009618D.</p>
+  <p>Based on caveat data from the <a href="https://eservice.ura.gov.sg/maps/api/" target="_blank" rel="noopener">URA Data Service</a> (PMI_Resi_Transaction), © Urban Redevelopment Authority. Medians are indicative, not a valuation. PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D.</p>
 </footer>
 </body>
 </html>

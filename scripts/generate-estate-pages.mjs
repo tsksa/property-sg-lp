@@ -314,7 +314,7 @@ ${leadCapture || ''}
   </div>
 </main>
 <footer>\n${siteFooterHtml()}
-  <p>Contains information from the <a href="https://data.gov.sg/datasets/${DATASET}/view" target="_blank" rel="noopener">HDB Resale Flat Prices</a> dataset accessed via data.gov.sg, made available under the <a href="https://data.gov.sg/open-data-licence" target="_blank" rel="noopener">Singapore Open Data Licence v1.0</a>. Medians are indicative, not a valuation. PropertySG · Joe Tay, District Director, ERA · CEA R009618D.</p>
+  <p>Contains information from the <a href="https://data.gov.sg/datasets/${DATASET}/view" target="_blank" rel="noopener">HDB Resale Flat Prices</a> dataset accessed via data.gov.sg, made available under the <a href="https://data.gov.sg/open-data-licence" target="_blank" rel="noopener">Singapore Open Data Licence v1.0</a>. Medians are indicative, not a valuation. PropertySG · Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D.</p>
 </footer>
 </body>
 </html>
