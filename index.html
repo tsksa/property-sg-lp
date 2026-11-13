@@ -801,7 +801,7 @@ body.dark-mode .val-popup-note{color:rgba(232,236,243,0.5)}
    covered the primary lead form until dismissed. There is no height that avoids
    that collision, because both are pinned to the same edge. At the top it briefly
    overlaps the hero headline instead, which costs nothing. */
-@media(max-width:768px){.cookie-banner{top:calc(72px + env(safe-area-inset-top));bottom:auto;left:12px;width:calc(100% - 24px);transform:none;flex-direction:column;align-items:stretch;text-align:left;padding:13px 14px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.4}.cookie-actions{display:grid;grid-template-columns:1fr 1fr}.cookie-banner button{width:100%;min-height:44px;padding:9px 12px;font-size:0.8rem}}
+@media(max-width:768px){.cookie-banner{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;width:calc(100% - 24px);transform:none;flex-direction:column;align-items:stretch;text-align:left;padding:13px 14px;border-radius:12px;gap:10px;font-size:0.76rem;line-height:1.4}.cookie-actions{display:grid;grid-template-columns:1fr 1fr}.cookie-banner button{width:100%;min-height:44px;padding:9px 12px;font-size:0.8rem}}
 
 /* ── Hero: secondary valuation CTA link + OR divider ── */
 .hero-valuation-link{display:inline-flex;align-items:center;gap:6px;margin-top:2px;color:rgba(255,255,255,.72);font-size:.82rem;font-weight:500;text-decoration:none;border:0;padding:7px 0;min-height:40px;transition:color .2s;background:transparent;cursor:pointer;font-family:inherit;align-self:center}
