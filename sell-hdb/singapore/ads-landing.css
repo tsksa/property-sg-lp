@@ -158,3 +158,15 @@ img{max-width:100%;height:auto}
 /* iOS zooms the viewport when a focused field is under 16px, shifting the layout
    mid-entry. These are the paid-ad landing pages, so the cost is real traffic. */
 @media(max-width:768px){.lp-form input,.lp-form select{font-size:16px}}
+
+/* WCAG AA text contrast on the light sections (AUDIT.md U3). #10b981 on white
+   measured 2.5:1 and the grey footer text 2.3-3.5:1. The navy hero keeps
+   --emerald, where it passes. */
+.lp-section .lp-eyebrow,.lp-step-num,.lp-section-lede a,.lp-objection a,.lp-faq-item a{color:#047857}
+.lp-case-verified{color:#065f46}
+.lp-case-stars .sr-only{color:var(--navy)}
+.lp-form-micro{color:#666}
+.lp-form-micro a{color:#047857;text-decoration:underline}
+.lp-footer{color:#666}
+.lp-footer .creds{color:#666}
+.lp-footer a{text-decoration:underline}

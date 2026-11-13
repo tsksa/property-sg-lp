@@ -170,3 +170,15 @@ img{max-width:100%;height:auto}
 .lp-faq-item summary{cursor:pointer;padding:16px 0;font-weight:700;color:var(--navy);line-height:1.4;list-style-position:outside}
 .lp-faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px;border-radius:6px}
 .lp-faq-item p{margin:0 0 16px;font-size:0.92rem;color:#444;line-height:1.6}
+
+/* WCAG AA text contrast on the light sections (AUDIT.md U3). #10b981 on white
+   measured 2.5:1 and the grey footer text 2.3-3.5:1. The navy hero keeps
+   --emerald, where it passes. */
+.lp-section .lp-eyebrow,.lp-step-num,.lp-section-lede a,.lp-objection a,.lp-faq-item a{color:#047857}
+.lp-case-verified{color:#065f46}
+.lp-case-stars .sr-only{color:var(--navy)}
+.lp-form-micro{color:#666}
+.lp-form-micro a{color:#047857;text-decoration:underline}
+.lp-footer{color:#666}
+.lp-footer .creds{color:#666}
+.lp-footer a{text-decoration:underline}
