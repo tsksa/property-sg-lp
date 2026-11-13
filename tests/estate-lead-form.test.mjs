@@ -30,3 +30,28 @@ test("estate-lead.js never lets a submit through before submit-lead.js's time-on
       'a real submission in that gap gets shown "Got it" while the lead is silently dropped',
   );
 });
+
+// AUDIT.md S1/U6/C2: every town page carries the seller block directly under
+// the price card, and its sold-price lookup is fetched on demand. Loading the
+// widget with the page measured about 0.3s of LCP on a throttled phone.
+test('every town page has the seller block under the price card, with a lazily loaded lookup', () => {
+  const dir = path.join(ROOT, 'hdb-prices');
+  const towns = fs.readdirSync(dir).filter((d) => fs.existsSync(path.join(dir, d, 'index.html')) && fs.statSync(path.join(dir, d)).isDirectory());
+  assert.ok(towns.length >= 26, `expected 26 town pages, found ${towns.length}`);
+  for (const town of towns) {
+    const html = fs.readFileSync(path.join(dir, town, 'index.html'), 'utf8');
+    const block = html.match(/<section class="est-sell"[\s\S]*?\n  <\/section>/)?.[0];
+    assert.ok(block, `${town}: no seller block`);
+    assert.ok(html.indexOf('class="est-sell"') < html.indexOf('<h2>Median price by flat type'), `${town}: seller block is not above the flat-type table`);
+    assert.match(block, /<h2 id="est-sell-h">Selling your HDB flat in [^<]+\?<\/h2>/, town);
+    assert.match(block, /<form class="jte-form" action="\/neighbour-prices\/" method="get"/, `${town}: lookup form needs its no-JS fallback`);
+    assert.match(block, /href="https:\/\/wa\.me\/6581881488\?text=/, `${town}: WhatsApp link`);
+    assert.match(block, /href="#estateLeadForm"/, town);
+    assert.doesNotMatch(block, /<script/, `${town}: the lookup must not load with the page`);
+    assert.match(html, /id="estateLeadForm"/, town);
+  }
+  const client = fs.readFileSync(path.join(ROOT, 'js/estate-lead.js'), 'utf8');
+  assert.match(client, /import\('\/assets\/block-estimate\.js'\)/);
+  assert.match(client, /IntersectionObserver/);
+  assert.match(client, /addEventListener\('jte:valuation'/);
+});

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geylang HDB Resale Prices 2026 by Flat Type | PropertySG</title>
-<meta name="description" content="Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Sold prices by street and block.">
+<meta name="description" content="Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Selling in Geylang? Check your block.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="theme-color" content="#0b1e3f">
 <link rel="canonical" href="https://joetay.com/hdb-prices/geylang/">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PropertySG">
 <meta property="og:title" content="Geylang HDB Resale Prices 2026 by Flat Type | PropertySG">
-<meta property="og:description" content="Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Sold prices by street and block.">
+<meta property="og:description" content="Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Selling in Geylang? Check your block.">
 <meta property="og:url" content="https://joetay.com/hdb-prices/geylang/">
 <meta property="og:locale" content="en_SG">
 <meta property="og:image" content="https://joetay.com/joetay-social-preview.jpg">
@@ -29,7 +29,7 @@
  "@type": "WebPage",
  "name": "Geylang HDB Resale Prices 2026 by Flat Type | PropertySG",
  "url": "https://joetay.com/hdb-prices/geylang/",
- "description": "Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Sold prices by street and block.",
+ "description": "Geylang HDB resale prices: 3-room $383k, 4-room $740k, 5-room $917k median (653 sales, 12 months to Sep 2026). Selling in Geylang? Check your block.",
  "inLanguage": "en-SG",
  "dateModified": "2026-10-30",
  "isPartOf": {
@@ -277,6 +277,21 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);lett
 .est-wa{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-weight:600;color:var(--emerald-text)}
 .cta .est-wa,.cta .est-lead-note a{color:#6ee7c1}
 
+.est-sell{margin:8px 0 34px;padding:24px 26px;background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:18px}
+.est-sell>h2{margin:0 0 8px}
+.est-sell>p{margin:0 0 16px;color:#34425a;max-width:62ch}
+.est-sell .jte{padding-top:16px;border-top:1px solid rgba(11,30,63,0.1)}
+.est-sell .jte-heading{font-size:1.1rem}
+.est-sell-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:18px}
+.est-sell-wa{display:inline-flex;align-items:center;min-height:44px;padding:11px 18px;border-radius:10px;background:var(--emerald-aa);color:#fff;font-weight:700;text-decoration:none}
+.est-sell-wa:hover{background:var(--navy);text-decoration:none}
+.est-sell-alt{display:inline-flex;align-items:center;min-height:44px;font-weight:600}
+html.jt-theme-dark .est-sell{background:#102447;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .est-sell>p{color:#c1cad8}
+html.jt-theme-dark .est-sell .jte{border-top-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .est-sell-wa{background:#6ee7c1;color:#052e22}
+@media(max-width:600px){.est-sell{padding:20px 18px}.est-sell-wa{width:100%;justify-content:center}}
+
 .faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
 .faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
@@ -404,6 +419,28 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
     </svg>
       <p class="vc-trend"><strong>Up 4.4%</strong> like for like between Oct 2025 and Sep 2026. Weighted to the year’s mix of flat types and lease ages, so a run of newer flats selling does not show up as a price rise.</p>
     </figure>
+  </section>
+  <section class="est-sell" aria-labelledby="est-sell-h">
+    <h2 id="est-sell-h">Selling your HDB flat in Geylang?</h2>
+    <p>The Geylang median is a starting point, not your price. A flat is priced from the sales in its own block and street, then adjusted for floor, remaining lease and condition. Start with your block.</p>
+    <noscript><link rel="stylesheet" href="/assets/block-estimate.css"></noscript>
+    <div class="jte" data-jt-estimate data-context="estate-page">
+      <h3 class="jte-heading" id="est-sell-lookup-h">What did flats in your block sell for?</h3>
+      <form class="jte-form" action="/neighbour-prices/" method="get" novalidate aria-labelledby="est-sell-lookup-h">
+        <label class="jte-label" for="estSellPostal">Your postal code</label>
+        <div class="jte-row">
+          <input class="jte-input" id="estSellPostal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="postal-code" placeholder="e.g. 560123" required>
+          <button type="submit" class="jte-go">Show sold prices</button>
+        </div>
+        <p class="jte-error" role="alert" hidden></p>
+        <p class="jte-status" role="status" aria-live="polite"></p>
+      </form>
+      <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
+    </div>
+    <div class="est-sell-actions">
+      <a class="est-sell-wa" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I'm%20thinking%20of%20selling%20my%20HDB%20flat%20in%20Geylang.%20What%20do%20the%20recent%20sales%20in%20my%20block%20say%3F" target="_blank" rel="noopener" data-cta="whatsapp-estate-seller" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-seller-block',town:'Geylang'});">WhatsApp Joe about your Geylang flat</a>
+      <a class="est-sell-alt" href="#estateLeadForm">Or leave your number for a valuation</a>
+    </div>
   </section>
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>

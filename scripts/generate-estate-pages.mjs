@@ -25,7 +25,7 @@ import {
 
 import { monthsBack, resolveWindows, recentSales } from './lib/estate-windows.mjs';
 import { buildTownSchema, buildHubSchema, faqHtml, townFacts, titleCase as title } from './lib/estate-schema.mjs';
-import { leadCaptureHtml, LEAD_CAPTURE_CSS } from './lib/estate-lead-capture.mjs';
+import { leadCaptureHtml, LEAD_CAPTURE_CSS, sellerBlockHtml, SELLER_BLOCK_CSS } from './lib/estate-lead-capture.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, monthLabel, VALUE_CARD_CSS } from './lib/value-card.mjs';
 import {
@@ -246,7 +246,7 @@ h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.8rem,4.5vw,2.6rem);fon
 ${VALUE_CARD_CSS}
 h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);letter-spacing:-0.3px;margin:34px 0 14px}
 .tbl{overflow-x:auto;background:#fff;border:1px solid rgba(11,30,63,0.08);border-radius:14px}
-.faq{margin-top:8px}${LEAD_CAPTURE_CSS}
+.faq{margin-top:8px}${LEAD_CAPTURE_CSS}${SELLER_BLOCK_CSS}
 .faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
 .faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
@@ -431,6 +431,7 @@ for (const town of towns) {
     series,
     mixNote: 'Weighted to the year’s mix of flat types and lease ages, so a run of newer flats selling does not show up as a price rise.',
   })}
+${sellerBlockHtml(t, esc)}
   <h2>Median price by flat type (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Flat type</th><th>Median price</th><th>Median size</th><th>Sales</th></tr></thead>

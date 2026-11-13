@@ -414,7 +414,7 @@ test('descriptions lead with flat-type medians, end in a full stop and fit 160 c
   ];
   assert.equal(
     townDescription({ t: 'Yishun', types, n: 1575, latestFullMonth: '2026-09' }),
-    'Yishun HDB resale prices: 3-room $433k, 4-room $550k, 5-room $1.11m median (1,575 sales, 12 months to Sep 2026). Sold prices by street and block.',
+    'Yishun HDB resale prices: 3-room $433k, 4-room $550k, 5-room $1.11m median (1,575 sales, 12 months to Sep 2026). Selling in Yishun? Check your block.',
   );
   for (const town of townDirs()) {
     const desc = decode(readTown(town).match(/<meta name="description" content="([^"]*)">/)[1]);

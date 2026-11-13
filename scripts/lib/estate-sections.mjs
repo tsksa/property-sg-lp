@@ -296,7 +296,14 @@ export function townDescription({ t, types, n, latestFullMonth, max = 158 }) {
   const candidates = [];
   for (let count = picked.length; count >= 1; count -= 1) {
     const lead = `${t} HDB resale prices: ${picked.slice(0, count).map((s) => `${s.label} ${k(s.med)}`).join(', ')} median${tail}`;
-    candidates.push(`${lead} Sold prices by street and block.`, lead);
+    // Seller wording first (AUDIT.md S1): these pages are read by owners
+    // deciding whether to sell, and the block lookup is the next step.
+    candidates.push(
+      `${lead} Selling in ${t}? Check your block's sold prices.`,
+      `${lead} Selling in ${t}? Check your block.`,
+      `${lead} Sold prices by street and block.`,
+      lead,
+    );
   }
   candidates.push(`${t} HDB resale prices by flat type, street and block${tail}`);
   return candidates.find((c) => c.length <= max) || `${t} HDB resale prices by flat type.`;

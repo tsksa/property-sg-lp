@@ -10,8 +10,45 @@
 (function () {
   'use strict';
 
+  // The seller block's sold-price lookup is assets/block-estimate.js, three
+  // module requests. Loading them with the page cost about 0.3s of LCP on a
+  // throttled phone, so fetch them when the block is nearly in view or is first
+  // touched. Until then its form is a plain GET to /neighbour-prices/.
+  var lookup = document.querySelector('.est-sell [data-jt-estimate]');
+  if (lookup) {
+    var lookupLoaded = false;
+    var loadLookup = function () {
+      if (lookupLoaded) return;
+      lookupLoaded = true;
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = '/assets/block-estimate.css';
+      document.head.appendChild(css);
+      import('/assets/block-estimate.js').catch(function () { lookupLoaded = false; });
+    };
+    lookup.addEventListener('focusin', loadLookup);
+    lookup.addEventListener('pointerdown', loadLookup);
+    if ('IntersectionObserver' in window) {
+      var lookupSeen = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) { lookupSeen.disconnect(); loadLookup(); }
+      }, { rootMargin: '400px 0px' });
+      lookupSeen.observe(lookup);
+    } else {
+      loadLookup();
+    }
+  }
+
   var form = document.getElementById('estateLeadForm');
   if (!form) return;
+
+  // The seller block's sold-price lookup (assets/block-estimate.js) fires
+  // jte:valuation from its "Get Joe's valuation" button; on town pages that
+  // means this form.
+  document.addEventListener('jte:valuation', function () {
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var name = form.querySelector('input[name="name"]');
+    if (name) setTimeout(function () { name.focus({ preventScroll: true }); }, 450);
+  });
 
   var loadedAt = Date.now();
   var town = form.getAttribute('data-town') || '';

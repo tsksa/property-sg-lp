@@ -43,3 +43,62 @@ export function leadCaptureHtml(town, esc) {
   </form>
   <a class="est-wa" href="https://wa.me/6581881488?text=${wa}" target="_blank" rel="noopener" data-cta="whatsapp-estate" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-page',town:'${t}'});">Or WhatsApp me directly →</a>`;
 }
+
+// Seller block (AUDIT.md S1, U6, C2). The town pages rank for price queries and
+// were read by owners deciding whether to sell, but the only contact prompt sat
+// under a dozen data sections. This block goes directly under the price card:
+// it says what the median does and does not tell a seller, embeds the block
+// sold-price lookup (assets/block-estimate.js, the same widget as the homepage
+// and /valuation.html; /js/estate-lead.js loads it when the block nears view) and offers WhatsApp with the town already in the message.
+//
+// The lookup's "Get Joe's valuation" button dispatches `jte:valuation`; on these
+// pages /js/estate-lead.js hands the visitor to the valuation form at the foot of
+// the page. Keep this block lean: town pages are capped at 65KB
+// (tests/estate-schema.test.mjs).
+export const SELLER_BLOCK_CSS = `
+.est-sell{margin:8px 0 34px;padding:24px 26px;background:#fff;border:1px solid rgba(11,30,63,0.1);border-radius:18px}
+.est-sell>h2{margin:0 0 8px}
+.est-sell>p{margin:0 0 16px;color:#34425a;max-width:62ch}
+.est-sell .jte{padding-top:16px;border-top:1px solid rgba(11,30,63,0.1)}
+.est-sell .jte-heading{font-size:1.1rem}
+.est-sell-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:18px}
+.est-sell-wa{display:inline-flex;align-items:center;min-height:44px;padding:11px 18px;border-radius:10px;background:var(--emerald-aa);color:#fff;font-weight:700;text-decoration:none}
+.est-sell-wa:hover{background:var(--navy);text-decoration:none}
+.est-sell-alt{display:inline-flex;align-items:center;min-height:44px;font-weight:600}
+html.jt-theme-dark .est-sell{background:#102447;border-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .est-sell>p{color:#c1cad8}
+html.jt-theme-dark .est-sell .jte{border-top-color:rgba(255,255,255,.12)}
+html.jt-theme-dark .est-sell-wa{background:#6ee7c1;color:#052e22}
+@media(max-width:600px){.est-sell{padding:20px 18px}.est-sell-wa{width:100%;justify-content:center}}
+`;
+
+/**
+ * @param {string} town  display name, e.g. "Tampines"
+ * @param {(v: unknown) => string} esc
+ */
+export function sellerBlockHtml(town, esc) {
+  const t = esc(town);
+  const wa = encodeURIComponent(`Hi Joe, I'm thinking of selling my HDB flat in ${town}. What do the recent sales in my block say?`);
+  return `  <section class="est-sell" aria-labelledby="est-sell-h">
+    <h2 id="est-sell-h">Selling your HDB flat in ${t}?</h2>
+    <p>The ${t} median is a starting point, not your price. A flat is priced from the sales in its own block and street, then adjusted for floor, remaining lease and condition. Start with your block.</p>
+    <noscript><link rel="stylesheet" href="/assets/block-estimate.css"></noscript>
+    <div class="jte" data-jt-estimate data-context="estate-page">
+      <h3 class="jte-heading" id="est-sell-lookup-h">What did flats in your block sell for?</h3>
+      <form class="jte-form" action="/neighbour-prices/" method="get" novalidate aria-labelledby="est-sell-lookup-h">
+        <label class="jte-label" for="estSellPostal">Your postal code</label>
+        <div class="jte-row">
+          <input class="jte-input" id="estSellPostal" name="postal" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="postal-code" placeholder="e.g. 560123" required>
+          <button type="submit" class="jte-go">Show sold prices</button>
+        </div>
+        <p class="jte-error" role="alert" hidden></p>
+        <p class="jte-status" role="status" aria-live="polite"></p>
+      </form>
+      <section class="jte-result" hidden aria-label="Sold prices for your block"></section>
+    </div>
+    <div class="est-sell-actions">
+      <a class="est-sell-wa" href="https://wa.me/6581881488?text=${wa}" target="_blank" rel="noopener" data-cta="whatsapp-estate-seller" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'estate-seller-block',town:'${t}'});">WhatsApp Joe about your ${t} flat</a>
+      <a class="est-sell-alt" href="#estateLeadForm">Or leave your number for a valuation</a>
+    </div>
+  </section>`;
+}
