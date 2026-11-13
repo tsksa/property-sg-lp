@@ -55,29 +55,28 @@ test('advisor portrait offers a mobile density step with the original JPEG fallb
   assert.match(picture, /loading="lazy" decoding="async" width="800" height="1000"/);
 });
 
-test('the newest review leads the band and matches its structured data', () => {
+test('the newest review leads the band and links to its source', () => {
   const html = read('index.html');
-  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
-  const business = schemas.find(schema => Array.isArray(schema.review));
 
-  // The first card in the band is the first review in the markup, quoted exactly.
-  const firstCard = html.match(/<div class="testi-card[^"]*" role="listitem" id="([^"]+)">([\s\S]*?)<\/blockquote>/);
+  // Review data used to be mirrored in JSON-LD; that markup was removed
+  // (AUDIT.md A2), so the cards themselves are checked.
+  const firstCard = html.match(/<div class="testi-card[^"]*" role="listitem" id="([^"]+)">([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/);
   assert.ok(firstCard, 'the leading review card needs an id so it can be linked and checked');
-  const quote = firstCard[2].match(/<blockquote>"([\s\S]*?)"$/)?.[1];
+  const quote = firstCard[2].match(/<blockquote>"([\s\S]*?)"<\/blockquote>/)?.[1];
+  assert.ok(quote && quote.length > 20, 'the leading review card must quote the review');
   assert.match(firstCard[2], /aria-label="5 out of 5 stars"/);
-  assert.equal(business.review[0].reviewBody, quote);
-  assert.equal(business.review[0].reviewRating.ratingValue, '5');
-  assert.equal(business.review[0].url, 'https://www.propertyguru.com.sg/agent/joe-tay-80979');
-  assert.equal(firstCard[1], `review-${business.review[0].author.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+  assert.match(firstCard[2], /href="https:\/\/www\.propertyguru\.com\.sg\/agent\/joe-tay-80979"/);
+  const author = firstCard[2].match(/class="testi-author">([^<]+)</)?.[1].trim();
+  assert.equal(firstCard[1], `review-${author.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
 
-  // Newest first, by the dates the reviews carry.
-  const dated = business.review.map(r => r.datePublished).filter(Boolean);
-  assert.deepEqual(dated, [...dated].sort().reverse(), 'reviews must run newest first');
+  // Newest first, by the dates the cards show.
+  const dated = [...html.matchAll(/class="testi-role">[^<]*?(\d{1,2} [A-Z][a-z]{2} \d{4})/g)].map(m => Date.parse(m[1]));
+  assert.ok(dated.length >= 2, 'expected dated review cards');
+  assert.deepEqual(dated, [...dated].sort((x, y) => y - x), 'reviews must run newest first');
 
   // The leading card is the featured one, and it is the only one.
   assert.equal((html.match(/testi-card testi-featured/g) || []).length, 1);
   assert.match(firstCard[2], /class="testi-flag">Latest review</);
-  assert.equal(Number(business.aggregateRating.reviewCount), business.review.length);
   assert.match(html, /Joe confirmed the display name Ms Lai/);
   assert.match(html, /\.testi-card\{transform:none!important\}/);
 });
