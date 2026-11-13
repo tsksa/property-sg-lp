@@ -24,7 +24,7 @@ test('the authority page identifies Joe and exposes independently verifiable cre
   assert.match(page, /"identifier": "R009618D"/);
   assert.match(page, /propertyportal\.era\.com\.sg\/agent\/detail\/R009618D/);
   assert.match(page, /propertyguru\.com\.sg\/agent\/joe-tay-80979/);
-  assert.match(page, /href="https:\/\/www\.cea\.gov\.sg\/aceas\/public-register\/ea"/);
+  assert.match(page, /href="https:\/\/eservices\.cea\.gov\.sg\/aceas\/public-register\/"/);
 });
 
 test('the authority page presents review-derived client stories without promising results', () => {
