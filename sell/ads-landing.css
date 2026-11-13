@@ -182,3 +182,7 @@ img{max-width:100%;height:auto}
 .lp-footer{color:#666}
 .lp-footer .creds{color:#666}
 .lp-footer a{text-decoration:underline}
+.lp-section-lede a,.lp-objection a,.lp-faq-item a{text-decoration:underline}
+/* Same button colour as sell-hdb/singapore: white on --emerald is 2.5:1. */
+.lp-form-card .lp-cta{background:#047857;color:#fff}
+.lp-form-card .lp-cta:hover{background:#065f46}
