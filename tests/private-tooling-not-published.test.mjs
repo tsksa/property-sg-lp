@@ -30,7 +30,7 @@ test('private tooling directories are not tracked, so they cannot be published',
 // top level must be classified, so a new page folder is not silently left out
 // of the deploy and a new internal file is not added to the allowlist unseen.
 const INTERNAL_ENTRIES = [
-  'AGENTS.md', 'ARCHITECTURE.md', 'CLAUDE.md', 'CONTRIBUTING.md', 'LICENSE', 'README.md', 'SECURITY.md',
+  'AGENTS.md', 'ARCHITECTURE.md', 'AUDIT.md', 'CHANGES.md', 'CLAUDE.md', 'CONTRIBUTING.md', 'LICENSE', 'README.md', 'SECURITY.md',
   'design-qa.md', 'linear-triage.csv', 'linear-triage.md', 'netlify.toml', 'package.json',
   'netlify', 'ops', 'scripts', 'tests', ...PRIVATE_DIRS,
 ];
