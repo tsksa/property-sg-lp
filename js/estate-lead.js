@@ -38,6 +38,19 @@
     }
   }
 
+  // The Seller's Checklist offer (assets/checklist-offer.js) goes at the foot
+  // of the seller block. The slot is created here, not in the page HTML: the
+  // town pages have a size budget and the offer needs script anyway.
+  var sellerBlock = document.querySelector('.est-sell');
+  if (sellerBlock) {
+    var checklistSlot = document.createElement('div');
+    checklistSlot.setAttribute('data-jt-checklist', '');
+    sellerBlock.appendChild(checklistSlot);
+    var checklistScript = document.createElement('script');
+    checklistScript.src = '/assets/checklist-offer.js';
+    document.head.appendChild(checklistScript);
+  }
+
   var form = document.getElementById('estateLeadForm');
   if (!form) return;
 
