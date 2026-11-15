@@ -5,7 +5,7 @@
   <link href="https://joetay.com/insights/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://joetay.com/insights/" rel="alternate" type="text/html" hreflang="en-SG"/>
   <id>https://joetay.com/insights/</id>
-  <updated>2026-11-09T00:00:00+08:00</updated>
+  <updated>2026-11-15T00:00:00+08:00</updated>
   <generator uri="https://joetay.com/">PropertySG Insights</generator>
   <author>
     <name>Joe Tay</name>
@@ -13,6 +13,30 @@
     <uri>https://joetay.com/about-joe/</uri>
   </author>
   <rights>© 2026 PropertySG / Joe Tay. All rights reserved.</rights>
+  <entry>
+    <title>Seller’s Stamp Duty Singapore: Rates &amp; Rules</title>
+    <link href="https://joetay.com/insights/seller-stamp-duty-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/seller-stamp-duty-singapore.html</id>
+    <published>2026-11-15T00:00:00+08:00</published><updated>2026-11-15T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">Seller’s Stamp Duty rates for homes bought before and after 4 July 2025, how the holding period is counted, when SSD is due and which sales are exempt.</summary>
+  </entry>
+  <entry>
+    <title>How to Sell a Condo in Singapore: Steps &amp; Costs</title>
+    <link href="https://joetay.com/insights/how-to-sell-condo-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/how-to-sell-condo-singapore.html</id>
+    <published>2026-11-15T00:00:00+08:00</published><updated>2026-11-15T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">How a private condo sale works in Singapore: pricing from URA caveats, the Option to Purchase, lawyers, Seller’s Stamp Duty, the CPF refund and completion.</summary>
+  </entry>
+  <entry>
+    <title>Renting Out an HDB Flat or Condo: The Rules</title>
+    <link href="https://joetay.com/insights/renting-out-hdb-condo-singapore.html" rel="alternate" type="text/html"/>
+    <id>https://joetay.com/insights/renting-out-hdb-condo-singapore.html</id>
+    <published>2026-11-15T00:00:00+08:00</published><updated>2026-11-15T00:00:00+08:00</updated>
+    <author><name>Joe Tay</name><uri>https://joetay.com/about-joe/</uri></author>
+    <summary type="text">Who may rent out an HDB flat or condo in Singapore, minimum rental periods, occupancy caps, the non-citizen quota, stamp duty on the lease and tax on rent.</summary>
+  </entry>
   <entry>
     <title>Singapore Rental Market 3Q 2026: Landlord Guide</title>
     <link href="https://joetay.com/insights/singapore-rental-market-3q-2026.html" rel="alternate" type="text/html"/>

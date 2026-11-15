@@ -16,6 +16,39 @@
   "favicon": "https://joetay.com/apple-touch-icon.png",
   "items": [
     {
+      "id": "https://joetay.com/insights/seller-stamp-duty-singapore.html",
+      "url": "https://joetay.com/insights/seller-stamp-duty-singapore.html",
+      "title": "Seller’s Stamp Duty Singapore: Rates & Rules",
+      "summary": "Seller’s Stamp Duty rates for homes bought before and after 4 July 2025, how the holding period is counted, when SSD is due and which sales are exempt.",
+      "content_text": "Seller’s Stamp Duty rates for homes bought before and after 4 July 2025, how the holding period is counted, when SSD is due and which sales are exempt.",
+      "date_published": "2026-11-15T00:00:00+08:00",
+      "date_modified": "2026-11-15T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Selling"]
+    },
+    {
+      "id": "https://joetay.com/insights/how-to-sell-condo-singapore.html",
+      "url": "https://joetay.com/insights/how-to-sell-condo-singapore.html",
+      "title": "How to Sell a Condo in Singapore: Steps & Costs",
+      "summary": "How a private condo sale works in Singapore: pricing from URA caveats, the Option to Purchase, lawyers, Seller’s Stamp Duty, the CPF refund and completion.",
+      "content_text": "How a private condo sale works in Singapore: pricing from URA caveats, the Option to Purchase, lawyers, Seller’s Stamp Duty, the CPF refund and completion.",
+      "date_published": "2026-11-15T00:00:00+08:00",
+      "date_modified": "2026-11-15T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Selling"]
+    },
+    {
+      "id": "https://joetay.com/insights/renting-out-hdb-condo-singapore.html",
+      "url": "https://joetay.com/insights/renting-out-hdb-condo-singapore.html",
+      "title": "Renting Out an HDB Flat or Condo: The Rules",
+      "summary": "Who may rent out an HDB flat or condo in Singapore, minimum rental periods, occupancy caps, the non-citizen quota, stamp duty on the lease and tax on rent.",
+      "content_text": "Who may rent out an HDB flat or condo in Singapore, minimum rental periods, occupancy caps, the non-citizen quota, stamp duty on the lease and tax on rent.",
+      "date_published": "2026-11-15T00:00:00+08:00",
+      "date_modified": "2026-11-15T00:00:00+08:00",
+      "authors": [{"name": "Joe Tay", "url": "https://joetay.com/about-joe/"}],
+      "tags": ["Renting out"]
+    },
+    {
       "id": "https://joetay.com/insights/singapore-rental-market-3q-2026.html",
       "url": "https://joetay.com/insights/singapore-rental-market-3q-2026.html",
       "title": "Singapore Rental Market 3Q 2026: Landlord Guide",

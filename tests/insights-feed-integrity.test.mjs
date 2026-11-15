@@ -76,7 +76,9 @@ test('Q3 2026 URA guide uses final figures with consistent cover, sources and up
   // A newer article can move the feed timestamp on; it must never fall behind this entry.
   const feedUpdated = xml.split('<entry>')[0].match(/<updated>([^<]+)<\/updated>/)[1];
   assert.ok(Date.parse(feedUpdated) >= Date.parse(item.date_modified), feedUpdated);
-  for (const file of ['index.html', 'insights/index.html']) {
+  // The homepage shows only the six newest guides (patch-homepage-insights.mjs),
+  // so an article leaves it as newer ones publish; the insights index keeps it.
+  for (const file of ['insights/index.html']) {
     assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(item.summary), file);
   }
   const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
@@ -101,7 +103,9 @@ test('upgrader guide preserves funding and tax caveats and discoverability', () 
   for (const host of ['www.hdb.gov.sg', 'www.iras.gov.sg', 'www.cpf.gov.sg']) {
     assert.ok(html.includes('https://' + host + '/'));
   }
-  for (const file of ['index.html', 'insights/index.html', 'insights/feed.xml', 'insights/feed.json', 'sitemap.xml']) {
+  // The homepage shows only the six newest guides (patch-homepage-insights.mjs),
+  // so an article leaves it as newer ones publish; the insights index keeps it.
+  for (const file of ['insights/index.html', 'insights/feed.xml', 'insights/feed.json', 'sitemap.xml']) {
     assert.ok(fs.readFileSync(path.join(ROOT, file), 'utf8').includes(slug), file);
   }
   const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));

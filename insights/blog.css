@@ -67,7 +67,7 @@ html.jt-theme-dark .blog-guide a{color:#6ee7c1}
 /* ── Article page ── */
 .article-header{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid #eee}
 .article-breadcrumb{font-size:0.78rem;color:#767676;margin-bottom:24px}
-.article-breadcrumb a{color:#666;text-decoration:none}
+.article-breadcrumb a{color:#666;text-decoration:underline;text-underline-offset:2px}
 .article-breadcrumb a:hover{color:var(--emerald);text-decoration:none}
 .article-breadcrumb .sep{margin:0 8px;color:#ccc}
 .article-meta-top{display:flex;gap:10px;font-size:0.74rem;font-weight:600;color:#666;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;align-items:center}

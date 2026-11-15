@@ -2,6 +2,30 @@
   "_comment": "Opening image and share preview for each insights article (JOE-398). scripts/build-article-covers.mjs renders these to img/insights/; scripts/apply-article-cover.mjs puts them on the pages. Every figure value, and every chart label and value, must appear word for word in its article: the build refuses otherwise, so a cover can never say something the article does not.",
   "covers": [
     {
+      "slug": "seller-stamp-duty-singapore",
+      "title": "Seller’s Stamp Duty",
+      "figures": [
+        {"value": "16%", "label": "sold in the first year · bought from 4 Jul 2025"},
+        {"value": "4%", "label": "sold in the fourth year · bought from 4 Jul 2025"}
+      ]
+    },
+    {
+      "slug": "how-to-sell-condo-singapore",
+      "title": "How to sell a condo",
+      "figures": [
+        {"value": "5%", "label": "usual deposit once the option is exercised"},
+        {"value": "8 to 12 weeks", "label": "usual time from exercise to completion"}
+      ]
+    },
+    {
+      "slug": "renting-out-hdb-condo-singapore",
+      "title": "Renting out your home",
+      "figures": [
+        {"value": "6 months", "label": "minimum rental period for an HDB flat"},
+        {"value": "0.4%", "label": "lease duty on total rent, leases up to 4 years"}
+      ]
+    },
+    {
       "slug": "q3-2026-ura-private-home-prices",
       "title": "Q3 2026: private home prices",
       "figures": [

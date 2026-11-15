@@ -298,7 +298,9 @@ const EDITORIAL_GUIDES = [
   ['how-long-to-sell-hdb-singapore-2026', 'How long it takes to sell an HDB flat'],
   ['how-to-sell-hdb-flat-singapore', 'How to sell an HDB flat: steps, fees and proceeds'],
   ['property-agent-commission-singapore', 'Property agent commission in Singapore'],
-  ['selling-hdb-after-mop-singapore', 'Selling an HDB flat after MOP'],
+  ['selling-hdb-after-mop-singapore', 'Selling an HDB flat after MOP'],  ['seller-stamp-duty-singapore', 'Seller’s Stamp Duty in Singapore'],
+  ['how-to-sell-condo-singapore', 'How to sell a condo in Singapore'],
+  ['renting-out-hdb-condo-singapore', 'Renting out an HDB flat or condo'],
 ];
 
 const esc = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');

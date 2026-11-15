@@ -86,6 +86,9 @@
 - [Q3 2026 URA Prices: Buyer and Seller Guide](https://joetay.com/insights/q3-2026-ura-private-home-prices.html)
 - [Sell HDB First or Buy Condo First? SG Guide](https://joetay.com/insights/sell-hdb-first-or-buy-condo-first.html)
 - [Singapore Property Insights & Guides](https://joetay.com/insights/)
+- [Seller’s Stamp Duty Singapore: Rates & Rules](https://joetay.com/insights/seller-stamp-duty-singapore.html)
+- [How to Sell a Condo in Singapore: Steps & Costs](https://joetay.com/insights/how-to-sell-condo-singapore.html)
+- [Renting Out an HDB Flat or Condo: The Rules](https://joetay.com/insights/renting-out-hdb-condo-singapore.html)
 - [How Long to Sell an HDB Flat in Singapore?](https://joetay.com/insights/how-long-to-sell-hdb-singapore-2026.html)
 - [How to Sell an HDB Flat: Steps, Fees & Proceeds](https://joetay.com/insights/how-to-sell-hdb-flat-singapore.html)
 - [HDB Valuation: $120 Fee, Process & Who Pays](https://joetay.com/insights/hdb-valuation-explained.html)
@@ -116,6 +119,7 @@
 - [What Did Your Neighbour's Flat Sell For?](https://joetay.com/neighbour-prices/)
 - [Home Loan Calculator Singapore: HDB & Bank](https://joetay.com/calculator/)
 - [Stamp Duty Calculator Singapore 2026: BSD, ABSD](https://joetay.com/stamp-duty-calculator/)
+- [Seller’s Guide: Selling a Home in Singapore](https://joetay.com/sell/guide/)
 - [Selling & Renting Out Property: FAQ](https://joetay.com/faq/)
 - [Singapore Property Glossary: HDB, CPF, OTP, MOP](https://joetay.com/glossary/)
 
