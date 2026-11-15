@@ -28,7 +28,7 @@ export const SITE_ENTRIES = [
   '404.html', 'index.html', 'privacy-policy.html', 'valuation.html',
   '_redirects', 'humans.txt', 'llms.txt', 'robots.txt', 'sitemap.xml', 'site.webmanifest', 'sw.js',
   '.well-known', 'about-joe', 'assets', 'bto-calculator', 'calculator', 'condo-prices',
-  'downloads', 'glossary', 'hdb-prices', 'img', 'insights', 'js', 'neighbour-prices',
+  'downloads', 'faq', 'glossary', 'hdb-prices', 'img', 'insights', 'js', 'neighbour-prices',
   'new-launches', 'renovation-loan-calculator', 'rent-out', 'sell', 'sell-hdb',
   'stamp-duty-calculator', 'zh',
 ];

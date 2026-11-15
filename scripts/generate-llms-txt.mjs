@@ -23,7 +23,7 @@ const SECTIONS = [
   ['HDB resale prices by town', (p) => p.startsWith('hdb-prices/')],
   ['New launch projects', (p) => p.startsWith('new-launches/')],
   ['Guides and insights', (p) => p.startsWith('insights/')],
-  ['Tools', (p) => ['valuation.html', 'calculator/', 'stamp-duty-calculator/', 'neighbour-prices/', 'glossary/'].includes(p)],
+  ['Tools', (p) => ['valuation.html', 'calculator/', 'stamp-duty-calculator/', 'neighbour-prices/', 'glossary/', 'faq/'].includes(p)],
   ['Services', (p) => ['sell/', 'sell-hdb/singapore/', 'rent-out/', 'about-joe/'].includes(p)],
   ['中文页面 (Simplified Chinese)', (p) => p.startsWith('zh/')],
 ];

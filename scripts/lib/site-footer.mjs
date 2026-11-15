@@ -36,6 +36,7 @@ const LINK_GROUPS = [
     ['/insights/', 'Guides & insights'],
     ['/insights/#hdb-financing', 'HDB financing guides'],
     ['/glossary/', 'Property glossary'],
+    ['/faq/', 'Selling and renting FAQ'],
   ]],
   ['Popular now', [
     ['/new-launches/hougang-central-residences.html', 'Hougang Central Residences updates'],
