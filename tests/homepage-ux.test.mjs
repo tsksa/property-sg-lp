@@ -213,3 +213,20 @@ test('the Calendly calendar loads only after the visitor asks for it', () => {
   assert.match(homepage, /getElementById\('calendlyShow'\)\?\.addEventListener\('click'[\s\S]{0,400}loadCalendlyScript\(\)/);
   assert.doesNotMatch(homepage, /<script[^>]+src="https:\/\/assets\.calendly\.com/, 'Calendly script must not be in the page source');
 });
+
+test('the final consultation form asks for the same three fields as the hero form', () => {
+  const homepage = read('index.html');
+  const fields = (id) => {
+    const form = homepage.match(new RegExp(`<form[^>]*id="${id}"[\\s\\S]*?</form>`))[0];
+    return [...form.matchAll(/<(?:input|select)\b[^>]*\bname="([^"]+)"/g)]
+      .map((m) => m[1])
+      .filter((name) => !['company_website', 'newsletter_opt_in'].includes(name));
+  };
+  assert.deepEqual(fields('heroForm'), ['name', 'phone', 'propType']);
+  assert.deepEqual(fields('finalForm'), fields('heroForm'));
+  // Overseas owners can still enquire: the phone field takes a +country code.
+  const phone = homepage.match(/<input id="final-phone"[^>]*>/)[0];
+  const pattern = new RegExp(`^(?:${phone.match(/pattern="([^"]+)"/)[1]})$`, 'v');
+  for (const ok of ['91234567', '+65 9123 4567', '9123-4567', '+60 12 345 6789', '+44 7700 900123']) assert.ok(pattern.test(ok), `${ok} should pass`);
+  for (const bad of ['1234567', '51234567', '+65 1234 5678', 'abc']) assert.ok(!pattern.test(bad), `${bad} should fail`);
+});

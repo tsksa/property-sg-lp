@@ -736,11 +736,10 @@ function checkSuspiciousEmail(email) {
 //   2) International: any other +<country code> followed by 6-15 digits.
 //      Examples: +60 12 345 6789 (MY), +86 138 0013 8000 (CN), +1 415 555 0100 (US)
 //
-// The homepage final-CTA form has a 15-country code selector
-// and concatenates `country_code + ' ' + phone` into mobile_number. Without the
-// international branch below the server rejected every non-SG lead with
-// "Please enter a valid Singapore phone number" — defeating the client-side
-// fix shipped in PR #158.
+// The homepage final-CTA form and the valuation popup accept an overseas
+// number typed with its +country code. Without the international branch below
+// the server rejected every non-SG lead with "Please enter a valid Singapore
+// phone number".
 function isValidSingaporePhone(phone) {
   if (!phone) return false;
   const trimmed = String(phone).trim();

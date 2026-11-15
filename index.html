@@ -453,7 +453,6 @@ body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 
 .consult-form{display:flex;flex-direction:column;gap:14px;text-align:left}
 .consult-form .honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.consult-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .consult-field{display:flex;flex-direction:column}
 .consult-form input,.consult-form select{width:100%;padding:18px 20px;border:1.5px solid #d7dae0;border-radius:8px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s}
 .consult-form input::placeholder{color:#9aa0a6}
@@ -462,9 +461,6 @@ body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 .consult-form select option{color:var(--navy)}
 .consult-form input:focus,.consult-form select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.10)}
 
-.consult-phone{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:stretch}
-.consult-cc{appearance:none;-webkit-appearance:none;border:1.5px solid #d7dae0;border-radius:8px;padding:0 32px 0 14px;font-size:0.95rem;font-family:inherit;color:var(--navy);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23333' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;cursor:pointer;height:100%}
-.consult-cc:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,30,63,0.10)}
 
 .consult-form button{width:100%;background:var(--navy);color:#fff;padding:20px;border:none;border-radius:8px;font-size:1.02rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:10px;font-family:inherit;letter-spacing:0.1px}
 .consult-form button:hover{background:var(--emerald);transform:translateY(-1px);box-shadow:0 10px 28px rgba(16,185,129,0.32)}
@@ -472,8 +468,6 @@ body.dark-mode .testi-note{color:rgba(232,236,243,0.6)}
 .consult-note a{color:#666;text-decoration:underline}
 
 @media(max-width:560px){
-  .consult-row{grid-template-columns:1fr}
-  .consult-phone{grid-template-columns:112px 1fr}
   .consult-form input,.consult-form select{padding:16px 18px}
   .consult-form button{padding:18px}
 }
@@ -511,13 +505,11 @@ body.dark-mode .faq-answer p{color:rgba(232,236,243,0.7)}
 body.dark-mode .final-cta{background:var(--navy);border-color:rgba(255,255,255,0.05)}
 body.dark-mode .final-cta-centered h2{color:#fff}
 body.dark-mode .final-cta-sub{color:rgba(232,236,243,0.72)}
-body.dark-mode .consult-form input,body.dark-mode .consult-form select,body.dark-mode .consult-cc{background-color:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
+body.dark-mode .consult-form input,body.dark-mode .consult-form select{background-color:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.14);color:#fff}
 body.dark-mode .consult-form input::placeholder{color:rgba(232,236,243,0.45)}
 body.dark-mode .consult-form select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 20px center;color:rgba(232,236,243,0.5)}
 body.dark-mode .consult-form select:valid{color:#fff}
 body.dark-mode .consult-form input:focus,body.dark-mode .consult-form select:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,0.14)}
-body.dark-mode .consult-cc{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-body.dark-mode .consult-cc option{background:var(--navy);color:#fff}
 body.dark-mode .consult-form button{background:var(--emerald)}
 body.dark-mode .consult-form button:hover{background:#0ea371}
 body.dark-mode .consult-note{color:rgba(232,236,243,0.55)}
@@ -1628,47 +1620,24 @@ html.jt-theme-dark .jt-pl .jt-pl-districts a{color:inherit}
     <form id="finalForm" class="consult-form reveal reveal-delay-1" aria-labelledby="finalFormTitle">
       <h3 id="finalFormTitle" class="sr-only">Get a free consultation</h3>
       <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="honeypot" aria-hidden="true">
-      <div class="consult-row">
-        <div class="consult-field">
-          <label for="final-first" class="sr-only">First name</label>
-          <input id="final-first" type="text" name="first_name" placeholder="First name*" autocomplete="given-name" required>
-        </div>
-        <div class="consult-field">
-          <label for="final-last" class="sr-only">Last name</label>
-          <input id="final-last" type="text" name="last_name" placeholder="Last name*" autocomplete="family-name" required>
-        </div>
+      <div class="consult-field">
+        <label for="final-name" class="sr-only">Your name</label>
+        <input id="final-name" type="text" name="name" placeholder="Your name*" autocomplete="name" required autocapitalize="words">
       </div>
-      <div class="consult-phone">
-        <label for="final-cc" class="sr-only">Country code</label>
-        <select id="final-cc" class="consult-cc" name="country_code" aria-label="Country code">
-          <option value="+65" selected>🇸🇬 +65</option>
-          <option value="+60">🇲🇾 +60</option>
-          <option value="+86">🇨🇳 +86</option>
-          <option value="+852">🇭🇰 +852</option>
-          <option value="+62">🇮🇩 +62</option>
-          <option value="+91">🇮🇳 +91</option>
-          <option value="+66">🇹🇭 +66</option>
-          <option value="+63">🇵🇭 +63</option>
-          <option value="+84">🇻🇳 +84</option>
-          <option value="+61">🇦🇺 +61</option>
-          <option value="+44">🇬🇧 +44</option>
-          <option value="+1">🇺🇸 +1</option>
-          <option value="+81">🇯🇵 +81</option>
-          <option value="+82">🇰🇷 +82</option>
-          <option value="+886">🇹🇼 +886</option>
-          <option value="+971">🇦🇪 +971</option>
-        </select>
+      <div class="consult-field">
         <label for="final-phone" class="sr-only">Phone number</label>
-        <input id="final-phone" type="tel" name="phone" placeholder="e.g. 9123 4567" autocomplete="tel" required pattern="^(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}$" title="Singapore mobile (8 digits, starts with 6, 8, or 9)" autocapitalize="off">
+        <input id="final-phone" type="tel" name="phone" placeholder="Phone, e.g. 9123 4567*" autocomplete="tel" required pattern="(\+65[\s\-]?)?[689]\d{3}[\s\-]?\d{4}|\+(?!65)[\d\s\-]{8,18}" title="Singapore mobile (8 digits, starts with 6, 8 or 9), or an overseas number with its +country code" autocapitalize="off">
       </div>
-      <label for="final-intent" class="sr-only">What are you looking to do</label>
-      <select id="final-intent" name="intent" required>
-        <option value="" disabled selected>Please select*</option>
-        <option>I'm looking to sell</option>
-        <option>I'm looking to buy</option>
-        <option>I'm looking to rent</option>
-        <option>I'm looking to rent out</option>
-      </select>
+      <div class="consult-field">
+        <label for="final-proptype" class="sr-only">Property type</label>
+        <select id="final-proptype" name="propType" required>
+          <option value="" disabled selected>Property type*</option>
+          <option>HDB</option>
+          <option>Condo</option>
+          <option>Landed</option>
+          <option>Commercial</option>
+        </select>
+      </div>
       <label class="newsletter-optin"><input type="checkbox" name="newsletter_opt_in" value="1"><span>Also send me the free monthly Singapore property market update.</span></label>
       <button type="submit">Get a Free Consultation</button>
       <noscript>
@@ -2276,42 +2245,16 @@ document.getElementById('footerNewsletter').addEventListener('submit',e=>{
   "The next Singapore property market update lands in your inbox soon.");
 });
 
-// ── Final CTA: swap phone pattern when country code changes ──
-// Singapore default rejects any non-SG number; loosen pattern when user picks another country.
-(function(){
-  const cc=document.getElementById('final-cc');
-  const phone=document.getElementById('final-phone');
-  if(!cc||!phone) return;
-  const sgPattern=phone.getAttribute('pattern');
-  const sgTitle=phone.getAttribute('title');
-  const intlPattern='^[\\d\\s\\-]{5,15}$';
-  const intlTitle='Phone number (digits, spaces, or dashes; 5–15 chars)';
-  function syncPattern(){
-    if(cc.value==='+65'){
-      phone.setAttribute('pattern',sgPattern);
-      phone.setAttribute('title',sgTitle);
-    }else{
-      phone.setAttribute('pattern',intlPattern);
-      phone.setAttribute('title',intlTitle);
-    }
-  }
-  cc.addEventListener('change',syncPattern);
-  syncPattern();
-})();
-
 // ── Final CTA consultation form ──
 document.getElementById('finalForm').addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
-  const first=f.first_name.value.trim();
-  const last=f.last_name.value.trim();
+  // Same three fields as the hero form (name, phone, property type).
   handleFormSubmit(f,{
     lead_type:'final_cta_consultation',
-    full_name:(first+' '+last).trim(),
-    first_name:first,
-    last_name:last,
-    mobile_number:f.country_code.value+' '+f.phone.value.trim(),
-    intent:f.intent.value,
+    full_name:f.name.value.trim(),
+    mobile_number:f.phone.value.trim(),
+    property_type:f.propType.value,
     newsletter_opt_in:f.newsletter_opt_in?.checked?1:0
   },
   "Thanks — your consultation request is in.",
