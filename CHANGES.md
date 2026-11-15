@@ -125,7 +125,6 @@ Not done: checks on a real phone, a screen-reader pass, and dark mode beyond the
 - **October data refresh:** the town pages will move to October figures through the monthly workflow. The largest page (Pasir Ris) is 66,237 bytes against a 66,560-byte test limit, so that refresh may need the limit or the block adjusted.
 - **Condo district pages:** no seller block yet (audit G7).
 - **`origin` remote:** it uses HTTPS with no stored login, so pushes from this machine were made over SSH to the same repository. Switching the remote to SSH would remove the workaround.
-- **`AUDIT.md` and this file** are not committed.
 
 ### Remaining audit items, in suggested order
 
