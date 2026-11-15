@@ -387,8 +387,11 @@ test('the detail sections stay within their byte budget on every town page', () 
       .reduce((sum, m) => sum + Buffer.byteLength(m[0]), 0);
     assert.ok(added > 0, `${town}: no detail sections`);
     assert.ok(added <= DETAIL_BUDGET, `${town}: detail sections are ${added} bytes, budget ${DETAIL_BUDGET}`);
-    // About 25KB over the pre-JOE-469 pages (36–39KB) at most.
-    assert.ok(Buffer.byteLength(html) <= 65 * 1024, `${town}: page is ${Buffer.byteLength(html)} bytes`);
+    // About 25KB over the pre-JOE-469 pages (36–39KB) at most, plus 2KB for the
+    // seller block and FAQ footer link added in November 2026, which sit
+    // outside the detail sections. The block list fills its budget, so the
+    // busiest towns (Punggol, Kallang/Whampoa) land near 66.8KB.
+    assert.ok(Buffer.byteLength(html) <= 67 * 1024, `${town}: page is ${Buffer.byteLength(html)} bytes`);
   }
 });
 
