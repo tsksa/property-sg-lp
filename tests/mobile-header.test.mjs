@@ -62,3 +62,29 @@ test('the internal header carries the Joe Tay and PropertySG authority lockup', 
   assert.match(js, /jt-mh-logo-name\">Joe Tay/);
   assert.match(js, /jt-mh-logo-brand\">PropertySG/);
 });
+
+test('phones get a bottom WhatsApp and Call bar on guides, price pages and tools', () => {
+  for (const prefix of ['/hdb-prices/', '/condo-prices/', '/insights/', '/calculator/', '/about-joe/']) {
+    assert.ok(js.includes(`'${prefix}'`), `contact bar does not cover ${prefix}`);
+  }
+  // Pages with their own bottom bar are left alone.
+  assert.match(js, /document\.querySelector\('\.mobile-bar,\.nl-mobile-cta,\.lp-wa-float'\)\) return/);
+  // The call number is the one the shared footer already shows; the WhatsApp
+  // link is the header's, so the two can never disagree.
+  const footer = read('scripts/lib/site-footer.mjs');
+  const tel = js.match(/CONTACT_BAR_TEL = '(tel:\+\d+)'/)?.[1];
+  assert.ok(tel && footer.includes(`href="${tel}"`), 'contact bar number differs from the footer number');
+  assert.match(js, /whatsapp\.href = headerCta\.href/);
+  // Shown after the first scroll, hidden while typing and while the menu is open.
+  assert.match(js, /window\.scrollY < 80/);
+  assert.match(js, /fieldFocused = Boolean\(event\.target\.matches && event\.target\.matches\(TEXT_FIELD\)\)/);
+  assert.match(css, /body\.jt-mobile-nav-open \.jt-bb:not\(\[hidden\]\)\{display:none\}/);
+});
+
+test('the bottom bar is phone-only, tappable, and lifts the consent banner clear', () => {
+  assert.match(css, /\.jt-bb\{display:none\}/);
+  assert.match(css, /@media\(max-width:768px\)\{\s*\.jt-bb:not\(\[hidden\]\)\{display:flex;position:fixed/);
+  assert.match(css, /\.jt-bb a\{[^}]*min-height:48px/);
+  assert.match(css, /body\.jt-bb-on \.jt-cb,body\.jt-bb-on \.back-to-top\{bottom:calc\(76px \+ env\(safe-area-inset-bottom\)\)\}/);
+  assert.match(css, /body\.jt-bb-on\{padding-bottom:calc\(64px \+ env\(safe-area-inset-bottom\)\)\}/);
+});

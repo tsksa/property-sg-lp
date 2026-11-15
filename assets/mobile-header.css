@@ -28,6 +28,23 @@
   .jt-mh-panel a:focus-visible{outline:2px solid #10b981;outline-offset:-2px;border-radius:8px}
 }
 
+/* Bottom WhatsApp / Call bar on phones, built by mobile-header.js (audit U2).
+   Contrast: #04231a on #10b981 = 7.9:1; #fff on #0b1e3f = 16.5:1;
+   dark call button #0b1e3f on #fff = 16.5:1. */
+.jt-bb{display:none}
+@media(max-width:768px){
+  .jt-bb:not([hidden]){display:flex;position:fixed;left:0;right:0;bottom:0;z-index:150;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(250,246,236,.97);border-top:1px solid rgba(11,30,63,.12);box-shadow:0 -4px 20px rgba(11,30,63,.1)}
+  .jt-bb a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:12px;font-family:'DM Sans',Arial,sans-serif;font-size:.92rem;font-weight:700;line-height:1;text-decoration:none}
+  .jt-bb a.jt-bb-wa{background:#10b981;color:#04231a}
+  .jt-bb a.jt-bb-call{background:#0b1e3f;color:#fff}
+  .jt-bb a:focus-visible{outline:2px solid #047857;outline-offset:2px}
+  html.jt-theme-dark .jt-bb:not([hidden]){background:rgba(6,20,48,.97);border-top-color:rgba(255,255,255,.1);box-shadow:0 -4px 20px rgba(0,0,0,.3)}
+  html.jt-theme-dark .jt-bb a.jt-bb-call{background:#fff;color:#0b1e3f}
+  body.jt-bb-on{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  body.jt-bb-on .jt-cb,body.jt-bb-on .back-to-top{bottom:calc(76px + env(safe-area-inset-bottom))}
+  body.jt-mobile-nav-open .jt-bb:not([hidden]){display:none}
+}
+
 @media(max-width:380px){
   .jt-mh-logo-brand{display:none}
   .jt-mh-context-cta{padding-inline:10px!important;font-size:.74rem!important}
