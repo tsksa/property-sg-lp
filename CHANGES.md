@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below.
 
 ## Summary
 
@@ -110,6 +110,39 @@ One item was narrowed: the About portrait was left alone, because phones with sh
 
 Not done: checks on a real phone, a screen-reader pass, and dark mode beyond the automated contrast tests.
 
+## 15 November batch
+
+Five further audit items, live at `21dcc13`.
+
+### Bottom WhatsApp and Call bar on phones (U2, `466d397`)
+
+Guides, price pages, calculators, the glossary, the FAQ and the About page had no contact route once the header scrolled away. `assets/mobile-header.js` now adds a two-button bar at widths up to 768px, shown after the first 80px of scroll and hidden while a text field has focus or the menu is open. The WhatsApp link is copied from the page's header button and the Call button dials +65 8188 1488, the number already on the site. Pages that have their own bottom bar are skipped.
+
+### Homepage final form (U5, `6b23fc6`, `3fd73b2`)
+
+The final form asked for more than the hero form. It now takes the same three fields: name, mobile number and property type. The country-code selector is gone; the number field accepts a Singapore mobile or a full international number. The second commit lifts the cookie banner clear of the homepage's bottom contact bar on phones.
+
+### Seller's Checklist offer (C1, `fdef5ca`, `5e760f8`)
+
+The checklist was offered only in the homepage exit popup, which phones rarely trigger. `assets/checklist-offer.js` now shows it on six seller guides and, through `js/estate-lead.js`, in the seller block of all 26 town pages. A visitor can enter an email to open the checklist, or ask for it on WhatsApp without giving one. The email route sends the same `newsletter_signup` payload as the popup, tagged `source_widget: inline_checklist`. The consent wording is the popup's own, unchanged.
+
+### FAQ hub (A3, G6, `063f464`)
+
+`/faq/` gathers 46 questions under 10 topics. `scripts/generate-faq-hub.mjs` reads them from the answers already published on the guides, so no answer was written fresh and the hub cannot drift from its sources. The hub carries no FAQ markup of its own, to avoid duplicating the guides'. It is linked from every footer.
+
+### Seller guide hub and three guides (G3, G4, A4, `21dcc13`)
+
+`/sell/guide/` is a hub for the seller guides. Three guides are new: Seller's Stamp Duty, selling a condo, and renting out an HDB flat or condo. All four pages come from `scripts/generate-seller-cluster.mjs`. Rates and rules were read from IRAS, URA, HDB, CPF and CEA pages on 15 November 2026 and each guide links its sources. In the condo guide, the 1% option fee, 14-day option period, 4% exercise fee and 8–12 week completion are labelled as market conventions, not rules. Joe has not yet reviewed the three guides.
+
+### How this batch was checked
+
+- `npm run check` passed before the push, and GitHub's Validate and Lighthouse workflows passed on `21dcc13`.
+- The bar, the form and the checklist box were viewed at phone and desktop widths in a local browser. A local Lighthouse run scored the new pages 100 for accessibility after two fixes (breadcrumb link styling and an empty table header).
+- After the push, the new pages, scripts, footer link and sitemap entries were confirmed on the live site by read-only requests.
+- No lead form was submitted. The live form endpoint was not exercised for the checklist payload, so a real signup is untested.
+
+Not done: a real phone, and confirming that a checklist signup reaches Joe's sheet and triggers his follow-up email.
+
 ## Left for next time
 
 ### Needs Joe
@@ -118,6 +151,8 @@ Not done: checks on a real phone, a screen-reader pass, and dark mode beyond the
 - **Item 9:** create and verify a Google Business Profile. It then gets linked from the footer and structured data.
 - **Towns:** name the four to six towns Joe transacts in most. Town seller pages and a track-record page depend on it.
 - **ERA compliance:** confirm "PropertySG" is acceptable as a personal brand, and that +65 8188 1488 is the number registered with CEA.
+- **Checklist signup:** enter an email in a checklist box on a guide and confirm it reaches the sheet tagged `inline_checklist`, and whether the follow-up email goes out.
+- **New guides:** read the Seller's Stamp Duty, condo and renting-out guides, which are published under Joe's name.
 - **Chinese seller page:** `zh/sell-hdb/` carries the same claims as the English lander and was not reworded.
 
 ### Open technical items
@@ -128,10 +163,5 @@ Not done: checks on a real phone, a screen-reader pass, and dark mode beyond the
 
 ### Remaining audit items, in suggested order
 
-1. Seller's Checklist offered on the seller guides and town pages (C1).
-2. Bottom WhatsApp and Call bar on phones for guides and price pages (U2).
-3. Homepage forms: make the final form match the three-field hero form (U5).
-4. FAQ hub (A3, G6).
-5. Seller guide hub, plus guides on Seller Stamp Duty, selling a condo and renting out (G3, G4, A4).
-6. Town seller pages and a track-record page, once Joe supplies the towns and records (G1, G2).
-7. Buyer and tenant pages (G5).
+1. Town seller pages and a track-record page, once Joe supplies the towns and records (G1, G2).
+2. Buyer and tenant pages (G5).
