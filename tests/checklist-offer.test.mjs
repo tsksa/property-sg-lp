@@ -24,6 +24,8 @@ test('every seller guide carries one checklist slot above its closing call to ac
     const html = read(`insights/${guide}.html`);
     assert.equal(html.split('<div data-jt-checklist></div>').length - 1, 1, `${guide}: expected one slot`);
     assert.ok(html.includes('<script src="/assets/checklist-offer.js" defer></script>'), `${guide}: script not loaded`);
+    // The form posts to submit-lead, so the page needs the honeypot and reCAPTCHA helper.
+    assert.ok(html.includes('<script src="/js/recaptcha-helper.js" defer></script>'), `${guide}: reCAPTCHA helper not loaded`);
     assert.ok(html.indexOf('data-jt-checklist') < html.indexOf('<div class="article-cta">'), `${guide}: slot should precede the closing CTA`);
   }
 });
