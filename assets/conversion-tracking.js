@@ -146,6 +146,29 @@
     }
   };
 
+  // AUDIT.md C6: a fixed label for the kind of page an event came from, so
+  // clicks and leads can be compared by template (town page, guide, lander)
+  // without grouping hundreds of paths by hand. Paths are matched in order.
+  var pageTypes = [
+    [/^\/zh\//, 'chinese'],
+    [/^\/hdb-prices\//, 'hdb_prices'],
+    [/^\/condo-prices\//, 'condo_prices'],
+    [/^\/new-launches\//, 'new_launches'],
+    [/^\/insights\//, 'guide'],
+    [/^\/sell\/guide\//, 'seller_guide_hub'],
+    [/^\/(sell-hdb|sell|rent-out)\//, 'lander'],
+    [/^\/(buy|rent)\//, 'service_page'],
+    [/^\/valuation(\.html)?$/, 'valuation'],
+    [/^\/(calculator|bto-calculator|renovation-loan-calculator|stamp-duty-calculator|neighbour-prices)\//, 'tool'],
+    [/^\/(faq|glossary)\//, 'reference'],
+    [/^\/about-joe\//, 'about'],
+    [/^\/(index\.html)?$/, 'home']
+  ];
+  function pageType(path){
+    for(var i = 0; i < pageTypes.length; i++) if(pageTypes[i][0].test(path)) return pageTypes[i][1];
+    return 'other';
+  }
+
   window.jtTrackConversion = function(eventName, params){
     if(!analyticsAllowed()) {
       if(declined()) clearAttribution();
@@ -154,6 +177,7 @@
     var payload = clean(Object.assign({
       source_site: 'joetay.com',
       page_path: location.pathname,
+      page_type: pageType(location.pathname),
       page_location: location.href
     }, params || {}));
 

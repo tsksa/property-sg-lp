@@ -54,6 +54,24 @@ test('one successful homepage form produces exactly one GA4 and one Meta lead', 
   assert.equal(h.pixels.filter(e => e[1] === 'Lead').length, 1);
 });
 
+test('every event names the kind of page it came from (AUDIT.md C6)', () => {
+  for (const [pathname, type] of [
+    ['/', 'home'], ['/index.html', 'home'],
+    ['/hdb-prices/punggol/', 'hdb_prices'], ['/condo-prices/district-9/', 'condo_prices'],
+    ['/insights/how-to-sell-hdb-flat-singapore.html', 'guide'], ['/sell/guide/', 'seller_guide_hub'],
+    ['/sell-hdb/singapore/', 'lander'], ['/sell/', 'lander'], ['/rent-out/', 'lander'],
+    ['/buy/', 'service_page'], ['/rent/', 'service_page'], ['/valuation.html', 'valuation'],
+    ['/calculator/', 'tool'], ['/stamp-duty-calculator/', 'tool'], ['/neighbour-prices/', 'tool'],
+    ['/faq/', 'reference'], ['/about-joe/', 'about'], ['/zh/sell-hdb/', 'chinese'],
+    ['/new-launches/hougang-central-residences.html', 'new_launches'], ['/privacy-policy.html', 'other'],
+  ]) {
+    const h = harness({ pathname });
+    h.contact('https://wa.me/6581881488', { 'data-cta-location': 'test' });
+    assert.equal(h.events[0][2].page_type, type, pathname);
+    assert.equal(h.events[0][2].page_path, pathname);
+  }
+});
+
 test('contact intent stays separate from leads and only genuine Calendly-origin messages count', () => {
   const h = harness();
   h.contact('https://wa.me/6581881488');
