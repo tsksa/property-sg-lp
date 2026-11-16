@@ -326,20 +326,20 @@ export const HUB = {
   ],
 };
 
-const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+export const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
 const SKIP_LINK_CSS = '.skip-link{position:absolute;left:-9999px;top:0;z-index:10050;background:#0b1e3f;color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none}.skip-link:focus{left:0;outline:2px solid #10b981;outline-offset:2px}';
-const AUTHOR = { '@type': 'Person', '@id': 'https://joetay.com/about-joe/#joe-tay', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', identifier: 'CEA R009618D' };
-const PUBLISHER = { '@type': 'RealEstateAgent', '@id': 'https://joetay.com/#agent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' };
-const BYLINE = '<div class="article-byline"><picture><source type="image/webp" srcset="/joe-tay-propertysg-advisor-400.webp"><img src="/joe-tay-propertysg-advisor-400.jpg" alt="Joe Tay" width="40" height="40" loading="lazy" decoding="async"></picture><div>By <strong><a href="/about-joe/">Joe Tay</a></strong> · District Director, ERA Realty Network · CEA R009618D</div></div>';
-const FOOTER = `<footer class="blog-footer">
+export const AUTHOR = { '@type': 'Person', '@id': 'https://joetay.com/about-joe/#joe-tay', name: 'Joe Tay', url: 'https://joetay.com/about-joe/', identifier: 'CEA R009618D' };
+export const PUBLISHER = { '@type': 'RealEstateAgent', '@id': 'https://joetay.com/#agent', name: 'PropertySG', url: 'https://joetay.com/', alternateName: 'Joe Tay' };
+export const BYLINE = '<div class="article-byline"><picture><source type="image/webp" srcset="/joe-tay-propertysg-advisor-400.webp"><img src="/joe-tay-propertysg-advisor-400.jpg" alt="Joe Tay" width="40" height="40" loading="lazy" decoding="async"></picture><div>By <strong><a href="/about-joe/">Joe Tay</a></strong> · District Director, ERA Realty Network · CEA R009618D</div></div>';
+export const FOOTER = `<footer class="blog-footer">
 ${siteFooterHtml()}
 <div class="blog-footer-inner"><p>&copy; 2026 PropertySG · <a href="/">Home</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="mailto:joe@joetay.com">joe@joetay.com</a></p><p class="creds">Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D</p></div>
 </footer>`;
 const ldJson = (schemas) => schemas.map((schema) => `<script type="application/ld+json">\n${JSON.stringify(schema, null, 2)}\n</script>`).join('\n');
-const whatsapp = (text) => `https://wa.me/6581881488?text=${encodeURIComponent(text)}`;
+export const whatsapp = (text) => `https://wa.me/6581881488?text=${encodeURIComponent(text)}`;
 
-function headHtml({ title, description, url, ogType, ogTitle, extraMeta = '', schemas, stylesheet, extraCss = '' }) {
+export function headHtml({ title, description, url, ogType, ogTitle, extraMeta = '', schemas, stylesheet, extraCss = '' }) {
   return `<!DOCTYPE html>
 <html lang="en-SG">
 <head>

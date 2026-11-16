@@ -27,9 +27,9 @@ const MARKER = '.publish-dir';
 export const SITE_ENTRIES = [
   '404.html', 'index.html', 'privacy-policy.html', 'valuation.html',
   '_redirects', 'humans.txt', 'llms.txt', 'robots.txt', 'sitemap.xml', 'site.webmanifest', 'sw.js',
-  '.well-known', 'about-joe', 'assets', 'bto-calculator', 'calculator', 'condo-prices',
+  '.well-known', 'about-joe', 'assets', 'bto-calculator', 'buy', 'calculator', 'condo-prices',
   'downloads', 'faq', 'glossary', 'hdb-prices', 'img', 'insights', 'js', 'neighbour-prices',
-  'new-launches', 'renovation-loan-calculator', 'rent-out', 'sell', 'sell-hdb',
+  'new-launches', 'renovation-loan-calculator', 'rent', 'rent-out', 'sell', 'sell-hdb',
   'stamp-duty-calculator', 'zh',
 ];
 // Favicons, the social preview and Joe's portrait sit at the root.

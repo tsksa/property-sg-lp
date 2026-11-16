@@ -12,7 +12,7 @@
 // depending on any of their stylesheets, and cannot be broken by one of them.
 //
 // The Google Ads landers (sell/, rent-out/, sell-hdb/singapore/) are linked TO
-// from the 'Sell or rent with Joe' group but do not carry the footer themselves:
+// from the 'Buy, sell or rent with Joe' group but do not carry the footer themselves:
 // outbound links there leak paid traffic. The noindex utility pages are also
 // excluded. JOE-448: before that group, /sell/ had one inbound link while every
 // calculator had 80+, so Google read the site as loan tools, not a seller's agent.
@@ -46,10 +46,12 @@ const LINK_GROUPS = [
     ['/new-launches/thomson-reserve.html', 'Thomson Reserve updates'],
     ['/new-launches/keppel-bay-plot-6.html', 'Keppel Bay Plot 6 updates'],
   ]],
-  ['Sell or rent with Joe', [
+  ['Buy, sell or rent with Joe', [
     ['/sell-hdb/singapore/', 'HDB selling service'],
     ['/sell/', 'Sell a property'],
     ['/rent-out/', 'Rent out a property'],
+    ['/buy/', 'Buy a resale home'],
+    ['/rent/', 'Find a home to rent'],
   ]],
 ];
 
