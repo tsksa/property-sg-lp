@@ -234,6 +234,10 @@ html.jt-theme-dark .val-prev:hover{color:#fff}
 
 /* Error state */
 .val-error-msg{color:#dc2626;font-size:0.85rem;margin-top:8px;display:none}
+.val-wa-alt{font-size:0.88rem;color:#4b5563;margin-top:12px;line-height:1.5}
+.val-wa-alt a{color:#047857;font-weight:600;text-decoration:underline}
+html.jt-theme-dark .val-wa-alt{color:#c1cad8}
+html.jt-theme-dark .val-wa-alt a{color:#6ee7c1}
 .val-error-msg.show{display:block}
 
 /* Success */
@@ -417,6 +421,7 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
         </div>
         <div class="val-address-detected" id="addrDetected" style="display:none"></div>
         <p class="val-error-msg" data-error-for="postalCode">Please enter a valid 6-digit postal code.</p>
+        <p class="val-wa-alt">Prefer to message instead? <a id="valWaAlt" href="https://wa.me/6581881488?text=Hi%20Joe%2C%20I%27d%20like%20a%20free%20valuation.%20My%20postal%20code%20is%20" target="_blank" rel="noopener" data-cta-location="valuation_step1" data-lead-type="valuation">WhatsApp Joe your postal code</a>.</p>
         <div class="val-group" id="hdbTypeGroup" style="display:none">
           <span class="val-group-label" id="hdbTypeLabel">HDB flat type</span>
           <div class="val-chips" role="radiogroup" aria-labelledby="hdbTypeLabel">
@@ -863,7 +868,14 @@ const detectPostalAddress = debounce(async code=>{
     detectedAddress='';
   }
 }, 400);
+// AUDIT.md U7: the WhatsApp alternative carries the postal code once it is complete.
+const waAlt = document.getElementById('valWaAlt');
+const waAltBase = waAlt ? waAlt.getAttribute('href') : '';
 postalEl.addEventListener('input', ()=>{
+  if(waAlt){
+    const code = postalEl.value.trim();
+    waAlt.setAttribute('href', /^\d{6}$/.test(code) ? waAltBase + code : waAltBase);
+  }
   detectedAddress='';
   addrBox.style.display='none';
   detectPostalAddress(postalEl.value.trim());
