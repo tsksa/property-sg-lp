@@ -27,6 +27,7 @@ import { siteHeaderHtml, SITE_THEME_ASSETS_HTML } from './lib/site-header.mjs';
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { injectToc } from './lib/article-toc.mjs';
 import { injectCover, loadCover } from './lib/article-covers.mjs';
+import { guideEndCtaHtml } from './lib/guide-cta.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
@@ -415,9 +416,7 @@ export function articlePage(article) {
       })),
     },
   ];
-  const cta = article.category === 'Renting out'
-    ? ['Thinking about renting out your home?', 'Tell Joe about the property and when it is free. He will reply with the rent recent tenancies support and what approval you need.', '/rent-out/', 'See how Joe rents out homes →', 'Hi Joe, I am thinking of renting out my property.']
-    : ['Thinking about selling?', 'Start with an indicative valuation built from registered sales near your home, then plan the sale around your next one. Free, no obligation.', '/valuation.html', 'Get a free valuation →', 'Hi Joe, I am thinking of selling my property.'];
+  if (!guideEndCtaHtml(article.slug)) throw new Error(`${article.slug}: add its end-of-guide prompt to scripts/lib/guide-cta.mjs`);
   return `${headHtml({
     title: article.title, description: article.description, url, ogType: 'article', ogTitle: article.headline,
     extraMeta: `<meta property="article:author" content="Joe Tay">
@@ -441,14 +440,7 @@ ${relatedGuides(article.slug)}
 <h2>Frequently asked questions</h2>
 ${faqHtml}
 <div class="callout"><strong>Important</strong><p>${DISCLAIMER}</p></div>
-<div class="article-cta">
-  <h3>${cta[0]}</h3>
-  <p>${cta[1]}</p>
-  <div class="article-cta-actions">
-    <a href="${cta[2]}">${cta[3]}</a>
-    <a class="article-cta-secondary" href="${whatsapp(cta[4])}" target="_blank" rel="noopener">WhatsApp Joe</a>
-  </div>
-</div>
+${guideEndCtaHtml(article.slug)}
 </section></article></main>
 ${FOOTER}
 <script src="/assets/conversion-tracking.js" defer></script>

@@ -12,6 +12,7 @@ import { hdbPolicyArticle, policySources } from './content/hdb-policy-august-202
 import { fontLinksHtml } from './lib/self-hosted-fonts.mjs';
 import { injectToc } from './lib/article-toc.mjs';
 import { injectCover, loadCover } from './lib/article-covers.mjs';
+import { guideEndCtaHtml } from './lib/guide-cta.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'insights');
@@ -582,7 +583,7 @@ ${relatedGuides(article.slug)}
 <h2>Frequently asked questions</h2>
 ${faqHtml}
 <div class="callout"><strong>Important</strong><p>This guide is general education, not a loan offer or personal financial advice. HDB and financial institutions decide eligibility and loan amounts using the prevailing rules and your application details.</p></div>
-</section></article></main>
+${guideEndCtaHtml(article.slug) ? `${guideEndCtaHtml(article.slug)}\n` : ''}</section></article></main>
 <footer class="blog-footer">
 ${siteFooterHtml()}
 <div class="blog-footer-inner"><p>&copy; 2026 PropertySG · <a href="/">Home</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="mailto:joe@joetay.com">joe@joetay.com</a></p><p class="creds">Joe Tay, District Director · ERA Realty Network Pte Ltd · Agency Lic. No. L3002382K · CEA Reg. No. R009618D</p></div>
