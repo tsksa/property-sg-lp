@@ -63,19 +63,19 @@ test('article, discovery card and feeds agree without changing the original publ
   const article = schemas.find(schema => schema['@type'] === 'Article');
   const description = html.match(/<meta name="description" content="([^"]+)"/)[1];
   assert.equal(article.datePublished, '2026-04-21');
-  assert.equal(article.dateModified, '2026-08-26');
+  assert.equal(article.dateModified, '2026-11-16');
   assert.equal(article.description, description);
-  assert.ok(visible.includes('<time datetime="2026-08-26">Updated Aug 26, 2026</time>'));
+  assert.ok(visible.includes('<time datetime="2026-11-16">Updated Nov 16, 2026</time>'));
   for (const key of ['og:description', 'twitter:description']) assert.ok(html.includes(`="${key}" content="${description}"`));
   assert.ok(read('insights/index.html').includes(description));
   const item = JSON.parse(read('insights/feed.json')).items.find(item => item.url === URL);
   assert.equal(item.summary, description);
   assert.equal(item.content_text, description);
   assert.equal(item.date_published, '2026-04-21T00:00:00+08:00');
-  assert.equal(item.date_modified, '2026-08-26T00:00:00+08:00');
+  assert.equal(item.date_modified, '2026-11-16T00:00:00+08:00');
   const entry = [...read('insights/feed.xml').matchAll(/<entry>([\s\S]*?)<\/entry>/g)].find(match => match[1].includes(URL))[1];
   assert.ok(entry.includes(`<summary type="text">${description}</summary>`));
-  assert.ok(entry.includes('<updated>2026-08-26T00:00:00+08:00</updated>'));
+  assert.ok(entry.includes('<updated>2026-11-16T00:00:00+08:00</updated>'));
 });
 
 test('glossary OTP definition matches its schema and links to the fee explanation', () => {
