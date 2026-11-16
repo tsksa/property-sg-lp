@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`), both deployed, and the guide contact prompts (`009db83`, not yet deployed).
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, and the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), not yet deployed.
 
 ## Summary
 
@@ -157,12 +157,27 @@ The 26 condo district pages now carry the same seller block as the HDB town page
 
 Fifteen guides ended on a generic "Thinking about selling?" box or on nothing. Each now ends on a prompt that asks for the one thing Joe needs to answer that guide's question, with a matching pre-filled WhatsApp message and a related tool or guide. The timeline guide asks for the reader's target move date, the Seller's Stamp Duty guide for the purchase and sale dates, MSR vs TDSR for income and existing debts, and the grants guides for household income and the flat in mind. Both buttons are tagged `insights_<guide>_end` with a lead type, so clicks can be compared by guide. The prompts are kept in one list (`scripts/lib/guide-cta.mjs`); the three guide generators render them and `scripts/apply-guide-ctas.mjs` keeps the five hand-written guides in step. Ten guides already ended on their own topic prompt and are unchanged. A test fails if a new guide is published without a decision on its prompt. The new copy has no fee rates, track record, testimonials or reply-time promises. Checked with `npm run check` (1,308 tests passing) and two guides at 375px.
 
+### Common questions in llms.txt (A7, `30b55fd`)
+
+`llms.txt` now has a "Common questions" section: twelve one-line answers on timing, sale proceeds, valuation, the MOP, Seller's Stamp Duty, selling a condo, renting out, the wait-out period, the income ceiling, the HFE letter, MSR and resale grants. Each answer is copied word for word from the linked guide's FAQ markup, which matches the visible answer on the page. The generator reads the answer from the guide, so the two cannot drift: `npm run check` fails when a guide's answer changes until `llms.txt` is regenerated, and generation fails if a question disappears. Answers are rules and process only. None covers market figures or Joe's own fees.
+
+### Reviewed dates on the HDB selling guides (A5, `a1a6027`)
+
+Four guides had no visible reviewed date. Three were rechecked against HDB, IRAS, CPF Board and CEA on 16 November and now end on a "Reviewed 16 Nov 2026" line naming the official pages. Their modified dates, feeds and sitemap entries moved to match:
+
+- **How long to sell an HDB flat:** the line on missing the matching-submission window now says what HDB says. The application lapses, and both parties must apply and pay the fees again. The fix also covers the FAQ answer and the FAQ hub.
+- **How to sell an HDB flat:** adds HDB's $38.30 fee to register a mortgage discharge, which applies only where the lease has been issued.
+- **Sell HDB first or buy condo first:** no content change. The MOP, ABSD remission, CPF and extension-of-stay points were still current.
+
+The fourth, the commission guide, was left without a date; see "Needs Joe". The audit's suggested key-facts box at the top of each guide was not added. Checked with `npm run check` (1,308 tests passing).
+
 ## Left for next time
 
 ### Needs Joe
 
 - **Item 4:** "$200M+ Transacted", "$8M+ Secured Above Valuation", "500+ properties sold and rented" and "buyer within 4–8 weeks" are stated without a basis. The HDB lander headline reads "Sell above valuation." Decide which can be evidenced and what wording to use.
 - **Guide end boxes:** three guides were left out of the new contact prompts because their end boxes need your say. The commission guide's box reads "what the 2% actually funds", which states a fee rate. The HDB valuation and after-MOP guides end on a box signed "16+ yrs · 500+ properties sold and rented" (see item 4). Once you decide on those, they can get topic prompts like the other guides.
+- **Commission guide review:** it was not given a reviewed date, because its fee and service figures are part of item 4. It also says HDB endorsement happens online within 6 days of the SMS notification. HDB's current page instead says documents are ready about 3 weeks after acceptance, with fees due within its notice period. CEA's rules quoted in the guide are still current. Decide on the figures, and the guide can be corrected and dated.
 - **Item 9:** create and verify a Google Business Profile. It then gets linked from the footer and structured data.
 - **Towns:** name the four to six towns Joe transacts in most. Town seller pages and a track-record page depend on it.
 - **ERA compliance:** confirm "PropertySG" is acceptable as a personal brand, and that +65 8188 1488 is the number registered with CEA.
