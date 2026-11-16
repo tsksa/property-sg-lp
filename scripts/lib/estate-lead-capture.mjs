@@ -102,3 +102,27 @@ export function sellerBlockHtml(town, esc) {
     </div>
   </section>`;
 }
+
+/**
+ * Seller block for the /condo-prices/dNN/ district pages (AUDIT.md G7): the
+ * condo counterpart of sellerBlockHtml, under the price card and styled by the
+ * same SELLER_BLOCK_CSS. There is no block lookup for private homes, so it
+ * points at the page's own per-project table instead.
+ *
+ * @param {{ dn: number, area: string, hasProjects: boolean }} district
+ *   dn is the district number, area its first area name (e.g. "Orchard").
+ */
+export function condoSellerBlockHtml({ dn, area, hasProjects }) {
+  const wa = encodeURIComponent(`Hi Joe, I'm thinking of selling my condo in District ${dn} (${area}). What do the recent sales in my project say?`);
+  const start = hasProjects
+    ? `Start with your project in the <a href="#district-projects">table of District ${dn} projects</a>.`
+    : 'Start with the most recent transactions below.';
+  return `  <section class="est-sell" aria-labelledby="est-sell-h">
+    <h2 id="est-sell-h">Selling your condo in District ${dn}?</h2>
+    <p>The District ${dn} median mixes every project, unit size and tenure in the district, so it is a starting point, not your price. A condo is priced from recent sales in its own project, then adjusted for size, floor, facing and remaining lease. ${start}</p>
+    <div class="est-sell-actions">
+      <a class="est-sell-wa" href="https://wa.me/6581881488?text=${wa}" target="_blank" rel="noopener" data-cta="whatsapp-condo-seller" onclick="if(typeof gtag==='function')gtag('event','whatsapp_cta_click',{cta_location:'condo-seller-block',district:'District ${dn}'});">WhatsApp Joe about your District ${dn} condo</a>
+      <a class="est-sell-alt" href="/valuation.html">Or request a free valuation</a>
+    </div>
+  </section>`;
+}

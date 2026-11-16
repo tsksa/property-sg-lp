@@ -55,3 +55,32 @@ test('every town page has the seller block under the price card, with a lazily l
   assert.match(client, /IntersectionObserver/);
   assert.match(client, /addEventListener\('jte:valuation'/);
 });
+
+// AUDIT.md G7: the condo district pages carry the same seller block under the
+// price card. Condos have no block lookup, so it points at the project table.
+test('every condo district page has the seller block under the price card', async () => {
+  const { condoSellerBlockHtml, SELLER_BLOCK_CSS } = await import('../scripts/lib/estate-lead-capture.mjs');
+  const { DISTRICTS } = await import('../scripts/lib/condo-districts.mjs');
+  const dir = path.join(ROOT, 'condo-prices');
+  const pages = fs.readdirSync(dir).filter((d) => /^d\d\d$/.test(d));
+  assert.ok(pages.length >= 20, `expected the district pages, found ${pages.length}`);
+  for (const name of pages) {
+    const html = fs.readFileSync(path.join(dir, name, 'index.html'), 'utf8');
+    const dn = Number(name.slice(1));
+    const hasProjects = html.includes(`<h2 id="district-projects">District ${dn} condo prices by project</h2>`);
+    const block = condoSellerBlockHtml({ dn, area: DISTRICTS[name.slice(1)].split(',')[0], hasProjects });
+    assert.equal(html.split(block).length - 1, 1, `${name}: seller block missing or not as generated`);
+    assert.equal(html.split('class="est-sell"').length - 1, 1, `${name}: one seller block only`);
+    assert.ok(html.indexOf('class="vc') < html.indexOf(block), `${name}: seller block should follow the price card`);
+    assert.ok(html.indexOf(block) < html.indexOf('<h2>Median price by size'), `${name}: seller block should precede the size table`);
+    assert.ok(html.includes(SELLER_BLOCK_CSS), `${name}: seller block styles missing`);
+    assert.match(block, /href="https:\/\/wa\.me\/6581881488\?text=[^"]*District%20\d+/, `${name}: WhatsApp message names the district`);
+    assert.match(block, /data-cta="whatsapp-condo-seller"/);
+    assert.match(block, /href="\/valuation\.html"/);
+    // Joe's standing rule: no fees, track record or testimonials without his say.
+    assert.doesNotMatch(decodeURIComponent(block), /\d%|commission|\d+\+|sold \d|review/i,`${name}: block must not state fees, records or reviews`);
+  }
+  assert.doesNotMatch(read('condo-prices/index.html'), /class="est-sell"/, 'the district hub has no seller block');
+  const generator = read('scripts/generate-condo-pages.mjs');
+  assert.match(generator, /\$\{condoSellerBlockHtml\(\{ dn, area: areaName\.split\(','\)\[0\], hasProjects: projectList\.length > 0 \}\)\}\n  <h2>Median price by size/, 'the monthly refresh must keep emitting the block');
+});

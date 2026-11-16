@@ -25,6 +25,7 @@ import {
 } from './lib/condo-stats.mjs';
 import { hdbTownsForDistrict } from './lib/district-town-map.mjs';
 import { valueCardHtml, rollingPsfSeries, likeForLikeChange, leaseBand, VALUE_CARD_CSS } from './lib/value-card.mjs';
+import { condoSellerBlockHtml, SELLER_BLOCK_CSS } from './lib/estate-lead-capture.mjs';
 
 const OUT = 'condo-prices';
 const SITE = 'https://joetay.com';
@@ -188,7 +189,7 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:1.35rem;color:var(--navy);lett
 .faq-item{border:1px solid rgba(11,30,63,0.12);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:#fff}
 .faq-item summary{cursor:pointer;font-weight:600;color:var(--navy)}
 .faq-item summary:focus-visible{outline:2px solid var(--emerald);outline-offset:2px}
-.faq-item p{margin-top:8px;color:#444}
+.faq-item p{margin-top:8px;color:#444}${breadcrumbName ? SELLER_BLOCK_CSS : ''}
 table{width:100%;border-collapse:collapse;font-size:0.88rem;min-width:520px}
 th{font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 16px;border-bottom:1px solid rgba(11,30,63,0.08)}
 td{padding:11px 16px;border-bottom:1px solid rgba(11,30,63,0.05)}
@@ -313,7 +314,7 @@ for (const [d, cur] of live) {
   });
 
   const projectSection = projectList.length ? `
-  <h2>District ${dn} condo prices by project</h2>
+  <h2 id="district-projects">District ${dn} condo prices by project</h2>
   <p class="src" style="margin-bottom:12px">Projects with at least ${minSales} resale caveats in the 12 months to ${generatedAt}, most sales first. Project and street names as URA records them.</p>
   ${projectTable(projectList.slice(0, PROJECT_TABLE_TOP))}${projectList.length > PROJECT_TABLE_TOP ? `
   <details class="more"><summary>Show ${projectList.length - PROJECT_TABLE_TOP} more projects</summary>
@@ -359,6 +360,7 @@ ${towns.map((t) => `    <a href="/hdb-prices/${t.slug}/">${esc(t.name)} HDB resa
     series,
     mixNote: 'Weighted to the year’s mix of unit sizes and tenures, so a run of bigger or newer units selling does not show up as a price rise.',
   })}
+${condoSellerBlockHtml({ dn, area: areaName.split(',')[0], hasProjects: projectList.length > 0 })}
   <h2>Median price by size (last 12 months)</h2>
   <div class="tbl"><table>
     <thead><tr><th>Size</th><th>Median price</th><th>Median $psf</th><th>Sales</th></tr></thead>
