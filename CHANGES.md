@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, and the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), not yet deployed.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), not yet deployed.
 
 ## Summary
 
@@ -171,6 +171,14 @@ Four guides had no visible reviewed date. Three were rechecked against HDB, IRAS
 
 The fourth, the commission guide, was left without a date; see "Needs Joe". The audit's suggested key-facts box at the top of each guide was not added. Checked with `npm run check` (1,308 tests passing).
 
+### WhatsApp options on the valuation form and homepage (U7, U8, `2760504`)
+
+The valuation form's first step now has a line under the postal code field: "Prefer to message instead? WhatsApp Joe your postal code." The pre-filled message adds the postal code once all six digits are typed. Before this, the only WhatsApp option on the page appeared when a visitor's browser had JavaScript turned off. The homepage's first row of buttons (Sell, Buy a new launch, Rent out) gains a fourth, green "WhatsApp Joe" button, so a contact action is among the first things a visitor can tap. Both links are tagged with their location for tracking. Checked with `npm run check` and both pages at 375px, with no sideways scrolling.
+
+### Page type on every tracked event (C6, `aff773c`)
+
+Every WhatsApp, call and form event already recorded the page path. It now also records a page type: `home`, `hdb_prices`, `condo_prices`, `guide`, `lander`, `service_page`, `tool`, `valuation`, `new_launches`, `chinese` and a few more. Clicks can then be compared by kind of page without grouping hundreds of paths by hand. All 135 pages with a WhatsApp link load the tracking script. To see the new label in GA4 reports, `page_type` has to be registered once as an event-scoped custom dimension (Admin → Custom definitions); see "Needs Joe". Checked with `npm run check` (1,314 tests passing).
+
 ## Left for next time
 
 ### Needs Joe
@@ -178,6 +186,7 @@ The fourth, the commission guide, was left without a date; see "Needs Joe". The 
 - **Item 4:** "$200M+ Transacted", "$8M+ Secured Above Valuation", "500+ properties sold and rented" and "buyer within 4–8 weeks" are stated without a basis. The HDB lander headline reads "Sell above valuation." Decide which can be evidenced and what wording to use.
 - **Guide end boxes:** three guides were left out of the new contact prompts because their end boxes need your say. The commission guide's box reads "what the 2% actually funds", which states a fee rate. The HDB valuation and after-MOP guides end on a box signed "16+ yrs · 500+ properties sold and rented" (see item 4). Once you decide on those, they can get topic prompts like the other guides.
 - **Commission guide review:** it was not given a reviewed date, because its fee and service figures are part of item 4. It also says HDB endorsement happens online within 6 days of the SMS notification. HDB's current page instead says documents are ready about 3 weeks after acceptance, with fees due within its notice period. CEA's rules quoted in the guide are still current. Decide on the figures, and the guide can be corrected and dated.
+- **GA4 page type:** once the GA4 account is re-verified, register `page_type` as an event-scoped custom dimension so reports can group clicks by kind of page.
 - **Item 9:** create and verify a Google Business Profile. It then gets linked from the footer and structured data.
 - **Towns:** name the four to six towns Joe transacts in most. Town seller pages and a track-record page depend on it.
 - **ERA compliance:** confirm "PropertySG" is acceptable as a personal brand, and that +65 8188 1488 is the number registered with CEA.
