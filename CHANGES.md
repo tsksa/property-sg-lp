@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the buyer and tenant pages of 16 November (`f87bafc`, not yet deployed) under "16 November".
 
 ## Summary
 
@@ -143,6 +143,12 @@ The checklist was offered only in the homepage exit popup, which phones rarely t
 
 Not done: a real phone, and confirming that a checklist signup reaches Joe's sheet and triggers his follow-up email.
 
+## 16 November
+
+### Buyer and tenant pages (G5, `f87bafc`)
+
+`/buy/` and `/rent/` are short service pages for the two audiences that had none. Each says who represents whom, what Joe does for that client and the rules in order. The HDB buying figures (option fees, the 21-day option, the Request for Value, the HFE letter and the 8-week completion) were read from HDB's own pages on 16 November, and the commission position from CEA's. The rental rules are the ones the landlord guide checked on 15 November. Neither page states a fee rate, a track record or a testimonial. Each ends in a WhatsApp and call button tagged `buy_page` / `buyer` or `rent_page` / `tenant`. The shared footer group is now "Buy, sell or rent with Joe" and links both pages. Checked with `npm run check` (all passing), the publish build, and the pages at 375px and 1280px.
+
 ## Left for next time
 
 ### Needs Joe
@@ -153,6 +159,7 @@ Not done: a real phone, and confirming that a checklist signup reaches Joe's she
 - **ERA compliance:** confirm "PropertySG" is acceptable as a personal brand, and that +65 8188 1488 is the number registered with CEA.
 - **Checklist signup:** enter an email in a checklist box on a guide and confirm it reaches the sheet tagged `inline_checklist`, and whether the follow-up email goes out.
 - **New guides:** read the Seller's Stamp Duty, condo and renting-out guides, which are published under Joe's name.
+- **Buyer and tenant pages:** read `/buy/` and `/rent/`, also under Joe's name, and confirm he takes on buyer and tenant clients as described.
 - **Chinese seller page:** `zh/sell-hdb/` carries the same claims as the English lander and was not reworded.
 
 ### Open technical items
@@ -164,4 +171,3 @@ Not done: a real phone, and confirming that a checklist signup reaches Joe's she
 ### Remaining audit items, in suggested order
 
 1. Town seller pages and a track-record page, once Joe supplies the towns and records (G1, G2).
-2. Buyer and tenant pages (G5).
