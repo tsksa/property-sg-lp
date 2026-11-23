@@ -143,6 +143,17 @@ const ARTICLES = [
     readTime: '9 min read',
     lede: 'CPF Ordinary Account savings can cover several housing costs, but the flat lease, valuation, loan type and retirement safeguards determine how much is usable.',
     body: `
+<aside class="key-facts" aria-labelledby="key-facts-title">
+<p class="key-facts-title" id="key-facts-title">Key facts</p>
+<ul>
+  <li>For a resale flat with an HDB loan, CPF OA use is initially limited to the lower of the purchase price and the valuation. Any cash over valuation must be paid in cash.</li>
+  <li>Resale option and exercise fees are paid in cash, and together they cannot exceed $5,000.</li>
+  <li>With an HDB loan, each buyer can keep up to $20,000 in OA; the rest of the available OA savings goes to the purchase before the loan is granted.</li>
+  <li>CPF use is pro-rated if the remaining lease cannot cover the youngest owner to age 95. A flat with 20 years or less left generally cannot be funded with CPF.</li>
+  <li>When you sell, the CPF used, including housing grants, plus accrued interest goes back to your CPF account, subject to the refund rules and the sale proceeds available.</li>
+</ul>
+</aside>
+
 <h2>What CPF OA can pay for</h2>
 <ul>
   <li>Eligible portions of the purchase price and downpayment.</li>
