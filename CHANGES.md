@@ -201,7 +201,7 @@ Local Lighthouse 12.6.1 mobile, five runs each, served with compression:
 | Preloads removed, no scaled fallbacks | 1,856 ms | 99–100 | 0.030 |
 | Preloads removed, scaled fallbacks (shipped) | 1,696 ms | 100 | 0.005 |
 
-These are simulated lab numbers from one laptop. Expect the live Lighthouse CI figure to land in the same area, not exactly on it.
+These are simulated lab numbers from one laptop. After the push (`609e57c`), the live site measured from the same laptop had a median LCP of 1,530 ms over six runs, with a score of 99–100 and CLS 0. Lighthouse CI did not show the gain: its median LCP was 2,435 ms, about the same as before. Its CLS was 0.009, against 0.004 before. The CI machine is a Linux server in the US. It sees about 650 ms of server response time, and its first paint comes late enough that both fonts finish loading before it, preloaded or not. Lighthouse's simulation therefore still counts the fonts toward LCP there. That machine also has no Arial or Georgia, so the stand-in fonts are not used and the swap shifts the text a little, as it would on an Android phone.
 
 Tried and made no measurable difference, so not shipped:
 - smaller font files (20 KB trimmed);
