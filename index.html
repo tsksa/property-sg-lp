@@ -210,9 +210,9 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
 :root{--navy:#0b1e3f;--navy-deep:#061430;--emerald:#10b981;--emerald-aa:#047857;--emerald-dark:#065f46;--cream:#faf6ec;--cream-warm:#f5efdf}
-/* Size-matched local fallbacks: this page does not preload the web fonts, so the hero text paints first in Arial/Georgia scaled to DM Sans/Fraunces metrics and the swap moves nothing (scripts/lib/self-hosted-fonts.mjs). */
-@font-face{font-family:'DM Sans Fallback';src:local('Arial'),local('ArialMT');size-adjust:104.76%;ascent-override:94.69%;descent-override:29.59%;line-gap-override:0%}@font-face{font-family:'Fraunces Display Fallback';src:local('Georgia');size-adjust:87.03%;ascent-override:112.37%;descent-override:29.3%;line-gap-override:0%}
-body{font-family:'DM Sans','DM Sans Fallback',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* Size-matched local fallbacks: this page does not preload the web fonts, so the hero text paints first in a local font scaled to DM Sans/Fraunces metrics and the swap moves nothing (scripts/lib/self-hosted-fonts.mjs). Arial/Georgia cover iOS, macOS and Windows; Liberation (Arial- and Times-compatible) covers Linux; Roboto/Noto Serif cover Android. */
+@font-face{font-family:'DM Sans Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans'),local('Arimo');size-adjust:104.76%;ascent-override:94.69%;descent-override:29.59%;line-gap-override:0%}@font-face{font-family:'DM Sans Fallback Android';src:local('Roboto'),local('Roboto Regular'),local('Roboto-Regular');size-adjust:105.12%;ascent-override:94.37%;descent-override:29.49%;line-gap-override:0%}@font-face{font-family:'Fraunces Display Fallback';src:local('Georgia');size-adjust:87.03%;ascent-override:112.37%;descent-override:29.3%;line-gap-override:0%}@font-face{font-family:'Fraunces Display Fallback Linux';src:local('Liberation Serif'),local('LiberationSerif'),local('Tinos');size-adjust:95.36%;ascent-override:102.56%;descent-override:26.74%;line-gap-override:0%}@font-face{font-family:'Fraunces Display Fallback Android';src:local('Noto Serif'),local('NotoSerif'),local('NotoSerif-Regular');size-adjust:80.14%;ascent-override:122.03%;descent-override:31.82%;line-gap-override:0%}
+body{font-family:'DM Sans','DM Sans Fallback','DM Sans Fallback Android',sans-serif;color:#111;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 /* Focus states — keyboard accessibility */
@@ -238,7 +238,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .hero-inner{width:min(1160px,100%);display:grid;grid-template-columns:minmax(0,1.12fr) minmax(380px,.88fr);align-items:center;gap:clamp(44px,6vw,84px);text-align:left;position:relative;z-index:2}
 .hero-copy{max-width:650px}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);padding:8px 20px;border-radius:100px;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;backdrop-filter:blur(8px)}
-.hero h1{font-family:'Fraunces','Fraunces Display Fallback',Georgia,serif;font-size:clamp(2.8rem,5.4vw,4.8rem);font-weight:600;color:#fff;line-height:1.04;letter-spacing:-1.5px;margin-bottom:22px;font-variation-settings:"opsz" 144,"SOFT" 50}
+.hero h1{font-family:'Fraunces','Fraunces Display Fallback','Fraunces Display Fallback Linux','Fraunces Display Fallback Android',Georgia,serif;font-size:clamp(2.8rem,5.4vw,4.8rem);font-weight:600;color:#fff;line-height:1.04;letter-spacing:-1.5px;margin-bottom:22px;font-variation-settings:"opsz" 144,"SOFT" 50}
 .hero .hero-desc{font-size:clamp(1rem,1.6vw,1.16rem);color:rgba(255,255,255,0.82);max-width:570px;margin:0 0 30px;line-height:1.65}
 
 /* Hero Form */

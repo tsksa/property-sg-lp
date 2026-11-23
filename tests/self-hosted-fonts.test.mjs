@@ -67,7 +67,11 @@ test('a page without font preloads gives its hero text size-matched fallbacks', 
     const html = fs.readFileSync(path.join(ROOT, rel), 'utf8');
     assert.match(html, /@font-face\{font-family:'DM Sans Fallback';src:local\('Arial'\)[^}]*size-adjust:[\d.]+%/, `${rel} DM Sans fallback face`);
     assert.match(html, /@font-face\{font-family:'Fraunces Display Fallback';src:local\('Georgia'\)[^}]*size-adjust:[\d.]+%/, `${rel} Fraunces fallback face`);
-    assert.match(html, /body\{font-family:'DM Sans','DM Sans Fallback',sans-serif;/, `${rel} body stack`);
-    assert.match(html, /\.hero h1\{font-family:'Fraunces','Fraunces Display Fallback',Georgia,serif;/, `${rel} hero h1 stack`);
+    assert.match(html, /@font-face\{font-family:'DM Sans Fallback';src:[^;]*local\('Liberation Sans'\)/, `${rel} DM Sans fallback covers Linux`);
+    assert.match(html, /@font-face\{font-family:'DM Sans Fallback Android';src:local\('Roboto'\)[^}]*size-adjust:[\d.]+%/, `${rel} DM Sans Android fallback face`);
+    assert.match(html, /@font-face\{font-family:'Fraunces Display Fallback Linux';src:local\('Liberation Serif'\)[^}]*size-adjust:[\d.]+%/, `${rel} Fraunces Linux fallback face`);
+    assert.match(html, /@font-face\{font-family:'Fraunces Display Fallback Android';src:local\('Noto Serif'\)[^}]*size-adjust:[\d.]+%/, `${rel} Fraunces Android fallback face`);
+    assert.match(html, /body\{font-family:'DM Sans','DM Sans Fallback','DM Sans Fallback Android',sans-serif;/, `${rel} body stack`);
+    assert.match(html, /\.hero h1\{font-family:'Fraunces','Fraunces Display Fallback','Fraunces Display Fallback Linux','Fraunces Display Fallback Android',Georgia,serif;/, `${rel} hero h1 stack`);
   }
 });

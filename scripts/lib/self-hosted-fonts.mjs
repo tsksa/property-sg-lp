@@ -26,7 +26,8 @@ export const FONT_BLOCK_MARKER = 'data-jt-fonts';
 // homepage the two preloads (130 KB) put both files on the mobile LCP critical
 // path; lab LCP fell from 2.44 s to 1.70 s without them. The page instead
 // gives its hero text size-matched local fallbacks ('DM Sans Fallback',
-// 'Fraunces Display Fallback'), so the swap to the web fonts moves nothing.
+// 'Fraunces Display Fallback' and their Linux/Android variants), so the swap
+// to the web fonts moves nothing.
 export const NO_FONT_PRELOAD_PAGES = new Set(['index.html']);
 
 /**
