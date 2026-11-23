@@ -399,6 +399,30 @@ const cases = [
     background: '#ffffff',
   },
   {
+    name: 'guide key facts title (A5)',
+    file: 'insights/blog.css',
+    foreground: ['.article-body .key-facts-title', 'color'],
+    background: ['.article-body .key-facts', 'background'],
+  },
+  {
+    name: 'guide key facts text (A5)',
+    file: 'insights/blog.css',
+    foreground: ['.article-body .key-facts li', 'color'],
+    background: ['.article-body .key-facts', 'background'],
+  },
+  {
+    name: 'dark guide key facts title (A5)',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .article-body .key-facts-title', 'color'],
+    background: ['html.jt-theme-dark .article-body .key-facts', 'background'],
+  },
+  {
+    name: 'dark guide key facts text (A5)',
+    file: 'insights/blog.css',
+    foreground: ['html.jt-theme-dark .article-body .key-facts li', 'color'],
+    background: ['html.jt-theme-dark .article-body .key-facts', 'background'],
+  },
+  {
     name: 'insights article metadata',
     file: 'insights/blog.css',
     foreground: ['.article-meta-top', 'color'],

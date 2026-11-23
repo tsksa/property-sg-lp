@@ -102,6 +102,14 @@ html.jt-theme-dark .blog-guide a{color:#6ee7c1}
 .article-body blockquote{border-left:3px solid var(--emerald);padding:10px 0 10px 24px;margin:28px 0;color:#555;font-style:italic;font-family:'Fraunces',Georgia,serif;font-size:1.08rem}
 .article-body .callout{background:var(--cream);border-left:3px solid var(--emerald);padding:18px 22px;border-radius:0 10px 10px 0;margin:28px 0;font-size:0.95rem;color:#333}
 .article-body .callout strong{display:block;margin-bottom:6px;color:var(--navy);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:700}
+/* Key facts box near the top of a guide (A5): 3-5 bullets restating what the guide sources. */
+.article-body .key-facts{background:#fff;border:1px solid rgba(11,30,63,.14);border-radius:12px;padding:18px 22px 8px;margin:24px 0 28px}
+.article-body .key-facts-title{margin:0 0 8px;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy)}
+.article-body .key-facts ul{margin:0 0 10px;padding-left:1.2em}
+.article-body .key-facts li{margin:0 0 8px;font-size:.95rem;line-height:1.55;color:#2a2a2a}
+html.jt-theme-dark .article-body .key-facts{background:#102447;border-color:rgba(255,255,255,.14)}
+html.jt-theme-dark .article-body .key-facts-title{color:#f8fafc}
+html.jt-theme-dark .article-body .key-facts li{color:#e8ecf3}
 .article-body table{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.94rem}
 .article-body th,.article-body td{text-align:left;padding:11px 14px;border-bottom:1px solid #eee}
 .article-body th{background:var(--cream);font-weight:700;color:var(--navy);font-size:0.82rem;letter-spacing:0.3px;text-transform:uppercase}
