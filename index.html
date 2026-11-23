@@ -965,6 +965,7 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
   .hero-paths a{display:inline-flex;align-items:center;min-height:44px;padding:9px 14px;border:1px solid rgba(255,255,255,.65);border-radius:8px;color:#fff;background:#0b1e3f;font-size:.86rem;font-weight:600;text-decoration:none}
   .hero-paths a:hover{text-decoration:underline}
   .hero-paths a.hero-paths-wa{background:#047857;border-color:#047857}
+  .jte .hero-walkthrough-link{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;font-size:.85rem;line-height:1.5;text-underline-offset:3px}
 </style>
 <!-- reCAPTCHA v3 helper — token capture for submit-lead -->
 <script src="/js/recaptcha-helper.js" defer></script>
@@ -990,7 +991,9 @@ body.dark-mode .faq-item.open{background:linear-gradient(90deg,rgba(16,185,129,0
 <noscript><link rel="stylesheet" href="/assets/block-alert.css"></noscript>
 <link rel="stylesheet" href="/assets/site-theme.css">
 <script src="/assets/site-theme.js"></script>
-<link rel="stylesheet" href="/assets/home-motion.css">
+<!-- The motion section sits below the hero, so its styles load without blocking first paint. -->
+<link rel="stylesheet" href="/assets/home-motion.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/home-motion.css"></noscript>
 <script src="/assets/home-motion.js" defer></script>
 <link rel="stylesheet" href="/assets/mobile-header.css" data-jt-mobile-header-assets>
 <script src="/assets/mobile-header.js" defer data-jt-mobile-header-assets></script>

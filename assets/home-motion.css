@@ -6,7 +6,6 @@
 .jt-motion p.jt-motion-note{font-size:.8rem;line-height:1.6;margin:10px 0 0}
 .jt-motion .section-eyebrow{color:#806127}
 .jt-motion-cta{display:inline-flex;align-items:center;min-height:44px;font-weight:600;color:#047857;text-decoration:underline;text-underline-offset:4px}
-.jte .hero-walkthrough-link{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;font-size:.85rem;line-height:1.5;text-underline-offset:3px}
 .jt-motion-stage{aspect-ratio:16/9;background:#faf6ec;overflow:hidden;border-radius:12px}
 .jt-motion-stage picture,.jt-motion-stage img,.jt-motion-stage video{display:block;width:100%;height:100%;object-fit:contain}
 .jt-motion [hidden]{display:none!important}

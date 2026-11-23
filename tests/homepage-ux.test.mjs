@@ -16,6 +16,19 @@ test('the homepage loads the hidden alert card without blocking the first render
   assert.ok(html.indexOf('<script src="/assets/block-alert.js"') < html.indexOf('<script type="module" src="/assets/block-estimate.js"'));
 });
 
+test('the homepage loads the below-the-fold motion styles without blocking the first render (S9)', () => {
+  const html = read('index.html');
+  const scriptEnabled = html.replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
+  assert.match(scriptEnabled, /<link rel="stylesheet" href="\/assets\/home-motion\.css" media="print" onload="this\.media='all'">/);
+  assert.doesNotMatch(scriptEnabled, /<link rel="stylesheet" href="\/assets\/home-motion\.css">/);
+  assert.match(html, /<noscript><link rel="stylesheet" href="\/assets\/home-motion\.css"><\/noscript>/);
+  // The hero's walkthrough link renders before the deferred sheet arrives, so its rule lives inline.
+  const inlineCss = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+  assert.match(inlineCss, /\.jte \.hero-walkthrough-link\{[^}]*min-height:44px/);
+  assert.doesNotMatch(read('assets/home-motion.css'), /hero-walkthrough-link/);
+  assert.ok(html.indexOf('data-home-motion') > html.indexOf('id="main"'), 'motion section stays below the hero');
+});
+
 test('switching to the consultation form hides the sold-price widget despite its flex layout', () => {
   const html = read('index.html');
   assert.match(html, /#heroEstimate\[hidden\]\{display:none\}/);
