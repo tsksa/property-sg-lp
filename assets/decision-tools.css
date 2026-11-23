@@ -61,3 +61,13 @@
 }
 #repaymentPanel[hidden],#affordabilityForm[hidden],#affordabilityResults[hidden],#affordabilityDisclaimer[hidden],.decision-tool [hidden],.decision-modes[hidden]{display:none!important}
 @media(max-width:600px){.decision-tool{padding:20px 16px}.decision-grid{grid-template-columns:1fr}.decision-summary{padding:16px}.decision-summary dl{grid-template-columns:1fr}.decision-summary dd{text-align:left;margin-bottom:8px}.decision-tool th,.decision-tool td{padding:10px 5px}.decision-modes{gap:8px}.repayment-result-actions{padding:18px 16px}.repayment-action-grid{grid-template-columns:1fr}.decision-tool .repayment-copy{grid-column:auto}}
+/* Dark mode: the shared theme turns text inside main light, so the result
+   surfaces must turn dark with it or their labels vanish (1.0-1.6:1). */
+html.jt-theme-dark :is(.decision-summary,.repayment-result-actions,.decision-placeholder){background:#07172f;border-color:rgba(255,255,255,.14)}
+html.jt-theme-dark :is(.decision-summary,.repayment-result-actions) :is(h3,dt,dd){color:#f8fafc}
+html.jt-theme-dark :is(.repayment-result-actions,.decision-placeholder) p,html.jt-theme-dark .decision-placeholder{color:#c1cad8}
+html.jt-theme-dark .repayment-result-actions p a{color:#6ee7c1}
+html.jt-theme-dark main a.repayment-action-primary,html.jt-theme-dark main a.repayment-action-primary:hover{color:#fff}
+html.jt-theme-dark main a.repayment-action-secondary{background:#fff;color:#0b1e3f}
+html.jt-theme-dark .decision-tool .repayment-copy{color:#6ee7c1;border-color:rgba(110,231,193,.5)}
+html.jt-theme-dark #repaymentOutput .decision-summary :is(dt,dd):first-of-type{color:#f8fafc}

@@ -661,6 +661,71 @@ for (const [name, selector, background] of [
   cases.push({ name: `HDB town page ${name}`, file: 'hdb-prices/yishun/index.html', foreground: [selector, 'color'], background });
 }
 
+// Review cycle 23 Nov 2026: the calculators' hero, call box, disclaimer and
+// first FAQ sit outside the main element, so the shared dark theme misses
+// them; these two now restate the stamp duty calculator's dark colours.
+for (const file of ['bto-calculator/index.html', 'renovation-loan-calculator/index.html']) {
+  for (const [name, selector, background] of [
+    ['dark FAQ heading', 'html.jt-theme-dark .calc-faq h2,html.jt-theme-dark .calc-faq h3,html.jt-theme-dark .calc-faq summary', '#030a1a'],
+    ['dark FAQ answer', 'html.jt-theme-dark .calc-faq p', '#102447'],
+    ['dark disclaimer', 'html.jt-theme-dark .calc-disclaimer,html.jt-theme-dark .calc-disclaimer strong', '#030a1a'],
+    ['dark disclaimer link', 'html.jt-theme-dark .calc-disclaimer a', '#030a1a'],
+    ['dark call-box button label', 'html.jt-theme-dark .calc-cta a', '#ffffff'],
+    ['dark related-guide link', 'html.jt-theme-dark .calc-links a', '#102447'],
+  ]) {
+    cases.push({ name: `${file} ${name}`, file, foreground: [selector, 'color'], background });
+  }
+}
+for (const file of ['bto-calculator/index.html', 'renovation-loan-calculator/index.html']) {
+  cases.push({
+    name: `${file} dark hero eyebrow and links`,
+    file,
+    foreground: ['html.jt-theme-dark .calc-hero .eyebrow,html.jt-theme-dark .calc-hero p a', 'color'],
+    background: '#030a1a',
+  });
+}
+for (const state of ['', ':hover']) {
+  cases.push({
+    name: `renovation-loan-calculator WhatsApp CTA${state}`,
+    file: 'renovation-loan-calculator/index.html',
+    foreground: ['.calc-cta a.calc-cta-whatsapp', 'color'],
+    background: [`.calc-cta a.calc-cta-whatsapp${state}`, 'background'],
+  });
+}
+// The HDB loan calculator's result panel (decision-tools.css) kept its mint
+// surface in dark mode while main turned its labels white (1.0:1).
+{
+  const file = 'assets/decision-tools.css';
+  const surface = ['html.jt-theme-dark :is(.decision-summary,.repayment-result-actions,.decision-placeholder)', 'background'];
+  for (const [name, selector] of [
+    ['dark result labels and values', 'html.jt-theme-dark :is(.decision-summary,.repayment-result-actions) :is(h3,dt,dd)'],
+    ['dark headline repayment', 'html.jt-theme-dark #repaymentOutput .decision-summary :is(dt,dd):first-of-type'],
+    ['dark result notes', 'html.jt-theme-dark :is(.repayment-result-actions,.decision-placeholder) p,html.jt-theme-dark .decision-placeholder'],
+    ['dark result note links', 'html.jt-theme-dark .repayment-result-actions p a'],
+  ]) {
+    cases.push({ name: `decision tools ${name}`, file, foreground: [selector, 'color'], background: surface });
+  }
+  cases.push({
+    name: 'decision tools dark WhatsApp action',
+    file,
+    foreground: ['html.jt-theme-dark main a.repayment-action-primary,html.jt-theme-dark main a.repayment-action-primary:hover', 'color'],
+    background: ['.repayment-action-primary', 'background'],
+  });
+  cases.push({
+    name: 'decision tools dark booking action',
+    file,
+    foreground: ['html.jt-theme-dark main a.repayment-action-secondary', 'color'],
+    background: ['html.jt-theme-dark main a.repayment-action-secondary', 'background'],
+  });
+}
+for (const [name, selector, background] of [
+  ['dark hero links', 'html.jt-theme-dark .calc-hero p a', '#030a1a'],
+  ['dark footer links', 'html.jt-theme-dark .calc-footer a', '#07172f'],
+  ['dark footer credentials', 'html.jt-theme-dark .calc-footer .creds', '#07172f'],
+]) {
+  cases.push({ name: `calculator/index.html ${name}`, file: 'calculator/index.html', foreground: [selector, 'color'], background });
+}
+
 test('price pages give links and small print AA colours in both themes and underline links in text', () => {
   for (const file of ['hdb-prices/yishun/index.html', 'condo-prices/d15/index.html']) {
     const html = source(file);
