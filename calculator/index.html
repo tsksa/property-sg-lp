@@ -346,6 +346,10 @@ html.jt-theme-dark .calc-faq summary{color:#f8fafc}
 .calc-footer{background:var(--cream);border-top:1px solid #eee;padding:32px 24px;text-align:center;font-size:0.82rem;color:#666;line-height:1.6}
 .calc-footer a{color:#555}
 .calc-footer .creds{font-size:0.72rem;color:#666;margin-top:6px}
+/* Dark mode: the hero links and the footer sit outside main, so restate their colours. */
+html.jt-theme-dark .calc-hero p a{color:#6ee7c1}
+html.jt-theme-dark .calc-footer a{color:#c1cad8}
+html.jt-theme-dark .calc-footer .creds{color:#a3adba}
 /* Visible keyboard focus indicator (WCAG 2.4.7). outline:none on .calc-field
    above hides the default ring; restore a brand emerald ring for keyboard nav. */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
