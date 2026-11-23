@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed. The key facts boxes (`8cf81cd`) and Chinese descriptions (`3206f5d`), also 23 November, are not yet deployed.
 
 ## Summary
 
@@ -184,6 +184,14 @@ Every WhatsApp, call and form event already recorded the page path. It now also 
 ### Homepage motion styles no longer block the first paint (S9, `108cb5f`)
 
 The audit traced the homepage's 2.7-second lab LCP to stylesheets and fonts that block the first render. `home-motion.css` only styles the "Before you choose an asking price" walkthrough section, which sits well below the hero, so it now loads the same non-blocking way as `block-alert.css`, with a fallback for browsers without JavaScript. Its one rule that touches the hero, the "See how to compare sold prices" link, moved into the page's inline styles so the hero looks the same before the file arrives. `block-estimate.css` stays blocking on purpose: it styles the sold-price form inside the hero and is shared by the town price pages, so deferring it would make the form jump. The site-wide theme and mobile-header sheets also stay, as they shape the header and dark mode on first paint. Checked with `npm run check` (1,315 tests passing, one new) and in a browser at 375px: the hero is unchanged, the walkthrough section is fully styled once loaded, and nothing scrolls sideways. Lighthouse CI on the pushed commit (`b33dc85`) showed no measurable LCP change: the homepage's median mobile LCP was 2,423 ms against 2,388 ms before, within the normal variation between runs, and layout shift stayed at 0.004. The remaining first-paint cost comes from the stylesheets and fonts that still block, chiefly `block-estimate.css`, the theme and mobile-header sheets, and the two self-hosted fonts.
+
+### Key facts at the top of three HDB guides (A5, `8cf81cd`)
+
+The three HDB selling guides reviewed on 16 November (the selling timeline, sell first or buy first, and how to sell an HDB flat) now open with a short "Key facts" box of four or five bullets: the deadlines, deposit cap, MOP and CPF points a seller most often asks about. Every bullet restates a rule the guide already sources from HDB, IRAS or CPF Board, so nothing new is claimed and the reviewed dates still hold. The box style lives in `insights/blog.css` and can be reused on other guides. Checked with `npm run check` (four new contrast tests for the box in light and dark mode) and at 375px with no sideways scrolling.
+
+### Fuller descriptions on two Chinese articles (S8, `3206f5d`)
+
+The Chinese EC-versus-condo and HDB valuation articles had 63–65 character search descriptions. Both now start with the main query ("2027 年买 EC 还是私人公寓？", "组屋估价详解") and end with the WhatsApp action the page already offers, at 82 and 74 characters. The Chinese seller page and About page were left alone because their descriptions repeat the item 4 figures. `zh/new-launches/` was already 91 characters.
 
 ## Left for next time
 
