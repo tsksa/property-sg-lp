@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed. The key facts boxes (`8cf81cd`) and Chinese descriptions (`3206f5d`), also 23 November, are deployed. Key facts boxes on two more guides (`42201e6`) are also deployed. The homepage font change (`dc4656a`) is not yet deployed.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed. The key facts boxes (`8cf81cd`) and Chinese descriptions (`3206f5d`), also 23 November, are deployed. Key facts boxes on two more guides (`42201e6`) are also deployed. The homepage font change (`dc4656a`) is also deployed; its Android and Linux follow-up (`e939d1c`) is not yet deployed.
 
 ## Summary
 
@@ -202,6 +202,16 @@ Local Lighthouse 12.6.1 mobile, five runs each, served with compression:
 | Preloads removed, scaled fallbacks (shipped) | 1,696 ms | 100 | 0.005 |
 
 These are simulated lab numbers from one laptop. After the push (`609e57c`), the live site measured from the same laptop had a median LCP of 1,530 ms over six runs, with a score of 99–100 and CLS 0. Lighthouse CI did not show the gain: its median LCP was 2,435 ms, about the same as before. Its CLS was 0.009, against 0.004 before. The CI machine is a Linux server in the US. It sees about 650 ms of server response time, and its first paint comes late enough that both fonts finish loading before it, preloaded or not. Lighthouse's simulation therefore still counts the fonts toward LCP there. That machine also has no Arial or Georgia, so the stand-in fonts are not used and the swap shifts the text a little, as it would on an Android phone.
+
+Follow-up (`e939d1c`): stand-ins for Android and Linux. The Arial stand-in now also uses Liberation Sans, which has the same measurements. New stand-ins are scaled from Roboto (Android body text), Noto Serif (Android headline) and Liberation Serif (Linux headline). Roboto and Noto Serif were measured from the free Fontsource files. Liberation Serif was measured from Times New Roman, which shares its measurements. In a browser at 375px, each stand-in's natural text width came out as follows against the final fonts:
+
+| Platform | Intro, scaled | Intro, unscaled | Headline, scaled | Headline, unscaled |
+|---|---|---|---|---|
+| iPhone, Mac, Windows | 99.5% | 95% | 96.8% | 132.9% |
+| Android | 100% | 95.1% | 96.4% | 122.7% |
+| Linux | 99.5% | 95% | 97.8% | 103.2% |
+
+These were simulated on a Mac by loading the same fonts with the same settings, not measured on an Android phone or a Linux machine. `npm run check` passes (1,320 tests); the font test now also pins the Android and Linux stand-ins.
 
 Tried and made no measurable difference, so not shipped:
 - smaller font files (20 KB trimmed);
