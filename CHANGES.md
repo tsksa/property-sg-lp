@@ -1,6 +1,6 @@
 # joetay.com changes — November 2026 audit round
 
-Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed. The key facts boxes (`8cf81cd`) and Chinese descriptions (`3206f5d`), also 23 November, are deployed. Key facts boxes on two more guides (`42201e6`) are not yet deployed.
+Phase 3 report for the audit in `AUDIT.md`. Covers 13–14 November 2026, commits `b80e03c` to `4edf0e3` on `main` (14 commits), all deployed. The starting point was `29b7cb3`. A follow-up batch on 15 November (`466d397` to `21dcc13`, seven commits, also deployed) is described under "15 November batch" below, and the 16 November work under "16 November": the buyer and tenant pages (`f87bafc`) and the condo district seller block (`39298c5`) and the guide contact prompts (`009db83`), all deployed, the common questions in `llms.txt` (`30b55fd`) and reviewed dates on three guides (`a1a6027`), also deployed, and the WhatsApp options and page-type tracking (`2760504`, `aff773c`), also deployed. The 23 November change, non-blocking homepage motion styles (`108cb5f`), is also deployed. The key facts boxes (`8cf81cd`) and Chinese descriptions (`3206f5d`), also 23 November, are deployed. Key facts boxes on two more guides (`42201e6`) are also deployed. The homepage font change (`dc4656a`) is not yet deployed.
 
 ## Summary
 
@@ -188,6 +188,29 @@ The audit traced the homepage's 2.7-second lab LCP to stylesheets and fonts that
 ### Key facts at the top of three HDB guides (A5, `8cf81cd`)
 
 The three HDB selling guides reviewed on 16 November (the selling timeline, sell first or buy first, and how to sell an HDB flat) now open with a short "Key facts" box of four or five bullets: the deadlines, deposit cap, MOP and CPF points a seller most often asks about. Every bullet restates a rule the guide already sources from HDB, IRAS or CPF Board, so nothing new is claimed and the reviewed dates still hold. The box style lives in `insights/blog.css` and can be reused on other guides. Checked with `npm run check` (four new contrast tests for the box in light and dark mode) and at 375px with no sideways scrolling.
+
+### Homepage fonts no longer preloaded (S9, `dc4656a`)
+
+The two font preloads (130 KB together) were the main cost left in the homepage's lab LCP. Lighthouse's mobile simulation counts every file that finishes before the largest text paints, and the preloads made sure both fonts did. The homepage now loads the fonts without preloading them, so they arrive just after the first paint and swap in. To stop that swap from moving anything, the body text and hero headline first paint in Arial and Georgia scaled to the measured widths and heights of DM Sans and Fraunces. Measured at 375px, the headline and intro sit at the same height and position in the stand-in fonts as in the final ones. Unscaled Georgia wraps the headline onto a third line and pushes the intro down 33px.
+
+Local Lighthouse 12.6.1 mobile, five runs each, served with compression:
+
+| Version | Median LCP | Score | CLS |
+|---|---|---|---|
+| Before | 2,442 ms | 98 | 0.004 |
+| Preloads removed, no scaled fallbacks | 1,856 ms | 99–100 | 0.030 |
+| Preloads removed, scaled fallbacks (shipped) | 1,696 ms | 100 | 0.005 |
+
+These are simulated lab numbers from one laptop. Expect the live Lighthouse CI figure to land in the same area, not exactly on it.
+
+Tried and made no measurable difference, so not shipped:
+- smaller font files (20 KB trimmed);
+- dropping the hero image preload on phones;
+- dropping the valuation-page prefetch, which came out slightly worse.
+
+Inlining the four remaining blocking stylesheets saved about 85 ms within run-to-run noise. It was not worth the maintenance cost.
+
+Other pages keep their preloads; the list of exceptions lives in `scripts/lib/self-hosted-fonts.mjs`. The scaled fallbacks rely on Arial and Georgia, which iPhones, Macs and Windows have. Android phones have neither, so they fall back to the old unscaled swap. On a laptop, that unscaled swap measured 0.03 CLS, well under Google's 0.1 "good" limit. It has not been measured on an Android phone. Checked with `npm run check` (1,320 tests passing, one new).
 
 ### Key facts on the HFE letter and CPF guides (A5, `42201e6`)
 
