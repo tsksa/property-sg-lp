@@ -6,7 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { fontLinksHtml, FONT_BLOCK_MARKER } from './lib/self-hosted-fonts.mjs';
+import { fontLinksHtml, FONT_BLOCK_MARKER, NO_FONT_PRELOAD_PAGES } from './lib/self-hosted-fonts.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
@@ -25,13 +25,13 @@ function* htmlFiles(dir = ROOT) {
 const GOOGLE_TAG =
   /<link[^>]+href="https:\/\/fonts\.(?:googleapis|gstatic)\.com[^"]*"[^>]*>|<noscript>\s*<link[^>]+fonts\.googleapis\.com[^>]*>\s*<\/noscript>/g;
 const BLOCK = new RegExp(
-  `<link rel="preload" as="font"[^>]*>\\n<link rel="preload" as="font"[^>]*>\\n<style ${FONT_BLOCK_MARKER}="(swap|optional)">[^<]*</style>`,
+  `(?:<link rel="preload" as="font"[^>]*>\\n<link rel="preload" as="font"[^>]*>\\n)?<style ${FONT_BLOCK_MARKER}="(swap|optional)">[^<]*</style>`,
 );
 
-export function applySelfHostedFonts(html) {
+export function applySelfHostedFonts(html, { preload = true } = {}) {
   const existing = html.match(BLOCK);
   if (existing) {
-    return tidy(html.replace(BLOCK, fontLinksHtml({ display: existing[1] })));
+    return tidy(html.replace(BLOCK, fontLinksHtml({ display: existing[1], preload })));
   }
   const tags = [...html.matchAll(GOOGLE_TAG)];
   if (!tags.length) return html;
@@ -62,7 +62,7 @@ for (const rel of htmlFiles()) {
   const before = fs.readFileSync(abs, 'utf8');
   if (!/fonts\.googleapis\.com|fonts\.gstatic\.com|data-jt-fonts=/.test(before)) continue;
   checked += 1;
-  const after = applySelfHostedFonts(before);
+  const after = applySelfHostedFonts(before, { preload: !NO_FONT_PRELOAD_PAGES.has(rel) });
   if (after === before) continue;
   if (CHECK) failures.push(rel);
   else {

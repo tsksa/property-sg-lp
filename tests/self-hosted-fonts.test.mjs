@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { fontLinksHtml, FONT_FILES } from '../scripts/lib/self-hosted-fonts.mjs';
+import { fontLinksHtml, FONT_FILES, NO_FONT_PRELOAD_PAGES } from '../scripts/lib/self-hosted-fonts.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SKIP = /^(node_modules|\.git|\.claude|tests|scripts|netlify|\.github)(\/|$)/;
@@ -44,7 +44,9 @@ test('no page loads fonts from Google, and every font-using page carries the sel
     withFonts += 1;
     const display = html.match(/<style data-jt-fonts="(swap|optional)">/)?.[1];
     assert.ok(display, `${rel} has no self-hosted font block`);
-    assert.ok(html.includes(fontLinksHtml({ display })), `${rel} font block differs from scripts/lib/self-hosted-fonts.mjs`);
+    const preload = !NO_FONT_PRELOAD_PAGES.has(rel);
+    assert.ok(html.includes(fontLinksHtml({ display, preload })), `${rel} font block differs from scripts/lib/self-hosted-fonts.mjs`);
+    assert.equal((html.match(/<link rel="preload" as="font"/g) || []).length, preload ? 2 : 0, `${rel} font preloads`);
     assert.equal((html.match(/data-jt-fonts=/g) || []).length, 1, `${rel} has more than one font block`);
   }
   assert.ok(withFonts >= 100, `only ${withFonts} pages carry fonts`);
@@ -55,4 +57,17 @@ test('the CSP no longer allows the Google Fonts hosts and serves fonts from self
   assert.doesNotMatch(toml, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
   assert.match(toml, /font-src 'self'/);
   assert.match(toml, /for = "\/assets\/fonts\/\*"[\s\S]*?Cache-Control = "public, max-age=31536000, immutable"/);
+});
+
+// 23 Nov 2026: the homepage loads the fonts without preloading them (lab LCP
+// 2.44 s -> 1.70 s). What keeps the swap from shifting the hero is the pair of
+// size-matched fallbacks in the body and hero h1 stacks; pin both.
+test('a page without font preloads gives its hero text size-matched fallbacks', () => {
+  for (const rel of NO_FONT_PRELOAD_PAGES) {
+    const html = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+    assert.match(html, /@font-face\{font-family:'DM Sans Fallback';src:local\('Arial'\)[^}]*size-adjust:[\d.]+%/, `${rel} DM Sans fallback face`);
+    assert.match(html, /@font-face\{font-family:'Fraunces Display Fallback';src:local\('Georgia'\)[^}]*size-adjust:[\d.]+%/, `${rel} Fraunces fallback face`);
+    assert.match(html, /body\{font-family:'DM Sans','DM Sans Fallback',sans-serif;/, `${rel} body stack`);
+    assert.match(html, /\.hero h1\{font-family:'Fraunces','Fraunces Display Fallback',Georgia,serif;/, `${rel} hero h1 stack`);
+  }
 });

@@ -22,14 +22,25 @@ const LATIN_RANGE =
 
 export const FONT_BLOCK_MARKER = 'data-jt-fonts';
 
+// Pages that load the fonts without preloading them. 23 Nov 2026: on the
+// homepage the two preloads (130 KB) put both files on the mobile LCP critical
+// path; lab LCP fell from 2.44 s to 1.70 s without them. The page instead
+// gives its hero text size-matched local fallbacks ('DM Sans Fallback',
+// 'Fraunces Display Fallback'), so the swap to the web fonts moves nothing.
+export const NO_FONT_PRELOAD_PAGES = new Set(['index.html']);
+
 /**
  * The <head> block: two font preloads and the @font-face rules inline, so the
  * files start downloading from the HTML itself with no stylesheet round trip.
  * `display` is 'swap' for content pages and 'optional' for the calculators,
  * which previously requested display=optional to avoid layout shift.
+ * `preload: false` leaves out the two preloads (see NO_FONT_PRELOAD_PAGES).
  */
-export function fontLinksHtml({ display = 'swap' } = {}) {
-  return `<link rel="preload" as="font" type="font/woff2" href="${FONT_FILES.serif}" crossorigin>
+export function fontLinksHtml({ display = 'swap', preload = true } = {}) {
+  const preloads = preload
+    ? `<link rel="preload" as="font" type="font/woff2" href="${FONT_FILES.serif}" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="${FONT_FILES.sans}" crossorigin>
-<style ${FONT_BLOCK_MARKER}="${display}">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:${display};src:url(${FONT_FILES.serif}) format('woff2');unicode-range:${LATIN_RANGE}}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:${display};src:url(${FONT_FILES.sans}) format('woff2');unicode-range:${LATIN_RANGE}}</style>`;
+`
+    : '';
+  return `${preloads}<style ${FONT_BLOCK_MARKER}="${display}">@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 800;font-display:${display};src:url(${FONT_FILES.serif}) format('woff2');unicode-range:${LATIN_RANGE}}@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:${display};src:url(${FONT_FILES.sans}) format('woff2');unicode-range:${LATIN_RANGE}}</style>`;
 }
