@@ -211,6 +211,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 .jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
 .jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
 }
+@media(max-width:1024px) and (scripting:enabled){
+.jt-sh-nav{gap:0}
+.jt-sh-nav>:not(.jt-sh-cta){display:none}
+}
+@media(max-width:380px) and (scripting:enabled){
+.jt-sh .jt-mh-logo-brand{display:none}
+.jt-sh-nav>a.jt-sh-cta{padding-inline:10px;font-size:.74rem}
+}
 @media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
 </style>
 </header>

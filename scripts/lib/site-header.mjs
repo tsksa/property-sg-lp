@@ -36,6 +36,16 @@ export const HEADER_CTA = [
   'WhatsApp Joe',
 ];
 
+// The two `(scripting:enabled)` blocks give phones the collapsed header
+// (logo, CTA) from first paint. assets/mobile-header.js is deferred, so before
+// this the full link row painted first and then shrank to the CTA when the
+// script ran: a layout shift on every page (about 0.004), and 0.022 on the
+// homepage in Lighthouse CI when it landed in the same frame as the font swap
+// (24 Nov 2026). The rules mirror what mobile-header.css applies once the
+// script has run; the burger button then appears in space that was already
+// empty. Browsers with scripting off, or too old to know the feature, ignore
+// the blocks and keep the full link row, since no menu would be built.
+//
 // Contrast, measured for tests/color-contrast.test.mjs:
 //   light  #243653 on #faf6ec  = 11.6:1   links
 //   dark   #d8e2f0 on #061430  = 13.4:1   links
@@ -67,6 +77,14 @@ html.jt-theme-dark .jt-sh .jt-mh-toggle{color:#fff}
 @media(max-width:1024px){
 .jt-sh-inner{min-height:60px;padding:0 16px;gap:10px}
 .jt-sh-nav>a.jt-sh-cta{padding:10px 14px}
+}
+@media(max-width:1024px) and (scripting:enabled){
+.jt-sh-nav{gap:0}
+.jt-sh-nav>:not(.jt-sh-cta){display:none}
+}
+@media(max-width:380px) and (scripting:enabled){
+.jt-sh .jt-mh-logo-brand{display:none}
+.jt-sh-nav>a.jt-sh-cta{padding-inline:10px;font-size:.74rem}
 }
 @media(prefers-reduced-motion:no-preference){.jt-sh-nav>a{transition:color .2s}}
 </style>`;

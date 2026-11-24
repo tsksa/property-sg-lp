@@ -66,6 +66,23 @@ test('the header styles both themes itself and keeps AA contrast literals', () =
   assert.doesNotMatch(html, /var\(--/, 'header colours must be literals: host pages define different custom properties');
 });
 
+test('phones get the collapsed header before the deferred mobile script runs', () => {
+  // Without these rules the full link row paints first and shrinks to the CTA
+  // when assets/mobile-header.js runs, a layout shift on every page.
+  const html = siteHeaderHtml();
+  const block = html.match(/@media\(max-width:1024px\) and \(scripting:enabled\)\{([^@]*)\}/)?.[1] || '';
+  assert.match(block, /\.jt-sh-nav\{gap:0\}/);
+  assert.match(block, /\.jt-sh-nav>:not\(\.jt-sh-cta\)\{display:none\}/);
+  const small = html.match(/@media\(max-width:380px\) and \(scripting:enabled\)\{([^@]*)\}/)?.[1] || '';
+  assert.match(small, /\.jt-sh \.jt-mh-logo-brand\{display:none\}/);
+  assert.match(small, /\.jt-sh-nav>a\.jt-sh-cta\{padding-inline:10px;font-size:\.74rem\}/);
+  // The script's own rules must agree, or the header would still jump.
+  const css = read('assets/mobile-header.css');
+  assert.match(css, /\.jt-mh-source-nav\{flex:0 0 auto!important;gap:0!important\}/);
+  assert.match(css, /\.jt-mh-source-nav>:not\(\.jt-mh-context-cta\)\{display:none!important\}/);
+  assert.match(css, /@media\(max-width:380px\)\{\s*\.jt-mh-logo-brand\{display:none\}\s*\.jt-mh-context-cta\{padding-inline:10px!important;font-size:\.74rem!important\}/);
+});
+
 test('every indexable page carries exactly one shared header and no legacy variant', () => {
   assert.ok(pages.length > 100, `only ${pages.length} pages found`);
   for (const rel of pages) {
